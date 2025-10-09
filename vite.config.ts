@@ -7,11 +7,12 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   plugins: [
     react(),
-    dts({
-      include: ['src'],
-      exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx'],
-      rollupTypes: true,
-    }),
+    // 暂时禁用类型生成以便快速部署
+    // dts({
+    //   include: ['src'],
+    //   exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx'],
+    //   rollupTypes: true,
+    // }),
   ],
   resolve: {
     alias: {

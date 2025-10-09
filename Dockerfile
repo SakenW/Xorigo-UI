@@ -25,8 +25,8 @@ RUN if [ -f pnpm-lock.yaml ]; then \
 # 复制源代码
 COPY . .
 
-# 构建应用
-RUN npm run build
+# 构建演示应用
+RUN npm run build:demo
 
 # ==============================
 # Stage 2: 生产环境
@@ -40,8 +40,11 @@ RUN apk add --no-cache bash
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf
 
-# 从构建阶段复制构建产物
-COPY --from=builder /app/dist /usr/share/nginx/html
+# 从构建阶段复制演示应用构建产物
+# 注意: dist-demo目录结构为 dist-demo/demo/index.html, dist-demo/assets/
+# 需要将demo目录下的index.html移到根目录,assets保持不变
+COPY --from=builder /app/dist-demo/demo/index.html /usr/share/nginx/html/index.html
+COPY --from=builder /app/dist-demo/assets /usr/share/nginx/html/assets
 
 # 添加健康检查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
