@@ -579,6 +579,186 @@ npm run deploy:rebuild   # 重新构建部署
 
 ---
 
+## 📝 文档命名规范
+
+### 核心原则
+
+**组件库开发导向系统**：
+- **项目阶段线**：`ph{N}` (Phase 1-3 组件库开发阶段)
+- **组件开发线**：`comp-{category}` (Component Development)
+- **系统构建线**：`sys-{area}` (System Infrastructure)
+- **质量保证线**：`qa-{type}` (Quality Assurance)
+
+**命名格式**：`{序号}-{scope}-{task}[-{stage}]-{描述}.md`
+
+### 作用域 (Scope) 分类
+
+| 作用域 | 格式 | 用途 | 序号范围 |
+|--------|------|------|----------|
+| **Phase** | `ph{N}[.{sub}]` | 项目开发阶段 (Phase 1-3) | 001-030 |
+| **Component** | `comp-c{N}[.{sub}]` | 组件开发任务 (Component 1-N) | 031-150 |
+| **Design System** | `ds-d{N}[.{sub}]` | 设计系统任务 (Design 1-N) | 151-200 |
+| **Build System** | `build-b{N}[.{sub}]` | 构建系统任务 (Build 1-N) | 201-250 |
+| **Testing** | `test-t{N}[.{sub}]` | 测试相关任务 (Test 1-N) | 251-300 |
+| **Documentation** | `doc-d{N}[.{sub}]` | 文档任务 (Doc 1-N) | 301-350 |
+| **Deployment** | `deploy-de{N}[.{sub}]` | 部署任务 (Deploy 1-N) | 351-400 |
+
+### 阶段标记 (Stage)
+
+- **子任务**: 点号分隔 (`ph1.1`, `comp-c3.2`, `ds-d1.5`)
+- **Round**: `r{N}` (`r1`, `r3`)
+- **Legacy**: `comp-legacy-r{N}` (历史组件优化)
+- **Planning**: `comp-planning-{category}` (组件规划文档)
+- **Research**: `comp-research-{topic}` (组件技术研究)
+
+### 组件分类 (Component Categories)
+
+**核心组件 (Core)**：
+- `comp-core-{name}` - 核心组件 (Button, Input, Card)
+- `comp-advanced-{name}` - 高级组件 (DataTable, AnimatedCard)
+- `comp-layout-{name}` - 布局组件 (Header, Sidebar, Layout)
+
+**功能分类 (Functional)**：
+- `comp-nav-{name}` - 导航组件 (Breadcrumb, Menu, Tabs)
+- `comp-form-{name}` - 表单组件 (Form, Field, Validator)
+- `comp-feedback-{name}` - 反馈组件 (Alert, Modal, Loading)
+- `comp-data-{name}` - 数据组件 (Table, Chart, List)
+
+### 缩写规范
+
+**必须移除的冗余词**：
+- `-report`, `-summary`, `-completion`, `-refactoring`
+- `-document`, `-analysis`, `-implementation`, `-development`
+
+**标准缩写**：
+- `component` → `comp`
+- `design` → `ds`
+- `system` → `sys`
+- `configuration` → `config`
+- `implementation` → `impl`
+- `optimization` → `opt`
+- `documentation` → `doc`
+- `testing` → `test`
+- `typescript` → `ts`
+- `animation` → `anim`
+
+### 命名示例
+
+**项目 Phase**：
+```
+001-ph1-project-init.md           # Phase 1 项目初始化
+005-ph2-design-tokens.md          # Phase 2 设计令牌系统
+012-ph3-component-migration.md    # Phase 3 组件迁移
+018-ph1-r2-completion.md          # Phase 1 Round 2 完成
+```
+
+**组件开发任务**：
+```
+032-comp-core-button.md           # Button 组件开发
+045-comp-advanced-datatable.md    # DataTable 高级组件
+058-comp-layout-header.md         # Header 布局组件
+067-comp-nav-breadcrumb-r1.md     # Breadcrumb 导航组件 Round 1
+075-comp-form-validator.md        # Validator 表单组件
+```
+
+**设计系统任务**：
+```
+152-comp-planning-core.md         # 核心组件规划
+160-comp-research-animations.md   # 动画系统研究
+168-comp-theme-palettes.md        # 主题调色板
+175-comp-tokens-typography.md     # 字体令牌设计
+```
+
+**构建系统任务**：
+```
+202-build-vite-config.md          # Vite 构建配置
+210-build-typedoc.md              # TypeScript 文档生成
+218-build-storybook.md            # Storybook 集成
+225-build-bundle-opt.md           # 打包优化
+```
+
+**测试任务**：
+```
+252-test-unit-coverage.md         # 单元测试覆盖率
+260-test-e2e-cypress.md            # E2E 测试 Cypress
+268-test-axe-accessibility.md      # 可访问性测试
+275-test-visual-regression.md     # 视觉回归测试
+```
+
+### 创建新文档检查清单
+
+1. **确定作用域**：
+   - [ ] 是项目 Phase (ph{N}) 还是具体开发任务？
+   - [ ] Component: `comp-{category}-{name}`, Design: `ds-d{N}`, Build: `build-b{N}`
+
+2. **分配序号**：
+   - [ ] 检查当前最大序号：`ls -1 docs/reports/ | grep -E '^[0-9]{3}-' | tail -1`
+   - [ ] 新序号 = 最大序号 + 1 (三位数格式 `%03d`)
+
+3. **构建文件名**：
+   - [ ] 格式：`{序号}-{scope}-{task}[-{stage}]-{描述}.md`
+   - [ ] 移除冗余词：`-report`, `-summary`, `-development`
+   - [ ] 长度检查：总长度 ≤ 65 字符
+
+4. **验证唯一性**：
+   - [ ] `ls -1 docs/reports/ | grep "{新文件名}"` 确保不重复
+
+5. **更新索引**：
+   - [ ] 更新 `/docs/reports/00-TIMELINE-INDEX.md`
+   - [ ] 更新对应类别的 README.md
+
+### 查询命令
+
+```bash
+# 查找 Phase 1 所有文档
+ls -1 docs/reports/ | grep -E '^[0-9]{3}-ph1'
+
+# 查找所有核心组件文档
+ls -1 docs/reports/ | grep -E '^[0-9]{3}-comp-core'
+
+# 查找所有 Round 文档
+ls -1 docs/reports/ | grep -E '-r[0-9]+-'
+
+# 查找设计系统相关文档
+ls -1 docs/reports/ | grep -E '^[0-9]{3}-(comp-planning|ds-d|comp-research)'
+
+# 获取当前最大序号
+ls -1 docs/reports/ | grep -E '^[0-9]{3}-' | tail -1 | cut -d'-' -f1
+```
+
+### 文档组织结构
+
+```
+docs/reports/
+├── 00-TIMELINE-INDEX.md          # 总时间线索引
+├── phases/                       # Phase 文档
+│   ├── README.md
+│   ├── 001-ph1-project-init.md
+│   └── 005-ph2-design-tokens.md
+├── components/                   # 组件开发文档
+│   ├── README.md
+│   ├── core/                     # 核心组件
+│   ├── advanced/                 # 高级组件
+│   ├── layout/                   # 布局组件
+│   ├── navigation/               # 导航组件
+│   ├── form/                     # 表单组件
+│   └── feedback/                 # 反馈组件
+├── design-system/                # 设计系统文档
+│   ├── README.md
+│   ├── tokens/                   # 设计令牌
+│   ├── themes/                   # 主题系统
+│   └── guidelines/               # 设计指南
+├── build/                        # 构建系统文档
+│   ├── README.md
+│   ├── vite/                     # Vite 配置
+│   ├── typescript/               # TypeScript 配置
+│   └── testing/                  # 测试配置
+└── deployment/                   # 部署文档
+    ├── README.md
+    ├── docker/                   # Docker 配置
+    └── npm/                      # NPM 发布
+```
+
 ## 📚 文档优先原则
 
 ### Context7 使用策略
@@ -596,13 +776,13 @@ npm run deploy:rebuild   # 重新构建部署
 1. 确认技术栈版本：
    - React: ^19.2.0
    - TypeScript: ~5.9.3
-   - Tailwind CSS: ^4.1.13
+   - Tailwind CSS: ^3.4.18 (注意：当前为 v3)
    - Framer Motion: ^12.23.5
 
 2. 构建搜索关键词：
    - React 19: "React 19 [feature] official documentation"
    - Framer Motion: "Framer Motion 12 [API] examples"
-   - Tailwind: "Tailwind CSS 4 [feature] configuration"
+   - Tailwind: "Tailwind CSS 3 [feature] configuration"
    - Vite: "Vite library mode [configuration]"
 
 3. 验证信息质量：

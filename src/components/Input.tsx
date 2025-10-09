@@ -79,7 +79,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled = false,
       onFocus,
       onBlur,
-      ...props
+      placeholder,
+      ...restProps
     },
     ref
   ) => {
@@ -185,6 +186,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               onBlur={handleBlur}
               disabled={disabled}
               maxLength={maxLength}
+              placeholder={placeholder}
               className={cn(
                 'w-full rounded-lg transition-all duration-200',
                 'text-gray-900 dark:text-gray-100',
@@ -201,7 +203,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 scale: 1.01,
                 transition: { duration: 0.2 },
               }}
-              {...props}
+              {...restProps}
             />
 
             {/* 浮动标签 */}

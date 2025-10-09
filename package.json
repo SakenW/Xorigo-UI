@@ -76,6 +76,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.5",
+    "react-router-dom": "^7.9.4",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

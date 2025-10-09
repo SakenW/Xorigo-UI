@@ -40,10 +40,10 @@ RUN apk add --no-cache bash
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf
 
-# 从构建阶段复制演示应用构建产物
-# 注意: dist-demo目录结构为 dist-demo/demo/index.html, dist-demo/assets/
-# 需要将demo目录下的index.html移到根目录,assets保持不变
-COPY --from=builder /app/dist-demo/demo/index.html /usr/share/nginx/html/index.html
+# 从构建阶段复制演示网站构建产物
+# 注意: dist-demo目录结构为 dist-demo/demo-site/index.html, dist-demo/assets/
+# 需要将demo-site目录下的index.html移到根目录,assets保持不变
+COPY --from=builder /app/dist-demo/demo-site/index.html /usr/share/nginx/html/index.html
 COPY --from=builder /app/dist-demo/assets /usr/share/nginx/html/assets
 
 # 添加健康检查

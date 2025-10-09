@@ -4,21 +4,9 @@ export default {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     './demo/**/*.{js,ts,jsx,tsx}',
+    './demo-site/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
-  // 确保动态生成的类名也被包含 - 用于cva动态类名
-  safelist: [
-    // 基础颜色类
-    { pattern: /bg-(gray|blue|green|red|yellow|purple|pink|amber|emerald|cyan|orange)-(50|100|200|300|400|500|600|700|800|900|950)/ },
-    { pattern: /text-(gray|blue|green|red|yellow|purple|pink|amber|emerald|cyan|orange)-(50|100|200|300|400|500|600|700|800|900|950)/ },
-    { pattern: /border-(gray|blue|green|red|yellow|purple|pink|amber|emerald|cyan|orange)-(50|100|200|300|400|500|600|700|800|900|950)/ },
-    // 渐变相关
-    { pattern: /from-(gray|blue|green|red|yellow|purple|pink|amber|emerald|cyan|orange)-(50|100|200|300|400|500|600|700|800|900|950)/ },
-    { pattern: /to-(gray|blue|green|red|yellow|purple|pink|amber|emerald|cyan|orange)-(50|100|200|300|400|500|600|700|800|900|950)/ },
-    { pattern: /from-(primary|secondary)/ },
-    { pattern: /to-(primary|secondary)/ },
-    { pattern: /bg-gradient-to-(r|l|t|b|tr|tl|br|bl)/ },
-  ],
   theme: {
     extend: {
       colors: {
