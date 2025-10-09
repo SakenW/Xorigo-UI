@@ -1,0 +1,112 @@
+{
+  "name": "@th-ui/core",
+  "version": "0.1.0",
+  "description": "Modern UI component library extracted from Trans-Hub - React 19 + TypeScript + Tailwind CSS 4 + Framer Motion 12",
+  "type": "module",
+  "main": "./dist/th-ui.cjs.js",
+  "module": "./dist/th-ui.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/th-ui.es.js",
+      "require": "./dist/th-ui.cjs.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./theme": {
+      "import": "./dist/theme.es.js",
+      "require": "./dist/theme.cjs.js",
+      "types": "./dist/theme/index.d.ts"
+    },
+    "./tokens": {
+      "import": "./dist/tokens.es.js",
+      "require": "./dist/tokens.cjs.js",
+      "types": "./dist/tokens/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,md}\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build",
+    "docker:dev": "bash scripts/dev-docker.sh",
+    "docker:logs": "bash scripts/dev-docker-logs.sh",
+    "docker:stop": "bash scripts/dev-docker-stop.sh",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:stop": "bash scripts/deploy-stop.sh",
+    "deploy:logs": "bash scripts/deploy-logs.sh",
+    "deploy:rebuild": "bash scripts/deploy-rebuild.sh"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "design-system",
+    "tailwind",
+    "framer-motion",
+    "typescript",
+    "th-ui",
+    "trans-hub"
+  ],
+  "author": "TH-UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.5",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.12.0",
+    "@typescript-eslint/parser": "^8.12.0",
+    "@vitejs/plugin-react": "^5.0.3",
+    "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.6.1",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "jsdom": "^24.1.3",
+    "postcss": "^8.4.41",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.13",
+    "typescript": "~5.9.3",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^1.6.0"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/th-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/th-ui/issues"
+  },
+  "homepage": "https://github.com/your-org/th-ui#readme"
+}

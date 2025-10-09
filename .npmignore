@@ -1,0 +1,40 @@
+# 源代码 (不发布)
+src/
+tests/
+examples/
+docs/
+scripts/
+
+# 配置文件
+.github/
+.vscode/
+.storybook/
+*.config.ts
+*.config.js
+tsconfig*.json
+.eslintrc*
+.prettierrc*
+.prettierignore
+
+# 开发文件
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+*.stories.tsx
+.eslintcache
+
+# 文档和元数据
+README.md
+CHANGELOG.md
+MIGRATION-PLAN.md
+PROJECT-STRUCTURE.md
+CLAUDE.md
+.claude-flow/
+.swarm/
+
+# 其他
+node_modules/
+coverage/
+.env*
+*.log
