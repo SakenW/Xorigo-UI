@@ -15,22 +15,22 @@ export default function ButtonDemo() {
         <Card>
           <div className="space-y-4">
             <div className="flex flex-wrap gap-3">
-              <Button variant="primary" size="sm">Primary Small</Button>
-              <Button variant="secondary" size="md">Secondary Medium</Button>
-              <Button variant="success" size="lg">Success Large</Button>
-              <Button variant="warning">Warning</Button>
-              <Button variant="danger">Danger</Button>
-              <Button variant="ghost">Ghost</Button>
+              <Button variant="primary" size="sm">主要按钮 小</Button>
+              <Button variant="secondary" size="md">次要按钮 中</Button>
+              <Button variant="success" size="lg">成功按钮 大</Button>
+              <Button variant="warning">警告按钮</Button>
+              <Button variant="danger">危险按钮</Button>
+              <Button variant="ghost">幽灵按钮</Button>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button variant="primary" loading>Loading...</Button>
-              <Button variant="primary" disabled>Disabled</Button>
+              <Button variant="primary" loading>加载中...</Button>
+              <Button variant="primary" disabled>已禁用</Button>
               <Button
                 variant="primary"
                 icon={<span>🚀</span>}
                 iconPosition="left"
               >
-                With Icon
+                带图标按钮
               </Button>
               <Button
                 variant="primary"
