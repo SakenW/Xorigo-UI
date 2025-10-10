@@ -153,25 +153,25 @@ export default function InteractionStatesDemo() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setCardState('normal')}
-              className={`px-3 py-1 rounded ${cardState === 'normal' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+              className={`px-3 py-1 rounded-sm ${cardState === 'normal' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               正常
             </button>
             <button
               onClick={() => setCardState('loading')}
-              className={`px-3 py-1 rounded ${cardState === 'loading' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+              className={`px-3 py-1 rounded-sm ${cardState === 'loading' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               加载中
             </button>
             <button
               onClick={() => setCardState('error')}
-              className={`px-3 py-1 rounded ${cardState === 'error' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+              className={`px-3 py-1 rounded-sm ${cardState === 'error' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               错误
             </button>
             <button
               onClick={() => setCardState('empty')}
-              className={`px-3 py-1 rounded ${cardState === 'empty' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+              className={`px-3 py-1 rounded-sm ${cardState === 'empty' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
             >
               空状态
             </button>
@@ -190,8 +190,8 @@ export default function InteractionStatesDemo() {
             这是卡片的内容区域。卡片可以根据不同的状态显示不同的UI。
           </p>
           <div className="flex gap-2 mt-4">
-            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded">标签1</span>
-            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded">标签2</span>
+            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-sm">标签1</span>
+            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-sm">标签2</span>
           </div>
         </CardStates>
       </Card>

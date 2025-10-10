@@ -96,7 +96,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             className={cn(
               'w-full rounded-lg border transition-all',
               'placeholder:text-gray-400 dark:placeholder:text-gray-500',
-              'focus:outline-none focus:ring-2',
+              'focus:outline-hidden focus:ring-2',
               sizeClasses[size],
               autoResize ? 'resize-none overflow-hidden' : resizeClasses[resize],
               error

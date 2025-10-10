@@ -9,7 +9,7 @@ const cardVariants = cva('rounded-lg border transition-all duration-200', {
   variants: {
     variant: {
       default:
-        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md',
+        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xs hover:shadow-md',
       elevated:
         'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl',
       glass:
@@ -17,12 +17,12 @@ const cardVariants = cva('rounded-lg border transition-all duration-200', {
       neumorphic:
         'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)] dark:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(255,255,255,0.1)]',
       gradient:
-        'border-transparent bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105',
+        'border-transparent bg-linear-to-br from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105',
       neon: 'border-cyan-400 bg-black/50 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:shadow-[0_0_30px_rgba(6,182,212,0.8)]',
       outlined:
         'border-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-transparent',
       interactive:
-        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-lg hover:scale-105 cursor-pointer',
+        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xs hover:shadow-lg hover:scale-105 cursor-pointer',
     },
     size: {
       sm: 'p-3',

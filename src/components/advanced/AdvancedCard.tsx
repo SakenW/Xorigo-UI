@@ -100,7 +100,7 @@ export const AdvancedCard: React.FC<CardProps> = ({
     glass:
       'bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/20 shadow-lg',
     gradient:
-      'bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 border-0 text-white',
+      'bg-linear-to-br from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 border-0 text-white',
     neumorphic:
       'bg-gray-100 dark:bg-gray-800 shadow-[-5px_-5px_10px_rgba(255,255,255,0.5),5px_5px_10px_rgba(0,0,0,0.1)] dark:shadow-[-5px_-5px_10px_rgba(255,255,255,0.05),5px_5px_10px_rgba(0,0,0,0.3)] border-0',
   }
@@ -163,7 +163,7 @@ export const AdvancedCard: React.FC<CardProps> = ({
       <AnimatePresence>
         {loading && (
           <motion.div
-            className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center z-10"
+            className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xs flex items-center justify-center z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -182,7 +182,7 @@ export const AdvancedCard: React.FC<CardProps> = ({
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-black/10 dark:from-black/30 to-transparent pointer-events-none"
+              className="absolute inset-0 bg-linear-to-t from-black/10 dark:from-black/30 to-transparent pointer-events-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -251,7 +251,7 @@ export const StatCard: React.FC<StatCardProps> = ({
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             {loading ? (
-              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-sm animate-pulse" />
             ) : (
               value
             )}
@@ -361,7 +361,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* 徽章 */}
         {badge && (
           <motion.div
-            className="absolute top-2 left-2 px-2 py-1 bg-red-500 text-white text-xs font-medium rounded"
+            className="absolute top-2 left-2 px-2 py-1 bg-red-500 text-white text-xs font-medium rounded-sm"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
@@ -373,7 +373,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* 折扣标签 */}
         {discountPercentage > 0 && (
           <motion.div
-            className="absolute top-2 right-2 px-2 py-1 bg-green-500 text-white text-xs font-medium rounded"
+            className="absolute top-2 right-2 px-2 py-1 bg-green-500 text-white text-xs font-medium rounded-sm"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
@@ -386,7 +386,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="absolute bottom-2 right-2 flex space-x-2">
           <motion.button
             onClick={handleLike}
-            className="p-2 rounded-full backdrop-blur-sm bg-white/80 dark:bg-gray-800/80"
+            className="p-2 rounded-full backdrop-blur-xs bg-white/80 dark:bg-gray-800/80"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -395,7 +395,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           <motion.button
             onClick={handleBookmark}
-            className="p-2 rounded-full backdrop-blur-sm bg-white/80 dark:bg-gray-800/80"
+            className="p-2 rounded-full backdrop-blur-xs bg-white/80 dark:bg-gray-800/80"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -525,7 +525,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           {/* 分类标签 */}
           {category && (
             <motion.div
-              className="absolute top-2 left-2 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded"
+              className="absolute top-2 left-2 px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-sm"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
@@ -537,7 +537,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           {/* 书签按钮 */}
           <motion.button
             onClick={handleBookmark}
-            className="absolute top-2 right-2 p-2 rounded-full backdrop-blur-sm bg-white/80 dark:bg-gray-800/80"
+            className="absolute top-2 right-2 p-2 rounded-full backdrop-blur-xs bg-white/80 dark:bg-gray-800/80"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >

@@ -69,7 +69,7 @@ const FloatingOrb = ({ delay = 0, duration = 20, size = "large" }: { delay?: num
         ease: "easeInOut"
       }}
       style={{
-        background: "radial-gradient(circle, var(--theme-primary) 0%, transparent 70%)"
+        background: "radial-gradient(circle, var(--color-primary) 0%, transparent 70%)"
       }}
     />
   )
@@ -200,7 +200,7 @@ const InteractiveDemo = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="p-4 rounded-lg bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30"
+              className="p-4 rounded-lg bg-linear-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30"
             >
               <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                 <Check className="w-4 h-4" />
@@ -330,14 +330,14 @@ export default function LandingPage() {
   ]
 
   const techStack = [
-    { name: "React", version: "19", icon: "⚛️" },
+    { name: "React", version: "19.2", icon: "⚛️" },
     { name: "TypeScript", version: "5.9", icon: "📘" },
-    { name: "Tailwind CSS", version: "3", icon: "🎨" },
+    { name: "Tailwind CSS", version: "4.1", icon: "🎨" },
     { name: "Framer Motion", version: "12", icon: "🎭" }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
       {/* 背景装饰 */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <FloatingOrb delay={0} duration={20} size="large" />
@@ -371,10 +371,7 @@ export default function LandingPage() {
               className="text-7xl md:text-8xl font-black mb-6 leading-tight"
             >
               <span
-                className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent inline-block"
-                style={{
-                  backgroundImage: "var(--theme-gradient)"
-                }}
+                className="bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent inline-block"
               >
                 TH-UI
               </span>
@@ -394,7 +391,7 @@ export default function LandingPage() {
             >
               基于 <span className="font-semibold text-blue-600">React 19</span> +
               <span className="font-semibold text-blue-700"> TypeScript 5.9</span> +
-              <span className="font-semibold text-cyan-600"> Tailwind CSS 3</span> +
+              <span className="font-semibold text-cyan-600"> Tailwind CSS 4</span> +
               <span className="font-semibold text-purple-600"> Framer Motion 12</span>
               <br />
               提供 <span className="font-semibold">34 个精美组件</span>、
@@ -491,8 +488,7 @@ export default function LandingPage() {
                 <Card className="p-6 text-center backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-2 hover:border-purple-500 transition-colors">
                   <stat.icon className="w-8 h-8 mx-auto mb-3 text-purple-600" />
                   <div
-                    className="text-4xl md:text-5xl font-black mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-                    style={{ backgroundImage: "var(--theme-gradient)" }}
+                    className="text-4xl md:text-5xl font-black mb-2 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
                   >
                     {stat.value}
                   </div>
@@ -502,7 +498,7 @@ export default function LandingPage() {
                   <motion.div
                     className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{
-                      boxShadow: "0 0 40px var(--theme-glow)"
+                      boxShadow: "0 0 40px var(--color-primary)"
                     }}
                   />
                 </Card>
@@ -551,10 +547,10 @@ export default function LandingPage() {
               >
                 <Card className="p-8 h-full backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-2 hover:border-purple-500 transition-all group relative overflow-hidden">
                   {/* 背景渐变 */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
 
                   <div className="relative">
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} p-3 mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                    <div className={`w-14 h-14 rounded-xl bg-linear-to-br ${feature.color} p-3 mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
                       <feature.icon className="w-full h-full text-white" />
                     </div>
 
@@ -578,7 +574,7 @@ export default function LandingPage() {
       </section>
 
       {/* Interactive Demo Section */}
-      <section className="py-20 relative z-10 bg-gradient-to-b from-transparent via-purple-50/50 to-transparent dark:via-purple-900/10">
+      <section className="py-20 relative z-10 bg-linear-to-b from-transparent via-purple-50/50 to-transparent dark:via-purple-900/10">
         <div className="container mx-auto px-6">
           <motion.div
             initial="initial"
@@ -662,7 +658,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="py-24 relative z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 opacity-90" />
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
@@ -735,7 +731,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-              <div className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <div className="text-2xl font-bold mb-2 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 TH-UI
               </div>
               <p className="text-gray-400 text-sm">

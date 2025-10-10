@@ -18,7 +18,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -38,7 +38,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 位置方向 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           位置方向
         </h3>
@@ -77,7 +77,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 带图标 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带图标的提示
         </h3>
@@ -109,7 +109,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 延迟显示 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           延迟配置
         </h3>
@@ -133,7 +133,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 箭头配置 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           箭头显示
         </h3>
@@ -149,7 +149,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 受控模式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           受控模式
         </h3>
@@ -172,7 +172,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 偏移量配置 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           偏移量配置
         </h3>
@@ -192,7 +192,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 复杂内容 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           复杂内容
         </h3>
@@ -232,7 +232,7 @@ const TooltipDemo: React.FC = () => {
       </div>
 
       {/* 使用场景 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用场景
         </h3>

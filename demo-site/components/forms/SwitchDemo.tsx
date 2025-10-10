@@ -28,7 +28,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -57,7 +57,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 尺寸 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           尺寸大小
         </h3>
@@ -69,7 +69,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 变体样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           变体样式
         </h3>
@@ -98,7 +98,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 加载状态 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           加载状态
         </h3>
@@ -130,7 +130,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 受控模式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           受控模式
         </h3>
@@ -157,7 +157,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 组合样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           组合使用
         </h3>
@@ -186,7 +186,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 无标签 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           无标签开关
         </h3>
@@ -201,7 +201,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 实际应用场景 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 用户设置
         </h3>
@@ -314,7 +314,7 @@ const SwitchDemo: React.FC = () => {
       </div>
 
       {/* 表单集成 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 表单集成
         </h3>

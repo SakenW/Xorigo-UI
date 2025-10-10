@@ -63,15 +63,15 @@ export default function ThemeToggleDemo() {
                 <h4 className="font-semibold text-gray-900 mb-2">☀️ 明亮主题</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-white border border-gray-300 rounded"></div>
+                    <div className="w-4 h-4 bg-white border border-gray-300 rounded-sm"></div>
                     <span className="text-gray-600">背景: 白色</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-gray-900 rounded"></div>
+                    <div className="w-4 h-4 bg-gray-900 rounded-sm"></div>
                     <span className="text-gray-600">文字: 深色</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                    <div className="w-4 h-4 bg-blue-500 rounded-sm"></div>
                     <span className="text-gray-600">主色: 蓝色</span>
                   </div>
                 </div>
@@ -82,15 +82,15 @@ export default function ThemeToggleDemo() {
                 <h4 className="font-semibold text-white mb-2">🌙 暗黑主题</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-gray-800 border border-gray-700 rounded"></div>
+                    <div className="w-4 h-4 bg-gray-800 border border-gray-700 rounded-sm"></div>
                     <span className="text-gray-300">背景: 深色</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-white rounded"></div>
+                    <div className="w-4 h-4 bg-white rounded-sm"></div>
                     <span className="text-gray-300">文字: 亮色</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blue-400 rounded"></div>
+                    <div className="w-4 h-4 bg-blue-400 rounded-sm"></div>
                     <span className="text-gray-300">主色: 蓝色</span>
                   </div>
                 </div>

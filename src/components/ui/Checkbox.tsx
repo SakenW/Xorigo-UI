@@ -39,17 +39,17 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     // 变体类
     const variantClasses = {
       default: cn(
-        'text-blue-600 border-gray-300 dark:border-gray-600 rounded',
+        'text-blue-600 border-gray-300 dark:border-gray-600 rounded-sm',
         'focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-0',
         error ? 'border-red-500' : ''
       ),
       filled: cn(
-        'text-blue-600 border-0 bg-gray-100 dark:bg-gray-900 rounded',
+        'text-blue-600 border-0 bg-gray-100 dark:bg-gray-900 rounded-sm',
         'focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-0',
         error ? 'bg-red-50 dark:bg-red-950/20' : ''
       ),
       outlined: cn(
-        'text-blue-600 border-2 border-gray-300 dark:border-gray-600 rounded',
+        'text-blue-600 border-2 border-gray-300 dark:border-gray-600 rounded-sm',
         'focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-0',
         error ? 'border-red-500' : ''
       ),
@@ -68,7 +68,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               className={cn(
                 'transition-all duration-200',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
-                'focus:outline-none cursor-pointer',
+                'focus:outline-hidden cursor-pointer',
                 sizeClasses[checkboxSize],
                 variantClasses[variant]
               )}

@@ -204,7 +204,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       {isVisible && (
         <motion.div
           className={cn(
-            'fixed z-[9999] px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg',
+            'fixed z-9999 px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg',
             'break-words',
             className
           )}

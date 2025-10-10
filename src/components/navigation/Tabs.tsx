@@ -122,14 +122,14 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       'px-4 py-2 rounded-md font-medium transition-all duration-200',
       'hover:bg-white/50 dark:hover:bg-gray-700/50',
       isActive
-        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs'
         : 'text-gray-600 dark:text-gray-400'
     ),
     pills: cn(
       'px-4 py-2 rounded-full font-medium transition-all duration-200',
       'hover:bg-gray-100 dark:hover:bg-gray-800',
       isActive
-        ? 'bg-blue-600 text-white shadow-sm'
+        ? 'bg-blue-600 text-white shadow-xs'
         : 'text-gray-600 dark:text-gray-400'
     ),
     underline: cn(
@@ -150,7 +150,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       onClick={() => !disabled && setActiveTab(value)}
       className={cn(
         'relative inline-flex items-center gap-2',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         variantClasses[variant],
         className

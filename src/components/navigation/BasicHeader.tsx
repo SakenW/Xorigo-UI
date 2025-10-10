@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <motion.header
       className={cn(
-        'bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700',
+        'bg-white dark:bg-gray-800 shadow-xs border-b border-gray-200 dark:border-gray-700',
         className
       )}
       initial={{ y: -20, opacity: 0 }}
@@ -128,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowUserMenu(!showUserMenu)
                       onUserClick?.()
                     }}
-                    className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    className="flex items-center text-sm rounded-full focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -139,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
                         alt={user.name}
                       />
                     ) : (
-                      <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                      <div className="h-8 w-8 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                         <span className="text-white font-medium text-sm">
                           {user.name.charAt(0).toUpperCase()}
                         </span>

@@ -73,7 +73,7 @@
 ```typescript
 // ✅ 标准组件 API
 interface ComponentProps {
-  variant?: 'primary' | 'secondary' | 'outline'  // 变体系统
+  variant?: 'primary' | 'secondary' | 'outline-solid'  // 变体系统
   size?: 'sm' | 'md' | 'lg'                       // 尺寸系统
   className?: string                              // 样式扩展
   children?: React.ReactNode                      // 内容组合

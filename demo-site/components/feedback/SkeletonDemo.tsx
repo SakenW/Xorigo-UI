@@ -18,7 +18,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -31,7 +31,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 不同形状 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           不同形状
         </h3>
@@ -60,7 +60,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 动画效果 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           动画效果
         </h3>
@@ -90,7 +90,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 预设组合 - 卡片 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           卡片骨架
         </h3>
@@ -99,7 +99,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 预设组合 - 列表 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           列表骨架
         </h3>
@@ -108,7 +108,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 预设组合 - 文章 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           文章骨架
         </h3>
@@ -117,7 +117,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 预设组合 - 个人资料 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           个人资料骨架
         </h3>
@@ -126,7 +126,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 预设组合 - 表格 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           表格骨架
         </h3>
@@ -135,7 +135,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 加载状态切换 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             实际应用 - 内容加载
@@ -182,7 +182,7 @@ const SkeletonDemo: React.FC = () => {
       </div>
 
       {/* 自定义组合 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           自定义组合
         </h3>

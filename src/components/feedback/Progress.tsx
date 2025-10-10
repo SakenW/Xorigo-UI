@@ -65,7 +65,7 @@ export const Progress: React.FC<ProgressProps> = ({
             'h-full rounded-full transition-all',
             variantClasses[variant],
             striped &&
-              'bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:40px_100%]',
+              'bg-linear-to-r from-transparent via-white/20 to-transparent bg-size-[40px_100%]',
             animated && striped && 'animate-[shimmer_2s_linear_infinite]'
           )}
           initial={{ width: 0 }}

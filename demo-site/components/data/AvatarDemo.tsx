@@ -14,7 +14,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -35,7 +35,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 尺寸 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           尺寸大小
         </h3>
@@ -74,7 +74,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 形状 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           形状样式
         </h3>
@@ -95,7 +95,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 状态指示器 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           状态指示器
         </h3>
@@ -140,7 +140,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 状态位置 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           状态指示器位置
         </h3>
@@ -189,7 +189,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 边框 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带边框
         </h3>
@@ -218,7 +218,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 后备方案 - 首字母 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           后备方案 - 首字母
         </h3>
@@ -232,7 +232,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 后备方案 - 自定义 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           后备方案 - 自定义
         </h3>
@@ -253,7 +253,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 可点击 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           可点击头像
         </h3>
@@ -274,7 +274,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 头像组 - 基础 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           头像组 - 基础用法
         </h3>
@@ -287,7 +287,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 头像组 - 限制数量 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           头像组 - 限制显示数量
         </h3>
@@ -324,7 +324,7 @@ const AvatarDemo: React.FC = () => {
       </div>
 
       {/* 实际应用场景 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用场景
         </h3>
@@ -420,7 +420,7 @@ const AvatarDemo: React.FC = () => {
               </AvatarGroup>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded">
+              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded-sm">
                 <Avatar
                   src="https://api.dicebear.com/7.x/avataaars/svg?seed=member1"
                   alt="张三"
@@ -436,7 +436,7 @@ const AvatarDemo: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded">
+              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded-sm">
                 <Avatar
                   src="https://api.dicebear.com/7.x/avataaars/svg?seed=member2"
                   alt="李四"

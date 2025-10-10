@@ -11,7 +11,7 @@ export default function BreadcrumbDemo() {
   return (
     <section className="mb-8">
       <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">🧭 导航组件 - 面包屑</h2>
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
         {/* 基础面包屑 */}
         <nav className="flex" aria-label="Breadcrumb">
           <ol className="flex items-center space-x-2">
@@ -21,7 +21,7 @@ export default function BreadcrumbDemo() {
                 <li key={index} className="flex items-center">
                   {index > 0 && (
                     <svg
-                      className="flex-shrink-0 h-5 w-5 text-gray-400 mx-2"
+                      className="shrink-0 h-5 w-5 text-gray-400 mx-2"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >

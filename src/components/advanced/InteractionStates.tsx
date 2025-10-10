@@ -66,7 +66,7 @@ export const ButtonStates: React.FC<ButtonStatesProps> = ({
     <motion.button
       className={cn(
         'px-4 py-2 rounded-md font-medium transition-all duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+        'focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
         getVariantStyles(),
         getStateStyles(),
         className
@@ -205,8 +205,8 @@ export const InputStates: React.FC<InputStatesProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           className={cn(
-            'w-full px-3 py-2 rounded-md shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white',
-            'focus:outline-none focus:ring-1 focus:ring-offset-0',
+            'w-full px-3 py-2 rounded-md shadow-xs bg-white dark:bg-gray-900 text-gray-900 dark:text-white',
+            'focus:outline-hidden focus:ring-1 focus:ring-offset-0',
             getStateClasses()
           )}
         />
@@ -295,13 +295,13 @@ export const CardStates: React.FC<CardStatesProps> = ({
 
   if (loading) {
     return (
-      <div className={cn('p-6 bg-white dark:bg-gray-800 rounded-lg shadow', className)}>
+      <div className={cn('p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm', className)}>
         <div className="animate-pulse space-y-4">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-sm w-3/4"></div>
+          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-sm w-1/2"></div>
           <div className="space-y-2">
-            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-sm w-5/6"></div>
           </div>
         </div>
       </div>
@@ -316,7 +316,7 @@ export const CardStates: React.FC<CardStatesProps> = ({
         className={cn('p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg', className)}
       >
         <div className="flex items-center space-x-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <svg className="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -351,7 +351,7 @@ export const CardStates: React.FC<CardStatesProps> = ({
   return (
     <motion.div
       className={cn(
-        'p-6 bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700',
+        'p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700',
         'transition-all duration-200',
         hover && isHovered && 'shadow-lg transform -translate-y-1',
         className

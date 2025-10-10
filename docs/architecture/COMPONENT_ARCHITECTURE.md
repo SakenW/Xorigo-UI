@@ -107,7 +107,7 @@ const CardContent = ({ children }) => <div className="card-content">{children}</
 ```typescript
 // ✅ 标准组件 API
 interface ComponentProps extends BaseComponentProps, ComponentVariants {
-  variant?: 'primary' | 'secondary' | 'outline'
+  variant?: 'primary' | 'secondary' | 'outline-solid'
   size?: 'sm' | 'md' | 'lg'
   className?: string
   children?: React.ReactNode

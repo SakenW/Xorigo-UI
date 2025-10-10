@@ -127,7 +127,7 @@ export const Pricing: React.FC<PricingProps> = ({
                 {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center">
                     <Check className={cn(
-                      'w-5 h-5 mr-3 flex-shrink-0',
+                      'w-5 h-5 mr-3 shrink-0',
                       plan.highlighted
                         ? 'text-primary-600 dark:text-primary-400'
                         : 'text-green-600 dark:text-green-400'

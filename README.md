@@ -142,12 +142,22 @@ MIT © TH-UI Team
 
 ## 🙏 Acknowledgments
 
-Built with:
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS 4](https://tailwindcss.com/)
-- [Framer Motion 12](https://www.framer.com/motion/)
-- [Vite](https://vitejs.dev/)
+### Core Stack
+- [React 19.2.0](https://react.dev/)
+- [TypeScript 5.9.3](https://www.typescriptlang.org/)
+- [Tailwind CSS 4.1.14](https://tailwindcss.com/) ✨ **Lightning CSS Engine**
+- [Framer Motion 12.23.5](https://www.framer.com/motion/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Vite 5.4](https://vitejs.dev/)
+
+### Optional Integrations
+These dependencies are marked as **optional peer dependencies**. Install only what you need:
+- [TanStack Query 5](https://tanstack.com/query/latest) - Server state management
+- [Zustand 5](https://docs.pmnd.rs/zustand) - Client state management
+- [React Hook Form 7](https://react-hook-form.com/) + [Zod 4](https://zod.dev/) - Form validation
+- [TipTap 2](https://tiptap.dev/) - Rich text editor
+- [Recharts 3](https://recharts.org/) - Data visualization
+- [next-themes](https://github.com/pacocoursey/next-themes) - Next.js theme switching
 
 Inspired by Trans-Hub design system.
 

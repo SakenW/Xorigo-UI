@@ -19,7 +19,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -32,7 +32,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 显示总数 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           显示总数
         </h3>
@@ -47,7 +47,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 快速跳转 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           快速跳转
         </h3>
@@ -63,7 +63,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 改变每页数量 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           改变每页数量
         </h3>
@@ -82,7 +82,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 完整功能 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           完整功能
         </h3>
@@ -102,7 +102,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 少量页面 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           少量页面
         </h3>
@@ -115,7 +115,7 @@ const PaginationDemo: React.FC = () => {
       </div>
 
       {/* 大量页面 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           大量页面
         </h3>

@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
               <input
                 type="text"
                 placeholder="搜索..."
-                className="bg-transparent border-none outline-none text-sm w-48"
+                className="bg-transparent border-none outline-hidden text-sm w-48"
               />
             </div>
           )}
@@ -197,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <input
                       type="text"
                       placeholder="搜索..."
-                      className="bg-transparent border-none outline-none text-sm flex-1"
+                      className="bg-transparent border-none outline-hidden text-sm flex-1"
                     />
                   </div>
                 </div>

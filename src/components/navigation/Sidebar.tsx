@@ -88,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* 图标 */}
           {item.icon && (
-            <span className={cn('flex-shrink-0', !collapsed && 'mr-3')}>
+            <span className={cn('shrink-0', !collapsed && 'mr-3')}>
               {item.icon}
             </span>
           )}
@@ -123,7 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* 展开/收起图标 */}
           {!collapsed && hasChildren && (
             <motion.svg
-              className="w-4 h-4 ml-2 flex-shrink-0"
+              className="w-4 h-4 ml-2 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -171,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center min-w-0">
           {logo || (
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shrink-0">
               <span className="text-white font-bold text-sm">TH</span>
             </div>
           )}

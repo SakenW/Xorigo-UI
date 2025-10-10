@@ -43,7 +43,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 基础进度条 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -57,7 +57,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 不同尺寸 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           不同尺寸
         </h3>
@@ -70,7 +70,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 不同状态 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           不同状态
         </h3>
@@ -85,7 +85,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 条纹动画 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           条纹动画
         </h3>
@@ -97,7 +97,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 交互式进度 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           交互式进度
         </h3>
@@ -124,7 +124,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 环形进度条 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           环形进度条
         </h3>
@@ -138,7 +138,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 不同尺寸的环形进度条 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           环形进度条尺寸
         </h3>
@@ -151,7 +151,7 @@ const ProgressDemo: React.FC = () => {
       </div>
 
       {/* 无标签环形进度条 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           无标签环形进度条
         </h3>

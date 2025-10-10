@@ -70,7 +70,38 @@
   "license": "MIT",
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "framer-motion": "^12.0.0",
+    "@tanstack/react-query": "^5.0.0",
+    "zustand": "^5.0.0",
+    "react-hook-form": "^7.0.0",
+    "zod": "^4.0.0",
+    "@tiptap/react": "^2.0.0",
+    "recharts": "^3.0.0",
+    "next-themes": "^0.4.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "zustand": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "zod": {
+      "optional": true
+    },
+    "@tiptap/react": {
+      "optional": true
+    },
+    "recharts": {
+      "optional": true
+    },
+    "next-themes": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -85,6 +116,7 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
@@ -93,7 +125,6 @@
     "@vitejs/plugin-react": "^5.0.3",
     "@vitest/coverage-v8": "^1.6.1",
     "@vitest/ui": "^1.6.1",
-    "autoprefixer": "^10.4.21",
     "eslint": "^9.33.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.2.0",
@@ -104,7 +135,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^3.4.18",
+    "tailwindcss": "^4.1.14",
     "typescript": "~5.9.3",
     "vite": "^5.4.0",
     "vite-plugin-dts": "^4.3.0",

@@ -9,16 +9,16 @@ export default function ResponsiveLayoutDemo() {
   const sidebarContent = (
     <div className="p-4 space-y-2">
       <div className="text-lg font-bold mb-4">导航菜单</div>
-      <a href="#" className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+      <a href="#" className="block px-3 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700">
         首页
       </a>
-      <a href="#" className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+      <a href="#" className="block px-3 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700">
         组件库
       </a>
-      <a href="#" className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+      <a href="#" className="block px-3 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700">
         文档
       </a>
-      <a href="#" className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+      <a href="#" className="block px-3 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700">
         关于
       </a>
     </div>

@@ -35,7 +35,7 @@ const AccordionTrigger = forwardRef<
       className={cn(
         'flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all',
         'hover:text-gray-900 dark:hover:text-gray-100',
-        'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+        'focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
         'disabled:pointer-events-none disabled:opacity-50',
         className
       )}

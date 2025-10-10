@@ -115,7 +115,7 @@ export const Modal: React.FC<ModalProps> = ({
         <ModalContext.Provider value={{ level, zIndex }}>
           {/* 遮罩层 */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1001]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-1001"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -127,7 +127,7 @@ export const Modal: React.FC<ModalProps> = ({
           {/* 模态框内容 */}
           <motion.div
             className={`
-              fixed inset-0 flex items-center justify-center p-4 z-[1002]
+              fixed inset-0 flex items-center justify-center p-4 z-1002
               ${centered ? '' : 'items-start pt-20'}
             `}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -336,7 +336,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   const sizeClasses = {
     sm: placement === 'left' || placement === 'right' ? 'w-80' : 'h-64',
     md: placement === 'left' || placement === 'right' ? 'w-96' : 'h-96',
-    lg: placement === 'left' || placement === 'right' ? 'w-[32rem]' : 'h-[32rem]'
+    lg: placement === 'left' || placement === 'right' ? 'w-lg' : 'h-128'
   };
 
   const handleMaskClick = (e: React.MouseEvent) => {
@@ -382,7 +382,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         <>
           {/* 遮罩层 */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1001]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-1001"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -394,7 +394,7 @@ export const Drawer: React.FC<DrawerProps> = ({
           {/* 抽屉内容 */}
           <motion.div
             className={`
-              fixed bg-white shadow-2xl z-[1002]
+              fixed bg-white shadow-2xl z-1002
               ${placement === 'left' || placement === 'right' ? 'h-full' : 'w-full'}
               ${sizeClasses[size]}
               ${placement === 'left' ? 'left-0 top-0' : ''}
@@ -549,7 +549,7 @@ export const modal = {
                 type="text"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 placeholder="请输入..."
               />
             </div>

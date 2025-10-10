@@ -18,7 +18,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -31,7 +31,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 不同尺寸 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           不同尺寸
         </h3>
@@ -44,7 +44,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 带标签 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带标签和帮助文本
         </h3>
@@ -65,7 +65,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 字符计数 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           字符计数
         </h3>
@@ -89,7 +89,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 自动调整高度 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           自动调整高度
         </h3>
@@ -105,7 +105,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 可调整大小 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           调整大小选项
         </h3>
@@ -135,7 +135,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 错误状态 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           错误状态
         </h3>
@@ -156,7 +156,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 禁用状态 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           禁用状态
         </h3>
@@ -170,7 +170,7 @@ const TextareaDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 表单 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 反馈表单
         </h3>

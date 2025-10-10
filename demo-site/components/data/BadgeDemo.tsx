@@ -25,7 +25,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 基础变体 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础变体
         </h3>
@@ -41,7 +41,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 尺寸 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           尺寸大小
         </h3>
@@ -59,7 +59,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 圆角样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           圆角样式
         </h3>
@@ -76,7 +76,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 带图标 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带图标
         </h3>
@@ -100,7 +100,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 带点指示器 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           状态点指示器
         </h3>
@@ -121,7 +121,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 可移除 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           可移除标签
         </h3>
@@ -145,7 +145,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 通知徽标 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           通知徽标
         </h3>
@@ -198,7 +198,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 状态标签 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           状态标签
         </h3>
@@ -239,7 +239,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 技术标签 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           技术栈标签
         </h3>
@@ -257,7 +257,7 @@ const BadgeDemo: React.FC = () => {
       </div>
 
       {/* 组合使用 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用场景
         </h3>

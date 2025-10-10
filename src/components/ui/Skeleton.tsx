@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { cn } from '../../utils/cn'
 
 export interface SkeletonProps {
-  variant?: 'text' | 'circular' | 'rectangular' | 'rounded'
+  variant?: 'text' | 'circular' | 'rectangular' | 'rounded-sm'
   width?: string | number
   height?: string | number
   animation?: 'pulse' | 'wave' | 'none'
@@ -18,7 +18,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   className,
 }) => {
   const variantClasses = {
-    text: 'rounded',
+    text: 'rounded-sm',
     circular: 'rounded-full',
     rectangular: 'rounded-none',
     rounded: 'rounded-lg',

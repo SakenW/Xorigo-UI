@@ -100,7 +100,7 @@ export default function ModalDemo() {
         <div className="space-y-4 text-gray-600 dark:text-gray-400">
           <p>这是一个大尺寸的模态框，可以容纳更多内容。</p>
           <p>支持任意HTML内容，包括表单、列表、图片等。</p>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded">
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-sm">
             <p className="text-sm">这是一个示例内容区域</p>
           </div>
         </div>

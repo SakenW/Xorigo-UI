@@ -14,7 +14,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础水平分割线
         </h3>
@@ -34,7 +34,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 带文字 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带文字的分割线
         </h3>
@@ -50,7 +50,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 文字对齐 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           文字对齐方式
         </h3>
@@ -74,7 +74,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 分割线样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           分割线样式
         </h3>
@@ -90,7 +90,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 间距控制 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           间距控制
         </h3>
@@ -106,7 +106,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 垂直分割线 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           垂直分割线
         </h3>
@@ -122,7 +122,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 垂直分割线样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           垂直分割线样式
         </h3>
@@ -138,7 +138,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 组合样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           组合样式
         </h3>
@@ -162,7 +162,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 文章内容 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 文章内容分割
         </h3>
@@ -215,7 +215,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 列表分组 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 列表分组
         </h3>
@@ -269,7 +269,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 表单分组 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 表单分组
         </h3>
@@ -328,7 +328,7 @@ const DividerDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 菜单分隔 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 菜单分隔
         </h3>

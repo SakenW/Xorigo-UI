@@ -1,6 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-mono: JetBrains Mono, monospace;
+
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* 自定义CSS变量（保留以兼容现有组件） */
 :root {
@@ -24,12 +50,13 @@
   --color-gray-950: #030712;
 }
 
-/* 全局样式重置 */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* 移除全局样式重置，使用 Tailwind CSS v4 的 Preflight
+   Tailwind v4 已经包含:
+   - box-sizing: border-box
+   - margin: 0
+   - padding: 0
+   - border: 0 solid
+*/
 
 html,
 body {

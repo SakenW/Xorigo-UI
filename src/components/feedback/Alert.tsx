@@ -78,7 +78,7 @@ export const Alert: React.FC<AlertProps> = ({
       transition={{ duration: 0.2 }}
     >
       <div className="flex">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <div className={styles.icon}>
             {icon || <span className="text-xl">{defaultIcons[variant]}</span>}
           </div>
@@ -98,7 +98,7 @@ export const Alert: React.FC<AlertProps> = ({
             <motion.button
               onClick={onClose}
               className={cn(
-                'inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                'inline-flex rounded-md p-1.5 focus:outline-hidden focus:ring-2 focus:ring-offset-2',
                 styles.button
               )}
               whileHover={{ scale: 1.1 }}

@@ -134,7 +134,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
                     <h2 className="text-lg font-semibold">菜单</h2>
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="p-1 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       <X className="w-5 h-5" />
                     </button>
@@ -165,7 +165,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
                 {sidebar && (
                   <button
                     onClick={toggleSidebar}
-                    className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <Menu className="w-5 h-5" />
                   </button>

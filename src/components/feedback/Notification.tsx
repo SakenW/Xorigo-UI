@@ -125,7 +125,7 @@ const ToastContainer: React.FC = () => {
   if (!context) return null
 
   return createPortal(
-    <div className="fixed top-4 right-4 z-[9999] space-y-2 max-w-sm w-full">
+    <div className="fixed top-4 right-4 z-9999 space-y-2 max-w-sm w-full">
       <AnimatePresence>
         {context.notifications.map((notification) => (
           <ToastItem
@@ -175,7 +175,7 @@ const ToastItem: React.FC<{
   return (
     <motion.div
       className={cn(
-        'relative p-4 rounded-lg border shadow-lg backdrop-blur-sm',
+        'relative p-4 rounded-lg border shadow-lg backdrop-blur-xs',
         getTypeStyles(),
         notification.className
       )}
@@ -189,7 +189,7 @@ const ToastItem: React.FC<{
     >
       <div className="flex items-start space-x-3">
         {/* 图标 */}
-        <div className="flex-shrink-0 text-xl">
+        <div className="shrink-0 text-xl">
           {notification.icon || defaultIcons[notification.type]}
         </div>
 
@@ -217,7 +217,7 @@ const ToastItem: React.FC<{
         {notification.closable && (
           <motion.button
             onClick={onRemove}
-            className="flex-shrink-0 p-1 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
+            className="shrink-0 p-1 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >

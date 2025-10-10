@@ -7,13 +7,13 @@ import { cn } from '../../utils/cn'
 // 按钮变体配置
 const buttonVariants = cva(
   // 基础样式
-  'inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+  'inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
   {
     variants: {
       variant: {
         // 主要按钮 - 使用主题渐变
         primary:
-          'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-blue-500',
+          'bg-linear-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-blue-500',
 
         // 次要按钮
         secondary:
@@ -21,15 +21,15 @@ const buttonVariants = cva(
 
         // 成功按钮
         success:
-          'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-green-500',
+          'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-green-500',
 
         // 警告按钮
         warning:
-          'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-amber-500',
+          'bg-linear-to-r from-amber-500 to-orange-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-amber-500',
 
         // 危险按钮
         danger:
-          'bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-red-500',
+          'bg-linear-to-r from-red-500 to-pink-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-red-500',
 
         // 幽灵按钮
         ghost:
@@ -41,14 +41,14 @@ const buttonVariants = cva(
 
         // 玻璃按钮
         glass:
-          'backdrop-blur-sm bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20 text-gray-900 dark:text-gray-100 hover:bg-white/30 dark:hover:bg-black/30 focus:ring-blue-500 will-change-transform',
+          'backdrop-blur-xs bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20 text-gray-900 dark:text-gray-100 hover:bg-white/30 dark:hover:bg-black/30 focus:ring-blue-500 will-change-transform',
 
         // 霓虹按钮
         neon: 'bg-black text-cyan-400 border border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.5)] hover:shadow-[0_0_20px_rgba(6,182,212,0.8)] hover:text-cyan-300 focus:ring-cyan-400',
 
         // 渐变边框按钮
         gradientOutline:
-          'relative bg-transparent text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 before:absolute before:inset-0 before:rounded-lg before:p-[2px] before:bg-gradient-to-r before:from-blue-500 before:to-purple-600 before:-z-10 hover:before:scale-105 before:transition-transform',
+          'relative bg-transparent text-transparent bg-clip-text bg-linear-to-r from-blue-500 to-purple-600 before:absolute before:inset-0 before:rounded-lg before:p-[2px] before:bg-linear-to-r before:from-blue-500 before:to-purple-600 before:-z-10 hover:before:scale-105 before:transition-transform',
       },
       size: {
         xs: 'px-2 py-1 text-xs',

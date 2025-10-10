@@ -196,7 +196,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 'text-gray-900 dark:text-gray-100',
                 'placeholder:text-gray-500 dark:placeholder:text-gray-400',
                 'disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed',
-                'focus:outline-none',
+                'focus:outline-hidden',
                 sizeClasses[inputSize],
                 variantClasses[variant],
                 leftIcon ? 'pl-10' : '',

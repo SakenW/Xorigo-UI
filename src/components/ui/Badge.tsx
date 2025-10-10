@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 
 export interface BadgeProps {
   children?: React.ReactNode
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'outline'
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'outline-solid'
   size?: 'sm' | 'md' | 'lg'
   rounded?: boolean
   dot?: boolean

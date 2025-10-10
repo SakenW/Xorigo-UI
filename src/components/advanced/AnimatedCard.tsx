@@ -46,11 +46,11 @@ const getCardStyles = (variant: string) => {
     case 'glass':
       return 'bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg'
     case 'gradient':
-      return 'bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-sm border border-white/10'
+      return 'bg-linear-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xs border border-white/10'
     case 'neumorphic':
       return 'bg-gray-100 dark:bg-gray-900 shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)] dark:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(255,255,255,0.1)] border-0'
     default:
-      return 'bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700'
+      return 'bg-white dark:bg-gray-800 shadow-xs border border-gray-200 dark:border-gray-700'
   }
 }
 

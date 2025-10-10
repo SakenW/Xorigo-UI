@@ -76,7 +76,7 @@ export default function SidebarDemo() {
           <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">基础侧边栏</h3>
           <Card>
             <div className="flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Sidebar
                   items={basicItems}
                   collapsed={collapsed1}
@@ -108,7 +108,7 @@ export default function SidebarDemo() {
           <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">多级菜单侧边栏</h3>
           <Card>
             <div className="flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Sidebar
                   items={nestedItems}
                   collapsed={collapsed2}

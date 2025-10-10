@@ -206,7 +206,7 @@ export function DataTable<T extends Record<string, any>>({
 
   return (
     <motion.div
-      className={cn('bg-white dark:bg-gray-800 rounded-lg shadow-sm', className)}
+      className={cn('bg-white dark:bg-gray-800 rounded-lg shadow-xs', className)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -223,7 +223,7 @@ export function DataTable<T extends Record<string, any>>({
                     type="checkbox"
                     checked={isAllSelected}
                     onChange={(e) => handleSelectAll(e.target.checked)}
-                    className="rounded border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500"
+                    className="rounded-sm border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500"
                   />
                 </th>
               )}
@@ -307,7 +307,7 @@ export function DataTable<T extends Record<string, any>>({
                           onChange={(e) =>
                             handleSelectRow(recordKey, record, e.target.checked)
                           }
-                          className="rounded border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500"
+                          className="rounded-sm border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-blue-500"
                         />
                       </td>
                     )}

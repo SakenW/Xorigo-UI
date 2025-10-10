@@ -91,7 +91,7 @@ export const Modal: React.FC<ModalProps> = ({
         <>
           {/* 遮罩层 */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1001]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-1001"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -103,7 +103,7 @@ export const Modal: React.FC<ModalProps> = ({
           {/* 模态框内容 */}
           <motion.div
             className={cn(
-              'fixed inset-0 flex items-center justify-center p-4 z-[1002]',
+              'fixed inset-0 flex items-center justify-center p-4 z-1002',
               !centered && 'items-start pt-20'
             )}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -224,7 +224,7 @@ export const Drawer: React.FC<DrawerProps> = ({
     sm: placement === 'left' || placement === 'right' ? 'w-80' : 'h-64',
     md: placement === 'left' || placement === 'right' ? 'w-96' : 'h-96',
     lg:
-      placement === 'left' || placement === 'right' ? 'w-[32rem]' : 'h-[32rem]',
+      placement === 'left' || placement === 'right' ? 'w-lg' : 'h-128',
   }
 
   const handleMaskClick = (e: React.MouseEvent) => {
@@ -270,7 +270,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         <>
           {/* 遮罩层 */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1001]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-1001"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -282,7 +282,7 @@ export const Drawer: React.FC<DrawerProps> = ({
           {/* 抽屉内容 */}
           <motion.div
             className={cn(
-              'fixed bg-white dark:bg-gray-800 shadow-2xl z-[1002]',
+              'fixed bg-white dark:bg-gray-800 shadow-2xl z-1002',
               (placement === 'left' || placement === 'right') && 'h-full',
               (placement === 'top' || placement === 'bottom') && 'w-full',
               sizeClasses[size],

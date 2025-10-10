@@ -30,7 +30,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 }) => {
   const defaultSeparator = (
     <svg
-      className="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500"
+      className="shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500"
       fill="currentColor"
       viewBox="0 0 20 20"
     >
@@ -44,7 +44,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   const homeIcon = (
     <svg
-      className="flex-shrink-0 h-4 w-4 text-gray-500 dark:text-gray-400"
+      className="shrink-0 h-4 w-4 text-gray-500 dark:text-gray-400"
       fill="currentColor"
       viewBox="0 0 20 20"
     >
@@ -86,7 +86,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
                 {/* 自定义图标 */}
                 {item.icon && (
-                  <span className="mr-2 flex-shrink-0">{item.icon}</span>
+                  <span className="mr-2 shrink-0">{item.icon}</span>
                 )}
 
                 {/* 链接或文本 */}

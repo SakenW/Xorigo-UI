@@ -3,7 +3,7 @@ import React from 'react'
 // 标准变体定义
 export interface ComponentVariants {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline'
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline-solid'
   colorScheme?: 'blue' | 'green' | 'red' | 'yellow' | 'purple' | 'gray' | 'pink' | 'orange'
 }
 
@@ -125,7 +125,7 @@ export interface ButtonProps extends BaseComponentProps, EventHandlers {
   /**
    * 按钮变体
    */
-  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline' | 'ghost' | 'link'
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline-solid' | 'ghost' | 'link'
   /**
    * 按钮尺寸
    */

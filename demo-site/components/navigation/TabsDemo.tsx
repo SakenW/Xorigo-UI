@@ -17,7 +17,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 默认样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           默认样式
         </h3>
@@ -76,7 +76,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 药丸样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           药丸样式
         </h3>
@@ -146,7 +146,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 下划线样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           下划线样式
         </h3>
@@ -225,7 +225,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 带图标 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带图标的标签页
         </h3>
@@ -326,7 +326,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 受控模式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           受控模式
         </h3>
@@ -371,19 +371,19 @@ const TabsDemo: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('tab1')}
-              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded-sm hover:bg-gray-300 dark:hover:bg-gray-600"
             >
               切换到标签 1
             </button>
             <button
               onClick={() => setActiveTab('tab2')}
-              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded-sm hover:bg-gray-300 dark:hover:bg-gray-600"
             >
               切换到标签 2
             </button>
             <button
               onClick={() => setActiveTab('tab3')}
-              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+              className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded-sm hover:bg-gray-300 dark:hover:bg-gray-600"
             >
               切换到标签 3
             </button>
@@ -392,7 +392,7 @@ const TabsDemo: React.FC = () => {
       </div>
 
       {/* 实际应用场景 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 用户设置页面
         </h3>
@@ -456,19 +456,19 @@ const TabsDemo: React.FC = () => {
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   邮件通知
                 </span>
-                <input type="checkbox" defaultChecked className="rounded" />
+                <input type="checkbox" defaultChecked className="rounded-sm" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   推送通知
                 </span>
-                <input type="checkbox" defaultChecked className="rounded" />
+                <input type="checkbox" defaultChecked className="rounded-sm" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   短信通知
                 </span>
-                <input type="checkbox" className="rounded" />
+                <input type="checkbox" className="rounded-sm" />
               </div>
             </div>
           </Tabs.Content>
@@ -479,19 +479,19 @@ const TabsDemo: React.FC = () => {
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   公开个人资料
                 </span>
-                <input type="checkbox" defaultChecked className="rounded" />
+                <input type="checkbox" defaultChecked className="rounded-sm" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   显示在线状态
                 </span>
-                <input type="checkbox" defaultChecked className="rounded" />
+                <input type="checkbox" defaultChecked className="rounded-sm" />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-700 dark:text-gray-300">
                   允许搜索
                 </span>
-                <input type="checkbox" className="rounded" />
+                <input type="checkbox" className="rounded-sm" />
               </div>
             </div>
           </Tabs.Content>

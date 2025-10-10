@@ -100,7 +100,7 @@ function ComponentLibraryContent() {
   const getTotalCount = () => categories.reduce((sum, cat) => sum + cat.count, 0)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Floating Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
@@ -115,7 +115,7 @@ function ComponentLibraryContent() {
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg shadow-gray-900/5'
-            : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm'
+            : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xs'
         } border-b border-gray-200/50 dark:border-gray-700/50`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -125,7 +125,7 @@ function ComponentLibraryContent() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 TH-UI 组件库
               </h1>
               <div className="flex flex-wrap items-center gap-2 mt-2 text-sm text-gray-600 dark:text-gray-400">
@@ -163,7 +163,7 @@ function ComponentLibraryContent() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="sticky top-[88px] sm:top-[100px] z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+        className="sticky top-[88px] sm:top-[100px] z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 shadow-xs"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-2">
@@ -173,7 +173,7 @@ function ComponentLibraryContent() {
               onClick={() => setActiveCategory('all')}
               className={`relative px-5 py-2.5 rounded-xl font-semibold transition-all whitespace-nowrap ${
                 activeCategory === 'all'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25'
+                  ? 'bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25'
                   : 'bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 hover:shadow-md'
               }`}
             >
@@ -201,7 +201,7 @@ function ComponentLibraryContent() {
                 {activeCategory === category.id && (
                   <motion.div
                     layoutId="activeCategory"
-                    className={`absolute inset-0 bg-gradient-to-r ${category.color} rounded-xl`}
+                    className={`absolute inset-0 bg-linear-to-r ${category.color} rounded-xl`}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -237,7 +237,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white text-xl shadow-lg shadow-blue-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 text-white text-xl shadow-lg shadow-blue-500/25">
                       📝
                     </div>
                     <div>
@@ -268,7 +268,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xl shadow-lg shadow-purple-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-purple-500 to-pink-500 text-white text-xl shadow-lg shadow-purple-500/25">
                       💬
                     </div>
                     <div>
@@ -299,7 +299,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 text-white text-xl shadow-lg shadow-green-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-green-500 to-teal-500 text-white text-xl shadow-lg shadow-green-500/25">
                       📊
                     </div>
                     <div>
@@ -326,7 +326,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white text-xl shadow-lg shadow-orange-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-orange-500 to-red-500 text-white text-xl shadow-lg shadow-orange-500/25">
                       🧭
                     </div>
                     <div>
@@ -355,7 +355,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white text-xl shadow-lg shadow-indigo-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-indigo-500 to-purple-500 text-white text-xl shadow-lg shadow-indigo-500/25">
                       📐
                     </div>
                     <div>
@@ -383,7 +383,7 @@ function ComponentLibraryContent() {
               >
                 {activeCategory === 'all' && (
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white text-xl shadow-lg shadow-pink-500/25">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br from-pink-500 to-rose-500 text-white text-xl shadow-lg shadow-pink-500/25">
                       🚀
                     </div>
                     <div>
@@ -410,14 +410,14 @@ function ComponentLibraryContent() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
-        className="relative mt-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 border-t border-gray-200/50 dark:border-gray-700/50"
+        className="relative mt-20 bg-linear-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 border-t border-gray-200/50 dark:border-gray-700/50"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Footer Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             {/* About Section */}
             <div>
-              <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              <h3 className="text-lg font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
                 TH-UI 组件库
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
@@ -464,7 +464,7 @@ function ComponentLibraryContent() {
                 统计数据
               </h3>
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200/50 dark:border-blue-700/30">
+                <div className="p-3 rounded-xl bg-linear-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200/50 dark:border-blue-700/30">
                   <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {getTotalCount()}
                   </div>
@@ -472,7 +472,7 @@ function ComponentLibraryContent() {
                     组件总数
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200/50 dark:border-purple-700/30">
+                <div className="p-3 rounded-xl bg-linear-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200/50 dark:border-purple-700/30">
                   <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                     10
                   </div>
@@ -480,7 +480,7 @@ function ComponentLibraryContent() {
                     主题配色
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border border-green-200/50 dark:border-green-700/30">
+                <div className="p-3 rounded-xl bg-linear-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border border-green-200/50 dark:border-green-700/30">
                   <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                     6
                   </div>
@@ -488,7 +488,7 @@ function ComponentLibraryContent() {
                     组件分类
                   </div>
                 </div>
-                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border border-orange-200/50 dark:border-orange-700/30">
+                <div className="p-3 rounded-xl bg-linear-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border border-orange-200/50 dark:border-orange-700/30">
                   <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
                     100%
                   </div>
@@ -501,7 +501,7 @@ function ComponentLibraryContent() {
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-6" />
+          <div className="h-px bg-linear-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-6" />
 
           {/* Bottom Bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">

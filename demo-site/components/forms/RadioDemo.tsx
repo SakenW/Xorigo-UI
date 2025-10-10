@@ -20,7 +20,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 基础用法 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           基础用法
         </h3>
@@ -37,7 +37,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 水平方向 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           水平排列
         </h3>
@@ -50,7 +50,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 带描述 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           带描述的单选框
         </h3>
@@ -75,7 +75,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 禁用状态 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           禁用状态
         </h3>
@@ -95,7 +95,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 卡片样式 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           卡片样式
         </h3>
@@ -123,7 +123,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 水平卡片 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           水平卡片布局
         </h3>
@@ -151,7 +151,7 @@ const RadioDemo: React.FC = () => {
       </div>
 
       {/* 实际应用 - 配送方式选择 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xs space-y-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           实际应用 - 配送方式
         </h3>
