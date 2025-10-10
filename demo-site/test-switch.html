@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch Test</title>
+  <script type="module">
+    import { createRoot } from 'react-dom/client'
+    import { createElement, useState } from 'react'
+    import { Switch } from '../src/components/ui/Switch'
+
+    function TestApp() {
+      const [checked1, setChecked1] = useState(false)
+
+      return createElement('div', {
+        style: { padding: '40px', display: 'flex', flexDirection: 'column', gap: '20px' }
+      }, [
+        createElement('h1', { key: 'title' }, 'Switch 测试'),
+
+        createElement('div', { key: 'test1' }, [
+          createElement('h2', { key: 'h2' }, '1. 非受控模式 (defaultChecked=false)'),
+          createElement(Switch, {
+            key: 'switch',
+            label: '点击我切换',
+            defaultChecked: false
+          })
+        ]),
+
+        createElement('div', { key: 'test2' }, [
+          createElement('h2', { key: 'h2' }, '2. 非受控模式 (defaultChecked=true)'),
+          createElement(Switch, {
+            key: 'switch',
+            label: '点击我切换',
+            defaultChecked: true
+          })
+        ]),
+
+        createElement('div', { key: 'test3' }, [
+          createElement('h2', { key: 'h2' }, '3. 受控模式'),
+          createElement(Switch, {
+            key: 'switch',
+            label: `当前状态: ${checked1 ? '开启' : '关闭'}`,
+            checked: checked1,
+            onCheckedChange: setChecked1
+          })
+        ])
+      ])
+    }
+
+    const root = createRoot(document.getElementById('root'))
+    root.render(createElement(TestApp))
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

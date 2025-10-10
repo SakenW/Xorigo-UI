@@ -10,6 +10,7 @@ export interface SwitchProps
   variant?: 'default' | 'primary' | 'success' | 'danger'
   loading?: boolean
   onCheckedChange?: (checked: boolean) => void
+  defaultChecked?: boolean
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
@@ -20,6 +21,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       size = 'md',
       variant = 'primary',
       checked,
+      defaultChecked,
       disabled = false,
       loading = false,
       onChange,
@@ -32,9 +34,23 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   ) => {
     const switchId = id || `switch-${React.useId()}`
 
+    // 内部状态用于非受控模式
+    const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false)
+
+    // 判断是否为受控组件
+    const isControlled = checked !== undefined
+    const currentChecked = isControlled ? checked : internalChecked
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newChecked = e.target.checked
+
+      // 如果是非受控模式，更新内部状态
+      if (!isControlled) {
+        setInternalChecked(newChecked)
+      }
+
       onChange?.(e)
-      onCheckedChange?.(e.target.checked)
+      onCheckedChange?.(newChecked)
     }
 
     const sizeClasses = {
@@ -69,7 +85,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             ref={ref}
             type="checkbox"
             id={switchId}
-            checked={checked}
+            checked={currentChecked}
             disabled={disabled || loading}
             onChange={handleChange}
             className="sr-only peer"
@@ -99,7 +115,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
                   sizeClasses[size].thumb
                 )}
                 animate={{
-                  x: checked ? parseInt(sizeClasses[size].translate.replace(/[^\d]/g, '')) - 2 : 0,
+                  x: currentChecked ? parseInt(sizeClasses[size].translate.replace(/[^\d]/g, '')) - 2 : 0,
                 }}
                 transition={{
                   type: 'spring',
