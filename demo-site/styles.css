@@ -47,3 +47,18 @@ body {
     color-scheme: dark;
   }
 }
+
+/* 滚动条隐藏 (用于水平滚动的分类导航) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
