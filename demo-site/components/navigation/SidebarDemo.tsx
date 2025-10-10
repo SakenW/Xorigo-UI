@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Sidebar } from '../../../src/components/Sidebar'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
-import { useToast } from '../../../src/components/Notification'
+import React, { useState } from "react"
+import { Sidebar } from "../../../src/components/navigation/Sidebar"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
+import { useToast } from "../../../src/components/feedback/Notification"
 
 export default function SidebarDemo() {
   const [collapsed1, setCollapsed1] = useState(false)

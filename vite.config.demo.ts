@@ -7,7 +7,16 @@ export default defineConfig({
   plugins: [react()],
   root: './demo-site',  // 设置为demo-site目录
   optimizeDeps: {
-    include: ['lucide-react'],
+    // 只包含核心依赖，让 Radix UI 自动处理
+    include: [
+      'react',
+      'react-dom',
+      'framer-motion',
+      'class-variance-authority',
+      'clsx',
+      'tailwind-merge'
+    ],
+    exclude: ['lucide-react'], // 明确排除，使用 alias
   },
   build: {
     outDir: '../dist-demo',

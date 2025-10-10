@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Button } from '../../src/components/Button'
+import React from "react"
+import { Link } from "react-router-dom"
+import { Button } from "../../src/components/ui/Button"
 
 export default function LandingPage() {
   const features = [

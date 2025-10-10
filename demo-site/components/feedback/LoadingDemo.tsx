@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { Loading, Spinner, Skeleton } from '../../../src/components/Loading'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
+import React, { useState } from "react"
+import { Loading, Spinner } from "../../../src/components/feedback/Loading"
+import { Skeleton } from "../../../src/components/ui/Skeleton"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
 
 export default function LoadingDemo() {
   const [showOverlay, setShowOverlay] = useState(false)

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { ResponsiveLayout, ResponsiveGrid, ResponsiveContainer, ResponsiveSpacing } from '../../../src/components/ResponsiveLayout'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { ResponsiveLayout, ResponsiveGrid, ResponsiveContainer, ResponsiveSpacing } from "../../../src/components/navigation/ResponsiveLayout"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function ResponsiveLayoutDemo() {
   const [showLayout, setShowLayout] = useState(false)

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Pagination } from '../../../src/components/Pagination'
+import React, { useState } from "react"
+import { Pagination } from "../../../src/components/ui/Pagination"
 
 const PaginationDemo: React.FC = () => {
   const [currentPage1, setCurrentPage1] = useState(1)

@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 import {
   RippleEffect,
   PulseLoader,
   MagneticButton,
   TypewriterText,
   ScrollIndicator
-} from '../../../src/components/MicroInteractions'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
+} from "../../../src/components/advanced/MicroInteractions"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
 
 export default function MicroInteractionsDemo() {
   const [showTyping, setShowTyping] = useState(false)

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Textarea } from '../../../src/components/Textarea'
+import React, { useState } from "react"
+import { Textarea } from "../../../src/components/ui/Textarea"
 
 const TextareaDemo: React.FC = () => {
   const [value1, setValue1] = useState('')

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Divider } from '../../../src/components/Divider'
+import React from "react"
+import { Divider } from "../../../src/components/ui/Divider"
 
 const DividerDemo: React.FC = () => {
   return (

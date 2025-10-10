@@ -12,8 +12,6 @@ RUN if [ -f pnpm-lock.yaml ]; then \
       pnpm install; \
     elif [ -f yarn.lock ]; then \
       yarn install; \
-    elif [ -f package-lock.json ]; then \
-      npm ci; \
     else \
       npm install; \
     fi

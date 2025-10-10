@@ -1,11 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Check, Star, Zap, Shield, Headphones } from 'lucide-react'
-import { Button } from '../../components/Button'
-import { Badge } from '../../components/Badge'
+import { Button } from '../../components/ui/Button'
+import { Badge } from '../../components/ui/Badge'
 import { cn } from '../../utils/cn'
 
-interface PricingPlan {
+export interface PricingPlan {
   id: string
   name: string
   description: string
@@ -18,7 +18,7 @@ interface PricingPlan {
   buttonVariant?: 'primary' | 'secondary' | 'outline'
 }
 
-interface PricingProps {
+export interface PricingProps {
   plans: PricingPlan[]
   title?: string
   subtitle?: string

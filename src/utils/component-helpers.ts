@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { ComponentVariants, sizeClasses, variantClasses } from '../types/components'
+import type { ComponentVariants } from '../types/components'
+import { sizeClasses, variantClasses } from '../types/components'
+import React from 'react'
 
 // 样式合并工具
 export function cn(...inputs: ClassValue[]) {

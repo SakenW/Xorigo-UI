@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { createPortal } from 'react-dom';
-import { X, AlertTriangle, CheckCircle, Info, HelpCircle } from 'lucide-react';
+import React, { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
+import { X, AlertTriangle, CheckCircle, Info, HelpCircle } from "lucide-react";
 
 // 模态框接口
 export interface ModalProps {

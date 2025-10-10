@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Button } from '../../../src/components/Button'
-import { Card } from '../../../src/components/Card'
-import { Modal } from '../../../src/components/Modal'
-import { useToast } from '../../../src/components/Notification'
+import React, { useState } from "react"
+import { Button } from "../../../src/components/ui/Button"
+import { Card } from "../../../src/components/ui/Card"
+import { Modal } from "../../../src/components/feedback/Modal"
+import { useToast } from "../../../src/components/feedback/Notification"
 
 export default function ButtonDemo() {
   const [modalOpen, setModalOpen] = useState(false)

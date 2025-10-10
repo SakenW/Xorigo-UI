@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Tooltip } from '../../../src/components/Tooltip'
-import { Button } from '../../../src/components/Button'
-import { Info, HelpCircle, AlertCircle, CheckCircle } from 'lucide-react'
+import React, { useState } from "react"
+import { Tooltip } from "../../../src/components/ui/Tooltip"
+import { Button } from "../../../src/components/ui/Button"
+import { Info, HelpCircle, AlertCircle, CheckCircle } from "lucide-react"
 
 const TooltipDemo: React.FC = () => {
   const [controlledOpen, setControlledOpen] = useState(false)

@@ -1,6 +1,6 @@
-import React from 'react'
-import { AnimatedCard } from '../../../src/components/AnimatedCard'
-import { Card } from '../../../src/components/Card'
+import React from "react"
+import { AnimatedCard } from "../../../src/components/advanced/AnimatedCard"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function AnimatedCardDemo() {
   return (

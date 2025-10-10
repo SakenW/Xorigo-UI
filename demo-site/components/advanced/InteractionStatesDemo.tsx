@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { ButtonStates, InputStates, CardStates, ProgressStates } from '../../../src/components/InteractionStates'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { ButtonStates, InputStates, CardStates, ProgressStates } from "../../../src/components/advanced/InteractionStates"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function InteractionStatesDemo() {
   const [buttonLoading, setButtonLoading] = useState(false)

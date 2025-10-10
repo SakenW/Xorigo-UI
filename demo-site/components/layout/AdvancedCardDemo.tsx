@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card } from '../../../src/components/Card'
+import React from "react"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function AdvancedCardDemo() {
   return (

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Badge } from '../../../src/components/Badge'
-import { Bell, Mail, ShoppingCart, AlertCircle, CheckCircle, Info, Star, X } from 'lucide-react'
+import React from "react"
+import { Badge } from "../../../src/components/ui/Badge"
+import { Bell, Mail, ShoppingCart, AlertCircle, CheckCircle, Info, Star, X } from "lucide-react"
 
 const BadgeDemo: React.FC = () => {
   const [badges, setBadges] = React.useState([

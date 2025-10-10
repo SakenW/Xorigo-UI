@@ -1,5 +1,5 @@
-import React from 'react'
-import { Avatar, AvatarGroup } from '../../../src/components/Avatar'
+import React from "react"
+import { Avatar, AvatarGroup } from "../../../src/components/ui/Avatar"
 
 const AvatarDemo: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
-import React from 'react'
-import { useToast } from '../../../src/components/Notification'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
+import React from "react"
+import { useToast } from "../../../src/components/feedback/Notification"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
 
 export default function NotificationDemo() {
   const { success, error, warning, info } = useToast()
@@ -34,7 +34,7 @@ export default function NotificationDemo() {
                 警告通知
               </Button>
               <Button
-                variant="info"
+                variant="secondary"
                 onClick={() => info('提示信息', '新版本已发布，点击更新。')}
               >
                 信息通知
@@ -83,7 +83,7 @@ export default function NotificationDemo() {
           <div>
             <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">长文本通知</h3>
             <Button
-              variant="info"
+              variant="secondary"
               onClick={() =>
                 info(
                   '系统更新提示',
@@ -118,7 +118,7 @@ export default function NotificationDemo() {
                 模拟系统警告
               </Button>
               <Button
-                variant="info"
+                variant="secondary"
                 onClick={() => info('有新评论', '张三 回复了您的帖子')}
               >
                 模拟消息通知

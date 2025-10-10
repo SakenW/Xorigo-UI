@@ -6,7 +6,7 @@ import React, {
   type ReactNode,
 } from 'react'
 import { motion } from 'framer-motion'
-import { colorTokens } from '../tokens/colors'
+import { colorTokens, type ColorPaletteScale } from '../tokens/colors'
 import {
   colorPalettes,
   type ColorPalette,
@@ -17,7 +17,7 @@ import {
 // 主题配置接口
 export interface ThemeConfig {
   name: string
-  colors: typeof colorTokens.primary
+  colors: ColorPaletteScale // 使用通用的 ColorPaletteScale 类型，允许任何符合结构的颜色对象
   gradient: string
   glow: string
   palette: ColorPalette
@@ -171,7 +171,7 @@ const themeTransition = {
   exit: { opacity: 0, scale: 1.05, filter: 'blur(4px)' },
   transition: {
     duration: 0.4,
-    ease: [0.4, 0, 0.2, 1],
+    ease: [0.4, 0, 0.2, 1] as const, // 使用 as const 断言为字面量类型
   },
 }
 

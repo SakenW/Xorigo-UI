@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Switch } from '../../../src/components/Switch'
+import React, { useState } from "react"
+import { Switch } from "../../../src/components/ui/Switch"
 
 const SwitchDemo: React.FC = () => {
   const [enabled, setEnabled] = useState(false)

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { RadioGroup, Radio, RadioCard } from '../../../src/components/Radio'
-import { Zap, Shield, Rocket, Star } from 'lucide-react'
+import React, { useState } from "react"
+import { RadioGroup, Radio, RadioCard } from "../../../src/components/ui/Radio"
+import { Zap, Shield, Rocket, Star } from "lucide-react"
 
 const RadioDemo: React.FC = () => {
   const [value1, setValue1] = useState('option1')

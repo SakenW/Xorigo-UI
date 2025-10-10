@@ -132,3 +132,18 @@ export const colorTokens = {
 export type ColorScale = typeof primaryColors
 export type SemanticColors = typeof semanticColors
 export type ColorTokens = typeof colorTokens
+
+// 通用颜色调色板类型，允许任何符合结构的颜色对象
+export type ColorPaletteScale = {
+  readonly 50: string
+  readonly 100: string
+  readonly 200: string
+  readonly 300: string
+  readonly 400: string
+  readonly 500: string
+  readonly 600: string
+  readonly 700: string
+  readonly 800: string
+  readonly 900: string
+  readonly 950: string
+}

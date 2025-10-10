@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Checkbox } from '../../../src/components/Checkbox'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { Checkbox } from "../../../src/components/ui/Checkbox"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function CheckboxDemo() {
   const [checked1, setChecked1] = useState(false)

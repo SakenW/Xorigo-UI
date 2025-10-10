@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Select } from '../../../src/components/Select'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { Select } from "../../../src/components/ui/Select"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function SelectDemo() {
   const [value1, setValue1] = useState('')

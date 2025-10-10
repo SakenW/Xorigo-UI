@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Accordion } from '../../../src/components/Accordion'
-import { DropdownMenu } from '../../../src/components/DropdownMenu'
-import { Dialog } from '../../../src/components/Dialog'
-import { Toast, useToast } from '../../../src/components/Toast'
-import { Button } from '../../../src/components/Button'
-import { Card } from '../../../src/components/Card'
-import { ChevronDown, Plus, Settings, User, LogOut, Star, Info } from 'lucide-react'
+import React, { useState } from "react"
+import Accordion, { AccordionItem, AccordionTrigger, AccordionContent } from "../../../src/components/radix/Accordion"
+import DropdownMenu, { DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuCheckboxItem, DropdownMenuLabel } from "../../../src/components/radix/DropdownMenu";
+import { Dialog } from "../../../src/components/advanced/Dialog"
+import { Toast, useToast } from "../../../src/components/feedback/Toast"
+import { Button } from "../../../src/components/ui/Button"
+import { Card } from "../../../src/components/ui/Card"
+import { ChevronDown, Plus, Settings, User, LogOut, Star, Info } from "lucide-react"
 
 const RadixUIDemo: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -37,32 +37,32 @@ const RadixUIDemo: React.FC = () => {
         </h3>
         <div className="w-full max-w-md">
           <Accordion type="single" collapsible className="w-full">
-            <Accordion.Item value="item-1">
-              <Accordion.Trigger>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>
                 TH-UI 的设计理念是什么？
-              </Accordion.Trigger>
-              <Accordion.Content>
+              </AccordionTrigger>
+              <AccordionContent>
                 TH-UI 基于原子化设计原则，提供高度可组合、主题化、类型安全的 React 组件库，支持现代 Web 开发需求。
-              </Accordion.Content>
-            </Accordion.Item>
+              </AccordionContent>
+            </AccordionItem>
 
-            <Accordion.Item value="item-2">
-              <Accordion.Trigger>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>
                 如何使用 Radix UI 组件？
-              </Accordion.Trigger>
-              <Accordion.Content>
+              </AccordionTrigger>
+              <AccordionContent>
                 Radix UI 组件提供了无障碍的原始组件，TH-UI 在此基础上添加了样式系统、动画效果和 TypeScript 类型支持。
-              </Accordion.Content>
-            </Accordion.Item>
+              </AccordionContent>
+            </AccordionItem>
 
-            <Accordion.Item value="item-3">
-              <Accordion.Trigger>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>
                 支持哪些浏览器？
-              </Accordion.Trigger>
-              <Accordion.Content>
+              </AccordionTrigger>
+              <AccordionContent>
                 TH-UI 支持所有现代浏览器，包括 Chrome、Firefox、Safari、Edge 等最新版本，确保良好的兼容性体验。
-              </Accordion.Content>
-            </Accordion.Item>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </Card>
@@ -75,79 +75,79 @@ const RadixUIDemo: React.FC = () => {
         <div className="flex flex-wrap gap-4">
           {/* 基础下拉菜单 */}
           <DropdownMenu>
-            <DropdownMenu.Trigger asChild>
+            <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 基础菜单
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Item>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
                 <Plus className="mr-2 h-4 w-4" />
                 新建项目
-              </DropdownMenu.Item>
-              <DropdownMenu.Item>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 设置
-              </DropdownMenu.Item>
-              <DropdownMenu.Separator />
-              <DropdownMenu.Item>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
                 退出登录
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
           </DropdownMenu>
 
           {/* 带复选框的下拉菜单 */}
           <DropdownMenu>
-            <DropdownMenu.Trigger asChild>
+            <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 选择功能
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.CheckboxItem>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuCheckboxItem>
                 显示通知
-              </DropdownMenu.CheckboxItem>
-              <DropdownMenu.CheckboxItem>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>
                 自动保存
-              </DropdownMenu.CheckboxItem>
-              <DropdownMenu.CheckboxItem>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>
                 深色模式
-              </DropdownMenu.CheckboxItem>
-            </DropdownMenu.Content>
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
           </DropdownMenu>
 
           {/* 分组下拉菜单 */}
           <DropdownMenu>
-            <DropdownMenu.Trigger asChild>
+            <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 分组菜单
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Label>账户</DropdownMenu.Label>
-              <DropdownMenu.Item>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>账户</DropdownMenuLabel>
+              <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
                 个人资料
-              </DropdownMenu.Item>
-              <DropdownMenu.Item>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 账户设置
-              </DropdownMenu.Item>
-              <DropdownMenu.Separator />
-              <DropdownMenu.Label>项目</DropdownMenu.Label>
-              <DropdownMenu.Item>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>项目</DropdownMenuLabel>
+              <DropdownMenuItem>
                 <Plus className="mr-2 h-4 w-4" />
                 新建项目
-              </DropdownMenu.Item>
-              <DropdownMenu.Item>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <Star className="mr-2 h-4 w-4" />
                 收藏夹
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </Card>
@@ -214,7 +214,7 @@ const RadixUIDemo: React.FC = () => {
           <Button onClick={() => showToast('warning')} variant="warning">
             警告通知
           </Button>
-          <Button onClick={() => showToast('info')} variant="info">
+          <Button onClick={() => showToast('info')} variant="outline">
             信息通知
           </Button>
         </div>
@@ -250,67 +250,67 @@ const RadixUIDemo: React.FC = () => {
             </div>
 
             <DropdownMenu>
-              <DropdownMenu.Trigger asChild>
+              <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm">
                   <Settings className="h-4 w-4" />
                 </Button>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content>
-                <DropdownMenu.Item onClick={() => showToast('info')}>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => showToast('info')}>
                   查看配置
-                </DropdownMenu.Item>
-                <DropdownMenu.Item onClick={() => showToast('success')}>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => showToast('success')}>
                   导出设置
-                </DropdownMenu.Item>
-                <DropdownMenu.Separator />
-                <DropdownMenu.Item onClick={() => setIsDialogOpen(true)}>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                   重置所有设置
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
           <Accordion type="multiple" className="w-full">
-            <Accordion.Item value="appearance">
-              <Accordion.Trigger>外观设置</Accordion.Trigger>
-              <Accordion.Content>
+            <AccordionItem value="appearance">
+              <AccordionTrigger>外观设置</AccordionTrigger>
+              <AccordionContent>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span>主题模式</span>
                     <DropdownMenu>
-                      <DropdownMenu.Trigger asChild>
+                      <DropdownMenuTrigger asChild>
                         <Button variant="outline" size="sm">
                           自动
                           <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
-                      </DropdownMenu.Trigger>
-                      <DropdownMenu.Content>
-                        <DropdownMenu.Item>亮色</DropdownMenu.Item>
-                        <DropdownMenu.Item>暗色</DropdownMenu.Item>
-                        <DropdownMenu.Item>自动</DropdownMenu.Item>
-                      </DropdownMenu.Content>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>亮色</DropdownMenuItem>
+                        <DropdownMenuItem>暗色</DropdownMenuItem>
+                        <DropdownMenuItem>自动</DropdownMenuItem>
+                      </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
                 </div>
-              </Accordion.Content>
-            </Accordion.Item>
+              </AccordionContent>
+            </AccordionItem>
 
-            <Accordion.Item value="notifications">
-              <Accordion.Trigger>通知设置</Accordion.Trigger>
-              <Accordion.Content>
+            <AccordionItem value="notifications">
+              <AccordionTrigger>通知设置</AccordionTrigger>
+              <AccordionContent>
                 <div className="space-y-4">
-                  <DropdownMenu.CheckboxItem defaultChecked>
+                  <DropdownMenuCheckboxItem defaultChecked>
                     桌面通知
-                  </DropdownMenu.CheckboxItem>
-                  <DropdownMenu.CheckboxItem defaultChecked>
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem defaultChecked>
                     邮件通知
-                  </DropdownMenu.CheckboxItem>
-                  <DropdownMenu.CheckboxItem>
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem>
                     短信通知
-                  </DropdownMenu.CheckboxItem>
+                  </DropdownMenuCheckboxItem>
                 </div>
-              </Accordion.Content>
-            </Accordion.Item>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </Card>

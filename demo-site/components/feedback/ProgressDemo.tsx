@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Progress, CircularProgress } from '../../../src/components/Progress'
-import { Button } from '../../../src/components/Button'
+import React, { useState, useEffect } from "react"
+import { Progress, CircularProgress } from "../../../src/components/feedback/Progress"
+import { Button } from "../../../src/components/ui/Button"
 
 const ProgressDemo: React.FC = () => {
   const [progress, setProgress] = useState(0)

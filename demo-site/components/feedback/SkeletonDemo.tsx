@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Skeleton, SkeletonGroup } from '../../../src/components/Skeleton'
-import { Button } from '../../../src/components/Button'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { Skeleton, SkeletonGroup } from "../../../src/components/ui/Skeleton"
+import { Button } from "../../../src/components/ui/Button"
+import { Card, CardHeader, CardContent, CardFooter } from "../../../src/components/ui/Card"
 
 const SkeletonDemo: React.FC = () => {
   const [loading, setLoading] = useState(true)
@@ -151,24 +151,32 @@ const SkeletonDemo: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card
-              title="产品标题 1"
-              description="这是产品的详细描述内容，介绍产品的主要特性和优势。"
-              footer={
+            <Card>
+              <CardHeader title="产品标题 1" />
+              <CardContent>
+                <p className="text-gray-600 dark:text-gray-400">
+                  这是产品的详细描述内容，介绍产品的主要特性和优势。
+                </p>
+              </CardContent>
+              <CardFooter>
                 <Button variant="primary" size="sm">
                   了解更多
                 </Button>
-              }
-            />
-            <Card
-              title="产品标题 2"
-              description="这是产品的详细描述内容，介绍产品的主要特性和优势。"
-              footer={
+              </CardFooter>
+            </Card>
+            <Card>
+              <CardHeader title="产品标题 2" />
+              <CardContent>
+                <p className="text-gray-600 dark:text-gray-400">
+                  这是产品的详细描述内容，介绍产品的主要特性和优势。
+                </p>
+              </CardContent>
+              <CardFooter>
                 <Button variant="primary" size="sm">
                   了解更多
                 </Button>
-              }
-            />
+              </CardFooter>
+            </Card>
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
-import React from 'react'
-import { Card } from '../../../src/components/Card'
-import { DataTable } from '../../../src/components/DataTable'
-import { useToast } from '../../../src/components/Notification'
+import React from "react"
+import { Card } from "../../../src/components/ui/Card"
+import { DataTable } from "../../../src/components/navigation/DataTable"
+import { useToast } from "../../../src/components/feedback/Notification"
 
 export default function DataTableDemo() {
   const { success } = useToast()
@@ -13,9 +13,9 @@ export default function DataTableDemo() {
   ]
 
   const tableColumns = [
-    { key: 'name', header: '名称', sortable: true },
-    { key: 'type', header: '类型', sortable: true },
-    { key: 'status', header: '状态', sortable: false },
+    { key: 'name' as const, title: '名称', sortable: true },
+    { key: 'type' as const, title: '类型', sortable: true },
+    { key: 'status' as const, title: '状态', sortable: false },
   ]
 
   return (
@@ -27,7 +27,7 @@ export default function DataTableDemo() {
           data={tableData}
           selectable
           striped
-          hoverable
+          hover
           onRowClick={(row) => success('行点击', `点击了: ${row.name}`)}
         />
       </Card>

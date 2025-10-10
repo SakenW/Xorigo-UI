@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Tabs } from '../../../src/components/Tabs'
-import { Home, User, Settings, Bell, Mail, Calendar } from 'lucide-react'
+import React, { useState } from "react"
+import { Tabs } from "../../../src/components/navigation/Tabs"
+import { Home, User, Settings, Bell, Mail, Calendar } from "lucide-react"
 
 const TabsDemo: React.FC = () => {
   const [activeTab, setActiveTab] = useState('tab1')
@@ -336,7 +336,7 @@ const TabsDemo: React.FC = () => {
             <span className="font-semibold text-blue-600">{activeTab}</span>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} variant="underline">
+          <Tabs value={activeTab} onValueChange={setActiveTab} variant="underline" defaultValue="tab1">
             <Tabs.List>
               <Tabs.Trigger value="tab1">标签 1</Tabs.Trigger>
               <Tabs.Trigger value="tab2">标签 2</Tabs.Trigger>

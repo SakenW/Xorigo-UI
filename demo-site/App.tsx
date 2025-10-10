@@ -1,7 +1,7 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import LandingPage from './pages/LandingPage'
-import ComponentLibrary from './pages/ComponentLibrary'
+import React from "react"
+import { Routes, Route, Navigate } from "react-router-dom"
+import LandingPage from "./pages/LandingPage"
+import ComponentLibrary from "./pages/ComponentLibrary"
 
 export default function App() {
   return (

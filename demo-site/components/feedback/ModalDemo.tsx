@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Modal } from '../../../src/components/Modal'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
+import React, { useState } from "react"
+import { Modal } from "../../../src/components/feedback/Modal"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
 
 export default function ModalDemo() {
   const [openBasic, setOpenBasic] = useState(false)

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Input } from '../../../src/components/Input'
-import { Card } from '../../../src/components/Card'
+import React, { useState } from "react"
+import { Input } from "../../../src/components/ui/Input"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function InputDemo() {
   const [username, setUsername] = useState('')

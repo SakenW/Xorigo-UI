@@ -1,6 +1,6 @@
-import React from 'react'
-import { ThemeToggle } from '../../../src/components/ThemeToggle'
-import { Card } from '../../../src/components/Card'
+import React from "react"
+import { ThemeToggle } from "../../../src/components/feedback/ThemeToggle"
+import { Card } from "../../../src/components/ui/Card"
 
 export default function ThemeToggleDemo() {
   return (

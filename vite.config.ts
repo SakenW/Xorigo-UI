@@ -39,7 +39,18 @@ export default defineConfig({
     },
     rollupOptions: {
       // 外部化依赖
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'framer-motion'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'framer-motion',
+        '@radix-ui/react-dialog',
+        '@radix-ui/react-toast',
+        '@radix-ui/react-accordion',
+        '@radix-ui/react-dropdown-menu',
+        '@radix-ui/react-slot',
+        'lucide-react'
+      ],
       output: {
         globals: {
           react: 'React',

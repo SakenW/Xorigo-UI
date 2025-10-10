@@ -1,8 +1,8 @@
-import React from 'react'
-import { Header } from '../../../src/components/Header'
-import { Card } from '../../../src/components/Card'
-import { Button } from '../../../src/components/Button'
-import { useToast } from '../../../src/components/Notification'
+import React from "react"
+import { Header } from "../../../src/components/navigation/BasicHeader"
+import { Card } from "../../../src/components/ui/Card"
+import { Button } from "../../../src/components/ui/Button"
+import { useToast } from "../../../src/components/feedback/Notification"
 
 export default function HeaderDemo() {
   const { success, info } = useToast()
