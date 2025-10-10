@@ -28,24 +28,28 @@ const FloatingLabel: React.FC<{
   hasValue: boolean
   error?: string
 }> = ({ htmlFor, label, required, isFocused, hasValue, error }) => {
+  const isFloating = isFocused || hasValue
+
   return (
     <motion.label
       htmlFor={htmlFor}
       className={cn(
-        'absolute left-3 transition-all duration-200 pointer-events-none',
-        isFocused || hasValue
+        'absolute left-3 pointer-events-none',
+        isFloating
           ? 'text-xs -top-2 bg-white dark:bg-gray-800 px-1'
-          : 'text-sm top-1/2 -translate-y-1/2',
+          : 'text-sm top-1/2',
         error
           ? 'text-red-500'
           : isFocused
             ? 'text-blue-500'
-            : 'text-gray-500'
+            : 'text-gray-500 dark:text-gray-400'
       )}
+      initial={false}
       animate={{
-        scale: isFocused || hasValue ? 0.85 : 1,
-        y: isFocused || hasValue ? -24 : 0,
+        scale: isFloating ? 0.85 : 1,
+        y: isFloating ? 0 : '-50%',
       }}
+      transition={{ duration: 0.2 }}
     >
       {label}
       {required && <span className="text-red-500 ml-1">*</span>}

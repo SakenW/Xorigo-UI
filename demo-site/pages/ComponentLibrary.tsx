@@ -19,6 +19,19 @@ import ThemeDemo from '../components/advanced/ThemeDemo'
 import ThemeToggleDemo from '../components/advanced/ThemeToggleDemo'
 import AnimatedCardDemo from '../components/advanced/AnimatedCardDemo'
 import MicroInteractionsDemo from '../components/advanced/MicroInteractionsDemo'
+import ResponsiveLayoutDemo from '../components/layout/ResponsiveLayoutDemo'
+import InteractionStatesDemo from '../components/advanced/InteractionStatesDemo'
+import TooltipDemo from '../components/feedback/TooltipDemo'
+import BadgeDemo from '../components/data/BadgeDemo'
+import TabsDemo from '../components/navigation/TabsDemo'
+import SwitchDemo from '../components/forms/SwitchDemo'
+import AvatarDemo from '../components/data/AvatarDemo'
+import DividerDemo from '../components/layout/DividerDemo'
+import ProgressDemo from '../components/feedback/ProgressDemo'
+import PaginationDemo from '../components/navigation/PaginationDemo'
+import RadioDemo from '../components/forms/RadioDemo'
+import TextareaDemo from '../components/forms/TextareaDemo'
+import SkeletonDemo from '../components/feedback/SkeletonDemo'
 
 const categories = [
   {
@@ -73,7 +86,7 @@ function ComponentLibraryContent() {
                 TH-UI 组件库
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                18个组件演示 | 17个组件 | 10种主题 | React 19 + TypeScript + Tailwind CSS 3
+                31个组件演示 | 30个组件 | 10种主题 | React 19 + TypeScript + Tailwind CSS 3
               </p>
             </div>
             <ThemeToggle />
@@ -121,6 +134,9 @@ function ComponentLibraryContent() {
             <InputDemo />
             <CheckboxDemo />
             <SelectDemo />
+            <SwitchDemo />
+            <RadioDemo />
+            <TextareaDemo />
           </>
         )}
 
@@ -131,6 +147,9 @@ function ComponentLibraryContent() {
             <NotificationDemo />
             <LoadingDemo />
             <ModalDemo />
+            <TooltipDemo />
+            <ProgressDemo />
+            <SkeletonDemo />
           </>
         )}
 
@@ -138,6 +157,8 @@ function ComponentLibraryContent() {
         {(activeCategory === 'all' || activeCategory === 'data') && (
           <>
             <DataTableDemo />
+            <BadgeDemo />
+            <AvatarDemo />
           </>
         )}
 
@@ -147,6 +168,8 @@ function ComponentLibraryContent() {
             <BreadcrumbDemo />
             <HeaderDemo />
             <SidebarDemo />
+            <TabsDemo />
+            <PaginationDemo />
           </>
         )}
 
@@ -155,6 +178,8 @@ function ComponentLibraryContent() {
           <>
             <CardDemo />
             <AdvancedCardDemo />
+            <ResponsiveLayoutDemo />
+            <DividerDemo />
           </>
         )}
 
@@ -165,6 +190,7 @@ function ComponentLibraryContent() {
             <ThemeToggleDemo />
             <AnimatedCardDemo />
             <MicroInteractionsDemo />
+            <InteractionStatesDemo />
           </>
         )}
       </main>
@@ -175,7 +201,7 @@ function ComponentLibraryContent() {
           <p className="text-sm">
             TH-UI v0.1.0 | 基于 Trans-Hub 设计系统 |
             <span className="mx-2">•</span>
-            17个组件已迁移
+            30个组件已迁移
           </p>
         </div>
       </footer>

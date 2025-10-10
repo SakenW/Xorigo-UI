@@ -6,6 +6,9 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
   root: './demo-site',  // 设置为demo-site目录
+  optimizeDeps: {
+    include: ['lucide-react'],
+  },
   build: {
     outDir: '../dist-demo',
     emptyOutDir: true,
@@ -26,7 +29,10 @@ export default defineConfig({
       '@/hooks': resolve(__dirname, 'src/hooks'),
       '@/types': resolve(__dirname, 'src/types'),
       '@/layouts': resolve(__dirname, 'src/layouts'),
+      // 修复 lucide-react 模块解析问题 - 明确指向父目录的 node_modules
+      'lucide-react': resolve(__dirname, 'node_modules/lucide-react'),
     },
+    preserveSymlinks: false,
   },
   server: {
     port: 5173,

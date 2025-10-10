@@ -23,7 +23,6 @@ export default function InputDemo() {
           <Input
             label="邮箱"
             type="email"
-            placeholder="example@email.com"
             variant="outlined"
             floatingLabel
             value={email}
