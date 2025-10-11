@@ -22,12 +22,20 @@
 
 ## 📦 安装
 
+TH-UI 支持所有主流包管理器：npm、pnpm、yarn 和 bun。
+
 ```bash
+# npm
 npm install @th-ui/core
-# or
-yarn add @th-ui/core
-# or
+
+# pnpm (推荐)
 pnpm add @th-ui/core
+
+# yarn
+yarn add @th-ui/core
+
+# bun
+bun add @th-ui/core
 ```
 
 ## 🚀 快速开始
@@ -189,15 +197,31 @@ function App() {
 ### 环境要求
 
 - Node.js 22+
-- npm 9+ 或 pnpm 8+
+- 包管理器（任选其一）:
+  - npm 10+
+  - pnpm 9+ (推荐，性能更好)
+  - yarn 4+
+  - bun 1+
 
 ### 安装依赖
 
+TH-UI 支持所有主流包管理器，选择你喜欢的即可：
+
 ```bash
+# npm
 npm install
-# or
+
+# pnpm (推荐 - 速度快、节省磁盘空间)
 pnpm install
+
+# yarn
+yarn install
+
+# bun (最快)
+bun install
 ```
+
+> **💡 提示**: 推荐使用 **pnpm** 或 **bun** 以获得更好的性能和磁盘空间利用率。
 
 ### 开发环境
 
