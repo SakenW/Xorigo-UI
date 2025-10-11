@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 export interface ThemeToggleProps {
   className?: string

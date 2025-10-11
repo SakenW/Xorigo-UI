@@ -1,9 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Check, Star, Zap, Shield, Headphones } from 'lucide-react'
-import { Button } from '../../components/ui/Button'
-import { Badge } from '../../components/ui/Badge'
-import { cn } from '../../utils/cn'
+import { Button, Badge } from '@th-ui/core'
+import { cn } from '@th-ui/core'
 
 export interface PricingPlan {
   id: string

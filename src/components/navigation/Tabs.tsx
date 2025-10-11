@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useState, createContext, useContext } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 interface TabsContextValue {
   activeTab: string

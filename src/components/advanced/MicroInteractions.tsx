@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // 涟漪效果组件
 export interface RippleEffectProps {

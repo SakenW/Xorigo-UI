@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useState, useEffect, useCallback, createContext, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // 通知类型
 export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'loading'

@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useState, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
 
 export interface InputProps

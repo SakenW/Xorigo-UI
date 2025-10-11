@@ -2,16 +2,16 @@
 // 导出所有组件、主题和工具
 
 // 组件库
-export * from './components'
+export * from './components/index'
 
 // 主题系统
-export * from './theme'
+export * from './theme/index'
 
 // 设计令牌
-export * from './tokens'
+export * from './tokens/index'
 
 // 工具函数
-export * from './utils'
+export * from './utils/index'
 
 // 业务组件 (Blocks)
-export * from './blocks'
+// export * from './blocks/index' // 暂时禁用以避免循环依赖

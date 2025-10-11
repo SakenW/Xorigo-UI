@@ -2,7 +2,7 @@ import React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 import { forwardRef } from 'react'
 
 const DropdownMenu = DropdownMenuPrimitive.Root

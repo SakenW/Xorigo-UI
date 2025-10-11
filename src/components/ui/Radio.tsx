@@ -1,6 +1,8 @@
+'use client'
+
 import React, { createContext, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // RadioGroup Context
 interface RadioGroupContextValue {

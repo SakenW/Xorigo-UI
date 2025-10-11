@@ -5,6 +5,8 @@
  * 读取 packages/thui-tokens/ 中的结构化令牌
  */
 
+'use client'
+
 import React, {
   createContext,
   useContext,

@@ -1,8 +1,10 @@
+'use client'
+
 import React, { forwardRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Input, type InputProps } from './Input'
 import { Search } from 'lucide-react'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 export interface SearchInputProps extends Omit<InputProps, 'type' | 'leftIcon'> {
   onSearch?: (value: string) => void

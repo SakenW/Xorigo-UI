@@ -1,8 +1,10 @@
+'use client'
+
 import React, { forwardRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Input, type InputProps } from './Input'
 import { ChevronUp, ChevronDown } from 'lucide-react'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 export interface InputNumberProps extends Omit<InputProps, 'type' | 'rightIcon'> {
   min?: number

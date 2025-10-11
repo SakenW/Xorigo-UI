@@ -2,15 +2,20 @@
 node_modules
 .pnp
 .pnp.js
+.pnpm-store
 
 # 构建输出
 dist
+dist-demo
 build
-*.local
+out
+.next
+*.tsbuildinfo
 
 # 测试
 coverage
 .nyc_output
+junit.xml
 
 # 环境变量
 .env
@@ -25,8 +30,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+dev.log
+*.log
 
-# 编辑器
+# 编辑器和IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -36,25 +43,152 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+*~
 
 # 缓存
 .eslintcache
 .stylelintcache
 .cache
 .parcel-cache
+.vite
+.turbo
 
 # Storybook
 storybook-static
+.storybook-out
 
 # 临时文件
 *.tmp
 *.temp
 .temp/
 .tmp/
+*.bak
+*.backup
 
 # 系统文件
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# 元数据 (保留)
-# .claude-flow/
-# .swarm/
+# 运行时数据
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# 锁文件
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+.hive.db*
+memory.db
+
+# AI 工具生成的文件
+.claude-flow/
+.swarm/
+.claude/
+
+# 文档和元数据
+CLAUDE.md
+CLAUDE_HIVE_MIND.md
+HIVE_MIND_COMMANDS.md
+HIVE_MIND_FIXED_GUIDE.md
+SIMPLE_HIVE_COMMANDS.md
+SWITCH-FIX-SUMMARY.md
+COMMAND-COMPONENT-SUMMARY.md
+SEVEN_AXIS_SYSTEM_GUIDE.md
+RECIPE_GUIDE.md
+
+# 备份文件
+packages-thui-tokens-backup/
+
+# 归档文件
+archive/
+
+# 压缩文件
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# 字体文件
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.eot
+
+# 视频文件
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# 音频文件
+*.mp3
+*.wav
+*.flac
+*.aac
+
+# 图片文件（保留必要的图标和示例）
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.gif
+!public/**/*.svg
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+!docs/**/*.gif
+!docs/**/*.svg
+
+# Next.js 特定文件
+.next/
+.vercel
+.netlify
+
+# Vite 特定文件
+dist-ssr
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettierignore
+
+# Docker
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# 其他
+*.orig
+.merge_file_*
+.rej
+~$*
+.*.swp
+.*.swo

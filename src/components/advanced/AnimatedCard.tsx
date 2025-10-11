@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 export interface AnimatedCardProps {
   children: React.ReactNode

@@ -1,8 +1,10 @@
+'use client'
+
 import React, { forwardRef, useState } from 'react'
 import { motion, type MotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 import { Skeleton } from './Skeleton'
 
 // 卡片变体配置

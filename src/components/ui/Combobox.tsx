@@ -1,6 +1,8 @@
+'use client'
+
 import React, { forwardRef, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 import { Check, ChevronsUpDown, X } from 'lucide-react'
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from './Command'
 

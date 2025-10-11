@@ -1,0 +1,46 @@
+{
+  "name": "@th-ui/registry",
+  "version": "0.1.0",
+  "description": "TH-UI 组件注册表生成器",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "generate": "tsx scripts/generate-registry.ts",
+    "validate": "tsx scripts/validate-registry.ts"
+  },
+  "dependencies": {
+    "@th-ui/core": "file:../../",
+    "class-variance-authority": "^0.7.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "tsx": "^4.19.2",
+    "typescript": "~5.9.3",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "keywords": [
+    "registry",
+    "components",
+    "design-system",
+    "th-ui"
+  ],
+  "author": "TH-UI Team",
+  "license": "MIT"
+}

@@ -1,31 +1,40 @@
 {
   "name": "@th-ui/core",
   "version": "0.1.0",
-  "description": "Modern UI component library extracted from Trans-Hub - React 19 + TypeScript + Tailwind CSS 4 + Framer Motion 12",
+  "description": "TH-UI Monorepo - Modern UI component library with Next.js 15 website",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "type": "module",
-  "main": "./dist/th-ui.cjs.js",
-  "module": "./dist/th-ui.es.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "import": "./dist/th-ui.es.js",
-      "require": "./dist/th-ui.cjs.js",
-      "types": "./dist/index.d.ts"
+      "import": "./src/index.ts",
+      "require": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./theme": {
-      "import": "./dist/theme.es.js",
-      "require": "./dist/theme.cjs.js",
-      "types": "./dist/theme/index.d.ts"
+      "import": "./src/theme/index.ts",
+      "require": "./src/theme/index.ts",
+      "types": "./src/theme/index.ts",
+      "default": "./src/theme/index.ts"
     },
     "./tokens": {
-      "import": "./dist/tokens.es.js",
-      "require": "./dist/tokens.cjs.js",
-      "types": "./dist/tokens/index.d.ts"
+      "import": "./src/tokens/index.ts",
+      "require": "./src/tokens/index.ts",
+      "types": "./src/tokens/index.ts",
+      "default": "./src/tokens/index.ts"
     },
     "./style-recipe": {
-      "import": "./dist/style-recipe.es.js",
-      "require": "./dist/style-recipe.cjs.js",
-      "types": "./dist/style-recipe/index.d.ts"
+      "import": "./src/style-recipe/index.ts",
+      "require": "./src/style-recipe/index.ts",
+      "types": "./src/style-recipe/index.ts",
+      "default": "./src/style-recipe/index.ts"
     }
   },
   "files": [

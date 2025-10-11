@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // 模态框接口
 export interface ModalProps {

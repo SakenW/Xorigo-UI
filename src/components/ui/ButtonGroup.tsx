@@ -1,6 +1,6 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // ButtonGroup 变体配置
 const buttonGroupVariants = cva('inline-flex', {

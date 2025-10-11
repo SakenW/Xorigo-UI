@@ -1,6 +1,8 @@
+'use client'
+
 import React from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 export interface PaginationProps {

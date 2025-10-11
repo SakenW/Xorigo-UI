@@ -1,6 +1,8 @@
+'use client'
+
 import React, { forwardRef, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {

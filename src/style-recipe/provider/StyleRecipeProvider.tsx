@@ -5,6 +5,8 @@
  * 支持七轴风格配方、响应级别控制、轴锁等高级功能
  */
 
+'use client'
+
 import React, {
   createContext,
   useContext,

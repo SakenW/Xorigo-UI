@@ -3,4 +3,5 @@
  */
 
 export * from './ThemeProvider'
-export * from './palettes'
+// 临时移除 palettes 导出以避免冲突
+// export * from './palettes'

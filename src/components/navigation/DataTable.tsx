@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '../../utils/cn'
+import { cn } from '@th-ui/core'
 
 // 类型定义
 export interface TableColumn<T = any> {

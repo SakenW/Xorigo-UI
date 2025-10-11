@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TH-UI 样式测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        h1 {
+            color: #2563eb;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .blue-card {
+            background: #dbeafe;
+            border: 2px solid #60a5fa;
+        }
+        .green-card {
+            background: #dcfce7;
+            border: 2px solid #4ade80;
+        }
+        .red-card {
+            background: #fee2e2;
+            border: 2px solid #f87171;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 TH-UI 样式测试页面</h1>
+        <p style="font-size: 18px; color: #374151; margin-bottom: 30px; text-align: center;">
+            如果你看到这个页面有样式，说明基础渲染功能正常工作！
+        </p>
+        <div class="grid">
+            <div class="card blue-card">
+                <h3>蓝色卡片</h3>
+                <p>这个卡片应该有蓝色背景和边框</p>
+            </div>
+            <div class="card green-card">
+                <h3>绿色卡片</h3>
+                <p>这个卡片应该有绿色背景和边框</p>
+            </div>
+            <div class="card red-card">
+                <h3>红色卡片</h3>
+                <p>这个卡片应该有红色背景和边框</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn btn-primary">主要按钮</button>
+            <button class="btn btn-secondary">次要按钮</button>
+        </div>
+        <div style="margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 8px;">
+            <h3 style="color: #1f2937; margin-top: 0;">测试结果</h3>
+            <p>如果你能看到：</p>
+            <ul style="color: #4b5563;">
+                <li>渐变背景</li>
+                <li>白色卡片容器</li>
+                <li>彩色卡片（蓝、绿、红）</li>
+                <li>有样式的按钮</li>
+                <li>字体和布局</li>
+            </ul>
+            <p style="font-weight: bold; color: #059669;">✅ 那么样式系统工作正常！</p>
+        </div>
+    </div>
+</body>
+</html>

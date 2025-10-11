@@ -17,6 +17,7 @@ out
 # Testing
 coverage
 .nyc_output
+junit.xml
 
 # Environment
 .env
@@ -48,6 +49,11 @@ docker-compose*.yml
 docs
 claudedocs
 
+# AI 工具生成的文件
+.claude-flow/
+.swarm/
+.claude/
+
 # CI/CD
 .github
 .gitlab-ci.yml
@@ -57,3 +63,82 @@ claudedocs
 .prettierignore
 .eslintcache
 .stylelintcache
+.cache
+.vite
+.turbo
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+.hive.db*
+memory.db
+
+# 备份和归档文件
+packages-thui-tokens-backup/
+archive/
+*.bak
+*.backup
+
+# 媒体文件
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.eot
+
+# 压缩文件
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# 系统文件
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 运行时数据
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# 日志文件
+dev.log
+*.log
+
+# 锁文件
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 临时文件
+*.tmp
+*.temp
+.temp/
+.tmp/
+*.orig
+.merge_file_*
+.rej
+~$*
+.*.swp
+.*.swo
