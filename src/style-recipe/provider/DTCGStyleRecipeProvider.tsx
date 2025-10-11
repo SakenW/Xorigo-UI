@@ -233,8 +233,53 @@ export function DTCGStyleRecipeProvider({
    * 设置配方
    */
   const setRecipe = useCallback(async (recipeID: string): Promise<boolean> => {
-    return parseAndApplyRecipe(recipeID, true)
-  }, [parseAndApplyRecipe])
+    try {
+      // 轻量级过渡效果，减少视觉冲击
+      if (enableTransitions) {
+        setIsTransitioning(true)
+        await new Promise(resolve => setTimeout(resolve, 20)) // 减少到20ms
+      }
+
+      // 查找配方
+      const recipe = availableRecipes.find(r => r.id === recipeID)
+      if (!recipe) {
+        console.error(`Recipe not found: ${recipeID}`)
+        if (enableTransitions) setIsTransitioning(false)
+        return false
+      }
+
+      // 使用浏览器 DTCG 引擎解析配方
+      const parsed = browserDTCGRecipeEngine.parseRecipe(recipeID as StyleRecipeID, axisLocks)
+
+      if (!parsed) {
+        console.error(`Failed to parse DTCG recipe: ${recipeID}`)
+        if (enableTransitions) setIsTransitioning(false)
+        return false
+      }
+
+      // 更新状态
+      setCurrentRecipeID(recipeID)
+      setCurrentRecipe(recipe)
+      setParsedRecipe(parsed)
+
+      // 保存到 localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('th-ui-dtcg-recipe', recipeID)
+      }
+
+      // 快速完成过渡
+      if (enableTransitions) {
+        await new Promise(resolve => setTimeout(resolve, 150)) // 固定150ms，更快响应
+        setIsTransitioning(false)
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error applying DTCG recipe:', error)
+      if (enableTransitions) setIsTransitioning(false)
+      return false
+    }
+  }, [availableRecipes, axisLocks, enableTransitions, transitionDuration])
 
   /**
    * 按类别设置配方
@@ -320,15 +365,23 @@ export function DTCGStyleRecipeProvider({
   useEffect(() => {
     setMounted(true)
 
-    // 从 localStorage 读取保存的配方
+    // 从 localStorage 读取保存的配方 - 只在组件挂载时执行
     if (typeof window !== 'undefined') {
       const savedRecipe = localStorage.getItem('th-ui-dtcg-recipe')
       const recipeToUse = savedRecipe || defaultRecipe
-      parseAndApplyRecipe(recipeToUse, false)
-    } else {
-      parseAndApplyRecipe(defaultRecipe, false)
+
+      // 直接执行初始化，避免触发 parseAndApplyRecipe 依赖更新
+      const parsed = browserDTCGRecipeEngine.parseRecipe(recipeToUse as StyleRecipeID, axisLocks)
+      if (parsed) {
+        const recipe = availableRecipes.find(r => r.id === recipeToUse)
+        if (recipe) {
+          setCurrentRecipeID(recipeToUse)
+          setCurrentRecipe(recipe)
+          setParsedRecipe(parsed)
+        }
+      }
     }
-  }, [defaultRecipe, parseAndApplyRecipe])
+  }, [defaultRecipe]) // 移除 parseAndApplyRecipe 依赖
 
   // ============================================================================
   // CSS 变量注入 (CSS Variables Injection)
@@ -419,29 +472,19 @@ export function DTCGStyleRecipeProvider({
     return null
   }
 
-  // 转场动画配置
-  const transitionVariants = {
-    initial: { opacity: 0, scale: 0.98, filter: 'blur(2px)' },
-    animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 1.02, filter: 'blur(2px)' },
-    transition: {
-      duration: transitionDuration / 1000,
-      ease: [0.4, 0, 0.2, 1] as const,
-    },
-  }
-
   return (
     <DTCGStyleRecipeContext.Provider value={contextValue}>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentRecipeID}
-          {...(enableTransitions ? transitionVariants : {})}
-          className="th-dtcg-style-recipe-root"
-          style={cssVariables as React.CSSProperties}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        className="th-dtcg-style-recipe-root"
+        style={cssVariables as React.CSSProperties}
+        // 只对CSS变量变化应用平滑过渡，不使用整体页面动画
+        transition={{
+          duration: enableTransitions ? 0.6 : 0,
+          ease: "easeInOut"
+        }}
+      >
+        {children}
+      </motion.div>
     </DTCGStyleRecipeContext.Provider>
   )
 }

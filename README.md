@@ -1,23 +1,26 @@
 # 🎨 TH-UI
 
-Modern UI component library extracted from Trans-Hub
+基于 Trans-Hub 提取的现代 UI 组件库，采用七轴样式配方系统和 OKLCH 色彩引擎
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb)](https://react.dev/)
+[![Architecture](https://img.shields.io/badge/Architecture-Seven%20Axis-purple)](./docs/architecture/SEVEN_AXIS_SYSTEM.md)
 
-## ✨ Features
+## ✨ 核心特性
 
-- 🎨 **25+ Components** - 完整的UI组件库
-- 🌈 **10 Theme Palettes** - 经典、现代、自然、优雅、活泼五大类
-- ⚡ **Framer Motion** - 流畅的动画效果
-- 🎯 **TypeScript** - 完整的类型定义
-- 📱 **Responsive** - 移动优先的响应式设计
-- ♿ **Accessible** - 遵循WCAG标准
-- 🎪 **12+ Button Variants** - 丰富的按钮样式
-- 🃏 **9+ Card Variants** - 多样的卡片风格
+- 🎨 **17+ 核心组件** - Button、Card、Input、Modal 等完整组件库
+- 🌈 **10 种主题配方** - 专业蓝、现代极简、温暖创意等精心设计的主题
+- 🎭 **七轴样式系统** - Mode、Base、Accent、Tone、Density、Motion、Surface 七个维度
+- 🎨 **OKLCH 色彩引擎** - 感知均匀的色彩空间，确保视觉一致性
+- 🌍 **完整国际化** - 独立 i18n 包，支持中英文等多语言
+- ♿ **可访问性优先** - Matrix 规则系统，WCAG AA/AAA 标准验证
+- ⚡ **Framer Motion 12** - 流畅的动画效果和微交互
+- 🎯 **TypeScript 5.9** - 完整的类型定义和类型安全
+- 📱 **响应式设计** - 移动优先的自适应布局
+- 🐳 **Docker 支持** - 开发和生产环境容器化部署
 
-## 📦 Installation
+## 📦 安装
 
 ```bash
 npm install @th-ui/core
@@ -27,142 +30,324 @@ yarn add @th-ui/core
 pnpm add @th-ui/core
 ```
 
-## 🚀 Quick Start
+## 🚀 快速开始
+
+### 基础使用
 
 ```tsx
-import { Button, Card, ThemeProvider } from '@th-ui/core'
+import { Button, Card, StyleRecipeProvider } from '@th-ui/core'
 
 function App() {
   return (
-    <ThemeProvider>
-      <Card variant="glass">
-        <h1>Hello TH-UI</h1>
+    <StyleRecipeProvider recipe="professional-blue">
+      <Card>
+        <h1>欢迎使用 TH-UI</h1>
         <Button variant="primary" size="lg">
-          Get Started
+          开始使用
         </Button>
       </Card>
-    </ThemeProvider>
+    </StyleRecipeProvider>
   )
 }
 ```
 
-## 🎨 Theme System
-
-TH-UI includes 10 carefully crafted theme palettes:
-
-**Classic**: Light, Dark
-**Modern**: Cyber Blue-Purple, Warm Sunrise
-**Natural**: Forest, Deep Ocean
-**Elegant**: Noble Purple, Minimal Black-White
-**Vibrant**: Lemon, Rainbow
+### 七轴样式系统
 
 ```tsx
-import { useTheme } from '@th-ui/core'
+import { StyleRecipeProvider } from '@th-ui/core'
 
-function ThemeToggle() {
-  const { setTheme } = useTheme()
-
+function App() {
   return (
-    <button onClick={() => setTheme('cyber-blue-purple')}>
-      Switch Theme
-    </button>
+    <StyleRecipeProvider
+      recipe="professional-blue"
+      config={{
+        mode: 'light',           // 模式：light/dark
+        base: 'neutral',         // 基础：neutral/warm/cool
+        accent: 'blue',          // 强调色：blue/green/red/purple
+        tone: 'vibrant',         // 色调：muted/vibrant/pastel
+        density: 'comfortable',  // 密度：compact/comfortable/spacious
+        motion: 'smooth',        // 动效：none/subtle/smooth/bouncy
+        surface: 'matte'         // 表面：matte/gloss/texture
+      }}
+    >
+      {/* 你的应用 */}
+    </StyleRecipeProvider>
   )
 }
 ```
 
-## 📚 Components
+### 主题配方
 
-### Core Components
-- **Button** (12 variants)
-- **Card** (9 variants)
-- **Input** (5 variants)
-- **Select**
-- **Checkbox**
+TH-UI 包含 10 种精心设计的主题配方：
 
-### Advanced Components
-- MagneticButton
-- RippleEffect
-- AnimatedCard
-- ThemeToggle
-- ProgressRing
-- And more...
+**商务风格**：
+- `professional-blue` - 专业蓝 (适合企业应用)
+- `modern-minimal` - 现代极简 (简洁现代)
 
-### Navigation
-- Header
-- Sidebar
-- Breadcrumb
+**创意风格**：
+- `warm-creative` - 温暖创意 (活泼配色)
+- `nature-fresh` - 自然清新 (自然色调)
 
-### Feedback
-- Alert
-- Loading
-- Notifications
+**经典风格**：
+- `dark-night` - 暗夜模式 (深色主题)
+- `light-pure` - 纯净亮色 (明亮主题)
 
-### Data
-- DataTable
+```tsx
+import { useStyleRecipe } from '@th-ui/core'
 
-### Layout
-- CardLayout
-- ContentLayout
-- DashboardLayout
-- ShellLayout
+function ThemeSelector() {
+  const { setRecipe, recipe } = useStyleRecipe()
 
-## 🛠️ Development
+  return (
+    <div>
+      <h3>当前主题：{recipe}</h3>
+      <button onClick={() => setRecipe('professional-blue')}>
+        专业蓝主题
+      </button>
+      <button onClick={() => setRecipe('warm-creative')}>
+        温暖创意主题
+      </button>
+    </div>
+  )
+}
+```
+
+## 📚 组件库
+
+### 核心组件
+- **Button** (4 variants) - primary, secondary, outline, ghost
+- **Card** (3 variants) - default, elevated, glass
+- **Input** (3 variants) - default, outlined, filled
+- **Modal** - 完整的模态框系统
+- **Alert** - success, warning, error, info
+- **Badge** - 状态徽章
+- **Avatar** - 用户头像
+- **Switch** - 开关组件
+- **Checkbox** - 复选框
+- **Radio** - 单选框
+- **Select** - 下拉选择
+- **Textarea** - 文本域
+- **Progress** - 进度条
+- **Spinner** - 加载指示器
+- **Tooltip** - 提示框
+- **Divider** - 分割线
+- **Tabs** - 标签页
+
+### 高级组件
+- **DataTable** - 数据表格，支持排序、筛选
+- **Form** - 表单组件集成
+- **Navigation** - 导航组件
+- **Breadcrumb** - 面包屑导航
+- **Pagination** - 分页组件
+
+### 组件变体
+
+每个组件都有多种变体和尺寸：
+
+```tsx
+// Button 组件示例
+<Button variant="primary" size="sm">小按钮</Button>
+<Button variant="secondary" size="md">中等按钮</Button>
+<Button variant="outline" size="lg">大按钮</Button>
+<Button variant="ghost" disabled>禁用按钮</Button>
+
+// Card 组件示例
+<Card variant="default">默认卡片</Card>
+<Card variant="elevated">悬浮卡片</Card>
+<Card variant="glass">玻璃卡片</Card>
+```
+
+## 🌍 国际化支持
+
+TH-UI 提供完整的国际化支持：
+
+```tsx
+import { StyleRecipeProvider } from '@th-ui/core'
+import { I18nManager } from '@th-ui/i18n'
+
+// 初始化国际化
+const i18n = I18nManager.getInstance()
+await i18n.initialize('zh-CN')
+
+function App() {
+  return (
+    <StyleRecipeProvider recipe="professional-blue" locale="zh-CN">
+      {/* 所有组件文本自动本地化 */}
+    </StyleRecipeProvider>
+  )
+}
+```
+
+支持的语言：
+- `zh-CN` - 简体中文 (默认)
+- `zh-TW` - 繁体中文 (计划中)
+- `en-US` - 英文 (计划中)
+- `ja-JP` - 日文 (计划中)
+
+## 🛠️ 开发
+
+### 环境要求
+
+- Node.js 22+
+- npm 9+ 或 pnpm 8+
+
+### 安装依赖
 
 ```bash
-# Install dependencies
 npm install
+# or
+pnpm install
+```
 
-# Start dev server
+### 开发环境
+
+```bash
+# 本地开发服务器
 npm run dev
+# or
+npm run docker:dev  # Docker 开发环境
+```
 
-# Build library
+### 构建
+
+```bash
+# 构建组件库
 npm run build
 
-# Run tests
-npm test
+# 严格模式构建 (包含类型检查)
+npm run build:strict
 
-# Lint
+# 仅生成类型声明
+npm run build:types
+```
+
+### 代码质量
+
+```bash
+# ESLint 检查
 npm run lint
 
-# Format
+# 自动修复
+npm run lint:fix
+
+# TypeScript 类型检查
+npm run type-check
+
+# Prettier 格式化
 npm run format
 ```
 
-## 📖 Documentation
+### 测试
 
-Full documentation coming soon!
+```bash
+# 运行测试
+npm run test
 
-## 🤝 Contributing
+# 测试覆盖率
+npm run test:coverage
 
-Contributions are welcome! Please read our contributing guidelines first.
+# 可视化测试界面
+npm run test:ui
+```
 
-## 📄 License
+### Docker 部署
+
+```bash
+# 开发环境 (端口 3100)
+npm run docker:dev
+
+# 生产环境部署
+npm run deploy
+
+# 查看生产日志
+npm run deploy:logs
+
+# 停止生产环境
+npm run deploy:stop
+```
+
+## 📖 架构文档
+
+TH-UI 采用先进的架构设计：
+
+### 核心系统
+- [**七轴样式系统**](./docs/architecture/SEVEN_AXIS_SYSTEM.md) - Mode, Base, Accent, Tone, Density, Motion, Surface
+- [**OKLCH 色彩引擎**](./docs/architecture/OKLCH_COLOR_GUIDE.md) - 感知均匀的色彩空间
+- [**Registry 标准**](./docs/architecture/REGISTRY_STANDARDS.md) - 组件注册和验证系统
+- [**Matrix 规则系统**](./docs/architecture/MATRIX_RULES_SYSTEM.md) - 可访问性验证和热力图
+
+### 前端应用
+- [**Next.js 架构**](./docs/architecture/NEXTJS_ARCHITECTURE.md) - Gallery、Adoption Matrix、Playground
+- [**组件展示规范**](./docs/architecture/COMPONENTS_SHOWCASE.md) - 完整组件效果展示
+- [**国际化系统**](./docs/architecture/I18N_PACKAGE_DESIGN.md) - 独立 i18n 包设计
+
+### 完整列表
+- [**架构文档索引**](./docs/architecture/) - 所有技术文档
+
+## 🌐 生态系统
+
+### 核心包
+- `@th-ui/core` - 核心组件库
+- `@th-ui/style-recipe` - 样式配方系统
+- `@th-ui/i18n` - 国际化包
+- `@th-ui/matrix` - 可访问性验证系统
+
+### 应用
+- `@th-ui/gallery` - 主题展示馆
+- `@th-ui/adoption-matrix` - 采用矩阵工具
+- `@th-ui/playground` - 在线试验场
+
+### 开发工具
+- `@th-ui/cli` - 命令行工具
+- `@th-ui/lint-config` - ESLint 配置
+- `@th-ui/ts-config` - TypeScript 配置
+
+## 🤝 贡献
+
+我们欢迎所有形式的贡献！
+
+### 贡献类型
+- 🐛 Bug 报告
+- ✨ 新功能请求
+- 📝 文档改进
+- 🎨 设计贡献
+- 🔧 代码贡献
+
+### 开发流程
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
+## 📄 许可证
 
 MIT © TH-UI Team
 
-## 🙏 Acknowledgments
+## 🙏 致谢
 
-### Core Stack
-- [React 19.2.0](https://react.dev/)
-- [TypeScript 5.9.3](https://www.typescriptlang.org/)
-- [Tailwind CSS 4.1.14](https://tailwindcss.com/) ✨ **Lightning CSS Engine**
-- [Framer Motion 12.23.5](https://www.framer.com/motion/)
-- [Radix UI](https://www.radix-ui.com/)
-- [Vite 5.4](https://vitejs.dev/)
+### 核心技术栈
+- [React 19.2.0](https://react.dev/) - 用户界面库
+- [TypeScript 5.9.3](https://www.typescriptlang.org/) - 类型安全的 JavaScript
+- [Tailwind CSS 4.1.14](https://tailwindcss.com/) - 原子化 CSS 框架 ✨ **Lightning CSS Engine**
+- [Framer Motion 12.23.5](https://www.framer.com/motion/) - 动画库
+- [Vite 5.4](https://vitejs.dev/) - 构建工具
 
-### Optional Integrations
-These dependencies are marked as **optional peer dependencies**. Install only what you need:
-- [TanStack Query 5](https://tanstack.com/query/latest) - Server state management
-- [Zustand 5](https://docs.pmnd.rs/zustand) - Client state management
-- [React Hook Form 7](https://react-hook-form.com/) + [Zod 4](https://zod.dev/) - Form validation
-- [TipTap 2](https://tiptap.dev/) - Rich text editor
-- [Recharts 3](https://recharts.org/) - Data visualization
-- [next-themes](https://github.com/pacocoursey/next-themes) - Next.js theme switching
+### 设计灵感
+- [Trans-Hub](https://trans-hub.com/) - 设计系统灵感来源
+- [Radix UI](https://www.radix-ui.com/) - 无障碍组件基础
+- [OKLCH 色彩空间](https://oklch.com/) - 现代色彩科学
 
-Inspired by Trans-Hub design system.
+### 特别感谢
+TH-UI 基于 Trans-Hub 的设计理念，结合现代前端技术栈，为中文用户打造的现代化组件库。
 
 ---
 
-**Status**: 🚧 In Development - Phase 1 Complete (Project Initialization)
+**项目状态**: 🚧 Phase 2 - 架构设计完成，进入核心功能实现
 
-**Next Steps**: Design system migration, component migration
+**开发进度**:
+- ✅ Phase 1: 项目初始化和基础配置
+- ✅ Phase 2: 架构设计和系统规划
+- 🚧 Phase 3: 组件库核心功能实现
+- ⏳ Phase 4: 前端应用开发
+- ⏳ Phase 5: 生态系统完善

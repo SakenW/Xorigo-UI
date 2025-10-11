@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: th-ui-dev
     ports:
-      - "3100:5173"  # Vite dev server port
+      - "3100:3100"  # Vite dev server port
     volumes:
       - ./src:/app/src
       - ./demo-site:/app/demo-site

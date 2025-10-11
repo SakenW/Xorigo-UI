@@ -285,7 +285,10 @@ export default function UnifiedRecipeDemo() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{
+                duration: 0.25, // 更快的动画
+                ease: "easeInOut"
+              }}
               className="border-t border-gray-200 bg-gradient-to-br from-gray-50 to-white"
             >
               <div className="max-w-7xl mx-auto px-6 py-8">
@@ -400,15 +403,22 @@ function RecipeCard({ recipe, isSelected, onSelect, index }: RecipeCardProps) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.03 }}
-      whileHover={{ y: -4, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2, delay: index * 0.02 }} // 更快更平滑
+      whileHover={{
+        y: -2,  // 减少悬停位移
+        scale: 1.01, // 减少缩放
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{
+        scale: 0.99, // 轻微点击反馈
+        transition: { duration: 0.1 }
+      }}
       onClick={onSelect}
       className={`
-        relative cursor-pointer rounded-2xl border-2 transition-all duration-300 overflow-hidden
+        relative cursor-pointer rounded-2xl border-2 transition-all duration-200 overflow-hidden
         ${isSelected
-          ? 'border-blue-500 shadow-2xl ring-4 ring-blue-100'
-          : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
+          ? 'border-blue-500 shadow-xl ring-2 ring-blue-100' // 减少选中效果的强度
+          : 'border-gray-200 hover:border-gray-300 hover:shadow-md' // 减少阴影强度
         }
       `}
       style={{ background: getPreviewGradient() }}
@@ -524,10 +534,13 @@ function RecipePreview({ recipe }: RecipePreviewProps) {
     <div className="space-y-6">
       {/* 配方信息卡片 */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }} // 减少初始位移
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="rounded-2xl border-2 border-gray-200 shadow-xl overflow-hidden"
+        transition={{
+          duration: 0.2, // 更快的动画
+          ease: "easeOut"
+        }}
+        className="rounded-2xl border-2 border-gray-200 shadow-lg overflow-hidden"
         style={{ background: colors.gradient }}
       >
         <div className="p-8">
@@ -566,7 +579,7 @@ function RecipePreview({ recipe }: RecipePreviewProps) {
                 <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
                   <div className="text-xs text-white/70 mb-1">表面</div>
                   <div className="text-sm font-medium text-white">
-                    {recipe.surface.replace('+', ' ')}
+                    {recipe.surface?.replace('+', ' ') || recipe.surface || '未知'}
                   </div>
                 </div>
               </div>
@@ -717,10 +730,13 @@ interface ComponentPreviewCardProps {
 function ComponentPreviewCard({ title, colors, recipe, children }: ComponentPreviewCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }} // 减少位移
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg"
+      transition={{
+        duration: 0.15, // 更快的动画
+        delay: 0.05 // 轻微延迟，创建渐进效果
+      }}
+      className="rounded-xl border border-gray-200 bg-white p-6 shadow-md" // 减少阴影强度
     >
       <h4 className="text-sm font-medium text-gray-700 mb-4">{title}</h4>
       <div className="space-y-3">
