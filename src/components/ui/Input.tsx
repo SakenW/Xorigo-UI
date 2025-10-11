@@ -1,19 +1,25 @@
 import React, { useState, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../../utils/cn'
+import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
 
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd'> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'prefix'> {
   label?: string
   error?: string
   helperText?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  prefix?: string
+  suffix?: string
+  clearable?: boolean
+  onClear?: () => void
   inputSize?: 'sm' | 'md' | 'lg'
   variant?: 'default' | 'filled' | 'outlined' | 'underlined' | 'ghost' | 'neon'
   floatingLabel?: boolean
   showPasswordToggle?: boolean
   loading?: boolean
+  status?: 'default' | 'success' | 'error' | 'warning'
   validationState?: 'success' | 'error' | 'warning'
   showCharCount?: boolean
   onValidationChange?: (isValid: boolean) => void
@@ -66,12 +72,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       helperText,
       leftIcon,
       rightIcon,
+      prefix,
+      suffix,
+      clearable = false,
+      onClear,
       id,
       inputSize = 'md',
       variant = 'default',
       floatingLabel = false,
       showPasswordToggle = false,
       loading = false,
+      status = 'default',
       validationState,
       showCharCount = false,
       maxLength,
@@ -95,6 +106,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasValue = String(value).length > 0
     const shouldShowFloatingLabel = floatingLabel && label
 
+    // 合并 status 和 validationState
+    const effectiveStatus = status !== 'default' ? status : validationState || 'default'
+
+    // 清除按钮处理
+    const handleClear = () => {
+      if (onChange) {
+        const event = {
+          target: { value: '' },
+        } as React.ChangeEvent<HTMLInputElement>
+        onChange(event)
+      }
+      onClear?.()
+    }
+
+    // 获取状态图标
+    const getStatusIcon = () => {
+      switch (effectiveStatus) {
+        case 'success':
+          return <Check className="w-4 h-4 text-green-500" />
+        case 'error':
+          return <AlertCircle className="w-4 h-4 text-red-500" />
+        case 'warning':
+          return <AlertTriangle className="w-4 h-4 text-yellow-500" />
+        default:
+          return null
+      }
+    }
+
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(true)
       onFocus?.(e)
@@ -117,30 +156,30 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       default: cn(
         'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800',
         'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
-        error || validationState === 'error'
+        error || effectiveStatus === 'error'
           ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
           : '',
-        validationState === 'success'
+        effectiveStatus === 'success'
           ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
           : '',
-        validationState === 'warning'
+        effectiveStatus === 'warning'
           ? 'border-yellow-500 focus:border-yellow-500 focus:ring-yellow-500/20'
           : ''
       ),
       filled: cn(
         'border-0 bg-gray-100 dark:bg-gray-900',
         'focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20',
-        error || validationState === 'error' ? 'bg-red-50 dark:bg-red-950/20' : ''
+        error || effectiveStatus === 'error' ? 'bg-red-50 dark:bg-red-950/20' : ''
       ),
       outlined: cn(
         'border-2 border-gray-300 dark:border-gray-600 bg-transparent',
         'focus:border-blue-500',
-        error || validationState === 'error' ? 'border-red-500' : ''
+        error || effectiveStatus === 'error' ? 'border-red-500' : ''
       ),
       underlined: cn(
         'border-0 border-b-2 border-gray-300 dark:border-gray-600 bg-transparent rounded-none px-0',
         'focus:border-blue-500',
-        error || validationState === 'error' ? 'border-red-500' : ''
+        error || effectiveStatus === 'error' ? 'border-red-500' : ''
       ),
       ghost: cn(
         'border-0 bg-transparent',
@@ -171,12 +210,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         <div className="relative">
-          {/* 前缀图标 */}
-          {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              {leftIcon}
-            </div>
-          )}
+          {/* 左侧前缀区域 */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
+            {/* 前缀图标 */}
+            {leftIcon && (
+              <div className="ml-3 text-gray-400 flex items-center">
+                {leftIcon}
+              </div>
+            )}
+            {/* 前缀文本 */}
+            {prefix && (
+              <span className={cn(
+                'text-gray-500 dark:text-gray-400 select-none',
+                leftIcon ? 'ml-2' : 'ml-3'
+              )}>
+                {prefix}
+              </span>
+            )}
+          </div>
 
           {/* 输入框 */}
           <div className="relative">
@@ -199,8 +250,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 'focus:outline-hidden',
                 sizeClasses[inputSize],
                 variantClasses[variant],
-                leftIcon ? 'pl-10' : '',
-                rightIcon || showPasswordToggle ? 'pr-10' : '',
+                leftIcon || prefix ? (leftIcon && prefix ? 'pl-20' : leftIcon ? 'pl-10' : 'pl-16') : '',
+                'pr-10',
                 shouldShowFloatingLabel && (isFocused || hasValue) ? 'pt-5' : ''
               )}
               whileFocus={{
@@ -229,7 +280,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
 
             {/* 后缀区域 */}
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center space-x-2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              {/* 后缀文本 */}
+              {suffix && (
+                <span className="text-gray-500 dark:text-gray-400 select-none">
+                  {suffix}
+                </span>
+              )}
+
               {/* 字符计数 */}
               {showCharCount && maxLength && (
                 <span
@@ -244,21 +302,39 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 </span>
               )}
 
+              {/* 状态图标 */}
+              {effectiveStatus !== 'default' && getStatusIcon()}
+
+              {/* 清除按钮 */}
+              {clearable && hasValue && !disabled && (
+                <motion.button
+                  type="button"
+                  onClick={handleClear}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="清除"
+                >
+                  <X className="w-4 h-4" />
+                </motion.button>
+              )}
+
               {/* 密码显示切换 */}
               {type === 'password' && showPasswordToggle && (
                 <motion.button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
+                  aria-label={showPassword ? '隐藏密码' : '显示密码'}
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </motion.button>
               )}
 
-              {/* 自定义后缀 */}
-              {rightIcon}
+              {/* 自定义后缀图标 */}
+              {rightIcon && <div className="text-gray-400">{rightIcon}</div>}
             </div>
           </div>
         </div>

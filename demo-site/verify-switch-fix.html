@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>✅ Switch 修复验证</title>
+  <style>
+    body {
+      padding: 40px;
+      font-family: system-ui;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 20px 0;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .subtitle {
+      color: #718096;
+      margin: 0 0 24px 0;
+      font-size: 16px;
+    }
+    .status {
+      background: #edf2f7;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #cbd5e0;
+    }
+    .status-line:last-child {
+      border-bottom: none;
+    }
+    .status-label {
+      font-weight: 600;
+      color: #2d3748;
+    }
+    .status-value {
+      color: #4a5568;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-success {
+      background: #48bb78;
+      color: white;
+    }
+    .badge-danger {
+      background: #f56565;
+      color: white;
+    }
+    .btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: #5a67d8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .log {
+      background: #1a202c;
+      color: #48bb78;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 8px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+    .section {
+      margin: 32px 0;
+      padding: 24px;
+      background: #f7fafc;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+      margin: 0 0 16px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="title">
+        <span>✅</span>
+        <span>Switch 修复验证页面</span>
+      </h1>
+      <p class="subtitle">
+        验证修复后的 Switch 组件是否可以正常点击切换
+      </p>
+
+      <div class="section">
+        <h3 class="section-title">🔍 修复说明</h3>
+        <div style="color: #4a5568; line-height: 1.6;">
+          <p><strong>问题根源</strong>：之前的代码在非受控模式下使用 <code>defaultChecked</code> prop，但 <code>defaultChecked</code> 只在初始化时有效，后续无法响应状态变化。</p>
+          <br>
+          <p><strong>解决方案</strong>：统一使用 <code>checked={currentChecked}</code>，其中：</p>
+          <ul style="margin-left: 20px; margin-top: 8px;">
+            <li>受控模式：currentChecked 来自外部 <code>checked</code> prop</li>
+            <li>非受控模式：currentChecked 来自内部 <code>internalChecked</code> 状态</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3 class="section-title">🎯 测试场景</h3>
+        <div id="switch-container"></div>
+
+        <div class="status">
+          <div class="status-line">
+            <span class="status-label">Switch 1 (非受控):</span>
+            <span class="status-value" id="status-1">未初始化</span>
+          </div>
+          <div class="status-line">
+            <span class="status-label">Switch 2 (非受控+默认开启):</span>
+            <span class="status-value" id="status-2">未初始化</span>
+          </div>
+          <div class="status-line">
+            <span class="status-label">Switch 3 (受控):</span>
+            <span class="status-value" id="status-3">未初始化</span>
+          </div>
+        </div>
+
+        <button class="btn" onclick="window.inspectAll()">
+          🔍 检查所有 Switch 状态
+        </button>
+      </div>
+
+      <div class="section">
+        <h3 class="section-title">📊 实时日志</h3>
+        <button class="btn" onclick="document.getElementById('logs').innerHTML = ''" style="margin-bottom: 12px;">
+          清空日志
+        </button>
+        <div id="logs"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let logCount = 0;
+    function log(message, color = '#48bb78') {
+      logCount++;
+      const div = document.createElement('div');
+      div.className = 'log';
+      div.style.color = color;
+      const time = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+      div.textContent = `[${time}] ${message}`;
+      document.getElementById('logs').insertBefore(div, document.getElementById('logs').firstChild);
+      console.log(message);
+    }
+
+    window.inspectAll = () => {
+      log('=== 开始全面检查 ===', '#667eea');
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      log(`找到 ${checkboxes.length} 个 checkbox 元素`);
+
+      checkboxes.forEach((cb, i) => {
+        const checked = cb.checked;
+        const disabled = cb.disabled;
+        log(`  Checkbox ${i + 1}: checked=${checked}, disabled=${disabled}`, checked ? '#48bb78' : '#f56565');
+
+        // 更新状态显示
+        const statusEl = document.getElementById(`status-${i + 1}`);
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="badge ${checked ? 'badge-success' : 'badge-danger'}">${checked ? '✓ 开启' : '✗ 关闭'}</span>`;
+        }
+      });
+    };
+
+    log('页面加载完成，准备初始化 Switch 组件...', '#667eea');
+  </script>
+
+  <script type="module">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { Switch } from '/src/components/ui/Switch';
+
+    log('开始加载 Switch 组件...', '#667eea');
+
+    function TestSwitches() {
+      const [controlledValue, setControlledValue] = React.useState(false);
+
+      React.useEffect(() => {
+        log('✅ Switch 组件已挂载', '#48bb78');
+        setTimeout(() => {
+          window.inspectAll();
+        }, 500);
+      }, []);
+
+      return React.createElement('div', {
+        style: { display: 'flex', flexDirection: 'column', gap: '24px' }
+      }, [
+        // Switch 1: 非受控模式，无任何 checked 相关 prop
+        React.createElement(Switch, {
+          key: '1',
+          label: 'Switch 1 - 非受控模式',
+          description: '没有传递任何 checked 或 defaultChecked prop',
+          variant: 'primary',
+          onChange: (e) => {
+            log(`✓ Switch 1 onChange 触发: ${e.target.checked}`, '#48bb78');
+            document.getElementById('status-1').innerHTML = `<span class="badge ${e.target.checked ? 'badge-success' : 'badge-danger'}">${e.target.checked ? '✓ 开启' : '✗ 关闭'}</span>`;
+          },
+          onCheckedChange: (checked) => log(`  Switch 1 onCheckedChange: ${checked}`, '#667eea')
+        }),
+
+        // Switch 2: 非受控模式，defaultChecked=true
+        React.createElement(Switch, {
+          key: '2',
+          label: 'Switch 2 - 非受控+默认开启',
+          description: '使用 defaultChecked={true}',
+          variant: 'success',
+          defaultChecked: true,
+          onChange: (e) => {
+            log(`✓ Switch 2 onChange 触发: ${e.target.checked}`, '#48bb78');
+            document.getElementById('status-2').innerHTML = `<span class="badge ${e.target.checked ? 'badge-success' : 'badge-danger'}">${e.target.checked ? '✓ 开启' : '✗ 关闭'}</span>`;
+          },
+          onCheckedChange: (checked) => log(`  Switch 2 onCheckedChange: ${checked}`, '#667eea')
+        }),
+
+        // Switch 3: 受控模式
+        React.createElement(Switch, {
+          key: '3',
+          label: 'Switch 3 - 受控模式',
+          description: '使用外部状态控制',
+          variant: 'danger',
+          checked: controlledValue,
+          onCheckedChange: (checked) => {
+            log(`✓ Switch 3 受控状态更新: ${checked}`, '#48bb78');
+            setControlledValue(checked);
+            document.getElementById('status-3').innerHTML = `<span class="badge ${checked ? 'badge-success' : 'badge-danger'}">${checked ? '✓ 开启' : '✗ 关闭'}</span>`;
+          }
+        })
+      ]);
+    }
+
+    const root = createRoot(document.getElementById('switch-container'));
+    root.render(React.createElement(TestSwitches));
+
+    log('✅ Switch 组件渲染完成', '#48bb78');
+    log('📌 请尝试点击上方的 Switch 开关', '#f6ad55');
+  </script>
+</body>
+</html>

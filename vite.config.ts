@@ -32,6 +32,7 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         theme: resolve(__dirname, 'src/theme/index.ts'),
         tokens: resolve(__dirname, 'src/tokens/index.ts'),
+        'style-recipe': resolve(__dirname, 'src/style-recipe/index.ts'),
       },
       name: 'TH-UI',
       formats: ['es', 'cjs'],

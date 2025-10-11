@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch Debug</title>
+  <style>
+    body {
+      padding: 40px;
+      font-family: system-ui;
+    }
+    .debug-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+    }
+    .native-switch {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Switch 调试页面</h1>
+
+  <div class="debug-section">
+    <h2>1. 原生 Checkbox 测试</h2>
+    <p>如果这个能工作，说明基础功能正常：</p>
+    <div class="native-switch">
+      <input type="checkbox" id="native1" onchange="console.log('原生checkbox改变:', this.checked)">
+      <label for="native1">原生 Checkbox（点击我）</label>
+    </div>
+    <div class="native-switch">
+      <input type="checkbox" id="native2" checked onchange="console.log('原生checkbox改变:', this.checked)">
+      <label for="native2">原生 Checkbox（默认选中）</label>
+    </div>
+    <p id="native-status">状态会显示在这里</p>
+  </div>
+
+  <div class="debug-section">
+    <h2>2. React Switch 组件测试</h2>
+    <p>从 demo 页面加载的实际组件：</p>
+    <div id="react-root"></div>
+  </div>
+
+  <script type="module">
+    // 原生 checkbox 调试
+    document.getElementById('native1').addEventListener('change', (e) => {
+      document.getElementById('native-status').textContent =
+        `原生1: ${e.target.checked}, 原生2: ${document.getElementById('native2').checked}`
+    })
+    document.getElementById('native2').addEventListener('change', (e) => {
+      document.getElementById('native-status').textContent =
+        `原生1: ${document.getElementById('native1').checked}, 原生2: ${e.target.checked}`
+    })
+
+    // React 组件测试
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import { Switch } from '../src/components/ui/Switch'
+
+    function DebugApp() {
+      const [count, setCount] = React.useState(0)
+      const [controlled, setControlled] = React.useState(false)
+
+      console.log('DebugApp 渲染，count:', count)
+
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '20px' }}, [
+        React.createElement('div', { key: 'info' }, [
+          React.createElement('p', { key: 'p' }, `渲染次数: ${count}`),
+          React.createElement('button', {
+            key: 'btn',
+            onClick: () => setCount(count + 1),
+            style: { padding: '8px 16px', cursor: 'pointer' }
+          }, '强制重新渲染')
+        ]),
+
+        React.createElement('div', { key: 'test1', style: { padding: '10px', background: '#f3f4f6' }}, [
+          React.createElement('h3', { key: 'h3' }, '非受控 Switch（defaultChecked=false）'),
+          React.createElement(Switch, {
+            key: 'switch',
+            label: '点击切换',
+            defaultChecked: false,
+            onChange: (e) => console.log('非受控 onChange:', e.target.checked),
+            onCheckedChange: (checked) => console.log('非受控 onCheckedChange:', checked)
+          })
+        ]),
+
+        React.createElement('div', { key: 'test2', style: { padding: '10px', background: '#f3f4f6' }}, [
+          React.createElement('h3', { key: 'h3' }, '非受控 Switch（defaultChecked=true）'),
+          React.createElement(Switch, {
+            key: 'switch',
+            label: '点击切换',
+            defaultChecked: true,
+            onChange: (e) => console.log('非受控2 onChange:', e.target.checked),
+            onCheckedChange: (checked) => console.log('非受控2 onCheckedChange:', checked)
+          })
+        ]),
+
+        React.createElement('div', { key: 'test3', style: { padding: '10px', background: '#f3f4f6' }}, [
+          React.createElement('h3', { key: 'h3' }, `受控 Switch（当前: ${controlled ? '开' : '关'}）`),
+          React.createElement(Switch, {
+            key: 'switch',
+            label: '点击切换',
+            checked: controlled,
+            onChange: (e) => console.log('受控 onChange:', e.target.checked),
+            onCheckedChange: (checked) => {
+              console.log('受控 onCheckedChange:', checked)
+              setControlled(checked)
+            }
+          }),
+          React.createElement('p', { key: 'p', style: { fontSize: '14px', color: '#666' }},
+            `State 值: ${controlled}`)
+        ])
+      ])
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('react-root'))
+    root.render(React.createElement(DebugApp))
+
+    // 全局调试函数
+    window.debugSwitch = () => {
+      const switches = document.querySelectorAll('input[type="checkbox"]')
+      console.log('找到的所有 checkbox:', switches.length)
+      switches.forEach((sw, i) => {
+        console.log(`Checkbox ${i}:`, {
+          checked: sw.checked,
+          disabled: sw.disabled,
+          id: sw.id,
+          className: sw.className
+        })
+      })
+    }
+
+    console.log('%c调试提示：', 'color: blue; font-weight: bold')
+    console.log('1. 打开开发者工具查看 console 日志')
+    console.log('2. 点击 Switch 时应该看到 onChange 和 onCheckedChange 日志')
+    console.log('3. 运行 debugSwitch() 查看所有 checkbox 状态')
+  </script>
+</body>
+</html>

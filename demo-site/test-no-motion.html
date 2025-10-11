@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试无 Framer Motion 版本</title>
+  <style>
+    body {
+      font-family: system-ui;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { font-size: 32px; color: #1a202c; margin-bottom: 10px; }
+    .subtitle { color: #718096; margin-bottom: 30px; }
+    .section {
+      margin: 30px 0;
+      padding: 24px;
+      background: #f7fafc;
+      border-radius: 12px;
+      border-left: 4px solid #48bb78;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 16px;
+    }
+    .log {
+      background: #1a202c;
+      color: #48bb78;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+    .log-line { margin: 4px 0; }
+    .highlight {
+      background: #d4edda;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #48bb78;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✅ 无 Framer Motion 版本测试</h1>
+    <p class="subtitle">测试移除 Framer Motion 后的 Switch 是否可以正常点击</p>
+
+    <div class="highlight">
+      <strong>✨ 关键差异：</strong><br>
+      此版本使用普通的 <code>&lt;div&gt;</code> 和 CSS transitions，完全移除了 Framer Motion 的 <code>&lt;motion.div&gt;</code>。<br>
+      如果这个版本可以点击，说明问题确实出在 Framer Motion 上。
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎯 Switch 测试（无 Framer Motion）</div>
+      <div id="switch-container" style="padding: 20px; background: white; border-radius: 8px;"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📊 实时日志</div>
+      <div class="log" id="logs"></div>
+    </div>
+  </div>
+
+  <script>
+    function log(message, color = '#48bb78') {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = 'log-line';
+      div.style.color = color;
+      div.textContent = `[${time}] ${message}`;
+      document.getElementById('logs').insertBefore(div, document.getElementById('logs').firstChild);
+      console.log(message);
+    }
+
+    log('✅ 页面加载完成', '#48bb78');
+  </script>
+
+  <script type="module">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { SwitchNoMotion } from '/src/components/ui/SwitchNoMotion';
+
+    function TestSwitches() {
+      const [controlled, setControlled] = React.useState(false);
+
+      return React.createElement('div', {
+        style: { display: 'flex', flexDirection: 'column', gap: '20px' }
+      }, [
+        React.createElement(SwitchNoMotion, {
+          key: '1',
+          label: 'Switch 1 - 非受控（无 Motion）',
+          description: '使用普通 div + CSS transition',
+          variant: 'primary',
+          onChange: (e) => log(`✅ Switch 1 onChange: ${e.target.checked}`, '#48bb78'),
+          onCheckedChange: (checked) => log(`  Switch 1 onCheckedChange: ${checked}`, '#4299e1')
+        }),
+
+        React.createElement(SwitchNoMotion, {
+          key: '2',
+          label: 'Switch 2 - 默认开启（无 Motion）',
+          description: 'defaultChecked={true}',
+          variant: 'success',
+          defaultChecked: true,
+          onChange: (e) => log(`✅ Switch 2 onChange: ${e.target.checked}`, '#48bb78'),
+          onCheckedChange: (checked) => log(`  Switch 2 onCheckedChange: ${checked}`, '#4299e1')
+        }),
+
+        React.createElement(SwitchNoMotion, {
+          key: '3',
+          label: 'Switch 3 - 受控模式（无 Motion）',
+          description: '使用 React 状态控制',
+          variant: 'danger',
+          checked: controlled,
+          onCheckedChange: (checked) => {
+            log(`✅ Switch 3 状态更新: ${checked}`, '#48bb78');
+            setControlled(checked);
+          }
+        })
+      ]);
+    }
+
+    const root = createRoot(document.getElementById('switch-container'));
+    root.render(React.createElement(TestSwitches));
+
+    log('✅ SwitchNoMotion 组件已渲染', '#48bb78');
+    log('👉 请尝试点击上方的 Switch 开关', '#f6ad55');
+  </script>
+</body>
+</html>

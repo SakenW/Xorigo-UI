@@ -265,11 +265,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         className="min-h-screen"
         style={
           {
-            '--theme-primary': themeConfig.colors[500],
-            '--theme-secondary': themeConfig.colors[600],
-            '--theme-accent': themeConfig.colors[400],
-            '--theme-gradient': themeConfig.gradient,
-            '--theme-glow': themeConfig.glow,
+            '--theme-primary': themeConfig.colors?.[500] || '#3b82f6',
+            '--theme-secondary': themeConfig.colors?.[600] || '#2563eb',
+            '--theme-accent': themeConfig.colors?.[400] || '#60a5fa',
+            '--theme-gradient': themeConfig.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            '--theme-glow': themeConfig.glow || 'rgba(59, 130, 246, 0.4)',
           } as React.CSSProperties
         }
       >

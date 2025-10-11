@@ -229,26 +229,103 @@
 
 ## 12.2 目录（建议）
 
+## 推荐目录结构（层为纲，轴进配方）
+
 ```
 packages/
 └─ thui-tokens/
-   ├─ core/
-   │  ├─ palettes/            # neutralScale/cyanScale/…（Core）
-   │  ├─ elevation/           # elev-0..5 原子
-   │  ├─ motion-base/         # duration/easing/spring 原子
-   │  ├─ surface-base/        # 阴影/模糊/光晕原子
-   │  └─ foundations/         # typography/spacing 标尺
-   ├─ recipes/
-   │  └─ <recipe-id>/
-   │     ├─ roles.light.json  # Role 映射（Light）
-   │     └─ roles.dark.json   # Role 映射（Dark）
-   ├─ aliases/
-   │  └─ components/          # button/input/card…（仅引用 Role）
-   ├─ motion-packs/           # subtle/standard/expressive（曲线/时长区间）
-   ├─ surface-packs/          # flat/soft-shadow/glass/neon
-   ├─ dataviz/                # cat-8/12/20；seq-5/7
-   └─ index.(ts|json)         # 注册表与聚合导出（DTCG）
+   ├─ core/                      # 冷区：跨配方共享的原子资源
+   │  ├─ palettes/               # 颜色色阶：neutralScale/cyanScale/purpleScale/...
+   │  ├─ elevation/              # elev-0..5 阴影/混色/透明度原子
+   │  ├─ motion-base/            # duration/easing/spring 原子标尺
+   │  ├─ surface-base/           # 阴影半径/模糊/光晕等基础原子
+   │  └─ foundations/            # typography/spacing 等基础标尺
+   │
+   ├─ recipes/                   # 配方：七轴取值 + 角色映射（热区）
+   │  └─ <recipe-id>/            # 例：light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow
+   │     ├─ meta.json            # 七轴取值与参数（见下）
+   │     ├─ roles.light.json     # Role 映射（bg/text/border/accent/...）
+   │     └─ roles.dark.json      # Dark 侧非对称映射
+   │
+   ├─ aliases/                   # 组件别名（热区）：仅引用 Role，不直连 Core
+   │  └─ components/
+   │     ├─ button.json
+   │     ├─ input.json
+   │     └─ card.json
+   │
+   ├─ motion-packs/              # 轴的“风格包”实现（可与任意配方叠加）
+   │  ├─ subtle/                 # 定义推荐的时长范围/缓动族/降级策略
+   │  ├─ standard/
+   │  └─ expressive/
+   │
+   ├─ surface-packs/             # 表面风格包（flat/soft-shadow/glass/neon）
+   │  ├─ flat/
+   │  ├─ soft-shadow/
+   │  ├─ glass/
+   │  └─ neon/
+   │
+   ├─ density-presets/           # 密度档位 → 行高/控件高/间距/描边系数
+   │  ├─ spacious.json
+   │  ├─ comfortable.json
+   │  └─ compact.json
+   │
+   ├─ dataviz/                   # 图表色板：cat-12 / seq-5 等（与 UI 解耦）
+   │  ├─ categorical/cat-12.json
+   │  └─ sequential/seq-5.json
+   │
+   └─ index.(ts|json)            # DTCG 聚合导出 & 类型
 ```
+
+---
+
+## 七轴各自“放哪儿”的精确定位
+
+| 轴                                | 作用          | 放置位置                                                               | 备注                               |                            |
+| -------------------------------- | ----------- | ------------------------------------------------------------------ | -------------------------------- | -------------------------- |
+| **Mode** (light/dark/hc)         | 光照/对比基线     | `recipes/<id>/roles.light                                          | dark`+`meta.json`                | `hc` 走系统色适配（forced-colors） |
+| **Base** (neutral × contrast)    | 中性色与对比氛围    | `core/palettes/neutral*`，在 `meta.json` 选择并设对比等级                    | 只影响 bg/text/border 的大气层          |                            |
+| **Accent** (mono/analog/duo)     | 交互/强调色策略    | `core/palettes/<hue>*` + `meta.json` 策略；在 `roles.*` 映射到 `accent.*` | v1 不启 triad                      |                            |
+| **Tone** (calm/standard/vivid)   | 饱和/亮度强度曲线   | `recipes/<id>/meta.json`（OKLCH 参数）                                 | 对 Role 做 C/L 调制，Dark 非对称         |                            |
+| **Density** (spacious/…/compact) | 信息密度/尺寸节奏   | `density-presets/*` + `foundations/*`                              | 以“系数表”映射到行高/控件高/间距/描边            |                            |
+| **Motion** (subtle/…/expressive) | 动效节奏/幅度/曲线族 | `motion-base/*` + `motion-packs/*`                                 | 遵从 `prefers-reduced-motion` 全局降级 |                            |
+| **Surface** (flat/…/neon)        | 表面语言/材质/海拔  | `surface-base/*` + `surface-packs/*`                               | 与颜色解耦，可叠加（如 glass+neon）          |                            |
+
+> 关键点：**轴值存于 `recipes/<id>/meta.json`，具体效果体现在 `roles.*` 与 packs 的选择**；色阶/时长/阴影等原子始终在 `core/*`。
+
+---
+
+## 一个最小配方示例（结构示意）
+
+```json
+// recipes/light.neutral-true-mid.mono(blue).standard.comfortable.standard.soft-shadow/meta.json
+{
+  "axes": {
+    "mode": "light",
+    "base": { "neutral": "neutral-true", "contrast": "mid" },
+    "accent": { "strategy": "mono", "hues": ["blue"] },
+    "tone": "standard",
+    "density": "comfortable",
+    "motion": { "pack": "standard", "curve": "classic" },
+    "surface": ["soft-shadow"]
+  },
+  "oklchTone": { "calm": { "dC": -0.05, "dL": +0.02 }, "standard": { "dC": 0, "dL": 0 }, "vivid": { "dC": +0.05, "dL": -0.01 } },
+  "a11y": { "text": 4.5, "largeText": 3.0, "nonText": 3.0 }
+}
+```
+
+```json
+// recipes/.../roles.light.json（片段）
+{
+  "bg": { "primary": "{core.palettes.neutral-true.0}", "surface": "{core.palettes.neutral-true.1}" },
+  "text": { "primary": "{core.palettes.neutral-true.11}", "muted": "{core.palettes.neutral-true.8}" },
+  "border": { "default": "{core.palettes.neutral-true.4}" },
+  "accent": { "default": "{core.palettes.blue.6}", "hover": "{core.palettes.blue.7}", "active": "{core.palettes.blue.8}" }
+}
+```
+
+> 说明：**配方=元数据 + 角色映射**；角色值引用 Core，再由 Tone 参数在构建期/运行期做 OKLCH 调制。
+
+---
 
 ## 12.3 导出格式
 

@@ -1,0 +1,123 @@
+{
+  "$type": "density-preset",
+  "$description": "紧凑密度档位 - 减少留白，提高视觉密度",
+  "name": "compact",
+  "description": "紧凑密度 - 减少留白，适用于空间受限或需要展示大量信息的应用",
+  "multipliers": {
+    "$type": "multipliers",
+    "$description": "各维度的密度系数",
+    "typography": {
+      "$type": "typography-multipliers",
+      "$description": "排版密度系数",
+      "lineHeight": 1.375,
+      "$description": "行高系数 - 减少行高"
+    },
+    "spacing": {
+      "$type": "spacing-multipliers",
+      "$description": "间距密度系数",
+      "componentGap": 0.8,
+      "$description": "组件间距系数 - 减少间距"
+    },
+    "sizing": {
+      "$type": "sizing-multipliers",
+      "$description": "尺寸密度系数",
+      "componentHeight": 0.9,
+      "$description": "组件高度系数 - 减少高度"
+    },
+    "border": {
+      "$type": "border-multipliers",
+      "$description": "边框密度系数",
+      "borderWidth": 1.2,
+      "$description": "边框宽度系数 - 增强边框"
+    },
+    "shadow": {
+      "$type": "shadow-multipliers",
+      "$description": "阴影密度系数",
+      "shadowSpread": 0.8,
+      "$description": "阴影扩散系数 - 减少阴影"
+    }
+  },
+  "ui": {
+    "$type": "ui-adjustments",
+    "$description": "UI 调整参数",
+    "buttons": {
+      "$type": "component-adjustments",
+      "$description": "按钮调整",
+      "padding": {
+        "horizontal": 0.8,
+        "vertical": 0.9
+      },
+      "fontSize": "inherit",
+      "borderRadius": "inherit"
+    },
+    "inputs": {
+      "$type": "component-adjustments",
+      "$description": "输入框调整",
+      "padding": {
+        "horizontal": 0.75,
+        "vertical": 0.85
+      },
+      "fontSize": "inherit",
+      "borderRadius": "inherit"
+    },
+    "cards": {
+      "$type": "component-adjustments",
+      "$description": "卡片调整",
+      "padding": 0.8,
+      "borderRadius": "inherit"
+    },
+    "forms": {
+      "$type": "component-adjustments",
+      "$description": "表单调整",
+      "fieldSpacing": 0.7,
+      "labelSpacing": 1.2
+    }
+  },
+  "motion": {
+    "$type": "motion-adjustments",
+    "$description": "动效调整参数",
+    "duration": {
+      "$type": "duration-adjustments",
+      "$description": "时长调整",
+      "fast": "100ms",
+      "$description": "快速动效 - 100ms",
+      "normal": "200ms",
+      "$description": "正常动效 - 200ms",
+      "slow": "400ms",
+      "$description": "慢速动效 - 400ms"
+    },
+    "easing": {
+      "$type": "easing-adjustments",
+      "$description": "缓动调整",
+      "default": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "$description": "默认缓动 - 经典缓动"
+    }
+  },
+  "accessibility": {
+    "$type": "accessibility-adjustments",
+    "$description": "可访问性调整",
+    "minimumTouchTarget": 44,
+    "$description": "最小触摸目标 44px",
+    "focusRingWidth": 2,
+    "$description": "焦点环宽度 2px",
+    "colorContrast": "standard",
+    "$description": "标准色彩对比度"
+  },
+  "useCases": {
+    "$type": "use-cases",
+    "$description": "适用场景",
+    "recommended": [
+      "移动端应用",
+      "数据仪表板",
+      "实时监控系统",
+      "金融交易界面",
+      "表格密集型应用"
+    ],
+    "avoid": [
+      "阅读密集型应用",
+      "教育平台",
+      "博客网站",
+      "长文本阅读"
+    ]
+  }
+}

@@ -33,6 +33,8 @@ import PaginationDemo from "../components/navigation/PaginationDemo"
 import RadioDemo from "../components/forms/RadioDemo"
 import TextareaDemo from "../components/forms/TextareaDemo"
 import SkeletonDemo from "../components/feedback/SkeletonDemo"
+import ComboboxDemo from "../components/forms/ComboboxDemo"
+import CommandDemo from "../components/forms/CommandDemo"
 
 const categories = [
   {
@@ -40,7 +42,7 @@ const categories = [
     name: '表单组件',
     icon: '📝',
     description: '输入、按钮、选择器等交互组件',
-    count: 7,
+    count: 9,
     color: 'from-blue-500 to-cyan-500'
   },
   {
@@ -251,6 +253,8 @@ function ComponentLibraryContent() {
                   <InputDemo />
                   <CheckboxDemo />
                   <SelectDemo />
+                  <ComboboxDemo />
+                  <CommandDemo />
                   <SwitchDemo />
                   <RadioDemo />
                   <TextareaDemo />

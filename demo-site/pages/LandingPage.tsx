@@ -288,35 +288,35 @@ export default function LandingPage() {
     {
       icon: Palette,
       title: "10种精美主题",
-      description: "从赛博蓝紫到梦幻彩虹，每种主题都精心设计，支持明暗模式切换",
+      description: "从赛博蓝紫到梦幻彩虹，每种主题都精心设计，支持明暗模式切换。完整的设计令牌体系，一键切换整体风格",
       color: "from-purple-500 to-pink-500",
       stats: "10 种配色方案"
     },
     {
       icon: Code2,
       title: "TypeScript 优先",
-      description: "100% TypeScript 编写，提供完整的类型定义和智能提示",
+      description: "100% TypeScript 编写，提供完整的类型定义和智能提示。CVA 强类型变体系统，开发体验极佳",
       color: "from-blue-500 to-cyan-500",
       stats: "100% 类型安全"
     },
     {
       icon: Layers,
       title: "组件丰富",
-      description: "34个精心设计的组件，覆盖表单、反馈、数据、导航、布局等所有场景",
+      description: "34个精心设计的组件，基于 Radix UI 无障碍基础。覆盖表单、反馈、数据、导航、布局等所有场景",
       color: "from-green-500 to-emerald-500",
       stats: "34 个组件"
     },
     {
       icon: Sparkles,
       title: "流畅动画",
-      description: "Framer Motion 12 驱动的微交互和页面过渡动画，60fps 丝滑体验",
+      description: "Framer Motion 12 驱动的微交互和页面过渡动画，60fps 丝滑体验。声明式 API，性能优化开箱即用",
       color: "from-indigo-500 to-purple-500",
       stats: "60fps 动画"
     },
     {
       icon: Eye,
       title: "无障碍设计",
-      description: "遵循 WCAG 2.1 标准，支持键盘导航和屏幕阅读器",
+      description: "基于 Radix UI Primitives 构建，遵循 WCAG 2.1 标准，支持键盘导航和屏幕阅读器，确保所有用户可访问",
       color: "from-rose-500 to-pink-500",
       stats: "WCAG 2.1"
     }
@@ -330,10 +330,14 @@ export default function LandingPage() {
   ]
 
   const techStack = [
-    { name: "React", version: "19.2", icon: "⚛️" },
-    { name: "TypeScript", version: "5.9", icon: "📘" },
-    { name: "Tailwind CSS", version: "4.1", icon: "🎨" },
-    { name: "Framer Motion", version: "12", icon: "🎭" }
+    { name: "React", version: "19.2", icon: "⚛️", category: "framework" },
+    { name: "TypeScript", version: "5.9", icon: "📘", category: "language" },
+    { name: "Tailwind CSS", version: "4.1", icon: "🎨", category: "styling" },
+    { name: "Framer Motion", version: "12", icon: "🎭", category: "animation" },
+    { name: "Radix UI", version: "latest", icon: "🧩", category: "primitive" },
+    { name: "CVA", version: "0.7", icon: "🎯", category: "utility" },
+    { name: "Vite", version: "5.4", icon: "⚡", category: "build" },
+    { name: "Vitest", version: "1.6", icon: "🧪", category: "testing" }
   ]
 
   return (
@@ -405,27 +409,76 @@ export default function LandingPage() {
               className="flex flex-wrap gap-4 justify-center mb-16"
             >
               <Link to="/components">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="group"
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                  查看组件库
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className="group relative min-w-[180px] h-12 text-base font-semibold shadow-xl hover:shadow-2xl overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      查看组件库
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </Button>
+                </motion.div>
+              </Link>
+              <Link to="/style-recipe">
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="group relative min-w-[180px] h-12 text-base font-semibold shadow-lg hover:shadow-xl overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      风格配方
+                      <Sparkles className="w-4 h-4 ml-2 group-hover:rotate-12 transition-transform" />
+                    </span>
+                  </Button>
+                </motion.div>
               </Link>
               <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg">
-                  <Github className="w-5 h-5 mr-2" />
-                  查看源码
-                </Button>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="group relative min-w-[180px] h-12 text-base font-semibold hover:shadow-lg overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      <Github className="w-4 h-4 mr-2" />
+                      查看源码
+                    </span>
+                  </Button>
+                </motion.div>
               </a>
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <Button variant="ghost" size="lg">
-                  <Book className="w-5 h-5 mr-2" />
-                  文档
-                </Button>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Button
+                    variant="ghost"
+                    size="lg"
+                    className="group relative min-w-[180px] h-12 text-base font-semibold hover:shadow-md overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      <Book className="w-4 h-4 mr-2" />
+                      文档
+                    </span>
+                  </Button>
+                </motion.div>
               </a>
             </motion.div>
 
@@ -569,6 +622,140 @@ export default function LandingPage() {
                 </Card>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Tech Stack Section */}
+      <section className="py-20 relative z-10 bg-gray-50 dark:bg-gray-800/50">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerChildren}
+            className="text-center mb-16"
+          >
+            <motion.div variants={fadeInUp}>
+              <Badge className="px-4 py-2 text-sm mb-4 backdrop-blur-xl bg-blue-500/20">
+                <Code2 className="w-4 h-4 inline mr-2 text-blue-500" />
+                技术栈
+              </Badge>
+            </motion.div>
+            <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+              基于现代化技术栈构建
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              采用业界最新的前端技术，确保组件库的性能、可维护性和开发体验
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerChildren}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
+          >
+            {techStack.map((tech, index) => (
+              <motion.div
+                key={tech.name}
+                variants={scaleIn}
+                whileHover={{ y: -8, scale: 1.05 }}
+                className="group"
+              >
+                <Card className="p-6 text-center backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-2 hover:border-blue-500 transition-all relative overflow-hidden">
+                  {/* 背景发光效果 */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{
+                      background: "radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%)"
+                    }}
+                  />
+
+                  <div className="relative">
+                    <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">
+                      {tech.icon}
+                    </div>
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-1">
+                      {tech.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      v{tech.version}
+                    </p>
+                    <Badge
+                      variant="outline"
+                      className="text-xs capitalize"
+                    >
+                      {tech.category}
+                    </Badge>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* 技术栈说明 */}
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="mt-16 max-w-4xl mx-auto"
+          >
+            <Card className="p-8 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-2">
+              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white text-center">
+                🎯 技术栈优势
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">React 19 + TypeScript 5.9</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">最新技术栈，完整类型支持</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Tailwind CSS 4.1</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">原子化 CSS，按需加载</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Radix UI Primitives</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">无障碍访问，开箱即用</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Framer Motion 12</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">声明式动画，性能优化</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Vite 5.4 构建</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">极速开发，优化打包</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">CVA 类型变体</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">强类型样式系统</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </motion.div>
         </div>
       </section>

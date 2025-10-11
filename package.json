@@ -21,6 +21,11 @@
       "import": "./dist/tokens.es.js",
       "require": "./dist/tokens.cjs.js",
       "types": "./dist/tokens/index.d.ts"
+    },
+    "./style-recipe": {
+      "import": "./dist/style-recipe.es.js",
+      "require": "./dist/style-recipe.cjs.js",
+      "types": "./dist/style-recipe/index.d.ts"
     }
   },
   "files": [

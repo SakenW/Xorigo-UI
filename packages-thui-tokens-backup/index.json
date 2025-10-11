@@ -1,0 +1,207 @@
+{
+  "$type": "tokens",
+  "$description": "TH-UI 风格配方体系 - DTCG 标准令牌集合",
+  "$version": "1.0.0",
+  "$metadata": {
+    "description": "基于七轴风格配方系统的设计令牌",
+    "author": "TH-UI Team",
+    "license": "MIT",
+    "compliance": ["DTCG", "WCAG 2.2", "OKLCH"]
+  },
+  "core": {
+    "palettes": {
+      "$type": "group",
+      "$description": "核心色板集合",
+      "neutral": {
+        "$ref": "./core/palettes/neutralScale.json"
+      },
+      "blue": {
+        "$ref": "./core/palettes/blueScale.json"
+      },
+      "cyan": {
+        "$ref": "./core/palettes/cyanScale.json"
+      },
+      "purple": {
+        "$ref": "./core/palettes/purpleScale.json"
+      },
+      "states": {
+        "$ref": "./core/palettes/stateColors.json"
+      }
+    },
+    "foundations": {
+      "$type": "group",
+      "$description": "基础标尺集合",
+      "typography": {
+        "$ref": "./core/foundations/typography.json"
+      },
+      "spacing": {
+        "$ref": "./core/foundations/spacing.json"
+      }
+    }
+  },
+  "recipes": {
+    "$type": "group",
+    "$description": "风格配方集合",
+    "corporate-blue": {
+      "$type": "recipe",
+      "$description": "企业蓝色配方",
+      "id": "light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow",
+      "modes": {
+        "light": {
+          "$ref": "./recipes/corporate-blue/roles.light.json"
+        },
+        "dark": {
+          "$ref": "./recipes/corporate-blue/roles.dark.json"
+        }
+      }
+    },
+    "corporate-navy-dark": {
+      "$type": "recipe",
+      "$description": "企业深色配方",
+      "id": "dark.neutral-cool-high.mono(navy).standard.comfortable.standard.soft-shadow"
+    },
+    "minimal-white": {
+      "$type": "recipe",
+      "$description": "极简白色配方",
+      "id": "light.neutral-true-mid.mono(gray).calm.spacious.subtle.flat"
+    },
+    "minimal-graphite-dark": {
+      "$type": "recipe",
+      "$description": "极简深色配方",
+      "id": "dark.neutral-true-high.mono(gray).calm.comfortable.subtle.flat"
+    },
+    "tech-cyan": {
+      "$type": "recipe",
+      "$description": "科技青色配方",
+      "id": "light.neutral-cool-mid.mono(cyan).standard.comfortable.standard.soft-shadow"
+    },
+    "tech-neon-dark": {
+      "$type": "recipe",
+      "$description": "科技霓虹深色配方",
+      "id": "dark.neutral-cool-high.duo(cyan,magenta).vivid.compact.expressive.glass+neon"
+    },
+    "creative-purple": {
+      "$type": "recipe",
+      "$description": "创意紫色配方",
+      "id": "light.neutral-true-mid.analog(purple).standard.comfortable.soft.spring"
+    },
+    "creative-aurora-dark": {
+      "$type": "recipe",
+      "$description": "创意极光深色配方",
+      "id": "dark.neutral-true-mid.analog(purple).vivid.comfortable.expressive.glass"
+    },
+    "classic-neutral": {
+      "$type": "recipe",
+      "$description": "经典中性配方",
+      "id": "light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow"
+    },
+    "high-contrast-pro": {
+      "$type": "recipe",
+      "$description": "高对比专业配方",
+      "id": "hc.neutral-true-high.mono(blue).standard.comfortable.subtle.flat"
+    }
+  },
+  "aliases": {
+    "$type": "group",
+    "$description": "组件别名令牌",
+    "components": {
+      "$type": "group",
+      "$description": "组件令牌集合",
+      "button": {
+        "$ref": "./aliases/components/button.json"
+      },
+      "card": {
+        "$ref": "./aliases/components/card.json"
+      }
+    }
+  },
+  "motion-packs": {
+    "$type": "group",
+    "$description": "动效包集合",
+    "subtle": {
+      "$type": "motion-pack",
+      "$description": "微妙动效包",
+      "duration": "150-400ms",
+      "easing": "standard",
+      "spring": false
+    },
+    "standard": {
+      "$type": "motion-pack",
+      "$description": "标准动效包",
+      "duration": "250-600ms",
+      "easing": "standard",
+      "spring": false
+    },
+    "expressive": {
+      "$type": "motion-pack",
+      "$description": "表现力动效包",
+      "duration": "400-800ms",
+      "easing": "spring",
+      "spring": true
+    }
+  },
+  "surface-packs": {
+    "$type": "group",
+    "$description": "表面包集合",
+    "flat": {
+      "$type": "surface-pack",
+      "$description": "平面表面包",
+      "shadow": "none",
+      "blur": "none",
+      "glow": "none"
+    },
+    "soft-shadow": {
+      "$type": "surface-pack",
+      "$description": "柔和阴影表面包",
+      "shadow": "subtle",
+      "blur": "none",
+      "glow": "none"
+    },
+    "glass": {
+      "$type": "surface-pack",
+      "$description": "玻璃表面包",
+      "shadow": "subtle",
+      "blur": "medium",
+      "glow": "none"
+    },
+    "neon": {
+      "$type": "surface-pack",
+      "$description": "霓虹表面包",
+      "shadow": "strong",
+      "blur": "light",
+      "glow": "strong"
+    }
+  },
+  "dataviz": {
+    "$type": "group",
+    "$description": "数据可视化色板",
+    "categorical": {
+      "$type": "dataviz-palette",
+      "$description": "分类色板",
+      "cat-8": {
+        "$description": "8色分类色板",
+        "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F"]
+      },
+      "cat-12": {
+        "$description": "12色分类色板",
+        "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE", "#85C1E2", "#F8B739", "#52B788"]
+      },
+      "cat-20": {
+        "$description": "20色分类色板",
+        "colors": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE", "#85C1E2", "#F8B739", "#52B788", "#FFA07A", "#98D8C8", "#6C5CE7", "#A29BFE", "#FD79A8", "#FDCB6E", "#6C63FF", "#C44569"]
+      }
+    },
+    "sequential": {
+      "$type": "dataviz-palette",
+      "$description": "连续色板",
+      "seq-5": {
+        "$description": "5级连续色板",
+        "colors": ["#E8F4FD", "#B8E0F7", "#89CCF2", "#5AB8ED", "#2BA4E8"]
+      },
+      "seq-7": {
+        "$description": "7级连续色板",
+        "colors": ["#F0F9FF", "#E0F2FE", "#BAE6FD", "#7DD3FC", "#38BDF8", "#0284C7", "#0369A1"]
+      }
+    }
+  }
+}
