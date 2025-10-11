@@ -1,0 +1,9 @@
+# pnpm-workspace.yaml
+# TH-UI Monorepo - pnpm workspace configuration
+
+packages:
+  # Core component library
+  - 'packages/*'
+
+  # Applications (website, docs, etc.)
+  - 'apps/*'
