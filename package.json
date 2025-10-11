@@ -2,6 +2,7 @@
   "name": "th-ui",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "TH-UI Monorepo - Modern UI component library with Next.js 15 website",
   "workspaces": [
     "packages/*",
@@ -36,7 +37,7 @@
   "author": "TH-UI Team",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.7.0",
     "prettier": "^3.6.2",
     "typescript": "~5.9.3"
   },

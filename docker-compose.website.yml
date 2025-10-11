@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: th-ui-website
     ports:
-      - "3100:3100"  # Next.js dev server port 3100 mapped to host 3100
+      - "${NEXTJS_DEV_PORT:-3100}:3100"  # Next.js dev server port (default: 3100)
     volumes:
       - ./apps/website/src/app:/app/app
       - ./apps/website/src:/app/src

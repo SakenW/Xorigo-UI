@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 
@@ -36,7 +36,12 @@ export default defineConfig({
       },
       name: 'TH-UI',
       formats: ['es', 'cjs'],
-      fileName: (format, entryName) => `${entryName}.${format}.js`,
+      fileName: (format, entryName) => {
+        if (format === 'es') {
+          return `${entryName}.mjs`
+        }
+        return `${entryName}.cjs.js`
+      },
     },
     rollupOptions: {
       // 外部化依赖
@@ -50,7 +55,8 @@ export default defineConfig({
         '@radix-ui/react-accordion',
         '@radix-ui/react-dropdown-menu',
         '@radix-ui/react-slot',
-        'lucide-react'
+        'lucide-react',
+        '@th-ui/core' // 将自身包也外部化
       ],
       output: {
         globals: {
@@ -76,4 +82,12 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
     css: true,
   },
+  // 添加此配置以解决Vite 7的包解析问题
+  ssr: {
+    noExternal: ['@th-ui/core']
+  },
+  // 解决Vite 7包解析问题
+  optimizeDeps: {
+    include: ['@th-ui/core']
+  }
 })
