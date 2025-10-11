@@ -8,6 +8,9 @@ export * from './cn'
 // 组件辅助工具
 export * from './component-helpers'
 
+// OKLCH 色彩引擎
+export * from './color'
+
 // 重新导出常用工具函数
 export {
   cn,
