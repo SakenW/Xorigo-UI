@@ -8,7 +8,7 @@ import UnifiedRecipeDemo from "./components/UnifiedRecipeDemo"
 export default function App() {
   return (
     <DTCGStyleRecipeProvider
-      defaultRecipe="light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow"
+      defaultRecipe="light.neutral-warm-high.analog(orange).vibrant.comfortable.standard.soft-shadow"
       enableTransitions={true}
       transitionDuration={400}
     >

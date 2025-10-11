@@ -44,7 +44,7 @@ export default defineConfig({
     preserveSymlinks: false,
   },
   server: {
-    port: 5173,
+    port: 3100,
     host: '0.0.0.0',
     strictPort: true,
     watch: {

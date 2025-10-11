@@ -17,7 +17,7 @@ import React, {
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { browserDTCGRecipeEngine, generateBrowserCSSVariables } from '../engine/browser-dtcg-engine'
-import { officialRecipes } from '../recipes/official-recipes'
+import { unifiedRecipes } from '../recipes/unified-recipes'
 import type {
   StyleRecipeID,
   ParsedRecipe,
@@ -99,10 +99,11 @@ const DTCGStyleRecipeContext = createContext<DTCGStyleRecipeContextType | undefi
 
 /**
  * 将 DTCG 配方转换为演示用的配方对象
+ * 使用所有七轴配方 (当前20个，可无限扩展)
  */
 function createDemoRecipes(): DTCGStyleRecipe[] {
-  // 将官方配方转换为 DTCGStyleRecipe 格式
-  return officialRecipes.map(recipe => ({
+  // 将所有七轴配方转换为 DTCGStyleRecipe 格式
+  return unifiedRecipes.map(recipe => ({
     id: recipe.id,
     name: recipe.name,
     description: recipe.description,
@@ -125,7 +126,7 @@ function createDemoRecipes(): DTCGStyleRecipe[] {
  */
 export function DTCGStyleRecipeProvider({
   children,
-  defaultRecipe = 'light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow',
+  defaultRecipe = 'light.neutral-warm-high.analog(orange).vibrant.comfortable.standard.soft-shadow',
   enableTransitions = true,
   transitionDuration = 400,
 }: {
