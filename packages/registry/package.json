@@ -26,13 +26,13 @@
   "dependencies": {
     "@th-ui/core": "file:../core",
     "class-variance-authority": "^0.7.1",
-    "zod": "^3.23.8"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.7.0",
     "tsx": "^4.19.2",
     "typescript": "~5.9.3",
-    "vite": "^5.4.0",
+    "vite": "^7.1.9",
     "vite-plugin-dts": "^4.3.0"
   },
   "keywords": [

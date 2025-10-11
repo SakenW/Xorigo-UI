@@ -276,19 +276,47 @@ npm run test:ui
 
 ### Docker 部署
 
+TH-UI 提供了完整的 Docker 支持，包含多个环境的配置文件：
+
 ```bash
-# 开发环境 (端口 3100)
-npm run docker:dev
+# 开发环境 (Vite, 端口 5173)
+docker-compose -f docker-compose.dev.yml up -d
 
-# 生产环境部署
-npm run deploy
+# Next.js 网站开发环境 (端口 3100)
+docker-compose -f docker-compose.website.yml up -d
 
-# 查看生产日志
-npm run deploy:logs
-
-# 停止生产环境
-npm run deploy:stop
+# 生产环境部署 (端口 3100)
+docker-compose up -d
 ```
+
+#### 环境变量配置
+
+使用 `.env.docker` 文件管理端口配置：
+
+```bash
+# 端口配置
+PROD_PORT=3100          # 生产环境端口
+VITE_DEV_PORT=5173      # Vite开发环境端口
+NEXTJS_DEV_PORT=3100    # Next.js开发环境端口
+```
+
+#### 常用命令
+
+```bash
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+
+# 重新构建并启动
+docker-compose up -d --build
+```
+
+详细使用说明请参考 [Docker 配置指南](./docs/DOCKER_GUIDE.md)。
 
 ## 📖 架构文档
 

@@ -23,6 +23,7 @@ junit.xml
 .env.development.local
 .env.test.local
 .env.production.local
+# 注意：.env.docker 是示例配置文件，应包含在版本控制中
 
 # 日志
 npm-debug.log*
