@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: th-ui-dev
     ports:
-      - "${VITE_DEV_PORT:-5173}:5173"  # Vite dev server port (default: 5173)
+      - "3100:3100"  # Next.js dev server port
     volumes:
       - ./src:/app/src
       - ./demo-site:/app/demo-site

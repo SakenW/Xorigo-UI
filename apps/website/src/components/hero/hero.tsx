@@ -84,7 +84,7 @@ export function Hero() {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
-              variant="outline-solid"
+              variant="outline"
               size="lg"
               className="text-base px-8 py-3"
               onClick={() => window.open('https://github.com/th-ui/th-ui', '_blank')}

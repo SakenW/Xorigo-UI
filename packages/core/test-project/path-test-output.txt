@@ -1,0 +1,7 @@
+=== 测试 @th-ui/core/theme 路径导入 ===
+
+导入失败: Cannot find module '/home/saken/project/TH-UI/packages/core/test-project/node_modules/@th-ui/core/theme' imported from /home/saken/project/TH-UI/packages/core/test-project/test-theme-path.mjs
+Did you mean to import "file:///home/saken/project/TH-UI/packages/core/dist/theme.cjs.js"?
+错误类型: ERR_MODULE_NOT_FOUND
+
+=== 测试完成 ===

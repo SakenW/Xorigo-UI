@@ -11,10 +11,14 @@
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "noResolve": false,
+    "composite": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"],
+  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.spec.ts"],
   "references": [
     { "path": "../tokens" },
     { "path": "../style-recipe" }

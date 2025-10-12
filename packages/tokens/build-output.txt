@@ -1,0 +1,157 @@
+
+> @th-ui/tokens@0.1.0 build
+> vite build
+
+vite v7.1.9 building for production...
+transforming...
+✓ 15 modules transformed.
+rendering chunks...
+
+[vite:dts] Start generate declaration files...
+[96msrc/index.ts[0m:[93m18[0m:[93m30[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/palettes/neutralScale.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m18[0m import neutralScaleData from './core/palettes/neutralScale.json'
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m19[0m:[93m27[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/palettes/blueScale.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m19[0m import blueScaleData from './core/palettes/blueScale.json'
+[7m  [0m [91m                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m20[0m:[93m27[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/palettes/cyanScale.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m20[0m import cyanScaleData from './core/palettes/cyanScale.json'
+[7m  [0m [91m                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m21[0m:[93m29[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/palettes/purpleScale.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m21[0m import purpleScaleData from './core/palettes/purpleScale.json'
+[7m  [0m [91m                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m22[0m:[93m29[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/palettes/stateColors.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m22[0m import stateColorsData from './core/palettes/stateColors.json'
+[7m  [0m [91m                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m24[0m:[93m28[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/foundations/typography.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m24[0m import typographyData from './core/foundations/typography.json'
+[7m  [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m25[0m:[93m25[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/core/foundations/spacing.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m25[0m import spacingData from './core/foundations/spacing.json'
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m40[0m:[93m31[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/recipes/corporate-blue/meta.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m40[0m import corporateBlueData from './recipes/corporate-blue/meta.json'
+[7m  [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m47[0m:[93m29[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/density-presets/comfortable.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m47[0m import comfortableData from './density-presets/comfortable.json'
+[7m  [0m [91m                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m48[0m:[93m26[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/density-presets/spacious.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m48[0m import spaciousData from './density-presets/spacious.json'
+[7m  [0m [91m                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m49[0m:[93m25[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/density-presets/compact.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m49[0m import compactData from './density-presets/compact.json'
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m59[0m:[93m42[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/aliases/components/button.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m59[0m export { default as buttonAliases } from './aliases/components/button.json'
+[7m  [0m [91m                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m60[0m:[93m40[0m - [91merror[0m[90m TS6307: [0mFile '/home/saken/project/TH-UI/packages/tokens/src/aliases/components/card.json' is not listed within the file list of project '/home/saken/project/TH-UI/packages/tokens/tsconfig.json'. Projects must list all files or use an 'include' pattern.
+
+[7m60[0m export { default as cardAliases } from './aliases/components/card.json'
+[7m  [0m [91m                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m128[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; neutral: { $type: string; $description: string; "0": { $value: string; $type: string; $description: string; }; "1": { $value: string; $type: string; }; "2": { $value: string; $type: string; }; ... 12 more ...; "15": { ...; }; }; }' is not assignable to type 'DTCGPalette'.
+  Property '"$type"' is incompatible with index signature.
+    Type 'string' is not assignable to type 'DTCGToken'.
+
+[7m128[0m       neutralScale: neutralScaleData,
+[7m   [0m [91m      ~~~~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m78[0m:[93m5[0m
+    [7m78[0m     neutralScale: DTCGPalette
+    [7m  [0m [96m    ~~~~~~~~~~~~[0m
+    The expected type comes from property 'neutralScale' which is declared here on type '{ neutralScale: DTCGPalette; blueScale: DTCGPalette; cyanScale: DTCGPalette; purpleScale: DTCGPalette; stateColors: DTCGPalette; }'
+[96msrc/index.ts[0m:[93m129[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; blue: { $type: string; $description: string; "1": { $value: string; $type: string; }; "2": { $value: string; $type: string; }; "3": { $value: string; $type: string; }; "4": { $value: string; $type: string; }; ... 10 more ...; "15": { ...; }; }; }' is not assignable to type 'DTCGPalette'.
+  Property '"$type"' is incompatible with index signature.
+    Type 'string' is not assignable to type 'DTCGToken'.
+
+[7m129[0m       blueScale: blueScaleData,
+[7m   [0m [91m      ~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m79[0m:[93m5[0m
+    [7m79[0m     blueScale: DTCGPalette
+    [7m  [0m [96m    ~~~~~~~~~[0m
+    The expected type comes from property 'blueScale' which is declared here on type '{ neutralScale: DTCGPalette; blueScale: DTCGPalette; cyanScale: DTCGPalette; purpleScale: DTCGPalette; stateColors: DTCGPalette; }'
+[96msrc/index.ts[0m:[93m130[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; cyan: { $type: string; $description: string; "1": { $value: string; $type: string; }; "2": { $value: string; $type: string; }; "3": { $value: string; $type: string; }; "4": { $value: string; $type: string; }; ... 10 more ...; "15": { ...; }; }; }' is not assignable to type 'DTCGPalette'.
+  Property '"$type"' is incompatible with index signature.
+    Type 'string' is not assignable to type 'DTCGToken'.
+
+[7m130[0m       cyanScale: cyanScaleData,
+[7m   [0m [91m      ~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m80[0m:[93m5[0m
+    [7m80[0m     cyanScale: DTCGPalette
+    [7m  [0m [96m    ~~~~~~~~~[0m
+    The expected type comes from property 'cyanScale' which is declared here on type '{ neutralScale: DTCGPalette; blueScale: DTCGPalette; cyanScale: DTCGPalette; purpleScale: DTCGPalette; stateColors: DTCGPalette; }'
+[96msrc/index.ts[0m:[93m131[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; purple: { $type: string; $description: string; "1": { $value: string; $type: string; }; "2": { $value: string; $type: string; }; "3": { $value: string; $type: string; }; "4": { $value: string; $type: string; }; ... 10 more ...; "15": { ...; }; }; }' is not assignable to type 'DTCGPalette'.
+  Property '"$type"' is incompatible with index signature.
+    Type 'string' is not assignable to type 'DTCGToken'.
+
+[7m131[0m       purpleScale: purpleScaleData,
+[7m   [0m [91m      ~~~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m81[0m:[93m5[0m
+    [7m81[0m     purpleScale: DTCGPalette
+    [7m  [0m [96m    ~~~~~~~~~~~[0m
+    The expected type comes from property 'purpleScale' which is declared here on type '{ neutralScale: DTCGPalette; blueScale: DTCGPalette; cyanScale: DTCGPalette; purpleScale: DTCGPalette; stateColors: DTCGPalette; }'
+[96msrc/index.ts[0m:[93m132[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; success: { $type: string; $description: string; "1": { $value: string; $type: string; }; "2": { $value: string; $type: string; }; "3": { $value: string; $type: string; }; "4": { $value: string; $type: string; }; ... 10 more ...; "15": { ...; }; }; warning: { ...; }; error: { .....' is not assignable to type 'DTCGPalette'.
+  Property '"$type"' is incompatible with index signature.
+    Type 'string' is not assignable to type 'DTCGToken'.
+
+[7m132[0m       stateColors: stateColorsData
+[7m   [0m [91m      ~~~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m82[0m:[93m5[0m
+    [7m82[0m     stateColors: DTCGPalette
+    [7m  [0m [96m    ~~~~~~~~~~~[0m
+    The expected type comes from property 'stateColors' which is declared here on type '{ neutralScale: DTCGPalette; blueScale: DTCGPalette; cyanScale: DTCGPalette; purpleScale: DTCGPalette; stateColors: DTCGPalette; }'
+[96msrc/index.ts[0m:[93m146[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'a11y' is missing in type '{ $type: string; $description: string; id: string; name: string; description: string; category: string; version: string; tags: string[]; axes: { $type: string; $description: string; mode: { $type: string; $value: string; $description: string; }; ... 5 more ...; surface: { ...; }; }; oklchTone: { ...; }; accessibilit...' but required in type 'DTCGRecipeMeta'.
+
+[7m146[0m     'corporate-blue': corporateBlueData
+[7m   [0m [91m    ~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/index.ts[0m:[93m101[0m:[93m3[0m
+    [7m101[0m   a11y: {
+    [7m   [0m [96m  ~~~~[0m
+    'a11y' is declared here.
+[96msrc/index.ts[0m:[93m155[0m:[93m5[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; name: string; description: string; multipliers: { $type: string; $description: string; typography: { $type: string; $description: string; lineHeight: number; }; spacing: { ...; }; sizing: { ...; }; border: { ...; }; shadow: { ...; }; }; ui: { ...; }; motion: { ...; }; accessibi...' is not assignable to type 'DTCGDensityPreset'.
+  The types of 'multipliers.typography' are incompatible between these types.
+    Type '{ $type: string; $description: string; lineHeight: number; }' is not assignable to type 'Record<string, number>'.
+      Property '"$type"' is incompatible with index signature.
+        Type 'string' is not assignable to type 'number'.
+
+[7m155[0m     comfortable: comfortableData,
+[7m   [0m [91m    ~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m156[0m:[93m5[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; name: string; description: string; multipliers: { $type: string; $description: string; typography: { $type: string; $description: string; lineHeight: number; }; spacing: { ...; }; sizing: { ...; }; border: { ...; }; shadow: { ...; }; }; ui: { ...; }; motion: { ...; }; accessibi...' is not assignable to type 'DTCGDensityPreset'.
+  The types of 'multipliers.typography' are incompatible between these types.
+    Type '{ $type: string; $description: string; lineHeight: number; }' is not assignable to type 'Record<string, number>'.
+      Property '"$type"' is incompatible with index signature.
+        Type 'string' is not assignable to type 'number'.
+
+[7m156[0m     spacious: spaciousData,
+[7m   [0m [91m    ~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m157[0m:[93m5[0m - [91merror[0m[90m TS2322: [0mType '{ $type: string; $description: string; name: string; description: string; multipliers: { $type: string; $description: string; typography: { $type: string; $description: string; lineHeight: number; }; spacing: { ...; }; sizing: { ...; }; border: { ...; }; shadow: { ...; }; }; ui: { ...; }; motion: { ...; }; accessibi...' is not assignable to type 'DTCGDensityPreset'.
+  The types of 'multipliers.typography' are incompatible between these types.
+    Type '{ $type: string; $description: string; lineHeight: number; }' is not assignable to type 'Record<string, number>'.
+      Property '"$type"' is incompatible with index signature.
+        Type 'string' is not assignable to type 'number'.
+
+[7m157[0m     compact: compactData
+[7m   [0m [91m    ~~~~~~~[0m
+
+computing gzip size...
+dist/index.mjs  28.46 kB │ gzip: 5.58 kB │ map: 5.79 kB
+[vite:dts] Declaration files built in 897ms.
+
+dist/index.cjs.js  25.02 kB │ gzip: 5.42 kB │ map: 5.62 kB
+✓ built in 1.04s
