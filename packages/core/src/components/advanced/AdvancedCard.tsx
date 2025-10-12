@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/utils'
+import { cn } from '../../utils'
 
 export interface CardProps {
   children: React.ReactNode
