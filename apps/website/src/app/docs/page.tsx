@@ -100,7 +100,7 @@ export default function DocsPage() {
                 fontSize: '0.875rem',
                 color: '#374151'
               }}>
-                npm install @th-ui/core framer-motion
+                npm install @xorigo-ui/core framer-motion
               </div>
             </div>
 
@@ -125,7 +125,7 @@ export default function DocsPage() {
                 fontSize: '0.875rem',
                 color: '#374151'
               }}>
-                {`import { ThemeProvider } from '@th-ui/core'
+                {`import { ThemeProvider } from '@xorigo-ui/core'
 
 function App() {
   return (
@@ -158,7 +158,7 @@ function App() {
                 fontSize: '0.875rem',
                 color: '#374151'
               }}>
-                {`import { Button, Card } from '@th-ui/core'
+                {`import { Button, Card } from '@xorigo-ui/core'
 
 function Example() {
   return (

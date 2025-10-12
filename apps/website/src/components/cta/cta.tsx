@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@th-ui/core"
-import { Badge } from "@th-ui/core"
-import { Input } from "@th-ui/core"
+import { Button } from "@xorigo-ui/core"
+import { Badge } from "@xorigo-ui/core"
+import { Input } from "@xorigo-ui/core"
 import {
   ArrowRight,
   Star,

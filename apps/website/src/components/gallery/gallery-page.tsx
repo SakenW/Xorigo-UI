@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
-import { Button } from '@th-ui/core'
+import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
 import Link from 'next/link'
 
 // 模拟配方数据

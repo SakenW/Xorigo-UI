@@ -1,4 +1,4 @@
-// TH-UI 主入口文件
+// Xorigo UI 主入口文件
 // 导出所有组件、主题和工具
 
 // 组件库
@@ -32,7 +32,7 @@ export {
   // 组件别名
   buttonAliases,
   cardAliases,
-} from '@th-ui/tokens'
+} from '@xorigo-ui/tokens'
 
 // 样式配方系统 (从独立包导出 - 排除冲突的颜色标度)
 export {
@@ -132,7 +132,7 @@ export {
   // 额外的颜色标度
   magentaScale,
   grayScale,
-} from '@th-ui/style-recipe'
+} from '@xorigo-ui/style-recipe'
 
 // 工具函数
 export * from './utils/index'

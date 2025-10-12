@@ -7,7 +7,7 @@ import { parse } from '@typescript-eslint/parser'
 import { traverse } from '@babel/traverse'
 import * as t from '@babel/types'
 import { Component, Registry } from '../src/types'
-import { tokens } from '@th-ui/tokens'
+import { tokens } from '@xorigo-ui/tokens'
 
 // 组件文件解析器
 class ComponentParser {
@@ -233,7 +233,7 @@ class ThemeGenerator {
 
 // 主生成器
 async function generateRegistry(): Promise<void> {
-  console.log('🚀 开始生成 TH-UI 组件注册表...')
+  console.log('🚀 开始生成 Xorigo UI 组件注册表...')
 
   const parser = new ComponentParser()
   const themeGenerator = new ThemeGenerator()
@@ -282,7 +282,7 @@ async function generateRegistry(): Promise<void> {
 // 生成 TypeScript 类型定义
 function generateTypeDefinitions(registry: Registry): string {
   return `
-// 自动生成的 TH-UI 组件注册表类型定义
+// 自动生成的 Xorigo UI 组件注册表类型定义
 // 生成时间: ${registry.generatedAt}
 
 export interface ComponentVariant {

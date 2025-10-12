@@ -1,6 +1,6 @@
 /**
  * 数据加载器
- * 从 @th-ui/registry 和 @th-ui/core 加载组件和配方数据
+ * 从 @xorigo-ui/registry 和 @xorigo-ui/core 加载组件和配方数据
  */
 
 import type { ComponentSearchData, RecipeSearchData } from './types'
@@ -11,12 +11,12 @@ import type { ComponentSearchData, RecipeSearchData } from './types'
 
 /**
  * 加载组件数据
- * 从 @th-ui/registry 读取组件信息
+ * 从 @xorigo-ui/registry 读取组件信息
  */
 export async function loadComponents(): Promise<ComponentSearchData[]> {
   try {
     // 动态导入 registry
-    const { generateRegistry } = await import('@th-ui/registry')
+    const { generateRegistry } = await import('@xorigo-ui/registry')
     const registry = generateRegistry()
 
     if (!registry || !registry.components) {
@@ -45,11 +45,11 @@ export async function loadComponents(): Promise<ComponentSearchData[]> {
 
 /**
  * 加载配方数据
- * 从 @th-ui/core 读取统一配方
+ * 从 @xorigo-ui/core 读取统一配方
  */
 export async function loadRecipes(): Promise<RecipeSearchData[]> {
   try {
-    // TODO: 配方系统已独立为 @th-ui/style-recipe 包，需要重新实现配方数据加载
+    // TODO: 配方系统已独立为 @xorigo-ui/style-recipe 包，需要重新实现配方数据加载
     console.warn('[SearchAPI] 配方数据加载暂未实现')
     return []
   } catch (error) {

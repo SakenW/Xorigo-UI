@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@th-ui/core'
-import { Button } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
+import { Card, CardContent, CardHeader, CardTitle } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
 import {
   validateMatrix,
   calculateContrastRatio,
@@ -17,7 +17,7 @@ import {
   type MatrixConfig,
   type ValidationResult,
   type ValidationIssue,
-} from '@th-ui/core'
+} from '@xorigo-ui/core'
 
 // 示例测试数据
 const exampleTestData = {

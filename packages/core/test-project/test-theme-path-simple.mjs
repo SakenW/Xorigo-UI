@@ -1,12 +1,12 @@
 /**
- * 测试从 @th-ui/core/theme 导入主题模块
+ * 测试从 @xorigo-ui/core/theme 导入主题模块
  */
 
-console.log('=== 测试 @th-ui/core/theme 路径导入 ===');
+console.log('=== 测试 @xorigo-ui/core/theme 路径导入 ===');
 
 try {
   // 尝试导入主题模块
-  const themeModule = await import('@th-ui/core/theme');
+  const themeModule = await import('@xorigo-ui/core/theme');
   
   console.log('成功导入主题模块');
   console.log('可用的导出:', Object.keys(themeModule));

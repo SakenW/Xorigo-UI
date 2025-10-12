@@ -1,8 +1,8 @@
-console.log('=== 测试 @th-ui/core/theme 路径导入 ===');
+console.log('=== 测试 @xorigo-ui/core/theme 路径导入 ===');
 
 try {
-  // 尝试从 @th-ui/core/theme 导入
-  const theme = await import('@th-ui/core/theme');
+  // 尝试从 @xorigo-ui/core/theme 导入
+  const theme = await import('@xorigo-ui/core/theme');
   
   console.log('\n1. 导入成功!');
   console.log('- 导入对象键:', Object.keys(theme));
