@@ -4,10 +4,10 @@
   "code": {
     "install": {
       "package_manager": "# 使用 npm",
-      "command": "npm install @th-ui/core@{{recipe}}"
+      "command": "npm install @xorigo-ui/core@{{recipe}}"
     },
     "usage": {
-      "imports": "import { {{component}} } from '@th-ui/core'",
+      "imports": "import { {{component}} } from '@xorigo-ui/core'",
       "comments": "// 在你的应用中使用",
       "component": "<{{component}} {{variant}}>按钮</{{component}}>"
     },

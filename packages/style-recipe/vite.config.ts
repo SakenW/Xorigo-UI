@@ -31,7 +31,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@th-ui/tokens'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', '@xorigo-ui/tokens'],
       output: {
         globals: {
           react: 'React',

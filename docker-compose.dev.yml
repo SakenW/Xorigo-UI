@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  th-ui-dev:
+  xorigo-ui-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: th-ui-dev
+    container_name: xorigo-ui-dev
     ports:
       - "3100:3100"  # Next.js dev server port
     volumes:
@@ -19,8 +19,8 @@ services:
       - NODE_ENV=development
     command: npm run dev
     networks:
-      - th-ui-network
+      - xorigo-ui-network
 
 networks:
-  th-ui-network:
+  xorigo-ui-network:
     driver: bridge

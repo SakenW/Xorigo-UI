@@ -1,5 +1,5 @@
 # ============================================
-# TH-UI Website 生产环境 Dockerfile
+# Xorigo UI Website 生产环境 Dockerfile
 # Multi-Stage Build for Next.js 15
 # ============================================
 

@@ -1,5 +1,5 @@
 # pnpm-workspace.yaml
-# TH-UI Monorepo - pnpm workspace configuration
+# Xorigo UI Monorepo - pnpm workspace configuration
 
 packages:
   # Core component library

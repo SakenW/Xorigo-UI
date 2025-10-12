@@ -5,12 +5,12 @@
 version: '3.8'
 
 services:
-  th-ui-website:
-    image: th-ui-website
+  xorigo-ui-website:
+    image: xorigo-ui-website
     build:
       context: ./apps/website
       dockerfile: Dockerfile.dev
-    container_name: th-ui-website
+    container_name: xorigo-ui-website
     ports:
       - "3100:3100"
     volumes:
@@ -40,9 +40,9 @@ services:
       - WATCHPACK_POLLING=true
     command: npm run dev -- --port 3100 --hostname 0.0.0.0
     networks:
-      - th-ui-network
+      - xorigo-ui-network
     restart: unless-stopped
 
 networks:
-  th-ui-network:
+  xorigo-ui-network:
     driver: bridge

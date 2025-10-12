@@ -240,7 +240,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CompileRe
  */
 export async function GET(): Promise<NextResponse> {
   return NextResponse.json({
-    name: 'TH-UI Compile API',
+    name: 'Xorigo UI Compile API',
     version: '1.0.0',
     description: '在线代码编译服务（TypeScript/TSX → JavaScript）',
     endpoints: {
