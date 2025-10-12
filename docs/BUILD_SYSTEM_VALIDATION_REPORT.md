@@ -1,4 +1,4 @@
-# TH-UI Monorepo 构建系统验证报告
+# Xorigo UI Monorepo 构建系统验证报告
 
 **审查日期**: 2025-10-12
 **审查范围**: npm 依赖管理、packages/core 构建流程、TypeScript 配置、Docker 部署配置
@@ -33,7 +33,7 @@
 **错误信息**:
 ```bash
 npm error code 127
-npm error path /home/saken/project/TH-UI/node_modules/unrs-resolver
+npm error path /home/saken/project/Xorigo UI/node_modules/unrs-resolver
 npm error command failed
 npm error command sh -c napi-postinstall unrs-resolver 1.11.1 check
 npm error sh: 1: napi-postinstall: Permission denied
@@ -111,8 +111,8 @@ public-hoist-pattern[]=*typescript*
 
 **构建失败原因**:
 ```
-Error: Cannot find package '/home/saken/project/TH-UI/node_modules/vite/index.js'
-imported from /home/saken/project/TH-UI/node_modules/@vitejs/plugin-react/dist/index.js
+Error: Cannot find package '/home/saken/project/Xorigo UI/node_modules/vite/index.js'
+imported from /home/saken/project/Xorigo UI/node_modules/@vitejs/plugin-react/dist/index.js
 ```
 
 **诊断结果**:
@@ -193,13 +193,13 @@ npm install --save-dev vitest@1.6.1  # 使用兼容 vite 5 的版本
 
 **Step 4: 重新安装依赖**
 ```bash
-cd /home/saken/project/TH-UI
+cd /home/saken/project/Xorigo UI
 npm install --legacy-peer-deps
 ```
 
 **Step 5: 验证构建**
 ```bash
-npm run build --workspace=@th-ui/core
+npm run build --workspace=@xorigo-ui/core
 ```
 
 ### 2.4 vite.config.ts 分析
@@ -289,7 +289,7 @@ dts({
 })
 
 # Step 3: 测试类型生成
-npm run build:types --workspace=@th-ui/core
+npm run build:types --workspace=@xorigo-ui/core
 ```
 
 **Phase 2: 基础严格检查启用（3-5天）**
@@ -389,7 +389,7 @@ CMD ["npx", "next", "dev", "--port", "3100", "--hostname", "0.0.0.0"]
 
 ```yaml
 services:
-  th-ui-website:
+  xorigo-ui-website:
     build:
       context: ./apps/website
       dockerfile: Dockerfile.dev
@@ -397,7 +397,7 @@ services:
       - "3100:3100"  # ✅ 端口映射正确
     volumes:
       - ./apps/website/src:/app/src
-      - .:/app/th-ui  # ⚠️ Monorepo 挂载策略需要优化
+      - .:/app/xorigo-ui  # ⚠️ Monorepo 挂载策略需要优化
 ```
 
 **问题**:
@@ -409,7 +409,7 @@ services:
 
 **根目录 Dockerfile.dev（Monorepo 版本）**:
 ```dockerfile
-# TH-UI Monorepo 开发环境 Dockerfile
+# Xorigo UI Monorepo 开发环境 Dockerfile
 FROM node:22-alpine
 
 WORKDIR /app
@@ -426,7 +426,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # 构建 core 包（如果需要）
-RUN npm run build --workspace=@th-ui/core || true
+RUN npm run build --workspace=@xorigo-ui/core || true
 
 # 暴露端口
 EXPOSE 3100
@@ -440,11 +440,11 @@ CMD ["npm", "run", "dev:website"]
 version: '3.8'
 
 services:
-  th-ui-monorepo:
+  xorigo-ui-monorepo:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: th-ui-monorepo
+    container_name: xorigo-ui-monorepo
     ports:
       - "3100:3100"
     volumes:
@@ -459,7 +459,7 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true  # 文件监听优化
     networks:
-      - th-ui-network
+      - xorigo-ui-network
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3100/api/health"]
       interval: 30s
@@ -467,7 +467,7 @@ services:
       retries: 3
 
 networks:
-  th-ui-network:
+  xorigo-ui-network:
     driver: bridge
 ```
 
@@ -490,7 +490,7 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # 构建 core 包
-RUN npm run build --workspace=@th-ui/core
+RUN npm run build --workspace=@xorigo-ui/core
 
 # 构建 website
 RUN npm run build --workspace=website
@@ -551,13 +551,13 @@ npm audit fix --force
 **方案 B: 手动升级（推荐）**:
 ```bash
 # Step 1: 升级 vite 到 7.x
-npm install --save-dev vite@^7.1.9 --workspace=@th-ui/core
+npm install --save-dev vite@^7.1.9 --workspace=@xorigo-ui/core
 
 # Step 2: 升级 esbuild（自动解决）
 npm install
 
 # Step 3: 验证构建
-npm run build --workspace=@th-ui/core
+npm run build --workspace=@xorigo-ui/core
 ```
 
 **方案 C: 暂时接受风险（开发环境）**:
@@ -723,7 +723,7 @@ npm audit --audit-level=high
 
 ### 8.2 构建流程验证
 
-- [ ] **packages/core 构建成功**: `npm run build --workspace=@th-ui/core`
+- [ ] **packages/core 构建成功**: `npm run build --workspace=@xorigo-ui/core`
 - [ ] **dist/ 产物完整**: 包含 .js, .mjs, .css
 - [ ] **类型声明存在**: 包含 .d.ts 文件（启用 dts 后）
 - [ ] **无构建错误**: exit code 0
@@ -747,7 +747,7 @@ echo $?  # 应该输出 0
 
 ```bash
 # 执行验证
-npm run type-check --workspace=@th-ui/core
+npm run type-check --workspace=@xorigo-ui/core
 ```
 
 ### 8.4 Docker 验证
@@ -760,8 +760,8 @@ npm run type-check --workspace=@th-ui/core
 
 ```bash
 # 执行验证
-docker build -f Dockerfile.dev -t th-ui-dev .
-docker run -p 3100:3100 th-ui-dev
+docker build -f Dockerfile.dev -t xorigo-ui-dev .
+docker run -p 3100:3100 xorigo-ui-dev
 curl http://localhost:3100/api/health
 ```
 
@@ -796,7 +796,7 @@ build_metrics:
 # 1. GitHub Actions CI
 # .github/workflows/build.yml
 - name: Build packages/core
-  run: npm run build --workspace=@th-ui/core
+  run: npm run build --workspace=@xorigo-ui/core
 
 - name: Check bundle size
   run: |
@@ -807,7 +807,7 @@ build_metrics:
 # scripts/monitor-build.sh
 #!/bin/bash
 START_TIME=$(date +%s)
-npm run build --workspace=@th-ui/core
+npm run build --workspace=@xorigo-ui/core
 END_TIME=$(date +%s)
 BUILD_TIME=$((END_TIME - START_TIME))
 echo "Build time: ${BUILD_TIME}s"
@@ -898,11 +898,11 @@ echo "Report generated at: $(date)" > deps-health-report.txt
 ```bash
 #!/bin/bash
 # scripts/quick-fix-build.sh
-# TH-UI 构建系统快速修复脚本
+# Xorigo UI 构建系统快速修复脚本
 
 set -e
 
-echo "🔧 TH-UI 构建系统快速修复"
+echo "🔧 Xorigo UI 构建系统快速修复"
 echo "=============================="
 
 # Step 1: 清理权限混乱的 node_modules
@@ -990,10 +990,10 @@ npm outdated                                # 查看过期依赖
 npm audit                                   # 安全审计
 
 # 构建诊断
-npm run build --workspace=@th-ui/core       # 测试构建
-npm run type-check --workspace=@th-ui/core  # 类型检查
-npm run lint --workspace=@th-ui/core        # 代码检查
-npm run test --workspace=@th-ui/core        # 运行测试
+npm run build --workspace=@xorigo-ui/core       # 测试构建
+npm run type-check --workspace=@xorigo-ui/core  # 类型检查
+npm run lint --workspace=@xorigo-ui/core        # 代码检查
+npm run test --workspace=@xorigo-ui/core        # 运行测试
 
 # 文件权限诊断
 find node_modules -user root | head -20     # 查找 root 权限文件
@@ -1002,8 +1002,8 @@ stat node_modules/vite/package.json         # 检查文件状态
 
 # Docker 诊断
 docker build -f Dockerfile.dev .            # 测试 Docker 构建
-docker images | grep th-ui                  # 查看 Docker 镜像
-docker ps -a | grep th-ui                   # 查看 Docker 容器
+docker images | grep xorigo-ui                  # 查看 Docker 镜像
+docker ps -a | grep xorigo-ui                   # 查看 Docker 容器
 
 # npm 配置诊断
 npm config list                             # 查看所有配置
@@ -1015,14 +1015,14 @@ cat ~/.npmrc                                # 查看全局配置
 
 **报告生成时间**: 2025-10-12 02:33:00
 **报告版本**: v1.0
-**审查范围**: TH-UI Monorepo 构建系统全面诊断
+**审查范围**: Xorigo UI Monorepo 构建系统全面诊断
 **审查状态**: 🔴 发现 3 个 P0 阻塞问题，需要立即修复
 
 ---
 
 ## 总结
 
-TH-UI Monorepo 构建系统当前处于 **不可用状态**，主要受 npm 依赖管理和 vite 包损坏影响。修复计划分为三个阶段：
+Xorigo UI Monorepo 构建系统当前处于 **不可用状态**，主要受 npm 依赖管理和 vite 包损坏影响。修复计划分为三个阶段：
 
 1. **P0 阻塞问题修复（1-2天）**: 修复 npm install 和 vite 构建问题
 2. **P1 重要问题修复（3-5天）**: 启用 TypeScript 类型声明和优化 Docker 配置

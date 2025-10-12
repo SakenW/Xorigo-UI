@@ -9,7 +9,7 @@
 
 ## 📋 任务概述
 
-根据用户需求"参考shadcn的形式，这些都需要可以用pnpm npm yarn bun"，为 TH-UI Monorepo 项目添加完整的多包管理器支持，确保项目可以使用 npm、pnpm、yarn 和 bun 四种主流包管理器。
+根据用户需求"参考shadcn的形式，这些都需要可以用pnpm npm yarn bun"，为 Xorigo UI Monorepo 项目添加完整的多包管理器支持，确保项目可以使用 npm、pnpm、yarn 和 bun 四种主流包管理器。
 
 ---
 
@@ -136,19 +136,19 @@ public-hoist-pattern[]=*typescript*
 ```markdown
 ## 📦 安装
 
-TH-UI 支持所有主流包管理器：npm、pnpm、yarn 和 bun。
+Xorigo UI 支持所有主流包管理器：npm、pnpm、yarn 和 bun。
 
 # npm
-npm install @th-ui/core
+npm install @xorigo-ui/core
 
 # pnpm (推荐)
-pnpm add @th-ui/core
+pnpm add @xorigo-ui/core
 
 # yarn
-yarn add @th-ui/core
+yarn add @xorigo-ui/core
 
 # bun
-bun add @th-ui/core
+bun add @xorigo-ui/core
 ```
 
 **开发环境部分**:
@@ -164,7 +164,7 @@ bun add @th-ui/core
 
 ### 安装依赖
 
-TH-UI 支持所有主流包管理器，选择你喜欢的即可：
+Xorigo UI 支持所有主流包管理器，选择你喜欢的即可：
 
 # npm
 npm install
@@ -211,7 +211,7 @@ bun install
   "workspaces": ["packages/*", "apps/*"]
 }
 ```
-- 依赖引用: `"@th-ui/core": "file:../../packages/core"`
+- 依赖引用: `"@xorigo-ui/core": "file:../../packages/core"`
 
 #### 2. pnpm 工作区 (新增)
 ```yaml
@@ -219,8 +219,8 @@ packages:
   - 'packages/*'
   - 'apps/*'
 ```
-- 依赖引用: `"@th-ui/core": "workspace:*"` (推荐)
-- 或: `"@th-ui/core": "file:../../packages/core"` (npm 兼容)
+- 依赖引用: `"@xorigo-ui/core": "workspace:*"` (推荐)
+- 或: `"@xorigo-ui/core": "file:../../packages/core"` (npm 兼容)
 
 #### 3. yarn 工作区 (兼容)
 - 使用与 npm 相同的 `package.json` workspaces 配置
@@ -236,7 +236,7 @@ packages:
 ```json
 {
   "dependencies": {
-    "@th-ui/core": "file:../../packages/core"
+    "@xorigo-ui/core": "file:../../packages/core"
   }
 }
 ```
@@ -245,7 +245,7 @@ packages:
 ```json
 {
   "dependencies": {
-    "@th-ui/core": "workspace:*"
+    "@xorigo-ui/core": "workspace:*"
   }
 }
 ```
@@ -278,7 +278,7 @@ packages:
 
 ## 📈 性能对比
 
-基于 TH-UI 项目的预估数据：
+基于 Xorigo UI 项目的预估数据：
 
 | 操作 | npm | pnpm | yarn | bun |
 |-----|-----|------|------|-----|
@@ -398,7 +398,7 @@ yarn install
 
 ## 🎊 总结
 
-成功为 TH-UI Monorepo 项目添加了完整的多包管理器支持，参考 shadcn/ui 的实现方式，确保项目可以使用 npm、pnpm、yarn 和 bun 四种主流包管理器。
+成功为 Xorigo UI Monorepo 项目添加了完整的多包管理器支持，参考 shadcn/ui 的实现方式，确保项目可以使用 npm、pnpm、yarn 和 bun 四种主流包管理器。
 
 **核心成果**:
 1. ✅ 配置文件完整 (pnpm-workspace.yaml, .npmrc)
@@ -424,7 +424,7 @@ yarn install
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **分支**: monorepo-restructure
 **提交**: a6c164e

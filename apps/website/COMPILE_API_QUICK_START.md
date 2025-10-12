@@ -5,7 +5,7 @@
 ### 第一步：启动开发服务器
 
 ```bash
-cd /home/saken/project/TH-UI/apps/website
+cd /home/saken/project/Xorigo UI/apps/website
 npm run dev
 ```
 
@@ -27,7 +27,7 @@ curl http://localhost:3000/api/compile
 curl -X POST http://localhost:3000/api/compile \
   -H "Content-Type: application/json" \
   -d '{
-    "code": "const greeting: string = \"Hello, TH-UI!\"; console.log(greeting);",
+    "code": "const greeting: string = \"Hello, Xorigo UI!\"; console.log(greeting);",
     "config": {
       "loader": "ts",
       "target": "es2020"
@@ -39,7 +39,7 @@ curl -X POST http://localhost:3000/api/compile \
 ```json
 {
   "success": true,
-  "code": "const greeting = \"Hello, TH-UI!\";\nconsole.log(greeting);\n"
+  "code": "const greeting = \"Hello, Xorigo UI!\";\nconsole.log(greeting);\n"
 }
 ```
 
@@ -47,7 +47,7 @@ curl -X POST http://localhost:3000/api/compile \
 
 ```bash
 # 运行完整测试套件
-cd /home/saken/project/TH-UI/apps/website
+cd /home/saken/project/Xorigo UI/apps/website
 ./test-compile-api.sh
 ```
 
@@ -264,5 +264,5 @@ lsof -i :3000
 **准备好了吗？立即启动服务器并开始使用！** 🚀
 
 ```bash
-cd /home/saken/project/TH-UI/apps/website && npm run dev
+cd /home/saken/project/Xorigo UI/apps/website && npm run dev
 ```

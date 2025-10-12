@@ -1,4 +1,4 @@
-# 🎯 TH-UI Monorepo 统一执行计划
+# 🎯 Xorigo UI Monorepo 统一执行计划
 
 **生成日期**: 2025-10-12
 **审查范围**: 架构、依赖、构建、文档、迁移、七轴系统
@@ -32,7 +32,7 @@
 npm error EACCES: permission denied, unlink 'node_modules/esbuild/bin/esbuild'
 
 # 错误 2: 工作区依赖失效
-@th-ui/core@ invalid: "file:/home/saken/project/TH-UI/packages/core"
+@xorigo-ui/core@ invalid: "file:/home/saken/project/Xorigo UI/packages/core"
 
 # 错误 3: vite 包损坏
 node_modules/vite/ 缺少 package.json
@@ -66,7 +66,7 @@ cd ../.. && npm install
 
 **验证**:
 ```bash
-npm ls @th-ui/core  # 应无 "invalid"
+npm ls @xorigo-ui/core  # 应无 "invalid"
 npm run build       # 应成功
 npm run dev         # 应启动
 ```
@@ -256,8 +256,8 @@ npm run dev         # 应启动
 ## 🟢 P2 中优先级问题（下周开始）
 
 ### 12. 缺失包创建
-- `@th-ui/i18n` (国际化包) - 5 天
-- `@th-ui/matrix` (可访问性验证) - 5 天
+- `@xorigo-ui/i18n` (国际化包) - 5 天
+- `@xorigo-ui/matrix` (可访问性验证) - 5 天
 - 独立 tokens 和 style-recipe 包 - 3 天
 
 ### 13. Docker 配置更新
@@ -358,7 +358,7 @@ npm run dev         # 应启动
 
 | 任务 | 负责人 | 时间 | 优先级 |
 |------|--------|------|--------|
-| 创建 @th-ui/i18n 包 | Backend | 5天 | P2 |
+| 创建 @xorigo-ui/i18n 包 | Backend | 5天 | P2 |
 | 独立 tokens/style-recipe | Frontend | 3天 | P2 |
 | 更新 Docker 配置 | DevOps | 1天 | P2 |
 | 实现搜索 API | Backend | 2天 | P2 |
@@ -417,7 +417,7 @@ npm run dev         # 应启动
 - 依赖管理和版本统一
 - Compile API 实现
 - Registry API 实现
-- @th-ui/i18n 包创建
+- @xorigo-ui/i18n 包创建
 
 ### Frontend 工程师
 **优先级**: P0 页面实现 → P0 引擎实现 → P1 验证系统

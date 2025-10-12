@@ -1,8 +1,8 @@
-# @th-ui/i18n 国际化包实施报告
+# @xorigo-ui/i18n 国际化包实施报告
 
 ## 📋 执行摘要
 
-成功创建完整的 `@th-ui/i18n` 国际化包，为 TH-UI 生态系统提供轻量级、类型安全的多语言支持。该包采用自实现架构，无需大型第三方依赖，完全基于 React 19 和 TypeScript 5.9 最佳实践构建。
+成功创建完整的 `@xorigo-ui/i18n` 国际化包，为 Xorigo UI 生态系统提供轻量级、类型安全的多语言支持。该包采用自实现架构，无需大型第三方依赖，完全基于 React 19 和 TypeScript 5.9 最佳实践构建。
 
 ## ✅ 完成状态
 
@@ -283,7 +283,7 @@ npm run validate-locales
 ### 基础使用
 
 ```typescript
-import { I18nManager } from '@th-ui/i18n'
+import { I18nManager } from '@xorigo-ui/i18n'
 
 const i18n = I18nManager.getInstance({
   defaultLocale: 'zh-CN',
@@ -298,7 +298,7 @@ console.log(i18n.t('common:actions.save')) // "保存"
 ### React 应用集成
 
 ```tsx
-import { I18nProvider, useI18n } from '@th-ui/i18n/react'
+import { I18nProvider, useI18n } from '@xorigo-ui/i18n/react'
 
 // App.tsx
 function App() {
@@ -327,13 +327,13 @@ function HomePage() {
 }
 ```
 
-### TH-UI 子系统集成
+### Xorigo UI 子系统集成
 
 #### Matrix 系统集成
 
 ```typescript
-// @th-ui/matrix/src/MatrixGenerator.ts
-import { I18nManager } from '@th-ui/i18n'
+// @xorigo-ui/matrix/src/MatrixGenerator.ts
+import { I18nManager } from '@xorigo-ui/i18n'
 
 export class MatrixGenerator {
   private i18n: I18nManager
@@ -360,7 +360,7 @@ export class MatrixGenerator {
 
 ```tsx
 // apps/gallery/src/components/ThemeSelector.tsx
-import { useI18n } from '@th-ui/i18n/react'
+import { useI18n } from '@xorigo-ui/i18n/react'
 
 export const ThemeSelector: React.FC = () => {
   const { t, locale, changeLocale } = useI18n({ namespace: 'gallery' })
@@ -389,7 +389,7 @@ export const ThemeSelector: React.FC = () => {
 
 ```typescript
 // apps/adoption-matrix/src/hooks/useLocalizedCode.ts
-import { useI18n } from '@th-ui/i18n/react'
+import { useI18n } from '@xorigo-ui/i18n/react'
 
 export function useLocalizedCode() {
   const { t } = useI18n({ namespace: 'adoption' })
@@ -502,19 +502,19 @@ export default defineConfig({
 ### 1. 安装包
 
 ```bash
-# 在 TH-UI 根目录
-cd /home/saken/project/TH-UI
+# 在 Xorigo UI 根目录
+cd /home/saken/project/Xorigo UI
 npm install
 
 # 或在子项目中
-npm install @th-ui/i18n
+npm install @xorigo-ui/i18n
 ```
 
 ### 2. 配置应用
 
 ```tsx
 // apps/website/src/main.tsx
-import { I18nProvider } from '@th-ui/i18n/react'
+import { I18nProvider } from '@xorigo-ui/i18n/react'
 
 root.render(
   <I18nProvider locale="zh-CN">
@@ -526,7 +526,7 @@ root.render(
 ### 3. 在组件中使用
 
 ```tsx
-import { useI18n } from '@th-ui/i18n/react'
+import { useI18n } from '@xorigo-ui/i18n/react'
 
 function Component() {
   const { t } = useI18n({ namespace: 'common' })
@@ -683,6 +683,6 @@ const changeLocale = useCallback(async (locale) => { ... }, [i18n])
 ---
 
 **报告生成时间**: 2025-10-12
-**包版本**: @th-ui/i18n@0.1.0
-**实施人员**: Claude AI + TH-UI Team
+**包版本**: @xorigo-ui/i18n@0.1.0
+**实施人员**: Claude AI + Xorigo UI Team
 **状态**: ✅ 完成并可用

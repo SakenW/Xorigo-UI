@@ -1,6 +1,6 @@
 # Matrix 可访问性验证系统
 
-TH-UI 组件库的完整 WCAG 2.1 标准验证工具。
+Xorigo UI 组件库的完整 WCAG 2.1 标准验证工具。
 
 ## 🎯 功能特性
 
@@ -45,7 +45,7 @@ TH-UI 组件库的完整 WCAG 2.1 标准验证工具。
 ## 📦 安装
 
 ```bash
-npm install @th-ui/core
+npm install @xorigo-ui/core
 ```
 
 ## 🚀 快速开始
@@ -56,7 +56,7 @@ npm install @th-ui/core
 import {
   validateContrast,
   DEFAULT_MATRIX_CONFIG,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 // 验证对比度
 const result = validateContrast(
@@ -77,7 +77,7 @@ import {
   validateContrast,
   validateContrastBatch,
   calculateContrastRatio,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 // 计算对比度比例
 const ratio = calculateContrastRatio('#FFFFFF', '#000000')
@@ -117,7 +117,7 @@ import {
   simulateCVD,
   simulateAllCVD,
   isDistinguishableWithCVD,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 // 模拟红色盲
 const protanopia = simulateCVD('#FF0000', 'protanopia')
@@ -149,7 +149,7 @@ import {
   validateReadability,
   validateFontSize,
   validateLineHeight,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 // 综合验证
 const issues = validateReadability(
@@ -178,7 +178,7 @@ const lineHeightIssues = validateLineHeight(
 ### 焦点状态验证
 
 ```typescript
-import { validateFocus } from '@th-ui/core/utils/matrix'
+import { validateFocus } from '@xorigo-ui/core/utils/matrix'
 
 const issues = validateFocus(
   {
@@ -195,7 +195,7 @@ const issues = validateFocus(
 ### 键盘导航验证
 
 ```typescript
-import { validateKeyboardAccessibility } from '@th-ui/core/utils/matrix'
+import { validateKeyboardAccessibility } from '@xorigo-ui/core/utils/matrix'
 
 const issues = validateKeyboardAccessibility(
   {
@@ -218,7 +218,7 @@ import {
   generateMarkdownReport,
   generateJSONReport,
   generateConsoleReport,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 const validationResult = {
   passed: false,
@@ -246,7 +246,7 @@ console.log(consoleReport)
 ### 默认配置 (WCAG AA)
 
 ```typescript
-import { DEFAULT_MATRIX_CONFIG } from '@th-ui/core/utils/matrix'
+import { DEFAULT_MATRIX_CONFIG } from '@xorigo-ui/core/utils/matrix'
 
 const config = {
   contrast: {
@@ -278,7 +278,7 @@ const config = {
 ### 严格配置 (WCAG AAA)
 
 ```typescript
-import { STRICT_MATRIX_CONFIG } from '@th-ui/core/utils/matrix'
+import { STRICT_MATRIX_CONFIG } from '@xorigo-ui/core/utils/matrix'
 
 // strictness: 'AAA'
 // 其他配置与 DEFAULT_MATRIX_CONFIG 相同
@@ -287,7 +287,7 @@ import { STRICT_MATRIX_CONFIG } from '@th-ui/core/utils/matrix'
 ### 自定义配置
 
 ```typescript
-import { type MatrixConfig } from '@th-ui/core/utils/matrix'
+import { type MatrixConfig } from '@xorigo-ui/core/utils/matrix'
 
 const customConfig: MatrixConfig = {
   ...DEFAULT_MATRIX_CONFIG,
@@ -363,6 +363,6 @@ MIT License
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 0.1.0
 **最后更新**: 2024-01-01

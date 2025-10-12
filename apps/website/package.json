@@ -1,7 +1,7 @@
 {
   "name": "website",
   "version": "0.1.0",
-  "description": "TH-UI 官方网站 - 基于 Next.js 15 App Router",
+  "description": "Xorigo UI 官方网站 - 基于 Next.js 15 App Router",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -38,8 +38,8 @@
     "@tailwindcss/postcss": "^4.1.14",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-query": "^5.90.2",
-    "@th-ui/core": "file:../../packages/core",
-    "@th-ui/registry": "file:../../packages/registry",
+    "@xorigo-ui/core": "file:../../packages/core",
+    "@xorigo-ui/registry": "file:../../packages/registry",
     "@tiptap/react": "^3.6.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -84,9 +84,9 @@
     "react",
     "ui-components",
     "design-system",
-    "th-ui",
+    "xorigo-ui",
     "website"
   ],
-  "author": "TH-UI Team",
+  "author": "Xorigo UI Team",
   "license": "MIT"
 }

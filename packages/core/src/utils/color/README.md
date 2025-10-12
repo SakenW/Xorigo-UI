@@ -16,7 +16,7 @@
 ## 📦 安装
 
 ```bash
-npm install @th-ui/core
+npm install @xorigo-ui/core
 ```
 
 ## 🚀 快速开始
@@ -30,7 +30,7 @@ import {
   interpolateColor,
   adjustColor,
   generateColorScale,
-} from '@th-ui/core/utils/color'
+} from '@xorigo-ui/core/utils/color'
 
 // 色彩转换
 const oklch = toOKLCH('#ff0000')
@@ -57,7 +57,7 @@ const scale = generateColorScale('#ff0000', '#0000ff', 5)
 ### 面向对象 API
 
 ```ts
-import { OKLCHColor } from '@th-ui/core/utils/color'
+import { OKLCHColor } from '@xorigo-ui/core/utils/color'
 
 // 创建颜色实例
 const color = new OKLCHColor('#ff0000')
@@ -349,7 +349,7 @@ clone(): OKLCHColor          // 克隆颜色
 ### 1. 主题配色系统
 
 ```ts
-import { OKLCHColor, generateColorScale } from '@th-ui/core/utils/color'
+import { OKLCHColor, generateColorScale } from '@xorigo-ui/core/utils/color'
 
 // 生成主题色阶
 const primary = new OKLCHColor('#3b82f6')
@@ -373,7 +373,7 @@ const scale = generateColorScale('#3b82f6', '#1e3a8a', 9)
 ### 2. 渐变生成
 
 ```ts
-import { interpolateColor, formatColor } from '@th-ui/core/utils/color'
+import { interpolateColor, formatColor } from '@xorigo-ui/core/utils/color'
 
 // 生成渐变停止点
 function generateGradient(startColor: string, endColor: string, steps: number = 10) {
@@ -400,7 +400,7 @@ const gradient = generateGradient('#ff0000', '#0000ff', 5)
 ### 3. 色彩无障碍
 
 ```ts
-import { OKLCHColor } from '@th-ui/core/utils/color'
+import { OKLCHColor } from '@xorigo-ui/core/utils/color'
 
 // 确保文本对比度
 function ensureContrast(foreground: string, background: string, minContrast: number = 4.5) {
@@ -423,7 +423,7 @@ function ensureContrast(foreground: string, background: string, minContrast: num
 ### 4. 动态主题生成
 
 ```ts
-import { OKLCHColor } from '@th-ui/core/utils/color'
+import { OKLCHColor } from '@xorigo-ui/core/utils/color'
 
 // 从品牌色生成完整主题
 function generateTheme(brandColor: string) {
@@ -497,5 +497,5 @@ MIT License
 ---
 
 **版本**: 0.1.0
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team
 **技术栈**: TypeScript + culori + Vitest

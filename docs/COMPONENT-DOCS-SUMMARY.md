@@ -1,4 +1,4 @@
-# TH-UI 组件文档生成 - 执行摘要
+# Xorigo UI 组件文档生成 - 执行摘要
 
 ## 任务完成状态 ✅
 
@@ -146,4 +146,4 @@ find docs/components -name "*.md" | wc -l  # 应输出 43
 
 **生成时间**: 2025-10-12 04:12:00
 **状态**: ✅ 全部完成
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team

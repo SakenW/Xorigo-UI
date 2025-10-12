@@ -1,4 +1,4 @@
-# 🤖 TH-UI Monorepo Agent 执行指令集
+# 🤖 Xorigo UI Monorepo Agent 执行指令集
 
 基于 [081-unified-execution-plan.md](../reports/081-unified-execution-plan.md) 的分阶段执行计划，设计多个专业 Agent 并发执行任务。
 
@@ -37,9 +37,9 @@ claude-flow hive-mind 部署 3个紧急修复 Agent 并行执行：
      * 删除所有 node_modules（根目录 + packages/ + apps/）
      * 配置 .npmrc (unsafe-perm=true, legacy-peer-deps=true)
      * 执行 npm install --legacy-peer-deps
-     * 验证 @th-ui/core 工作区依赖有效性
+     * 验证 @xorigo-ui/core 工作区依赖有效性
    - 输出: 依赖安装成功日志，验证清单
-   - 验证: npm ls @th-ui/core 无 "invalid"
+   - 验证: npm ls @xorigo-ui/core 无 "invalid"
 
 2. **构建修复 Agent** (Build-Fixer)
    - 任务: 构建 packages/core 和 packages/registry
@@ -49,7 +49,7 @@ claude-flow hive-mind 部署 3个紧急修复 Agent 并行执行：
      * 验证 dist/ 目录存在且包含完整产物
      * cd packages/registry && npm run build
      * 验证构建成功
-   - 特殊注意: 确保vite.config.ts中包含`external: ['@th-ui/core']`配置以解决Vite 7包解析问题
+   - 特殊注意: 确保vite.config.ts中包含`external: ['@xorigo-ui/core']`配置以解决Vite 7包解析问题
    - 输出: 构建日志，产物清单
    - 验证: ls -la packages/core/dist/
 
@@ -194,7 +194,7 @@ claude-flow hive-mind 部署 5个核心功能 Agent 并行执行：
      * 编译为可执行 JavaScript（esbuild transform）
      * 沙箱环境执行（安全隔离）
      * 返回编译结果或错误信息
-     * 支持 @th-ui/core 组件导入
+     * 支持 @xorigo-ui/core 组件导入
      * 性能优化（缓存编译结果）
 
    - 技术要求:
@@ -224,7 +224,7 @@ claude-flow hive-mind 部署 5个核心功能 Agent 并行执行：
      * 查询组件列表（支持分类、搜索、过滤）
      * 获取组件详情（代码、依赖、文档）
      * 返回组件元数据（JSON Schema）
-     * 集成 @th-ui/registry 包
+     * 集成 @xorigo-ui/registry 包
      * 支持版本管理（v0.1.0）
 
    - 技术要求:
@@ -233,7 +233,7 @@ claude-flow hive-mind 部署 5个核心功能 Agent 并行执行：
      * **必须**: 支持 GET /api/registry 和 GET /api/registry/[component]
      * **必须**: 返回标准 JSON 响应（含 status, data, error）
      * **必须**: 使用 TypeScript 类型安全（RegistryComponent 接口）
-     * **禁止**: 硬编码组件数据（使用 @th-ui/registry 包）
+     * **禁止**: 硬编码组件数据（使用 @xorigo-ui/registry 包）
 
    - 输出: API 路由代码（含 TypeScript 类型），数据模型，查询逻辑
    - 验证: 组件查询和获取功能正常
@@ -372,7 +372,7 @@ claude-flow hive-mind 部署 4个质量提升 Agent 并行执行：
      * 修复可能的类型生成错误（运行 npm run build）
      * 验证 dist/ 包含完整 .d.ts 文件（index.d.ts, theme/index.d.ts）
      * 更新 package.json exports 类型路径（验证正确性）
-     * 确保vite.config.ts中包含`external: ['@th-ui/core']`配置以解决Vite 7包解析问题
+     * 确保vite.config.ts中包含`external: ['@xorigo-ui/core']`配置以解决Vite 7包解析问题
 
    - 技术要求:
      * **必须**: 配置 rollupTypes: true（合并类型声明）
@@ -408,7 +408,7 @@ claude-flow hive-mind 部署 4个质量提升 Agent 并行执行：
 claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
 
 1. **I18n 包创建 Agent** (I18n-Package-Builder)
-   - 任务: 创建 @th-ui/i18n 独立包，为TH-UI生态系统提供轻量级国际化解决方案
+   - 任务: 创建 @xorigo-ui/i18n 独立包，为Xorigo UI生态系统提供轻量级国际化解决方案
    - 位置: packages/i18n/
 
    - **📚 技术栈文档查询 (Context7 - 必须先查询)**:
@@ -466,7 +466,7 @@ claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
      - 工具脚本能够正确提取和验证翻译键
      - 支持至少4种语言(zh-CN, zh-TW, en-US, ja-JP)
      - 文档完整，包含使用示例和API说明
-     - 包可独立发布，集成到 @th-ui/core
+     - 包可独立发布，集成到 @xorigo-ui/core
 
 2. **独立 Tokens 和 Style Recipe 包 Agent** (Tokens-Recipe-Extractor)
    - 任务: 拆分 tokens 和 style-recipe 为独立包
@@ -481,24 +481,24 @@ claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
 
    - 执行步骤:
      * 从 packages/core/src/ 提取 tokens/ 和 style-recipe/（复制到新包）
-     * 创建独立 package.json（name: @th-ui/tokens, @th-ui/style-recipe）
+     * 创建独立 package.json（name: @xorigo-ui/tokens, @xorigo-ui/style-recipe）
      * 配置 peerDependencies（react, react-dom）
-     * 更新 @th-ui/core 依赖引用（从本地路径改为包名）
+     * 更新 @xorigo-ui/core 依赖引用（从本地路径改为包名）
      * 配置 exports 和类型声明（package.json）
      * 更新构建配置（复制 Vite 配置并调整）
      * 更新根 package.json workspaces（添加新包）
-     * 确保新包的vite.config.ts中包含`external: ['@th-ui/core']`配置以解决Vite 7包解析问题
+     * 确保新包的vite.config.ts中包含`external: ['@xorigo-ui/core']`配置以解决Vite 7包解析问题
 
    - 技术要求:
      * **必须**: 使用 npm workspaces 本地依赖（file: 协议）
      * **必须**: 配置正确的 peerDependencies（避免重复安装）
      * **必须**: 保持包版本一致（都使用 0.1.0）
-     * **必须**: 更新 @th-ui/core 的 import 路径
+     * **必须**: 更新 @xorigo-ui/core 的 import 路径
      * **必须**: 确保package.json中的exports字段包含正确的类型路径
      * **禁止**: 破坏现有功能（必须向后兼容）
 
    - 输出: 2 个新包（含完整配置），迁移报告（文件清单，依赖关系），依赖更新清单
-   - 验证: 包可独立发布，@th-ui/core 正常工作
+   - 验证: 包可独立发布，@xorigo-ui/core 正常工作
 
 3. **Docker 配置更新 Agent** (Docker-Config-Updater)
    - 任务: 更新 Docker 配置适配 Monorepo
@@ -691,7 +691,7 @@ claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
 - [ ] Docker镜像可构建
 - [ ] 搜索API正常工作
 - [ ] 旧代码清理完成
-- [ ] 所有包的vite.config.ts中包含`external: ['@th-ui/core']`配置以解决Vite 7包解析问题
+- [ ] 所有包的vite.config.ts中包含`external: ['@xorigo-ui/core']`配置以解决Vite 7包解析问题
 
 ---
 
@@ -793,6 +793,6 @@ cat docs/reports/dependency-analysis-report.md
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **最后更新**: 2025-10-12

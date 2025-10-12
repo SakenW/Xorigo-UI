@@ -1,9 +1,9 @@
-# @th-ui/i18n
+# @xorigo-ui/i18n
 
-> TH-UI 轻量级国际化解决方案
+> Xorigo UI 轻量级国际化解决方案
 
-[![Version](https://img.shields.io/npm/v/@th-ui/i18n.svg)](https://www.npmjs.com/package/@th-ui/i18n)
-[![License](https://img.shields.io/npm/l/@th-ui/i18n.svg)](https://github.com/th-ui/th-ui/blob/main/LICENSE)
+[![Version](https://img.shields.io/npm/v/@xorigo-ui/i18n.svg)](https://www.npmjs.com/package/@xorigo-ui/i18n)
+[![License](https://img.shields.io/npm/l/@xorigo-ui/i18n.svg)](https://github.com/xorigo-ui/xorigo-ui/blob/main/LICENSE)
 
 ## ✨ 特性
 
@@ -22,7 +22,7 @@
 ## 📦 安装
 
 ```bash
-npm install @th-ui/i18n
+npm install @xorigo-ui/i18n
 ```
 
 ## 🚀 快速开始
@@ -30,7 +30,7 @@ npm install @th-ui/i18n
 ### 基础使用
 
 ```typescript
-import { I18nManager } from '@th-ui/i18n'
+import { I18nManager } from '@xorigo-ui/i18n'
 
 // 获取单例实例
 const i18n = I18nManager.getInstance({
@@ -56,7 +56,7 @@ console.log(i18n.t('common:actions.save')) // "Save"
 ### React 集成
 
 ```tsx
-import { I18nProvider, useI18n } from '@th-ui/i18n/react'
+import { I18nProvider, useI18n } from '@xorigo-ui/i18n/react'
 
 // 1. 在应用根组件使用 Provider
 function App() {
@@ -90,7 +90,7 @@ function Component() {
 ### 语言切换器
 
 ```tsx
-import { useLocale } from '@th-ui/i18n/react'
+import { useLocale } from '@xorigo-ui/i18n/react'
 
 function LanguageSwitcher() {
   const { locale, changeLocale, supportedLocales } = useLocale()
@@ -330,16 +330,16 @@ interface I18nConfig {
 
 ## 📄 许可证
 
-MIT License © TH-UI Team
+MIT License © Xorigo UI Team
 
 ## 🔗 相关链接
 
-- [TH-UI 主仓库](https://github.com/th-ui/th-ui)
-- [文档](https://th-ui.dev)
-- [问题反馈](https://github.com/th-ui/th-ui/issues)
+- [Xorigo UI 主仓库](https://github.com/xorigo-ui/xorigo-ui)
+- [文档](https://xorigo-ui.dev)
+- [问题反馈](https://github.com/xorigo-ui/xorigo-ui/issues)
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 0.1.0
 **技术栈**: React 19 + TypeScript 5.9 + Intl API

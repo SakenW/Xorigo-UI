@@ -1,8 +1,8 @@
-# 🏗️ TH-UI 组件库架构文档
+# 🏗️ Xorigo UI 组件库架构文档
 
 > **版本**: v0.1.0
 > **更新时间**: 2025-01-11
-> **作者**: TH-UI Team
+> **作者**: Xorigo UI Team
 
 ---
 
@@ -24,12 +24,12 @@
 
 ## 📊 整体架构概览
 
-TH-UI 采用**「核心组件 + Design Tokens + 主题系统」**三层架构，是一个现代化的企业级 React 组件库。
+Xorigo UI 采用**「核心组件 + Design Tokens + 主题系统」**三层架构，是一个现代化的企业级 React 组件库。
 
 ### 架构图
 
 ```
-TH-UI 组件库
+Xorigo UI 组件库
 │
 ├── 📦 核心层：组件实现
 │   ├── UI 基础组件 (17个)
@@ -400,7 +400,7 @@ export const semanticColors = {
 
 #### DTCG 标准支持
 
-TH-UI 遵循 [Design Tokens Community Group (DTCG)](https://www.w3.org/community/design-tokens/) 标准：
+Xorigo UI 遵循 [Design Tokens Community Group (DTCG)](https://www.w3.org/community/design-tokens/) 标准：
 
 ```json
 {
@@ -650,7 +650,7 @@ export const colorPalettes: ColorPalette[] = [
 
 ```typescript
 // 1️⃣ 应用顶层设置主题
-import { ThemeProvider } from '@th-ui/core/theme'
+import { ThemeProvider } from '@xorigo-ui/core/theme'
 
 function App() {
   return (
@@ -667,8 +667,8 @@ document.documentElement.style.setProperty('--gradient-primary', 'linear-gradien
 // ... 更多 CSS 变量
 
 // 3️⃣ 组件使用主题
-import { Button } from '@th-ui/core'
-import { useTheme } from '@th-ui/core/theme'
+import { Button } from '@xorigo-ui/core'
+import { useTheme } from '@xorigo-ui/core/theme'
 
 function MyComponent() {
   const { currentTheme, setTheme, themeConfig } = useTheme()
@@ -742,17 +742,17 @@ UI 视觉效果立即更新
 
 ```json
 {
-  "name": "@th-ui/core",
+  "name": "@xorigo-ui/core",
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/th-ui.cjs.js",
-  "module": "./dist/th-ui.es.js",
+  "main": "./dist/xorigo-ui.cjs.js",
+  "module": "./dist/xorigo-ui.es.js",
   "types": "./dist/index.d.ts",
 
   "exports": {
     ".": {
-      "import": "./dist/th-ui.es.js",
-      "require": "./dist/th-ui.cjs.js",
+      "import": "./dist/xorigo-ui.es.js",
+      "require": "./dist/xorigo-ui.cjs.js",
       "types": "./dist/index.d.ts"
     },
     "./theme": {
@@ -784,25 +784,25 @@ UI 视觉效果立即更新
 
 ```typescript
 // 导入核心组件
-import { Button, Card, Input, Badge } from '@th-ui/core'
+import { Button, Card, Input, Badge } from '@xorigo-ui/core'
 
 // 导入主题系统
-import { ThemeProvider, useTheme } from '@th-ui/core/theme'
+import { ThemeProvider, useTheme } from '@xorigo-ui/core/theme'
 
 // 导入设计令牌
-import { colorTokens, spacing } from '@th-ui/core/tokens'
+import { colorTokens, spacing } from '@xorigo-ui/core/tokens'
 
 // 导入风格配方
-import { DTCGStyleRecipeProvider } from '@th-ui/core/style-recipe'
+import { DTCGStyleRecipeProvider } from '@xorigo-ui/core/style-recipe'
 ```
 
 ### 构建产物
 
 ```
 dist/
-├── th-ui.es.js          # ESM 格式（现代构建）
-├── th-ui.cjs.js         # CommonJS 格式（兼容性）
-├── th-ui.es.js.map      # Source Map
+├── xorigo-ui.es.js          # ESM 格式（现代构建）
+├── xorigo-ui.cjs.js         # CommonJS 格式（兼容性）
+├── xorigo-ui.es.js.map      # Source Map
 ├── index.d.ts           # TypeScript 类型声明
 │
 ├── theme.es.js          # 主题系统
@@ -845,7 +845,7 @@ src/style-recipe/
 **作用**：快速应用完整的风格组合（颜色 + 间距 + 字体 + 动画）
 
 ```typescript
-import { DTCGStyleRecipeProvider } from '@th-ui/core/style-recipe'
+import { DTCGStyleRecipeProvider } from '@xorigo-ui/core/style-recipe'
 
 <DTCGStyleRecipeProvider recipe="saas-dashboard">
   <App />
@@ -870,7 +870,7 @@ src/blocks/
 **作用**：开箱即用的业务场景组件
 
 ```typescript
-import { BasicHeader, PricingTable } from '@th-ui/core'
+import { BasicHeader, PricingTable } from '@xorigo-ui/core'
 
 <BasicHeader
   logo="Logo"
@@ -985,7 +985,7 @@ import { BasicHeader, PricingTable } from '@th-ui/core'
 
 **实现方案**：
 ```
-GitHub Registry (th-ui/registry)
+GitHub Registry (xorigo-ui/registry)
     ↓
 JSON 文件定义组件/主题
     ↓
@@ -993,7 +993,7 @@ GitHub Actions CI/CD
     ↓
 Cloudflare Pages / Vercel Edge
     ↓
-CLI: npx th-ui add <component>
+CLI: npx xorigo-ui add <component>
 ```
 
 **时间**: 2-4周
@@ -1051,7 +1051,7 @@ CLI: npx th-ui add <component>
 
 ## 🎯 总结
 
-**TH-UI 的实现方式**：
+**Xorigo UI 的实现方式**：
 
 ```
 核心组件（React 19 + Radix UI + CVA + Framer Motion）
@@ -1071,11 +1071,11 @@ Style Recipe（DTCG 标准配方）
 - ✅ 主题的灵活性和可扩展性
 - ✅ 工程的专业性和可靠性
 
-**这就是为什么 TH-UI 能够轻松支持 10种主题配色，并且未来可以无限扩展！** 🚀
+**这就是为什么 Xorigo UI 能够轻松支持 10种主题配色，并且未来可以无限扩展！** 🚀
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 0.1.0
 **最后更新**: 2025-01-11
 **License**: MIT

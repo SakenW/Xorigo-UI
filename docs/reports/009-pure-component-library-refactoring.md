@@ -1,4 +1,4 @@
-# TH-UI 纯组件库架构重构完成报告
+# Xorigo UI 纯组件库架构重构完成报告
 
 **时间**: 2025-10-11
 **任务**: 纯组件库架构重构 - 整合 DTCG 标准和 10 个配色方案
@@ -8,7 +8,7 @@
 
 ## 📋 任务概述
 
-基于用户需求，完成了 TH-UI 项目架构的全面重构，从混合 monorepo 风格转换为纯组件库架构，成功整合 DTCG (Design Tokens Community Group) 标准和原有的 10 个配色方案。
+基于用户需求，完成了 Xorigo UI 项目架构的全面重构，从混合 monorepo 风格转换为纯组件库架构，成功整合 DTCG (Design Tokens Community Group) 标准和原有的 10 个配色方案。
 
 ## 🎯 完成的工作
 
@@ -55,7 +55,7 @@
 
 ### 最终目录结构
 ```
-TH-UI/                          # 纯组件库架构 ✅
+Xorigo UI/                          # 纯组件库架构 ✅
 ├── src/                         # 唯一源码目录
 │   ├── components/              # UI 组件
 │   ├── tokens/                  # ✅ DTCG 标准令牌
@@ -122,8 +122,8 @@ dist/
 ```json
 "exports": {
   ".": {
-    "import": "./dist/th-ui.es.js",
-    "require": "./dist/th-ui.cjs.js",
+    "import": "./dist/xorigo-ui.es.js",
+    "require": "./dist/xorigo-ui.cjs.js",
     "types": "./dist/index.d.ts"
   },
   "./theme": { /* ... */ },
@@ -153,19 +153,19 @@ dist/
 ### 用户使用
 ```typescript
 // 1. 导入组件
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 // 2. 导入风格配方系统
 import {
   DTCGStyleRecipeProvider,
   useDTCGStyleRecipe
-} from '@th-ui/core/style-recipe'
+} from '@xorigo-ui/core/style-recipe'
 
 // 3. 使用官方配色方案
 import {
   officialRecipes,
   corporateBlueRecipe
-} from '@th-ui/core/style-recipe/recipes'
+} from '@xorigo-ui/core/style-recipe/recipes'
 ```
 
 ### 配方切换
@@ -229,9 +229,9 @@ setRecipe('dark.neutral-cool-high.duo(cyan,magenta).vivid.compact.expressive.gla
 
 ---
 
-**结论**: TH-UI 已成功重构为纯组件库架构，整合了 DTCG 标准和完整的 10 个配色方案，为用户提供了专业、易用、可扩展的主题系统。
+**结论**: Xorigo UI 已成功重构为纯组件库架构，整合了 DTCG 标准和完整的 10 个配色方案，为用户提供了专业、易用、可扩展的主题系统。
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 0.1.0
 **架构**: 纯组件库 + DTCG 标准
 **配色方案**: 10 个官方主题 ✅

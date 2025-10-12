@@ -1,7 +1,7 @@
-# TH-UI DTCG 标准目录结构迁移完成报告
+# Xorigo UI DTCG 标准目录结构迁移完成报告
 
 **文档编号**: 050
-**项目**: TH-UI 风格配方体系
+**项目**: Xorigo UI 风格配方体系
 **迁移类型**: 目录结构标准化
 **完成时间**: 2025-10-11
 **标准**: Design Tokens Community Group (DTCG)
@@ -10,7 +10,7 @@
 
 ## 📋 迁移概述
 
-根据《TH-UI 风格配方体系（v1.0）设计指南》中建议的目录结构，我们成功完成了 DTCG 标准的目录结构迁移。这次迁移使 TH-UI 令牌系统完全符合 DTCG 规范，提升了与设计工具的互操作性。
+根据《Xorigo UI 风格配方体系（v1.0）设计指南》中建议的目录结构，我们成功完成了 DTCG 标准的目录结构迁移。这次迁移使 Xorigo UI 令牌系统完全符合 DTCG 规范，提升了与设计工具的互操作性。
 
 ### 🎯 核心目标达成
 
@@ -152,11 +152,11 @@ packages/thui-tokens/
 ```json
 {
   "$type": "tokens",
-  "$description": "TH-UI 风格配方体系 - DTCG 标准令牌集合",
+  "$description": "Xorigo UI 风格配方体系 - DTCG 标准令牌集合",
   "$version": "1.0.0",
   "$metadata": {
     "description": "基于七轴风格配方系统的设计令牌",
-    "author": "TH-UI Team",
+    "author": "Xorigo UI Team",
     "license": "MIT",
     "compliance": ["DTCG", "WCAG 2.2", "OKLCH"]
   },
@@ -299,7 +299,7 @@ packages/thui-tokens/
 
 ## 🎉 总结
 
-这次 DTCG 标准目录结构迁移是 TH-UI 风格配方体系建设的重要里程碑。我们成功实现了：
+这次 DTCG 标准目录结构迁移是 Xorigo UI 风格配方体系建设的重要里程碑。我们成功实现了：
 
 ### 🏆 技术成就
 
@@ -323,7 +323,7 @@ packages/thui-tokens/
 3. **品牌一致性**: 确保跨平台品牌一致性
 4. **技术债务**: 减少维护成本和技术债务
 
-TH-UI 现在已经具备了与国际主流设计系统（Material Design、Ant Design、Carbon Design System）同等的技术实力，同时在 DTCG 标准兼容性和 OKLCH 色彩科学应用方面具有领先优势。
+Xorigo UI 现在已经具备了与国际主流设计系统（Material Design、Ant Design、Carbon Design System）同等的技术实力，同时在 DTCG 标准兼容性和 OKLCH 色彩科学应用方面具有领先优势。
 
 ---
 

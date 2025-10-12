@@ -1,6 +1,6 @@
 {
   "title": "采用矩阵",
-  "subtitle": "快速集成 TH-UI 到你的项目中",
+  "subtitle": "快速集成 Xorigo UI 到你的项目中",
   "code": {
     "install": {
       "package_manager": "# 使用 npm",

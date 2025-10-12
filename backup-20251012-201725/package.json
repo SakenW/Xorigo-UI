@@ -1,17 +1,17 @@
 {
-  "name": "xorigo-ui",
+  "name": "th-ui",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Xorigo UI Monorepo - Modern UI component library with Next.js 15 website",
+  "description": "TH-UI Monorepo - Modern UI component library with Next.js 15 website",
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm --workspace=@xorigo-ui/core run dev",
+    "dev": "npm --workspace=@th-ui/core run dev",
     "dev:website": "npm --workspace=website run dev",
-    "build": "npm --workspace=@xorigo-ui/core run build",
+    "build": "npm --workspace=@th-ui/core run build",
     "build:all": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
@@ -32,9 +32,9 @@
     "components",
     "design-system",
     "nextjs",
-    "xorigo-ui"
+    "th-ui"
   ],
-  "author": "Xorigo UI Team",
+  "author": "TH-UI Team",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^24.7.2",
@@ -52,12 +52,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/xorigo-ui.git"
+    "url": "https://github.com/your-org/th-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/xorigo-ui/issues"
+    "url": "https://github.com/your-org/th-ui/issues"
   },
-  "homepage": "https://github.com/your-org/xorigo-ui#readme",
+  "homepage": "https://github.com/your-org/th-ui#readme",
   "dependencies": {
     "ajv": "^8.17.1"
   }

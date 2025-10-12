@@ -1,8 +1,8 @@
-# TH-UI 组件架构文档
+# Xorigo UI 组件架构文档
 
 ## 概述
 
-TH-UI 是一个现代化的 React 组件库，基于 React 19、TypeScript 5.9、Tailwind CSS 3 和 Framer Motion 12 构建。本文档详细说明了 TH-UI 的组件架构设计原则和最佳实践。
+Xorigo UI 是一个现代化的 React 组件库，基于 React 19、TypeScript 5.9、Tailwind CSS 3 和 Framer Motion 12 构建。本文档详细说明了 Xorigo UI 的组件架构设计原则和最佳实践。
 
 ## 架构层次
 
@@ -452,10 +452,10 @@ it('should be accessible', async () => {
 
 ```typescript
 // 按需导入
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 // 全量导入
-import * as THUI from '@th-ui/core'
+import * as THUI from '@xorigo-ui/core'
 ```
 
 ### 代码分割
@@ -523,7 +523,7 @@ const I18nText = ({ i18nKey, values }) => {
 提供本地化格式化工具。
 
 ```typescript
-import { formatNumber, formatCurrency } from '@th-ui/utils'
+import { formatNumber, formatCurrency } from '@xorigo-ui/utils'
 
 formatNumber(1234.56) // '1,234.56'
 formatCurrency(1234.56, 'CNY') // '¥1,234.56'
@@ -573,4 +573,4 @@ chore: 构建工具或辅助工具的变动
 
 ## 总结
 
-TH-UI 组件架构基于现代 React 生态最佳实践，通过原子化设计、一致性 API、主题系统集成、TypeScript 类型安全和可访问性支持，为开发者提供了一个高质量、易用、可扩展的组件库解决方案。
+Xorigo UI 组件架构基于现代 React 生态最佳实践，通过原子化设计、一致性 API、主题系统集成、TypeScript 类型安全和可访问性支持，为开发者提供了一个高质量、易用、可扩展的组件库解决方案。

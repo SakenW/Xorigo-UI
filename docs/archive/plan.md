@@ -1,11 +1,11 @@
-# 🚀 TH-UI 迁移规划文档
+# 🚀 Xorigo UI 迁移规划文档
 
 ## 📋 项目概述
 
-从 Trans-Hub 项目中提取独立的 UI 设计系统,创建 TH-UI 独立组件库项目。
+从 Xorigo UI 原点设计系统 项目中提取独立的 UI 设计系统,创建 Xorigo UI 独立组件库项目。
 
-**源目录**: `/home/saken/project/Trans-Hub/packages/admin/src/ui-design/`
-**目标目录**: `/home/saken/project/TH-UI/`
+**源目录**: `/home/saken/project/Xorigo UI 原点设计系统/packages/admin/src/ui-design/`
+**目标目录**: `/home/saken/project/Xorigo UI/`
 
 ## 📊 源项目分析
 
@@ -99,7 +99,7 @@ ui-design/                  # 源目录 (共21个组件文件)
 ### 目录结构设计
 
 ```
-TH-UI/
+Xorigo UI/
 ├── src/                           # 源代码
 │   ├── tokens/                    # 设计令牌
 │   │   ├── colors.ts             # 颜色令牌
@@ -348,7 +348,7 @@ Component/
    - docs/getting-started.md - 快速开始
    - docs/components/ - 每个组件的详细文档
    - docs/themes.md - 主题系统文档
-   - docs/migration.md - 从Trans-Hub迁移指南
+   - docs/migration.md - 从Xorigo UI 原点设计系统迁移指南
 
 3. **Storybook配置**
    - 配置 @storybook/react
@@ -399,9 +399,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'TH-UI',
+      name: 'Xorigo UI',
       formats: ['es', 'cjs'],
-      fileName: (format) => `th-ui.${format}.js`
+      fileName: (format) => `xorigo-ui.${format}.js`
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'framer-motion'],
@@ -420,16 +420,16 @@ export default defineConfig({
 ### package.json配置
 ```json
 {
-  "name": "@th-ui/core",
+  "name": "@xorigo-ui/core",
   "version": "1.0.0",
   "type": "module",
-  "main": "./dist/th-ui.cjs.js",
-  "module": "./dist/th-ui.es.js",
+  "main": "./dist/xorigo-ui.cjs.js",
+  "module": "./dist/xorigo-ui.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/th-ui.es.js",
-      "require": "./dist/th-ui.cjs.js",
+      "import": "./dist/xorigo-ui.es.js",
+      "require": "./dist/xorigo-ui.cjs.js",
       "types": "./dist/index.d.ts"
     },
     "./theme": {
@@ -550,4 +550,4 @@ export default defineConfig({
 
 **创建时间**: 2025-10-09
 **最后更新**: 2025-10-09
-**负责人**: TH-UI开发团队
+**负责人**: Xorigo UI开发团队

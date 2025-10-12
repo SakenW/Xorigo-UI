@@ -9,7 +9,7 @@
 
 ## 📋 概述
 
-本文档提供 TH-UI 组件库与 Next.js 15 (App Router) + React 19 的完整集成指南，包括 Hydration 安全、Server Components 兼容性、以及最佳实践。
+本文档提供 Xorigo UI 组件库与 Next.js 15 (App Router) + React 19 的完整集成指南，包括 Hydration 安全、Server Components 兼容性、以及最佳实践。
 
 **适用场景**：
 - ✅ 新建 Next.js 15 项目
@@ -28,7 +28,7 @@
     "next": "^15.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@th-ui/core": "^0.1.0",
+    "@xorigo-ui/core": "^0.1.0",
     "tailwindcss": "^4.1.14"
   }
 }
@@ -70,10 +70,10 @@ npx create-next-app@latest my-app
 cd my-app
 ```
 
-### 2. 安装 TH-UI 组件库
+### 2. 安装 Xorigo UI 组件库
 
 ```bash
-npm install @th-ui/core framer-motion
+npm install @xorigo-ui/core framer-motion
 ```
 
 ### 3. 升级 Tailwind CSS 到 v4
@@ -116,8 +116,8 @@ const nextConfig = {
   // React 19 + Next.js 15 配置
   reactStrictMode: true,
 
-  // 优化 TH-UI 组件库
-  transpilePackages: ['@th-ui/core'],
+  // 优化 Xorigo UI 组件库
+  transpilePackages: ['@xorigo-ui/core'],
 
   // Turbopack (可选，实验性)
   // 注意：Tailwind v4 与 Turbopack 兼容性好
@@ -137,7 +137,7 @@ module.exports = nextConfig
 
 ### Server Components (默认)
 
-大多数 TH-UI 组件是 **Client Components**，需要在 Server Components 中导入时注意。
+大多数 Xorigo UI 组件是 **Client Components**，需要在 Server Components 中导入时注意。
 
 #### ✅ 正确方式 1: 使用 'use client' 包装
 
@@ -145,7 +145,7 @@ module.exports = nextConfig
 // app/components/MyClientComponent.tsx
 'use client'
 
-import { Button, Card } from '@th-ui/core'
+import { Button, Card } from '@xorigo-ui/core'
 
 export function MyClientComponent() {
   return (
@@ -179,7 +179,7 @@ export default function Page() {
 import dynamic from 'next/dynamic'
 
 const DataTable = dynamic(
-  () => import('@th-ui/core').then((mod) => mod.DataTable),
+  () => import('@xorigo-ui/core').then((mod) => mod.DataTable),
   { ssr: false }
 )
 
@@ -195,13 +195,13 @@ export default function Page() {
 
 ### ThemeProvider 集成
 
-#### ✅ 方式 1: TH-UI ThemeProvider (独立主题系统)
+#### ✅ 方式 1: Xorigo UI ThemeProvider (独立主题系统)
 
 ```tsx
 // app/providers.tsx
 'use client'
 
-import { ThemeProvider } from '@th-ui/core'
+import { ThemeProvider } from '@xorigo-ui/core'
 import { ReactNode } from 'react'
 
 export function Providers({ children }: { children: ReactNode }) {
@@ -360,7 +360,7 @@ export default function Page() {
 }
 ```
 
-### TH-UI 组件 Hydration 安全性
+### Xorigo UI 组件 Hydration 安全性
 
 | 组件 | SSR 安全 | 建议 |
 |------|---------|------|
@@ -398,9 +398,9 @@ app/
 │       └── page.tsx
 │
 └── components/             # 共享组件
-    ├── ui/                 # TH-UI 包装组件
-    │   ├── button.tsx      # 二次封装 TH-UI Button
-    │   └── card.tsx        # 二次封装 TH-UI Card
+    ├── ui/                 # Xorigo UI 包装组件
+    │   ├── button.tsx      # 二次封装 Xorigo UI Button
+    │   └── card.tsx        # 二次封装 Xorigo UI Card
     │
     └── shared/             # 业务组件
         ├── header.tsx
@@ -409,26 +409,26 @@ app/
 
 ### 组件组织策略
 
-#### 1. 直接使用 TH-UI 组件
+#### 1. 直接使用 Xorigo UI 组件
 
 ```tsx
 // app/page.tsx
 'use client'
 
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 export default function Page() {
   return <Button>Click me</Button>
 }
 ```
 
-#### 2. 二次封装 TH-UI 组件 (推荐)
+#### 2. 二次封装 Xorigo UI 组件 (推荐)
 
 ```tsx
 // app/components/ui/button.tsx
 'use client'
 
-import { Button as THButton, ButtonProps } from '@th-ui/core'
+import { Button as THButton, ButtonProps } from '@xorigo-ui/core'
 import { forwardRef } from 'react'
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -453,7 +453,7 @@ export default function Page() {
 
 **优势**：
 - ✅ 统一项目样式
-- ✅ 更容易升级 TH-UI
+- ✅ 更容易升级 Xorigo UI
 - ✅ 避免"手改组件后难以合并"
 
 ---
@@ -499,7 +499,7 @@ export function Providers({ children }: { children: ReactNode }) {
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { DataTable } from '@th-ui/core'
+import { DataTable } from '@xorigo-ui/core'
 
 export default function Dashboard() {
   const { data, isLoading } = useQuery({
@@ -546,7 +546,7 @@ export const useSidebarStore = create<SidebarStore>((set) => ({
 'use client'
 
 import { useSidebarStore } from '@/lib/store'
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 export function Sidebar() {
   const { isOpen, toggle } = useSidebarStore()
@@ -578,7 +578,7 @@ npm install react-hook-form zod @hookform/resolvers
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Input, Button } from '@th-ui/core'
+import { Input, Button } from '@xorigo-ui/core'
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -753,8 +753,8 @@ Next.js 15 自动进行代码分割，无需手动配置。
 
 ```tsx
 // 懒加载复杂组件
-const DataTable = dynamic(() => import('@th-ui/core').then(m => m.DataTable))
-const AnimatedCard = dynamic(() => import('@th-ui/core').then(m => m.AnimatedCard), { ssr: false })
+const DataTable = dynamic(() => import('@xorigo-ui/core').then(m => m.DataTable))
+const AnimatedCard = dynamic(() => import('@xorigo-ui/core').then(m => m.AnimatedCard), { ssr: false })
 ```
 
 ### 3. Server Components 优先
@@ -836,7 +836,7 @@ examples/nextjs-app/
 │   ├── globals.css
 │   │
 │   ├── components/
-│   │   ├── ui/              # TH-UI 包装组件
+│   │   ├── ui/              # Xorigo UI 包装组件
 │   │   ├── forms/           # 表单组件
 │   │   ├── charts/          # 图表组件
 │   │   └── editor/          # 编辑器组件
@@ -861,8 +861,8 @@ examples/nextjs-app/
 
 ```bash
 # 克隆示例项目
-git clone https://github.com/your-org/th-ui-nextjs-example.git
-cd th-ui-nextjs-example
+git clone https://github.com/your-org/xorigo-ui-nextjs-example.git
+cd xorigo-ui-nextjs-example
 
 # 安装依赖
 npm install
@@ -882,16 +882,16 @@ npm run dev
 - [ ] 升级 Tailwind CSS 到 v4.1.14
 - [ ] 配置 PostCSS 使用 @tailwindcss/postcss
 
-### TH-UI 集成
+### Xorigo UI 集成
 
-- [ ] 安装 @th-ui/core 和 framer-motion
+- [ ] 安装 @xorigo-ui/core 和 framer-motion
 - [ ] 配置 transpilePackages
 - [ ] 创建 Providers 组件
 - [ ] 在 Root Layout 中使用 Providers
 
 ### Hydration 安全
 
-- [ ] 所有 TH-UI 组件标记 'use client'
+- [ ] 所有 Xorigo UI 组件标记 'use client'
 - [ ] 复杂组件使用 dynamic import
 - [ ] 避免在组件顶层使用 Date.now()/Math.random()
 - [ ] localStorage/window 访问在 useEffect 中
@@ -917,7 +917,7 @@ npm run dev
 - [Next.js 15 Docs](https://nextjs.org/docs)
 - [React 19 Docs](https://react.dev/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
-- [TH-UI Docs](https://th-ui.dev/)
+- [Xorigo UI Docs](https://xorigo-ui.dev/)
 
 ### 集成指南
 - [TanStack Query with Next.js](https://tanstack.com/query/latest/docs/framework/react/guides/ssr)
@@ -930,4 +930,4 @@ npm run dev
 **下次审查**: 2025-10-17
 **文档版本**: 1.0.0
 
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team

@@ -68,7 +68,7 @@ const response = await fetch('/api/compile', {
   },
   body: JSON.stringify({
     code: `
-      const greeting: string = "Hello, TH-UI!";
+      const greeting: string = "Hello, Xorigo UI!";
       console.log(greeting);
     `,
     config: {
@@ -82,7 +82,7 @@ const result = await response.json()
 
 if (result.success) {
   console.log('编译成功:', result.code)
-  // 输出: const greeting = "Hello, TH-UI!"; console.log(greeting);
+  // 输出: const greeting = "Hello, Xorigo UI!"; console.log(greeting);
 } else {
   console.error('编译失败:', result.error, result.details)
 }
@@ -99,7 +99,7 @@ const response = await fetch('/api/compile', {
   body: JSON.stringify({
     code: `
       import React from 'react';
-      import { Button } from '@th-ui/core';
+      import { Button } from '@xorigo-ui/core';
 
       const App: React.FC = () => {
         return (
@@ -254,7 +254,7 @@ const response3 = await fetch('/api/compile', {
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 export default function PlaygroundEditor() {
   const [code, setCode] = useState(`const x: number = 1;\nconsole.log(x);`)
@@ -359,8 +359,8 @@ const debouncedCompile = debounce(async (code: string) => {
 - **Last Updated**: 2025-10-12
 
 ## 技术支持
-- GitHub Issues: [TH-UI Issues](https://github.com/your-org/TH-UI/issues)
-- Documentation: [TH-UI Docs](https://th-ui.dev/docs/api/compile)
+- GitHub Issues: [Xorigo UI Issues](https://github.com/your-org/Xorigo UI/issues)
+- Documentation: [Xorigo UI Docs](https://xorigo-ui.dev/docs/api/compile)
 
 ---
 

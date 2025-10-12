@@ -1,4 +1,4 @@
-# 🎨 TH-UI 统一配方体系优化方案
+# 🎨 Xorigo UI 统一配方体系优化方案
 
 ## 📋 当前问题分析
 
@@ -287,7 +287,7 @@ export function toRegistryRecipe(recipe: StyleRecipe): RegistryRecipe {
       tags: recipe.tags,
     },
     metadata: {
-      author: 'TH-UI Team',
+      author: 'Xorigo UI Team',
       version: '1.0.0',
       license: 'MIT',
       updatedAt: new Date().toISOString(),
@@ -338,7 +338,7 @@ export interface RegistryAPI {
  */
 export class GitHubRegistry implements RegistryAPI {
   constructor(
-    private baseUrl: string = 'https://cdn.jsdelivr.net/gh/your-org/th-ui@main/registry'
+    private baseUrl: string = 'https://cdn.jsdelivr.net/gh/your-org/xorigo-ui@main/registry'
   ) {}
 
   async listRecipes(filters?: RecipeFilterOptions): Promise<RegistryRecipe[]> {
@@ -376,7 +376,7 @@ export const registry = new GitHubRegistry()
 // demo-site/components/RecipeGallery.tsx
 
 import React, { useState, useEffect } from 'react'
-import { registry, type RegistryRecipe } from '@th-ui/registry'
+import { registry, type RegistryRecipe } from '@xorigo-ui/registry'
 import { RecipeCard } from './RecipeCard'
 import { RecipeFilters } from './RecipeFilters'
 
@@ -523,17 +523,17 @@ export interface SandboxConfig {
  */
 export function exportToCodeSandbox(config: SandboxConfig): string {
   const packageJson = {
-    name: 'th-ui-sandbox',
+    name: 'xorigo-ui-sandbox',
     dependencies: {
-      '@th-ui/core': 'latest',
+      '@xorigo-ui/core': 'latest',
       react: '^19.2.0',
       'react-dom': '^19.2.0',
     },
   }
 
   const appCode = `
-import { ThemeProvider } from '@th-ui/core/theme'
-import { ${config.components.join(', ')} } from '@th-ui/core'
+import { ThemeProvider } from '@xorigo-ui/core/theme'
+import { ${config.components.join(', ')} } from '@xorigo-ui/core'
 
 export default function App() {
   return (
@@ -691,7 +691,7 @@ export function generateVariants(baseRecipe: StyleRecipe): StyleRecipe[] {
 ### P2 - Adoption Kit（3-4周）
 - [ ] 🚀 深链接协议实现
 - [ ] 🚀 沙盒导出功能
-- [ ] 🚀 CLI 工具（`npx @th-ui/cli install-recipe`）
+- [ ] 🚀 CLI 工具（`npx @xorigo-ui/cli install-recipe`）
 - [ ] 🚀 VS Code 扩展（配方预览和安装）
 
 ### P3 - Matrix 与优化（持续）
@@ -716,12 +716,12 @@ export function generateVariants(baseRecipe: StyleRecipe): StyleRecipe[] {
 
 - [七轴风格配方体系指南](./SEVEN_AXIS_SYSTEM_GUIDE.md)
 - [Style Recipe 使用手册](./RECIPE_GUIDE.md)
-- [TH-UI 架构文档](./ARCHITECTURE.md)
-- [官方组件库技术手册](./TH-UI_GALLERY_ADOPTION_MATRIX_MANUAL.md)
+- [Xorigo UI 架构文档](./ARCHITECTURE.md)
+- [官方组件库技术手册](./Xorigo UI_GALLERY_ADOPTION_MATRIX_MANUAL.md)
 
 ---
 
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: ✅ 待实施

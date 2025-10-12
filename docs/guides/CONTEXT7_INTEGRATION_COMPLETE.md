@@ -254,6 +254,6 @@ Context7 文档集成已全部完成！现在每个 Agent 都会：
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
-**文档路径**: `/home/saken/project/TH-UI/docs/guides/AGENT_EXECUTION_COMMANDS.md`
+**文档路径**: `/home/saken/project/Xorigo UI/docs/guides/AGENT_EXECUTION_COMMANDS.md`

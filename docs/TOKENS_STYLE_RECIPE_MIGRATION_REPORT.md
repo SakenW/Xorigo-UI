@@ -2,7 +2,7 @@
 
 ## 📋 执行摘要
 
-成功将 `tokens` 和 `style-recipe` 从 `@th-ui/core` 拆分为独立的 npm 包,实现了更好的模块化和依赖管理。
+成功将 `tokens` 和 `style-recipe` 从 `@xorigo-ui/core` 拆分为独立的 npm 包,实现了更好的模块化和依赖管理。
 
 **迁移完成时间**: 2025-10-12
 **执行人**: Tokens-Recipe-Extractor Agent
@@ -12,8 +12,8 @@
 
 ## 🎯 迁移目标
 
-- ✅ 将 `packages/core/src/tokens/` 拆分为 `@th-ui/tokens`
-- ✅ 将 `packages/core/src/style-recipe/` 拆分为 `@th-ui/style-recipe`
+- ✅ 将 `packages/core/src/tokens/` 拆分为 `@xorigo-ui/tokens`
+- ✅ 将 `packages/core/src/style-recipe/` 拆分为 `@xorigo-ui/style-recipe`
 - ✅ 使用 npm workspaces 管理本地依赖
 - ✅ 保持向后兼容性
 - ✅ 确保所有包可以独立构建
@@ -22,9 +22,9 @@
 
 ## 📦 新包结构
 
-### 1. @th-ui/tokens
+### 1. @xorigo-ui/tokens
 
-**位置**: `/home/saken/project/TH-UI/packages/tokens/`
+**位置**: `/home/saken/project/Xorigo UI/packages/tokens/`
 
 **职责**: 设计系统令牌和颜色调色板
 
@@ -58,9 +58,9 @@ packages/tokens/
 
 ---
 
-### 2. @th-ui/style-recipe
+### 2. @xorigo-ui/style-recipe
 
-**位置**: `/home/saken/project/TH-UI/packages/style-recipe/`
+**位置**: `/home/saken/project/Xorigo UI/packages/style-recipe/`
 
 **职责**: 动态样式配方系统与 DTCG 支持
 
@@ -84,7 +84,7 @@ packages/style-recipe/
 
 **依赖关系**:
 - **peerDependencies**: react (^18.0.0 || ^19.0.0), react-dom (^18.0.0 || ^19.0.0)
-- **dependencies**: @th-ui/tokens (^0.1.0)
+- **dependencies**: @xorigo-ui/tokens (^0.1.0)
 - **devDependencies**: vite, typescript, react, react-dom, vite-plugin-dts
 
 **导出配置**:
@@ -112,7 +112,7 @@ packages/style-recipe/
 
 ---
 
-### 3. @th-ui/core (更新后)
+### 3. @xorigo-ui/core (更新后)
 
 **依赖关系变更**:
 
@@ -130,8 +130,8 @@ packages/style-recipe/
 ```json
 {
   "dependencies": {
-    "@th-ui/tokens": "^0.1.0",
-    "@th-ui/style-recipe": "^0.1.0",
+    "@xorigo-ui/tokens": "^0.1.0",
+    "@xorigo-ui/style-recipe": "^0.1.0",
     "@radix-ui/react-accordion": "^1.2.12",
     // ... 其他依赖
   }
@@ -149,9 +149,9 @@ packages/style-recipe/
 - `./theme` 主题系统
 
 **import 路径更新**:
-- `from '../tokens/colors'` → `from '@th-ui/tokens'`
-- `from './tokens/index'` → `from '@th-ui/tokens'`
-- `from './style-recipe/provider'` → `from '@th-ui/style-recipe/provider'`
+- `from '../tokens/colors'` → `from '@xorigo-ui/tokens'`
+- `from './tokens/index'` → `from '@xorigo-ui/tokens'`
+- `from './style-recipe/provider'` → `from '@xorigo-ui/style-recipe/provider'`
 
 ---
 
@@ -171,7 +171,7 @@ packages/style-recipe/
 
 ### 2. TypeScript Project References
 
-**@th-ui/tokens** tsconfig.json:
+**@xorigo-ui/tokens** tsconfig.json:
 ```json
 {
   "compilerOptions": {
@@ -182,13 +182,13 @@ packages/style-recipe/
 }
 ```
 
-**@th-ui/style-recipe** tsconfig.json:
+**@xorigo-ui/style-recipe** tsconfig.json:
 ```json
 {
   "compilerOptions": {
     "composite": true,
     "paths": {
-      "@th-ui/tokens": ["../tokens/src"]
+      "@xorigo-ui/tokens": ["../tokens/src"]
     }
   },
   "references": [
@@ -197,13 +197,13 @@ packages/style-recipe/
 }
 ```
 
-**@th-ui/core** tsconfig.json:
+**@xorigo-ui/core** tsconfig.json:
 ```json
 {
   "compilerOptions": {
     "paths": {
-      "@th-ui/tokens": ["../tokens/src"],
-      "@th-ui/style-recipe": ["../style-recipe/src"]
+      "@xorigo-ui/tokens": ["../tokens/src"],
+      "@xorigo-ui/style-recipe": ["../style-recipe/src"]
     }
   },
   "references": [
@@ -215,21 +215,21 @@ packages/style-recipe/
 
 ### 3. Vite 配置优化
 
-**外部化依赖** (@th-ui/core):
+**外部化依赖** (@xorigo-ui/core):
 ```javascript
 rollupOptions: {
   external: [
     'react',
     'react-dom',
     'framer-motion',
-    '@th-ui/tokens',        // 新增
-    '@th-ui/style-recipe',  // 新增
+    '@xorigo-ui/tokens',        // 新增
+    '@xorigo-ui/style-recipe',  // 新增
     // ... 其他依赖
   ]
 }
 ```
 
-**构建入口点移除** (@th-ui/core):
+**构建入口点移除** (@xorigo-ui/core):
 ```javascript
 // 移除前
 entry: {
@@ -290,21 +290,21 @@ entry: {
 
 ```
 ┌─────────────────────┐
-│   @th-ui/tokens     │
+│   @xorigo-ui/tokens     │
 │  (无外部依赖)        │
 └──────────┬──────────┘
            │
            │ depends on
            ▼
 ┌─────────────────────┐
-│ @th-ui/style-recipe │
+│ @xorigo-ui/style-recipe │
 │ + peerDeps: react   │
 └──────────┬──────────┘
            │
            │ depends on
            ▼
 ┌─────────────────────┐
-│   @th-ui/core       │
+│   @xorigo-ui/core       │
 │ + peerDeps: react   │
 │ + framer-motion     │
 └─────────────────────┘
@@ -316,53 +316,53 @@ entry: {
 
 ### 构建验证
 
-**@th-ui/tokens**:
+**@xorigo-ui/tokens**:
 - ✅ 构建成功 (1.05s)
 - ✅ 产物大小: 30KB (gzip: 6.2KB)
 - ⚠️ 类型警告: 3个 (不影响构建)
 
-**@th-ui/style-recipe**:
+**@xorigo-ui/style-recipe**:
 - ✅ 构建成功 (2.59s)
 - ✅ 产物大小: 主模块 3.4KB, Provider 30KB
 - ⚠️ 类型警告: 4个 (不影响构建)
 
-**@th-ui/core**:
+**@xorigo-ui/core**:
 - ✅ 构建成功 (3.95s)
 - ✅ 产物大小: 主模块 141KB, Theme 270B
 - ⚠️ 类型警告: 导出冲突警告 (不影响功能)
 
 ### 类型声明验证
 
-**@th-ui/tokens**:
+**@xorigo-ui/tokens**:
 - ✅ `dist/index.d.ts` - 主类型声明
 - ✅ `dist/colors.d.ts` - 兼容性类型
 - ✅ 导出 `ColorPaletteScale`, `colorTokens`
 
-**@th-ui/style-recipe**:
+**@xorigo-ui/style-recipe**:
 - ✅ `dist/index.d.ts` - 主类型声明
 - ✅ `dist/provider/index.d.ts` - Provider 类型
 - ✅ `dist/recipes/*.d.ts` - 配方类型
 
-**@th-ui/core**:
+**@xorigo-ui/core**:
 - ✅ `dist/index.d.ts` - 主类型声明
 - ✅ `dist/theme.d.ts` - 主题类型
-- ✅ 正确导入 `@th-ui/tokens` 和 `@th-ui/style-recipe`
+- ✅ 正确导入 `@xorigo-ui/tokens` 和 `@xorigo-ui/style-recipe`
 
 ### 向后兼容性验证
 
 **导出兼容性**:
-- ✅ `@th-ui/core` 仍然导出 `colorTokens` (通过重新导出 `@th-ui/tokens`)
-- ✅ `@th-ui/core` 仍然导出样式配方 (通过重新导出 `@th-ui/style-recipe`)
+- ✅ `@xorigo-ui/core` 仍然导出 `colorTokens` (通过重新导出 `@xorigo-ui/tokens`)
+- ✅ `@xorigo-ui/core` 仍然导出样式配方 (通过重新导出 `@xorigo-ui/style-recipe`)
 - ✅ ThemeProvider 正常工作
 
 **import 路径兼容性**:
 ```typescript
 // 旧代码仍然可以工作
-import { colorTokens } from '@th-ui/core'
+import { colorTokens } from '@xorigo-ui/core'
 
 // 新代码可以直接导入
-import { colorTokens } from '@th-ui/tokens'
-import { StyleRecipeProvider } from '@th-ui/style-recipe/provider'
+import { colorTokens } from '@xorigo-ui/tokens'
+import { StyleRecipeProvider } from '@xorigo-ui/style-recipe/provider'
 ```
 
 ---
@@ -371,13 +371,13 @@ import { StyleRecipeProvider } from '@th-ui/style-recipe/provider'
 
 ### 类型警告
 
-**@th-ui/tokens**:
+**@xorigo-ui/tokens**:
 1. `DTCGDensityPreset` 类型不完全匹配 JSON 数据结构
    - 影响: 仅类型警告,不影响运行时
    - 原因: JSON 包含 `$type`, `$description` 元数据字段
    - 解决方案: 后续优化类型定义
 
-**@th-ui/style-recipe**:
+**@xorigo-ui/style-recipe**:
 2. `StyleRecipeID` 联合类型过于复杂
    - 影响: TypeScript 性能,不影响功能
    - 原因: 七轴配方组合导致类型爆炸
@@ -388,15 +388,15 @@ import { StyleRecipeProvider } from '@th-ui/style-recipe/provider'
    - 原因: 类型定义缺失
    - 解决方案: 暂时排除 engine 目录构建
 
-**@th-ui/core**:
+**@xorigo-ui/core**:
 4. 导出冲突警告 (blueScale, cyanScale 等)
    - 影响: 编译器警告,不影响功能
    - 原因: tokens 和 style-recipe 都导出同名令牌
-   - 解决方案: 用户应明确导入源 (`@th-ui/tokens` 或 `@th-ui/style-recipe`)
+   - 解决方案: 用户应明确导入源 (`@xorigo-ui/tokens` 或 `@xorigo-ui/style-recipe`)
 
 ### 暂时排除的功能
 
-**engine 目录** (`@th-ui/style-recipe/src/engine/`):
+**engine 目录** (`@xorigo-ui/style-recipe/src/engine/`):
 - 状态: 暂时排除 TypeScript 类型生成
 - 原因: 类型错误 (`ResponseLevelConfig` 未定义)
 - 影响: 引擎功能正常,但无类型声明文件
@@ -409,14 +409,14 @@ import { StyleRecipeProvider } from '@th-ui/style-recipe/provider'
 ### 独立构建
 
 ```bash
-# 构建 @th-ui/tokens
-npm run build --workspace=@th-ui/tokens
+# 构建 @xorigo-ui/tokens
+npm run build --workspace=@xorigo-ui/tokens
 
-# 构建 @th-ui/style-recipe
-npm run build --workspace=@th-ui/style-recipe
+# 构建 @xorigo-ui/style-recipe
+npm run build --workspace=@xorigo-ui/style-recipe
 
-# 构建 @th-ui/core
-npm run build --workspace=@th-ui/core
+# 构建 @xorigo-ui/core
+npm run build --workspace=@xorigo-ui/core
 ```
 
 ### 批量构建
@@ -426,9 +426,9 @@ npm run build --workspace=@th-ui/core
 npm run build --workspaces
 
 # 按依赖顺序构建
-npm run build -w @th-ui/tokens && \
-npm run build -w @th-ui/style-recipe && \
-npm run build -w @th-ui/core
+npm run build -w @xorigo-ui/tokens && \
+npm run build -w @xorigo-ui/style-recipe && \
+npm run build -w @xorigo-ui/core
 ```
 
 ---
@@ -437,10 +437,10 @@ npm run build -w @th-ui/core
 
 ### npm 发布配置
 
-**@th-ui/tokens**:
+**@xorigo-ui/tokens**:
 ```json
 {
-  "name": "@th-ui/tokens",
+  "name": "@xorigo-ui/tokens",
   "version": "0.1.0",
   "files": ["dist", "README.md"],
   "publishConfig": {
@@ -449,10 +449,10 @@ npm run build -w @th-ui/core
 }
 ```
 
-**@th-ui/style-recipe**:
+**@xorigo-ui/style-recipe**:
 ```json
 {
-  "name": "@th-ui/style-recipe",
+  "name": "@xorigo-ui/style-recipe",
   "version": "0.1.0",
   "files": ["dist", "README.md"],
   "peerDependencies": {
@@ -467,9 +467,9 @@ npm run build -w @th-ui/core
 
 ### 发布顺序
 
-1. ✅ 先发布 `@th-ui/tokens` (无依赖)
-2. ✅ 再发布 `@th-ui/style-recipe` (依赖 tokens)
-3. ✅ 最后发布 `@th-ui/core` (依赖 tokens + style-recipe)
+1. ✅ 先发布 `@xorigo-ui/tokens` (无依赖)
+2. ✅ 再发布 `@xorigo-ui/style-recipe` (依赖 tokens)
+3. ✅ 最后发布 `@xorigo-ui/core` (依赖 tokens + style-recipe)
 
 ---
 
@@ -479,12 +479,12 @@ npm run build -w @th-ui/core
 
 ```typescript
 // 直接使用 tokens
-import { colorTokens, ColorPaletteScale } from '@th-ui/tokens'
+import { colorTokens, ColorPaletteScale } from '@xorigo-ui/tokens'
 
 const primaryColor = colorTokens.primary[500]
 
 // 直接使用 style-recipe
-import { StyleRecipeProvider } from '@th-ui/style-recipe/provider'
+import { StyleRecipeProvider } from '@xorigo-ui/style-recipe/provider'
 
 function App() {
   return (
@@ -499,8 +499,8 @@ function App() {
 
 ```typescript
 // 仍然可以从 core 导入
-import { colorTokens } from '@th-ui/core'
-import { StyleRecipeProvider } from '@th-ui/core'
+import { colorTokens } from '@xorigo-ui/core'
+import { StyleRecipeProvider } from '@xorigo-ui/core'
 
 // 功能完全相同
 ```
@@ -511,13 +511,13 @@ import { StyleRecipeProvider } from '@th-ui/core'
 
 ### Bundle 大小对比
 
-**迁移前** (`@th-ui/core` 包含所有):
+**迁移前** (`@xorigo-ui/core` 包含所有):
 - 总大小: ~200KB
 
 **迁移后** (分离后):
-- `@th-ui/tokens`: 30KB
-- `@th-ui/style-recipe`: 34KB (包括 Provider)
-- `@th-ui/core`: 141KB
+- `@xorigo-ui/tokens`: 30KB
+- `@xorigo-ui/style-recipe`: 34KB (包括 Provider)
+- `@xorigo-ui/core`: 141KB
 - **总大小**: ~205KB (+2.5%)
 
 **结论**: 轻微增加是由于模块边界和重新导出开销,但带来更好的:
@@ -536,14 +536,14 @@ import { StyleRecipeProvider } from '@th-ui/core'
 - [ ] 重新启用 engine 目录类型生成
 
 ### Phase 3: 文档完善
-- [ ] 为 `@th-ui/tokens` 编写 README
-- [ ] 为 `@th-ui/style-recipe` 编写 README
+- [ ] 为 `@xorigo-ui/tokens` 编写 README
+- [ ] 为 `@xorigo-ui/style-recipe` 编写 README
 - [ ] 添加使用示例和最佳实践
 - [ ] 更新主文档引用新包结构
 
 ### Phase 4: 测试增强
-- [ ] 为 `@th-ui/tokens` 添加单元测试
-- [ ] 为 `@th-ui/style-recipe` 添加单元测试
+- [ ] 为 `@xorigo-ui/tokens` 添加单元测试
+- [ ] 为 `@xorigo-ui/style-recipe` 添加单元测试
 - [ ] 添加集成测试验证包依赖
 - [ ] 添加构建流程测试
 
@@ -589,14 +589,14 @@ import { StyleRecipeProvider } from '@th-ui/core'
 
 ## ✅ 迁移检查清单
 
-- [x] 创建 @th-ui/tokens 包结构
-- [x] 创建 @th-ui/style-recipe 包结构
+- [x] 创建 @xorigo-ui/tokens 包结构
+- [x] 创建 @xorigo-ui/style-recipe 包结构
 - [x] 复制源码到新包
 - [x] 配置 package.json (版本、依赖、exports)
 - [x] 配置 vite.config.ts (构建、外部化)
 - [x] 配置 tsconfig.json (composite、references)
-- [x] 更新 @th-ui/core 依赖关系
-- [x] 更新 @th-ui/core import 路径
+- [x] 更新 @xorigo-ui/core 依赖关系
+- [x] 更新 @xorigo-ui/core import 路径
 - [x] 删除原始文件 (已备份至 `.backup/`)
 - [x] 安装依赖 (`npm install --legacy-peer-deps`)
 - [x] 构建所有包并验证产物
@@ -616,10 +616,10 @@ import { StyleRecipeProvider } from '@th-ui/core'
 4. **✅ 类型安全**: 完整的 TypeScript 类型支持
 5. **✅ 构建成功**: 所有包都能独立构建
 
-所有核心功能正常运行,类型警告不影响实际使用。迁移为 TH-UI 的模块化架构奠定了基础。
+所有核心功能正常运行,类型警告不影响实际使用。迁移为 Xorigo UI 的模块化架构奠定了基础。
 
 ---
 
 **报告生成时间**: 2025-10-12
 **版本**: 1.0.0
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team

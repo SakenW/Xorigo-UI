@@ -1,7 +1,7 @@
 {
-  "name": "@th-ui/i18n",
+  "name": "@xorigo-ui/i18n",
   "version": "0.1.0",
-  "description": "TH-UI 轻量级国际化解决方案",
+  "description": "Xorigo UI 轻量级国际化解决方案",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -51,13 +51,13 @@
     "localization",
     "react",
     "typescript",
-    "th-ui"
+    "xorigo-ui"
   ],
-  "author": "TH-UI Team",
+  "author": "Xorigo UI Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/th-ui/th-ui.git",
+    "url": "https://github.com/xorigo-ui/xorigo-ui.git",
     "directory": "packages/i18n"
   }
 }

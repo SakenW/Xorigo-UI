@@ -2,7 +2,7 @@
 
 /**
  * Xorigo UI 重命名验证脚本
- * 验证重命名是否完成，检查是否还有遗漏的 TH-UI 引用
+ * 验证重命名是否完成，检查是否还有遗漏的 Xorigo UI 引用
  */
 
 const fs = require('fs');
@@ -93,14 +93,14 @@ console.log(`${colors.cyan}找到 ${allFiles.length} 个文件需要检查${colo
 
 // 搜索模式（这些模式不应该再存在）
 const searchPatterns = [
-  'TH-UI',           // 大写品牌名
-  'th-ui',           // 小写标识符
-  '@th-ui',          // 包名前缀
-  'TH-UI Team',      // 团队名
-  'th-ui-locale',    // 本地存储键
-  'th-ui-locale-change', // 事件名
-  'th-ui.dev',       // 域名
-  'github.com/th-ui' // GitHub URL
+  'Xorigo UI',           // 大写品牌名
+  'xorigo-ui',           // 小写标识符
+  '@xorigo-ui',          // 包名前缀
+  'Xorigo UI Team',      // 团队名
+  'xorigo-ui-locale',    // 本地存储键
+  'xorigo-ui-locale-change', // 事件名
+  'xorigo-ui.dev',       // 域名
+  'github.com/xorigo-ui' // GitHub URL
 ];
 
 let totalIssues = 0;
@@ -120,7 +120,7 @@ for (const file of allFiles) {
 
 // 输出结果
 if (totalIssues === 0) {
-  console.log(`${colors.green}✅ 恭喜！没有发现遗漏的 TH-UI 引用${colors.reset}`);
+  console.log(`${colors.green}✅ 恭喜！没有发现遗漏的 Xorigo UI 引用${colors.reset}`);
   console.log(`${colors.green}🎉 重命名验证通过！${colors.reset}`);
 } else {
   console.log(`${colors.red}❌ 发现 ${totalIssues} 个问题需要修复${colors.reset}\n`);
@@ -163,20 +163,20 @@ for (const pkgFile of packageFiles) {
       const relativePath = path.relative(projectRoot, fullPath);
 
       // 检查包名
-      if (pkg.name && pkg.name.includes('th-ui')) {
+      if (pkg.name && pkg.name.includes('xorigo-ui')) {
         console.log(`${colors.red}❌ ${relativePath}: 包名包含旧名称 "${pkg.name}"${colors.reset}`);
         packageIssues++;
       }
 
       // 检查描述
-      if (pkg.description && pkg.description.includes('TH-UI')) {
+      if (pkg.description && pkg.description.includes('Xorigo UI')) {
         console.log(`${colors.red}❌ ${relativePath}: 描述包含旧品牌名${colors.reset}`);
         packageIssues++;
       }
 
       // 检查关键词
       if (pkg.keywords) {
-        const thuiKeywords = pkg.keywords.filter(k => k.includes('th-ui'));
+        const thuiKeywords = pkg.keywords.filter(k => k.includes('xorigo-ui'));
         if (thuiKeywords.length > 0) {
           console.log(`${colors.red}❌ ${relativePath}: 关键词包含旧名称: ${thuiKeywords.join(', ')}${colors.reset}`);
           packageIssues++;
@@ -198,11 +198,11 @@ if (packageIssues === 0) {
 // 验证配置文件
 console.log(`\n${colors.cyan}🔧 验证配置文件...${colors.reset}`);
 
-const oldConfigFile = path.join(projectRoot, 'th-ui.config.json');
+const oldConfigFile = path.join(projectRoot, 'xorigo-ui.config.json');
 const newConfigFile = path.join(projectRoot, 'xorigo-ui.config.json');
 
 if (fs.existsSync(oldConfigFile)) {
-  console.log(`${colors.red}❌ 旧配置文件仍然存在: th-ui.config.json${colors.reset}`);
+  console.log(`${colors.red}❌ 旧配置文件仍然存在: xorigo-ui.config.json${colors.reset}`);
   totalIssues++;
 } else if (fs.existsSync(newConfigFile)) {
   console.log(`${colors.green}✅ 配置文件已正确重命名${colors.reset}`);

@@ -1,7 +1,7 @@
-# TH-UI Monorepo 架构完整性审计报告
+# Xorigo UI Monorepo 架构完整性审计报告
 
 **审计时间**: 2025-10-12
-**审计范围**: TH-UI Monorepo 全栈架构
+**审计范围**: Xorigo UI Monorepo 全栈架构
 **对照基准**: `docs/architecture/NEXTJS_ARCHITECTURE.md`
 **审计员**: 架构审计专家
 
@@ -19,7 +19,7 @@
 | **应用架构** | 25% | 🔴 不完整 | 仅1/5个应用存在，4个应用缺失 |
 
 **关键发现**:
-- ✅ **组件库 (@th-ui/core)** 已完成高质量迁移，包含23个核心UI组件
+- ✅ **组件库 (@xorigo-ui/core)** 已完成高质量迁移，包含23个核心UI组件
 - ✅ **样式配方系统** 完整实现，支持20个七轴DTCG配方
 - ✅ **Website 基础架构** 已建立，Gallery/Matrix/Playground 页面已创建
 - ⚠️ **缺少5个规划中的包**: i18n, matrix, style-recipe (独立包), tokens (独立包), docs
@@ -35,19 +35,19 @@
 #### 规划中的包结构 (7个包)
 ```
 packages/
-├── @th-ui/core              # 组件库核心
-├── @th-ui/tokens            # 设计令牌独立包
-├── @th-ui/style-recipe      # 样式配方独立包
-├── @th-ui/i18n              # 国际化包
-├── @th-ui/matrix            # 可访问性验证
-├── @th-ui/registry          # 组件注册表
-└── @th-ui/docs              # 文档包
+├── @xorigo-ui/core              # 组件库核心
+├── @xorigo-ui/tokens            # 设计令牌独立包
+├── @xorigo-ui/style-recipe      # 样式配方独立包
+├── @xorigo-ui/i18n              # 国际化包
+├── @xorigo-ui/matrix            # 可访问性验证
+├── @xorigo-ui/registry          # 组件注册表
+└── @xorigo-ui/docs              # 文档包
 ```
 
 #### 实际存在的包结构 (2个包)
 ```
 packages/
-├── core/                    # ✅ @th-ui/core - 组件库核心
+├── core/                    # ✅ @xorigo-ui/core - 组件库核心
 │   ├── src/
 │   │   ├── components/      # 23个核心组件 ✅
 │   │   │   ├── ui/          # 基础UI组件 (Button, Input, Card等)
@@ -66,9 +66,9 @@ packages/
 │   │   ├── types/           # TypeScript类型
 │   │   ├── utils/           # 工具函数
 │   │   └── index.ts         # 主入口
-│   └── package.json         # @th-ui/core
+│   └── package.json         # @xorigo-ui/core
 │
-└── registry/                # ✅ @th-ui/registry - 组件注册表
+└── registry/                # ✅ @xorigo-ui/registry - 组件注册表
     ├── src/
     │   ├── generator.ts     # Registry生成器
     │   ├── types.ts         # 类型定义
@@ -80,14 +80,14 @@ packages/
 
 | 包名 | 优先级 | 说明 | 影响 |
 |------|--------|------|------|
-| **@th-ui/i18n** | P2 | 国际化支持包 | 不支持多语言切换 |
-| **@th-ui/matrix** | P1 | 可访问性验证工具 | 无法自动验证WCAG合规性 |
-| **@th-ui/docs** | P2 | 文档生成工具 | 依赖手动维护文档 |
-| **@th-ui/tokens** (独立) | P3 | 设计令牌独立包 | 当前已集成在core内 |
-| **@th-ui/style-recipe** (独立) | P3 | 样式配方独立包 | 当前已集成在core内 |
+| **@xorigo-ui/i18n** | P2 | 国际化支持包 | 不支持多语言切换 |
+| **@xorigo-ui/matrix** | P1 | 可访问性验证工具 | 无法自动验证WCAG合规性 |
+| **@xorigo-ui/docs** | P2 | 文档生成工具 | 依赖手动维护文档 |
+| **@xorigo-ui/tokens** (独立) | P3 | 设计令牌独立包 | 当前已集成在core内 |
+| **@xorigo-ui/style-recipe** (独立) | P3 | 样式配方独立包 | 当前已集成在core内 |
 
 **说明**:
-- **@th-ui/tokens** 和 **@th-ui/style-recipe** 当前作为 `@th-ui/core` 的子模块存在
+- **@xorigo-ui/tokens** 和 **@xorigo-ui/style-recipe** 当前作为 `@xorigo-ui/core` 的子模块存在
 - 通过 `package.json` 的 `exports` 字段暴露：
   ```json
   "exports": {
@@ -105,11 +105,11 @@ packages/
 #### 规划中的应用结构 (5个应用)
 ```
 apps/
-├── @th-ui/website           # 官方网站 (Next.js 15)
-├── @th-ui/gallery           # 配方展示馆 (独立应用)
-├── @th-ui/adoption-matrix   # 采用矩阵工具 (独立应用)
-├── @th-ui/playground        # 在线试验场 (独立应用)
-└── @th-ui/docs              # 文档站点 (独立应用)
+├── @xorigo-ui/website           # 官方网站 (Next.js 15)
+├── @xorigo-ui/gallery           # 配方展示馆 (独立应用)
+├── @xorigo-ui/adoption-matrix   # 采用矩阵工具 (独立应用)
+├── @xorigo-ui/playground        # 在线试验场 (独立应用)
+└── @xorigo-ui/docs              # 文档站点 (独立应用)
 ```
 
 #### 实际存在的应用结构 (1个应用)
@@ -133,7 +133,7 @@ apps/
     │   ├── hero/            # ✅ 首页Hero
     │   ├── features/        # ✅ 特性展示
     │   ├── stats/           # ✅ 统计数据
-    │   └── ui/              # ⚠️ 自定义UI组件 (应全部使用@th-ui/core)
+    │   └── ui/              # ⚠️ 自定义UI组件 (应全部使用@xorigo-ui/core)
     │
     └── package.json         # website配置
 ```
@@ -235,9 +235,9 @@ apps/
 
 | 差距类型 | 严重程度 | 影响 | 建议 |
 |----------|---------|------|------|
-| **缺少 @th-ui/matrix** | 🔴 高 | 无法自动验证可访问性 | P1: 必须实现 |
-| **缺少 @th-ui/i18n** | 🟡 中 | 不支持国际化 | P2: 考虑实现 |
-| **缺少 @th-ui/docs** | 🟡 中 | 文档维护成本高 | P2: 考虑实现 |
+| **缺少 @xorigo-ui/matrix** | 🔴 高 | 无法自动验证可访问性 | P1: 必须实现 |
+| **缺少 @xorigo-ui/i18n** | 🟡 中 | 不支持国际化 | P2: 考虑实现 |
+| **缺少 @xorigo-ui/docs** | 🟡 中 | 文档维护成本高 | P2: 考虑实现 |
 | **tokens/style-recipe集成在core** | 🟢 低 | 降低了模块化 | P3: 可接受 |
 
 ### 2. 应用架构差距
@@ -254,7 +254,7 @@ apps/
 | 差距类型 | 严重程度 | 影响 | 建议 |
 |----------|---------|------|------|
 | **核心组件超出规划** | 🟢 低 | 提供了更丰富的组件 | ✅ 正面差距 |
-| **Website使用自定义UI** | 🟡 中 | 违反了架构约束 | P1: 替换为@th-ui/core |
+| **Website使用自定义UI** | 🟡 中 | 违反了架构约束 | P1: 替换为@xorigo-ui/core |
 | **测试页面未清理** | 🟢 低 | 代码库混乱 | P2: 清理测试页面 |
 
 ---
@@ -285,19 +285,19 @@ apps/
    - 依赖: Registry API
    - 影响: 无法导出到CodeSandbox
 
-5. **创建 @th-ui/matrix 包**
+5. **创建 @xorigo-ui/matrix 包**
    - 时间估算: 5人天
    - 依赖: @axe-core/react
    - 影响: 无法自动验证可访问性
 
 6. **替换 Website 自定义UI组件**
    - 时间估算: 3人天
-   - 依赖: @th-ui/core完整性
+   - 依赖: @xorigo-ui/core完整性
    - 影响: 违反架构约束
 
 ### P2 - 中优先级 (1个月内完成)
 
-7. **创建 @th-ui/i18n 包**
+7. **创建 @xorigo-ui/i18n 包**
    - 时间估算: 5人天
    - 依赖: react-i18next
    - 影响: 不支持国际化
@@ -324,12 +324,12 @@ apps/
     - 依赖: 业务规模
     - 影响: 部署灵活性
 
-12. **提取独立的 @th-ui/tokens 和 @th-ui/style-recipe**
+12. **提取独立的 @xorigo-ui/tokens 和 @xorigo-ui/style-recipe**
     - 时间估算: 5人天
     - 依赖: 无
     - 影响: 模块化程度
 
-13. **创建 @th-ui/docs 包**
+13. **创建 @xorigo-ui/docs 包**
     - 时间估算: 8人天
     - 依赖: TypeDoc, Storybook
     - 影响: 文档自动化
@@ -360,8 +360,8 @@ apps/
 | Compile API | 3天 | Backend | Playground可编译代码 |
 | Registry API | 2天 | Backend | 可动态获取配方列表 |
 | Server Actions | 3天 | Fullstack | 可导出到CodeSandbox |
-| @th-ui/matrix包 | 5天 | Frontend | 自动化可访问性测试 |
-| 替换自定义UI | 3天 | Frontend | 全部使用@th-ui/core |
+| @xorigo-ui/matrix包 | 5天 | Frontend | 自动化可访问性测试 |
+| 替换自定义UI | 3天 | Frontend | 全部使用@xorigo-ui/core |
 
 **总计**: 18人天 (约2-3周)
 
@@ -371,7 +371,7 @@ apps/
 
 | 任务 | 时间 | 负责人 | 验收标准 |
 |------|------|--------|---------|
-| @th-ui/i18n包 | 5天 | Frontend | 支持中英文切换 |
+| @xorigo-ui/i18n包 | 5天 | Frontend | 支持中英文切换 |
 | 搜索API | 2天 | Backend | 全文搜索配方 |
 | 清理测试页面 | 1天 | Frontend | 删除所有测试页面 |
 | 完善文档页面 | 5天 | Technical Writer | 完整的组件文档 |
@@ -386,7 +386,7 @@ apps/
 |------|------|--------|---------|
 | 拆分独立应用 | 10天 | Architect | 独立部署gallery/matrix/playground |
 | 提取独立包 | 5天 | Architect | tokens和style-recipe独立 |
-| @th-ui/docs包 | 8天 | DevOps | 自动化文档生成 |
+| @xorigo-ui/docs包 | 8天 | DevOps | 自动化文档生成 |
 
 **总计**: 23人天 (约3-4周)
 
@@ -406,15 +406,15 @@ apps/
    - **条件**: 如果需要独立版本控制，再考虑拆分
    - **折中**: 确保exports配置清晰，文档完善
 
-3. **优先实现 @th-ui/matrix 包**
+3. **优先实现 @xorigo-ui/matrix 包**
    - **原因**: 可访问性是组件库的核心质量指标
    - **影响**: 直接影响WCAG合规性
    - **工具**: 使用 @axe-core/react 自动化测试
 
-4. **严格遵守架构约束: Website仅使用@th-ui/core组件**
+4. **严格遵守架构约束: Website仅使用@xorigo-ui/core组件**
    - **原因**: 确保组件库的完整性和一致性
    - **行动**: 审查 `apps/website/src/components/ui/` 目录
-   - **替换**: 所有自定义UI组件必须替换为@th-ui/core
+   - **替换**: 所有自定义UI组件必须替换为@xorigo-ui/core
 
 ### 质量保证建议
 
@@ -539,7 +539,7 @@ app/
 
 ### 劣势
 
-1. ❌ **缺少关键包** - @th-ui/matrix, @th-ui/i18n 等5个包缺失
+1. ❌ **缺少关键包** - @xorigo-ui/matrix, @xorigo-ui/i18n 等5个包缺失
 2. ❌ **动态路由缺失** - Gallery详情页、API Routes未实现
 3. ❌ **架构约束违反** - Website使用自定义UI组件
 4. ❌ **测试页面混乱** - 多个test-*页面未清理
@@ -553,11 +553,11 @@ app/
 
 **短期目标 (1-2周)**:
 4. 实现 Registry API 和 Server Actions
-5. 创建 @th-ui/matrix 包
+5. 创建 @xorigo-ui/matrix 包
 6. 清理测试页面
 
 **中期目标 (1个月)**:
-7. 创建 @th-ui/i18n 包
+7. 创建 @xorigo-ui/i18n 包
 8. 完善文档页面
 9. 实现搜索API
 

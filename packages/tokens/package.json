@@ -1,7 +1,7 @@
 {
-  "name": "@th-ui/tokens",
+  "name": "@xorigo-ui/tokens",
   "version": "0.1.0",
-  "description": "TH-UI Design Tokens - Design system tokens and color palettes",
+  "description": "Xorigo UI Design Tokens - Design system tokens and color palettes",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.mjs",
@@ -27,9 +27,9 @@
     "design-tokens",
     "design-system",
     "colors",
-    "th-ui"
+    "xorigo-ui"
   ],
-  "author": "TH-UI Team",
+  "author": "Xorigo UI Team",
   "license": "MIT",
   "peerDependencies": {},
   "dependencies": {},

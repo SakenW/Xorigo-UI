@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# TH-UI Docker 开发环境启动脚本
+# Xorigo UI Docker 开发环境启动脚本
 
 set -e
 
-echo "🚀 启动 TH-UI Docker 开发环境..."
+echo "🚀 启动 Xorigo UI Docker 开发环境..."
 
 # 检查 Docker 是否运行
 if ! docker info > /dev/null 2>&1; then
@@ -28,8 +28,8 @@ echo "⏳ 等待服务启动..."
 sleep 3
 
 # 检查容器状态
-if docker ps | grep -q th-ui-dev; then
-  echo "✅ TH-UI 开发环境已启动!"
+if docker ps | grep -q xorigo-ui-dev; then
+  echo "✅ Xorigo UI 开发环境已启动!"
   echo ""
   echo "📍 访问地址: http://localhost:3100"
   echo "📊 查看日志: docker-compose -f docker-compose.dev.yml logs -f"

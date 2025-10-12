@@ -1,13 +1,13 @@
-# 📚 TH-UI 文档中心
+# 📚 Xorigo UI 文档中心
 
-> **TH-UI 完整文档索引和导航**
+> **Xorigo UI 完整文档索引和导航**
 
 ---
 
 ## 🎯 快速导航
 
 ### 🚀 新手入门
-- [项目概览](../README.md) - 了解 TH-UI 是什么
+- [项目概览](../README.md) - 了解 Xorigo UI 是什么
 - [快速开始](#) - 5分钟上手指南
 - [开发指南](../CLAUDE.md) - 开发规范和最佳实践
 
@@ -44,7 +44,7 @@
   - 配方查询 API
 
 ### 📊 技术规范
-- [七轴风格配方体系](./TH-UI%20风格配方体系（v1.0）设计指南.md)
+- [七轴风格配方体系](./Xorigo UI%20风格配方体系（v1.0）设计指南.md)
 - [项目架构概览](./ARCHITECTURE.md)
 - [升级总结](./UPGRADE-SUMMARY.md)
 
@@ -67,7 +67,7 @@ docs/
 │
 ├── 📊 技术规范
 │   ├── ARCHITECTURE.md                         # 项目架构概览
-│   ├── TH-UI 风格配方体系（v1.0）设计指南.md  # 七轴体系设计
+│   ├── Xorigo UI 风格配方体系（v1.0）设计指南.md  # 七轴体系设计
 │   └── UPGRADE-SUMMARY.md                      # 升级总结
 │
 ├── 🗑️ 已废弃文档（仅供参考）
@@ -200,9 +200,9 @@ dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass
 
 ## 📞 获取帮助
 
-- **GitHub Issues**: [提交问题](https://github.com/your-org/th-ui/issues)
-- **讨论区**: [参与讨论](https://github.com/your-org/th-ui/discussions)
-- **团队联系**: TH-UI Team
+- **GitHub Issues**: [提交问题](https://github.com/your-org/xorigo-ui/issues)
+- **讨论区**: [参与讨论](https://github.com/your-org/xorigo-ui/discussions)
+- **团队联系**: Xorigo UI Team
 
 ---
 
@@ -220,6 +220,6 @@ dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **最后更新**: 2025-01-13

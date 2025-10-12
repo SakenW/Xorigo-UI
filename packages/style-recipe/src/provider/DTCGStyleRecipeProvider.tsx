@@ -2,7 +2,7 @@
  * 🎨 TH-UI DTCG 风格配方提供者
  *
  * 基于 DTCG 标准的现代主题系统
- * 读取 packages/thui-tokens/ 中的结构化令牌
+ * 读取 packages/xorigo-ui-tokens/ 中的结构化令牌
  */
 
 'use client'

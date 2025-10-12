@@ -1,6 +1,6 @@
 # 搜索 API 实现与测试页面清理报告
 
-**项目**: TH-UI Website
+**项目**: Xorigo UI Website
 **执行时间**: 2025-10-12
 **Agent**: Search-API-Cleanup Agent
 **状态**: ✅ 全部完成
@@ -139,12 +139,12 @@ export const SearchQuerySchema = z.object({
 **文件**: `data-loader.ts`
 
 **组件数据源**:
-- 包: `@th-ui/registry`
+- 包: `@xorigo-ui/registry`
 - 格式: Registry 组件定义
 - 转换: ComponentSearchData
 
 **配方数据源**:
-- 包: `@th-ui/core/style-recipe/recipes/unified-recipes`
+- 包: `@xorigo-ui/core/style-recipe/recipes/unified-recipes`
 - 格式: StyleRecipe 配方定义
 - 转换: RecipeSearchData
 
@@ -262,7 +262,7 @@ curl "http://localhost:3100/api/search?q=button&page=2&pageSize=10"
 
 #### JavaScript 客户端
 ```typescript
-async function searchTHUI(query: string, type = 'all') {
+async function searchXorigoUI(query: string, type = 'all') {
   const params = new URLSearchParams({ q: query, type })
   const response = await fetch(`/api/search?${params}`)
   const data = await response.json()

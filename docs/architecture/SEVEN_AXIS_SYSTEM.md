@@ -1,4 +1,4 @@
-# 🎨 TH-UI 完整七轴配方体系架构指南
+# 🎨 Xorigo UI 完整七轴配方体系架构指南
 
 > **核心理念**：纯粹的七轴风格配方体系，所有配色均为七轴参数的实例，可无限扩展。
 
@@ -912,7 +912,7 @@ export function generateRegistryJSON(): RegistryRecipe[] {
       rating: 0,
     },
     metadata: {
-      author: 'TH-UI Team',
+      author: 'Xorigo UI Team',
       version: '1.0.0',
       license: 'MIT',
       createdAt: new Date().toISOString(),
@@ -944,7 +944,7 @@ if (require.main === module) {
 // demo-site/pages/Gallery.tsx
 
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Input, Badge } from '@th-ui/core'
+import { Card, Button, Input, Badge } from '@xorigo-ui/core'
 import { Search, Filter } from 'lucide-react'
 import type { RegistryRecipe } from '../registry/types'
 
@@ -1062,7 +1062,7 @@ const RecipeCard: React.FC<{ recipe: RegistryRecipe }> = ({ recipe }) => {
 function installRecipe(recipe: RegistryRecipe) {
   // 生成安装代码
   const code = `
-import { StyleRecipeProvider } from '@th-ui/core/style-recipe'
+import { StyleRecipeProvider } from '@xorigo-ui/core/style-recipe'
 
 function App() {
   return (
@@ -1278,7 +1278,7 @@ export function generateVariants(baseRecipe: StyleRecipe): StyleRecipe[] {
 
 - [ ] 🚀 深链接协议实现
 - [ ] 🚀 沙盒导出功能（CodeSandbox/StackBlitz）
-- [ ] 🚀 CLI 工具：`npx @th-ui/cli install-recipe`
+- [ ] 🚀 CLI 工具：`npx @xorigo-ui/cli install-recipe`
 - [ ] 🚀 VS Code 扩展（可选）
 
 **验收标准**：
@@ -1320,4 +1320,4 @@ export function generateVariants(baseRecipe: StyleRecipe): StyleRecipe[] {
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: 🚀 待实施
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

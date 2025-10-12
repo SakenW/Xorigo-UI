@@ -1,8 +1,8 @@
 #!/bin/bash
 # scripts/check-deps.sh
-# TH-UI 依赖健康度检查脚本
+# Xorigo UI 依赖健康度检查脚本
 
-echo "🔍 TH-UI 依赖健康度检查"
+echo "🔍 Xorigo UI 依赖健康度检查"
 echo "=============================="
 echo "检查时间: $(date '+%Y-%m-%d %H:%M:%S')"
 echo ""
@@ -104,7 +104,7 @@ echo "📄 详细报告已保存至: $REPORT_FILE"
 
 # 写入报告
 {
-    echo "TH-UI 依赖健康度报告"
+    echo "Xorigo UI 依赖健康度报告"
     echo "检查时间: $(date '+%Y-%m-%d %H:%M:%S')"
     echo ""
     echo "=== 安全漏洞 ==="

@@ -100,8 +100,8 @@ export interface RegistrySchema {
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://thui.dev/schemas/registry.json",
-  "title": "TH-UI Registry Schema",
-  "description": "Schema for TH-UI component registry data",
+  "title": "Xorigo UI Registry Schema",
+  "description": "Schema for Xorigo UI component registry data",
   "type": "object",
   "properties": {
     "version": {
@@ -111,7 +111,7 @@ export interface RegistrySchema {
     },
     "format": {
       "type": "string",
-      "enum": ["th-ui-registry"],
+      "enum": ["xorigo-ui-registry"],
       "description": "Registry format identifier"
     },
     "generated": {
@@ -362,7 +362,7 @@ export interface RegistrySchema {
 
 ```typescript
 // src/registry/generator.ts
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
 import { writeFileSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import crypto from 'crypto'
@@ -393,7 +393,7 @@ export class RegistryGenerator {
 
     const registry: RegistrySchema = {
       version: '1.0.0',
-      format: 'th-ui-registry',
+      format: 'xorigo-ui-registry',
       generated: metadata,
       recipes,
       index
@@ -444,7 +444,7 @@ export class RegistryGenerator {
 
       // 元数据
       metadata: {
-        author: 'TH-UI Team',
+        author: 'Xorigo UI Team',
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
         tags: recipe.tags || [],
@@ -886,7 +886,7 @@ function calculateChecksum(data: any): string {
 
 ```typescript
 // src/app/gallery/page.tsx
-import { getRegistry } from '@th-ui/registry'
+import { getRegistry } from '@xorigo-ui/registry'
 
 export default async function GalleryPage() {
   // 从 Registry 加载数据
@@ -908,8 +908,8 @@ export default async function GalleryPage() {
 
 ```typescript
 // src/app/adoption/page.tsx
-import { getRegistry } from '@th-ui/registry'
-import { getRecipeById } from '@th-ui/registry'
+import { getRegistry } from '@xorigo-ui/registry'
+import { getRecipeById } from '@xorigo-ui/registry'
 
 export default function AdoptionPage() {
   const [selectedRecipeId, setSelectedRecipeId] = useState('')
@@ -937,4 +937,4 @@ export default function AdoptionPage() {
 **创建时间**: 2025-01-13
 **更新时间**: 2025-01-13
 **状态**: 📋 架构设计
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

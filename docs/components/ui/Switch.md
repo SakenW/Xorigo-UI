@@ -4,18 +4,18 @@
 
 ## 概述
 
-Switch 是 TH-UI 组件库的核心组件之一，提供了现代化的设计和强大的功能。
+Switch 是 Xorigo UI 组件库的核心组件之一，提供了现代化的设计和强大的功能。
 
 ## 安装
 
 ```bash
-npm install @th-ui/core
+npm install @xorigo-ui/core
 ```
 
 ## 导入
 
 ```tsx
-import { Switch } from '@th-ui/core'
+import { Switch } from '@xorigo-ui/core'
 ```
 
 ## 基础用法
@@ -55,7 +55,7 @@ Switch 组件遵循 WCAG 2.1 AA 标准，支持：
 
 ## 主题支持
 
-Switch 支持 TH-UI 的完整主题系统，包括：
+Switch 支持 Xorigo UI 的完整主题系统，包括：
 
 - 亮色/暗色模式自动切换
 - 10 种预设主题配色

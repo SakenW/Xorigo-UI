@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Xorigo UI 重命名回滚脚本
-# 如果重命名出现问题，可以使用此脚本回滚到 TH-UI
+# 如果重命名出现问题，可以使用此脚本回滚到 Xorigo UI
 
 set -e
 
@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-echo -e "${BLUE}🔄 开始回滚 Xorigo UI 到 TH-UI...${NC}"
+echo -e "${BLUE}🔄 开始回滚 Xorigo UI 到 Xorigo UI...${NC}"
 
 # 查找最新的备份目录
 LATEST_BACKUP=$(ls -t "$PROJECT_ROOT" | grep "^backup-" | head -1)
@@ -30,7 +30,7 @@ BACKUP_DIR="$PROJECT_ROOT/$LATEST_BACKUP"
 echo -e "${YELLOW}📦 使用备份目录: $BACKUP_DIR${NC}"
 
 # 确认操作
-echo -e "${YELLOW}⚠️  此操作将把所有更改回滚到 TH-UI${NC}"
+echo -e "${YELLOW}⚠️  此操作将把所有更改回滚到 Xorigo UI${NC}"
 read -p "确定要继续吗？(y/N): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -103,39 +103,39 @@ fi
 echo -e "${BLUE}🔄 手动回滚其他文件...${NC}")
 
 # 2. 手动回滚其他文件
-safe_replace_rollback "README.md" "Xorigo UI" "TH-UI"
-safe_replace_rollback "README.md" "xorigo-ui" "th-ui"
-safe_replace_rollback "README.md" "@xorigo-ui" "@th-ui"
+safe_replace_rollback "README.md" "Xorigo UI" "Xorigo UI"
+safe_replace_rollback "README.md" "xorigo-ui" "xorigo-ui"
+safe_replace_rollback "README.md" "@xorigo-ui" "@xorigo-ui"
 
-safe_replace_rollback "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale" "th-ui-locale"
-safe_replace_rollback "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale-change" "th-ui-locale-change"
+safe_replace_rollback "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale" "xorigo-ui-locale"
+safe_replace_rollback "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale-change" "xorigo-ui-locale-change"
 
-safe_replace_rollback "packages/i18n/src/index.ts" "Xorigo UI" "TH-UI"
-safe_replace_rollback "packages/i18n/examples/basic-usage.ts" "xorigo-ui" "th-ui"
-safe_replace_rollback "packages/i18n/examples/basic-usage.ts" "@xorigo-ui" "@th-ui"
+safe_replace_rollback "packages/i18n/src/index.ts" "Xorigo UI" "Xorigo UI"
+safe_replace_rollback "packages/i18n/examples/basic-usage.ts" "xorigo-ui" "xorigo-ui"
+safe_replace_rollback "packages/i18n/examples/basic-usage.ts" "@xorigo-ui" "@xorigo-ui"
 
-safe_replace_rollback "packages/i18n/README.md" "Xorigo UI" "TH-UI"
-safe_replace_rollback "packages/i18n/README.md" "xorigo-ui" "th-ui"
-safe_replace_rollback "packages/i18n/README.md" "@xorigo-ui" "@th-ui"
+safe_replace_rollback "packages/i18n/README.md" "Xorigo UI" "Xorigo UI"
+safe_replace_rollback "packages/i18n/README.md" "xorigo-ui" "xorigo-ui"
+safe_replace_rollback "packages/i18n/README.md" "@xorigo-ui" "@xorigo-ui"
 
 # 回滚国际化文件
 for locale_file in packages/i18n/src/locales/zh-CN/*.json; do
     if [[ -f "$locale_file" ]]; then
-        safe_replace_rollback "$locale_file" "Xorigo UI" "TH-UI"
-        safe_replace_rollback "$locale_file" "Xorigo UI 试验场" "TH-UI 试验场"
-        safe_replace_rollback "$locale_file" "Xorigo UI 展示馆" "TH-UI 展示馆"
-        safe_replace_rollback "$locale_file" "Xorigo UI 到你的项目中" "TH-UI 到你的项目中"
+        safe_replace_rollback "$locale_file" "Xorigo UI" "Xorigo UI"
+        safe_replace_rollback "$locale_file" "Xorigo UI 试验场" "Xorigo UI 试验场"
+        safe_replace_rollback "$locale_file" "Xorigo UI 展示馆" "Xorigo UI 展示馆"
+        safe_replace_rollback "$locale_file" "Xorigo UI 到你的项目中" "Xorigo UI 到你的项目中"
     fi
 done
 
 # 回滚其他配置文件
-safe_replace_rollback "eslint.config.js" "Xorigo UI" "TH-UI"
-safe_replace_rollback "postcss.config.js" "xorigo-ui" "th-ui"
+safe_replace_rollback "eslint.config.js" "Xorigo UI" "Xorigo UI"
+safe_replace_rollback "postcss.config.js" "xorigo-ui" "xorigo-ui"
 
 echo -e "${BLUE}📁 回滚文件名...${NC}"
 
 # 3. 回滚文件名
-rename_item_rollback "xorigo-ui.config.json" "th-ui.config.json"
+rename_item_rollback "xorigo-ui.config.json" "xorigo-ui.config.json"
 
 echo -e "${BLUE}🧹 清理缓存和重新安装依赖...${NC}"
 
@@ -150,12 +150,12 @@ npm install
 echo -e "${GREEN}✅ 回滚完成！${NC}"
 echo ""
 echo -e "${BLUE}📋 回滚摘要：${NC}"
-echo -e "  • 品牌名称: Xorigo UI → TH-UI"
-echo -e "  • 包名前缀: @xorigo-ui → @th-ui"
-echo -e "  • 标识符: xorigo-ui → th-ui"
-echo -e "  • 团队名称: Xorigo UI Team → TH-UI Team"
-echo -e "  • 配置文件: xorigo-ui.config.json → th-ui.config.json"
+echo -e "  • 品牌名称: Xorigo UI → Xorigo UI"
+echo -e "  • 包名前缀: @xorigo-ui → @xorigo-ui"
+echo -e "  • 标识符: xorigo-ui → xorigo-ui"
+echo -e "  • 团队名称: Xorigo UI Team → Xorigo UI Team"
+echo -e "  • 配置文件: xorigo-ui.config.json → xorigo-ui.config.json"
 echo ""
 echo -e "${YELLOW}💾 备份目录未删除: $BACKUP_DIR${NC}"
 echo ""
-echo -e "${GREEN}🎉 已成功回滚到 TH-UI！${NC}"
+echo -e "${GREEN}🎉 已成功回滚到 Xorigo UI！${NC}"

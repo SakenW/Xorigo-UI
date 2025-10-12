@@ -1,10 +1,10 @@
 #!/bin/bash
 # scripts/quick-fix-build.sh
-# TH-UI 构建系统快速修复脚本
+# Xorigo UI 构建系统快速修复脚本
 
 set -e
 
-echo "🔧 TH-UI 构建系统快速修复"
+echo "🔧 Xorigo UI 构建系统快速修复"
 echo "=============================="
 
 # Step 1: 清理权限混乱的 node_modules

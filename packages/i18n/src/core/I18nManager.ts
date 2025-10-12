@@ -86,7 +86,7 @@ export class I18nManager {
     }
 
     // 1. 检查 localStorage
-    const stored = localStorage.getItem('th-ui-locale')
+    const stored = localStorage.getItem('xorigo-ui-locale')
     if (stored && this.isSupported(stored)) {
       return stored as Locale
     }
@@ -158,7 +158,7 @@ export class I18nManager {
 
     // 保存到 localStorage
     if (typeof window !== 'undefined') {
-      localStorage.setItem('th-ui-locale', locale)
+      localStorage.setItem('xorigo-ui-locale', locale)
     }
 
     // 触发语言变更事件
@@ -364,7 +364,7 @@ export class I18nManager {
   private dispatchLocaleChange(locale: Locale): void {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
-        new CustomEvent('th-ui-locale-change', {
+        new CustomEvent('xorigo-ui-locale-change', {
           detail: { locale },
         })
       )
@@ -381,8 +381,8 @@ export class I18nManager {
     }
 
     if (typeof window !== 'undefined') {
-      window.addEventListener('th-ui-locale-change', handler)
-      return () => window.removeEventListener('th-ui-locale-change', handler)
+      window.addEventListener('xorigo-ui-locale-change', handler)
+      return () => window.removeEventListener('xorigo-ui-locale-change', handler)
     }
 
     return () => {} // SSR 环境下返回空函数
