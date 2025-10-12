@@ -1,5 +1,5 @@
 # ============================================
-# TH-UI Website 开发环境 Dockerfile
+# Xorigo UI Website 开发环境 Dockerfile
 # Next.js 15 + Node.js 22 Alpine
 # 支持热更新和 Monorepo 依赖
 # ============================================

@@ -49,7 +49,7 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         theme: resolve(__dirname, 'src/theme/index.ts'),
       },
-      name: 'TH-UI',
+      name: 'Xorigo UI',
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => {
         if (format === 'es') {
@@ -78,9 +78,9 @@ export default defineConfig({
         'color-contrast-checker',
         'tailwind-merge',
         'react-router-dom',
-        '@th-ui/core',
-        '@th-ui/tokens',
-        '@th-ui/style-recipe',
+        '@xorigo-ui/core',
+        '@xorigo-ui/tokens',
+        '@xorigo-ui/style-recipe',
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -93,7 +93,7 @@ export default defineConfig({
         },
         // 保持CSS导入
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'th-ui.css'
+          if (assetInfo.name === 'style.css') return 'xorigo-ui.css'
           return assetInfo.name || 'assets/[name][extname]'
         },
       },
@@ -110,10 +110,10 @@ export default defineConfig({
   },
   // 添加此配置以解决Vite 7的包解析问题
   ssr: {
-    noExternal: ['@th-ui/core']
+    noExternal: ['@xorigo-ui/core']
   },
   // 解决Vite 7包解析问题
   optimizeDeps: {
-    include: ['@th-ui/core']
+    include: ['@xorigo-ui/core']
   }
 })
