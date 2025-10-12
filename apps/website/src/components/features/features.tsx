@@ -119,7 +119,7 @@ export function Features() {
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
                   <Badge
-                    variant="secondary"
+                    variant="default"
                     className="text-xs"
                   >
                     {feature.badge}

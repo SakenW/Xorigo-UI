@@ -28,8 +28,7 @@ services:
       - ./packages/registry/dist:/app/node_modules/@th-ui/registry/dist:ro
       - ./packages/registry/package.json:/app/node_modules/@th-ui/registry/package.json:ro
 
-      # 匿名卷（避免 node_modules 冲突）
-      - /app/node_modules
+      # 清理缓存目录（避免缓存冲突）
       - /app/.next
     env_file:
       - .env.docker

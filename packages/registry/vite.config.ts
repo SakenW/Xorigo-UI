@@ -14,6 +14,9 @@ export default defineConfig({
         index: 'src/index.ts',
       },
       formats: ['es', 'cjs'],
+      fileName: (format) => {
+        return `index.${format === 'es' ? 'js' : 'cjs.js'}`
+      },
     },
     rollupOptions: {
       external: ['@th-ui/core'],
