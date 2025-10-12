@@ -216,7 +216,7 @@ export function Stats() {
                     </span>
                   </div>
 
-                  <Badge variant="secondary" className="text-xs mb-2">
+                  <Badge variant="default" className="text-xs mb-2">
                     {stat.name}
                   </Badge>
 

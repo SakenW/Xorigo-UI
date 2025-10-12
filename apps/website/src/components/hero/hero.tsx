@@ -30,7 +30,7 @@ export function Hero() {
           {/* 标签 */}
           <div className="space-y-4">
             <Badge
-              variant="secondary"
+              variant="default"
               className="inline-flex items-center gap-2 text-sm font-medium mb-4"
             >
               <Sparkles className="h-4 w-4" />
