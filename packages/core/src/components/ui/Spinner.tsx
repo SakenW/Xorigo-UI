@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 // Spinner 变体配置
 const spinnerVariants = cva('border-2 border-current rounded-full', {

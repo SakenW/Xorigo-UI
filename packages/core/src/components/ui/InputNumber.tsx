@@ -4,7 +4,7 @@ import React, { forwardRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Input, type InputProps } from './Input'
 import { ChevronUp, ChevronDown } from 'lucide-react'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 export interface InputNumberProps extends Omit<InputProps, 'type' | 'rightIcon'> {
   min?: number

@@ -7,13 +7,36 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowJs": true,
+
+    /* 渐进式启用严格模式 */
     "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "useUnknownInCatchVariables": false,
+    "alwaysStrict": false,
+
+    /* 其他类型检查选项 */
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+
+    /* 模块和互操作性 */
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* 构建选项 */
     "noEmit": true,
     "incremental": true,
-    "isolatedModules": true,
-    "allowSyntheticDefaultImports": true
+    "isolatedModules": true
   }
 }

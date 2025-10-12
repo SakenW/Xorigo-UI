@@ -1,0 +1,61 @@
+{
+  "title": "TH-UI 展示馆",
+  "subtitle": "探索组件库的无限可能",
+  "theme_selector": {
+    "title": "选择主题",
+    "description": "浏览不同的视觉风格",
+    "search_placeholder": "搜索主题..."
+  },
+  "themes": {
+    "professional_blue": {
+      "name": "专业蓝",
+      "description": "适合企业应用的专业蓝色主题，沉稳可信"
+    },
+    "modern_minimal": {
+      "name": "现代极简",
+      "description": "简洁现代的设计风格，注重内容展示"
+    },
+    "warm_creative": {
+      "name": "温暖创意",
+      "description": "温暖活泼的配色方案，激发创意灵感"
+    },
+    "dark_night": {
+      "name": "暗夜模式",
+      "description": "深色主题，减少眼部疲劳，适合夜间使用"
+    },
+    "nature_fresh": {
+      "name": "自然清新",
+      "description": "源自大自然的配色，清新自然"
+    }
+  },
+  "categories": {
+    "business": "商务",
+    "minimal": "极简",
+    "creative": "创意",
+    "dark": "暗色",
+    "nature": "自然",
+    "all": "全部"
+  },
+  "components": {
+    "showcase": {
+      "title": "组件展示",
+      "description": "查看所有组件在不同主题下的效果",
+      "all_variants": "所有变体",
+      "interactive_states": "交互状态"
+    },
+    "preview": {
+      "title": "预览",
+      "code_view": "代码视图",
+      "fullscreen": "全屏",
+      "copy_code": "复制代码",
+      "close_preview": "关闭预览"
+    }
+  },
+  "filters": {
+    "all_components": "所有组件",
+    "by_category": "按分类",
+    "by_status": "按状态",
+    "by_complexity": "按复杂度",
+    "search": "搜索组件..."
+  }
+}

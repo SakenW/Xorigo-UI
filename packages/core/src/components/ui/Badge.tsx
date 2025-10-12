@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { X } from 'lucide-react'
 
 export interface BadgeProps {

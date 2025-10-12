@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { Check, ChevronsUpDown, X } from 'lucide-react'
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from './Command'
 

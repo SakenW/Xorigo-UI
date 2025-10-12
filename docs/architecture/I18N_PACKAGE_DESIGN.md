@@ -2,56 +2,145 @@
 
 ## 概述
 
-将 i18n 功能抽离为独立的 `@th-ui/i18n` 包，提供通用的国际化能力，支持所有 TH-UI 子系统（Matrix、Gallery、Adoption Matrix、Playground 等）的多语言需求。
+设计一个**渐进式、可扩展的国际化架构**，将 i18n 功能抽离为独立的 `@th-ui/i18n` 包，提供通用的国际化能力，支持所有 TH-UI 子系统（Matrix、Gallery、Adoption Matrix、Playground 等）的多语言需求。
 
-## 包结构
+### 设计原则
+
+1. **渐进式架构**：从轻量级自实现开始，可平滑过渡到成熟方案
+2. **统一接口**：无论底层实现如何，提供一致的API体验
+3. **类型安全**：充分利用TypeScript类型系统，提供编译时检查
+4. **性能优先**：支持代码分割、懒加载和缓存优化
+5. **框架无关**：核心功能不依赖特定框架，提供适配器层
+
+## 渐进式架构设计
+
+### 分层架构
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    应用层 (apps/website)                     │
+│  ┌─────────────────┐    ┌─────────────────────────────────┐ │
+│  │   轻量级实现     │    │        成熟方案集成              │ │
+│  │ (默认开箱即用)   │    │      (next-intl等)             │ │
+│  └─────────────────┘    └─────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────┐
+│               i18n中间层 (@th-ui/i18n)                      │
+│  ┌─────────────────┐    ┌─────────────────────────────────┐ │
+│  │   核心抽象层     │    │         适配器层                 │ │
+│  │ (轻量级自实现)   │    │   (桥接第三方库)                │ │
+│  └─────────────────┘    └─────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────┐
+│              组件库层 (@th-ui/core)                         │
+│                    (无框架依赖)                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 包结构
 
 ```
 @th-ui/i18n/
 ├── src/
-│   ├── core/
-│   │   ├── I18nManager.ts       # 核心 i18n 管理器
-│   │   ├── LocaleDetector.ts    # 语言检测器
-│   │   ├── Formatter.ts         # 文本格式化器
-│   │   └── ResourceManager.ts   # 资源管理器
-│   ├── locales/
+│   ├── core/                           # 核心实现层
+│   │   ├── I18nManager.ts             # 核心 i18n 管理器
+│   │   ├── LocaleDetector.ts          # 语言检测器
+│   │   ├── Formatter.ts               # 文本格式化器
+│   │   └── ResourceManager.ts         # 资源管理器
+│   ├── adapters/                      # 适配器层
+│   │   ├── base.ts                    # 基础适配器接口
+│   │   ├── next-intl.ts               # next-intl适配器
+│   │   └── react-intl.ts              # react-intl适配器(未来)
+│   ├── react/                         # React集成层
+│   │   ├── I18nProvider.tsx           # React 19 Context Provider
+│   │   ├── useI18n.ts                 # 基础翻译Hook
+│   │   ├── useLocale.ts               # 语言切换Hook
+│   │   └── useFormatter.ts            # 格式化Hook
+│   ├── locales/                       # 语言资源
 │   │   ├── zh-CN/
-│   │   │   ├── common.json      # 通用文本
-│   │   │   ├── matrix.json      # Matrix 验证相关
-│   │   │   ├── gallery.json     # Gallery 展示相关
-│   │   │   ├── adoption.json    # Adoption Matrix 相关
-│   │   │   └── playground.json  # Playground 相关
-│   │   ├── zh-TW/               # 繁体中文 (未来)
-│   │   ├── en-US/               # 英文 (未来)
-│   │   └── ja-JP/               # 日文 (未来)
-│   ├── types/
-│   │   ├── core.ts             # 核心类型定义
-│   │   ├── locales.ts          # 语言包类型
-│   │   └── namespaces.ts       # 命名空间类型
-│   ├── hooks/
-│   │   ├── useI18n.ts          # React Hook
-│   │   ├── useLocale.ts        # 语言切换 Hook
-│   │   └── useFormatter.ts     # 格式化 Hook
-│   ├── utils/
-│   │   ├── interpolation.ts    # 插值处理
-│   │   ├── pluralization.ts    # 复数处理
-│   │   └── datetime.ts         # 日期时间格式化
-│   ├── index.ts                # 主入口
-│   └── config.ts               # 默认配置
-├── scripts/
-│   ├── extract-keys.ts         # 提取翻译键
-│   ├── validate-locales.ts     # 验证语言包完整性
-│   └── generate-types.ts       # 生成类型定义
+│   │   │   ├── common.json            # 通用文本
+│   │   │   ├── matrix.json            # Matrix 验证相关
+│   │   │   ├── gallery.json           # Gallery 展示相关
+│   │   │   ├── adoption.json          # Adoption Matrix 相关
+│   │   │   └── playground.json        # Playground 相关
+│   │   ├── zh-TW/                     # 繁体中文 (未来)
+│   │   ├── en-US/                     # 英文 (未来)
+│   │   └── ja-JP/                     # 日文 (未来)
+│   ├── types/                         # 类型定义
+│   │   ├── core.ts                    # 核心类型定义
+│   │   ├── locales.ts                 # 语言包类型
+│   │   ├── namespaces.ts              # 命名空间类型
+│   │   └── adapters.ts                # 适配器类型
+│   ├── utils/                         # 工具函数
+│   │   ├── interpolation.ts           # 插值处理
+│   │   ├── pluralization.ts           # 复数处理
+│   │   ├── datetime.ts                # 日期时间格式化
+│   │   └── cache.ts                   # 缓存管理
+│   ├── index.ts                       # 主入口
+│   └── config.ts                      # 默认配置
+├── scripts/                           # 开发工具
+│   ├── extract-keys.ts                # 提取翻译键
+│   ├── validate-locales.ts            # 验证语言包完整性
+│   ├── generate-types.ts              # 生成类型定义
+│   └── migrate-to-next-intl.ts        # 迁移到next-intl工具
 ├── tests/
 │   ├── core/
-│   ├── hooks/
+│   ├── adapters/
+│   ├── react/
 │   └── utils/
 └── package.json
 ```
 
 ## 核心 API 设计
 
-### I18nManager 类
+### 适配器接口设计
+
+```typescript
+// 基础适配器接口
+interface I18nAdapter {
+  // 初始化适配器
+  initialize(config: AdapterConfig): Promise<void>;
+
+  // 获取翻译文本
+  t(key: string, options?: TranslationOptions): string;
+
+  // 切换语言
+  changeLocale(locale: string): Promise<void>;
+
+  // 获取当前语言
+  getLocale(): string;
+
+  // 格式化日期
+  formatDate(date: Date | number, options?: Intl.DateTimeFormatOptions): string;
+
+  // 格式化数字
+  formatNumber(number: number, options?: Intl.NumberFormatOptions): string;
+
+  // 格式化货币
+  formatCurrency(amount: number, currency: string, options?: Intl.NumberFormatOptions): string;
+}
+
+// 轻量级实现适配器
+interface LightweightAdapter extends I18nAdapter {
+  // 加载语言资源
+  loadNamespace(namespace: string, locale?: string): Promise<void>;
+
+  // 检测用户语言偏好
+  detectLocale(): string;
+}
+
+// Next-intl适配器接口
+interface NextIntlAdapter extends I18nAdapter {
+  // next-intl特定配置
+  configureNextIntl(config: NextIntlConfig): void;
+}
+```
+
+### I18nManager 类 (轻量级实现)
 
 ```typescript
 // src/core/I18nManager.ts
@@ -68,7 +157,7 @@ export interface I18nConfig {
   }
 }
 
-export class I18nManager {
+export class I18nManager implements LightweightAdapter {
   private static instance: I18nManager
   private currentLocale: Locale
   private config: I18nConfig
@@ -125,7 +214,7 @@ export class I18nManager {
   /**
    * 自动检测用户语言
    */
-  private detectLocale(): Locale {
+  detectLocale(): Locale {
     if (typeof window === 'undefined') {
       return this.config.defaultLocale
     }
@@ -164,7 +253,7 @@ export class I18nManager {
   /**
    * 加载命名空间资源
    */
-  private async loadNamespace(locale: Locale, namespace: Namespace): Promise<void> {
+  async loadNamespace(locale: Locale, namespace: Namespace): Promise<void> {
     if (!this.resources.has(locale)) {
       this.resources.set(locale, new Map())
     }
@@ -180,7 +269,7 @@ export class I18nManager {
   /**
    * 设置当前语言
    */
-  async setLocale(locale: Locale): Promise<void> {
+  async changeLocale(locale: Locale): Promise<void> {
     if (!this.isSupported(locale)) {
       throw new Error(`Locale ${locale} is not supported`)
     }
@@ -434,6 +523,119 @@ export class I18nManager {
     return () => {} // SSR 环境下返回空函数
   }
 }
+
+interface TranslationOptions {
+  ns?: string;           // 命名空间
+  count?: number;        // 复数形式
+  context?: string;      // 上下文
+  defaultValue?: string; // 默认值
+  replace?: Record<string, any>; // 替换变量
+}
+```
+
+### 适配器工厂
+
+```typescript
+// 适配器类型
+type AdapterType = 'lightweight' | 'next-intl' | 'react-intl';
+
+// 适配器工厂
+class AdapterFactory {
+  static create(type: AdapterType, config?: any): I18nAdapter {
+    switch (type) {
+      case 'lightweight':
+        return new I18nManager(config);
+      case 'next-intl':
+        return new NextIntlAdapter(config);
+      case 'react-intl':
+        return new ReactIntlAdapter(config);
+      default:
+        return new I18nManager(config);
+    }
+  }
+}
+```
+
+## React 集成
+
+### 适配器感知的 I18nProvider 组件
+
+```typescript
+interface I18nProviderProps {
+  children: React.ReactNode;
+  adapter?: AdapterType;
+  adapterConfig?: any;
+  locale?: string;
+  fallback?: string;
+  onLocaleChange?: (locale: string) => void;
+}
+
+const I18nProvider: React.FC<I18nProviderProps> = ({
+  children,
+  adapter = 'lightweight',
+  adapterConfig,
+  locale,
+  fallback = 'zh-CN',
+  onLocaleChange
+}) => {
+  const [currentLocale, setCurrentLocale] = useState(locale || fallback);
+  const i18nAdapter = useMemo(() =>
+    AdapterFactory.create(adapter, adapterConfig),
+    [adapter, adapterConfig]
+  );
+
+  useEffect(() => {
+    i18nAdapter.initialize({
+      defaultLocale: fallback,
+      fallbackLocale: fallback
+    });
+  }, [i18nAdapter, fallback]);
+
+  const handleLocaleChange = useCallback((newLocale: string) => {
+    setCurrentLocale(newLocale);
+    onLocaleChange?.(newLocale);
+  }, [onLocaleChange]);
+
+  const value = useMemo(() => ({
+    locale: currentLocale,
+    t: i18nAdapter.t.bind(i18nAdapter),
+    setLocale: handleLocaleChange,
+    formatDate: i18nAdapter.formatDate.bind(i18nAdapter),
+    formatNumber: i18nAdapter.formatNumber.bind(i18nAdapter),
+    formatCurrency: i18nAdapter.formatCurrency.bind(i18nAdapter),
+    adapterType: adapter
+  }), [currentLocale, i18nAdapter, handleLocaleChange, adapter]);
+
+  return (
+    <I18nContext.Provider value={value}>
+      {children}
+    </I18nContext.Provider>
+  );
+};
+```
+
+### useI18n Hook
+
+```typescript
+interface I18nContextValue {
+  locale: string;
+  t: (key: string, options?: TranslationOptions) => string;
+  setLocale: (locale: string) => void;
+  formatDate: (date: Date | number, options?: Intl.DateTimeFormatOptions) => string;
+  formatNumber: (number: number, options?: Intl.NumberFormatOptions) => string;
+  formatCurrency: (amount: number, currency: string, options?: Intl.NumberFormatOptions) => string;
+  adapterType: AdapterType;
+}
+
+const I18nContext = createContext<I18nContextValue | null>(null);
+
+const useI18n = (): I18nContextValue => {
+  const context = useContext(I18nContext);
+  if (!context) {
+    throw new Error('useI18n must be used within an I18nProvider');
+  }
+  return context;
+};
 ```
 
 ### React Hooks
@@ -529,6 +731,98 @@ export function useLocale() {
     supportedLocales,
     isLocale
   }
+}
+```
+
+### 使用示例
+
+```typescript
+// 轻量级实现 - 默认开箱即用
+function AppWithLightweight() {
+  return (
+    <I18nProvider locale="zh-CN" fallback="zh-CN">
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/matrix" element={<MatrixPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/adoption" element={<AdoptionPage />} />
+          <Route path="/playground" element={<PlaygroundPage />} />
+        </Routes>
+      </Router>
+    </I18nProvider>
+  );
+}
+
+// Next-intl集成 - 成熟方案
+function AppWithNextIntl() {
+  const nextIntlConfig = {
+    // next-intl特定配置
+    locales: ['zh-CN', 'en-US'],
+    defaultLocale: 'zh-CN'
+  };
+
+  return (
+    <I18nProvider
+      adapter="next-intl"
+      adapterConfig={nextIntlConfig}
+      locale="zh-CN"
+      fallback="zh-CN"
+    >
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/matrix" element={<MatrixPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/adoption" element={<AdoptionPage />} />
+          <Route path="/playground" element={<PlaygroundPage />} />
+        </Routes>
+      </Router>
+    </I18nProvider>
+  );
+}
+
+// 在组件中使用 - 两种方式API一致
+function HomePage() {
+  const { t, locale, setLocale, adapterType } = useI18n();
+
+  return (
+    <div>
+      <h1>{t('common:title')}</h1>
+      <p>{t('common:description')}</p>
+      <button onClick={() => setLocale(locale === 'zh-CN' ? 'en-US' : 'zh-CN')}>
+        {t('common:toggleLanguage')}
+      </button>
+      <p>当前使用: {adapterType === 'lightweight' ? '轻量级实现' : 'Next-intl'}</p>
+    </div>
+  );
+}
+```
+
+### 迁移工具
+
+```typescript
+// 迁移辅助函数
+export function createMigrationHelper(from: AdapterType, to: AdapterType) {
+  return {
+    // 检查兼容性
+    checkCompatibility: (): boolean => {
+      // 检查两种适配器之间的兼容性
+      return true;
+    },
+
+    // 迁移配置
+    migrateConfig: (fromConfig: any): any => {
+      // 将一种适配器的配置转换为另一种
+      return fromConfig;
+    },
+
+    // 迁移语言资源
+    migrateResources: async (fromResources: any): Promise<any> => {
+      // 转换语言资源格式
+      return fromResources;
+    }
+  };
 }
 ```
 
@@ -1569,14 +1863,62 @@ function Component() {
 }
 ```
 
-这个独立的 i18n 包提供了：
+## 实现路线图
 
-1. **完全解耦的设计** - 可被任何 TH-UI 子系统使用
-2. **灵活的命名空间** - 支持按模块组织翻译内容
-3. **强大的类型支持** - 完整的 TypeScript 类型定义
-4. **自动化工具** - 键提取、完整性验证等工具链
-5. **React 集成** - 开箱即用的 React Hooks
-6. **SSR 友好** - 支持服务端渲染
-7. **性能优化** - 缓存、懒加载等优化措施
+### 阶段1: 核心功能实现
+- I18nManager 类实现
+- 基础语言包加载
+- React Hooks 集成
+- 基础格式化功能
+- 适配器接口设计
 
-各个子系统可以根据需要选择命名空间，实现真正的模块化国际化。
+### 阶段2: 适配器层实现
+- 轻量级适配器实现
+- Next-intl适配器实现
+- 适配器工厂模式
+- 迁移工具开发
+
+### 阶段3: 高级特性
+- 命名空间支持
+- 复数规则处理
+- 插值和变量替换
+- 语言检测和自动切换
+
+### 阶段4: 性能优化
+- 语言包代码分割
+- 缓存机制
+- 懒加载优化
+- SSR 支持
+
+### 阶段5: 开发工具
+- 翻译键提取工具
+- 语言包验证工具
+- 类型生成工具
+- 开发者调试工具
+- 适配器迁移工具
+
+### 阶段6: 扩展功能
+- 多语言回退机制
+- 动态语言包加载
+- 翻译记忆功能
+- 协作翻译工具
+- 更多适配器支持(react-intl等)
+
+---
+
+## 总结
+
+这个渐进式、可扩展的 i18n 包提供了：
+
+1. **分层架构设计** - 轻量级实现与成熟方案共存
+2. **统一接口体验** - 无论底层实现如何，API保持一致
+3. **灵活的适配器系统** - 支持自实现和第三方库集成
+4. **完全解耦的设计** - 可被任何 TH-UI 子系统使用
+5. **灵活的命名空间** - 支持按模块组织翻译内容
+6. **强大的类型支持** - 完整的 TypeScript 类型定义
+7. **自动化工具链** - 键提取、完整性验证、迁移工具
+8. **React 集成** - 开箱即用的 React Hooks
+9. **SSR 友好** - 支持服务端渲染
+10. **性能优化** - 缓存、懒加载等优化措施
+
+各个子系统可以根据需要选择命名空间，实现真正的模块化国际化。同时，开发者可以根据项目需求选择使用轻量级自实现方案或集成成熟的第三方库，实现渐进式升级。

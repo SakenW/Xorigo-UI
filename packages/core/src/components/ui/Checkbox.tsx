@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd'> {

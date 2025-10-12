@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 // 涟漪效果组件
 export interface RippleEffectProps {

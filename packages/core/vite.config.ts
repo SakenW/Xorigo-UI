@@ -7,12 +7,26 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   plugins: [
     react(),
-    // 暂时禁用类型生成以便快速部署
-    // dts({
-    //   include: ['src'],
-    //   exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx'],
-    //   rollupTypes: true,
-    // }),
+    // 启用类型声明文件生成
+    dts({
+      include: ['src'],
+      exclude: [
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.stories.tsx',
+        'src/test/**',
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
+        'src/blocks/**', // 暂时排除 blocks 目录（存在类型错误）
+      ],
+      rollupTypes: false, // 暂时禁用合并（API Extractor有兼容性问题）
+      insertTypesEntry: false, // 暂时禁用自动插入
+      outDir: 'dist', // 输出到 dist 目录
+      compilerOptions: {
+        skipLibCheck: true, // 跳过库检查
+        noEmitOnError: false, // 即使有错误也生成类型
+      },
+    }),
   ],
   resolve: {
     alias: {
@@ -31,8 +45,6 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         theme: resolve(__dirname, 'src/theme/index.ts'),
-        tokens: resolve(__dirname, 'src/tokens/index.ts'),
-        'style-recipe': resolve(__dirname, 'src/style-recipe/index.ts'),
       },
       name: 'TH-UI',
       formats: ['es', 'cjs'],
@@ -44,7 +56,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      // 外部化依赖
+      // 外部化依赖 - 防止打包第三方库
       external: [
         'react',
         'react-dom',
@@ -56,7 +68,15 @@ export default defineConfig({
         '@radix-ui/react-dropdown-menu',
         '@radix-ui/react-slot',
         'lucide-react',
-        '@th-ui/core' // 将自身包也外部化
+        'class-variance-authority',
+        'clsx',
+        'culori',
+        'color-contrast-checker',
+        'tailwind-merge',
+        'react-router-dom',
+        '@th-ui/core',
+        '@th-ui/tokens',
+        '@th-ui/style-recipe',
       ],
       output: {
         globals: {

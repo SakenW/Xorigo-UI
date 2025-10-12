@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { Spinner } from './Spinner'
 
 // 按钮变体配置

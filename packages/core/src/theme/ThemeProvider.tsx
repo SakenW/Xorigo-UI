@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from 'react'
 import { motion } from 'framer-motion'
-import { colorTokens, type ColorPaletteScale } from '../tokens/colors'
+import { colorTokens, type ColorPaletteScale } from '@th-ui/tokens'
 import {
   colorPalettes,
   type ColorPalette,

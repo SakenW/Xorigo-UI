@@ -3,9 +3,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Search, Bell, User, Settings, LogOut } from 'lucide-react'
-import { Button, Badge } from '@th-ui/core'
-import { DropdownMenu } from '@th-ui/core'
-import { cn } from '@th-ui/core'
+import { Button } from '../../components/ui/Button'
+import { Badge } from '../../components/ui/Badge'
+import { DropdownMenu } from '../../components/radix/DropdownMenu'
+import { cn } from '@/utils'
 
 interface HeaderProps {
   logo?: React.ReactNode

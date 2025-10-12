@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { Search } from 'lucide-react'
 
 // ========== 类型定义 ==========

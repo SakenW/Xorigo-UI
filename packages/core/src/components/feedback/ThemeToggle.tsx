@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 export interface ThemeToggleProps {
   className?: string

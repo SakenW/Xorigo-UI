@@ -1,7 +1,7 @@
 'use client'
 
 import React, { forwardRef } from 'react'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 export interface SwitchNoMotionProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {

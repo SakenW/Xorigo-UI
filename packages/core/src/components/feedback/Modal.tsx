@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 // 模态框接口
 export interface ModalProps {
