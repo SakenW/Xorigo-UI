@@ -38,7 +38,12 @@ const CompileRequestSchema = z.object({
       sourcemap: z.boolean().optional().default(false),
     })
     .optional()
-    .default({}),
+    .default({
+      loader: 'tsx',
+      target: 'es2020',
+      minify: false,
+      sourcemap: false,
+    }),
 })
 
 type CompileRequest = z.infer<typeof CompileRequestSchema>
@@ -165,7 +170,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CompileRe
 
     if (!parseResult.success) {
       // 验证失败，返回详细错误信息
-      const firstError = parseResult.error.errors[0]
+      const firstError = parseResult.error.issues[0]
       return NextResponse.json(
         {
           success: false,

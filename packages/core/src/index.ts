@@ -7,8 +7,11 @@ export * from './components/index'
 // 主题系统
 export * from './theme/index'
 
-// 设计令牌
-export * from './tokens/index'
+// 设计令牌 (从独立包导出)
+export * from '@th-ui/tokens'
+
+// 样式配方系统 (从独立包导出)
+export * from '@th-ui/style-recipe'
 
 // 工具函数
 export * from './utils/index'

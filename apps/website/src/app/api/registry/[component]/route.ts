@@ -14,7 +14,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { generateRegistry } from '@th-ui/registry'
+import { generateRegistry, type Component } from '@th-ui/registry'
 import { ComponentParamsSchema, type ComponentParams, type ApiResponse } from '../types'
 import { createSuccessResponse, createErrorResponse } from '../utils'
 
@@ -48,7 +48,7 @@ export async function GET(
         createErrorResponse(
           '路径参数验证失败',
           'VALIDATION_ERROR',
-          validationResult.error.errors
+          validationResult.error.issues
         ),
         { status: 400 }
       )
@@ -60,7 +60,7 @@ export async function GET(
     const registry = generateRegistry()
 
     // 4. 查找组件
-    const component = registry.components.find((c) => c.name === componentName)
+    const component = registry.components.find((c: Component) => c.name === componentName)
 
     if (!component) {
       return NextResponse.json(
@@ -68,7 +68,7 @@ export async function GET(
           `组件 '${componentName}' 未找到`,
           'NOT_FOUND',
           {
-            availableComponents: registry.components.map((c) => c.name),
+            availableComponents: registry.components.map((c: Component) => c.name),
           }
         ),
         { status: 404 }

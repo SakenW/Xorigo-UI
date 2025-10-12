@@ -408,7 +408,7 @@ claude-flow hive-mind 部署 4个质量提升 Agent 并行执行：
 claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
 
 1. **I18n 包创建 Agent** (I18n-Package-Builder)
-   - 任务: 创建 @th-ui/i18n 独立包
+   - 任务: 创建 @th-ui/i18n 独立包，为TH-UI生态系统提供轻量级国际化解决方案
    - 位置: packages/i18n/
 
    - **📚 技术栈文档查询 (Context7 - 必须先查询)**:
@@ -419,13 +419,31 @@ claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
      * Intl API: "Intl.PluralRules plural forms locales"
      * Intl API: "Intl.DateTimeFormat localized date formatting"
 
-   - 功能需求:
-     * I18nManager 单例管理器（懒加载语言包）
-     * 语言包加载（zh-CN, en-US, ja-JP）
-     * 翻译函数（t, plural, datetime）
-     * React Hook（useTranslation, useLocale）
-     * 语言切换和持久化（localStorage）
-     * 插值和复数规则（ICU MessageFormat）
+   - **实现步骤**:
+     1. 创建packages/i18n目录结构
+     2. 实现I18nManager核心类
+        - 单例模式实现
+        - 语言检测与切换
+        - 命名空间支持
+        - 翻译文本获取与插值
+        - 数字/日期格式化
+        - 复数规则处理
+     3. 创建React Hooks
+        - useI18n钩子实现
+        - useLocale钩子实现
+     4. 设计语言包结构
+        - common.json通用翻译
+        - matrix.json可访问性矩阵翻译
+        - gallery.json展示馆翻译
+        - adoption.json采用矩阵翻译
+        - playground.json试验场翻译
+     5. 实现工具脚本
+        - 翻译键提取工具
+        - 语言包完整性验证工具
+     6. 配置构建系统
+        - TypeScript配置
+        - 包导出配置
+        - 构建脚本
 
    - 技术要求:
      * **必须**: 使用 React 19 Context API（I18nProvider）
@@ -433,11 +451,22 @@ claude-flow hive-mind 部署 4个生态完善 Agent 并行执行：
      * **必须**: 使用 Intl API 处理复数和日期格式化
      * **必须**: 支持异步语言包加载（动态 import）
      * **必须**: 参考 docs/architecture/I18N_PACKAGE_DESIGN.md 架构设计
-     * **禁止**: 使用第三方 i18n 库（自己实现轻量级方案）
+     * **必须**: 实现轻量级自实现方案作为默认实现
+     * **必须**: 提供适配器层支持第三方i18n库集成(如next-intl)
+     * **必须**: 支持命名空间、插值、复数等高级特性
+     * **必须**: 提供React Hooks集成
+     * **必须**: 支持服务端渲染(SSR)
 
    - 参考文档: docs/architecture/I18N_PACKAGE_DESIGN.md
    - 输出: 完整包代码（含 TypeScript 类型），语言包文件（JSON），使用文档，单元测试
-   - 验证: 包可独立发布，集成到 @th-ui/core
+   - 验证标准:
+     - 所有核心功能通过单元测试
+     - React Hooks在示例应用中正常工作
+     - 语言包结构完整且可扩展
+     - 工具脚本能够正确提取和验证翻译键
+     - 支持至少4种语言(zh-CN, zh-TW, en-US, ja-JP)
+     - 文档完整，包含使用示例和API说明
+     - 包可独立发布，集成到 @th-ui/core
 
 2. **独立 Tokens 和 Style Recipe 包 Agent** (Tokens-Recipe-Extractor)
    - 任务: 拆分 tokens 和 style-recipe 为独立包

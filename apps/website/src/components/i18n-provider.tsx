@@ -40,7 +40,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocale] = React.useState('zh-CN')
 
   const t = React.useCallback((key: string) => {
-    return translations[locale as keyof typeof translations]?.[key] || key
+    const messages = translations[locale as keyof typeof translations]
+    return messages[key as keyof typeof messages] || key
   }, [locale])
 
   const value = React.useMemo(() => ({

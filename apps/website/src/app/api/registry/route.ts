@@ -64,7 +64,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ApiRespons
         createErrorResponse(
           '查询参数验证失败',
           'VALIDATION_ERROR',
-          validationResult.error.errors
+          validationResult.error.issues
         ),
         { status: 400 }
       )

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from "@th-ui/core"
 import {
   Users,
   Download,

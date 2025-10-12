@@ -2,7 +2,7 @@
 
 import React, { useState, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
 
 export interface InputProps

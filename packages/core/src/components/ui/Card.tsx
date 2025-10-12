@@ -4,7 +4,7 @@ import React, { forwardRef, useState } from 'react'
 import { motion, type MotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { Skeleton } from './Skeleton'
 
 // 卡片变体配置

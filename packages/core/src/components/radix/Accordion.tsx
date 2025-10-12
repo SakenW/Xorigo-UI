@@ -2,7 +2,7 @@ import React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 import { forwardRef } from 'react'
 
 const Accordion = AccordionPrimitive.Root

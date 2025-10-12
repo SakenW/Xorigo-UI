@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  th-ui:
+    container_name: th-ui-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PROD_PORT:-3100}:3100"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - th-ui-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3100/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.th-ui.description=TH-UI Production"
+      - "com.th-ui.version=0.1.0"
+
+networks:
+  th-ui-network:
+    driver: bridge

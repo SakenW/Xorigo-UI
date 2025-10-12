@@ -1,0 +1,51 @@
+{
+  "title": "采用矩阵",
+  "subtitle": "快速集成 TH-UI 到你的项目中",
+  "code": {
+    "install": {
+      "package_manager": "# 使用 npm",
+      "command": "npm install @th-ui/core@{{recipe}}"
+    },
+    "usage": {
+      "imports": "import { {{component}} } from '@th-ui/core'",
+      "comments": "// 在你的应用中使用",
+      "component": "<{{component}} {{variant}}>按钮</{{component}}>"
+    },
+    "config": {
+      "comments": "// 配置主题提供者",
+      "provider": "<StyleRecipeProvider recipe=\"{{recipe}}\">",
+      "theme_setup": "  <App />\n</StyleRecipeProvider>"
+    }
+  },
+  "matrix": {
+    "title": "配置矩阵",
+    "description": "选择组件和变体生成配置代码",
+    "select_component": "选择组件",
+    "select_variant": "选择变体",
+    "select_recipe": "选择配方",
+    "generate_code": "生成代码",
+    "copy_all": "复制全部",
+    "export_config": "导出配置"
+  },
+  "installation": {
+    "title": "安装指南",
+    "step_1": "安装包",
+    "step_2": "配置提供者",
+    "step_3": "使用组件",
+    "step_4": "自定义主题",
+    "troubleshooting": "问题排查"
+  },
+  "components": {
+    "Button": "按钮",
+    "Input": "输入框",
+    "Card": "卡片",
+    "Modal": "模态框",
+    "Select": "选择器"
+  },
+  "variants": {
+    "primary": "主要",
+    "secondary": "次要",
+    "outline": "轮廓",
+    "ghost": "幽灵"
+  }
+}

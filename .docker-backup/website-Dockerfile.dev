@@ -1,0 +1,23 @@
+# Next.js 15 网站开发环境 Dockerfile (支持热更新)
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 设置 npm 镜像源加速安装
+RUN npm config set registry https://registry.npmmirror.com
+
+# 复制依赖文件
+COPY package.json package-lock.json* ./
+
+# 清理 npm 缓存并安装依赖
+RUN npm cache clean --force && \
+    npm install --no-audit --no-fund
+
+# 复制源代码
+COPY . .
+
+# 暴露 Next.js 开发服务器端口
+EXPOSE 3100
+
+# 启动开发服务器
+CMD ["npx", "next", "dev", "--port", "3100", "--hostname", "0.0.0.0"]

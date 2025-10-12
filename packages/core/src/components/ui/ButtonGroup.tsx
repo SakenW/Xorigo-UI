@@ -1,6 +1,6 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 // ButtonGroup 变体配置
 const buttonGroupVariants = cva('inline-flex', {
@@ -117,9 +117,9 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
       // 克隆子元素并添加样式
       const childProps = child.props as { className?: string }
       return React.cloneElement(child, {
-        ...child.props,
+        ...(child.props as Record<string, unknown>),
         className: cn(childProps.className, attachedClass),
-      } as any)
+      } as React.Attributes)
     }
 
     return child

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../../theme/ThemeProvider'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 export interface AnimatedCardProps {
   children: React.ReactNode

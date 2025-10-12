@@ -1,25 +1,46 @@
+# ============================================
+# TH-UI Website 开发环境编排
+# Next.js 15 Dev Server with Hot Reload
+# ============================================
+version: '3.8'
+
 services:
   th-ui-website:
+    image: th-ui-website
     build:
       context: ./apps/website
       dockerfile: Dockerfile.dev
     container_name: th-ui-website
     ports:
-      - "${NEXTJS_DEV_PORT:-3100}:3100"  # Next.js dev server port (default: 3100)
+      - "3100:3100"
     volumes:
-      - ./apps/website/src/app:/app/app
+      # 源码映射（支持热更新）
       - ./apps/website/src:/app/src
-      - .:/app/th-ui  # TH-UI 组件库挂载到独立目录
       - ./apps/website/public:/app/public
       - ./apps/website/next.config.ts:/app/next.config.ts
       - ./apps/website/tailwind.config.ts:/app/tailwind.config.ts
       - ./apps/website/tsconfig.json:/app/tsconfig.json
       - ./apps/website/package.json:/app/package.json
+
+      # TH-UI 组件库挂载（使用构建后的 dist 目录）
+      - ./packages/core/dist:/app/node_modules/@th-ui/core/dist:ro
+      - ./packages/core/package.json:/app/node_modules/@th-ui/core/package.json:ro
+      - ./packages/registry/dist:/app/node_modules/@th-ui/registry/dist:ro
+      - ./packages/registry/package.json:/app/node_modules/@th-ui/registry/package.json:ro
+
+      # 匿名卷（避免 node_modules 冲突）
+      - /app/node_modules
+      - /app/.next
+    env_file:
+      - .env.docker
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     command: npm run dev -- --port 3100 --hostname 0.0.0.0
     networks:
       - th-ui-network
+    restart: unless-stopped
 
 networks:
   th-ui-network:

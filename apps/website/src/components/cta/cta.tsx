@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent } from '@th-ui/core'
-import { Button } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
-import { Input } from '@th-ui/core'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Button } from "@th-ui/core"
+import { Badge } from "@th-ui/core"
+import { Input } from "@th-ui/core"
 import {
   ArrowRight,
   Star,
@@ -154,7 +154,7 @@ export function CTA() {
                       type="email"
                       placeholder="输入您的邮箱地址"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                       required
                       className="w-full"
                     />

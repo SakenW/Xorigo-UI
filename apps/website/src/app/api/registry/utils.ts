@@ -11,7 +11,7 @@ import type { ApiResponse, FuseSearchResult } from './types'
  * Fuse.js 搜索配置
  * 基于官方文档的最佳实践
  */
-export const FUSE_OPTIONS: Fuse.IFuseOptions<Component> = {
+export const FUSE_OPTIONS = {
   // 匹配阈值：0.0 精确匹配，1.0 匹配任何内容
   // 0.3 是推荐的平衡值
   threshold: 0.3,

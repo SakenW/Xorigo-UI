@@ -1,26 +1,28 @@
-# 开发环境 Dockerfile (支持热更新)
-FROM node:20-alpine
+# ============================================
+# TH-UI Monorepo 开发环境 Dockerfile
+# Node.js 22 Alpine + Hot Reload Support
+# ============================================
+FROM node:22-alpine
 
+# 设置工作目录
 WORKDIR /app
 
-# 复制依赖文件
-COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
+# 安装依赖所需的系统工具
+RUN apk add --no-cache git
 
-# 安装依赖
-RUN if [ -f pnpm-lock.yaml ]; then \
-      corepack enable && \
-      pnpm install; \
-    elif [ -f yarn.lock ]; then \
-      yarn install; \
-    else \
-      npm install; \
-    fi
+# 复制依赖文件（Monorepo 结构）
+COPY package.json package-lock.json* ./
+COPY packages/core/package.json ./packages/core/
+COPY apps/website/package.json ./apps/website/
+
+# 安装依赖（使用 --legacy-peer-deps 解决依赖冲突）
+RUN npm install --legacy-peer-deps
 
 # 复制源代码
 COPY . .
 
-# 暴露 Vite 开发服务器端口
-EXPOSE 5173
+# 暴露端口（Vite 和 Next.js）
+EXPOSE 5173 3100
 
-# 启动开发服务器
-CMD ["npm", "run", "dev"]
+# 默认启动命令（可在 docker-compose 中覆盖）
+CMD ["npm", "run", "dev", "-w", "@th-ui/core"]

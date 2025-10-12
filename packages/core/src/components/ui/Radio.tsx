@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '@th-ui/core'
+import { cn } from '@/utils'
 
 // RadioGroup Context
 interface RadioGroupContextValue {
