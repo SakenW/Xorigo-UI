@@ -13,7 +13,7 @@ const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
 // 简单的翻译函数
 const translations = {
   'zh-CN': {
-    'playground.title': 'TH-UI Playground',
+    'playground.title': 'Xorigo UI Playground',
     'playground.run': '运行',
     'playground.copy': '复制',
     'playground.download': '下载',
@@ -24,7 +24,7 @@ const translations = {
     'playground.theme.current': '主题',
   },
   'en-US': {
-    'playground.title': 'TH-UI Playground',
+    'playground.title': 'Xorigo UI Playground',
     'playground.run': 'Run',
     'playground.copy': 'Copy',
     'playground.download': 'Download',

@@ -86,7 +86,7 @@ export function Features() {
             核心特性
           </h2>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-            TH-UI 提供了现代化的组件库开发体验
+            Xorigo UI 提供了现代化的组件库开发体验
           </p>
         </div>
 

@@ -189,7 +189,7 @@ export function Stats() {
             数据说话
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            TH-UI 已经被广泛应用于各种项目中，获得了开发者的认可和好评
+            Xorigo UI 已经被广泛应用于各种项目中，获得了开发者的认可和好评
           </p>
         </div>
 

@@ -198,7 +198,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setMounted(true)
     // 从localStorage读取保存的主题
     const savedTheme =
-      localStorage.getItem('th-ui-theme') || 'cyber-blue-purple'
+      localStorage.getItem('xorigo-ui-theme') || 'cyber-blue-purple'
     setCurrentTheme(savedTheme)
   }, [])
 
@@ -206,7 +206,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setIsTransitioning(true)
     setTimeout(() => {
       setCurrentTheme(theme)
-      localStorage.setItem('th-ui-theme', theme)
+      localStorage.setItem('xorigo-ui-theme', theme)
       setTimeout(() => setIsTransitioning(false), 50)
     }, 150)
   }
