@@ -1,7 +1,7 @@
-# TH-UI Monorepo 依赖关系分析报告
+# Xorigo UI Monorepo 依赖关系分析报告
 
 **生成时间**: 2025-10-12
-**分析范围**: 根工作区、@th-ui/core、@th-ui/registry、website
+**分析范围**: 根工作区、@xorigo-ui/core、@xorigo-ui/registry、website
 **分析工具**: npm list, package.json 审查
 
 ---
@@ -13,36 +13,36 @@
 
 **问题描述**:
 ```bash
-npm ls @th-ui/core
+npm ls @xorigo-ui/core
 # 输出：
-# ├── @th-ui/core@ invalid: "file:/home/saken/project/TH-UI/packages/core"
-# ├─┬ @th-ui/registry@0.1.0
-# │ └── @th-ui/core@ deduped invalid
+# ├── @xorigo-ui/core@ invalid: "file:/home/saken/project/Xorigo UI/packages/core"
+# ├─┬ @xorigo-ui/registry@0.1.0
+# │ └── @xorigo-ui/core@ deduped invalid
 # └─┬ website@0.1.0
-#   └── @th-ui/core@ deduped invalid
+#   └── @xorigo-ui/core@ deduped invalid
 ```
 
 **根本原因**:
 - `packages/core/dist/` 目录不存在（构建产物缺失）
 - npm 无法解析 `file:` 协议引用的本地包
-- 所有依赖 `@th-ui/core` 的工作区无法正常安装
+- 所有依赖 `@xorigo-ui/core` 的工作区无法正常安装
 
 **影响范围**:
 - ✅ **根工作区**: 无法完成依赖安装
-- ✅ **@th-ui/registry**: 依赖 `@th-ui/core` 失败
-- ✅ **website**: 依赖 `@th-ui/core` 和 `@th-ui/registry` 双重失败
+- ✅ **@xorigo-ui/registry**: 依赖 `@xorigo-ui/core` 失败
+- ✅ **website**: 依赖 `@xorigo-ui/core` 和 `@xorigo-ui/registry` 双重失败
 
 **修复方案**:
 ```bash
 # 步骤 1: 修复文件权限（当前 node_modules 权限问题）
 sudo chown -R $USER:$USER node_modules || rm -rf node_modules
 
-# 步骤 2: 构建 @th-ui/core 包
+# 步骤 2: 构建 @xorigo-ui/core 包
 cd packages/core
 npm install
 npm run build  # 生成 dist/ 目录
 
-# 步骤 3: 构建 @th-ui/registry 包
+# 步骤 3: 构建 @xorigo-ui/registry 包
 cd ../registry
 npm install
 npm run build
@@ -54,7 +54,7 @@ npm install
 
 **预期结果**:
 - `packages/core/dist/` 包含 `index.js`, `index.mjs`, `index.d.ts`
-- `npm ls @th-ui/core` 显示 `UNMET DEPENDENCY` → `@th-ui/core@0.1.0`
+- `npm ls @xorigo-ui/core` 显示 `UNMET DEPENDENCY` → `@xorigo-ui/core@0.1.0`
 
 ---
 
@@ -63,7 +63,7 @@ npm install
 
 **问题描述**:
 ```bash
-npm error [Error: EACCES: permission denied, unlink '/home/saken/project/TH-UI/node_modules/esbuild/bin/esbuild']
+npm error [Error: EACCES: permission denied, unlink '/home/saken/project/Xorigo UI/node_modules/esbuild/bin/esbuild']
 ```
 
 **影响范围**:
@@ -74,10 +74,10 @@ npm error [Error: EACCES: permission denied, unlink '/home/saken/project/TH-UI/n
 **修复方案**:
 ```bash
 # 方案 1: 修改所有权
-sudo chown -R $USER:$USER /home/saken/project/TH-UI/node_modules
+sudo chown -R $USER:$USER /home/saken/project/Xorigo UI/node_modules
 
 # 方案 2: 强制删除（如果方案 1 失败）
-sudo rm -rf /home/saken/project/TH-UI/node_modules
+sudo rm -rf /home/saken/project/Xorigo UI/node_modules
 npm cache clean --force
 npm install
 ```
@@ -95,7 +95,7 @@ UNMET DEPENDENCY prettier@^3.6.2
 UNMET DEPENDENCY typescript@~5.9.3
 ```
 
-**缺失的 @th-ui/registry 依赖**:
+**缺失的 @xorigo-ui/registry 依赖**:
 ```bash
 UNMET DEPENDENCY class-variance-authority@^0.7.1
 UNMET DEPENDENCY tsx@^4.19.2
@@ -138,7 +138,7 @@ npm install
 
 **缺失的 peer 依赖**:
 1. **Tailwind CSS**:
-   - `@th-ui/core` 使用了 Tailwind CSS 工具类
+   - `@xorigo-ui/core` 使用了 Tailwind CSS 工具类
    - 应声明 `tailwindcss: "^3.4.0 || ^4.0.0"`
 
 2. **class-variance-authority**:
@@ -444,7 +444,7 @@ npm warn Unknown project config "public-hoist-pattern"
 **建议方案**:
 ```ini
 # .npmrc
-# TH-UI Monorepo - npm configuration
+# Xorigo UI Monorepo - npm configuration
 
 # Engine strict (ensure Node.js version requirements)
 engine-strict=true
@@ -476,8 +476,8 @@ engine-strict=true
 ### 工作区依赖图
 ```mermaid
 graph TD
-  ROOT[根工作区] --> CORE[@th-ui/core]
-  ROOT --> REGISTRY[@th-ui/registry]
+  ROOT[根工作区] --> CORE[@xorigo-ui/core]
+  ROOT --> REGISTRY[@xorigo-ui/registry]
   ROOT --> WEBSITE[website]
 
   REGISTRY --> CORE
@@ -494,7 +494,7 @@ graph TD
 
 ### 版本一致性矩阵
 
-| 依赖包 | 根工作区 | @th-ui/core | @th-ui/registry | website | 状态 |
+| 依赖包 | 根工作区 | @xorigo-ui/core | @xorigo-ui/registry | website | 状态 |
 |--------|----------|-------------|-----------------|---------|------|
 | **react** | - | ^19.2.0 (dev) | - | ^19.2.0 | ✅ 一致 |
 | **typescript** | ~5.9.3 | ~5.9.3 | ~5.9.3 | ~5.9.3 | ✅ 一致 |
@@ -514,19 +514,19 @@ graph TD
 
 1. **修复文件权限**:
    ```bash
-   sudo chown -R $USER:$USER /home/saken/project/TH-UI/node_modules
+   sudo chown -R $USER:$USER /home/saken/project/Xorigo UI/node_modules
    # 或
    sudo rm -rf node_modules
    ```
 
-2. **构建 @th-ui/core**:
+2. **构建 @xorigo-ui/core**:
    ```bash
    cd packages/core
    npm install --legacy-peer-deps
    npm run build
    ```
 
-3. **构建 @th-ui/registry**:
+3. **构建 @xorigo-ui/registry**:
    ```bash
    cd packages/registry
    npm install --legacy-peer-deps
@@ -535,13 +535,13 @@ graph TD
 
 4. **重新安装根依赖**:
    ```bash
-   cd /home/saken/project/TH-UI
+   cd /home/saken/project/Xorigo UI
    npm install
    ```
 
 **验证**:
 ```bash
-npm ls @th-ui/core  # 应显示 @th-ui/core@0.1.0
+npm ls @xorigo-ui/core  # 应显示 @xorigo-ui/core@0.1.0
 npm run build       # 应成功构建
 ```
 
@@ -673,13 +673,13 @@ npm run build       # 应成功构建
 
 ### 立即行动（Today）
 1. ✅ 修复文件权限问题
-2. ✅ 构建 @th-ui/core 和 @th-ui/registry
+2. ✅ 构建 @xorigo-ui/core 和 @xorigo-ui/registry
 3. ✅ 恢复 npm install 正常工作
 
 ### 本周完成（This Week）
 1. ⚠️ 统一 @types/react 和 @types/node 版本
 2. ⚠️ 决策 Tailwind CSS 版本策略（v3 vs v4）
-3. ⚠️ 完善 @th-ui/core 的 peerDependencies
+3. ⚠️ 完善 @xorigo-ui/core 的 peerDependencies
 
 ### 本月完成（This Month）
 1. 📋 提升共享依赖到根工作区
@@ -699,5 +699,5 @@ npm run build       # 应成功构建
 ---
 
 **报告结束**
-生成工具: Claude Code + TH-UI 组件库审查
+生成工具: Claude Code + Xorigo UI 组件库审查
 下次审查: 修复 P0 问题后

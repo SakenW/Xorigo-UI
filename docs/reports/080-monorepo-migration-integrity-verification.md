@@ -1,4 +1,4 @@
-# 🔍 TH-UI Monorepo 迁移完整性验证报告
+# 🔍 Xorigo UI Monorepo 迁移完整性验证报告
 
 **报告日期**: 2025-10-12
 **验证范围**: archive/ 归档内容 + 根目录清理 + 保护目录完整性 + 功能替代方案
@@ -348,7 +348,7 @@ export default defineConfig({
 **当前运行容器**:
 ```
 CONTAINER ID   IMAGE                 STATUS             PORTS
-e0ec40248b99   th-ui-th-ui-website   Up About an hour   0.0.0.0:3100->3100/tcp
+e0ec40248b99   xorigo-ui-xorigo-ui-website   Up About an hour   0.0.0.0:3100->3100/tcp
 ```
 
 **验证结果**: ✅ **通过**
@@ -522,7 +522,7 @@ e0ec40248b99   th-ui-th-ui-website   Up About an hour   0.0.0.0:3100->3100/tcp
 **Phase 1: 基础页面 (1小时)**
 ```typescript
 // apps/website/app/recipes/page.tsx
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
 
 export default function RecipesPage() {
   return (
@@ -748,7 +748,7 @@ rm .eslintrc.cjs  # 保留 eslint.config.js
 
 **迁移完整性**: 🟢 **89/100 - 优秀**
 
-TH-UI Monorepo 迁移工作**整体执行优秀**，归档结构清晰，文件组织良好，保护目录完全未被修改。主要问题集中在功能替代方案的完善上，特别是配方预览页面的缺失。
+Xorigo UI Monorepo 迁移工作**整体执行优秀**，归档结构清晰，文件组织良好，保护目录完全未被修改。主要问题集中在功能替代方案的完善上，特别是配方预览页面的缺失。
 
 ### 核心优势
 

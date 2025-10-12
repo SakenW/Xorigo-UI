@@ -1,4 +1,4 @@
-# 🚀 TH-UI Next.js Gallery & Adoption Matrix 架构方案
+# 🚀 Xorigo UI Next.js Gallery & Adoption Matrix 架构方案
 
 > **核心理念**：组件库（React 19 + Vite）+ 展示网站（Next.js 15 App Router）分离架构，严格依赖组件库，完整展示组件效果。
 
@@ -18,10 +18,10 @@
 
 ### 📋 依赖管理策略
 ```typescript
-// @th-ui/website/package.json - 严格依赖组件库
+// @xorigo-ui/website/package.json - 严格依赖组件库
 {
   "dependencies": {
-    "@th-ui/core": "workspace:*",  // 必须使用工作区版本
+    "@xorigo-ui/core": "workspace:*",  // 必须使用工作区版本
     "framer-motion": "^12.23.5",    // 仅组件库已有依赖
     // 禁止添加额外的UI组件库
   },
@@ -41,18 +41,18 @@
 ### 项目分离策略
 
 ```
-TH-UI 仓库结构
+Xorigo UI 仓库结构
 ├── packages/
-│   ├── @th-ui/core/              # 组件库（React 19 + Vite）
+│   ├── @xorigo-ui/core/              # 组件库（React 19 + Vite）
 │   │   ├── src/
 │   │   │   ├── components/       # UI 组件
 │   │   │   ├── style-recipe/     # 七轴配方系统
 │   │   │   ├── tokens/           # 设计令牌
 │   │   │   └── theme/            # 主题系统
 │   │   ├── vite.config.ts
-│   │   └── package.json          # @th-ui/core
+│   │   └── package.json          # @xorigo-ui/core
 │   │
-│   └── @th-ui/website/           # 展示网站（Next.js 15）⭐️ 新增
+│   └── @xorigo-ui/website/           # 展示网站（Next.js 15）⭐️ 新增
 │       ├── src/
 │       │   ├── app/              # App Router
 │       │   │   ├── page.tsx                 # 首页
@@ -68,7 +68,7 @@ TH-UI 仓库结构
 │       │   ├── lib/              # 工具函数
 │       │   └── registry/         # Registry API
 │       ├── next.config.js
-│       └── package.json          # 依赖 @th-ui/core
+│       └── package.json          # 依赖 @xorigo-ui/core
 │
 └── docs/                         # 文档
 ```
@@ -129,7 +129,7 @@ TH-UI 仓库结构
 ## 🏗️ Next.js 项目结构设计
 
 ```typescript
-// packages/@th-ui/website/
+// packages/@xorigo-ui/website/
 
 src/
 ├── app/                                    # App Router
@@ -213,14 +213,14 @@ src/
 ```typescript
 // src/app/gallery/page.tsx
 
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
 import { RecipeCard } from '@/components/gallery/RecipeCard'
 import { RecipeFilters } from '@/components/gallery/RecipeFilters'
 import { RecipeSearch } from '@/components/gallery/RecipeSearch'
 
 export const metadata = {
-  title: 'TH-UI 配方库 - 20+ 七轴风格配方',
-  description: '探索 TH-UI 的七轴风格配方系统，可无限扩展',
+  title: 'Xorigo UI 配方库 - 20+ 七轴风格配方',
+  description: '探索 Xorigo UI 的七轴风格配方系统，可无限扩展',
 }
 
 // ✅ SSG：构建时生成静态页面
@@ -231,7 +231,7 @@ export default async function GalleryPage() {
   return (
     <div className="gallery-page container mx-auto px-4 py-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">TH-UI 配方库</h1>
+        <h1 className="text-4xl font-bold mb-2">Xorigo UI 配方库</h1>
         <p className="text-neutral-600 dark:text-neutral-400">
           探索 {recipes.length} 个七轴风格配方，可无限扩展
         </p>
@@ -263,7 +263,7 @@ export const revalidate = 3600
 // src/app/gallery/[recipeId]/page.tsx
 
 import { notFound } from 'next/navigation'
-import { unifiedRecipes, getUnifiedRecipe } from '@th-ui/core/style-recipe'
+import { unifiedRecipes, getUnifiedRecipe } from '@xorigo-ui/core/style-recipe'
 import { RecipePreview } from '@/components/gallery/RecipePreview'
 import { CodePreview } from '@/components/adoption/CodePreview'
 import { ExportButtons } from '@/components/adoption/ExportButtons'
@@ -286,7 +286,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!recipe) return { title: '配方不存在' }
 
   return {
-    title: `${recipe.name} - TH-UI 配方`,
+    title: `${recipe.name} - Xorigo UI 配方`,
     description: recipe.description,
   }
 }
@@ -349,7 +349,7 @@ export default async function RecipeDetailPage({ params }: PageProps) {
 'use client'
 
 import { useState } from 'react'
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
 import { RecipeSelector } from '@/components/adoption/RecipeSelector'
 import { ComponentSelector } from '@/components/adoption/ComponentSelector'
 import { FrameworkSelector } from '@/components/adoption/FrameworkSelector'
@@ -435,7 +435,7 @@ export default function AdoptionPage() {
 'use client'
 
 import { useState } from 'react'
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
 import { EditorPanel } from '@/components/playground/EditorPanel'
 import { PreviewPanel } from '@/components/playground/PreviewPanel'
 import { ConfigPanel } from '@/components/playground/ConfigPanel'
@@ -463,7 +463,7 @@ export default function PlaygroundPage() {
   return (
     <div className="playground-page h-screen flex flex-col">
       <header className="px-4 py-3 border-b">
-        <h1 className="text-2xl font-bold">TH-UI Playground</h1>
+        <h1 className="text-2xl font-bold">Xorigo UI Playground</h1>
       </header>
 
       <div className="flex-1 flex overflow-hidden">
@@ -494,12 +494,12 @@ export default function PlaygroundPage() {
 }
 
 const DEFAULT_CODE = `
-import { Button, Card } from '@th-ui/core'
+import { Button, Card } from '@xorigo-ui/core'
 
 export default function Demo() {
   return (
     <Card>
-      <h2>Hello TH-UI!</h2>
+      <h2>Hello Xorigo UI!</h2>
       <Button>Click Me</Button>
     </Card>
   )
@@ -516,8 +516,8 @@ export default function Demo() {
 ```typescript
 // src/lib/registry/generator.ts
 
-import { unifiedRecipes } from '@th-ui/core/style-recipe'
-import type { StyleRecipe } from '@th-ui/core/style-recipe'
+import { unifiedRecipes } from '@xorigo-ui/core/style-recipe'
+import type { StyleRecipe } from '@xorigo-ui/core/style-recipe'
 
 export interface RegistryRecipe extends StyleRecipe {
   preview: {
@@ -552,7 +552,7 @@ export function generateRegistryJSON(): RegistryRecipe[] {
       rating: 0,
     },
     metadata: {
-      author: 'TH-UI Team',
+      author: 'Xorigo UI Team',
       version: '1.0.0',
       license: 'MIT',
       createdAt: new Date().toISOString(),
@@ -598,12 +598,12 @@ export function generateInstallCode(options: CodeGenerationOptions): string {
 
   if (framework === 'react') {
     return `
-// 1. 安装 TH-UI
-npm install @th-ui/core
+// 1. 安装 Xorigo UI
+npm install @xorigo-ui/core
 
 // 2. 在你的应用中导入
-import { StyleRecipeProvider } from '@th-ui/core/style-recipe'
-import { ${components.join(', ')} } from '@th-ui/core'
+import { StyleRecipeProvider } from '@xorigo-ui/core/style-recipe'
+import { ${components.join(', ')} } from '@xorigo-ui/core'
 
 function App() {
   return (
@@ -664,7 +664,7 @@ export async function exportToCodeSandbox(options: CodeGenerationOptions) {
       'package.json': {
         content: JSON.stringify({
           dependencies: {
-            '@th-ui/core': 'latest',
+            '@xorigo-ui/core': 'latest',
             'react': '^19.2.0',
             'react-dom': '^19.2.0',
           },
@@ -700,7 +700,7 @@ export async function exportToCodeSandbox(options: CodeGenerationOptions) {
 
 import { useState, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Input } from '@th-ui/core'
+import { Input } from '@xorigo-ui/core'
 import { Search } from 'lucide-react'
 
 export function RecipeSearch() {
@@ -772,8 +772,8 @@ const nextConfig = {
     serverActions: true,
   },
 
-  // 转译 @th-ui/core
-  transpilePackages: ['@th-ui/core'],
+  // 转译 @xorigo-ui/core
+  transpilePackages: ['@xorigo-ui/core'],
 }
 
 module.exports = nextConfig
@@ -803,10 +803,10 @@ module.exports = nextConfig
 
 ### Phase 1 - 基础架构（1周）
 
-- [ ] 创建 `packages/@th-ui/website` 目录
+- [ ] 创建 `packages/@xorigo-ui/website` 目录
 - [ ] 初始化 Next.js 15 项目
 - [ ] 配置 Turborepo Monorepo
-- [ ] 配置 @th-ui/core 依赖
+- [ ] 配置 @xorigo-ui/core 依赖
 - [ ] 实现基础 Layout 和导航
 
 ### Phase 2 - Gallery 页面（1周）
@@ -864,7 +864,7 @@ module.exports = nextConfig
 - [Next.js 15 文档](https://nextjs.org/docs)
 - [App Router 指南](https://nextjs.org/docs/app)
 - [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
-- [TH-UI 七轴配方体系](./NEW_SYSTEM_COMPLETE_GUIDE.md)
+- [Xorigo UI 七轴配方体系](./NEW_SYSTEM_COMPLETE_GUIDE.md)
 - [组件库架构](./ARCHITECTURE.md)
 
 ---
@@ -872,4 +872,4 @@ module.exports = nextConfig
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: 📋 设计完成，待实施
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

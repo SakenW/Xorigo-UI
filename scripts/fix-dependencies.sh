@@ -1,5 +1,5 @@
 #!/bin/bash
-# TH-UI Monorepo 依赖修复脚本
+# Xorigo UI Monorepo 依赖修复脚本
 # 用途：修复 P0 阻塞问题，恢复 npm install 正常工作
 
 set -e  # 遇到错误立即退出
@@ -69,14 +69,14 @@ else
     log_success "node_modules 权限正常"
 fi
 
-log_info "检查 @th-ui/core 构建产物..."
+log_info "检查 @xorigo-ui/core 构建产物..."
 if [ -d "packages/core/dist" ]; then
     log_success "packages/core/dist 存在"
 else
     log_warn "packages/core/dist 不存在，需要构建"
 fi
 
-log_info "检查 @th-ui/registry 构建产物..."
+log_info "检查 @xorigo-ui/registry 构建产物..."
 if [ -d "packages/registry/dist" ]; then
     log_success "packages/registry/dist 存在"
 else
@@ -100,20 +100,20 @@ rm -rf apps/website/node_modules apps/website/package-lock.json
 log_success "所有 node_modules 和 package-lock.json 已删除"
 
 # ============================================
-# 步骤 3: 构建 @th-ui/core
+# 步骤 3: 构建 @xorigo-ui/core
 # ============================================
-step "步骤 3: 构建 @th-ui/core"
+step "步骤 3: 构建 @xorigo-ui/core"
 
 cd "$PROJECT_ROOT/packages/core"
 log_info "当前目录: $(pwd)"
 
-log_info "安装 @th-ui/core 依赖..."
+log_info "安装 @xorigo-ui/core 依赖..."
 npm install --legacy-peer-deps
-log_success "@th-ui/core 依赖安装完成"
+log_success "@xorigo-ui/core 依赖安装完成"
 
-log_info "构建 @th-ui/core..."
+log_info "构建 @xorigo-ui/core..."
 npm run build
-log_success "@th-ui/core 构建完成"
+log_success "@xorigo-ui/core 构建完成"
 
 log_info "验证构建产物..."
 if [ -f "dist/index.js" ] && [ -f "dist/index.mjs" ]; then
@@ -124,20 +124,20 @@ else
 fi
 
 # ============================================
-# 步骤 4: 构建 @th-ui/registry
+# 步骤 4: 构建 @xorigo-ui/registry
 # ============================================
-step "步骤 4: 构建 @th-ui/registry"
+step "步骤 4: 构建 @xorigo-ui/registry"
 
 cd "$PROJECT_ROOT/packages/registry"
 log_info "当前目录: $(pwd)"
 
-log_info "安装 @th-ui/registry 依赖..."
+log_info "安装 @xorigo-ui/registry 依赖..."
 npm install --legacy-peer-deps
-log_success "@th-ui/registry 依赖安装完成"
+log_success "@xorigo-ui/registry 依赖安装完成"
 
-log_info "构建 @th-ui/registry..."
+log_info "构建 @xorigo-ui/registry..."
 npm run build
-log_success "@th-ui/registry 构建完成"
+log_success "@xorigo-ui/registry 构建完成"
 
 log_info "验证构建产物..."
 if [ -f "dist/index.cjs.js" ] || [ -f "dist/index.es.js" ]; then
@@ -164,13 +164,13 @@ log_success "根工作区依赖安装完成"
 # ============================================
 step "步骤 6: 验证安装结果"
 
-log_info "检查 @th-ui/core 依赖状态..."
-if npm ls @th-ui/core 2>&1 | grep -q "invalid"; then
-    log_error "@th-ui/core 依赖仍然无效"
-    npm ls @th-ui/core
+log_info "检查 @xorigo-ui/core 依赖状态..."
+if npm ls @xorigo-ui/core 2>&1 | grep -q "invalid"; then
+    log_error "@xorigo-ui/core 依赖仍然无效"
+    npm ls @xorigo-ui/core
     exit 1
 else
-    log_success "@th-ui/core 依赖状态正常"
+    log_success "@xorigo-ui/core 依赖状态正常"
 fi
 
 log_info "检查 UNMET DEPENDENCY..."
@@ -183,11 +183,11 @@ else
 fi
 
 log_info "检查构建能力..."
-if npm run build --workspace=@th-ui/core 2>&1 | grep -q "ERROR"; then
-    log_error "@th-ui/core 构建失败"
+if npm run build --workspace=@xorigo-ui/core 2>&1 | grep -q "ERROR"; then
+    log_error "@xorigo-ui/core 构建失败"
     exit 1
 else
-    log_success "@th-ui/core 构建成功"
+    log_success "@xorigo-ui/core 构建成功"
 fi
 
 # ============================================

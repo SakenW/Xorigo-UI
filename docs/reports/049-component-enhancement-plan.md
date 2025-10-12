@@ -1,4 +1,4 @@
-# 049 - TH-UI 组件增强规划
+# 049 - Xorigo UI 组件增强规划
 
 **基于**: shadcn/ui, MagicUI, dub.sh 等优秀项目的设计理念
 **日期**: 2025-10-11
@@ -8,7 +8,7 @@
 
 ## 📋 概述
 
-本文档基于 shadcn/ui、MagicUI、dub.sh 等业界优秀项目的设计理念，规划 TH-UI 组件库的增强方向。我们将聚焦于：
+本文档基于 shadcn/ui、MagicUI、dub.sh 等业界优秀项目的设计理念，规划 Xorigo UI 组件库的增强方向。我们将聚焦于：
 
 1. **高级交互组件** - Command Palette、Combobox、DataTable
 2. **增强现有组件** - 为已有组件添加更多变体和演示
@@ -26,7 +26,7 @@
 - ✅ 使用 Tailwind CSS，保持样式的一致性和可定制性
 - ✅ TypeScript 优先，完整的类型支持
 
-**应用到 TH-UI**：
+**应用到 Xorigo UI**：
 - 保持组件的简洁性和可定制性
 - 提供完整的源代码和文档
 - 强调组件的组合性而非大而全
@@ -39,7 +39,7 @@
 - ✅ 视觉反馈的即时性
 - ✅ 动画的性能优化
 
-**应用到 TH-UI**：
+**应用到 Xorigo UI**：
 - 已经集成 Framer Motion 12
 - 需要为更多组件添加细腻的动画
 - 优化现有动画的性能
@@ -812,5 +812,5 @@ const buttonVariants = cva(
 
 ---
 
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team
 **最后更新**: 2025-10-11

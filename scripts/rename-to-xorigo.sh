@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Xorigo UI 重命名脚本
-# 将 TH-UI 重命名为 Xorigo UI (原点 UI)
+# 将 Xorigo UI 重命名为 Xorigo UI (原点 UI)
 
 set -e
 
-echo "🚀 开始重命名 TH-UI 为 Xorigo UI..."
+echo "🚀 开始重命名 Xorigo UI 为 Xorigo UI..."
 
 # 定义颜色
 RED='\033[0;31m'
@@ -75,96 +75,120 @@ echo -e "${BLUE}🔄 开始替换品牌名称...${NC}"
 echo -e "${BLUE}📦 更新 package.json 文件...${NC}"
 
 # 根目录 package.json
-safe_replace "package.json" "TH-UI" "Xorigo UI"
-safe_replace "package.json" "th-ui" "xorigo-ui"
-safe_replace "package.json" "@th-ui" "@xorigo-ui"
-safe_replace "package.json" "TH-UI Team" "Xorigo UI Team"
-safe_replace "package.json" "th-ui.dev" "xorigo-ui.dev"
-safe_replace "package.json" "github.com/th-ui" "github.com/xorigo-ui"
+safe_replace "package.json" "Xorigo UI" "Xorigo UI"
+safe_replace "package.json" "xorigo-ui" "xorigo-ui"
+safe_replace "package.json" "@xorigo-ui" "@xorigo-ui"
+safe_replace "package.json" "Xorigo UI Team" "Xorigo UI Team"
+safe_replace "package.json" "xorigo-ui.dev" "xorigo-ui.dev"
+safe_replace "package.json" "github.com/xorigo-ui" "github.com/xorigo-ui"
 
 # packages 目录下的所有 package.json
 for pkg in packages/*/package.json; do
     if [[ -f "$pkg" ]]; then
-        safe_replace "$pkg" "TH-UI" "Xorigo UI"
-        safe_replace "$pkg" "th-ui" "xorigo-ui"
-        safe_replace "$pkg" "@th-ui" "@xorigo-ui"
-        safe_replace "$pkg" "TH-UI Team" "Xorigo UI Team"
-        safe_replace "$pkg" "github.com/th-ui" "github.com/xorigo-ui"
+        safe_replace "$pkg" "Xorigo UI" "Xorigo UI"
+        safe_replace "$pkg" "xorigo-ui" "xorigo-ui"
+        safe_replace "$pkg" "@xorigo-ui" "@xorigo-ui"
+        safe_replace "$pkg" "Xorigo UI Team" "Xorigo UI Team"
+        safe_replace "$pkg" "github.com/xorigo-ui" "github.com/xorigo-ui"
     fi
 done
 
 # apps 目录下的所有 package.json
 for app in apps/*/package.json; do
     if [[ -f "$app" ]]; then
-        safe_replace "$app" "TH-UI" "Xorigo UI"
-        safe_replace "$app" "th-ui" "xorigo-ui"
-        safe_replace "$app" "@th-ui" "@xorigo-ui"
-        safe_replace "$app" "TH-UI Team" "Xorigo UI Team"
-        safe_replace "$app" "github.com/th-ui" "github.com/xorigo-ui"
+        safe_replace "$app" "Xorigo UI" "Xorigo UI"
+        safe_replace "$app" "xorigo-ui" "xorigo-ui"
+        safe_replace "$app" "@xorigo-ui" "@xorigo-ui"
+        safe_replace "$app" "Xorigo UI Team" "Xorigo UI Team"
+        safe_replace "$app" "github.com/xorigo-ui" "github.com/xorigo-ui"
     fi
 done
 
 echo -e "${BLUE}📄 更新文档文件...${NC}"
 
 # 2. 更新文档文件
-safe_replace "CLAUDE.md" "TH-UI" "Xorigo UI"
-safe_replace "CLAUDE.md" "th-ui" "xorigo-ui"
-safe_replace "CLAUDE.md" "@th-ui" "@xorigo-ui"
-safe_replace "CLAUDE.md" "TH-UI Team" "Xorigo UI Team"
-safe_replace "CLAUDE.md" "TH-UI × Claude Code 开发指南" "Xorigo UI × Claude Code 开发指南"
+safe_replace "CLAUDE.md" "Xorigo UI" "Xorigo UI"
+safe_replace "CLAUDE.md" "xorigo-ui" "xorigo-ui"
+safe_replace "CLAUDE.md" "@xorigo-ui" "@xorigo-ui"
+safe_replace "CLAUDE.md" "Xorigo UI Team" "Xorigo UI Team"
+safe_replace "CLAUDE.md" "Xorigo UI × Claude Code 开发指南" "Xorigo UI × Claude Code 开发指南"
 
 # README 文件
-safe_replace "README.md" "TH-UI" "Xorigo UI"
-safe_replace "README.md" "th-ui" "xorigo-ui"
-safe_replace "README.md" "@th-ui" "@xorigo-ui"
+safe_replace "README.md" "Xorigo UI" "Xorigo UI"
+safe_replace "README.md" "xorigo-ui" "xorigo-ui"
+safe_replace "README.md" "@xorigo-ui" "@xorigo-ui"
 
 echo -e "${BLUE}🔧 更新源码文件...${NC}"
 
 # 3. 更新源码文件中的引用
-safe_replace "packages/i18n/src/core/I18nManager.ts" "th-ui-locale" "xorigo-ui-locale"
-safe_replace "packages/i18n/src/core/I18nManager.ts" "th-ui-locale-change" "xorigo-ui-locale-change"
+safe_replace "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale" "xorigo-ui-locale"
+safe_replace "packages/i18n/src/core/I18nManager.ts" "xorigo-ui-locale-change" "xorigo-ui-locale-change"
+
+# 更新 CLAUDE.md 中的 Trans-Hub 引用
+safe_replace "CLAUDE.md" "Trans-Hub" "Xorigo UI 原点设计系统"
+safe_replace "CLAUDE.md" "Xorigo UI 是从 Trans-Hub 提取的" "Xorigo UI 是基于原点设计系统构建的"
 
 # i18n 包相关文件
-safe_replace "packages/i18n/src/index.ts" "TH-UI" "Xorigo UI"
-safe_replace "packages/i18n/examples/basic-usage.ts" "th-ui" "xorigo-ui"
-safe_replace "packages/i18n/examples/basic-usage.ts" "@th-ui" "@xorigo-ui"
+safe_replace "packages/i18n/src/index.ts" "Xorigo UI" "Xorigo UI"
+safe_replace "packages/i18n/examples/basic-usage.ts" "xorigo-ui" "xorigo-ui"
+safe_replace "packages/i18n/examples/basic-usage.ts" "@xorigo-ui" "@xorigo-ui"
 
 # i18n README
-safe_replace "packages/i18n/README.md" "TH-UI" "Xorigo UI"
-safe_replace "packages/i18n/README.md" "th-ui" "xorigo-ui"
-safe_replace "packages/i18n/README.md" "@th-ui" "@xorigo-ui"
-safe_replace "packages/i18n/README.md" "github.com/th-ui" "github.com/xorigo-ui"
+safe_replace "packages/i18n/README.md" "Xorigo UI" "Xorigo UI"
+safe_replace "packages/i18n/README.md" "xorigo-ui" "xorigo-ui"
+safe_replace "packages/i18n/README.md" "@xorigo-ui" "@xorigo-ui"
+safe_replace "packages/i18n/README.md" "github.com/xorigo-ui" "github.com/xorigo-ui"
+
+# style-recipe 包相关文件（新增）
+safe_replace "packages/style-recipe/src/provider/DTCGStyleRecipeProvider.tsx" "packages/thui-tokens" "packages/xorigo-ui-tokens"
+safe_replace "packages/style-recipe/src/engine/dtcg-engine.ts" "packages/thui-tokens" "packages/xorigo-ui-tokens"
+
+# 更新 dist 目录中的构建产物（如果存在）
+safe_replace "packages/style-recipe/dist/provider/DTCGStyleRecipeProvider.js" "packages/thui-tokens" "packages/xorigo-ui-tokens"
+safe_replace "packages/style-recipe/dist/provider/DTCGStyleRecipeProvider.d.ts" "packages/thui-tokens" "packages/xorigo-ui-tokens"
+
+# 更新 archive 目录中的文件
+safe_replace "archive/legacy-demo-site/demo-site/components/legacy-recipes/DTCGStyleRecipeDemo.tsx" "packages/thui-tokens" "packages/xorigo-ui-tokens"
+
+# 更新 apps/website 中的文件
+safe_replace "apps/website/IMPLEMENTATION_REPORT.md" "searchTHUI" "searchXorigoUI"
+safe_replace "apps/website/SEARCH_API.md" "searchTHUI" "searchXorigoUI"
+
+# 更新 packages/core README.md 中的 Trans-Hub 引用
+safe_replace "packages/core/README.md" "Trans-Hub" "Xorigo UI 原点设计系统"
+safe_replace "packages/core/README.md" "trans-hub.com" "xorigo-ui.dev"
+safe_replace "packages/core/README.md" "Xorigo UI 基于 Trans-Hub" "Xorigo UI 基于"
 
 echo -e "${BLUE}🌐 更新国际化文件...${NC}"
 
 # 4. 更新国际化文件
 for locale_file in packages/i18n/src/locales/zh-CN/*.json; do
     if [[ -f "$locale_file" ]]; then
-        safe_replace "$locale_file" "TH-UI" "Xorigo UI"
-        safe_replace "$locale_file" "TH-UI 试验场" "Xorigo UI 试验场"
-        safe_replace "$locale_file" "TH-UI 展示馆" "Xorigo UI 展示馆"
-        safe_replace "$locale_file" "TH-UI 到你的项目中" "Xorigo UI 到你的项目中"
+        safe_replace "$locale_file" "Xorigo UI" "Xorigo UI"
+        safe_replace "$locale_file" "Xorigo UI 试验场" "Xorigo UI 试验场"
+        safe_replace "$locale_file" "Xorigo UI 展示馆" "Xorigo UI 展示馆"
+        safe_replace "$locale_file" "Xorigo UI 到你的项目中" "Xorigo UI 到你的项目中"
     fi
 done
 
 echo -e "${BLUE}🔧 更新配置文件...${NC}"
 
 # 5. 更新其他配置文件
-safe_replace "eslint.config.js" "TH-UI" "Xorigo UI"
-safe_replace "postcss.config.js" "th-ui" "xorigo-ui"
+safe_replace "eslint.config.js" "Xorigo UI" "Xorigo UI"
+safe_replace "postcss.config.js" "xorigo-ui" "xorigo-ui"
 
 echo -e "${BLUE}📁 重命名配置文件...${NC}"
 
 # 6. 重命名配置文件
-rename_item "th-ui.config.json" "xorigo-ui.config.json"
+rename_item "xorigo-ui.config.json" "xorigo-ui.config.json"
 
 echo -e "${BLUE}📝 更新构建脚本...${NC}"
 
 # 7. 更新构建脚本（如果存在）
 for script in scripts/*.sh; do
     if [[ -f "$script" ]]; then
-        safe_replace "$script" "TH-UI" "Xorigo UI"
-        safe_replace "$script" "th-ui" "xorigo-ui"
+        safe_replace "$script" "Xorigo UI" "Xorigo UI"
+        safe_replace "$script" "xorigo-ui" "xorigo-ui"
     fi
 done
 
@@ -173,15 +197,21 @@ echo -e "${BLUE}📚 更新其他文档...${NC}"
 # 8. 更新其他可能的文档文件
 find . -name "*.md" -not -path "./node_modules/*" -not -path "./backup-*/*" -exec bash -c '
     file="$1"
-    if grep -q "TH-UI\|th-ui" "$file"; then
+    if grep -q "Xorigo UI\|xorigo-ui" "$file"; then
         echo -e "'${GREEN}'✓ 更新文档: $file'${NC}'"
-        sed -i "s/TH-UI/Xorigo UI/g; s/th-ui/xorigo-ui/g; s/@th-ui/@xorigo-ui/g" "$file"
+        sed -i "s/Xorigo UI/Xorigo UI/g; s/xorigo-ui/xorigo-ui/g; s/@xorigo-ui/@xorigo-ui/g; s/Trans-Hub/Xorigo UI 原点设计系统/g; s/trans-hub\.com/xorigo-ui.dev/g" "$file"
     fi
 ' bash {} \;
 
+# 9. 更新验证脚本中的搜索模式
+safe_replace "scripts/verify-rename.js" "Xorigo UI" "Xorigo UI"
+safe_replace "scripts/verify-rename.js" "xorigo-ui" "xorigo-ui"
+safe_replace "scripts/verify-rename.js" "@xorigo-ui" "@xorigo-ui"
+safe_replace "scripts/verify-rename.js" "github.com/xorigo-ui" "github.com/xorigo-ui"
+
 echo -e "${BLUE}🧹 清理缓存和重新安装依赖...${NC}"
 
-# 9. 清理和重新安装
+# 10. 清理和重新安装
 echo -e "${YELLOW}🗑️  清理 node_modules 和构建产物...${NC}"
 rm -rf node_modules packages/*/node_modules apps/*/node_modules
 rm -rf packages/*/dist apps/*/.next apps/*/out
@@ -192,11 +222,11 @@ npm install
 echo -e "${GREEN}✅ 重命名完成！${NC}"
 echo ""
 echo -e "${BLUE}📋 重命名摘要：${NC}"
-echo -e "  • 品牌名称: TH-UI → Xorigo UI"
-echo -e "  • 包名前缀: @th-ui → @xorigo-ui"
-echo -e "  • 标识符: th-ui → xorigo-ui"
-echo -e "  • 团队名称: TH-UI Team → Xorigo UI Team"
-echo -e "  • 配置文件: th-ui.config.json → xorigo-ui.config.json"
+echo -e "  • 品牌名称: Xorigo UI → Xorigo UI"
+echo -e "  • 包名前缀: @xorigo-ui → @xorigo-ui"
+echo -e "  • 标识符: xorigo-ui → xorigo-ui"
+echo -e "  • 团队名称: Xorigo UI Team → Xorigo UI Team"
+echo -e "  • 配置文件: xorigo-ui.config.json → xorigo-ui.config.json"
 echo ""
 echo -e "${YELLOW}💾 备份文件保存在: $BACKUP_DIR${NC}"
 echo ""

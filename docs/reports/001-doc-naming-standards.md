@@ -6,20 +6,20 @@
 
 ## 📋 任务概述
 
-为 TH-UI 组件库项目建立适合的文档命名规范，参考 Trans-Hub 项目的文档体系，但针对组件库开发特点进行定制化调整。
+为 Xorigo UI 组件库项目建立适合的文档命名规范，参考 Xorigo UI 原点设计系统 项目的文档体系，但针对组件库开发特点进行定制化调整。
 
 ## 🎯 核心设计原则
 
-### 与 Trans-Hub 的差异对比
+### 与 Xorigo UI 原点设计系统 的差异对比
 
-| 特性 | Trans-Hub (Python 后端) | TH-UI (React 组件库) |
+| 特性 | Xorigo UI 原点设计系统 (Python 后端) | Xorigo UI (React 组件库) |
 |------|-------------------------|---------------------|
 | **项目导向** | 系统架构开发 (Phase 1-9) | 组件库开发 (Phase 1-3) |
 | **核心作用域** | Frontend, Mobile, API, Infrastructure | Component, Design System, Build, Testing |
 | **命名重点** | 功能模块和系统集成 | 组件分类和设计系统 |
 | **文档结构** | 领域驱动的任务分类 | 组件驱动的开发分类 |
 
-### TH-UI 特有的命名体系
+### Xorigo UI 特有的命名体系
 
 **四大开发导向**：
 1. **项目阶段线** (`ph{N}`) - 组件库开发阶段
@@ -86,7 +86,7 @@
 
 ### 1. 作用域简化
 
-**决策**: 从 Trans-Hub 的 7 个作用域简化为 6 个，更聚焦组件库开发
+**决策**: 从 Xorigo UI 原点设计系统 的 7 个作用域简化为 6 个，更聚焦组件库开发
 
 **原因**: 组件库项目不需要 Mobile、API、Infrastructure 等复杂领域分类
 
@@ -108,7 +108,7 @@
 
 ### 3. 阶段标记适配
 
-**决策**: 保留 Trans-Hub 的阶段标记系统，但增加组件特有的标记
+**决策**: 保留 Xorigo UI 原点设计系统 的阶段标记系统，但增加组件特有的标记
 
 **新增标记**:
 - `comp-planning-{category}` - 组件规划
@@ -179,13 +179,13 @@ ls -1 docs/reports/ | grep -E '^[0-9]{3}-' | tail -1 | cut -d'-' -f1
 
 ## 📝 相关链接
 
-- [Trans-Hub 文档命名规范](../../../th-temp/Trans-Hub/CLAUDE.md#文档命名规范) - 参考源
-- [TH-UI CLAUDE.md](../../CLAUDE.md) - 更新的项目文档
+- [Xorigo UI 原点设计系统 文档命名规范](../../../th-temp/Xorigo UI 原点设计系统/CLAUDE.md#文档命名规范) - 参考源
+- [Xorigo UI CLAUDE.md](../../CLAUDE.md) - 更新的项目文档
 - [Atomic Design 方法论](https://bradfrost.com/blog/post/atomic-web-design/) - 组件设计理论
 
 ---
 
 **创建者**: Claude Code
-**审查者**: TH-UI Team
+**审查者**: Xorigo UI Team
 **版本**: 1.0
 **状态**: ✅ 已实施

@@ -1,11 +1,11 @@
 /**
- * @th-ui/i18n 基础使用示例
+ * @xorigo-ui/i18n 基础使用示例
  */
 
 import { I18nManager } from '../src/core/I18nManager'
 
 async function basicUsageExample() {
-  console.log('=== @th-ui/i18n 基础使用示例 ===\n')
+  console.log('=== @xorigo-ui/i18n 基础使用示例 ===\n')
 
   // 1. 获取单例实例
   const i18n = I18nManager.getInstance({

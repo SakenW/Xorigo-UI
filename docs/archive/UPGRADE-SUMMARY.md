@@ -1,4 +1,4 @@
-# 🎉 TH-UI 技术栈升级完成总结
+# 🎉 Xorigo UI 技术栈升级完成总结
 
 **更新日期**: 2025-10-10
 **状态**: ✅ 完成
@@ -93,11 +93,11 @@
 
 ## 🚀 快速开始
 
-### 使用 TH-UI 组件库
+### 使用 Xorigo UI 组件库
 
 ```bash
 # 安装核心依赖
-npm install @th-ui/core framer-motion
+npm install @xorigo-ui/core framer-motion
 
 # 按需安装可选依赖
 npm install @tanstack/react-query zustand react-hook-form zod
@@ -105,12 +105,12 @@ npm install @tanstack/react-query zustand react-hook-form zod
 
 ```tsx
 // 基础使用
-import { Button, Card, Input } from '@th-ui/core'
+import { Button, Card, Input } from '@xorigo-ui/core'
 
 function App() {
   return (
     <Card>
-      <h1>Hello TH-UI</h1>
+      <h1>Hello Xorigo UI</h1>
       <Button variant="primary">Click me</Button>
     </Card>
   )
@@ -123,9 +123,9 @@ function App() {
 # 创建 Next.js 项目
 npx create-next-app@latest my-app
 
-# 安装 TH-UI
+# 安装 Xorigo UI
 cd my-app
-npm install @th-ui/core framer-motion
+npm install @xorigo-ui/core framer-motion
 
 # 升级 Tailwind CSS v4
 npx @tailwindcss/upgrade
@@ -253,8 +253,8 @@ const Editor = dynamic(
 - [React 19 Docs](https://react.dev/)
 
 ### 项目文档
-- [GitHub Issues](https://github.com/your-org/th-ui/issues)
-- [Discussions](https://github.com/your-org/th-ui/discussions)
+- [GitHub Issues](https://github.com/your-org/xorigo-ui/issues)
+- [Discussions](https://github.com/your-org/xorigo-ui/discussions)
 
 ### 问题反馈
 如遇到问题，请提供以下信息：
@@ -264,6 +264,6 @@ const Editor = dynamic(
 
 ---
 
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team
 **更新时间**: 2025-10-10
 **版本**: 0.1.0 → 0.2.0 (Tailwind v4)

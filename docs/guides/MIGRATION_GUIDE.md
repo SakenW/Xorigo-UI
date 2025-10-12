@@ -1,4 +1,4 @@
-# 🔄 TH-UI 组件迁移实施指南
+# 🔄 Xorigo UI 组件迁移实施指南
 
 > **目标**：将所有组件从旧的 ThemeProvider 系统迁移到新的七轴 StyleRecipeProvider 系统
 
@@ -604,4 +604,4 @@ console.table(
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: 🚀 实施指南
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

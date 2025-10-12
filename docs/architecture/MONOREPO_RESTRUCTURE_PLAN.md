@@ -1,4 +1,4 @@
-# 📦 TH-UI Monorepo 目录结构重组方案
+# 📦 Xorigo UI Monorepo 目录结构重组方案
 
 > **目标**：将当前混合结构重组为标准 Monorepo 架构，符合 NEXTJS_ARCHITECTURE.md 设计
 
@@ -9,10 +9,10 @@
 ### ❌ 当前问题
 
 ```
-TH-UI/ (根目录 - 混合状态)
+Xorigo UI/ (根目录 - 混合状态)
 ├── src/                    # ❌ 组件库源码位于根目录
 ├── tests/                  # ❌ 组件库测试位于根目录
-├── package.json            # ❌ 配置为 @th-ui/core 包，非 Monorepo 根
+├── package.json            # ❌ 配置为 @xorigo-ui/core 包，非 Monorepo 根
 ├── vite.config.ts          # ❌ 组件库构建配置位于根目录
 ├── tsconfig.json           # ❌ 组件库 TS 配置位于根目录
 ├── tailwind.config.ts      # ❌ 组件库 Tailwind 配置位于根目录
@@ -36,10 +36,10 @@ TH-UI/ (根目录 - 混合状态)
 ### 标准 Monorepo 架构
 
 ```
-TH-UI/ (Monorepo 根目录)
+Xorigo UI/ (Monorepo 根目录)
 │
 ├── packages/                              # 📦 可复用包
-│   ├── core/                              # @th-ui/core - 组件库
+│   ├── core/                              # @xorigo-ui/core - 组件库
 │   │   ├── src/
 │   │   │   ├── components/                # UI 组件
 │   │   │   ├── style-recipe/              # 七轴配方系统
@@ -58,13 +58,13 @@ TH-UI/ (Monorepo 根目录)
 │   │   ├── package.json                   # 组件库依赖
 │   │   └── README.md                      # 组件库文档
 │   │
-│   ├── registry/                          # @th-ui/registry - Registry API
+│   ├── registry/                          # @xorigo-ui/registry - Registry API
 │   │   ├── src/
 │   │   ├── scripts/
 │   │   ├── vite.config.ts
 │   │   └── package.json
 │   │
-│   └── i18n/                              # @th-ui/i18n - 国际化包（未来）
+│   └── i18n/                              # @xorigo-ui/i18n - 国际化包（未来）
 │       ├── src/
 │       ├── locales/
 │       └── package.json
@@ -161,7 +161,7 @@ TH-UI/ (Monorepo 根目录)
 7. **创建 packages/core/package.json**
    ```json
    {
-     "name": "@th-ui/core",
+     "name": "@xorigo-ui/core",
      "version": "0.1.0",
      "type": "module",
      "main": "./dist/index.js",
@@ -217,18 +217,18 @@ TH-UI/ (Monorepo 根目录)
 8. **创建新的根 package.json**
    ```json
    {
-     "name": "th-ui",
+     "name": "xorigo-ui",
      "version": "0.1.0",
      "private": true,
-     "description": "TH-UI Monorepo - Modern UI component library with Next.js website",
+     "description": "Xorigo UI Monorepo - Modern UI component library with Next.js website",
      "workspaces": [
        "packages/*",
        "apps/*"
      ],
      "scripts": {
-       "dev": "pnpm --filter @th-ui/core dev",
+       "dev": "pnpm --filter @xorigo-ui/core dev",
        "dev:website": "pnpm --filter website dev",
-       "build": "pnpm --filter @th-ui/core build",
+       "build": "pnpm --filter @xorigo-ui/core build",
        "build:all": "pnpm -r build",
        "test": "pnpm -r test",
        "lint": "pnpm -r lint",
@@ -297,8 +297,8 @@ TH-UI/ (Monorepo 根目录)
     ```json
     {
       "dependencies": {
-        "@th-ui/core": "workspace:*",
-        "@th-ui/registry": "workspace:*"
+        "@xorigo-ui/core": "workspace:*",
+        "@xorigo-ui/registry": "workspace:*"
       }
     }
     ```
@@ -441,12 +441,12 @@ TH-UI/ (Monorepo 根目录)
 
 ```
 packages/
-├── @th-ui/core/              # ✅ 核心组件库
-├── @th-ui/registry/          # ✅ Registry API
-├── @th-ui/i18n/              # 🔄 国际化包
-├── @th-ui/icons/             # 📅 图标包
-├── @th-ui/charts/            # 📅 图表组件
-└── @th-ui/forms/             # 📅 表单组件
+├── @xorigo-ui/core/              # ✅ 核心组件库
+├── @xorigo-ui/registry/          # ✅ Registry API
+├── @xorigo-ui/i18n/              # 🔄 国际化包
+├── @xorigo-ui/icons/             # 📅 图标包
+├── @xorigo-ui/charts/            # 📅 图表组件
+└── @xorigo-ui/forms/             # 📅 表单组件
 ```
 
 ### 计划添加的应用
@@ -460,7 +460,7 @@ apps/
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **状态**: ⏳ 待执行
 **最后更新**: 2025-10-12

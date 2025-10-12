@@ -2,7 +2,7 @@
 
 ## 🎯 重命名目标
 
-将 **TH-UI** 完全重命名为 **Xorigo UI (原点 UI)**，包括所有相关的文件、配置和引用。
+将 **Xorigo UI** 完全重命名为 **Xorigo UI (原点 UI)**，包括所有相关的文件、配置和引用。
 
 ## 📁 已创建的脚本
 
@@ -18,7 +18,7 @@
 
 ### 3. 回滚脚本
 - **文件**: `scripts/rollback-rename.sh`
-- **用途**: 如果出现问题，回滚到 TH-UI
+- **用途**: 如果出现问题，回滚到 Xorigo UI
 - **权限**: 可执行 (`chmod +x`)
 
 ## 🚀 执行步骤
@@ -26,7 +26,7 @@
 ### 第一步：创建备份（可选）
 ```bash
 # 手动创建备份
-cp -r . ../th-ui-backup-$(date +%Y%m%d)
+cp -r . ../xorigo-ui-backup-$(date +%Y%m%d)
 ```
 
 ### 第二步：执行重命名
@@ -50,7 +50,7 @@ cp -r . ../th-ui-backup-$(date +%Y%m%d)
 ```
 
 验证脚本会检查：
-- 🔍 文件内容中是否还有 TH-UI 引用
+- 🔍 文件内容中是否还有 Xorigo UI 引用
 - 📦 包名是否正确更新
 - 🔧 配置文件是否正确重命名
 
@@ -67,13 +67,13 @@ npm run dev
 
 | 原名称 | 新名称 | 影响范围 |
 |--------|--------|----------|
-| TH-UI | Xorigo UI | 品牌名称 |
-| th-ui | xorigo-ui | 小写标识符 |
-| @th-ui | @xorigo-ui | npm 包名 |
-| TH-UI Team | Xorigo UI Team | 团队名称 |
-| th-ui-locale | xorigo-ui-locale | 本地存储键 |
-| th-ui-locale-change | xorigo-ui-locale-change | 事件名称 |
-| th-ui.config.json | xorigo-ui.config.json | 配置文件 |
+| Xorigo UI | Xorigo UI | 品牌名称 |
+| xorigo-ui | xorigo-ui | 小写标识符 |
+| @xorigo-ui | @xorigo-ui | npm 包名 |
+| Xorigo UI Team | Xorigo UI Team | 团队名称 |
+| xorigo-ui-locale | xorigo-ui-locale | 本地存储键 |
+| xorigo-ui-locale-change | xorigo-ui-locale-change | 事件名称 |
+| xorigo-ui.config.json | xorigo-ui.config.json | 配置文件 |
 
 ## 🎯 涉及的文件
 
@@ -81,7 +81,7 @@ npm run dev
 - ✅ `package.json` - 根包配置
 - ✅ `packages/*/package.json` - 所有子包配置
 - ✅ `apps/*/package.json` - 应用配置
-- ✅ `th-ui.config.json` → `xorigo-ui.config.json`
+- ✅ `xorigo-ui.config.json` → `xorigo-ui.config.json`
 
 ### 文档文件
 - ✅ `CLAUDE.md` - 开发指南
@@ -112,7 +112,7 @@ npm run dev
 
 ### 3. Git 提交
 - 重命名完成后，建议创建单独的 Git 提交
-- 提交信息建议：`refactor: rename TH-UI to Xorigo UI (原点 UI)`
+- 提交信息建议：`refactor: rename Xorigo UI to Xorigo UI (原点 UI)`
 
 ### 4. 外部服务
 - 如果已发布到 npm，需要更新包名

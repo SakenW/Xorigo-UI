@@ -4,12 +4,12 @@
 
 | 原名称 | 新名称 | 说明 |
 |--------|--------|------|
-| TH-UI | Xorigo UI | 主要品牌名称 |
-| th-ui | xorigo-ui | 小写标识符 |
-| @th-ui | @xorigo-ui | npm 包名前缀 |
-| TH-UI Team | Xorigo UI Team | 团队名称 |
-| th-ui-locale | xorigo-ui-locale | 本地存储键名 |
-| th-ui-locale-change | xorigo-ui-locale-change | 事件名称 |
+| Xorigo UI | Xorigo UI | 主要品牌名称 |
+| xorigo-ui | xorigo-ui | 小写标识符 |
+| @xorigo-ui | @xorigo-ui | npm 包名前缀 |
+| Xorigo UI Team | Xorigo UI Team | 团队名称 |
+| xorigo-ui-locale | xorigo-ui-locale | 本地存储键名 |
+| xorigo-ui-locale-change | xorigo-ui-locale-change | 事件名称 |
 
 ## 重命名优先级
 
@@ -40,7 +40,7 @@
 - `/apps/website/package.json` - 官网应用
 
 ### 配置文件
-- `/th-ui.config.json` → `/xorigo-ui.config.json`
+- `/xorigo-ui.config.json` → `/xorigo-ui.config.json`
 - `/CLAUDE.md` - 开发指南
 - `/README.md` - 项目说明
 

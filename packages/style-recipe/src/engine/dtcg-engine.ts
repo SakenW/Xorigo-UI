@@ -1,7 +1,7 @@
 /**
  * 🎨 DTCG 风格配方引擎
  *
- * 读取 packages/thui-tokens/ 目录中的 DTCG 标准结构
+ * 读取 packages/xorigo-ui-tokens/ 目录中的 DTCG 标准结构
  * 解析七轴风格配方并生成运行时令牌
  */
 
@@ -85,7 +85,7 @@ export class DTCGRecipeEngine {
   private roleMappings: Map<string, Record<string, DTCGRoleMapping>> = new Map()
   private densityPresets: Map<string, DTCGDensityPreset> = new Map()
 
-  constructor(baseDir: string = 'packages/thui-tokens') {
+  constructor(baseDir: string = 'packages/xorigo-ui-tokens') {
     this.baseDir = path.resolve(baseDir)
     this.loadStructure()
   }

@@ -1,14 +1,14 @@
 # DTCG 风格配方体系集成完成报告
 
 **时间**: 2025-10-11
-**任务**: 将 TH-UI 风格配方体系与 DTCG 标准结构集成
+**任务**: 将 Xorigo UI 风格配方体系与 DTCG 标准结构集成
 **状态**: ✅ 完成
 
 ---
 
 ## 📋 任务概述
 
-基于用户需求，将 TH-UI 的风格配方系统从原有的简单结构升级为符合 DTCG (Design Tokens Community Group) 标准的七轴风格配方体系，并与 `packages/thui-tokens/` 目录结构完全集成。
+基于用户需求，将 Xorigo UI 的风格配方系统从原有的简单结构升级为符合 DTCG (Design Tokens Community Group) 标准的七轴风格配方体系，并与 `packages/thui-tokens/` 目录结构完全集成。
 
 ## 🎯 完成的工作
 
@@ -141,7 +141,7 @@ generateBrowserCSSVariables(roleTokens)
 ## 📊 成果总结
 
 ### 核心成就
-- ✅ **成功集成**: TH-UI 现在完全支持 DTCG 标准
+- ✅ **成功集成**: Xorigo UI 现在完全支持 DTCG 标准
 - ✅ **浏览器兼容**: 在纯浏览器环境中运行，无需 Node.js 依赖
 - ✅ **演示完整**: 提供了功能完整的 DTCG 演示页面
 - ✅ **架构升级**: 从简单主题系统升级为专业级令牌系统
@@ -159,4 +159,4 @@ generateBrowserCSSVariables(roleTokens)
 
 ---
 
-**总结**: TH-UI 风格配方体系已成功升级为 DTCG 标准架构，为项目提供了专业级的设计令牌管理和主题定制能力。
+**总结**: Xorigo UI 风格配方体系已成功升级为 DTCG 标准架构，为项目提供了专业级的设计令牌管理和主题定制能力。

@@ -321,7 +321,7 @@ Matrix 规则系统用于管理样式配方的合法性验证、对比度检查�
 ### MatrixGenerator 类
 
 ```typescript
-// @th-ui/matrix/src/generator.ts
+// @xorigo-ui/matrix/src/generator.ts
 import type {
   MatrixData,
   Recipe,
@@ -330,7 +330,7 @@ import type {
   Violation,
   HeatmapData
 } from './types'
-import { OKLCHConverter } from '@th-ui/oklch'
+import { OKLCHConverter } from '@xorigo-ui/oklch'
 
 export class MatrixGenerator {
   private oklchConverter: OKLCHConverter
@@ -857,8 +857,8 @@ jobs:
 ```typescript
 // apps/gallery/src/components/MatrixHeatmap.tsx
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@th-ui/core'
-import { MatrixData } from '@th-ui/matrix'
+import { Card, CardContent, CardHeader, CardTitle } from '@xorigo-ui/core'
+import { MatrixData } from '@xorigo-ui/matrix'
 
 interface MatrixHeatmapProps {
   matrixData: MatrixData
@@ -963,7 +963,7 @@ export const MatrixHeatmap: React.FC<MatrixHeatmapProps> = ({
 ```typescript
 // apps/adoption-matrix/src/hooks/useValidCombinations.ts
 import { useMemo } from 'react'
-import { MatrixData } from '@th-ui/matrix'
+import { MatrixData } from '@xorigo-ui/matrix'
 
 export function useValidCombinations(
   matrixData: MatrixData,
@@ -1006,7 +1006,7 @@ export function useValidCombinations(
 ## 包结构
 
 ```
-@th-ui/matrix/
+@xorigo-ui/matrix/
 ├── src/
 │   ├── generator.ts          # 矩阵生成器
 │   ├── validator.ts          # 验证器
@@ -1028,7 +1028,7 @@ export function useValidCombinations(
 ### 语言包结构
 
 ```
-@th-ui/matrix/
+@xorigo-ui/matrix/
 ├── src/
 │   ├── i18n/
 │   │   ├── locales/
@@ -1463,7 +1463,7 @@ export class MatrixGenerator {
 ```typescript
 // hooks/useMatrixI18n.ts
 import { useMemo } from 'react'
-import { MatrixI18n, Locale } from '@th-ui/matrix'
+import { MatrixI18n, Locale } from '@xorigo-ui/matrix'
 
 export function useMatrixI18n(locale?: Locale) {
   const i18n = useMemo(() => {
@@ -1491,7 +1491,7 @@ export function useMatrixI18n(locale?: Locale) {
 
 ```typescript
 // apps/gallery/src/components/MatrixHeatmap.tsx (更新)
-import { useMatrixI18n } from '@th-ui/matrix/hooks'
+import { useMatrixI18n } from '@xorigo-ui/matrix/hooks'
 
 export const MatrixHeatmap: React.FC<MatrixHeatmapProps> = ({
   matrixData,

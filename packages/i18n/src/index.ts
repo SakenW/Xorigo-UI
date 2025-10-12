@@ -1,7 +1,7 @@
 /**
- * @th-ui/i18n - TH-UI 国际化解决方案
+ * @th-ui/i18n - Xorigo UI 国际化解决方案
  *
- * 轻量级、类型安全的国际化库，专为 TH-UI 设计
+ * 轻量级、类型安全的国际化库，专为 Xorigo UI 设计
  *
  * @example
  * ```tsx

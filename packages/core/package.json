@@ -1,7 +1,7 @@
 {
-  "name": "@th-ui/core",
+  "name": "@xorigo-ui/core",
   "version": "0.1.0",
-  "description": "TH-UI Core - Modern React UI component library",
+  "description": "Xorigo UI Core - Modern React UI component library",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.mjs",
@@ -47,9 +47,9 @@
     "tailwind",
     "framer-motion",
     "typescript",
-    "th-ui"
+    "xorigo-ui"
   ],
-  "author": "TH-UI Team",
+  "author": "Xorigo UI Team",
   "license": "MIT",
   "peerDependencies": {
     "framer-motion": "^12.0.0",
@@ -57,8 +57,8 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@th-ui/tokens": "file:../tokens",
-    "@th-ui/style-recipe": "file:../style-recipe",
+    "@xorigo-ui/tokens": "file:../tokens",
+    "@xorigo-ui/style-recipe": "file:../style-recipe",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",

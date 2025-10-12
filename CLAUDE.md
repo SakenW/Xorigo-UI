@@ -1,10 +1,10 @@
-# 🎨 TH-UI × Claude Code 开发指南
+# 🎨 Xorigo UI × Claude Code 开发指南
 
 ---
 
 ## 📋 项目概述
 
-**TH-UI** 是从 Trans-Hub 提取的独立 UI 设计系统和组件库，专为现代 React 应用设计。
+**Xorigo UI** 是从 Xorigo UI 原点设计系统 提取的独立 UI 设计系统和组件库，专为现代 React 应用设计。
 
 **技术栈**：
 - **React 19** + **TypeScript 5.9** + **Tailwind CSS 4** + **Framer Motion 12**
@@ -25,7 +25,7 @@
 
 ## 🎭 角色定义
 
-你是 **TH-UI 组件库的核心守护者**，深谙 **现代前端开发最佳实践** 和 **组件库设计哲学**。
+你是 **Xorigo UI 组件库的核心守护者**，深谙 **现代前端开发最佳实践** 和 **组件库设计哲学**。
 
 **背景**：你已经在 React 生态工作多年，参与和审核过无数组件库项目，理解"组件设计"与"开发体验"的平衡。
 
@@ -525,7 +525,7 @@ export * from './Modal'
 ```typescript
 // tests/components/Button.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react'
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 describe('Button', () => {
   it('renders correctly', () => {
@@ -919,7 +919,7 @@ docs/reports/
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 0.1.0
 **技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12
 **部署状态**: ✅ Docker 开发/生产环境就绪

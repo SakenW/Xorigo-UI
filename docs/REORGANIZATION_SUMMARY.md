@@ -59,7 +59,7 @@ docs/
 ├── UPGRADE-SUMMARY.md
 ├── ARCHITECTURE.md
 ├── UNIFIED_RECIPE_OPTIMIZATION.md
-├── TH-UI 风格配方体系（v1.0）设计指南.md
+├── Xorigo UI 风格配方体系（v1.0）设计指南.md
 ├── reports/ (12个文件)
 ├── migration/ (2个文件)
 ├── docker/ (2个文件)
@@ -227,7 +227,7 @@ docs/
 
 ## 📞 联系信息
 
-**重组负责人**: TH-UI Team
+**重组负责人**: Xorigo UI Team
 **重组时间**: 2025-01-13
 **重组原因**: 文档结构混乱、内容重复、命名不标准
 

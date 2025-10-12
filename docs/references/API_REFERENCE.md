@@ -1,4 +1,4 @@
-# 📘 TH-UI API 参考文档
+# 📘 Xorigo UI API 参考文档
 
 > **完整的 StyleRecipe 系统 API 文档**
 
@@ -42,7 +42,7 @@ import {
   // Constants
   DEFAULT_RECIPE,
   RECIPE_CATEGORIES,
-} from '@th-ui/core/style-recipe'
+} from '@xorigo-ui/core/style-recipe'
 ```
 
 ---
@@ -71,12 +71,12 @@ const StyleRecipeProvider: React.FC<StyleRecipeProviderProps>
 | `initialRecipe` | `StyleRecipeID` | `DEFAULT_RECIPE` | 初始配方 ID |
 | `onRecipeChange` | `(recipe: StyleRecipe) => void` | - | 配方变化回调 |
 | `enablePersistence` | `boolean` | `false` | 是否持久化到 localStorage |
-| `storageKey` | `string` | `'th-ui-recipe'` | localStorage 键名 |
+| `storageKey` | `string` | `'xorigo-ui-recipe'` | localStorage 键名 |
 
 ### 使用示例
 
 ```typescript
-import { StyleRecipeProvider } from '@th-ui/core/style-recipe'
+import { StyleRecipeProvider } from '@xorigo-ui/core/style-recipe'
 
 function App() {
   const handleRecipeChange = (recipe: StyleRecipe) => {
@@ -128,7 +128,7 @@ function useStyleRecipe(): UseStyleRecipeReturn
 **示例**：
 
 ```typescript
-import { useStyleRecipe } from '@th-ui/core/style-recipe'
+import { useStyleRecipe } from '@xorigo-ui/core/style-recipe'
 
 function ThemeSwitcher() {
   const { currentRecipe, setRecipe } = useStyleRecipe()
@@ -160,7 +160,7 @@ function useStyleRecipeCSS(variableName: string): string
 **示例**：
 
 ```typescript
-import { useStyleRecipeCSS } from '@th-ui/core/style-recipe'
+import { useStyleRecipeCSS } from '@xorigo-ui/core/style-recipe'
 
 function ColorDisplay() {
   const primaryColor = useStyleRecipeCSS('--color-primary-500')
@@ -194,7 +194,7 @@ function useResponseLevel(): UseResponseLevelReturn
 **示例**：
 
 ```typescript
-import { useResponseLevel } from '@th-ui/core/style-recipe'
+import { useResponseLevel } from '@xorigo-ui/core/style-recipe'
 
 function ResponsiveControl() {
   const { level, setLevel, config } = useResponseLevel()
@@ -234,7 +234,7 @@ function useAxisLock(): UseAxisLockReturn
 **示例**：
 
 ```typescript
-import { useAxisLock } from '@th-ui/core/style-recipe'
+import { useAxisLock } from '@xorigo-ui/core/style-recipe'
 
 function AxisLockManager() {
   const { locks, addLock, removeLock } = useAxisLock()
@@ -375,7 +375,7 @@ function getRecipe(id: StyleRecipeID): StyleRecipe | undefined
 **示例**：
 
 ```typescript
-import { getRecipe } from '@th-ui/core/style-recipe'
+import { getRecipe } from '@xorigo-ui/core/style-recipe'
 
 const recipe = getRecipe('dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass')
 console.log(recipe?.name) // "赛博蓝紫"
@@ -392,7 +392,7 @@ function searchRecipes(query: string): StyleRecipe[]
 **示例**：
 
 ```typescript
-import { searchRecipes } from '@th-ui/core/style-recipe'
+import { searchRecipes } from '@xorigo-ui/core/style-recipe'
 
 const results = searchRecipes('蓝色')
 // 返回所有包含"蓝色"的配方
@@ -421,7 +421,7 @@ function filterRecipes(options: RecipeFilterOptions): StyleRecipe[]
 **示例**：
 
 ```typescript
-import { filterRecipes } from '@th-ui/core/style-recipe'
+import { filterRecipes } from '@xorigo-ui/core/style-recipe'
 
 // 查找所有暗色、高对比度、色弱友好的配方
 const darkAccessibleRecipes = filterRecipes({
@@ -444,7 +444,7 @@ function getRecipesByCategory(category: string): StyleRecipe[]
 **示例**：
 
 ```typescript
-import { getRecipesByCategory } from '@th-ui/core/style-recipe'
+import { getRecipesByCategory } from '@xorigo-ui/core/style-recipe'
 
 const corporateRecipes = getRecipesByCategory('corporate')
 const creativeRecipes = getRecipesByCategory('creative')
@@ -492,7 +492,7 @@ class StyleRecipeEngine {
 **使用示例**：
 
 ```typescript
-import { StyleRecipeEngine } from '@th-ui/core/style-recipe'
+import { StyleRecipeEngine } from '@xorigo-ui/core/style-recipe'
 
 const engine = new StyleRecipeEngine()
 
@@ -529,7 +529,7 @@ function parseRecipe(id: StyleRecipeID): ParsedRecipe
 **示例**：
 
 ```typescript
-import { parseRecipe } from '@th-ui/core/style-recipe'
+import { parseRecipe } from '@xorigo-ui/core/style-recipe'
 
 const parsed = parseRecipe('dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass')
 
@@ -560,7 +560,7 @@ function validateRecipe(recipe: StyleRecipe): RecipeValidationResult
 **示例**：
 
 ```typescript
-import { validateRecipe } from '@th-ui/core/style-recipe'
+import { validateRecipe } from '@xorigo-ui/core/style-recipe'
 
 const result = validateRecipe(recipe)
 
@@ -682,8 +682,8 @@ import {
   StyleRecipeProvider,
   useStyleRecipe,
   unifiedRecipes,
-} from '@th-ui/core/style-recipe'
-import { Button, Card } from '@th-ui/core'
+} from '@xorigo-ui/core/style-recipe'
+import { Button, Card } from '@xorigo-ui/core'
 
 function RecipeSwitcher() {
   const { currentRecipe, setRecipe } = useStyleRecipe()
@@ -720,7 +720,7 @@ function App() {
 
         <div className="p-8">
           <Card>
-            <h1 className="text-2xl font-bold mb-4">欢迎使用 TH-UI</h1>
+            <h1 className="text-2xl font-bold mb-4">欢迎使用 Xorigo UI</h1>
             <p className="mb-4">所有组件自动响应配方切换</p>
             <Button variant="primary">主要按钮</Button>
             <Button variant="secondary" className="ml-2">次要按钮</Button>
@@ -748,4 +748,4 @@ export default App
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: 📘 API 参考
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

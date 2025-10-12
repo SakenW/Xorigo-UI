@@ -1,4 +1,4 @@
-# 🎨 TH-UI 七轴样式系统审查报告
+# 🎨 Xorigo UI 七轴样式系统审查报告
 
 **审查日期**: 2025-10-12
 **审查者**: 前端架构专家 (Claude)
@@ -340,7 +340,7 @@ export class AccessibilityMatrix {
 
 **查找结果**:
 ```bash
-$ find /home/saken/project/TH-UI/apps/website/src/app -name "*recip*"
+$ find /home/saken/project/Xorigo UI/apps/website/src/app -name "*recip*"
 # 无结果
 
 $ grep -r "recipes" apps/website/src/app/*/page.tsx
@@ -697,7 +697,7 @@ export function StyleRecipeProvider({
 #### Step 1: 安装依赖
 
 ```bash
-cd /home/saken/project/TH-UI/packages/core
+cd /home/saken/project/Xorigo UI/packages/core
 pnpm add culori
 pnpm add -D @types/culori
 ```
@@ -853,8 +853,8 @@ export class StyleRecipeEngine {
 #### Step 1: 创建页面路由
 
 ```bash
-mkdir -p /home/saken/project/TH-UI/apps/website/src/app/recipes
-touch /home/saken/project/TH-UI/apps/website/src/app/recipes/page.tsx
+mkdir -p /home/saken/project/Xorigo UI/apps/website/src/app/recipes
+touch /home/saken/project/Xorigo UI/apps/website/src/app/recipes/page.tsx
 ```
 
 ```tsx
@@ -862,7 +862,7 @@ touch /home/saken/project/TH-UI/apps/website/src/app/recipes/page.tsx
 'use client'
 
 import { useState } from 'react'
-import { unifiedRecipes, getRecipePreviewColors } from '@th-ui/core'
+import { unifiedRecipes, getRecipePreviewColors } from '@xorigo-ui/core'
 import { RecipeGrid } from '@/components/recipes/recipe-grid'
 import { RecipePreview } from '@/components/recipes/recipe-preview'
 import { RecipeFilters } from '@/components/recipes/recipe-filters'
@@ -900,7 +900,7 @@ export default function RecipesPage() {
 ```tsx
 // apps/website/src/components/recipes/recipe-card.tsx
 import { motion } from 'framer-motion'
-import { StyleRecipe } from '@th-ui/core'
+import { StyleRecipe } from '@xorigo-ui/core'
 
 interface RecipeCardProps {
   recipe: StyleRecipe

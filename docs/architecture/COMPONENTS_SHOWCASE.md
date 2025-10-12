@@ -1,4 +1,4 @@
-# 🎭 TH-UI 组件展示架构
+# 🎭 Xorigo UI 组件展示架构
 
 > **严格依赖原则**：网站必须仅使用组件库组件，完整展示所有组件效果
 
@@ -16,7 +16,7 @@
    import { Component } from 'chakra-ui'  // 禁止
 
    // ✅ 正确的行为
-   import { Button, Card } from '@th-ui/core'  // 必须使用组件库
+   import { Button, Card } from '@xorigo-ui/core'  // 必须使用组件库
    ```
 
 2. **组件开发优先级**
@@ -357,14 +357,14 @@ export function checkComponentCompleteness(componentName: string) {
 发现网站需要新组件 → 检查是否已存在于组件库
 
 # 2. 组件库开发
-cd packages/@th-ui/core
+cd packages/@xorigo-ui/core
 # 创建新组件文件
 # 实现所有变体和状态
 # 添加测试
 # 构建验证
 
 # 3. 网站集成
-cd packages/@th-ui/website
+cd packages/@xorigo-ui/website
 # 导入新组件
 # 创建展示组件
 # 添加到展示页面
@@ -376,10 +376,10 @@ npm run check:components  # 自动检查组件完整性
 ### 依赖管理
 
 ```json
-// packages/@th-ui/website/package.json
+// packages/@xorigo-ui/website/package.json
 {
   "dependencies": {
-    "@th-ui/core": "workspace:*",  // 必须使用工作区版本
+    "@xorigo-ui/core": "workspace:*",  // 必须使用工作区版本
     "framer-motion": "^12.23.5",    // 仅来自组件库
     // 禁止：antd, @mui/material, chakra-ui 等外部UI库
   }
@@ -410,4 +410,4 @@ npm run check:components  # 自动检查组件完整性
 **创建时间**: 2025-01-13
 **更新时间**: 2025-01-13
 **状态**: 🎭 架构设计
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team

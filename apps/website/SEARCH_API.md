@@ -2,7 +2,7 @@
 
 ## 概述
 
-TH-UI 搜索 API 提供统一的组件和配方搜索功能,基于 Fuse.js 实现模糊搜索,支持高亮匹配和分页。
+Xorigo UI 搜索 API 提供统一的组件和配方搜索功能,基于 Fuse.js 实现模糊搜索,支持高亮匹配和分页。
 
 **端点**: `GET /api/search`
 
@@ -231,7 +231,7 @@ curl "http://localhost:3100/api/search?q=theme&type=recipe&page=1&pageSize=5"
 ### Fetch API
 
 ```typescript
-async function searchTHUI(
+async function searchXorigoUI(
   query: string,
   options?: {
     type?: 'component' | 'recipe' | 'all'
@@ -257,7 +257,7 @@ async function searchTHUI(
 }
 
 // 使用示例
-const results = await searchTHUI('button', {
+const results = await searchXorigoUI('button', {
   type: 'component',
   page: 1,
   pageSize: 10,
@@ -452,5 +452,5 @@ cd apps/website
 
 ---
 
-**维护者**: TH-UI Team
+**维护者**: Xorigo UI Team
 **最后更新**: 2025-10-12

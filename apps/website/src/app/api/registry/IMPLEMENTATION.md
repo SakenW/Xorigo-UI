@@ -2,7 +2,7 @@
 
 ## 📋 实现概览
 
-成功实现 TH-UI 组件注册表 API，完整支持组件查询、搜索、过滤和详情获取功能。
+成功实现 Xorigo UI 组件注册表 API，完整支持组件查询、搜索、过滤和详情获取功能。
 
 ---
 
@@ -11,7 +11,7 @@
 ### 1. **依赖安装** ✓
 - ✅ 安装 `fuse.js` (模糊搜索引擎)
 - ✅ 安装 `zod` (schema 验证库)
-- ✅ 验证 `@th-ui/registry` 包集成
+- ✅ 验证 `@xorigo-ui/registry` 包集成
 
 ### 2. **TypeScript 类型定义** ✓
 - ✅ API 响应结构 (`ApiResponse<T>`)
@@ -171,7 +171,7 @@ const RegistryQuerySchema = z.object({
 ### 自动化测试脚本
 
 ```bash
-cd /home/saken/project/TH-UI/apps/website/src/app/api/registry
+cd /home/saken/project/Xorigo UI/apps/website/src/app/api/registry
 ./test-api.sh
 ```
 
@@ -282,7 +282,7 @@ curl http://localhost:3100/api/registry/NonExistent
 ### 开发环境
 
 ```bash
-cd /home/saken/project/TH-UI/apps/website
+cd /home/saken/project/Xorigo UI/apps/website
 
 # 启动开发服务器
 npm run dev
@@ -427,14 +427,14 @@ curl "http://localhost:3100/api/registry?category=invalid"  # ❌
 #### 3. 500 Internal Error
 
 **原因**：
-- @th-ui/registry 包未安装
+- @xorigo-ui/registry 包未安装
 - 服务器配置错误
 
 **解决方案**：
 ```bash
 # 检查依赖
-cd /home/saken/project/TH-UI/apps/website
-npm list @th-ui/registry
+cd /home/saken/project/Xorigo UI/apps/website
+npm list @xorigo-ui/registry
 
 # 重新安装
 npm install
@@ -587,7 +587,7 @@ npm install
 - Next.js 15 Route Handlers
 - Zod Schema Validation
 - Fuse.js Fuzzy Search
-- @th-ui/registry Package
+- @xorigo-ui/registry Package
 - TypeScript 5.9
 
 **代码量**：1300+ 行 (TypeScript + Markdown + Bash)

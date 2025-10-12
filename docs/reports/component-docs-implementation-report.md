@@ -1,8 +1,8 @@
-# TH-UI 组件文档自动化实施报告
+# Xorigo UI 组件文档自动化实施报告
 
 ## 执行摘要
 
-**Component-Docs-Generator Agent** 已成功完成 TH-UI 组件库的完整 API 文档自动化生成任务。
+**Component-Docs-Generator Agent** 已成功完成 Xorigo UI 组件库的完整 API 文档自动化生成任务。
 
 ### 核心成果
 
@@ -20,7 +20,7 @@
 
 ### 1. 文档生成脚本
 
-**文件路径**: `/home/saken/project/TH-UI/scripts/generate-component-docs.ts`
+**文件路径**: `/home/saken/project/Xorigo UI/scripts/generate-component-docs.ts`
 
 **核心功能**:
 - TypeScript AST 解析：自动提取组件 Props 接口定义
@@ -246,7 +246,7 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {}
 
 ## 概述
 
-Button 是 TH-UI 组件库的核心组件之一，提供了现代化的设计和强大的功能。
+Button 是 Xorigo UI 组件库的核心组件之一，提供了现代化的设计和强大的功能。
 
 ## API 参考
 
@@ -669,5 +669,5 @@ cat docs/components/ui/Button.md
 **报告生成时间**: 2025-10-12 04:12:00
 **任务状态**: ✅ 全部完成
 **文档质量**: ⭐⭐⭐⭐⭐ (5/5)
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12

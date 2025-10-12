@@ -138,9 +138,9 @@ motionBase: "standard"
 
 | 包 | 修复前 | 修复后 | 改进率 |
 |----|--------|--------|--------|
-| **@th-ui/core** | ~120 errors | ~70 errors | **42% ⬇️** |
+| **@xorigo-ui/core** | ~120 errors | ~70 errors | **42% ⬇️** |
 | **website** | ~15 errors | ~5 errors | **67% ⬇️** |
-| **@th-ui/registry** | ~5 errors | ~5 errors | 0% |
+| **@xorigo-ui/registry** | ~5 errors | ~5 errors | 0% |
 | **总计** | ~140 errors | ~80 errors | **43% ⬇️** |
 
 ---

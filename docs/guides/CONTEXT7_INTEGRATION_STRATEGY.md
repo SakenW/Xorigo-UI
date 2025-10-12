@@ -71,7 +71,7 @@
   * Framer Motion 12:
     - "Framer Motion 12 AnimatePresence layout animations"
     - "Framer Motion 12 variants stagger children"
-  * @th-ui/core:
+  * @xorigo-ui/core:
     - 参考现有 StyleRecipeProvider 实现
     - 参考现有配方定义文件
 
@@ -114,7 +114,7 @@
 
 ### 3. 优先级技术栈列表
 
-根据 TH-UI 项目的核心技术栈，优先查询以下文档：
+根据 Xorigo UI 项目的核心技术栈，优先查询以下文档：
 
 | 技术栈 | Context7 库 ID | 查询优先级 | 适用 Agent |
 |--------|----------------|-----------|-----------|
@@ -434,6 +434,6 @@ apps/website/app/recipes/
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **最后更新**: 2025-10-12

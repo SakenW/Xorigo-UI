@@ -2,7 +2,7 @@
 
 ## 概述
 
-设计一个**渐进式、可扩展的国际化架构**，将 i18n 功能抽离为独立的 `@th-ui/i18n` 包，提供通用的国际化能力，支持所有 TH-UI 子系统（Matrix、Gallery、Adoption Matrix、Playground 等）的多语言需求。
+设计一个**渐进式、可扩展的国际化架构**，将 i18n 功能抽离为独立的 `@xorigo-ui/i18n` 包，提供通用的国际化能力，支持所有 Xorigo UI 子系统（Matrix、Gallery、Adoption Matrix、Playground 等）的多语言需求。
 
 ### 设计原则
 
@@ -27,7 +27,7 @@
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────┐
-│               i18n中间层 (@th-ui/i18n)                      │
+│               i18n中间层 (@xorigo-ui/i18n)                      │
 │  ┌─────────────────┐    ┌─────────────────────────────────┐ │
 │  │   核心抽象层     │    │         适配器层                 │ │
 │  │ (轻量级自实现)   │    │   (桥接第三方库)                │ │
@@ -36,7 +36,7 @@
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              组件库层 (@th-ui/core)                         │
+│              组件库层 (@xorigo-ui/core)                         │
 │                    (无框架依赖)                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -44,7 +44,7 @@
 ### 包结构
 
 ```
-@th-ui/i18n/
+@xorigo-ui/i18n/
 ├── src/
 │   ├── core/                           # 核心实现层
 │   │   ├── I18nManager.ts             # 核心 i18n 管理器
@@ -220,7 +220,7 @@ export class I18nManager implements LightweightAdapter {
     }
 
     // 1. 检查 localStorage
-    const stored = localStorage.getItem('th-ui-locale')
+    const stored = localStorage.getItem('xorigo-ui-locale')
     if (stored && this.isSupported(stored)) {
       return stored
     }
@@ -285,7 +285,7 @@ export class I18nManager implements LightweightAdapter {
 
     // 保存到 localStorage
     if (typeof window !== 'undefined') {
-      localStorage.setItem('th-ui-locale', locale)
+      localStorage.setItem('xorigo-ui-locale', locale)
     }
 
     // 触发语言变更事件
@@ -503,7 +503,7 @@ export class I18nManager implements LightweightAdapter {
    */
   private dispatchLocaleChange(locale: Locale): void {
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('th-ui-locale-change', {
+      window.dispatchEvent(new CustomEvent('xorigo-ui-locale-change', {
         detail: { locale }
       }))
     }
@@ -516,8 +516,8 @@ export class I18nManager implements LightweightAdapter {
     const handler = (event: CustomEvent) => callback(event.detail.locale)
 
     if (typeof window !== 'undefined') {
-      window.addEventListener('th-ui-locale-change', handler as EventListener)
-      return () => window.removeEventListener('th-ui-locale-change', handler as EventListener)
+      window.addEventListener('xorigo-ui-locale-change', handler as EventListener)
+      return () => window.removeEventListener('xorigo-ui-locale-change', handler as EventListener)
     }
 
     return () => {} // SSR 环境下返回空函数
@@ -985,7 +985,7 @@ export function createMigrationHelper(from: AdapterType, to: AdapterType) {
 ```json
 // src/locales/zh-CN/gallery.json
 {
-  "title": "TH-UI 展示馆",
+  "title": "Xorigo UI 展示馆",
   "subtitle": "探索组件库的无限可能",
   "theme_selector": {
     "title": "选择主题",
@@ -1040,14 +1040,14 @@ export function createMigrationHelper(from: AdapterType, to: AdapterType) {
 // src/locales/zh-CN/adoption.json
 {
   "title": "采用矩阵",
-  "subtitle": "快速集成 TH-UI 到你的项目中",
+  "subtitle": "快速集成 Xorigo UI 到你的项目中",
   "code": {
     "install": {
       "package_manager": "# 使用 npm",
-      "command": "npm install @th-ui/core@{{recipe}}"
+      "command": "npm install @xorigo-ui/core@{{recipe}}"
     },
     "usage": {
-      "imports": "import { {{component}} } from '@th-ui/core'",
+      "imports": "import { {{component}} } from '@xorigo-ui/core'",
       "comments": "// 在你的应用中使用",
       "component": "<{{component}} {{variant}}>按钮</{{component}}>"
     },
@@ -1079,7 +1079,7 @@ export function createMigrationHelper(from: AdapterType, to: AdapterType) {
 ```json
 // src/locales/zh-CN/playground.json
 {
-  "title": "TH-UI 试验场",
+  "title": "Xorigo UI 试验场",
   "subtitle": "实时预览和测试组件",
   "editor": {
     "title": "代码编辑器",
@@ -1267,8 +1267,8 @@ export interface TranslationOptions {
 ### Matrix 系统集成
 
 ```typescript
-// @th-ui/matrix/src/MatrixGenerator.ts
-import { I18nManager } from '@th-ui/i18n'
+// @xorigo-ui/matrix/src/MatrixGenerator.ts
+import { I18nManager } from '@xorigo-ui/i18n'
 
 export class MatrixGenerator {
   private i18n: I18nManager
@@ -1292,9 +1292,9 @@ export class MatrixGenerator {
 ### 样式配方系统集成
 
 ```typescript
-// @th-ui/style-recipe/src/StyleRecipeProvider.tsx
-import { I18nManager } from '@th-ui/i18n'
-import { useI18n } from '@th-ui/i18n/hooks'
+// @xorigo-ui/style-recipe/src/StyleRecipeProvider.tsx
+import { I18nManager } from '@xorigo-ui/i18n'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 interface StyleRecipeProviderProps {
   children: React.ReactNode
@@ -1353,8 +1353,8 @@ export const StyleRecipeProvider: React.FC<StyleRecipeProviderProps> = ({
 ### 样式令牌国际化
 
 ```typescript
-// @th-ui/style-recipe/src/tokens/LocalizedTokens.ts
-import { I18nManager } from '@th-ui/i18n'
+// @xorigo-ui/style-recipe/src/tokens/LocalizedTokens.ts
+import { I18nManager } from '@xorigo-ui/i18n'
 
 export class LocalizedTokenGenerator {
   private i18n: I18nManager
@@ -1438,7 +1438,7 @@ export class LocalizedTokenGenerator {
 
 ```typescript
 // apps/gallery/src/components/ThemeSelector.tsx
-import { useI18n } from '@th-ui/i18n/hooks'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 export const ThemeSelector: React.FC = () => {
   const { t, locale, changeLocale } = useI18n({ namespace: 'gallery' })
@@ -1493,7 +1493,7 @@ export const ThemeSelector: React.FC = () => {
 
 ```typescript
 // apps/adoption-matrix/src/hooks/useLocalizedCode.ts
-import { useI18n } from '@th-ui/i18n/hooks'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 export function useLocalizedCode() {
   const { t, locale } = useI18n({ namespace: 'adoption' })
@@ -1543,7 +1543,7 @@ export function useLocalizedCode() {
 
 ```typescript
 // apps/playground/src/components/PropertyPanel.tsx
-import { useI18n } from '@th-ui/i18n/hooks'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 interface PropertyPanelProps {
   component: string
@@ -1631,7 +1631,7 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
 
 ```typescript
 // apps/gallery/src/components/MatrixHeatmap.tsx
-import { useI18n } from '@th-ui/i18n/hooks'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 export const MatrixHeatmap = () => {
   const { t, locale, changeLocale } = useI18n({ namespace: 'matrix' })
@@ -1799,9 +1799,9 @@ export class LocaleValidator {
 ```json
 // package.json
 {
-  "name": "@th-ui/i18n",
+  "name": "@xorigo-ui/i18n",
   "version": "1.0.0",
-  "description": "TH-UI 国际化解决方案",
+  "description": "Xorigo UI 国际化解决方案",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -1833,10 +1833,10 @@ export class LocaleValidator {
 
 ```bash
 # 安装
-npm install @th-ui/i18n
+npm install @xorigo-ui/i18n
 
 # 初始化
-import { I18nManager } from '@th-ui/i18n'
+import { I18nManager } from '@xorigo-ui/i18n'
 
 const i18n = I18nManager.getInstance({
   defaultLocale: 'zh-CN',
@@ -1847,7 +1847,7 @@ const i18n = I18nManager.getInstance({
 await i18n.initialize()
 
 # React 中使用
-import { useI18n } from '@th-ui/i18n/hooks'
+import { useI18n } from '@xorigo-ui/i18n/hooks'
 
 function Component() {
   const { t, locale, changeLocale } = useI18n({ namespace: 'matrix' })
@@ -1913,7 +1913,7 @@ function Component() {
 1. **分层架构设计** - 轻量级实现与成熟方案共存
 2. **统一接口体验** - 无论底层实现如何，API保持一致
 3. **灵活的适配器系统** - 支持自实现和第三方库集成
-4. **完全解耦的设计** - 可被任何 TH-UI 子系统使用
+4. **完全解耦的设计** - 可被任何 Xorigo UI 子系统使用
 5. **灵活的命名空间** - 支持按模块组织翻译内容
 6. **强大的类型支持** - 完整的 TypeScript 类型定义
 7. **自动化工具链** - 键提取、完整性验证、迁移工具

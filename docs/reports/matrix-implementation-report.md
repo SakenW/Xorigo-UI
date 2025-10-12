@@ -1,6 +1,6 @@
 # Matrix 可访问性验证系统 - 实施报告
 
-**项目**: TH-UI 组件库
+**项目**: Xorigo UI 组件库
 **任务**: Matrix 可访问性验证系统实现
 **完成日期**: 2025-10-12
 **状态**: ✅ 完成
@@ -9,7 +9,7 @@
 
 ## 📋 任务概述
 
-实现完整的 Matrix 可访问性验证系统，用于验证 TH-UI 组件库是否符合 WCAG 2.1 AA/AAA 标准。
+实现完整的 Matrix 可访问性验证系统，用于验证 Xorigo UI 组件库是否符合 WCAG 2.1 AA/AAA 标准。
 
 ## ✅ 完成的功能
 
@@ -144,7 +144,7 @@
 
 ### 依赖安装
 ```bash
-npm install color-contrast-checker --save -w @th-ui/core
+npm install color-contrast-checker --save -w @xorigo-ui/core
 ```
 
 ### 对比度计算算法
@@ -221,7 +221,7 @@ packages/core/src/utils/matrix/
 
 ### 测试执行
 ```bash
-cd /home/saken/project/TH-UI/packages/core
+cd /home/saken/project/Xorigo UI/packages/core
 npm run test -- src/utils/matrix/matrix.test.ts
 ```
 
@@ -257,7 +257,7 @@ Test Files  1 passed (1)
 import {
   validateContrast,
   DEFAULT_MATRIX_CONFIG,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 const result = validateContrast(
   '#FFFFFF',
@@ -272,7 +272,7 @@ console.log(result.ratio)  // 21
 
 ### 色盲模拟
 ```typescript
-import { simulateCVD } from '@th-ui/core/utils/matrix'
+import { simulateCVD } from '@xorigo-ui/core/utils/matrix'
 
 const protanopia = simulateCVD('#FF0000', 'protanopia')
 console.log(protanopia) // '#959500'
@@ -283,7 +283,7 @@ console.log(protanopia) // '#959500'
 import {
   generateMarkdownReport,
   validateContrast,
-} from '@th-ui/core/utils/matrix'
+} from '@xorigo-ui/core/utils/matrix'
 
 const validationResult = {
   passed: true,
@@ -348,7 +348,7 @@ console.log(report)
 ## 🤝 贡献者
 
 - **实现**: Matrix-Validator-Builder Agent
-- **审核**: TH-UI Team
+- **审核**: Xorigo UI Team
 - **测试**: 自动化测试套件
 
 ---
@@ -370,7 +370,7 @@ Matrix 可访问性验证系统已成功实现，具备以下特点：
 5. ✅ **易于使用**: 清晰的 API 和详细的文档
 6. ✅ **可扩展性**: 模块化设计，易于扩展和维护
 
-该系统为 TH-UI 组件库提供了强大的可访问性验证能力，确保所有组件都能符合国际无障碍标准，为所有用户（包括残障人士）提供优质的使用体验。
+该系统为 Xorigo UI 组件库提供了强大的可访问性验证能力，确保所有组件都能符合国际无障碍标准，为所有用户（包括残障人士）提供优质的使用体验。
 
 ---
 

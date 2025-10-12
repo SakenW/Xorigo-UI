@@ -1,5 +1,5 @@
 #!/bin/bash
-# TH-UI Package Manager Detection Script
+# Xorigo UI Package Manager Detection Script
 # 自动检测用户使用的包管理器并提供相应指令
 
 set -e
@@ -94,7 +94,7 @@ show_usage() {
   local pm=$1
 
   echo -e "${BLUE}════════════════════════════════════════${NC}"
-  echo -e "${GREEN}TH-UI 包管理器使用指南${NC}"
+  echo -e "${GREEN}Xorigo UI 包管理器使用指南${NC}"
   echo -e "${BLUE}════════════════════════════════════════${NC}"
   echo ""
 
@@ -115,7 +115,7 @@ show_usage() {
       echo "  pnpm test             # 运行测试"
       echo ""
       echo "工作区命令:"
-      echo "  pnpm --filter @th-ui/core dev    # 运行特定包"
+      echo "  pnpm --filter @xorigo-ui/core dev    # 运行特定包"
       echo "  pnpm -r build                     # 递归构建所有包"
       ;;
     yarn)
@@ -134,7 +134,7 @@ show_usage() {
       echo "  yarn test             # 运行测试"
       echo ""
       echo "工作区命令:"
-      echo "  yarn workspace @th-ui/core dev   # 运行特定包"
+      echo "  yarn workspace @xorigo-ui/core dev   # 运行特定包"
       ;;
     bun)
       echo -e "${GREEN}✓ 检测到: bun${NC} (最快)"
@@ -167,7 +167,7 @@ show_usage() {
       echo "  npm test              # 运行测试"
       echo ""
       echo "工作区命令:"
-      echo "  npm --workspace=@th-ui/core run dev   # 运行特定包"
+      echo "  npm --workspace=@xorigo-ui/core run dev   # 运行特定包"
       ;;
   esac
 

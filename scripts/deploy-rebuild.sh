@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# 重新构建并部署 TH-UI
+# 重新构建并部署 Xorigo UI
 
 set -e
 
-echo "🔄 重新构建并部署 TH-UI..."
+echo "🔄 重新构建并部署 Xorigo UI..."
 
 # 停止容器
 echo "🛑 停止现有容器..."
@@ -12,7 +12,7 @@ docker-compose down
 
 # 删除旧镜像
 echo "🗑️  删除旧镜像..."
-docker rmi th-ui-prod 2>/dev/null || true
+docker rmi xorigo-ui-prod 2>/dev/null || true
 
 # 重新构建
 echo "🏗️  重新构建镜像..."

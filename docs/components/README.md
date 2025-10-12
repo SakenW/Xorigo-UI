@@ -1,10 +1,10 @@
-# TH-UI 组件文档
+# Xorigo UI 组件文档
 
-> TH-UI 组件库完整 API 文档
+> Xorigo UI 组件库完整 API 文档
 
 ## 组件总览
 
-TH-UI 提供 **42 个**高质量 React 组件，涵盖 UI、高级、反馈、导航和 Radix 集成等多个分类。
+Xorigo UI 提供 **42 个**高质量 React 组件，涵盖 UI、高级、反馈、导航和 Radix 集成等多个分类。
 
 ## 统计信息
 
@@ -86,13 +86,13 @@ TH-UI 提供 **42 个**高质量 React 组件，涵盖 UI、高级、反馈、�
 ### 安装
 
 ```bash
-npm install @th-ui/core
+npm install @xorigo-ui/core
 ```
 
 ### 基础使用
 
 ```tsx
-import { Button, Card, Input } from '@th-ui/core'
+import { Button, Card, Input } from '@xorigo-ui/core'
 
 function App() {
   return (
@@ -125,6 +125,6 @@ function App() {
 
 ---
 
-**维护**: TH-UI Team  
+**维护**: Xorigo UI Team  
 **版本**: 0.1.0  
 **技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12

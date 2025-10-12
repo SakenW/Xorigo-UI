@@ -156,10 +156,10 @@ find archive/ -name "*architecture*" -o -name "*structure*"
 
 - **查看归档索引**：本文档
 - **搜索归档内容**：使用文件名关键词搜索
-- **团队联系**：TH-UI Team
+- **团队联系**：Xorigo UI Team
 
 ---
 
 **归档时间**: 2025-01-13
 **归档原因**: 文档结构优化，去重合并
-**归档负责人**: TH-UI Team
+**归档负责人**: Xorigo UI Team

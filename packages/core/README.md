@@ -1,6 +1,6 @@
-# 🎨 TH-UI
+# 🎨 Xorigo UI
 
-基于 Trans-Hub 提取的现代 UI 组件库，采用七轴样式配方系统和 OKLCH 色彩引擎
+基于 Xorigo UI 原点设计系统 提取的现代 UI 组件库，采用七轴样式配方系统和 OKLCH 色彩引擎
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
@@ -23,11 +23,11 @@
 ## 📦 安装
 
 ```bash
-npm install @th-ui/core
+npm install @xorigo-ui/core
 # or
-yarn add @th-ui/core
+yarn add @xorigo-ui/core
 # or
-pnpm add @th-ui/core
+pnpm add @xorigo-ui/core
 ```
 
 ## 🚀 快速开始
@@ -35,13 +35,13 @@ pnpm add @th-ui/core
 ### 基础使用
 
 ```tsx
-import { Button, Card, StyleRecipeProvider } from '@th-ui/core'
+import { Button, Card, StyleRecipeProvider } from '@xorigo-ui/core'
 
 function App() {
   return (
     <StyleRecipeProvider recipe="professional-blue">
       <Card>
-        <h1>欢迎使用 TH-UI</h1>
+        <h1>欢迎使用 Xorigo UI</h1>
         <Button variant="primary" size="lg">
           开始使用
         </Button>
@@ -54,7 +54,7 @@ function App() {
 ### 七轴样式系统
 
 ```tsx
-import { StyleRecipeProvider } from '@th-ui/core'
+import { StyleRecipeProvider } from '@xorigo-ui/core'
 
 function App() {
   return (
@@ -78,7 +78,7 @@ function App() {
 
 ### 主题配方
 
-TH-UI 包含 10 种精心设计的主题配方：
+Xorigo UI 包含 10 种精心设计的主题配方：
 
 **商务风格**：
 - `professional-blue` - 专业蓝 (适合企业应用)
@@ -93,7 +93,7 @@ TH-UI 包含 10 种精心设计的主题配方：
 - `light-pure` - 纯净亮色 (明亮主题)
 
 ```tsx
-import { useStyleRecipe } from '@th-ui/core'
+import { useStyleRecipe } from '@xorigo-ui/core'
 
 function ThemeSelector() {
   const { setRecipe, recipe } = useStyleRecipe()
@@ -159,11 +159,11 @@ function ThemeSelector() {
 
 ## 🌍 国际化支持
 
-TH-UI 提供完整的国际化支持：
+Xorigo UI 提供完整的国际化支持：
 
 ```tsx
-import { StyleRecipeProvider } from '@th-ui/core'
-import { I18nManager } from '@th-ui/i18n'
+import { StyleRecipeProvider } from '@xorigo-ui/core'
+import { I18nManager } from '@xorigo-ui/i18n'
 
 // 初始化国际化
 const i18n = I18nManager.getInstance()
@@ -268,7 +268,7 @@ npm run deploy:stop
 
 ## 📖 架构文档
 
-TH-UI 采用先进的架构设计：
+Xorigo UI 采用先进的架构设计：
 
 ### 核心系统
 - [**七轴样式系统**](./docs/architecture/SEVEN_AXIS_SYSTEM.md) - Mode, Base, Accent, Tone, Density, Motion, Surface
@@ -287,20 +287,20 @@ TH-UI 采用先进的架构设计：
 ## 🌐 生态系统
 
 ### 核心包
-- `@th-ui/core` - 核心组件库
-- `@th-ui/style-recipe` - 样式配方系统
-- `@th-ui/i18n` - 国际化包
-- `@th-ui/matrix` - 可访问性验证系统
+- `@xorigo-ui/core` - 核心组件库
+- `@xorigo-ui/style-recipe` - 样式配方系统
+- `@xorigo-ui/i18n` - 国际化包
+- `@xorigo-ui/matrix` - 可访问性验证系统
 
 ### 应用
-- `@th-ui/gallery` - 主题展示馆
-- `@th-ui/adoption-matrix` - 采用矩阵工具
-- `@th-ui/playground` - 在线试验场
+- `@xorigo-ui/gallery` - 主题展示馆
+- `@xorigo-ui/adoption-matrix` - 采用矩阵工具
+- `@xorigo-ui/playground` - 在线试验场
 
 ### 开发工具
-- `@th-ui/cli` - 命令行工具
-- `@th-ui/lint-config` - ESLint 配置
-- `@th-ui/ts-config` - TypeScript 配置
+- `@xorigo-ui/cli` - 命令行工具
+- `@xorigo-ui/lint-config` - ESLint 配置
+- `@xorigo-ui/ts-config` - TypeScript 配置
 
 ## 🤝 贡献
 
@@ -322,7 +322,7 @@ TH-UI 采用先进的架构设计：
 
 ## 📄 许可证
 
-MIT © TH-UI Team
+MIT © Xorigo UI Team
 
 ## 🙏 致谢
 
@@ -334,12 +334,12 @@ MIT © TH-UI Team
 - [Vite 5.4](https://vitejs.dev/) - 构建工具
 
 ### 设计灵感
-- [Trans-Hub](https://trans-hub.com/) - 设计系统灵感来源
+- [Xorigo UI 原点设计系统](https://xorigo-ui.dev/) - 设计系统灵感来源
 - [Radix UI](https://www.radix-ui.com/) - 无障碍组件基础
 - [OKLCH 色彩空间](https://oklch.com/) - 现代色彩科学
 
 ### 特别感谢
-TH-UI 基于 Trans-Hub 的设计理念，结合现代前端技术栈，为中文用户打造的现代化组件库。
+Xorigo UI 基于 Xorigo UI 原点设计系统 的设计理念，结合现代前端技术栈，为中文用户打造的现代化组件库。
 
 ---
 

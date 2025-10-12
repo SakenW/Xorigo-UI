@@ -1,9 +1,9 @@
-# 🏗️ TH-UI 项目结构规划
+# 🏗️ Xorigo UI 项目结构规划
 
 ## 📁 完整目录结构
 
 ```
-TH-UI/
+Xorigo UI/
 ├── 📂 src/                              # 源代码目录
 │   ├── 📂 tokens/                       # 设计令牌系统
 │   │   ├── colors.ts                   # 颜色令牌 (10种配色方案)
@@ -277,19 +277,19 @@ export * from './Input'
 // ...
 
 // 使用者可以这样导入
-import { Button, Card, Input } from '@th-ui/core'
+import { Button, Card, Input } from '@xorigo-ui/core'
 ```
 
 #### 分层导出
 ```typescript
 // 主入口
-import { Button } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 // 主题入口
-import { ThemeProvider } from '@th-ui/core/theme'
+import { ThemeProvider } from '@xorigo-ui/core/theme'
 
 // 令牌入口
-import { colors } from '@th-ui/core/tokens'
+import { colors } from '@xorigo-ui/core/tokens'
 ```
 
 ## 📝 命名规范详解
@@ -488,5 +488,5 @@ import { Button } from '../Button'
 ---
 
 **创建时间**: 2025-10-09
-**维护**: TH-UI开发团队
+**维护**: Xorigo UI开发团队
 **版本**: 1.0.0

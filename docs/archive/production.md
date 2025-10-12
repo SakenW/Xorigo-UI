@@ -1,4 +1,4 @@
-# TH-UI 生产环境部署指南
+# Xorigo UI 生产环境部署指南
 
 完整的 Docker 生产环境部署配置,采用多阶段构建和 Nginx 服务器。
 
@@ -85,7 +85,7 @@ docker-compose down
 
 ### docker-compose.yml
 生产环境 Docker Compose 配置:
-- 容器名: `th-ui-prod`
+- 容器名: `xorigo-ui-prod`
 - 自动重启: `unless-stopped`
 - 健康检查: 30s 间隔
 - 标签: 版本和描述信息
@@ -163,19 +163,19 @@ location /api {
 docker ps
 
 # 查看容器详细信息
-docker inspect th-ui-prod
+docker inspect xorigo-ui-prod
 
 # 进入容器
-docker exec -it th-ui-prod sh
+docker exec -it xorigo-ui-prod sh
 
 # 查看 Nginx 配置
-docker exec th-ui-prod cat /etc/nginx/nginx.conf
+docker exec xorigo-ui-prod cat /etc/nginx/nginx.conf
 
 # 重载 Nginx 配置
-docker exec th-ui-prod nginx -s reload
+docker exec xorigo-ui-prod nginx -s reload
 
 # 测试 Nginx 配置
-docker exec th-ui-prod nginx -t
+docker exec xorigo-ui-prod nginx -t
 ```
 
 ### 日志查看
@@ -188,23 +188,23 @@ docker-compose logs -f
 docker-compose logs --tail=100
 
 # Nginx 访问日志
-docker exec th-ui-prod tail -f /var/log/nginx/access.log
+docker exec xorigo-ui-prod tail -f /var/log/nginx/access.log
 
 # Nginx 错误日志
-docker exec th-ui-prod tail -f /var/log/nginx/error.log
+docker exec xorigo-ui-prod tail -f /var/log/nginx/error.log
 ```
 
 ### 镜像管理
 
 ```bash
 # 查看镜像
-docker images | grep th-ui
+docker images | grep xorigo-ui
 
 # 删除旧镜像
 docker image prune -f
 
 # 查看镜像大小
-docker images th-ui-prod --format "{{.Size}}"
+docker images xorigo-ui-prod --format "{{.Size}}"
 ```
 
 ## 📊 监控与健康检查
@@ -224,10 +224,10 @@ healthcheck:
 
 ```bash
 # 查看容器健康状态
-docker inspect th-ui-prod --format='{{.State.Health.Status}}'
+docker inspect xorigo-ui-prod --format='{{.State.Health.Status}}'
 
 # 查看健康检查日志
-docker inspect th-ui-prod --format='{{json .State.Health}}' | jq
+docker inspect xorigo-ui-prod --format='{{json .State.Health}}' | jq
 ```
 
 ## 🔒 安全配置
@@ -341,20 +341,20 @@ docker-compose build --no-cache
 
 ```bash
 # 手动测试健康端点
-docker exec th-ui-prod wget -O- http://localhost:3100/health
+docker exec xorigo-ui-prod wget -O- http://localhost:3100/health
 
 # 检查 Nginx 配置
-docker exec th-ui-prod nginx -t
+docker exec xorigo-ui-prod nginx -t
 ```
 
 ### 静态文件无法访问
 
 ```bash
 # 查看文件是否存在
-docker exec th-ui-prod ls -la /usr/share/nginx/html
+docker exec xorigo-ui-prod ls -la /usr/share/nginx/html
 
 # 检查权限
-docker exec th-ui-prod ls -la /usr/share/nginx/html/index.html
+docker exec xorigo-ui-prod ls -la /usr/share/nginx/html/index.html
 ```
 
 ### Gzip 压缩未生效
@@ -452,7 +452,7 @@ docker-compose build --build-arg API_URL=https://api.example.com
 2. **监控日志大小**
    ```bash
    # 配置日志轮转
-   docker exec th-ui-prod du -sh /var/log/nginx/*
+   docker exec xorigo-ui-prod du -sh /var/log/nginx/*
    ```
 
 3. **定期清理未使用资源**
@@ -465,7 +465,7 @@ docker-compose build --build-arg API_URL=https://api.example.com
 
 5. **版本标签管理**
    ```bash
-   docker tag th-ui-prod:latest th-ui-prod:v0.1.0
+   docker tag xorigo-ui-prod:latest xorigo-ui-prod:v0.1.0
    ```
 
 ## 📚 相关文档

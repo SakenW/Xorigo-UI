@@ -1,4 +1,4 @@
-# TH-UI 依赖问题执行摘要
+# Xorigo UI 依赖问题执行摘要
 
 **生成时间**: 2025-10-12
 **审查人员**: 后端架构师 + 依赖管理专家
@@ -8,7 +8,7 @@
 
 ## 🎯 核心问题概述
 
-当前 TH-UI Monorepo 存在 **3 个 P0 阻塞问题**，导致：
+当前 Xorigo UI Monorepo 存在 **3 个 P0 阻塞问题**，导致：
 - ❌ `npm install` 无法完成
 - ❌ 工作区依赖引用失效
 - ❌ 所有子包无法正常开发
@@ -25,15 +25,15 @@
 ### 问题 1: 工作区依赖引用失效
 **错误信息**:
 ```bash
-├── @th-ui/core@ invalid: "file:/home/saken/project/TH-UI/packages/core"
+├── @xorigo-ui/core@ invalid: "file:/home/saken/project/Xorigo UI/packages/core"
 npm error code ELSPROBLEMS
 ```
 
 **影响**:
-- 所有依赖 @th-ui/core 的包无法安装
-- @th-ui/registry 和 website 无法正常工作
+- 所有依赖 @xorigo-ui/core 的包无法安装
+- @xorigo-ui/registry 和 website 无法正常工作
 
-**修复**: 构建 @th-ui/core 生成 dist/ 目录
+**修复**: 构建 @xorigo-ui/core 生成 dist/ 目录
 
 ---
 
@@ -109,12 +109,12 @@ sudo chown -R $USER:$USER node_modules
 # 或强制删除
 sudo rm -rf node_modules
 
-# 2. 构建 @th-ui/core
+# 2. 构建 @xorigo-ui/core
 cd packages/core
 npm install --legacy-peer-deps
 npm run build
 
-# 3. 构建 @th-ui/registry
+# 3. 构建 @xorigo-ui/registry
 cd ../registry
 npm install --legacy-peer-deps
 npm run build
@@ -124,7 +124,7 @@ cd ../..
 npm install
 
 # 5. 验证
-npm ls @th-ui/core  # 应无 "invalid"
+npm ls @xorigo-ui/core  # 应无 "invalid"
 npm run build       # 应成功
 ```
 
@@ -137,7 +137,7 @@ npm run build       # 应成功
 
 ### 必须通过（P0）
 - [ ] `npm install` 无错误完成
-- [ ] `npm ls @th-ui/core` 无 "invalid"
+- [ ] `npm ls @xorigo-ui/core` 无 "invalid"
 - [ ] `packages/core/dist/` 存在且包含 `.js` `.mjs` 文件
 - [ ] `packages/registry/dist/` 存在且包含构建产物
 - [ ] `npm run build --workspaces` 全部成功
@@ -222,7 +222,7 @@ cat docs/reports/dependency-analysis-report.md
 bash scripts/fix-dependencies.sh
 
 # 2. 验证修复结果
-npm ls @th-ui/core
+npm ls @xorigo-ui/core
 npm run build
 
 # 3. 启动开发环境
@@ -235,7 +235,7 @@ npm run docker:dev
 1. 统一 @types/react 版本
 2. 统一 @types/node 版本
 3. 决策 Tailwind CSS 版本策略
-4. 完善 @th-ui/core peerDependencies
+4. 完善 @xorigo-ui/core peerDependencies
 
 ### 本月完成（This Month）
 1. 提升共享依赖到根工作区

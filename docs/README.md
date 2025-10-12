@@ -1,13 +1,13 @@
-# 📚 TH-UI 文档中心
+# 📚 Xorigo UI 文档中心
 
-> **TH-UI 完整文档索引和导航** - 从组件库到展示网站的完整架构文档
+> **Xorigo UI 完整文档索引和导航** - 从组件库到展示网站的完整架构文档
 
 ---
 
 ## 🎯 快速导航
 
 ### 🚀 新手入门
-- [**项目概览**](../README.md) - 了解 TH-UI 是什么
+- [**项目概览**](../README.md) - 了解 Xorigo UI 是什么
 - [**开发指南**](../CLAUDE.md) - 开发规范和最佳实践
 - [**快速开始**](./guides/QUICK_START.md) - 5分钟上手指南 (🔄 待创建)
 
@@ -47,10 +47,10 @@
 ### 🌍 生态系统
 
 5. **[I18N 国际化包设计](./architecture/I18N_PACKAGE_DESIGN.md)** (41KB) 🌐
-   - 独立 @th-ui/i18n 包设计
+   - 独立 @xorigo-ui/i18n 包设计
    - 多语言资源管理
    - 格式化器和检测器
-   - 支持所有 TH-UI 子系统
+   - 支持所有 Xorigo UI 子系统
 
 6. **[Matrix 规则与验证系统](./architecture/MATRIX_RULES_SYSTEM.md)** (45KB) 🔍
    - 对比度验证（WCAG AA/AAA）
@@ -238,7 +238,7 @@ dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass
 
 ### ⏳ 待开始（核心功能）
 
-- [ ] @th-ui/i18n 包实现
+- [ ] @xorigo-ui/i18n 包实现
 - [ ] Matrix 规则验证系统实现
 - [ ] Registry Schema 固化和 CI 校验
 - [ ] Modal 组件迁移
@@ -276,9 +276,9 @@ dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass
 
 ## 📞 获取帮助
 
-- **GitHub Issues**: [提交问题](https://github.com/your-org/th-ui/issues)
-- **讨论区**: [参与讨论](https://github.com/your-org/th-ui/discussions)
-- **团队联系**: TH-UI Team
+- **GitHub Issues**: [提交问题](https://github.com/your-org/xorigo-ui/issues)
+- **讨论区**: [参与讨论](https://github.com/your-org/xorigo-ui/discussions)
+- **团队联系**: Xorigo UI Team
 
 ---
 
@@ -312,6 +312,6 @@ dark.neutral-cool-mid.analog(purple).vivid.comfortable.expressive.glass
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 2.0.0 (架构完善版 + Monorepo 重组)
 **最后更新**: 2025-10-12

@@ -1,13 +1,13 @@
 # Registry API 文档
 
-TH-UI 组件注册表 API，提供组件查询、搜索和详情获取功能。
+Xorigo UI 组件注册表 API，提供组件查询、搜索和详情获取功能。
 
 ## 📚 技术栈
 
 - **Next.js 15**: Route Handlers + Dynamic Routes
 - **Zod**: 查询参数和路径参数验证
 - **Fuse.js**: 模糊搜索 (threshold: 0.3)
-- **@th-ui/registry**: 组件注册表包
+- **@xorigo-ui/registry**: 组件注册表包
 
 ---
 
@@ -258,7 +258,7 @@ curl http://localhost:3100/api/registry/NonExistent
 
 ```bash
 # 测试脚本存放位置
-cd /home/saken/project/TH-UI/apps/website
+cd /home/saken/project/Xorigo UI/apps/website
 
 # 1. 测试基础连接
 curl -i http://localhost:3100/api/registry
@@ -379,7 +379,7 @@ curl "http://localhost:3100/api/registry?search=customizable"
 ```typescript
 // hooks/useRegistry.ts
 import { useQuery } from '@tanstack/react-query'
-import type { Component } from '@th-ui/registry'
+import type { Component } from '@xorigo-ui/registry'
 import type { ApiResponse } from '@/app/api/registry/types'
 
 interface RegistryQueryParams {
@@ -503,7 +503,7 @@ export function ComponentBrowser() {
 
 ```bash
 # 启动开发服务器
-cd /home/saken/project/TH-UI/apps/website
+cd /home/saken/project/Xorigo UI/apps/website
 npm run dev
 
 # 访问 API
@@ -560,7 +560,7 @@ npm run deploy
 
 3. **500 内部错误**
    - 查看服务器日志
-   - 检查 `@th-ui/registry` 包是否正确安装
+   - 检查 `@xorigo-ui/registry` 包是否正确安装
 
 ### 调试命令
 
@@ -579,5 +579,5 @@ curl -s http://localhost:3100/api/registry | jq .
 
 **维护**: Registry-API-Builder Agent
 **版本**: 0.1.0
-**技术栈**: Next.js 15 + Zod + Fuse.js + @th-ui/registry
+**技术栈**: Next.js 15 + Zod + Fuse.js + @xorigo-ui/registry
 **最后更新**: 2025-10-12

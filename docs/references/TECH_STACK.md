@@ -1,4 +1,4 @@
-# 🛠️ TH-UI 技术栈参考
+# 🛠️ Xorigo UI 技术栈参考
 
 > **技术栈完整版本信息和配置说明**
 
@@ -105,8 +105,8 @@ export default {
 ### 决策 1: 组件库 vs Next.js 网站
 
 **方案**: **分离架构**
-- **组件库** (`@th-ui/core`): 使用 Vite，专注组件开发
-- **展示网站** (`@th-ui/website`): 使用 Next.js 15，提供展示和取用矩阵
+- **组件库** (`@xorigo-ui/core`): 使用 Vite，专注组件开发
+- **展示网站** (`@xorigo-ui/website`): 使用 Next.js 15，提供展示和取用矩阵
 
 **理由**:
 - ✅ 组件库构建更快（库模式优化）
@@ -187,15 +187,15 @@ pnpm >= 9.0.0
 
 ```bash
 # 安装核心依赖
-npm install @th-ui/core framer-motion
+npm install @xorigo-ui/core framer-motion
 
 # 基础示例
-import { Button, Card } from '@th-ui/core'
+import { Button, Card } from '@xorigo-ui/core'
 
 function App() {
   return (
     <Card>
-      <Button variant="primary">Hello TH-UI</Button>
+      <Button variant="primary">Hello Xorigo UI</Button>
     </Card>
   )
 }
@@ -205,7 +205,7 @@ function App() {
 
 ```bash
 # 安装可选依赖
-npm install @th-ui/core framer-motion @tanstack/react-query zustand react-hook-form zod
+npm install @xorigo-ui/core framer-motion @tanstack/react-query zustand react-hook-form zod
 ```
 
 ### Next.js 集成
@@ -214,9 +214,9 @@ npm install @th-ui/core framer-motion @tanstack/react-query zustand react-hook-f
 # 创建 Next.js 项目
 npx create-next-app@latest my-app --typescript --tailwind --app
 
-# 安装 TH-UI
+# 安装 Xorigo UI
 cd my-app
-npm install @th-ui/core framer-motion
+npm install @xorigo-ui/core framer-motion
 
 # 升级到 Tailwind v4 (如果需要)
 npx @tailwindcss/upgrade
@@ -234,6 +234,6 @@ npx @tailwindcss/upgrade
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **最后更新**: 2025-01-13
 **版本**: 0.2.0 (Tailwind v4 + 七轴系统)

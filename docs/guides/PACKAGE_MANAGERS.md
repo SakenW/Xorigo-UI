@@ -1,6 +1,6 @@
-# 📦 TH-UI 包管理器支持指南
+# 📦 Xorigo UI 包管理器支持指南
 
-TH-UI 支持所有主流的 JavaScript 包管理器：**npm**、**pnpm**、**yarn** 和 **bun**。你可以根据个人偏好和项目需求选择任意一种。
+Xorigo UI 支持所有主流的 JavaScript 包管理器：**npm**、**pnpm**、**yarn** 和 **bun**。你可以根据个人偏好和项目需求选择任意一种。
 
 ---
 
@@ -52,7 +52,7 @@ npm test              # 测试
 **工作区操作**：
 ```bash
 # 在特定包中运行命令
-npm --workspace=@th-ui/core run dev
+npm --workspace=@xorigo-ui/core run dev
 npm --workspace=website run build
 
 # 在所有包中运行命令
@@ -99,7 +99,7 @@ pnpm test             # 测试
 **工作区操作**：
 ```bash
 # 在特定包中运行命令
-pnpm --filter @th-ui/core dev
+pnpm --filter @xorigo-ui/core dev
 pnpm --filter website build
 
 # 在所有包中运行命令
@@ -151,7 +151,7 @@ yarn test             # 测试
 **工作区操作**：
 ```bash
 # 在特定包中运行命令
-yarn workspace @th-ui/core dev
+yarn workspace @xorigo-ui/core dev
 yarn workspace website build
 
 # 在所有包中运行命令
@@ -212,7 +212,7 @@ bun build --compile src/index.ts --outfile myapp
 
 ## 🔧 自动检测
 
-TH-UI 提供了自动检测脚本，帮助你识别当前使用的包管理器：
+Xorigo UI 提供了自动检测脚本，帮助你识别当前使用的包管理器：
 
 ```bash
 # 检测当前包管理器并显示使用指南
@@ -226,13 +226,13 @@ TH-UI 提供了自动检测脚本，帮助你识别当前使用的包管理器�
 
 ## 📝 Monorepo 工作区配置
 
-TH-UI 使用 Monorepo 架构，包含多个包：
+Xorigo UI 使用 Monorepo 架构，包含多个包：
 
 ```
-th-ui/
+xorigo-ui/
 ├── packages/
-│   ├── core/          # @th-ui/core 组件库
-│   └── registry/      # @th-ui/registry 注册表
+│   ├── core/          # @xorigo-ui/core 组件库
+│   └── registry/      # @xorigo-ui/registry 注册表
 └── apps/
     └── website/       # 官方网站
 ```
@@ -262,7 +262,7 @@ packages:
 ```json
 {
   "dependencies": {
-    "@th-ui/core": "file:../../packages/core"
+    "@xorigo-ui/core": "file:../../packages/core"
   }
 }
 ```
@@ -271,7 +271,7 @@ packages:
 ```json
 {
   "dependencies": {
-    "@th-ui/core": "workspace:*"
+    "@xorigo-ui/core": "workspace:*"
   }
 }
 ```
@@ -364,7 +364,7 @@ bun install
 
 ## 📊 性能对比
 
-基于 TH-UI 项目的实际测试：
+基于 Xorigo UI 项目的实际测试：
 
 | 操作 | npm | pnpm | yarn | bun |
 |-----|-----|------|------|-----|
@@ -407,6 +407,6 @@ bun install
 
 ---
 
-**维护**: TH-UI Team
+**维护**: Xorigo UI Team
 **版本**: 1.0.0
 **最后更新**: 2025-10-12

@@ -1,4 +1,4 @@
-# TH-UI Docker 开发环境
+# Xorigo UI Docker 开发环境
 
 支持热更新的 Docker 开发环境配置。
 
@@ -66,10 +66,10 @@ docker-compose -f docker-compose.dev.yml down
 
 ### docker-compose.dev.yml
 Docker Compose 配置文件:
-- 容器名: `th-ui-dev`
+- 容器名: `xorigo-ui-dev`
 - 端口映射: `3100:3100`
 - 卷挂载: 源代码目录映射以支持热更新
-- 网络: `th-ui-network`
+- 网络: `xorigo-ui-network`
 
 ### .dockerignore
 排除不需要复制到容器的文件:
@@ -89,14 +89,14 @@ docker-compose -f docker-compose.dev.yml build
 docker ps
 
 # 进入容器 Shell
-docker exec -it th-ui-dev sh
+docker exec -it xorigo-ui-dev sh
 
 # 查看容器日志(最后100行)
 docker-compose -f docker-compose.dev.yml logs --tail=100
 
 # 完全清理(删除容器、镜像、卷)
 docker-compose -f docker-compose.dev.yml down -v
-docker rmi th-ui-dev
+docker rmi xorigo-ui-dev
 ```
 
 ## 🐛 故障排查
@@ -124,7 +124,7 @@ docker-compose -f docker-compose.dev.yml up -d
 
 1. 确认卷挂载是否正确:
    ```bash
-   docker inspect th-ui-dev | grep Mounts -A 20
+   docker inspect xorigo-ui-dev | grep Mounts -A 20
    ```
 
 2. 重启容器:

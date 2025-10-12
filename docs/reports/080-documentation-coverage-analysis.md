@@ -1,4 +1,4 @@
-# 📊 TH-UI 文档完整性审查报告
+# 📊 Xorigo UI 文档完整性审查报告
 
 **文档编号**: 080
 **审查日期**: 2025-10-12
@@ -821,7 +821,7 @@ docs/
 # 创建核心用户文档
 1. INSTALLATION.md (2小时)
    - 环境要求 (Node.js 22+, pnpm/npm/yarn/bun)
-   - 安装步骤 (npm install @th-ui/core)
+   - 安装步骤 (npm install @xorigo-ui/core)
    - 基础配置 (StyleRecipeProvider 设置)
    - 验证安装 (运行简单示例)
 
@@ -953,8 +953,8 @@ Phase 3 后: 112.5% (+10%)
 
 ### 文档团队
 
-**负责人**: TH-UI Documentation Team
-**审查人**: TH-UI Core Team
+**负责人**: Xorigo UI Documentation Team
+**审查人**: Xorigo UI Core Team
 **审查日期**: 2025-10-12
 
 ### 反馈渠道
@@ -1087,7 +1087,7 @@ Phase 3 后: 112.5% (+10%)
 | - JSON Schema | 配方验证 | ✅ 已实施 | registry/schemas | 100% |
 | - CI 校验 | 自动验证 | ✅ 已实施 | .github/workflows | 100% |
 | **I18N_PACKAGE_DESIGN.md** | 国际化包 | ❌ 未实施 | N/A | 0% |
-| - @th-ui/i18n | 独立包 | ❌ 未实施 | N/A | 0% |
+| - @xorigo-ui/i18n | 独立包 | ❌ 未实施 | N/A | 0% |
 | - 多语言资源 | zh-CN/en-US | ❌ 未实施 | N/A | 0% |
 | **MATRIX_RULES_SYSTEM.md** | Matrix 验证 | ❌ 未实施 | N/A | 0% |
 | - 对比度验证 | WCAG AA/AAA | ❌ 未实施 | N/A | 0% |

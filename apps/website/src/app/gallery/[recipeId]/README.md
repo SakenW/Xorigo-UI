@@ -39,7 +39,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   const recipe = unifiedRecipeMap[recipeId]
 
   return {
-    title: `${recipe.name} | TH-UI`,
+    title: `${recipe.name} | Xorigo UI`,
     description: recipe.description,
     openGraph: { /* ... */ },
     twitter: { /* ... */ },
@@ -108,7 +108,7 @@ http://localhost:3100/gallery/dark.neutral-cool-mid.analog(purple).vivid.comfort
 ### 获取配方数据
 
 ```typescript
-import { unifiedRecipeMap } from '@th-ui/core/style-recipe'
+import { unifiedRecipeMap } from '@xorigo-ui/core/style-recipe'
 
 // 获取特定配方
 const recipe = unifiedRecipeMap['light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow']
@@ -208,7 +208,7 @@ http://localhost:3100/gallery/light.neutral-cool-mid.mono(blue).standard.comfort
 - [Server Components](https://react.dev/reference/rsc/server-components)
 - [Client Components](https://react.dev/reference/rsc/use-client)
 
-### TH-UI 配方系统
+### Xorigo UI 配方系统
 - [七轴风格配方文档](../../../../packages/core/src/style-recipe/README.md)
 - [统一配方集合](../../../../packages/core/src/style-recipe/recipes/unified-recipes.ts)
 

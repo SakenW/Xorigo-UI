@@ -1,4 +1,4 @@
-# 🌈 TH-UI OKLCH 色彩系统技术文档
+# 🌈 Xorigo UI OKLCH 色彩系统技术文档
 
 > **核心理念**：基于感知均匀的 OKLCH 色彩空间，动态生成高质量、可访问的配色方案
 
@@ -39,7 +39,7 @@ const oklchYellow = 'oklch(0.5 0.15 60)'   // 视觉亮度 0.5
 
 ---
 
-## 🎨 TH-UI 色彩生成策略
+## 🎨 Xorigo UI 色彩生成策略
 
 ### 1. 单色策略 (Monochromatic)
 
@@ -711,7 +711,7 @@ function validateColorPalette(palette: ColorScale): {
 - [color.js](https://colorjs.io/) - 现代色彩操作库
 - [OKLCH Color Picker](https://oklch.com/) - 在线 OKLCH 选择器
 
-### TH-UI 内部文档
+### Xorigo UI 内部文档
 - [七轴风格配方体系](./SEVEN_AXIS_SYSTEM_GUIDE.md)
 - [完整新系统架构](./NEW_SYSTEM_COMPLETE_GUIDE.md)
 - [组件迁移指南](./COMPONENT_MIGRATION_GUIDE.md)
@@ -721,4 +721,4 @@ function validateColorPalette(palette: ColorScale): {
 **创建时间**: 2025-01-13
 **最后更新**: 2025-01-13
 **状态**: 📚 技术参考
-**负责人**: TH-UI Team
+**负责人**: Xorigo UI Team
