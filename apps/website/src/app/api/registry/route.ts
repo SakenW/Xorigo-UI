@@ -12,12 +12,12 @@
  * - Next.js 15 Route Handlers
  * - Zod 验证
  * - Fuse.js 模糊搜索
- * - @th-ui/registry 包
+ * - @xorigo-ui/registry 包
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { generateRegistry } from '@th-ui/registry'
-import type { Component } from '@th-ui/registry'
+import { generateRegistry } from '@xorigo-ui/registry'
+import type { Component } from '@xorigo-ui/registry'
 import {
   RegistryQuerySchema,
   type RegistryQuery,

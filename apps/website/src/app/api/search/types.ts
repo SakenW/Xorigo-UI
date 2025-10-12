@@ -112,7 +112,7 @@ export interface SearchResponse {
 
 /**
  * 组件搜索数据格式
- * 从 @th-ui/registry 扩展
+ * 从 @xorigo-ui/registry 扩展
  */
 export interface ComponentSearchData {
   id: string
@@ -125,7 +125,7 @@ export interface ComponentSearchData {
 
 /**
  * 配方搜索数据格式
- * 从 @th-ui/core unified-recipes 扩展
+ * 从 @xorigo-ui/core unified-recipes 扩展
  */
 export interface RecipeSearchData {
   id: string

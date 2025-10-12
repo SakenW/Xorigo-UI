@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from 'react'
 import { motion } from 'framer-motion'
-import { getCoreTokens, type DTCGCoreTokens } from '@th-ui/tokens'
+import { getCoreTokens, type DTCGCoreTokens } from '@xorigo-ui/tokens'
 import {
   colorPalettes,
   type ColorPalette,

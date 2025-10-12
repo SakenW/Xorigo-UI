@@ -1,12 +1,12 @@
-// 测试从 @th-ui/core 导入主题模块
-import { 
-  ThemeProvider, 
-  useTheme, 
-  colorPalettes, 
+// 测试从 @xorigo-ui/core 导入主题模块
+import {
+  ThemeProvider,
+  useTheme,
+  colorPalettes,
   ColorPalette,
   getPaletteById,
   getRandomPalette
-} from '@th-ui/core/theme';
+} from '@xorigo-ui/core/theme';
 
 console.log('ThemeProvider:', typeof ThemeProvider);
 console.log('useTheme:', typeof useTheme);

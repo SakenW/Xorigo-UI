@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Card, CardContent, CardHeader } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
-import { Button } from '@th-ui/core'
+import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
 import dynamic from 'next/dynamic'
 
 // 动态导入 Monaco Editor 避免服务端渲染问题
@@ -22,7 +22,7 @@ const componentExamples = [
     id: 'button',
     name: '按钮组件',
     description: '基础按钮组件示例',
-    code: `import { Button } from '@th-ui/core'
+    code: `import { Button } from '@xorigo-ui/core'
 
 export default function ButtonExample() {
   return (
@@ -39,9 +39,9 @@ export default function ButtonExample() {
     id: 'card',
     name: '卡片组件',
     description: '卡片布局示例',
-    code: `import { Card, CardContent, CardHeader } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
-import { Button } from '@th-ui/core'
+    code: `import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
 
 export default function CardExample() {
   return (
@@ -69,8 +69,8 @@ export default function CardExample() {
     id: 'form',
     name: '表单组件',
     description: '表单输入示例',
-    code: `import { Card, CardContent, CardHeader } from '@th-ui/core'
-import { Button } from '@th-ui/core'
+    code: `import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
 import { useState } from 'react'
 
 export default function FormExample() {

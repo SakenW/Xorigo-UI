@@ -1,4 +1,4 @@
-// JavaScript 测试从 @th-ui/core 导入主题模块
+// JavaScript 测试从 @xorigo-ui/core 导入主题模块
 import { 
   ThemeProvider, 
   useTheme, 

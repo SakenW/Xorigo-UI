@@ -4,7 +4,7 @@
  */
 
 import Fuse from 'fuse.js'
-import type { Component } from '@th-ui/registry'
+import type { Component } from '@xorigo-ui/registry'
 import type { ApiResponse, FuseSearchResult } from './types'
 
 /**

@@ -1,5 +1,5 @@
 # ============================================
-# TH-UI Monorepo 开发环境 Dockerfile
+# Xorigo UI Monorepo 开发环境 Dockerfile
 # Node.js 22 Alpine + Hot Reload Support
 # ============================================
 FROM node:22-alpine
@@ -25,4 +25,4 @@ COPY . .
 EXPOSE 5173 3100
 
 # 默认启动命令（可在 docker-compose 中覆盖）
-CMD ["npm", "run", "dev", "-w", "@th-ui/core"]
+CMD ["npm", "run", "dev", "-w", "@xorigo-ui/core"]

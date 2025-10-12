@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from "@th-ui/core"
+import { Badge } from "@xorigo-ui/core"
 import {
   Users,
   Download,

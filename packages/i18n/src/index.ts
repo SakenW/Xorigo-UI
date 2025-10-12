@@ -1,11 +1,11 @@
 /**
- * @th-ui/i18n - Xorigo UI 国际化解决方案
+ * @xorigo-ui/i18n - Xorigo UI 国际化解决方案
  *
  * 轻量级、类型安全的国际化库，专为 Xorigo UI 设计
  *
  * @example
  * ```tsx
- * import { I18nManager } from '@th-ui/i18n'
+ * import { I18nManager } from '@xorigo-ui/i18n'
  *
  * const i18n = I18nManager.getInstance({
  *   defaultLocale: 'zh-CN',

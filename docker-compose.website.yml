@@ -1,5 +1,5 @@
 # ============================================
-# TH-UI Website 开发环境编排
+# Xorigo UI Website 开发环境编排
 # Next.js 15 Dev Server with Hot Reload
 # ============================================
 version: '3.8'
@@ -22,13 +22,13 @@ services:
       - ./apps/website/tsconfig.json:/app/tsconfig.json
       - ./apps/website/package.json:/app/package.json
 
-      # TH-UI 组件库挂载（使用构建后的 dist 目录）
-      - ./packages/core/dist:/app/node_modules/@th-ui/core/dist:ro
-      - ./packages/core/package.json:/app/node_modules/@th-ui/core/package.json:ro
-      - ./packages/registry/dist:/app/node_modules/@th-ui/registry/dist:ro
-      - ./packages/registry/package.json:/app/node_modules/@th-ui/registry/package.json:ro
-      - ./packages/tokens:/app/node_modules/@th-ui/tokens:ro
-      - ./packages/style-recipe:/app/node_modules/@th-ui/style-recipe:ro
+      # Xorigo UI 组件库挂载（使用构建后的 dist 目录）
+      - ./packages/core/dist:/app/node_modules/@xorigo-ui/core/dist:ro
+      - ./packages/core/package.json:/app/node_modules/@xorigo-ui/core/package.json:ro
+      - ./packages/registry/dist:/app/node_modules/@xorigo-ui/registry/dist:ro
+      - ./packages/registry/package.json:/app/node_modules/@xorigo-ui/registry/package.json:ro
+      - ./packages/tokens:/app/node_modules/@xorigo-ui/tokens:ro
+      - ./packages/style-recipe:/app/node_modules/@xorigo-ui/style-recipe:ro
 
       # 清理缓存目录（避免缓存冲突）
       - /app/.next

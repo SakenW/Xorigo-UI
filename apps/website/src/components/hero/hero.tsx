@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button } from '@th-ui/core'
-import { Badge } from '@th-ui/core'
+import { Button } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
 import { ArrowRight, Sparkles, Zap, Shield } from 'lucide-react'
 import { useTheme } from 'next-themes'
 

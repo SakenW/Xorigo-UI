@@ -10,11 +10,11 @@
  * 技术栈：
  * - Next.js 15 Dynamic Route Handlers
  * - Zod 验证
- * - @th-ui/registry 包
+ * - @xorigo-ui/registry 包
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { generateRegistry, type Component } from '@th-ui/registry'
+import { generateRegistry, type Component } from '@xorigo-ui/registry'
 import { ComponentParamsSchema, type ComponentParams, type ApiResponse } from '../types'
 import { createSuccessResponse, createErrorResponse } from '../utils'
 
