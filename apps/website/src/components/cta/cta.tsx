@@ -54,7 +54,7 @@ export function CTA() {
         <div className="text-center mb-20">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Sparkles className="h-6 w-6 text-blue-500" />
-            <Badge variant="secondary" className="text-sm font-medium">
+            <Badge variant="default" className="text-sm font-medium">
               开始使用
             </Badge>
           </div>
@@ -83,7 +83,7 @@ export function CTA() {
             </Button>
 
             <Button
-              variant="outline-solid"
+              variant="outline"
               size="lg"
               className="text-base px-8 py-4 text-lg"
               onClick={() => window.open('https://github.com/th-ui/th-ui', '_blank')}

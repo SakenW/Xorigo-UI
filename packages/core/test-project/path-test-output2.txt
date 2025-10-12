@@ -1,0 +1,6 @@
+=== 测试 @th-ui/core/theme 路径导入 ===
+
+导入失败: The requested module '@th-ui/tokens' does not provide an export named 'colorTokens'
+错误类型: undefined
+
+=== 测试完成 ===

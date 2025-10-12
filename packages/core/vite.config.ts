@@ -20,12 +20,15 @@ export default defineConfig({
         'src/blocks/**', // 暂时排除 blocks 目录（存在类型错误）
       ],
       rollupTypes: false, // 暂时禁用合并（API Extractor有兼容性问题）
-      insertTypesEntry: false, // 暂时禁用自动插入
+      insertTypesEntry: true, // 启用自动插入类型声明文件
       outDir: 'dist', // 输出到 dist 目录
       compilerOptions: {
         skipLibCheck: true, // 跳过库检查
         noEmitOnError: false, // 即使有错误也生成类型
       },
+      // 为每个入口点生成类型声明文件
+      entryRoot: './src',
+      copyDtsFiles: true,
     }),
   ],
   resolve: {
@@ -56,12 +59,13 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      // 外部化依赖 - 防止打包第三方库
+      // make sure to externalize deps that shouldn't be bundled
+      // into your library
       external: [
         'react',
         'react-dom',
         'react/jsx-runtime',
-        'framer-motion',
+        /^framer-motion/,
         '@radix-ui/react-dialog',
         '@radix-ui/react-toast',
         '@radix-ui/react-accordion',
@@ -79,11 +83,13 @@ export default defineConfig({
         '@th-ui/style-recipe',
       ],
       output: {
+        // Provide global variables to use in the UMD build
+        // for externalized deps
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'react/jsx-runtime',
-          'framer-motion': 'FramerMotion',
+          'framer-motion': 'Motion',
         },
         // 保持CSS导入
         assetFileNames: (assetInfo) => {

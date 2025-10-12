@@ -27,6 +27,8 @@ services:
       - ./packages/core/package.json:/app/node_modules/@th-ui/core/package.json:ro
       - ./packages/registry/dist:/app/node_modules/@th-ui/registry/dist:ro
       - ./packages/registry/package.json:/app/node_modules/@th-ui/registry/package.json:ro
+      - ./packages/tokens:/app/node_modules/@th-ui/tokens:ro
+      - ./packages/style-recipe:/app/node_modules/@th-ui/style-recipe:ro
 
       # 清理缓存目录（避免缓存冲突）
       - /app/.next

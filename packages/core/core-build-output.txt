@@ -1,0 +1,52 @@
+
+> @th-ui/core@0.1.0 build
+> vite build
+
+vite v7.1.9 building for production...
+transforming...
+✓ 59 modules transformed.
+rendering chunks...
+
+[vite:dts] Start generate declaration files...
+[96msrc/index.ts[0m:[93m14[0m:[93m1[0m - [91merror[0m[90m TS2308: [0mModule '@th-ui/tokens' has already exported a member named 'blueScale'. Consider explicitly re-exporting to resolve the ambiguity.
+
+[7m14[0m export * from '@th-ui/style-recipe'
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m14[0m:[93m1[0m - [91merror[0m[90m TS2308: [0mModule '@th-ui/tokens' has already exported a member named 'cyanScale'. Consider explicitly re-exporting to resolve the ambiguity.
+
+[7m14[0m export * from '@th-ui/style-recipe'
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m14[0m:[93m1[0m - [91merror[0m[90m TS2308: [0mModule '@th-ui/tokens' has already exported a member named 'neutralScale'. Consider explicitly re-exporting to resolve the ambiguity.
+
+[7m14[0m export * from '@th-ui/style-recipe'
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/index.ts[0m:[93m14[0m:[93m1[0m - [91merror[0m[90m TS2308: [0mModule '@th-ui/tokens' has already exported a member named 'purpleScale'. Consider explicitly re-exporting to resolve the ambiguity.
+
+[7m14[0m export * from '@th-ui/style-recipe'
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96m../style-recipe/src/engine/index.ts[0m:[93m49[0m:[93m19[0m - [91merror[0m[90m TS2590: [0mExpression produces a union type that is too complex to represent.
+
+[7m 49[0m     this.config = {
+[7m   [0m [91m                  ~[0m
+[7m 50[0m       defaultRecipe: 'light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow',
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 56[0m       ...config,
+[7m   [0m [91m~~~~~~~~~~~~~~~~[0m
+[7m 57[0m     }
+[7m   [0m [91m~~~~~[0m
+[96m../style-recipe/src/engine/index.ts[0m:[93m394[0m:[93m55[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ResponseLevelConfig'. Did you mean 'ResponseLevel'?
+
+[7m394[0m   private initResponseLevels(): Record<ResponseLevel, ResponseLevelConfig> {
+[7m   [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~[0m
+
+computing gzip size...
+dist/theme.mjs                    0.37 kB │ gzip:  0.24 kB │ map:   0.09 kB
+dist/ThemeProvider-Tq9LeVZY.js   25.02 kB │ gzip:  5.54 kB │ map:  47.18 kB
+dist/index.mjs                  144.34 kB │ gzip: 31.26 kB │ map: 370.31 kB
+[vite:dts] Declaration files built in 3283ms.
+
+dist/theme.cjs.js                 0.53 kB │ gzip:  0.27 kB │ map:   0.09 kB
+dist/ThemeProvider-Cbe-ZG6u.cjs  18.53 kB │ gzip:  5.03 kB │ map:  43.06 kB
+dist/index.cjs.js                94.68 kB │ gzip: 24.44 kB │ map: 352.86 kB
+✓ built in 3.80s

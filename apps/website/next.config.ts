@@ -12,6 +12,25 @@ const nextConfig: NextConfig = {
     },
   },
 
+  // Webpack 配置以解决 framer-motion 模块解析问题
+  webpack: (config, { isServer }) => {
+    // 确保 framer-motion 能够正确解析
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      }
+    }
+
+    // 添加别名处理
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'framer-motion': require.resolve('framer-motion'),
+    }
+
+    return config
+  },
+
   // 图片优化
   images: {
     domains: ['localhost'],

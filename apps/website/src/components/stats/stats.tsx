@@ -285,7 +285,7 @@ export function Stats() {
             ].map((tech) => (
               <Badge
                 key={tech.name}
-                variant="outline"
+                variant="default"
                 className="text-sm px-4 py-2 font-medium"
               >
                 {tech.name}
