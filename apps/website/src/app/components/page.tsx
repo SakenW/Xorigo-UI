@@ -37,7 +37,7 @@ export default function ComponentsPage() {
             marginBottom: '24px',
             lineHeight: 1.2
           }}>
-            TH-UI 组件库
+            Xorigo UI 组件库
           </h1>
           <p style={{
             fontSize: '1.25rem',
@@ -358,7 +358,7 @@ export default function ComponentsPage() {
             color: '#111827',
             marginBottom: '48px'
           }}>
-            为什么选择 TH-UI？
+            为什么选择 Xorigo UI？
           </h2>
           <div style={{
             display: 'grid',
@@ -438,7 +438,7 @@ export default function ComponentsPage() {
             fontWeight: 'bold',
             marginBottom: '16px'
           }}>
-            开始使用 TH-UI
+            开始使用 Xorigo UI
           </h2>
           <p style={{
             fontSize: '1.125rem',
@@ -447,7 +447,7 @@ export default function ComponentsPage() {
             margin: '0 auto 32px',
             lineHeight: 1.6
           }}>
-            立即在你的项目中集成 TH-UI，享受现代化的组件库带来的开发体验提升
+            立即在你的项目中集成 Xorigo UI，享受现代化的组件库带来的开发体验提升
           </p>
           <div style={{
             display: 'flex',
@@ -471,7 +471,7 @@ export default function ComponentsPage() {
               快速开始
             </Link>
             <Link
-              href="https://github.com/th-ui/th-ui"
+              href="https://github.com/xorigo-ui/xorigo-ui"
               style={{
                 backgroundColor: '#3b82f6',
                 color: 'white',

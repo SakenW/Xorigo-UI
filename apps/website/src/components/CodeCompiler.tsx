@@ -13,7 +13,7 @@
 import { useState } from 'react'
 import type { CompileRequest, CompileResponse } from '../app/api/compile/types'
 
-const defaultCode = `const greeting: string = "Hello, TH-UI!";
+const defaultCode = `const greeting: string = "Hello, Xorigo UI!";
 console.log(greeting);`
 
 export default function CodeCompiler() {

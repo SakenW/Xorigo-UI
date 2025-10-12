@@ -37,7 +37,7 @@ export default function DocsPage() {
             marginBottom: '24px',
             lineHeight: 1.2
           }}>
-            TH-UI 文档
+            Xorigo UI 文档
           </h1>
           <p style={{
             fontSize: '1.25rem',
@@ -47,7 +47,7 @@ export default function DocsPage() {
             margin: '0 auto 32px',
             lineHeight: 1.6
           }}>
-            完整的开发文档，帮助你快速上手 TH-UI 组件库
+            完整的开发文档，帮助你快速上手 Xorigo UI 组件库
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function DocsPage() {
             lineHeight: 1.6,
             marginBottom: '24px'
           }}>
-            通过简单的几个步骤，你就可以在项目中使用 TH-UI 组件库。
+            通过简单的几个步骤，你就可以在项目中使用 Xorigo UI 组件库。
           </p>
 
           <div style={{
@@ -236,7 +236,7 @@ function Example() {
               使用指南
             </h3>
             <p style={{ color: '#6b7280', lineHeight: 1.6, marginBottom: '16px' }}>
-              从基础到高级的使用指南，帮助你快速掌握 TH-UI
+              从基础到高级的使用指南，帮助你快速掌握 Xorigo UI
             </p>
             <div style={{
               display: 'flex',
@@ -328,7 +328,7 @@ function Example() {
             flexWrap: 'wrap'
           }}>
             <Link
-              href="https://github.com/th-ui/th-ui/issues"
+              href="https://github.com/xorigo-ui/xorigo-ui/issues"
               style={{
                 backgroundColor: 'white',
                 color: '#2563eb',
@@ -342,7 +342,7 @@ function Example() {
               GitHub Issues
             </Link>
             <Link
-              href="https://github.com/th-ui/th-ui/discussions"
+              href="https://github.com/xorigo-ui/xorigo-ui/discussions"
               style={{
                 backgroundColor: '#3b82f6',
                 color: 'white',

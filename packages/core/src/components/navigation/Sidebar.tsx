@@ -35,7 +35,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   items,
   collapsed = false,
   logo,
-  logoText = 'TH-UI',
+  logoText = 'Xorigo UI',
   footer,
   onItemClick,
   onCollapsedChange,

@@ -10,10 +10,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://th-ui.org'),
+  metadataBase: new URL('https://xorigo-ui.org'),
   title: {
-    default: 'TH-UI - 现代化 React 组件库',
-    template: '%s | TH-UI',
+    default: 'Xorigo UI - 现代化 React 组件库',
+    template: '%s | Xorigo UI',
   },
   description: '基于 React 19 + TypeScript + Tailwind CSS 4 + Framer Motion 12 的现代化组件库。提供 39 个核心组件、七轴样式配方系统、OKLCH 色彩引擎和完整的可访问性支持。',
   keywords: [
@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     'Next.js',
     '组件库',
     '前端开发',
-    'TH-UI',
+    'Xorigo UI',
   ],
-  authors: [{ name: 'TH-UI Team', url: 'https://th-ui.org' }],
-  creator: 'TH-UI Team',
-  publisher: 'TH-UI Team',
+  authors: [{ name: 'Xorigo UI Team', url: 'https://xorigo-ui.org' }],
+  creator: 'Xorigo UI Team',
+  publisher: 'Xorigo UI Team',
   formatDetection: {
     email: false,
     address: false,
@@ -39,22 +39,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
-    url: 'https://th-ui.org',
-    title: 'TH-UI - 现代化 React 组件库',
+    url: 'https://xorigo-ui.org',
+    title: 'Xorigo UI - 现代化 React 组件库',
     description: '基于 React 19 + TypeScript + Tailwind CSS 4 + Framer Motion 12 的现代化组件库',
-    siteName: 'TH-UI',
+    siteName: 'Xorigo UI',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'TH-UI 组件库',
+        alt: 'Xorigo UI 组件库',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TH-UI - 现代化 React 组件库',
+    title: 'Xorigo UI - 现代化 React 组件库',
     description: '基于 React 19 + TypeScript + Tailwind CSS 4 + Framer Motion 12 的现代化组件库',
     images: ['/og-image.png'],
   },

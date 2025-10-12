@@ -21,7 +21,7 @@ import {
 
 // 示例测试数据
 const exampleTestData = {
-  recipeName: 'TH-UI 默认主题',
+  recipeName: 'Xorigo UI 默认主题',
   colors: {
     'text-primary': '#000000',
     'text-secondary': '#666666',
@@ -119,7 +119,7 @@ export function MatrixPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Matrix 可访问性验证</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          基于 WCAG 2.1 标准的综合性可访问性验证系统，确保 TH-UI 组件库符合国际可访问性标准
+          基于 WCAG 2.1 标准的综合性可访问性验证系统，确保 Xorigo UI 组件库符合国际可访问性标准
         </p>
       </div>
 

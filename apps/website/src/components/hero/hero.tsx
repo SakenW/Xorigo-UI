@@ -34,7 +34,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 text-sm font-medium mb-4"
             >
               <Sparkles className="h-4 w-4" />
-              TH-UI v0.1.0
+              Xorigo UI v0.1.0
             </Badge>
 
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl">
@@ -87,7 +87,7 @@ export function Hero() {
               variant="outline"
               size="lg"
               className="text-base px-8 py-3"
-              onClick={() => window.open('https://github.com/th-ui/th-ui', '_blank')}
+              onClick={() => window.open('https://github.com/xorigo-ui/xorigo-ui', '_blank')}
             >
               GitHub
             </Button>

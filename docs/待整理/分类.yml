@@ -1,0 +1,117 @@
+library: <你的组件库名>
+versioning: semver
+categories:
+  - id: base
+    title: 基础（Base）
+    items:
+      - text            # 文本/排版：Typography, Heading, Paragraph, Code
+      - button          # Button, IconButton, ToggleButton
+      - icon            # 图标注册/渲染
+      - link            # Anchor/Link
+      - divider         # Separator/Divider
+      - avatar          # 头像
+      - kbd             # 键盘提示
+  - id: layout
+    title: 布局（Layout）
+    items:
+      - box             # 最小容器/Box
+      - flex            # Flex/Stack/HStack/VStack
+      - grid            # Grid/Col/Row
+      - container       # 页面容器/宽度限制
+      - spacer          # 空白间距
+      - scroll-area     # 滚动容器/虚拟滚动适配位
+      - portal          # Portal/OverlayContainer
+      - safe-area       # 移动端安全区适配
+  - id: navigation
+    title: 导航（Navigation）
+    items:
+      - tabs
+      - menu            # Menu, ContextMenu
+      - breadcrumb
+      - pagination
+      - steps           # Stepper
+      - sidebar         # Sidenav/TreeMenu（可选）
+      - navbar          # AppBar/Header（可选）
+  - id: form
+    title: 数据录入（Form）
+    items:
+      - input           # TextInput, TextArea, Password
+      - select          # Single/Multi, Combobox/Autocomplete
+      - checkbox
+      - radio
+      - switch          # Toggle
+      - slider
+      - number-input
+      - date-time       # DatePicker/TimePicker/Range
+      - upload          # 文件/图片上传
+      - richtext        # RTE/Markdown（可选，或外部集成）
+      - form            # Form/Field/Fieldset（容器与校验适配）
+  - id: data
+    title: 数据展示（Data Display）
+    items:
+      - table           # DataGrid/虚拟表格
+      - list            # List/VirtualList
+      - card
+      - tag             # Tag/Chip
+      - badge
+      - tooltip         # 也可归 Feedback，但常与展示共用
+      - accordion       # Collapse/Details
+      - description     # Key-Value/Descriptions
+      - image           # Image/Preview
+      - code-view       # Code/DiffViewer（可选）
+  - id: feedback
+    title: 反馈（Feedback）
+    items:
+      - modal           # Dialog/AlertDialog
+      - drawer
+      - popover
+      - toast           # Message/Snackbar
+      - progress        # Linear/Circular
+      - spinner         # Loading/Spin
+      - skeleton
+      - result          # 成功/失败/警告/403/404/500
+      - empty
+  - id: composite
+    title: 复合（Composite）
+    subcategories:
+      - id: business
+        title: 业务复合
+        items:
+          - form-dialog       # 表单弹窗：提交/校验/加载
+          - filter-panel      # 过滤条件面板
+          - table-editor      # 行内编辑/批量操作
+      - id: functional
+        title: 功能复合
+        items:
+          - tree              # Tree/TreeSelect
+          - transfer          # 穿梭框
+          - cascader
+          - file-manager      # 预览/批量/拖拽（可选）
+      - id: ui-pattern
+        title: 界面模式
+        items:
+          - page-header       # 标题/面包屑/操作区
+          - dashboard-layout  # 仪表盘分栏/卡片栅格
+          - empty-state       # 场景化空状态集合
+  - id: system
+    title: 系统（System/Theming）
+    items:
+      - theme-provider    # 主题/密度/圆角/字号 等设计令牌注入
+      - tokens            # 语义令牌：color/surface/content/state/elevation/motion
+      - mode-toggle       # 亮/暗/高对比
+      - motion            # 动效：duration/easing/presets + prefers-reduced-motion
+      - i18n-provider     # 文案/区域化（只做容器，不强绑定实现）
+      - a11y              # FocusTrap, VisuallyHidden, SkipNav
+      - z-layer           # Overlay 层级/避让策略
+  - id: visualization
+    title: 可视化（Visualization，独立层，外部图表库适配）
+    items:
+      - chart-adapter     # ECharts/Recharts 适配组件
+      - stat              # 统计数值/Sparkline/Gauge
+meta:
+  patterns:
+    - controlled_uncontrolled_policy   # 受控/非受控统一规则
+    - keyboard_matrix                  # 键盘导航矩阵
+    - overlay_behavior                 # 弹层/滚动锁定/回焦/层级
+    - async_validation                 # 异步校验/aria-live
+    - virtualization_contract          # 虚拟滚动接口约定

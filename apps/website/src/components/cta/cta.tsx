@@ -67,7 +67,7 @@ export function CTA() {
           </h2>
 
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
-            加入数千名开发者的行列，使用 TH-UI 构建美观、可访问、高性能的 Web 应用
+            加入数千名开发者的行列，使用 Xorigo UI 构建美观、可访问、高性能的 Web 应用
           </p>
 
           {/* 主要按钮组 */}
@@ -86,7 +86,7 @@ export function CTA() {
               variant="outline"
               size="lg"
               className="text-base px-8 py-4 text-lg"
-              onClick={() => window.open('https://github.com/th-ui/th-ui', '_blank')}
+              onClick={() => window.open('https://github.com/xorigo-ui/xorigo-ui', '_blank')}
             >
               <Github className="mr-2 h-5 w-5" />
               查看 GitHub
@@ -113,7 +113,7 @@ export function CTA() {
           {/* 左侧特性列表 */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
-              为什么选择 TH-UI？
+              为什么选择 Xorigo UI？
             </h3>
             <div className="space-y-4">
               {ctaFeatures.map((feature, index) => {
@@ -216,7 +216,7 @@ export function CTA() {
               配方库
             </a>
             <a
-              href="https://github.com/th-ui/th-ui"
+              href="https://github.com/xorigo-ui/xorigo-ui"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"

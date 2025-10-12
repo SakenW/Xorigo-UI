@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import { PlaygroundClient } from '@/components/playground/playground-client'
 
 export const metadata = {
-  title: 'Playground | TH-UI',
-  description: 'TH-UI 组件实时编辑器 - 在线体验 TH-UI 组件的强大功能，支持实时预览和七轴样式配方切换。',
+  title: 'Playground | Xorigo UI',
+  description: 'Xorigo UI 组件实时编辑器 - 在线体验 Xorigo UI 组件的强大功能，支持实时预览和七轴样式配方切换。',
 }
 
 export default function PlaygroundPage() {
