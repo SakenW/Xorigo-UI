@@ -1,0 +1,114 @@
+# ============================================
+# Xorigo UI Website 开发环境编排
+# Website + Packages 完整热更新支持
+# Next.js 15 + Node.js 22 Alpine
+# ============================================
+
+services:
+  # Website 开发服务（包含所有Monorepo依赖）
+  xorigo-ui-website:
+    image: xorigo-ui-website:dev
+    build:
+      context: ./apps/website
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: xorigo-ui-website-dev
+    ports:
+      - "${WEBSITE_PORT:-3100}:3100"
+      - "${STORYBOOK_PORT:-6009}:6009"  # Storybook 端口
+    volumes:
+      # Website 源码热更新
+      - ./apps/website/src:/app/src:delegated
+      - ./apps/website/public:/app/public:delegated
+      - ./apps/website/next.config.ts:/app/next.config.ts:delegated
+      - ./apps/website/tailwind.config.ts:/app/tailwind.config.ts:delegated
+      - ./apps/website/tsconfig.json:/app/tsconfig.json:delegated
+
+      # Website 配置文件
+      - ./apps/website/package.json:/app/package.json:delegated
+      - ./apps/website/.env.example:/app/.env.example:delegated
+      - ./apps/website/.env.docker:/app/.env.docker:delegated
+
+      # Packages 源码热更新（Monorepo 依赖）
+      - ./packages/core/src:/app/node_modules/@xorigo-ui/core/src:delegated
+      - ./packages/core/package.json:/app/node_modules/@xorigo-ui/core/package.json:delegated
+      - ./packages/core/vite.config.ts:/app/node_modules/@xorigo-ui/core/vite.config.ts:delegated
+
+      - ./packages/registry/src:/app/node_modules/@xorigo-ui/registry/src:delegated
+      - ./packages/registry/package.json:/app/node_modules/@xorigo-ui/registry/package.json:delegated
+      - ./packages/registry/registry.json:/app/node_modules/@xorigo-ui/registry/registry.json:delegated
+
+      - ./packages/tokens/src:/app/node_modules/@xorigo-ui/tokens/src:delegated
+      - ./packages/tokens/package.json:/app/node_modules/@xorigo-ui/tokens/package.json:delegated
+
+      - ./packages/style-recipe/src:/app/node_modules/@xorigo-ui/style-recipe/src:delegated
+      - ./packages/style-recipe/package.json:/app/node_modules/@xorigo-ui/style-recipe/package.json:delegated
+
+      - ./packages/i18n/src:/app/node_modules/@xorigo-ui/i18n/src:delegated
+      - ./packages/i18n/package.json:/app/node_modules/@xorigo-ui/i18n/package.json:delegated
+
+      # CLI 工具热更新
+      - ./packages/cli/src:/app/node_modules/@xorigo-ui/cli/src:delegated
+      - ./packages/cli/package.json:/app/node_modules/@xorigo-ui/cli/package.json:delegated
+      - ./packages/cli/bin:/app/node_modules/@xorigo-ui/cli/bin:delegated
+
+      # 清理 Next.js 缓存（避免缓存冲突）
+      - /app/.next
+      - /app/node_modules/.cache
+    env_file:
+      - ./apps/website/.env.docker
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - FAST_REFRESH=true
+      - PORT=3100
+      - HOSTNAME=0.0.0.0
+    command: >
+      sh -c "
+        echo '🔧 等待依赖安装...' &&
+        npm install --legacy-peer-deps --no-audit --no-fund &&
+        echo '🚀 启动 Website 开发服务器...' &&
+        npm run dev -- --port 3100 --hostname 0.0.0.0
+      "
+    networks:
+      - xorigo-ui-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - "com.xorigo-ui.service=website"
+      - "com.xorigo-ui.environment=development"
+      - "com.xorigo-ui.hot-reload=true"
+
+  # Redis 缓存服务 (可选，用于性能测试)
+  redis:
+    image: redis:7-alpine
+    container_name: xorigo-ui-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - xorigo-ui-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-dev123}"
+    labels:
+      - "com.xorigo-ui.service=redis"
+      - "com.xorigo-ui.environment=development"
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  xorigo-ui-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

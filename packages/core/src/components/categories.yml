@@ -1,0 +1,77 @@
+# Xorigo UI 组件分类体系 v1.2
+# 基于《Xorigo UI 组件分类体系白皮书 v1.0》标准
+
+version: 1.2
+components:
+  ui:                            # 基础UI（视觉原子）
+    - Button
+    - Avatar
+    - Badge
+    - Card
+    - Divider
+    - Skeleton
+    - Spinner
+    - Tooltip
+    - AnimatedCard
+
+  inputs:                        # 输入控件
+    - Input
+    - InputNumber
+    - Textarea
+    - Select
+    - Checkbox
+    - Radio
+    - Switch
+    - Combobox
+    - SearchInput
+    - PasswordInput
+    - ButtonGroup
+    - Command
+
+  forms:                         # 表单容器/逻辑
+    - Form
+    - Field
+    - Validator
+
+  navigation:                    # 导航与结构
+    - Tabs
+    - Breadcrumb
+    - Pagination
+    - BasicHeader
+    - Sidebar
+    - ResponsiveLayout
+    - DataTable
+
+  layout:                        # 布局与分区
+    - Container
+    - Grid
+    - Flex
+    - Box
+
+  feedback:                      # 反馈与状态
+    - Alert
+    - Toast
+    - Notification
+    - Progress
+    - Loading
+    - ThemeToggle
+
+  overlays:                      # 弹层与遮罩
+    - Modal
+    - Dialog
+
+  datadisplay:                   # 数据展示
+    - AdvancedCard
+
+  charts:                        # 数据可视化
+    - Chart
+    - Stat
+    - Gauge
+
+  utilities:                     # 技术基元/可达性/SSR基线
+    - ConfigProvider
+
+# 备注：
+# 1. 当前实现了白皮书标准10个分类中的核心组件
+# 2. 后续需要补全白皮书定义的147个组件中的缺失部分
+# 3. 此配置将用于CI检查、Registry生成和Docs导航构建

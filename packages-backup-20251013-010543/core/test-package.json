@@ -1,0 +1,11 @@
+{
+  "name": "test-theme-import",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@th-ui/core": "file:."
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

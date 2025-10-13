@@ -1,0 +1,74 @@
+{
+  "$type": "color",
+  "$description": "中性色标度 - 基于 OKLCH 色彩空间，C=0 (无彩度)",
+  "neutral": {
+    "$type": "color",
+    "$description": "中性色基础标度",
+    "0": {
+      "$value": "oklch(1 0 0)",
+      "$type": "color",
+      "$description": "白色"
+    },
+    "1": {
+      "$value": "oklch(0.99 0 0)",
+      "$type": "color"
+    },
+    "2": {
+      "$value": "oklch(0.98 0 0)",
+      "$type": "color"
+    },
+    "3": {
+      "$value": "oklch(0.96 0 0)",
+      "$type": "color"
+    },
+    "4": {
+      "$value": "oklch(0.94 0 0)",
+      "$type": "color"
+    },
+    "5": {
+      "$value": "oklch(0.92 0 0)",
+      "$type": "color"
+    },
+    "6": {
+      "$value": "oklch(0.88 0 0)",
+      "$type": "color"
+    },
+    "7": {
+      "$value": "oklch(0.83 0 0)",
+      "$type": "color"
+    },
+    "8": {
+      "$value": "oklch(0.77 0 0)",
+      "$type": "color"
+    },
+    "9": {
+      "$value": "oklch(0.69 0 0)",
+      "$type": "color"
+    },
+    "10": {
+      "$value": "oklch(0.59 0 0)",
+      "$type": "color"
+    },
+    "11": {
+      "$value": "oklch(0.46 0 0)",
+      "$type": "color"
+    },
+    "12": {
+      "$value": "oklch(0.31 0 0)",
+      "$type": "color"
+    },
+    "13": {
+      "$value": "oklch(0.18 0 0)",
+      "$type": "color"
+    },
+    "14": {
+      "$value": "oklch(0.09 0 0)",
+      "$type": "color"
+    },
+    "15": {
+      "$value": "oklch(0 0 0)",
+      "$type": "color",
+      "$description": "黑色"
+    }
+  }
+}

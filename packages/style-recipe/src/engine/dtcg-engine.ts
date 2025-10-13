@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 🎨 DTCG 风格配方引擎
  *

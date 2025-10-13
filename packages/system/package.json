@@ -1,0 +1,43 @@
+{
+  "name": "@xorigo-ui/system",
+  "version": "1.0.0",
+  "description": "主题系统、配置管理、可访问性和弹层管理包",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@xorigo-ui/tokens": "file:../tokens",
+    "@xorigo-ui/style-recipe": "file:../style-recipe"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  },
+  "scripts": {
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  }
+}

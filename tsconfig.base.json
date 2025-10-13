@@ -1,42 +1,54 @@
 {
   "compilerOptions": {
+    /* Type Checking - Strict Mode */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+
+    /* Language and Environment */
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
+
+    /* Modules */
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "allowJs": true,
+    "isolatedModules": true,
 
-    /* 渐进式启用严格模式 */
-    "strict": false,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictFunctionTypes": false,
-    "strictBindCallApply": false,
-    "strictPropertyInitialization": false,
-    "noImplicitThis": false,
-    "useUnknownInCatchVariables": false,
-    "alwaysStrict": false,
-
-    /* 其他类型检查选项 */
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
-    "noUncheckedIndexedAccess": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": false,
-
-    /* 模块和互操作性 */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-
-    /* 构建选项 */
+    /* Emit */
     "noEmit": true,
-    "incremental": true,
-    "isolatedModules": true
-  }
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Skip Lib Check */
+    "skipLibCheck": true,
+    "paths": {
+      "@xorigo-ui/tokens": ["./packages/tokens/src"],
+      "@xorigo-ui/style-recipe": ["./packages/style-recipe/src"],
+      "@xorigo-ui/system": ["./packages/system/src"],
+      "@xorigo-ui/hooks": ["./packages/hooks/src"],
+      "@xorigo-ui/core": ["./packages/core/src"],
+      "@xorigo-ui/i18n": ["./packages/i18n/src"],
+      "@xorigo-ui/registry": ["./packages/registry/src"],
+      "@xorigo-cli/commands": ["./packages/cli/src"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*",
+    "packages/*/tests/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "**/*.config.*",
+    ".next"
+  ]
 }

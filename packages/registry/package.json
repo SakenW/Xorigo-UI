@@ -20,6 +20,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
+    "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-registry.ts",
     "validate": "tsx scripts/validate-registry.ts"
   },

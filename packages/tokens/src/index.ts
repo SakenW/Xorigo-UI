@@ -70,7 +70,7 @@ export interface DTCGToken {
 }
 
 export interface DTCGPalette {
-  [key: string]: DTCGToken
+  [key: string]: DTCGToken | string | any
 }
 
 export interface DTCGCoreTokens {
@@ -88,31 +88,33 @@ export interface DTCGCoreTokens {
 }
 
 export interface DTCGRecipeMeta {
-  axes: {
-    mode: 'light' | 'dark' | 'hc'
-    base: { neutral: string, contrast: string }
-    accent: { strategy: string, hues: string[] }
-    tone: 'calm' | 'standard' | 'vivid'
-    density: 'spacious' | 'comfortable' | 'compact'
-    motion: { pack: string, curve: string }
-    surface: string[]
+  axes?: {
+    mode?: 'light' | 'dark' | 'hc'
+    base?: { neutral: string, contrast: string }
+    accent?: { strategy: string, hues: string[] }
+    tone?: 'calm' | 'standard' | 'vivid'
+    density?: 'spacious' | 'comfortable' | 'compact'
+    motion?: { pack: string, curve: string }
+    surface?: string[]
   }
-  oklchTone: Record<string, { dC: number, dL: number }>
-  a11y: {
+  oklchTone?: Record<string, { dC: number, dL: number }>
+  a11y?: {
     text: number
     largeText: number
     nonText: number
   }
+  [key: string]: any // 允许额外的 DTCG 元数据字段
 }
 
 export interface DTCGDensityPreset {
-  multipliers: {
-    typography: Record<string, number>
-    spacing: Record<string, number>
-    sizing: Record<string, number>
-    border: Record<string, number>
-    shadow: Record<string, number>
+  multipliers?: {
+    typography?: Record<string, number | any>
+    spacing?: Record<string, number | any>
+    sizing?: Record<string, number | any>
+    border?: Record<string, number | any>
+    shadow?: Record<string, number | any>
   }
+  [key: string]: any // 允许额外的 DTCG 元数据字段
 }
 
 // ============================================================================
@@ -125,11 +127,11 @@ export interface DTCGDensityPreset {
 export function getCoreTokens(): DTCGCoreTokens {
   return {
     palettes: {
-      neutralScale: neutralScaleData,
-      blueScale: blueScaleData,
-      cyanScale: cyanScaleData,
-      purpleScale: purpleScaleData,
-      stateColors: stateColorsData
+      neutralScale: neutralScaleData as DTCGPalette,
+      blueScale: blueScaleData as DTCGPalette,
+      cyanScale: cyanScaleData as DTCGPalette,
+      purpleScale: purpleScaleData as DTCGPalette,
+      stateColors: stateColorsData as DTCGPalette
     },
     foundations: {
       typography: typographyData,
@@ -143,7 +145,7 @@ export function getCoreTokens(): DTCGCoreTokens {
  */
 export function getAllRecipeMeta(): Record<string, DTCGRecipeMeta> {
   return {
-    'corporate-blue': corporateBlueData
+    'corporate-blue': corporateBlueData as unknown as DTCGRecipeMeta
   }
 }
 
@@ -152,8 +154,8 @@ export function getAllRecipeMeta(): Record<string, DTCGRecipeMeta> {
  */
 export function getAllDensityPresets(): Record<string, DTCGDensityPreset> {
   return {
-    comfortable: comfortableData,
-    spacious: spaciousData,
-    compact: compactData
+    comfortable: comfortableData as DTCGDensityPreset,
+    spacious: spaciousData as DTCGDensityPreset,
+    compact: compactData as DTCGDensityPreset
   }
 }

@@ -47,7 +47,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
-        theme: resolve(__dirname, 'src/theme/index.ts'),
+        // theme: resolve(__dirname, 'src/theme/index.ts'), // 暂时禁用，目录不存在
       },
       name: 'Xorigo UI',
       formats: ['es', 'cjs'],

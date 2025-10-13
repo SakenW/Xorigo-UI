@@ -1,3 +1,5 @@
+import { RootErrorBoundary } from '@/components/errors'
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +7,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        <RootErrorBoundary>
+          {children}
+        </RootErrorBoundary>
+      </body>
     </html>
   )
 }

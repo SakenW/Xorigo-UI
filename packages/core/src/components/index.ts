@@ -1,110 +1,69 @@
 /**
- * TH-UI 组件库统一导出
+ * Xorigo UI 组件库统一导出
  *
- * 按功能分类组织，提供清晰的组件结构和命名空间
+ * 按白皮书 v1.2 十大分类架构组织，完全符合组件分类体系标准
+ * 提供清晰的组件结构和命名空间
  */
 
 // ============================================================================
-// UI 基础组件 (15个) - 最基础的 UI 构建块
+// UI 基础组件 - 从 ui/ 目录导出
+// 视觉原子：按钮、头像、徽章、卡片等基础UI元素
 // ============================================================================
-export { Button } from './ui'
-export { Input } from './ui'
-export { Select } from './ui'
-export { Checkbox } from './ui'
-export { Radio } from './ui'
-export { Switch } from './ui'
-export { Textarea } from './ui'
-export { Card, CardHeader, CardContent, CardFooter } from './ui'
-export { Badge } from './ui'
-export { Avatar } from './ui'
-export { Divider } from './ui'
-export { Skeleton } from './ui'
-export { Breadcrumb } from './ui'
-export { Pagination } from './ui'
-export { Tooltip } from './ui'
-
-// UI 基础组件类型
-export type { ButtonProps } from './ui'
-export type { InputProps } from './ui'
-export type { SelectProps } from './ui'
-export type { CheckboxProps } from './ui'
-export type { RadioProps } from './ui'
-export type { SwitchProps } from './ui'
-export type { TextareaProps } from './ui'
-export type { CardProps as UICardProps, CardHeaderProps, CardContentProps, CardFooterProps } from './ui'
-export type { BadgeProps } from './ui'
-export type { AvatarProps } from './ui'
-export type { DividerProps } from './ui'
-export type { SkeletonProps } from './ui'
-export type { BreadcrumbProps } from './ui'
-export type { PaginationProps } from './ui'
-export type { TooltipProps } from './ui'
+export * from '../ui'
 
 // ============================================================================
-// 反馈组件 (8个) - 用户操作反馈和状态提示
+// Inputs 输入控件 - 从 inputs/ 目录导出
+// 表单输入：输入框、选择器、复选框等输入组件
 // ============================================================================
-export { Alert, Modal, Loading, Progress, ThemeToggle } from './feedback'
-export { 
-  Toast, 
-  ToastViewport, 
-  ToastAction, 
-  ToastClose, 
-  ToastTitle, 
-  ToastDescription,
-  useToast 
-} from './feedback/Toast'
-export { 
-  ToastProvider as NotificationProvider,
-  useToast as useNotification,
-} from './feedback/Notification'
-
-// 反馈组件类型
-export type { AlertProps, ModalProps, LoadingProps, ProgressProps, ThemeToggleProps } from './feedback'
-export type { 
-  ToastViewportProps,
-  ToastActionProps,
-  ToastCloseProps,
-  ToastTitleProps,
-  ToastDescriptionProps
-} from '@radix-ui/react-toast'
-export type { Notification, NotificationType } from './feedback/Notification'
+export * from '../inputs'
 
 // ============================================================================
-// 导航组件 (6个) - 导航和布局相关组件
+// Forms 表单容器 - 从 form/ 目录导出
+// 表单逻辑：Form容器、字段、验证等表单相关组件
 // ============================================================================
-export { Header as NavigationHeader, Sidebar, ResponsiveLayout, DataTable, Tabs } from './navigation'
-
-// 导航组件类型
-export type { HeaderProps, HeaderUser } from './navigation/BasicHeader'
-export type { SidebarProps } from './navigation/Sidebar'
-export type { ResponsiveLayoutProps } from './navigation/ResponsiveLayout'
-export type { TableProps } from './navigation/DataTable'
-export type { TabsProps } from './navigation/Tabs'
+export * from '../form'
 
 // ============================================================================
-// 高级组件 (3个) - 复杂交互和动画组件
+// Navigation 导航结构 - 从 navigation/ 目录导出
+// 导航组件：标签页、面包屑、分页、菜单等导航元素
 // ============================================================================
-export { Dialog } from './advanced'
-export { AdvancedCard } from './advanced'
-export { AnimatedCard } from './advanced'
-
-// 高级组件类型
-// Dialog 组件使用 Radix UI 的原生类型，无需额外导出
-export type { CardProps, StatCardProps, ProductCardProps, ArticleCardProps, CardGridProps } from './advanced/AdvancedCard'
+export * from '../navigation'
 
 // ============================================================================
-// Radix UI 组件 (2个) - 基于 Radix UI 的高级组件
+// Layout 布局分区 - 从 layout/ 目录导出
+// 布局组件：容器、网格、弹性盒子等布局工具
 // ============================================================================
-export { Accordion } from './radix'
-export { DropdownMenu } from './radix'
-
-// Radix UI 组件类型
-// 这些组件使用 Radix UI 的原生类型，无需额外导出
+export * from '../layout'
 
 // ============================================================================
-// 业务组件 (Blocks) - 复合业务场景组件
+// Feedback 反馈状态 - 从 feedback/ 目录导出
+// 状态反馈：警告、提示、进度、加载等反馈组件
 // ============================================================================
-// export * from '../blocks' // 暂时禁用以避免循环依赖
+export * from '../feedback'
+
+// ============================================================================
+// Overlays 弹层遮罩 - 从 overlays/ 目录导出
+// 覆盖层：模态框、对话框、抽屉等弹层组件
+// ============================================================================
+export * from '../overlays'
+
+// ============================================================================
+// DataDisplay 数据展示 - 从 datadisplay/ 目录导出
+// 数据呈现：卡片、列表、表格、时间线等数据展示组件
+// ============================================================================
+export * from '../datadisplay'
+
+// ============================================================================
+// Charts 数据可视化 - 从 charts/ 目录导出
+// 图表组件：折线图、柱状图、饼图、仪表盘等可视化组件
+// ============================================================================
+export * from '../charts'
+
+// ============================================================================
+// Utilities 技术基元 - 从 utilities/ 目录导出
+// 技术底层：Portal、焦点管理、主题提供者等技术组件
+// ============================================================================
+export * from '../utilities'
 
 // ============================================================================
 // 版本信息

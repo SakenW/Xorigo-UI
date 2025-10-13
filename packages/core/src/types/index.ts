@@ -5,9 +5,6 @@
 // 组件类型定义
 export * from './components'
 
-// 主题类型定义
-export * from '../theme'
-
 // 工具类型定义
 export type {
   ComponentVariants,
@@ -15,12 +12,12 @@ export type {
   LayoutProps,
   EventHandlers,
   FormComponentProps,
-  ButtonProps,
-  InputProps,
-  SelectProps,
-  ModalProps,
+  ButtonProps as CoreButtonProps,
+  InputProps as CoreInputProps,
+  SelectProps as CoreSelectProps,
+  ModalProps as CoreModalProps,
   TableColumnProps,
-  TableProps,
+  TableProps as CoreTableProps,
   NavigationProps,
   AnimationProps,
   ThemeProps,

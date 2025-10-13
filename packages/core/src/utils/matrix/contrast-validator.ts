@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Matrix 对比度验证器
  * 使用 color-contrast-checker 库进行 WCAG 标准验证

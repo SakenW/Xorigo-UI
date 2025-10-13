@@ -1,0 +1,94 @@
+{
+  "$type": "recipe",
+  "$description": "Corporate Blue 配方元数据 - 七轴参数定义",
+  "id": "light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow",
+  "name": "Corporate Blue",
+  "description": "专业企业级蓝色主题，适用于SaaS控制台和商业应用",
+  "category": "corporate",
+  "version": "1.0.0",
+  "tags": ["professional", "business", "saas", "corporate", "blue"],
+  "axes": {
+    "$type": "axes",
+    "$description": "七轴风格配方参数",
+    "mode": {
+      "$type": "axis",
+      "$value": "light",
+      "$description": "光照模式 - 亮色主题"
+    },
+    "base": {
+      "$type": "axis",
+      "$value": {
+        "neutral": "neutral-cool",
+        "contrast": "mid"
+      },
+      "$description": "中性色谱 × 对比 - 冷色调中对比度"
+    },
+    "accent": {
+      "$type": "axis",
+      "$value": {
+        "strategy": "mono",
+        "hues": ["blue"]
+      },
+      "$description": "主色策略 - 单色蓝色策略"
+    },
+    "tone": {
+      "$type": "axis",
+      "$value": "standard",
+      "$description": "强度 - 标准饱和度/亮度曲线"
+    },
+    "density": {
+      "$type": "axis",
+      "$value": "comfortable",
+      "$description": "密度 - 舒适的信息密度"
+    },
+    "motion": {
+      "$type": "axis",
+      "$value": {
+        "pack": "standard",
+        "curve": "classic"
+      },
+      "$description": "动效 - 标准节奏 + 经典曲线"
+    },
+    "surface": {
+      "$type": "axis",
+      "$value": ["soft-shadow"],
+      "$description": "表面 - 柔和阴影材质"
+    }
+  },
+  "oklchTone": {
+    "$type": "tone-modulation",
+    "$description": "OKLCH 色调调制参数",
+    "calm": {
+      "$type": "tone-params",
+      "$description": "冷静色调 - 降低彩度，微提亮度",
+      "dC": -0.05
+    },
+    "standard": {
+      "$type": "tone-params",
+      "$description": "标准色调 - 无变化",
+      "dC": 0
+    },
+    "vivid": {
+      "$type": "tone-params",
+      "$description": "鲜艳色调 - 增强彩度，轻微降低亮度",
+      "dC": 0.05
+    }
+  },
+  "accessibility": {
+    "$type": "accessibility",
+    "$description": "可访问性配置",
+    "contrast": {
+      "$type": "contrast-ratios",
+      "$description": "对比度要求",
+      "text": 4.5,
+      "largeText": 3.0,
+      "nonText": 3.0
+    },
+    "cvd": {
+      "$type": "cvd-settings",
+      "$description": "色盲友好设置",
+      "colorBlindFriendly": true,
+      "useColorAndShape": true
+    }
+  }
+}

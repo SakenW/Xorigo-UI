@@ -3,12 +3,12 @@ import React from 'react'
 // 标准变体定义
 export interface ComponentVariants {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline-solid'
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline'
   colorScheme?: 'blue' | 'green' | 'red' | 'yellow' | 'purple' | 'gray' | 'pink' | 'orange'
 }
 
 // 标准尺寸配置
-export const sizeClasses = {
+export const sizeClasses: Record<NonNullable<ComponentVariants['size']>, string> = {
   xs: 'text-xs px-2 py-1',
   sm: 'text-sm px-3 py-1.5',
   md: 'text-base px-4 py-2',
@@ -17,7 +17,7 @@ export const sizeClasses = {
 }
 
 // 标准变体配置
-export const variantClasses = {
+export const variantClasses: Record<NonNullable<ComponentVariants['variant']>, string> = {
   default: 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600',
   primary: 'bg-primary-500 text-white hover:bg-primary-600',
   secondary: 'bg-secondary-500 text-white hover:bg-secondary-600',

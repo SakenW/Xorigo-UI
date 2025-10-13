@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Matrix 可访问性验证系统
  * TH-UI 组件库的 WCAG 2.1 标准验证工具

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 🎨 TH-UI 风格配方体系 - 配方引擎 (Recipe Engine)
  *

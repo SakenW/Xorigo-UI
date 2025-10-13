@@ -17,6 +17,10 @@
     "lint": "npm run lint --workspaces",
     "type-check": "npm run type-check --workspaces",
     "clean": "npm run clean --workspaces && rm -rf node_modules",
+    "check-dependencies": "bash scripts/check-dependencies.sh",
+    "validate-packages": "node scripts/validate-packages.js",
+    "storybook": "storybook dev -p 6009",
+    "build-storybook": "storybook build",
     "docker:dev": "bash scripts/dev-docker.sh",
     "docker:logs": "bash scripts/dev-docker-logs.sh",
     "docker:stop": "bash scripts/dev-docker-stop.sh",
@@ -37,10 +41,22 @@
   "author": "Xorigo UI Team",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@storybook/addon-a11y": "^9.1.10",
+    "@storybook/react-vite": "^9.1.10",
+    "@storybook/testing-library": "^0.2.2",
     "@types/node": "^24.7.2",
+    "dependency-cruiser": "^16.10.4",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "eslint-plugin-react-refresh": "^0.4.23",
+    "eslint-plugin-storybook": "9.1.10",
+    "globals": "^16.4.0",
+    "madge": "^8.0.0",
     "prettier": "^3.6.2",
+    "storybook": "^9.1.10",
     "tsx": "^4.20.6",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.0"
   },
   "packageManager": "npm@10.0.0",
   "engines": {
@@ -59,6 +75,8 @@
   },
   "homepage": "https://github.com/your-org/xorigo-ui#readme",
   "dependencies": {
-    "ajv": "^8.17.1"
+    "ajv": "^8.17.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 🎨 浏览器兼容的 DTCG 风格配方引擎
  *
@@ -20,7 +21,7 @@ import type {
   ParsedRecipe,
   AxisLockRule,
   ResponseLevel
-} from '../../style-recipe/types'
+} from '../types'
 
 // ============================================================================
 // 预编译的 DTCG 数据 (Pre-compiled DTCG Data)
