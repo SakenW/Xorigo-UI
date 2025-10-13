@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { PageErrorBoundary } from '@/components/errors'
 import { PlaygroundClient } from '@/components/playground/playground-client'
 
 export const metadata = {
@@ -8,11 +9,16 @@ export const metadata = {
 
 export default function PlaygroundPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Suspense fallback={<PlaygroundSkeleton />}>
-        <PlaygroundClient />
-      </Suspense>
-    </div>
+    <PageErrorBoundary
+      pageName="Playground"
+      pagePath="/playground"
+    >
+      <div className="min-h-screen bg-background">
+        <Suspense fallback={<PlaygroundSkeleton />}>
+          <PlaygroundClient />
+        </Suspense>
+      </div>
+    </PageErrorBoundary>
   )
 }
 

@@ -1,0 +1,63 @@
+{
+  "name": "@xorigo-ui/i18n",
+  "version": "0.1.0",
+  "description": "Xorigo UI 轻量级国际化解决方案",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./locales/*": "./dist/locales/*"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "type-check": "tsc --noEmit",
+    "extract-keys": "tsx scripts/extract-keys.ts",
+    "validate-locales": "tsx scripts/validate-locales.ts",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.0.0",
+    "vitest": "^2.0.0",
+    "tsx": "^4.0.0"
+  },
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "localization",
+    "react",
+    "typescript",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xorigo-ui/xorigo-ui.git",
+    "directory": "packages/i18n"
+  }
+}

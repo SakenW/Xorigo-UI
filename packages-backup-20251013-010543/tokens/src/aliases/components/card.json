@@ -1,0 +1,160 @@
+{
+  "$type": "component",
+  "$description": "卡片组件别名令牌 - 仅引用 Role 令牌",
+  "card": {
+    "$type": "component",
+    "$description": "卡片组件样式",
+    "variants": {
+      "default": {
+        "$type": "variant",
+        "$description": "默认卡片变体",
+        "bg": {
+          "$value": "{background.surface}",
+          "$type": "color"
+        },
+        "border": {
+          "$value": "{border.default}",
+          "$type": "color"
+        },
+        "shadow": {
+          "$value": "{elevation.2}",
+          "$type": "custom"
+        },
+        "radius": {
+          "$value": "{spacing.3}",
+          "$type": "dimension"
+        }
+      },
+      "elevated": {
+        "$type": "variant",
+        "$description": "抬升卡片变体",
+        "bg": {
+          "$value": "{background.elevated}",
+          "$type": "color"
+        },
+        "border": {
+          "$value": "{border.subtle}",
+          "$type": "color"
+        },
+        "shadow": {
+          "$value": "{elevation.3}",
+          "$type": "custom"
+        },
+        "radius": {
+          "$value": "{spacing.4}",
+          "$type": "dimension"
+        }
+      },
+      "outlined": {
+        "$type": "variant",
+        "$description": "轮廓卡片变体",
+        "bg": {
+          "$value": "{background.primary}",
+          "$type": "color"
+        },
+        "border": {
+          "$value": "{border.emphasis}",
+          "$type": "color"
+        },
+        "shadow": {
+          "$value": "{elevation.1}",
+          "$type": "custom"
+        },
+        "radius": {
+          "$value": "{spacing.3}",
+          "$type": "dimension"
+        }
+      },
+      "ghost": {
+        "$type": "variant",
+        "$description": "幽灵卡片变体",
+        "bg": {
+          "$value": "transparent",
+          "$type": "color"
+        },
+        "border": {
+          "$value": "{border.default}",
+          "$type": "color"
+        },
+        "shadow": {
+          "$value": "none",
+          "$type": "custom"
+        },
+        "radius": {
+          "$value": "{spacing.3}",
+          "$type": "dimension"
+        }
+      }
+    },
+    "parts": {
+      "header": {
+        "$type": "part",
+        "$description": "卡片头部",
+        "padding": {
+          "$value": "{spacing.6}",
+          "$type": "dimension"
+        },
+        "borderBottom": {
+          "$value": "{border.subtle}",
+          "$type": "color"
+        },
+        "title": {
+          "$value": "{text.primary}",
+          "$type": "color"
+        },
+        "subtitle": {
+          "$value": "{text.secondary}",
+          "$type": "color"
+        }
+      },
+      "body": {
+        "$type": "part",
+        "$description": "卡片主体",
+        "padding": {
+          "$value": "{spacing.6}",
+          "$type": "dimension"
+        },
+        "text": {
+          "$value": "{text.primary}",
+          "$type": "color"
+        },
+        "mutedText": {
+          "$value": "{text.muted}",
+          "$type": "color"
+        }
+      },
+      "footer": {
+        "$type": "part",
+        "$description": "卡片底部",
+        "padding": {
+          "$value": "{spacing.6}",
+          "$type": "dimension"
+        },
+        "borderTop": {
+          "$value": "{border.subtle}",
+          "$type": "color"
+        },
+        "actions": {
+          "$value": "{text.secondary}",
+          "$type": "color"
+        }
+      }
+    },
+    "interactive": {
+      "$type": "interactive",
+      "$description": "交互状态",
+      "hover": {
+        "$value": "{background.subtle}",
+        "$type": "color"
+      },
+      "focus": {
+        "$value": "{border.focus}",
+        "$type": "color"
+      },
+      "active": {
+        "$value": "{background.elevated}",
+        "$type": "color"
+      }
+    }
+  }
+}

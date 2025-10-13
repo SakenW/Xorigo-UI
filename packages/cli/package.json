@@ -1,0 +1,50 @@
+{
+  "name": "@xorigo-cli/commands",
+  "version": "1.0.0",
+  "description": "Xorigo UI CLI - Component scaffolding and quality checks",
+  "type": "module",
+  "bin": {
+    "xorigo": "./bin/xorigo.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "dev": "tsx src/index.ts",
+    "doctor": "node bin/xorigo.js doctor",
+    "sync": "node bin/xorigo.js sync",
+    "check": "node bin/xorigo.js check",
+    "test:doctor": "npm run doctor -- --verbose",
+    "test:sync": "npm run sync -- --verbose"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "chalk": "^5.0.0",
+    "ora": "^6.0.0",
+    "chokidar": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "typescript": "~5.9.3",
+    "tsx": "^4.20.6"
+  },
+  "keywords": [
+    "xorigo-ui",
+    "cli",
+    "component",
+    "scaffold",
+    "accessibility",
+    "quality-check"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT"
+}

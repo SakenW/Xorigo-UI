@@ -1,0 +1,1035 @@
+{
+  "version": "1.0.0",
+  "metadata": {
+    "name": "Xorigo UI Registry",
+    "description": "Official component registry for Xorigo UI",
+    "version": "1.0.0",
+    "updated": "2025-10-13",
+    "totalComponents": 39,
+    "categories": [
+      "ui", "inputs", "forms", "navigation",
+      "layout", "feedback", "overlays",
+      "datadisplay", "charts", "utilities"
+    ],
+    "compliance": {
+      "whitepaper": "v1.0",
+      "lastValidated": "2025-10-13"
+    }
+  },
+  "components": [
+    {
+      "id": "button",
+      "title": "按钮",
+      "name": "Button",
+      "category": "ui",
+      "description": "基础按钮组件，支持多种变体和尺寸",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["primary", "secondary", "outline-solid", "outline-ghost", "ghost", "link"],
+          "default": "primary"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "loading": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "examples": [
+        {
+          "name": "Primary Button",
+          "code": "<Button variant=\"primary\">Click me</Button>"
+        },
+        {
+          "name": "Large Button",
+          "code": "<Button size=\"lg\">Large Button</Button>"
+        }
+      ],
+      "tags": ["button", "click", "action", "interactive"],
+      "tokens": ["surface.primary", "content.on-primary", "focus.ring", "transitions.fast"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "button/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "input",
+      "title": "输入框",
+      "name": "Input",
+      "category": "inputs",
+      "description": "输入框组件，支持多种输入类型和验证",
+      "props": {
+        "type": {
+          "type": "enum",
+          "values": ["text", "email", "password", "number", "tel", "url"],
+          "default": "text"
+        },
+        "placeholder": {
+          "type": "string",
+          "default": ""
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "error": {
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Text Input",
+          "code": "<Input type=\"text\" placeholder=\"Enter text\" />"
+        },
+        {
+          "name": "Email Input",
+          "code": "<Input type=\"email\" placeholder=\"Enter email\" />"
+        }
+      ],
+      "tags": ["input", "form", "text", "field", "validation"],
+      "tokens": ["surface.input", "content.muted", "border.default", "focus.ring"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "input/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "select",
+      "title": "选择器",
+      "name": "Select",
+      "category": "inputs",
+      "description": "下拉选择器组件，支持单选和多选",
+      "props": {
+        "placeholder": {
+          "type": "string",
+          "default": "Select an option"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "multiple": {
+          "type": "boolean",
+          "default": false
+        },
+        "searchable": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Select",
+          "code": "<Select placeholder=\"Choose option\"><SelectOption value=\"1\">Option 1</SelectOption></Select>"
+        }
+      ],
+      "tags": ["select", "dropdown", "choice", "form"],
+      "tokens": ["surface.input", "content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "select/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "checkbox",
+      "title": "复选框",
+      "name": "Checkbox",
+      "category": "inputs",
+      "description": "复选框组件，用于多选操作",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "indeterminate": {
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Checkbox",
+          "code": "<Checkbox>Accept terms</Checkbox>"
+        }
+      ],
+      "tags": ["checkbox", "selection", "form", "toggle"],
+      "tokens": ["surface.control", "border.default", "focus.ring"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "checkbox/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "radio",
+      "title": "单选框",
+      "name": "Radio",
+      "category": "inputs",
+      "description": "单选框组件，用于单选操作",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Radio Group",
+          "code": "<RadioGroup><Radio value=\"1\">Option 1</Radio><Radio value=\"2\">Option 2</Radio></RadioGroup>"
+        }
+      ],
+      "tags": ["radio", "selection", "form", "choice"],
+      "tokens": ["surface.control", "border.default", "focus.ring"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "radio/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "switch",
+      "title": "开关",
+      "name": "Switch",
+      "category": "inputs",
+      "description": "开关组件，用于切换状态",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Switch",
+          "code": "<Switch>Enable notifications</Switch>"
+        }
+      ],
+      "tags": ["switch", "toggle", "form", "control"],
+      "tokens": ["surface.control", "border.default", "focus.ring"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "switch/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "textarea",
+      "title": "文本域",
+      "name": "Textarea",
+      "category": "inputs",
+      "description": "多行文本输入组件",
+      "props": {
+        "placeholder": {
+          "type": "string",
+          "default": ""
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "rows": {
+          "type": "number",
+          "default": 4
+        },
+        "resize": {
+          "type": "enum",
+          "values": ["none", "vertical", "horizontal", "both"],
+          "default": "vertical"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Textarea",
+          "code": "<Textarea placeholder=\"Enter message\" rows={4} />"
+        }
+      ],
+      "tags": ["textarea", "input", "form", "text"],
+      "tokens": ["surface.input", "content.muted", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "textarea/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "form",
+      "title": "表单",
+      "name": "Form",
+      "category": "forms",
+      "description": "表单容器组件，提供验证和状态管理",
+      "props": {
+        "onSubmit": {
+          "type": "function",
+          "description": "表单提交处理函数"
+        },
+        "defaultValues": {
+          "type": "object",
+          "description": "表单默认值"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Form",
+          "code": "<Form onSubmit={handleSubmit}><FormField name=\"email\" label=\"Email\" required /></Form>"
+        }
+      ],
+      "tags": ["form", "container", "validation", "state"],
+      "tokens": ["surface.card", "content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "form/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "formField",
+      "title": "表单字段",
+      "name": "FormField",
+      "category": "forms",
+      "description": "表单字段组件，包含标签、输入和错误提示",
+      "props": {
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "label": {
+          "type": "string",
+          "required": true
+        },
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+        "error": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "examples": [
+        {
+          "name": "Form Field",
+          "code": "<FormField name=\"email\" label=\"Email\" required error={errors.email} />"
+        }
+      ],
+      "tags": ["form", "field", "label", "validation", "error"],
+      "tokens": ["content.primary", "content.muted", "border.danger"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "form-field/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "tabs",
+      "title": "标签页",
+      "name": "Tabs",
+      "category": "navigation",
+      "description": "标签页导航组件",
+      "props": {
+        "defaultValue": {
+          "type": "string",
+          "description": "默认激活的标签页"
+        },
+        "orientation": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "default": "horizontal"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Tabs",
+          "code": "<Tabs defaultValue=\"tab1\"><TabsList><TabsTrigger value=\"tab1\">Tab 1</TabsTrigger><TabsTrigger value=\"tab2\">Tab 2</TabsTrigger></TabsList><TabsContent value=\"tab1\">Content 1</TabsContent></Tabs>"
+        }
+      ],
+      "tags": ["tabs", "navigation", "switcher", "content"],
+      "tokens": ["surface.card", "content.primary", "border.default", "surface.active"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "tabs/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "breadcrumb",
+      "title": "面包屑导航",
+      "name": "Breadcrumb",
+      "category": "navigation",
+      "description": "面包屑导航组件，显示当前页面路径",
+      "props": {
+        "separator": {
+          "type": "string",
+          "default": "/"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Breadcrumb",
+          "code": "<Breadcrumb><BreadcrumbItem><BreadcrumbLink href=\"/\">Home</BreadcrumbLink></BreadcrumbItem><BreadcrumbItem><BreadcrumbLink href=\"/docs\">Docs</BreadcrumbLink></BreadcrumbItem></Breadcrumb>"
+        }
+      ],
+      "tags": ["breadcrumb", "navigation", "path", "hierarchy"],
+      "tokens": ["content.muted", "content.primary", "focus.ring"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "breadcrumb/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "pagination",
+      "title": "分页",
+      "name": "Pagination",
+      "category": "navigation",
+      "description": "分页导航组件",
+      "props": {
+        "currentPage": {
+          "type": "number",
+          "required": true
+        },
+        "totalPages": {
+          "type": "number",
+          "required": true
+        },
+        "onPageChange": {
+          "type": "function",
+          "required": true
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Pagination",
+          "code": "<Pagination currentPage={1} totalPages={10} onPageChange={setPage} />"
+        }
+      ],
+      "tags": ["pagination", "navigation", "pages", "navigation"],
+      "tokens": ["surface.card", "content.primary", "surface.active", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "pagination/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "card",
+      "title": "卡片",
+      "name": "Card",
+      "category": "datadisplay",
+      "description": "卡片容器组件，用于展示结构化内容",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "elevated", "outlined"],
+          "default": "default"
+        },
+        "padding": {
+          "type": "enum",
+          "values": ["none", "sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Card",
+          "code": "<Card><CardContent>Card content</CardContent></Card>"
+        }
+      ],
+      "tags": ["card", "container", "content", "display"],
+      "tokens": ["surface.card", "content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "card/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "list",
+      "title": "列表",
+      "name": "List",
+      "category": "datadisplay",
+      "description": "列表组件，用于展示有序或无序的数据",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "ordered", "unordered"],
+          "default": "default"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic List",
+          "code": "<List><ListItem>Item 1</ListItem><ListItem>Item 2</ListItem></List>"
+        }
+      ],
+      "tags": ["list", "display", "items", "content"],
+      "tokens": ["content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "list/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "table",
+      "title": "表格",
+      "name": "Table",
+      "category": "datadisplay",
+      "description": "表格组件，用于展示结构化数据",
+      "props": {
+        "data": {
+          "type": "array",
+          "required": true
+        },
+        "columns": {
+          "type": "array",
+          "required": true
+        },
+        "sortable": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Table",
+          "code": "<Table data={data} columns={columns} />"
+        }
+      ],
+      "tags": ["table", "data", "grid", "display"],
+      "tokens": ["surface.card", "content.primary", "border.default", "surface.hover"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "table/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "badge",
+      "title": "徽章",
+      "name": "Badge",
+      "category": "feedback",
+      "description": "徽章组件，用于状态指示和标签",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "secondary", "destructive", "outline"],
+          "default": "default"
+        }
+      },
+      "examples": [
+        {
+          "name": "Default Badge",
+          "code": "<Badge>New</Badge>"
+        }
+      ],
+      "tags": ["badge", "status", "indicator", "label"],
+      "tokens": ["surface.primary", "content.on-primary", "surface.secondary"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "badge/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "alert",
+      "title": "警告",
+      "name": "Alert",
+      "category": "feedback",
+      "description": "警告提示组件，用于信息反馈",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "destructive", "warning"],
+          "default": "default"
+        },
+        "closable": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Alert",
+          "code": "<Alert>This is an alert message</Alert>"
+        }
+      ],
+      "tags": ["alert", "warning", "message", "feedback"],
+      "tokens": ["surface.warning", "content.warning", "border.warning"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "alert/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "toast",
+      "title": "提示",
+      "name": "Toast",
+      "category": "feedback",
+      "description": "轻量级消息提示组件",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["default", "destructive", "success"],
+          "default": "default"
+        },
+        "duration": {
+          "type": "number",
+          "default": 5000
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Toast",
+          "code": "<Toast variant=\"success\">Operation completed successfully</Toast>"
+        }
+      ],
+      "tags": ["toast", "notification", "message", "feedback"],
+      "tokens": ["surface.card", "content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "toast/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "spinner",
+      "title": "加载指示器",
+      "name": "Spinner",
+      "category": "feedback",
+      "description": "加载状态指示组件",
+      "props": {
+        "size": {
+          "type": "enum",
+          "values": ["sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Spinner",
+          "code": "<Spinner />"
+        }
+      ],
+      "tags": ["spinner", "loading", "progress", "indicator"],
+      "tokens": ["content.muted"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "spinner/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "progress",
+      "title": "进度条",
+      "name": "Progress",
+      "category": "feedback",
+      "description": "进度条组件，显示任务完成进度",
+      "props": {
+        "value": {
+          "type": "number",
+          "required": true,
+          "min": 0,
+          "max": 100
+        },
+        "max": {
+          "type": "number",
+          "default": 100
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Progress",
+          "code": "<Progress value={75} />"
+        }
+      ],
+      "tags": ["progress", "bar", "loading", "indicator"],
+      "tokens": ["surface.primary", "surface.muted"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "progress/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "modal",
+      "title": "模态框",
+      "name": "Modal",
+      "category": "overlays",
+      "description": "模态对话框组件",
+      "props": {
+        "open": {
+          "type": "boolean",
+          "required": true
+        },
+        "onClose": {
+          "type": "function",
+          "required": true
+        },
+        "closable": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Modal",
+          "code": "<Modal open={isOpen} onClose={setIsOpen}><ModalContent>Modal content</ModalContent></Modal>"
+        }
+      ],
+      "tags": ["modal", "dialog", "overlay", "popup"],
+      "tokens": ["surface.overlay", "surface.card", "content.primary"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "modal/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "dialog",
+      "title": "对话框",
+      "name": "Dialog",
+      "category": "overlays",
+      "description": "对话框组件，用于确认和提示操作",
+      "props": {
+        "open": {
+          "type": "boolean",
+          "required": true
+        },
+        "onClose": {
+          "type": "function",
+          "required": true
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Dialog",
+          "code": "<Dialog open={isOpen} onClose={setIsOpen}><DialogContent>Dialog content</DialogContent></Dialog>"
+        }
+      ],
+      "tags": ["dialog", "confirmation", "overlay", "prompt"],
+      "tokens": ["surface.overlay", "surface.card", "content.primary"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "dialog/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "container",
+      "title": "容器",
+      "name": "Container",
+      "category": "layout",
+      "description": "容器组件，用于内容布局和限制宽度",
+      "props": {
+        "maxWidth": {
+          "type": "enum",
+          "values": ["sm", "md", "lg", "xl", "2xl", "full"],
+          "default": "lg"
+        },
+        "centered": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Container",
+          "code": "<Container maxWidth=\"lg\">Content</Container>"
+        }
+      ],
+      "tags": ["container", "layout", "wrapper", "width"],
+      "tokens": [],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "container/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "grid",
+      "title": "网格",
+      "name": "Grid",
+      "category": "layout",
+      "description": "网格布局组件",
+      "props": {
+        "cols": {
+          "type": "number",
+          "default": 12
+        },
+        "gap": {
+          "type": "enum",
+          "values": ["none", "sm", "md", "lg"],
+          "default": "md"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Grid",
+          "code": "<Grid cols={12} gap=\"md\"><GridItem span={6}>Column 1</GridItem><GridItem span={6}>Column 2</GridItem></Grid>"
+        }
+      ],
+      "tags": ["grid", "layout", "columns", "flex"],
+      "tokens": [],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "grid/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "stack",
+      "title": "堆叠",
+      "name": "Stack",
+      "category": "layout",
+      "description": "堆叠布局组件，垂直或水平排列子元素",
+      "props": {
+        "direction": {
+          "type": "enum",
+          "values": ["vertical", "horizontal"],
+          "default": "vertical"
+        },
+        "spacing": {
+          "type": "enum",
+          "values": ["none", "sm", "md", "lg"],
+          "default": "md"
+        },
+        "align": {
+          "type": "enum",
+          "values": ["start", "center", "end", "stretch"],
+          "default": "start"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Stack",
+          "code": "<Stack spacing=\"md\"><div>Item 1</div><div>Item 2</div></Stack>"
+        }
+      ],
+      "tags": ["stack", "layout", "flex", "spacing"],
+      "tokens": [],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "stack/Preview"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "tooltip",
+      "title": "工具提示",
+      "name": "Tooltip",
+      "category": "feedback",
+      "description": "工具提示组件，鼠标悬停时显示额外信息",
+      "props": {
+        "content": {
+          "type": "string",
+          "required": true
+        },
+        "placement": {
+          "type": "enum",
+          "values": ["top", "right", "bottom", "left"],
+          "default": "top"
+        }
+      },
+      "examples": [
+        {
+          "name": "Basic Tooltip",
+          "code": "<Tooltip content=\"This is a tooltip\"><Button>Hover me</Button></Tooltip>"
+        }
+      ],
+      "tags": ["tooltip", "hint", "help", "popover"],
+      "tokens": ["surface.overlay", "content.primary", "border.default"],
+      "a11y": "ok",
+      "rtl": true,
+      "i18n": ["en", "zh-CN"],
+      "preview": {
+        "module": "tooltip/Preview"
+      },
+      "status": "stable"
+    }
+  ],
+  "categories": [
+    {
+      "id": "ui",
+      "name": "基础UI",
+      "description": "视觉原子组件，构成界面的基础元素",
+      "components": ["button"],
+      "color": "#3b82f6"
+    },
+    {
+      "id": "inputs",
+      "name": "输入控件",
+      "description": "用户输入和数据录入组件",
+      "components": ["input", "select", "checkbox", "radio", "switch", "textarea"],
+      "color": "#10b981"
+    },
+    {
+      "id": "forms",
+      "name": "表单容器",
+      "description": "表单逻辑和容器组件",
+      "components": ["form", "formField"],
+      "color": "#f59e0b"
+    },
+    {
+      "id": "navigation",
+      "name": "导航与结构",
+      "description": "页面导航和结构组织组件",
+      "components": ["tabs", "breadcrumb", "pagination"],
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "layout",
+      "name": "布局与分区",
+      "description": "页面布局和空间分配组件",
+      "components": ["container", "grid", "stack"],
+      "color": "#ef4444"
+    },
+    {
+      "id": "feedback",
+      "name": "反馈与状态",
+      "description": "用户反馈和状态指示组件",
+      "components": ["badge", "alert", "toast", "spinner", "progress", "tooltip"],
+      "color": "#06b6d4"
+    },
+    {
+      "id": "overlays",
+      "name": "弹层与遮罩",
+      "description": "覆盖层和弹窗组件",
+      "components": ["modal", "dialog"],
+      "color": "#6366f1"
+    },
+    {
+      "id": "datadisplay",
+      "name": "数据展示",
+      "description": "结构化数据展示组件",
+      "components": ["card", "list", "table"],
+      "color": "#84cc16"
+    },
+    {
+      "id": "charts",
+      "name": "数据可视化",
+      "description": "图表和数据可视化组件",
+      "components": [],
+      "color": "#f97316"
+    },
+    {
+      "id": "utilities",
+      "name": "技术基元",
+      "description": "底层技术组件，一般不直接使用",
+      "components": [],
+      "color": "#64748b"
+    }
+  ],
+  "schemas": {
+    "component": {
+      "type": "object",
+      "required": ["id", "title", "name", "category", "description", "tags", "a11y", "rtl", "i18n", "preview"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "title": { "type": "string" },
+        "name": { "type": "string", "pattern": "^[A-Z][a-zA-Z0-9]*$" },
+        "category": {
+          "type": "string",
+          "enum": ["ui", "inputs", "forms", "navigation", "layout", "feedback", "overlays", "datadisplay", "charts", "utilities"]
+        },
+        "description": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "tokens": { "type": "array", "items": { "type": "string" } },
+        "a11y": { "type": "string", "enum": ["ok", "warn", "na"] },
+        "rtl": { "type": "boolean" },
+        "i18n": { "type": "array", "items": { "type": "string" } },
+        "preview": {
+          "type": "object",
+          "required": ["module"],
+          "properties": {
+            "module": { "type": "string" },
+            "component": { "type": "string" }
+          }
+        },
+        "status": { "type": "string", "enum": ["stable", "beta", "alpha", "deprecated"] }
+      }
+    }
+  }
+}

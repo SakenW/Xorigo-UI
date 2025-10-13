@@ -1,0 +1,57 @@
+{
+  "name": "@xorigo-ui/style-recipe",
+  "version": "0.1.0",
+  "description": "Xorigo UI Style Recipe - Dynamic style recipe system with DTCG support",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./provider": {
+      "types": "./dist/provider/index.d.ts",
+      "import": "./dist/provider/index.mjs",
+      "require": "./dist/provider/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [
+    "style-recipe",
+    "design-system",
+    "dtcg",
+    "react",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@xorigo-ui/tokens": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.2.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "sideEffects": false
+}

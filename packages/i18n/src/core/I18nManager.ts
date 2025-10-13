@@ -220,9 +220,9 @@ export class I18nManager {
   /**
    * 提取命名空间
    */
-  private extractNamespace(key: string): string | null {
+  private extractNamespace(key: string): Namespace | null {
     const parts = key.split(':')
-    return parts.length > 1 ? parts[0] : null
+    return parts.length > 1 ? (parts[0] as Namespace) : null
   }
 
   /**

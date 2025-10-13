@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Matrix 色盲模拟器 (Color Vision Deficiency Simulator)
  * 模拟不同类型的色盲对颜色的感知

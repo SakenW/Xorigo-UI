@@ -5,7 +5,7 @@ export const ComponentVariantSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   className: z.string(),
-  props: z.record(z.any()).optional(),
+  props: z.record(z.string(), z.any()).optional(),
 })
 
 // 组件属性定义
@@ -47,14 +47,14 @@ export const RegistrySchema = z.object({
   generatedAt: z.string(),
   components: z.array(ComponentSchema),
   tokens: z.object({
-    colors: z.record(z.string()),
-    spacing: z.record(z.string()),
-    typography: z.record(z.string()),
-    borderRadius: z.record(z.string()),
+    colors: z.record(z.string(), z.string()),
+    spacing: z.record(z.string(), z.string()),
+    typography: z.record(z.string(), z.string()),
+    borderRadius: z.record(z.string(), z.string()),
   }),
   themes: z.array(z.object({
     name: z.string(),
-    colors: z.record(z.string()),
+    colors: z.record(z.string(), z.string()),
   })),
 })
 

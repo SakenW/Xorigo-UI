@@ -39,7 +39,10 @@ export function useLocale() {
   const toggleLocale = async () => {
     const currentIndex = context.supportedLocales.indexOf(context.locale)
     const nextIndex = (currentIndex + 1) % context.supportedLocales.length
-    await context.changeLocale(context.supportedLocales[nextIndex])
+    const nextLocale = context.supportedLocales[nextIndex]
+    if (nextLocale) {
+      await context.changeLocale(nextLocale)
+    }
   }
 
   return {

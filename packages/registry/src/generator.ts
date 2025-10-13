@@ -119,10 +119,11 @@ export class RegistryGenerator {
    */
   getComponentsByCategory(): Record<string, Component[]> {
     return this.components.reduce((acc, component) => {
-      if (!acc[component.category]) {
-        acc[component.category] = []
+      const category = component.category
+      if (!acc[category]) {
+        acc[category] = []
       }
-      acc[component.category].push(component)
+      acc[category]!.push(component)
       return acc
     }, {} as Record<string, Component[]>)
   }

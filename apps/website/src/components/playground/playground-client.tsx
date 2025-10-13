@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { PlaygroundErrorBoundary } from '@/components/errors'
 import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
 import { Badge } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
@@ -147,119 +148,121 @@ export function PlaygroundClient() {
   }, [code])
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* 左侧编辑器区域 */}
-      <div className="w-1/2 flex flex-col border-r border-border">
-        {/* 编辑器头部 */}
-        <div className="h-12 border-b border-border bg-muted px-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h3 className="font-medium">代码编辑器</h3>
-            <Badge variant="default" className="text-xs">
-              {selectedExample.name}
-            </Badge>
+    <PlaygroundErrorBoundary>
+      <div className="flex h-screen bg-background">
+        {/* 左侧编辑器区域 */}
+        <div className="w-1/2 flex flex-col border-r border-border">
+          {/* 编辑器头部 */}
+          <div className="h-12 border-b border-border bg-muted px-4 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h3 className="font-medium">代码编辑器</h3>
+              <Badge variant="default" className="text-xs">
+                {selectedExample.name}
+              </Badge>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button variant="ghost" size="sm" onClick={resetCode}>
+                重置
+              </Button>
+              <Button variant="ghost" size="sm" onClick={copyCode}>
+                复制
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm" onClick={resetCode}>
-              重置
-            </Button>
-            <Button variant="ghost" size="sm" onClick={copyCode}>
-              复制
-            </Button>
+
+          {/* 示例选择器 */}
+          <div className="border-b border-border bg-muted px-4 py-3">
+            <div className="flex space-x-2">
+              {componentExamples.map((example) => (
+                <button
+                  key={example.id}
+                  onClick={() => selectExample(example)}
+                  className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                    selectedExample.id === example.id
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-background text-muted-foreground hover:bg-muted'
+                  }`}
+                >
+                  {example.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Monaco 编辑器 */}
+          <div className="flex-1 relative">
+            <MonacoEditor
+              height="100%"
+              language="typescript"
+              theme={activeTheme === 'dark' ? 'vs-dark' : 'vs-light'}
+              value={code}
+              onChange={(value) => setCode(value || '')}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                lineNumbers: 'on',
+                roundedSelection: false,
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                wordWrap: 'on',
+                bracketPairColorization: { enabled: true },
+              }}
+            />
           </div>
         </div>
 
-        {/* 示例选择器 */}
-        <div className="border-b border-border bg-muted px-4 py-3">
-          <div className="flex space-x-2">
-            {componentExamples.map((example) => (
-              <button
-                key={example.id}
-                onClick={() => selectExample(example)}
-                className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  selectedExample.id === example.id
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-background text-muted-foreground hover:bg-muted'
-                }`}
+        {/* 右侧预览区域 */}
+        <div className="w-1/2 flex flex-col">
+          {/* 预览头部 */}
+          <div className="h-12 border-b border-border bg-muted px-4 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h3 className="font-medium">实时预览</h3>
+              <Badge variant="default" className="text-xs">
+                {selectedExample.description}
+              </Badge>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveTheme(activeTheme === 'default' ? 'dark' : 'default')}
               >
-                {example.name}
-              </button>
-            ))}
+                {activeTheme === 'default' ? '🌙' : '☀️'}
+              </Button>
+            </div>
           </div>
-        </div>
 
-        {/* Monaco 编辑器 */}
-        <div className="flex-1 relative">
-          <MonacoEditor
-            height="100%"
-            language="typescript"
-            theme={activeTheme === 'dark' ? 'vs-dark' : 'vs-light'}
-            value={code}
-            onChange={(value) => setCode(value || '')}
-            options={{
-              minimap: { enabled: false },
-              fontSize: 14,
-              lineNumbers: 'on',
-              roundedSelection: false,
-              scrollBeyondLastLine: false,
-              automaticLayout: true,
-              wordWrap: 'on',
-              bracketPairColorization: { enabled: true },
-            }}
-          />
-        </div>
-      </div>
-
-      {/* 右侧预览区域 */}
-      <div className="w-1/2 flex flex-col">
-        {/* 预览头部 */}
-        <div className="h-12 border-b border-border bg-muted px-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h3 className="font-medium">实时预览</h3>
-            <Badge variant="default" className="text-xs">
-              {selectedExample.description}
-            </Badge>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setActiveTheme(activeTheme === 'default' ? 'dark' : 'default')}
-            >
-              {activeTheme === 'default' ? '🌙' : '☀️'}
-            </Button>
-          </div>
-        </div>
-
-        {/* 预览内容 */}
-        <div className="flex-1 p-6 overflow-auto">
-          <div className="min-h-full flex items-center justify-center">
-            <Card className="w-full max-w-2xl">
-              <CardHeader>
-                <h3 className="text-lg font-semibold">组件预览</h3>
-                <p className="text-sm text-muted-foreground">
-                  这是在 {activeTheme === 'dark' ? '深色' : '浅色'} 主题下的预览效果
-                </p>
-              </CardHeader>
-              <CardContent className={`p-6 ${activeTheme === 'dark' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
-                <div id="preview-container">
-                  {/* TODO: 动态渲染 React 组件 */}
-                  <div className="p-4 border-2 border-dashed border-muted rounded-lg">
-                    <p className="text-center text-muted-foreground">
-                      组件预览功能开发中...
-                    </p>
-                    <div className="mt-4 text-sm">
-                      <p>当前代码：</p>
-                      <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto max-h-40">
-                        {code}
-                      </pre>
+          {/* 预览内容 */}
+          <div className="flex-1 p-6 overflow-auto">
+            <div className="min-h-full flex items-center justify-center">
+              <Card className="w-full max-w-2xl">
+                <CardHeader>
+                  <h3 className="text-lg font-semibold">组件预览</h3>
+                  <p className="text-sm text-muted-foreground">
+                    这是在 {activeTheme === 'dark' ? '深色' : '浅色'} 主题下的预览效果
+                  </p>
+                </CardHeader>
+                <CardContent className={`p-6 ${activeTheme === 'dark' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+                  <div id="preview-container">
+                    {/* TODO: 动态渲染 React 组件 */}
+                    <div className="p-4 border-2 border-dashed border-muted rounded-lg">
+                      <p className="text-center text-muted-foreground">
+                        组件预览功能开发中...
+                      </p>
+                      <div className="mt-4 text-sm">
+                        <p>当前代码：</p>
+                        <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto max-h-40">
+                          {code}
+                        </pre>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </PlaygroundErrorBoundary>
   )
 }

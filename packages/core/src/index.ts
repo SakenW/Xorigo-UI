@@ -1,41 +1,112 @@
-// Xorigo UI 主入口文件
-// 导出所有组件、主题和工具
+// ===========================
+// 组件导出 - 白皮书 v1.2 十大分类架构
+// ===========================
 
-// 组件库
-export * from './components/index'
+// UI 基础组件 - 视觉原子
+export * from './ui/'
 
-// 主题系统
-export * from './theme/index'
+// Inputs 输入控件 - 表单输入
+export * from './inputs/'
 
-// 设计令牌 (从独立包导出 - 仅导出核心令牌和工具函数)
+// Forms 表单容器 - 表单逻辑
+export * from './form/'
+
+// Navigation 导航结构 - 导航组件
+export * from './navigation/'
+
+// Layout 布局分区 - 布局工具
+export * from './layout/'
+
+// Feedback 反馈状态 - 状态反馈
+export * from './feedback/'
+
+// Overlays 弹层遮罩 - 覆盖层
+export * from './overlays/'
+
+// DataDisplay 数据展示 - 数据呈现
+export * from './datadisplay/'
+
+// Charts 数据可视化 - 图表组件
+export * from './charts/'
+
+// Utilities 技术基元 - 技术底层
+export * from './utilities/'
+
+// ===========================
+// 类型导出 - 仅导出别名类型以避免与组件原生类型冲突
+// ===========================
+export type {
+  ComponentVariants,
+  BaseComponentProps,
+  LayoutProps,
+  EventHandlers,
+  FormComponentProps,
+  CoreButtonProps,
+  CoreInputProps,
+  CoreSelectProps,
+  CoreModalProps,
+  TableColumnProps,
+  CoreTableProps,
+  NavigationProps,
+  AnimationProps,
+  ThemeProps,
+  ResponsiveProps,
+  AccessibilityProps
+} from './types/'
+
+// ===========================
+// 工具函数导出
+// ===========================
+export * from './utils/'
+
+// ===========================
+// 跨包导出 - 统一入口
+// ===========================
+
+// 配方系统
 export {
-  // 核心令牌和类型
-  getCoreTokens,
-  getAllRecipeMeta,
-  getAllDensityPresets,
-  // 类型导出
-  type DTCGToken,
-  type DTCGPalette,
-  type DTCGCoreTokens,
-  type DTCGRecipeMeta,
-  type DTCGDensityPreset,
+  // React Provider 和 Hooks
+  StyleRecipeProvider,
+  useStyleRecipe,
+  useStyleRecipeCSS,
+  useResponseLevel,
+  useAxisLock,
+  type StyleRecipeContextType,
 
-  // 密度预设
-  comfortable,
-  spacious,
-  compact,
+  // 配方集合
+  corporateBlueRecipe,
+  corporateNavyDarkRecipe,
+  minimalWhiteRecipe,
+  minimalGraphiteDarkRecipe,
+  techCyanRecipe,
+  techNeonDarkRecipe,
+  creativePurpleRecipe,
+  creativeAuroraDarkRecipe,
+  classicNeutralRecipe,
+  highContrastProRecipe,
+  officialRecipes,
+  recipeMap,
+  recipesByCategory,
 
-  // 基础数据导出
-  typography,
-  spacing,
+  // 配方工具函数
+  getRecipe,
+  getRecipesByCategory,
+  searchRecipes,
+  getRecommendedRecipes,
+  validateRecipeID,
+  parseRecipeID,
+  getRecipeDescription,
+  isRecipeSuitable,
+  getContextualRecommendations,
+  getVersionInfo,
 
-  // 组件别名
-  buttonAliases,
-  cardAliases,
-} from '@xorigo-ui/tokens'
+  // 配方引擎
+  StyleRecipeEngine,
+  defaultRecipeEngine,
+  parseRecipe,
+  validateRecipeAccessibility,
+  getCurrentRecipe,
 
-// 样式配方系统 (从独立包导出 - 排除冲突的颜色标度)
-export {
   // 类型定义
   type StyleRecipe,
   type StyleRecipeID,
@@ -65,48 +136,6 @@ export {
   type RecipeValidationResult,
   type ParseRecipeID,
 
-  // 配方集合和工具
-  corporateBlueRecipe,
-  corporateNavyDarkRecipe,
-  minimalWhiteRecipe,
-  minimalGraphiteDarkRecipe,
-  techCyanRecipe,
-  techNeonDarkRecipe,
-  creativePurpleRecipe,
-  creativeAuroraDarkRecipe,
-  classicNeutralRecipe,
-  highContrastProRecipe,
-  officialRecipes,
-  recipeMap,
-  recipesByCategory,
-  getRecipe,
-  getRecipesByCategory,
-  searchRecipes,
-  getRecommendedRecipes,
-  validateRecipeID,
-  parseRecipeID,
-
-  // 配方引擎
-  StyleRecipeEngine,
-  defaultRecipeEngine,
-  parseRecipe,
-  validateRecipeAccessibility,
-  getCurrentRecipe,
-
-  // React 提供者
-  StyleRecipeProvider,
-  useStyleRecipe,
-  useStyleRecipeCSS,
-  useResponseLevel,
-  useAxisLock,
-  type StyleRecipeContextType,
-
-  // 工具函数
-  getRecipeDescription,
-  isRecipeSuitable,
-  getContextualRecommendations,
-  getVersionInfo,
-
   // 常量
   DEFAULT_RECIPE,
   RECIPE_CATEGORIES,
@@ -115,7 +144,7 @@ export {
   STYLE_AXES,
   STYLE_RECIPE_VERSION,
 
-  // 核心令牌 (不冲突的导出)
+  // 核心令牌
   coreTokens,
   elevationScale,
   motionBase,
@@ -134,8 +163,49 @@ export {
   grayScale,
 } from '@xorigo-ui/style-recipe'
 
-// 工具函数
-export * from './utils/index'
+// 设计令牌系统
+export {
+  // 核心令牌和工具
+  getCoreTokens,
+  getAllRecipeMeta,
+  getAllDensityPresets,
 
-// 业务组件 (Blocks)
-// export * from './blocks/index' // 暂时禁用以避免循环依赖
+  // 类型导出
+  type DTCGToken,
+  type DTCGPalette,
+  type DTCGCoreTokens,
+  type DTCGRecipeMeta,
+  type DTCGDensityPreset,
+
+  // 密度预设
+  comfortable,
+  spacious,
+  compact,
+
+  // 基础数据
+  typography,
+  spacing,
+
+  // 组件别名
+  buttonAliases,
+  cardAliases,
+} from '@xorigo-ui/tokens'
+
+// 主题系统
+export {
+  // Providers
+  ThemeProvider,
+
+  // Provider Props 类型
+  type ThemeProviderProps,
+} from '@xorigo-ui/system'
+
+// Hooks（占位，待实现）
+// export {
+//   useControllableState,
+//   useKeyboardNavigation,
+//   useOverlay,
+//   useFocusReturn,
+//   useDebouncedValue,
+//   useVirtualList,
+// } from '@xorigo-ui/hooks'

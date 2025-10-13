@@ -1,0 +1,92 @@
+{
+  "title": "Xorigo UI 试验场",
+  "subtitle": "实时预览和测试组件",
+  "editor": {
+    "title": "代码编辑器",
+    "settings": "设置",
+    "theme": "编辑器主题",
+    "font_size": "字体大小",
+    "word_wrap": "自动换行",
+    "line_numbers": "行号",
+    "minimap": "小地图"
+  },
+  "preview": {
+    "title": "实时预览",
+    "responsive": "响应式预览",
+    "device_sizes": {
+      "mobile": "手机",
+      "tablet": "平板",
+      "desktop": "桌面"
+    },
+    "refresh": "刷新预览",
+    "error": "预览错误"
+  },
+  "properties": {
+    "title": "属性配置",
+    "button": {
+      "variant": {
+        "label": "变体",
+        "description": "按钮的视觉样式",
+        "options": {
+          "primary": "主要",
+          "secondary": "次要",
+          "outline": "轮廓",
+          "ghost": "幽灵"
+        }
+      },
+      "size": {
+        "label": "尺寸",
+        "description": "按钮的大小",
+        "options": {
+          "sm": "小",
+          "md": "中",
+          "lg": "大"
+        }
+      },
+      "disabled": {
+        "label": "禁用",
+        "description": "是否禁用按钮"
+      },
+      "loading": {
+        "label": "加载中",
+        "description": "是否显示加载状态"
+      }
+    },
+    "input": {
+      "placeholder": {
+        "label": "占位符",
+        "description": "输入提示文本"
+      },
+      "type": {
+        "label": "类型",
+        "description": "输入框类型",
+        "options": {
+          "text": "文本",
+          "email": "邮箱",
+          "password": "密码",
+          "number": "数字"
+        }
+      },
+      "error": {
+        "label": "错误状态",
+        "description": "是否显示错误状态"
+      }
+    }
+  },
+  "actions": {
+    "reset": "重置属性",
+    "copy_code": "复制代码",
+    "export_component": "导出组件",
+    "share": "分享",
+    "run": "运行",
+    "stop": "停止"
+  },
+  "templates": {
+    "title": "模板",
+    "basic_forms": "基础表单",
+    "navigation": "导航组件",
+    "cards": "卡片布局",
+    "modals": "模态框",
+    "empty": "空白模板"
+  }
+}

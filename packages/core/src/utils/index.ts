@@ -11,6 +11,9 @@ export * from './component-helpers'
 // OKLCH 色彩引擎
 export * from './color'
 
+// Matrix 可访问性验证系统
+export * from './matrix'
+
 // 重新导出常用工具函数
 export {
   cn,

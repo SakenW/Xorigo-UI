@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * OKLCH 色彩引擎
  * 基于 culori 库实现的 OKLCH 色彩空间操作

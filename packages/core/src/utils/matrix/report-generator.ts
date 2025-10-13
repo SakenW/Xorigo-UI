@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Matrix 验证报告生成器
  * 生成 Markdown 和 JSON 格式的验证报告

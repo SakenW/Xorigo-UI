@@ -1,0 +1,147 @@
+{
+  "$type": "color",
+  "$description": "Corporate Blue 配方 - Light 模式角色映射",
+  "recipe": {
+    "$type": "reference",
+    "$ref": "./meta.json"
+  },
+  "background": {
+    "$type": "color",
+    "$description": "背景色角色",
+    "primary": {
+      "$value": "{neutral.15}",
+      "$type": "color",
+      "$description": "主背景 - 白色"
+    },
+    "surface": {
+      "$value": "{neutral.13}",
+      "$type": "color",
+      "$description": "表面背景 - 浅灰"
+    },
+    "elevated": {
+      "$value": "{neutral.11}",
+      "$type": "color",
+      "$description": "抬高背景 - 中灰"
+    },
+    "subtle": {
+      "$value": "{neutral.14}",
+      "$type": "color",
+      "$description": "细微背景 - 极浅灰"
+    }
+  },
+  "text": {
+    "$type": "color",
+    "$description": "文本色角色",
+    "primary": {
+      "$value": "{neutral.2}",
+      "$type": "color",
+      "$description": "主文本 - 深灰"
+    },
+    "secondary": {
+      "$value": "{neutral.5}",
+      "$type": "color",
+      "$description": "次要文本 - 中灰"
+    },
+    "muted": {
+      "$value": "{neutral.8}",
+      "$type": "color",
+      "$description": "静默文本 - 浅灰"
+    },
+    "inverse": {
+      "$value": "{neutral.15}",
+      "$type": "color",
+      "$description": "反色文本 - 白色"
+    },
+    "disabled": {
+      "$value": "{neutral.10}",
+      "$type": "color",
+      "$description": "禁用文本 - 灰色"
+    }
+  },
+  "border": {
+    "$type": "color",
+    "$description": "边框色角色",
+    "default": {
+      "$value": "{neutral.10}",
+      "$type": "color",
+      "$description": "默认边框 - 浅灰"
+    },
+    "emphasis": {
+      "$value": "{neutral.8}",
+      "$type": "color",
+      "$description": "强调边框 - 中灰"
+    },
+    "subtle": {
+      "$value": "{neutral.12}",
+      "$type": "color",
+      "$description": "细微边框 - 极浅灰"
+    },
+    "focus": {
+      "$value": "{blue.8}",
+      "$type": "color",
+      "$description": "焦点边框 - 蓝色"
+    }
+  },
+  "accent": {
+    "$type": "color",
+    "$description": "强调色角色",
+    "default": {
+      "$value": "{blue.8}",
+      "$type": "color",
+      "$description": "默认强调 - 蓝色基准"
+    },
+    "hover": {
+      "$value": "{blue.7}",
+      "$type": "color",
+      "$description": "悬停强调 - 蓝色亮"
+    },
+    "active": {
+      "$value": "{blue.9}",
+      "$type": "color",
+      "$description": "激活强调 - 蓝色暗"
+    },
+    "subtle": {
+      "$value": "{blue.6}",
+      "$type": "color",
+      "$description": "细微强调 - 蓝色浅"
+    }
+  },
+  "states": {
+    "$type": "color",
+    "$description": "状态色角色",
+    "success": {
+      "$value": "{success.8}",
+      "$type": "color",
+      "$description": "成功状态 - 绿色"
+    },
+    "warning": {
+      "$value": "{warning.8}",
+      "$type": "color",
+      "$description": "警告状态 - 琥珀色"
+    },
+    "error": {
+      "$value": "{error.8}",
+      "$type": "color",
+      "$description": "错误状态 - 红色"
+    },
+    "info": {
+      "$value": "{info.8}",
+      "$type": "color",
+      "$description": "信息状态 - 天蓝色"
+    }
+  },
+  "interaction": {
+    "$type": "color",
+    "$description": "交互色角色",
+    "link": {
+      "$value": "{blue.7}",
+      "$type": "color",
+      "$description": "链接色 - 蓝色"
+    },
+    "visited": {
+      "$value": "{purple.8}",
+      "$type": "color",
+      "$description": "已访问链接 - 紫色"
+    }
+  }
+}

@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@xorigo-ui/core'
-import { Button } from '@xorigo-ui/core'
-import { Badge } from '@xorigo-ui/core'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   validateMatrix,
   calculateContrastRatio,
@@ -17,7 +17,7 @@ import {
   type MatrixConfig,
   type ValidationResult,
   type ValidationIssue,
-} from '@xorigo-ui/core'
+} from '@/components/ui/matrix-tools'
 
 // 示例测试数据
 const exampleTestData = {
@@ -258,7 +258,7 @@ export function MatrixPage() {
                         <p><span className="text-muted-foreground">标准:</span> WCAG {currentConfig.strictness}</p>
                         <p><span className="text-muted-foreground">正常文本:</span> {currentConfig.contrast.normalTextAA}:1</p>
                         <p><span className="text-muted-foreground">大文本:</span> {currentConfig.contrast.largeTextAA}:1</p>
-                        <p><span className="text-muted-foreground">UI组件:</span> {currentConfig.contrast.uiComponent}:1</p>
+                        <p><span className="text-muted-foreground">UI组件:</span> {currentConfig.contrast.uiComponentAA}:1</p>
                       </div>
                     </div>
                   </div>

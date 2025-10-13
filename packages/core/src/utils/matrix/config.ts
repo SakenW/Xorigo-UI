@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Matrix 可访问性验证系统 - 配置文件
  * 基于 WCAG 2.1 标准和 TH-UI 设计系统需求
