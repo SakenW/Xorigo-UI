@@ -1,6 +1,6 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@xorigo-ui/theme'
+import { cn } from '../utils/cn'
 
 const chartVariants = cva(
   "w-full",

@@ -1,12 +1,11 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "./src",
     "paths": {
       "@/*": ["./src/*"],
-      "@th-ui/tokens": ["../tokens/src"],
-      "@th-ui/style-recipe": ["../style-recipe/src"]
+      "@xorigo-ui/tokens": ["../tokens/src"],
+      "@xorigo-ui/style-recipe": ["../style-recipe/src"]
     },
     "outDir": "./dist",
     "declaration": true,
@@ -15,12 +14,19 @@
     "noEmit": false,
     "skipLibCheck": true,
     "noResolve": false,
-    "composite": true
+    "composite": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "strict": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.spec.ts"],
-  "references": [
-    { "path": "../tokens" },
-    { "path": "../style-recipe" }
-  ]
+  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.spec.ts"]
 }

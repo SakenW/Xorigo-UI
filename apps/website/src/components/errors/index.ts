@@ -10,13 +10,19 @@
  */
 
 // 核心错误边界组件
-export { RootErrorBoundary } from './RootErrorBoundary'
-export { PageErrorBoundary } from './PageErrorBoundary'
-export { PlaygroundErrorBoundary } from './PlaygroundErrorBoundary'
-export { MDXErrorBoundary } from './MDXErrorBoundary'
+import { RootErrorBoundary } from './RootErrorBoundary'
+import { PageErrorBoundary } from './PageErrorBoundary'
+import { PlaygroundErrorBoundary } from './PlaygroundErrorBoundary'
+import { MDXErrorBoundary } from './MDXErrorBoundary'
+
+// 重新导出
+export { RootErrorBoundary, PageErrorBoundary, PlaygroundErrorBoundary, MDXErrorBoundary }
 
 // 错误回退UI组件
-export { ErrorFallback, type ErrorFallbackProps } from './ErrorFallback'
+import { ErrorFallback, type ErrorFallbackProps } from './ErrorFallback'
+
+// 重新导出
+export { ErrorFallback, type ErrorFallbackProps }
 
 // 工具函数
 export const createErrorBoundary = (type: 'root' | 'page' | 'playground' | 'mdx') => {

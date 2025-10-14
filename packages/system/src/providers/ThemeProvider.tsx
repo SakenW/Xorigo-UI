@@ -219,7 +219,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const currentCategory = themeConfigs[currentTheme]?.category || 'modern'
 
   // 安全获取主题配置
-  const themeConfig = themeConfigs[currentTheme] || themeConfigs['cyber-blue-purple']!
+  const themeConfig =
+    themeConfigs[currentTheme] || themeConfigs['cyber-blue-purple']
 
   const setThemeByCategory = (category: string) => {
     const themesInCategory = Object.entries(themeConfigs)
@@ -252,9 +253,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       )
       .map(([key]) => key)
   }
-
-  const themeConfig =
-    themeConfigs[currentTheme] || themeConfigs['cyber-blue-purple']
 
   if (!mounted) {
     return null // 避免SSR不匹配

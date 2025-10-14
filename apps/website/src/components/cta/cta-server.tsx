@@ -10,7 +10,7 @@ import {
   Zap,
   CheckCircle,
   Sparkles
-} from 'lucide-react'
+} from '@/components/ui/lucide-icons'
 import { CTAClient } from './cta-client'
 
 const ctaFeatures = [
@@ -114,18 +114,18 @@ export function CTAServer() {
               文档
             </a>
             <a
-              href="/playground"
+              href="/workbench"
               className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               <Zap className="h-4 w-4" />
-              演练场
+              Workbench
             </a>
             <a
               href="/gallery"
               className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               <Sparkles className="h-4 w-4" />
-              配方库
+              组件库
             </a>
             <a
               href="https://github.com/xorigo-ui/xorigo-ui"

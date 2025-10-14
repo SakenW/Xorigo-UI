@@ -24,7 +24,7 @@ import {
   type ValidationResult,
   type ValidationError,
   type ValidationWarning,
-  type DataErrorCode,
+  DataErrorCode,
   DataError
 } from './types'
 

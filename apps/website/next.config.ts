@@ -34,6 +34,15 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       'framer-motion': require.resolve('framer-motion'),
+      // 添加 @xorigo-ui 包的解析路径
+      '@xorigo-ui/core': '/app/packages/core/src/index.ts',
+      '@xorigo-ui/system': '/app/packages/system/src/index.ts',
+      '@xorigo-ui/style-recipe': '/app/packages/style-recipe/src/index.ts',
+      '@xorigo-ui/tokens': '/app/packages/tokens/src/index.ts',
+      // 添加内部包的路径别名解析
+      '@/utils': '/app/packages/core/src/utils/index.ts',
+      '@/lib': '/app/packages/core/src/lib/index.ts',
+      '@/components': '/app/packages/core/src/components/index.ts',
     }
 
     return config
@@ -89,10 +98,33 @@ const nextConfig: NextConfig = {
   // 重定向配置
   async redirects() {
     return [
+      // Demo site 重定向
       {
         source: '/demo-site/:path*',
         destination: '/:path*',
         permanent: true,
+      },
+      // Gallery → Workbench 重定向
+      {
+        source: '/gallery',
+        destination: '/workbench?mode=gallery',
+        permanent: false,
+      },
+      {
+        source: '/gallery/:path*',
+        destination: '/workbench?mode=gallery&path=:path*',
+        permanent: false,
+      },
+      // Playground → Workbench 重定向
+      {
+        source: '/playground',
+        destination: '/workbench?mode=editor',
+        permanent: false,
+      },
+      {
+        source: '/playground/:path*',
+        destination: '/workbench?mode=editor&path=:path*',
+        permanent: false,
       },
     ]
   },

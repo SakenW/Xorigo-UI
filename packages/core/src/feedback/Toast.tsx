@@ -4,7 +4,7 @@ import React from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
-import { cn } from '@/utils'
+import { cn } from '../utils/cn'
 import { forwardRef } from 'react'
 
 export const ToastProvider = ToastPrimitive.Provider

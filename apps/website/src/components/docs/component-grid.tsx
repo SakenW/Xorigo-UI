@@ -92,10 +92,10 @@ function ComponentCard({ component }: ComponentCardProps) {
 
           {/* 操作按钮 */}
           <div className="flex gap-2">
-            <Link href={`/playground/${component.name}`} className="flex-1">
+            <Link href={`/workbench?mode=editor&component=${component.name.toLowerCase()}`} className="flex-1">
               <Button variant="default" size="sm" className="w-full">
                 <Play className="w-4 h-4 mr-2" />
-                试用
+                在Workbench中试用
               </Button>
             </Link>
             <Link href={`/docs/components/${component.category}/${component.name}`} className="flex-1">

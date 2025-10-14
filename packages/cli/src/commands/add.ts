@@ -14,33 +14,188 @@ import chalk from 'chalk'
 import ora from 'ora'
 
 export interface AddCommandOptions {
-  template: 'basic' | 'advanced' | 'form'
+  template: 'standard' | 'compound' | 'form' | 'layout' | 'navigation' | 'overlay'
   category?: string
   path?: string
+  hasVariants?: boolean
+  hasCompound?: boolean
 }
 
-// 组件模板
+// 符合v1.1标准的组件模板
 const componentTemplates = {
-  basic: (name: string) => `import React from 'react'
+  // 标准组件模板 - 遵循新的API设计标准
+  standard: (name: string) => `import React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../utils/cn'
 
-export interface ${name}Props extends React.HTMLAttributes<HTMLDivElement> {
+// CVA变体配置 - 遵循统一标准
+const ${name.toLowerCase()}Variants = cva(
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2",
+  {
+    variants: {
+      // 统一5级尺寸系统
+      size: {
+        xs: "text-xs px-2 py-1",
+        sm: "text-sm px-3 py-1.5",
+        md: "text-base px-4 py-2",
+        lg: "text-lg px-5 py-2.5",
+        xl: "text-xl px-6 py-3",
+      },
+      // 统一6种语义化变体
+      variant: {
+        primary: "bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500",
+        secondary: "bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500",
+        success: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
+        warning: "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500",
+        danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+        neutral: "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500",
+      },
+      // 标准状态控制
+      disabled: {
+        true: "opacity-50 cursor-not-allowed pointer-events-none",
+      },
+      loading: {
+        true: "opacity-75 cursor-wait",
+      },
+      error: {
+        true: "border-red-500 focus:ring-red-500",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+      variant: "primary",
+    },
+  }
+)
+
+// 标准Props接口 - 遵循API设计标准
+export interface ${name}Props
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+            VariantProps<typeof ${name.toLowerCase()}Variants>,
+            StandardStates,
+            StyleExtensions {
   /**
-   * 组件尺寸
-   * @default 'md'
-   */
-  size?: 'sm' | 'md' | 'lg'
-  /**
-   * 组件变体
-   * @default 'default'
-   */
-  variant?: 'default' | 'primary' | 'secondary'
-  /**
-   * 是否禁用
+   * 加载状态
    * @default false
    */
-  disabled?: boolean
+  loading?: boolean
+  /**
+   * 左侧图标
+   */
+  leftIcon?: React.ReactNode
+  /**
+   * 右侧图标
+   */
+  rightIcon?: React.ReactNode
 }
+
+// 标准基础Props类型
+interface StandardStates {
+  disabled?: boolean
+  loading?: boolean
+  error?: boolean
+  required?: boolean
+}
+
+interface StyleExtensions {
+  className?: string
+  style?: React.CSSProperties
+  testId?: string
+  'data-testid'?: string
+  'data-component'?: string
+}
+
+/**
+ * ${name} 组件
+ *
+ * 遵循Xorigo UI v1.1 API设计标准
+ *
+ * @example
+ * \`\`\`tsx
+ * <${name} variant="primary" size="md" loading={false}>
+ *   点击我
+ * </${name}>
+ * \`\`\`
+ */
+export const ${name} = React.forwardRef<HTMLButtonElement, ${name}Props>(
+  ({
+    size,
+    variant,
+    disabled = false,
+    loading = false,
+    error = false,
+    leftIcon,
+    rightIcon,
+    className,
+    testId,
+    children,
+    ...props
+  }, ref) => {
+    // 生成测试Props
+    const testProps = {
+      'data-testid': testId || '${name.toLowerCase()}-test-id',
+      'data-component': '${name.toLowerCase()}',
+      'data-variant': variant,
+      'data-size': size,
+      'data-state': disabled ? 'disabled' : loading ? 'loading' : error ? 'error' : 'normal',
+    }
+
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          ${name.toLowerCase()}Variants({
+            size,
+            variant,
+            disabled,
+            loading,
+            error
+          }),
+          className
+        )}
+        disabled={disabled || loading}
+        aria-disabled={disabled || loading}
+        aria-busy={loading}
+        {...testProps}
+        {...props}
+      >
+        {loading && (
+          <svg
+            className="animate-spin -ml-1 mr-2 h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+        )}
+
+        {leftIcon && <span className="mr-2">{leftIcon}</span>}
+
+        {children}
+
+        {rightIcon && <span className="ml-2">{rightIcon}</span>}
+      </button>
+    )
+  }
+)
+
+${name}.displayName = '${name}'
+
+export { ${name.toLowerCase()}Variants }
+export type ${name}Variants = VariantProps<typeof ${name.toLowerCase()}Variants>
 
 /**
  * ${name} 组件
@@ -89,7 +244,247 @@ ${name}.displayName = '${name}'
 export default ${name}
 `,
 
-  advanced: (name: string) => `import React from 'react'
+  // 复合组件模板 - 支持子组件模式
+  compound: (name: string) => `import React, { createContext, useContext } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '../../utils/cn'
+
+// 复合组件上下文
+interface ${name}ContextValue {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral'
+  disabled?: boolean
+}
+
+const ${name}Context = createContext<${name}ContextValue>({})
+
+// 使用复合组件上下文的Hook
+export const use${name} = () => {
+  const context = useContext(${name}Context)
+  if (!context) {
+    throw new Error('use${name} must be used within ${name} provider')
+  }
+  return context
+}
+
+// CVA变体配置
+const ${name.toLowerCase()}Variants = cva(
+  "rounded-lg border bg-white shadow-sm",
+  {
+    variants: {
+      size: {
+        xs: "p-2 text-xs",
+        sm: "p-3 text-sm",
+        md: "p-4 text-base",
+        lg: "p-6 text-lg",
+        xl: "p-8 text-xl",
+      },
+      variant: {
+        primary: "border-primary-200 bg-primary-50",
+        secondary: "border-gray-200 bg-gray-50",
+        success: "border-green-200 bg-green-50",
+        warning: "border-yellow-200 bg-yellow-50",
+        danger: "border-red-200 bg-red-50",
+        neutral: "border-gray-200 bg-white",
+      },
+      disabled: {
+        true: "opacity-50 cursor-not-allowed",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+      variant: "neutral",
+    },
+  }
+)
+
+// 根组件Props
+export interface ${name}Props
+  extends React.HTMLAttributes<HTMLDivElement>,
+            VariantProps<typeof ${name.toLowerCase()}Variants> {
+  children: React.ReactNode
+}
+
+// 标题组件Props
+export interface ${name}HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  title?: string
+  subtitle?: string
+}
+
+// 内容组件Props
+export interface ${name}BodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
+// 底部组件Props
+export interface ${name}FooterProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
+/**
+ * ${name} 复合组件根容器
+ */
+export const ${name}Root = React.forwardRef<HTMLDivElement, ${name}Props>(
+  ({ children, size = 'md', variant = 'neutral', disabled = false, className, ...props }, ref) => {
+    return (
+      <${name}Context.Provider value={{ size, variant, disabled }}>
+        <div
+          ref={ref}
+          className={cn(${name.toLowerCase()}Variants({ size, variant, disabled }), className)}
+          data-component="${name.toLowerCase()}"
+          data-variant={variant}
+          data-size={size}
+          data-state={disabled ? 'disabled' : 'normal'}
+          {...props}
+        >
+          {children}
+        </div>
+      </${name}Context.Provider>
+    )
+  }
+)
+
+${name}Root.displayName = '${name}Root'
+
+/**
+ * ${name} 标题组件
+ */
+export const ${name}Header = React.forwardRef<HTMLDivElement, ${name}HeaderProps>(
+  ({ title, subtitle, className, ...props }, ref) => {
+    const { size } = use${name}()
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "border-b border-gray-200 pb-4 mb-4",
+          {
+            "pb-2 mb-2": size === 'xs' || size === 'sm',
+            "pb-6 mb-6": size === 'lg' || size === 'xl',
+          },
+          className
+        )}
+        {...props}
+      >
+        {title && (
+          <h3 className={cn(
+            "font-semibold text-gray-900",
+            {
+              "text-sm": size === 'xs',
+              "text-base": size === 'sm',
+              "text-lg": size === 'md',
+              "text-xl": size === 'lg',
+              "text-2xl": size === 'xl',
+            }
+          )}>
+            {title}
+          </h3>
+        )}
+        {subtitle && (
+          <p className={cn(
+            "text-gray-600 mt-1",
+            {
+              "text-xs": size === 'xs' || size === 'sm',
+              "text-sm": size === 'md',
+              "text-base": size === 'lg',
+              "text-lg": size === 'xl',
+            }
+          )}>
+            {subtitle}
+          </p>
+        )}
+      </div>
+    )
+  }
+)
+
+${name}Header.displayName = '${name}Header'
+
+/**
+ * ${name} 内容组件
+ */
+export const ${name}Body = React.forwardRef<HTMLDivElement, ${name}BodyProps>(
+  ({ children, className, ...props }, ref) => {
+    const { size } = use${name}()
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "text-gray-700",
+          {
+            "text-sm": size === 'xs' || size === 'sm',
+            "text-base": size === 'md',
+            "text-lg": size === 'lg',
+            "text-xl": size === 'xl',
+          },
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+${name}Body.displayName = '${name}Body'
+
+/**
+ * ${name} 底部组件
+ */
+export const ${name}Footer = React.forwardRef<HTMLDivElement, ${name}FooterProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "border-t border-gray-200 pt-4 mt-4 flex gap-2",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+${name}Footer.displayName = '${name}Footer'
+
+// 复合组件类型定义
+export interface ${name}Compound {
+  Root: typeof ${name}Root
+  Header: typeof ${name}Header
+  Body: typeof ${name}Body
+  Footer: typeof ${name}Footer
+}
+
+/**
+ * ${name} 复合组件
+ *
+ * @example
+ * \`\`\`tsx
+ * <${name} variant="primary" size="md">
+ *   <${name}.Header title="标题" subtitle="副标题" />
+ *   <${name}.Body>
+ *     内容区域
+ *   </${name}.Body>
+ *   <${name}.Footer>
+ *     <button>操作按钮</button>
+ *   </${name}.Footer>
+ * </${name}>
+ * \`\`\`
+ */
+export const ${name}: ${name}Compound = {
+  Root: ${name}Root,
+  Header: ${name}Header,
+  Body: ${name}Body,
+  Footer: ${name}Footer,
+}
+
+export { ${name.toLowerCase()}Variants }
+export type ${name}Variants = VariantProps<typeof ${name.toLowerCase()}Variants>
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../../utils/cn'
 

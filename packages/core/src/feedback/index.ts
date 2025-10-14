@@ -9,9 +9,6 @@ export * from './Alert'
 // 加载状态
 export * from './Loading'
 
-// 弹窗组件
-export * from './Modal'
-
 // 通知组件
 export {
   ToastProvider as NotificationProvider,
@@ -37,5 +34,3 @@ export {
   useToast as useRadixToast
 } from './Toast'
 
-// 对话框组件
-export { Dialog, type DialogProps } from './Dialog'

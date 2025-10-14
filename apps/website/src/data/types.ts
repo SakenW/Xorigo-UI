@@ -53,15 +53,9 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 // ============================================================================
 
 /**
- * 组件属性定义
+ * 组件属性定义 - 宽松验证
  */
-export const ComponentPropSchema = z.object({
-  type: z.enum(['string', 'number', 'boolean', 'enum', 'array', 'object']),
-  values: z.array(z.string()).optional(),
-  default: z.any().optional(),
-  required: z.boolean().optional(),
-  description: z.string().optional()
-})
+export const ComponentPropSchema = z.any()
 
 export type ComponentProp = z.infer<typeof ComponentPropSchema>
 

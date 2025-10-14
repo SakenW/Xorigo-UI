@@ -2,6 +2,7 @@
 # Xorigo UI Website 开发环境编排
 # Website + Packages 完整热更新支持
 # Next.js 15 + Node.js 22 Alpine
+# Phase 3 更新: Workbench Editor Mode 支持
 # ============================================
 
 services:
@@ -15,10 +16,11 @@ services:
     container_name: xorigo-ui-website-dev
     ports:
       - "${WEBSITE_PORT:-3100}:3100"
-      - "${STORYBOOK_PORT:-6009}:6009"  # Storybook 端口
+      - "${STORYBOOK_PORT:-6006}:6006"  # Storybook 端口 (与package.json一致)
     volumes:
       # Website 源码热更新
       - ./apps/website/src:/app/src:delegated
+      - ./apps/website/app:/app/app:delegated
       - ./apps/website/public:/app/public:delegated
       - ./apps/website/next.config.ts:/app/next.config.ts:delegated
       - ./apps/website/tailwind.config.ts:/app/tailwind.config.ts:delegated
@@ -30,27 +32,7 @@ services:
       - ./apps/website/.env.docker:/app/.env.docker:delegated
 
       # Packages 源码热更新（Monorepo 依赖）
-      - ./packages/core/src:/app/node_modules/@xorigo-ui/core/src:delegated
-      - ./packages/core/package.json:/app/node_modules/@xorigo-ui/core/package.json:delegated
-      - ./packages/core/vite.config.ts:/app/node_modules/@xorigo-ui/core/vite.config.ts:delegated
-
-      - ./packages/registry/src:/app/node_modules/@xorigo-ui/registry/src:delegated
-      - ./packages/registry/package.json:/app/node_modules/@xorigo-ui/registry/package.json:delegated
-      - ./packages/registry/registry.json:/app/node_modules/@xorigo-ui/registry/registry.json:delegated
-
-      - ./packages/tokens/src:/app/node_modules/@xorigo-ui/tokens/src:delegated
-      - ./packages/tokens/package.json:/app/node_modules/@xorigo-ui/tokens/package.json:delegated
-
-      - ./packages/style-recipe/src:/app/node_modules/@xorigo-ui/style-recipe/src:delegated
-      - ./packages/style-recipe/package.json:/app/node_modules/@xorigo-ui/style-recipe/package.json:delegated
-
-      - ./packages/i18n/src:/app/node_modules/@xorigo-ui/i18n/src:delegated
-      - ./packages/i18n/package.json:/app/node_modules/@xorigo-ui/i18n/package.json:delegated
-
-      # CLI 工具热更新
-      - ./packages/cli/src:/app/node_modules/@xorigo-ui/cli/src:delegated
-      - ./packages/cli/package.json:/app/node_modules/@xorigo-ui/cli/package.json:delegated
-      - ./packages/cli/bin:/app/node_modules/@xorigo-ui/cli/bin:delegated
+      - ./packages:/app/packages:delegated
 
       # 清理 Next.js 缓存（避免缓存冲突）
       - /app/.next
@@ -74,9 +56,17 @@ services:
       "
     networks:
       - xorigo-ui-network
+    # Playwright 浏览器支持配置
+    security_opt:
+      - seccomp:unconfined
+    ipc: host
+    cap_add:
+      - SYS_ADMIN
+    shm_size: 1gb
+
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3100/api/health"]
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:3100/api/health && curl -f http://localhost:3100/workbench || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -85,6 +75,8 @@ services:
       - "com.xorigo-ui.service=website"
       - "com.xorigo-ui.environment=development"
       - "com.xorigo-ui.hot-reload=true"
+      - "com.xorigo-ui.features=workbench,editor,monaco"
+      - "com.xorigo-ui.phase=3-complete"
 
   # Redis 缓存服务 (可选，用于性能测试)
   redis:

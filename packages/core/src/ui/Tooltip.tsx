@@ -3,9 +3,56 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cn } from '@/utils'
+import { cn } from '../utils/cn'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-export interface TooltipProps {
+// Tooltip 变体配置
+const tooltipVariants = cva(
+  'fixed z-50 px-3 py-2 text-sm text-white rounded-lg shadow-lg break-words',
+  {
+    variants: {
+      variant: {
+        default: 'bg-gray-900 dark:bg-gray-700',
+        success: 'bg-emerald-600 dark:bg-emerald-700',
+        warning: 'bg-amber-600 dark:bg-amber-700',
+        error: 'bg-red-600 dark:bg-red-700',
+        info: 'bg-blue-600 dark:bg-blue-700',
+      },
+      size: {
+        sm: 'px-2 py-1 text-xs',
+        md: 'px-3 py-2 text-sm',
+        lg: 'px-4 py-3 text-base',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+)
+
+// 箭头变体
+const arrowVariants = cva(
+  'absolute w-2 h-2 rotate-45',
+  {
+    variants: {
+      variant: {
+        default: 'bg-gray-900 dark:bg-gray-700',
+        success: 'bg-emerald-600 dark:bg-emerald-700',
+        warning: 'bg-amber-600 dark:bg-amber-700',
+        error: 'bg-red-600 dark:bg-red-700',
+        info: 'bg-blue-600 dark:bg-blue-700',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+)
+
+export interface TooltipProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof tooltipVariants> {
   content: React.ReactNode
   children: React.ReactElement
   placement?: 'top' | 'bottom' | 'left' | 'right'
@@ -19,19 +66,26 @@ export interface TooltipProps {
   maxWidth?: number
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({
-  content,
-  children,
-  placement = 'top',
-  delay = 200,
-  offset = 8,
-  className,
-  arrow = true,
-  disabled = false,
-  open,
-  onOpenChange,
-  maxWidth,
-}) => {
+export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
+  (
+    {
+      content,
+      children,
+      placement = 'top',
+      delay = 200,
+      offset = 8,
+      variant,
+      size,
+      className,
+      arrow = true,
+      disabled = false,
+      open,
+      onOpenChange,
+      maxWidth,
+      ...props
+    },
+    ref
+  ) => {
   const [internalIsVisible, setInternalIsVisible] = useState(false)
   
   // 使用受控模式或非受控模式
@@ -185,19 +239,21 @@ export const Tooltip: React.FC<TooltipProps> = ({
   }
 
   const getArrowStyles = () => {
-    const baseStyles = 'absolute w-2 h-2 bg-gray-900 dark:bg-gray-700 rotate-45'
+    const baseClasses = cn(
+      arrowVariants({ variant })
+    )
 
     switch (placement) {
       case 'top':
-        return cn(baseStyles, 'bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2')
+        return cn(baseClasses, 'bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2')
       case 'bottom':
-        return cn(baseStyles, 'top-0 left-1/2 -translate-x-1/2 -translate-y-1/2')
+        return cn(baseClasses, 'top-0 left-1/2 -translate-x-1/2 -translate-y-1/2')
       case 'left':
-        return cn(baseStyles, 'right-0 top-1/2 -translate-y-1/2 translate-x-1/2')
+        return cn(baseClasses, 'right-0 top-1/2 -translate-y-1/2 translate-x-1/2')
       case 'right':
-        return cn(baseStyles, 'left-0 top-1/2 -translate-y-1/2 -translate-x-1/2')
+        return cn(baseClasses, 'left-0 top-1/2 -translate-y-1/2 -translate-x-1/2')
       default:
-        return baseStyles
+        return baseClasses
     }
   }
 
@@ -205,9 +261,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          ref={ref}
           className={cn(
-            'fixed z-9999 px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg',
-            'break-words',
+            tooltipVariants({ variant, size }),
             className
           )}
           style={{
@@ -221,6 +277,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.15 }}
+          {...props}
         >
           {content}
           {arrow && <div className={getArrowStyles()} />}
@@ -235,6 +292,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
       {typeof window !== 'undefined' && createPortal(tooltipContent, document.body)}
     </>
   )
-}
+})
+
+Tooltip.displayName = 'Tooltip'
 
 export default Tooltip

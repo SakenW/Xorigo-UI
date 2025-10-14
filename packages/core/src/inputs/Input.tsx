@@ -2,11 +2,130 @@
 
 import React, { useState, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/utils'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { useTheme } from '@xorigo-ui/system'
+import { cn } from '../utils'
 import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
 
+// Input变体配置
+const inputVariants = cva(
+  // 基础样式
+  'w-full rounded-lg transition-all duration-200 focus:outline-hidden disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed',
+  {
+    variants: {
+      variant: {
+        // 默认样式 - 带边框和背景
+        default:
+          'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
+
+        // 填充样式 - 无边框，有背景色
+        filled:
+          'border-0 bg-gray-100 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20',
+
+        // 轮廓样式 - 粗边框，透明背景
+        outlined:
+          'border-2 border-gray-300 dark:border-gray-600 bg-transparent focus:border-blue-500',
+
+        // 下划线样式 - 仅底部边框
+        underlined:
+          'border-0 border-b-2 border-gray-300 dark:border-gray-600 bg-transparent rounded-none px-0 focus:border-blue-500',
+
+        // 幽灵样式 - 透明背景，hover时显示
+        ghost:
+          'border-0 bg-transparent focus:ring-2 focus:ring-blue-500/20 hover:bg-gray-100 dark:hover:bg-gray-800',
+
+        // 霓虹样式 - 赛博朋克风格
+        neon:
+          'border border-cyan-400 bg-black/50 text-cyan-400 focus:ring-cyan-400 focus:border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)] focus:shadow-[0_0_20px_rgba(6,182,212,0.5)]',
+      },
+      size: {
+        sm: 'px-3 py-1.5 text-sm',
+        md: 'px-4 py-2 text-sm',
+        lg: 'px-5 py-3 text-base',
+      },
+      status: {
+        default: '',
+        error: 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
+        success: 'border-green-500 focus:border-green-500 focus:ring-green-500/20',
+        warning: 'border-yellow-500 focus:border-yellow-500 focus:ring-yellow-500/20',
+      },
+      hasLeftElement: {
+        true: '',
+      },
+      hasRightElement: {
+        true: '',
+      },
+      floatingLabel: {
+        true: '',
+      },
+    },
+    compoundVariants: [
+      // 左侧元素时的padding
+      {
+        hasLeftElement: true,
+        floatingLabel: false,
+        size: 'sm',
+        className: 'pl-10',
+      },
+      {
+        hasLeftElement: true,
+        floatingLabel: false,
+        size: 'md',
+        className: 'pl-10',
+      },
+      {
+        hasLeftElement: true,
+        floatingLabel: false,
+        size: 'lg',
+        className: 'pl-12',
+      },
+      // 右侧元素时的padding
+      {
+        hasRightElement: true,
+        size: 'sm',
+        className: 'pr-10',
+      },
+      {
+        hasRightElement: true,
+        size: 'md',
+        className: 'pr-10',
+      },
+      {
+        hasRightElement: true,
+        size: 'lg',
+        className: 'pr-12',
+      },
+      // 浮动标签时的padding
+      {
+        floatingLabel: true,
+        size: 'sm',
+        className: 'pt-6',
+      },
+      {
+        floatingLabel: true,
+        size: 'md',
+        className: 'pt-6',
+      },
+      {
+        floatingLabel: true,
+        size: 'lg',
+        className: 'pt-7',
+      },
+    ],
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      status: 'default',
+      hasLeftElement: false,
+      hasRightElement: false,
+      floatingLabel: false,
+    },
+  }
+)
+
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'prefix'> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'prefix'>,
+    VariantProps<typeof inputVariants> {
   label?: string
   error?: string
   helperText?: string
@@ -16,12 +135,9 @@ export interface InputProps
   suffix?: string
   clearable?: boolean
   onClear?: () => void
-  inputSize?: 'sm' | 'md' | 'lg'
-  variant?: 'default' | 'filled' | 'outlined' | 'underlined' | 'ghost' | 'neon'
   floatingLabel?: boolean
   showPasswordToggle?: boolean
   loading?: boolean
-  status?: 'default' | 'success' | 'error' | 'warning'
   validationState?: 'success' | 'error' | 'warning'
   showCharCount?: boolean
   onValidationChange?: (isValid: boolean) => void
@@ -79,12 +195,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       clearable = false,
       onClear,
       id,
-      inputSize = 'md',
       variant = 'default',
+      size = 'md',
+      status,
       floatingLabel = false,
       showPasswordToggle = false,
       loading = false,
-      status = 'default',
       validationState,
       showCharCount = false,
       maxLength,
@@ -101,6 +217,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
+    const { themeConfig } = useTheme()
     const [isFocused, setIsFocused] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const inputId = id || `input-${React.useId()}`
@@ -108,8 +225,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasValue = String(value).length > 0
     const shouldShowFloatingLabel = floatingLabel && label
 
-    // 合并 status 和 validationState
-    const effectiveStatus = status !== 'default' ? status : validationState || 'default'
+    // 合并状态
+    const effectiveStatus = status || validationState || (error ? 'error' : 'default')
+
+    // 确定是否有左侧和右侧元素
+    const hasLeftElement = !!(leftIcon || prefix)
+    const hasRightElement = !!(
+      suffix ||
+      showCharCount ||
+      effectiveStatus !== 'default' ||
+      clearable ||
+      showPasswordToggle ||
+      rightIcon
+    )
 
     // 清除按钮处理
     const handleClear = () => {
@@ -146,55 +274,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onBlur?.(e)
     }
 
-    // 尺寸类
-    const sizeClasses = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2 text-sm',
-      lg: 'px-5 py-3 text-base',
-    }
-
-    // 变体类
-    const variantClasses = {
-      default: cn(
-        'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800',
-        'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
-        error || effectiveStatus === 'error'
-          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-          : '',
-        effectiveStatus === 'success'
-          ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
-          : '',
-        effectiveStatus === 'warning'
-          ? 'border-yellow-500 focus:border-yellow-500 focus:ring-yellow-500/20'
-          : ''
-      ),
-      filled: cn(
-        'border-0 bg-gray-100 dark:bg-gray-900',
-        'focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20',
-        error || effectiveStatus === 'error' ? 'bg-red-50 dark:bg-red-950/20' : ''
-      ),
-      outlined: cn(
-        'border-2 border-gray-300 dark:border-gray-600 bg-transparent',
-        'focus:border-blue-500',
-        error || effectiveStatus === 'error' ? 'border-red-500' : ''
-      ),
-      underlined: cn(
-        'border-0 border-b-2 border-gray-300 dark:border-gray-600 bg-transparent rounded-none px-0',
-        'focus:border-blue-500',
-        error || effectiveStatus === 'error' ? 'border-red-500' : ''
-      ),
-      ghost: cn(
-        'border-0 bg-transparent',
-        'focus:ring-2 focus:ring-blue-500/20 hover:bg-gray-100 dark:hover:bg-gray-800'
-      ),
-      neon: cn(
-        'border border-cyan-400 bg-black/50 text-cyan-400',
-        'focus:ring-cyan-400 focus:border-cyan-400',
-        'shadow-[0_0_10px_rgba(6,182,212,0.3)] focus:shadow-[0_0_20px_rgba(6,182,212,0.5)]'
-      ),
-    }
-
     const actualType = type === 'password' && showPassword ? 'text' : type
+
+    // 获取主题样式
+    const getInputThemeStyle = (): React.CSSProperties => {
+      if (variant === 'neon') {
+        return {
+          boxShadow: `0 0 10px ${themeConfig.glow}`,
+          borderColor: (themeConfig.colors?.[400] as unknown as string) || '#38bdf8',
+        }
+      }
+      return {}
+    }
 
     return (
       <div className={cn('w-full', className)}>
@@ -213,23 +304,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {/* 左侧前缀区域 */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
-            {/* 前缀图标 */}
-            {leftIcon && (
-              <div className="ml-3 text-gray-400 flex items-center">
-                {leftIcon}
-              </div>
-            )}
-            {/* 前缀文本 */}
-            {prefix && (
-              <span className={cn(
-                'text-gray-500 dark:text-gray-400 select-none',
-                leftIcon ? 'ml-2' : 'ml-3'
-              )}>
-                {prefix}
-              </span>
-            )}
-          </div>
+          {hasLeftElement && (
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
+              {/* 前缀图标 */}
+              {leftIcon && (
+                <div className="ml-3 text-gray-400 flex items-center">
+                  {leftIcon}
+                </div>
+              )}
+              {/* 前缀文本 */}
+              {prefix && (
+                <span className={cn(
+                  'text-gray-500 dark:text-gray-400 select-none',
+                  leftIcon ? 'ml-2' : 'ml-3'
+                )}>
+                  {prefix}
+                </span>
+              )}
+            </div>
+          )}
 
           {/* 输入框 */}
           <div className="relative">
@@ -245,19 +338,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               maxLength={maxLength}
               placeholder={placeholder}
               className={cn(
-                'w-full rounded-lg transition-all duration-200',
+                inputVariants({
+                  variant,
+                  size,
+                  status: effectiveStatus as any,
+                  hasLeftElement,
+                  hasRightElement,
+                  floatingLabel,
+                }),
+                // 主题相关的额外样式
                 'text-gray-900 dark:text-gray-100',
                 'placeholder:text-gray-500 dark:placeholder:text-gray-400',
-                'disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed',
-                'focus:outline-hidden',
-                sizeClasses[inputSize],
-                variantClasses[variant],
-                leftIcon || prefix ? (leftIcon && prefix ? 'pl-20' : leftIcon ? 'pl-10' : 'pl-16') : '',
-                'pr-10',
-                shouldShowFloatingLabel && (isFocused || hasValue) ? 'pt-5' : ''
+                variant === 'neon' && 'text-cyan-400'
               )}
+              style={getInputThemeStyle()}
               whileFocus={{
-                scale: 1.01,
+                scale: disabled ? 1 : 1.01,
                 transition: { duration: 0.2 },
               }}
               // 过滤掉与Framer Motion冲突的属性
@@ -282,62 +378,64 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
 
             {/* 后缀区域 */}
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-              {/* 后缀文本 */}
-              {suffix && (
-                <span className="text-gray-500 dark:text-gray-400 select-none">
-                  {suffix}
-                </span>
-              )}
+            {hasRightElement && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                {/* 后缀文本 */}
+                {suffix && (
+                  <span className="text-gray-500 dark:text-gray-400 select-none">
+                    {suffix}
+                  </span>
+                )}
 
-              {/* 字符计数 */}
-              {showCharCount && maxLength && (
-                <span
-                  className={cn(
-                    'text-xs',
-                    String(value).length >= maxLength
-                      ? 'text-red-500'
-                      : 'text-gray-400'
-                  )}
-                >
-                  {String(value).length}/{maxLength}
-                </span>
-              )}
+                {/* 字符计数 */}
+                {showCharCount && maxLength && (
+                  <span
+                    className={cn(
+                      'text-xs',
+                      String(value).length >= maxLength
+                        ? 'text-red-500'
+                        : 'text-gray-400'
+                    )}
+                  >
+                    {String(value).length}/{maxLength}
+                  </span>
+                )}
 
-              {/* 状态图标 */}
-              {effectiveStatus !== 'default' && getStatusIcon()}
+                {/* 状态图标 */}
+                {effectiveStatus !== 'default' && getStatusIcon()}
 
-              {/* 清除按钮 */}
-              {clearable && hasValue && !disabled && (
-                <motion.button
-                  type="button"
-                  onClick={handleClear}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label="清除"
-                >
-                  <X className="w-4 h-4" />
-                </motion.button>
-              )}
+                {/* 清除按钮 */}
+                {clearable && hasValue && !disabled && (
+                  <motion.button
+                    type="button"
+                    onClick={handleClear}
+                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    aria-label="清除"
+                  >
+                    <X className="w-4 h-4" />
+                  </motion.button>
+                )}
 
-              {/* 密码显示切换 */}
-              {type === 'password' && showPasswordToggle && (
-                <motion.button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label={showPassword ? '隐藏密码' : '显示密码'}
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </motion.button>
-              )}
+                {/* 密码显示切换 */}
+                {type === 'password' && showPasswordToggle && (
+                  <motion.button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    aria-label={showPassword ? '隐藏密码' : '显示密码'}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </motion.button>
+                )}
 
-              {/* 自定义后缀图标 */}
-              {rightIcon && <div className="text-gray-400">{rightIcon}</div>}
-            </div>
+                {/* 自定义后缀图标 */}
+                {rightIcon && <div className="text-gray-400">{rightIcon}</div>}
+              </div>
+            )}
           </div>
         </div>
 

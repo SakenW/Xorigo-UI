@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/utils'
+import { cn } from '../utils/cn'
 
 // Spinner 变体配置
 const spinnerVariants = cva('border-2 border-current rounded-full', {
@@ -20,8 +20,9 @@ const spinnerVariants = cva('border-2 border-current rounded-full', {
   },
 })
 
-export interface SpinnerProps extends VariantProps<typeof spinnerVariants> {
-  className?: string
+export interface SpinnerProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof spinnerVariants> {
   color?: string
 }
 
@@ -29,15 +30,19 @@ export interface SpinnerProps extends VariantProps<typeof spinnerVariants> {
  * Spinner 加载指示器组件
  * 使用 Framer Motion 实现旋转动画
  */
-export const Spinner: React.FC<SpinnerProps> = ({ size, className, color }) => {
-  return (
-    <motion.div
-      className={cn(spinnerVariants({ size }), 'border-t-transparent', className)}
-      style={color ? { borderColor: color, borderTopColor: 'transparent' } : undefined}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
-    />
-  )
-}
+export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
+  ({ size, className, color, ...props }, ref) => {
+    return (
+      <motion.div
+        ref={ref}
+        className={cn(spinnerVariants({ size }), 'border-t-transparent', className)}
+        style={color ? { borderColor: color, borderTopColor: 'transparent' } : undefined}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+        {...props}
+      />
+    )
+  }
+)
 
 Spinner.displayName = 'Spinner'
