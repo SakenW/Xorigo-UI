@@ -29,12 +29,12 @@ const marketingNavigation = [
   },
   {
     name: '组件库',
-    href: '/gallery',
+    href: '/workbench?mode=gallery',
     icon: BarChart3
   },
   {
     name: '演练场',
-    href: '/playground',
+    href: '/workbench?mode=editor',
     icon: Code2
   },
   {
@@ -224,12 +224,12 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/gallery" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                  <Link href="/workbench?mode=gallery" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                     组件库
                   </Link>
                 </li>
                 <li>
-                  <Link href="/playground" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                  <Link href="/workbench?mode=editor" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                     演练场
                   </Link>
                 </li>

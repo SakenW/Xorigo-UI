@@ -4,103 +4,154 @@
  * 不包含：单个组件、在线编辑器、组件文档
  */
 
-const templates = [
-  {
-    id: 'landing-page',
-    name: '营销落地页',
-    category: 'starter',
-    description: '现代化的产品营销落地页模板',
-    preview: '/templates/landing-preview.jpg',
-    technologies: ['Next.js', 'Tailwind', 'Framer Motion'],
-  },
-  {
-    id: 'admin-dashboard',
-    name: '管理后台',
-    category: 'application',
-    description: '功能完整的管理后台模板',
-    preview: '/templates/admin-preview.jpg',
-    technologies: ['Next.js', 'TypeScript', 'Recharts'],
-  },
-  {
-    id: 'ecommerce',
-    name: '电商网站',
-    category: 'industry',
-    description: '完整的电子商务解决方案',
-    preview: '/templates/ecommerce-preview.jpg',
-    technologies: ['Next.js', 'Stripe', 'Prisma'],
-  },
-]
+'use client'
+
+import { useState, useMemo } from 'react'
+import { templates } from '@/data/templates'
+import { TemplateFilters } from '@/types/templates'
+import { filterTemplates } from '@/data/templates'
+import { TemplateFilters as TemplateFiltersComponent } from '@/components/templates/template-filters'
+import { TemplateGrid } from '@/components/templates/template-grid'
+import { Button } from '@xorigo-ui/core'
 
 export default function TemplatesPage() {
+  const [filters, setFilters] = useState<TemplateFilters>({})
+  const [loading, setLoading] = useState(false)
+
+  // 应用筛选条件
+  const filteredTemplates = useMemo(() => {
+    return filterTemplates(templates, filters)
+  }, [filters])
+
+  // 处理筛选条件变化
+  const handleFiltersChange = (newFilters: TemplateFilters) => {
+    setLoading(true)
+    // 模拟加载状态
+    setTimeout(() => {
+      setFilters(newFilters)
+      setLoading(false)
+    }, 300)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Templates 项目模板</h1>
+      {/* 页面头部 */}
+      <div className="bg-gradient-to-br from-blue-600 to-purple-700 text-white">
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              项目模板库
+            </h1>
+            <p className="text-xl text-blue-100 mb-8">
+              快速启动您的下一个项目，使用精心设计的模板节省开发时间
+            </p>
 
-        {/* 分类筛选 */}
-        <div className="mb-8">
-          <div className="flex gap-4">
-            <button className="px-4 py-2 bg-blue-500 text-white rounded">
-              全部
-            </button>
-            <button className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded">
-              基础模板
-            </button>
-            <button className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded">
-              行业方案
-            </button>
-            <button className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded">
-              完整应用
-            </button>
-          </div>
-        </div>
-
-        {/* 模板网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {templates.map((template) => (
-            <div
-              key={template.id}
-              className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden hover:shadow-xl transition-shadow"
-            >
-              {/* 预览图 */}
-              <div className="h-48 bg-gray-200 dark:bg-gray-700">
-                {/* TODO: 添加实际预览图 */}
-                <div className="flex items-center justify-center h-full text-gray-500">
-                  预览图
-                </div>
+            {/* 快速统计 */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold mb-2">{templates.length}</div>
+                <div className="text-blue-100">精选模板</div>
               </div>
-
-              {/* 模板信息 */}
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {template.description}
-                </p>
-
-                {/* 技术栈标签 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {template.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              <div className="text-center">
+                <div className="text-3xl font-bold mb-2">
+                  {templates.reduce((sum, t) => sum + t.stats.downloads, 0).toLocaleString()}
                 </div>
-
-                {/* 操作按钮 */}
-                <div className="flex gap-2">
-                  <button className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                    使用模板
-                  </button>
-                  <button className="px-4 py-2 border rounded hover:bg-gray-50 dark:hover:bg-gray-700">
-                    预览
-                  </button>
+                <div className="text-blue-100">总下载量</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold mb-2">
+                  {new Set(templates.flatMap(t => t.technologies.map(tech => tech.name))).size}
                 </div>
+                <div className="text-blue-100">技术栈</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold mb-2">100%</div>
+                <div className="text-blue-100">开源免费</div>
               </div>
             </div>
-          ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* 筛选侧边栏 */}
+          <div className="lg:col-span-1">
+            <TemplateFiltersComponent
+              filters={filters}
+              onFiltersChange={handleFiltersChange}
+              totalCount={templates.length}
+              filteredCount={filteredTemplates.length}
+            />
+          </div>
+
+          {/* 主内容区域 */}
+          <div className="lg:col-span-3">
+            {/* 操作栏 */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  模板列表
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                  {filteredTemplates.length === templates.length
+                    ? `显示全部 ${templates.length} 个模板`
+                    : `已筛选出 ${filteredTemplates.length} 个模板，共 ${templates.length} 个`
+                  }
+                </p>
+              </div>
+
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  🔄 刷新
+                </Button>
+                <Button variant="outline" size="sm">
+                  📊 统计
+                </Button>
+              </div>
+            </div>
+
+            {/* 模板网格 */}
+            <TemplateGrid templates={filteredTemplates} loading={loading} />
+
+            {/* 空状态提示 */}
+            {filteredTemplates.length === 0 && !loading && (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  没有找到匹配的模板
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  尝试调整筛选条件或搜索关键词
+                </p>
+                <Button onClick={() => setFilters({})}>
+                  清除所有筛选条件
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 底部 CTA */}
+      <div className="bg-blue-50 dark:bg-blue-900/20 border-t dark:border-blue-800">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              没有找到合适的模板？
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
+              我们正在不断增加新的模板。如果您有特定的需求或建议，欢迎向我们反馈。
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Button>
+                💬 提交建议
+              </Button>
+              <Button variant="outline">
+                📧 联系我们
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

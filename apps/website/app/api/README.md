@@ -143,7 +143,7 @@ curl "http://localhost:3100/api/search?q=form&type=tags"
         "id": "button",
         "title": "Button",
         "description": "可点击的按钮组件",
-        "url": "/gallery?component=button",
+        "url": "/workbench?mode=gallery&component=button",
         "category": "ui",
         "tags": ["interactive", "clickable"],
         "score": 100

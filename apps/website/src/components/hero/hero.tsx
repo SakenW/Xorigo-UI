@@ -78,7 +78,7 @@ export function Hero() {
             <Button
               size="lg"
               className="text-base px-8 py-3"
-              onClick={() => window.location.href = '/gallery'}
+              onClick={() => window.location.href = '/workbench?mode=gallery'}
             >
               开始探索
               <ArrowRight className="ml-2 h-4 w-4" />

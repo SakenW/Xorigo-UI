@@ -8,9 +8,9 @@ export function middleware(request: NextRequest) {
   const redirects: Record<string, string> = {
     '/adoption': '/docs/getting-started',
     '/tokens': '/docs/tokens',
-    '/layout-demo': '/gallery/layout',
-    // 临时重定向，帮助用户适应新的路由结构
-    '/dashboard': '/gallery',
+    '/layout-demo': '/workbench?mode=gallery&component=layout',
+    // 临时重定向，帮助用户适应新的路由结构 - 避免链式重定向，直接指向最终目标
+    '/dashboard': '/workbench?mode=gallery',
   }
 
   // 检查是否需要重定向

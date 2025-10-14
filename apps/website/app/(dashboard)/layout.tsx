@@ -25,19 +25,19 @@ interface DashboardLayoutProps {
 const dashboardNavigation = [
   {
     name: '组件库',
-    href: '/gallery',
+    href: '/workbench?mode=gallery',
     icon: BarChart3,
     description: '浏览所有UI组件'
   },
   {
     name: '布局演示',
-    href: '/gallery/layout',
+    href: '/workbench?mode=gallery&component=layout',
     icon: Layout,
     description: '布局组件示例'
   },
   {
     name: '演练场',
-    href: '/playground',
+    href: '/workbench?mode=editor',
     icon: Code2,
     description: '实时预览编辑器'
   },

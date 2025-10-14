@@ -288,7 +288,9 @@ export function useEditorState() {
     selectedExample,
     setSelectedExample,
     isLoading,
-    error
+    setIsLoading,
+    error,
+    setError
   } = useWorkbench()
 
   return {
@@ -299,7 +301,9 @@ export function useEditorState() {
     selectedExample,
     setSelectedExample,
     isLoading,
+    setIsLoading,
     error,
+    setError,
   }
 }
 

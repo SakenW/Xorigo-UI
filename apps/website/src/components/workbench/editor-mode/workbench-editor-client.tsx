@@ -36,13 +36,24 @@ const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
  * Workbench Editor Mode 客户端组件
  * 整合到 Workbench Context 系统，提供代码编辑和实时预览功能
  */
+// 组件示例接口
+interface ComponentExample {
+  id: string
+  name: string
+  description: string
+  category: string
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  tags: string[]
+  code: string
+}
+
 interface WorkbenchEditorClientProps {
-  examples?: typeof componentExamples
+  examples?: ComponentExample[]
   categories?: Array<{ id: string; name: string; icon: string }>
 }
 
 export function WorkbenchEditorClient({
-  examples = componentExamples,
+  examples = [],
   categories,
 }: WorkbenchEditorClientProps) {
   const searchParams = useSearchParams()
@@ -251,10 +262,10 @@ export function WorkbenchEditorClient({
       setCode(examples[0].code)
       setIsLoading(false)
     }
-  }, [searchParams, examples, setSelectedExample, setCode, setIsLoading, selectedExample])
+  }, [searchParams, examples, setSelectedExample, setCode, selectedExample])
 
   // 选择示例
-  const selectExample = useCallback((example: typeof componentExamples[0]) => {
+  const selectExample = useCallback((example: ComponentExample) => {
     setSelectedExample(example)
     setCode(example.code)
     setError(null)

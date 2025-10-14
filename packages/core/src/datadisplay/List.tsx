@@ -247,4 +247,4 @@ export const ListFromData: React.FC<ListFromDataProps> = ({
   )
 }
 
-export { List, ListItem, listVariants, listItemVariants }
+export { List, ListItem, listVariants as dataListVariants, listItemVariants as dataListItemVariants }

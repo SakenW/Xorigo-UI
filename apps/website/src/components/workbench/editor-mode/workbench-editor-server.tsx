@@ -1,12 +1,10 @@
 /**
  * Workbench Editor Mode 服务端组件
  *
- * 整合 Playground 功能，提供组件演练场
+ * 简化版本，只负责传递数据给客户端组件
  * 遵循组件源规则：所有UI组件来自@xorigo-ui/core
  */
 
-import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
-import { Badge } from '@xorigo-ui/core'
 import { Suspense } from 'react'
 import { WorkbenchEditorClient } from './workbench-editor-client'
 
@@ -174,88 +172,26 @@ const categories = [
 
 /**
  * Workbench Editor Mode 服务端组件
- * 处理静态内容和数据，交互逻辑委托给客户端组件
+ * 简化版本，只负责传递数据给客户端组件
  */
 export function WorkbenchEditorServer() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* 页面标题 - 纯静态内容 */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 text-foreground">
-          Workbench Editor
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          实时编辑和预览 Xorigo UI 组件，从 Gallery 跳转或选择预设示例
-        </p>
-
-        {/* 功能统计 */}
-        <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-blue-500 rounded-full" />
-            <span>{componentExamples.length} 个示例</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-green-500 rounded-full" />
-            <span>Monaco 编辑器</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-purple-500 rounded-full" />
-            <span>实时预览</span>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">
+              编辑器加载中...
+            </p>
           </div>
         </div>
-      </div>
-
-      {/* 功能介绍 - 静态内容 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-4xl mb-4">⚡</div>
-            <h3 className="text-lg font-semibold mb-2">实时编辑</h3>
-            <p className="text-muted-foreground">
-              使用 Monaco 编辑器实时编辑代码，即时查看效果
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-4xl mb-4">🔄</div>
-            <h3 className="text-lg font-semibold mb-2">热重载</h3>
-            <p className="text-muted-foreground">
-              代码修改后自动重新渲染，无需手动刷新
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="text-4xl mb-4">🎯</div>
-            <h3 className="text-lg font-semibold mb-2">无缝跳转</h3>
-            <p className="text-muted-foreground">
-              从 Gallery 直接跳转到 Editor，无缝工作流程
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 客户端组件 - 使用 Suspense 包装 */}
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center h-96">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">
-                编辑器加载中...
-              </p>
-            </div>
-          </div>
-        }
-      >
-        <WorkbenchEditorClient
-          examples={componentExamples}
-          categories={categories}
-        />
-      </Suspense>
-    </div>
+      }
+    >
+      <WorkbenchEditorClient
+        examples={componentExamples}
+        categories={categories}
+      />
+    </Suspense>
   )
 }

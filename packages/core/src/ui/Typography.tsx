@@ -146,7 +146,7 @@ export const Blockquote: React.FC<Omit<TypographyProps, 'variant' | 'as'>> = (pr
   <Typography variant="blockquote" as="blockquote" {...props} />
 )
 
-export const Code: React.FC<Omit<TypographyProps, 'variant' | 'as'>> = (props) => (
+export const TextCode: React.FC<Omit<TypographyProps, 'variant' | 'as'>> = (props) => (
   <Typography variant="code" as="code" {...props} />
 )
 

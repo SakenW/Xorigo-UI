@@ -1,0 +1,105 @@
+# ============================================
+# Xorigo UI 生产环境 Dockerfile - Phase 6 优化版
+# 多阶段构建 + 性能优化 + 安全加固 + 监控集成
+# ============================================
+
+# ==============================
+# Stage 1: 依赖安装阶段 (缓存优化)
+# ==============================
+FROM node:22-alpine AS deps
+
+# 安全增强 - 移除不必要的包
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+# 复制包管理文件
+COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
+COPY packages/core/package.json ./packages/core/
+COPY apps/website/package.json ./apps/website/
+
+# 包管理器选择和安装
+RUN \
+  if [ -f pnpm-lock.yaml ]; then \
+    corepack enable pnpm && \
+    pnpm install --frozen-lockfile --prod=false; \
+  elif [ -f yarn.lock ]; then \
+    yarn install --frozen-lockfile --mode=modules; \
+  elif [ -f package-lock.json ]; then \
+    npm ci; \
+  else \
+    npm install; \
+  fi
+
+# ==============================
+# Stage 2: 构建阶段
+# ==============================
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# 复制依赖
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# 设置环境变量
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# 构建应用
+RUN npm run build:website
+
+# 生成静态导出（如果适用）
+RUN npx next build apps/website && \
+    npx next export apps/website -o apps/website/out
+
+# ==============================
+# Stage 3: 生产环境 - Nginx 优化版
+# ==============================
+FROM nginx:alpine AS production
+
+# 安装必要工具和安全更新
+RUN apk add --no-cache \
+    curl \
+    bash \
+    tzdata \
+    && rm -rf /var/cache/apk/*
+
+# 设置时区
+ENV TZ=Asia/Shanghai
+
+# 复制优化的 Nginx 配置
+COPY config/nginx/nginx.prod.conf /etc/nginx/nginx.conf
+COPY config/nginx/default.prod.conf /etc/nginx/conf.d/default.conf
+
+# 从构建阶段复制构建产物
+COPY --from=builder /app/apps/website/out /usr/share/nginx/html
+
+# 复制健康检查脚本
+COPY scripts/health-check.sh /usr/local/bin/health-check.sh
+RUN chmod +x /usr/local/bin/health-check.sh
+
+# 创建日志目录
+RUN mkdir -p /var/log/nginx /app/logs
+
+# 设置权限
+RUN chown -R nginx:nginx /usr/share/nginx/html /var/log/nginx /app/logs
+
+# 性能优化配置
+RUN echo "nginx: worker_processes auto; worker_rlimit_nofile 65535;" > /etc/nginx/conf.d/performance.conf
+
+# 健康检查增强
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=5 \
+  CMD bash -c 'curl -f http://localhost:3100/health && curl -f http://localhost:3100/api/health || exit 1'
+
+# 暴露端口
+EXPOSE 3100
+
+# 非root用户运行
+RUN addgroup -g 1001 -S nginx && \
+    adduser -S nginx -u 1001
+
+USER nginx
+
+# 启动命令 - 包含监控集成
+CMD ["nginx", "-g", "daemon on; master_process on;"]
