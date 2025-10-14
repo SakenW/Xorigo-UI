@@ -11,7 +11,7 @@ import {
   Globe,
   Layers,
   Type
-} from 'lucide-react'
+} from '@/components/ui/lucide-icons'
 import { FeaturesClient } from './features-client'
 
 const features = [

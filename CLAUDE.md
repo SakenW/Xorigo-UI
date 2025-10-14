@@ -48,6 +48,94 @@
 
 ---
 
+## 🐳 Docker 开发环境规范
+
+### 🚫 严格禁止：禁止运行 npm run dev
+
+**🚨 重要规则**：**本项目使用 Docker 热更新容器进行开发，严禁在任何情况下运行 `npm run dev` 命令！**
+
+**⚠️ 违规后果警告**：
+- 立即终止所有 `npm run dev` 进程
+- 可能导致端口冲突和开发环境混乱
+- 违反项目开发规范，将被强制清理
+
+#### 正确的开发流程：
+
+1. **✅ 启动开发环境**：
+   ```bash
+   # 启动 Docker 热更新容器
+   npm run docker:dev
+
+   # 或者直接使用 Docker
+   docker-compose -f docker-compose.dev.monorepo.yml up
+   ```
+
+2. **✅ 访问应用**：
+   ```
+   http://localhost:3100  # Docker 容器热更新端口
+   ```
+
+3. **✅ 热更新**：
+   - 修改代码后自动重新编译
+   - 浏览器自动刷新显示更改
+   - 无需手动重启任何服务
+
+#### 🚫 禁止的操作：
+
+```bash
+# ❌ 绝对禁止这些命令！
+npm run dev
+cd apps/website && npm run dev
+yarn dev
+pnpm dev
+```
+
+#### ⚠️ 违规后果：
+
+1. **端口冲突**：`npm run dev` 会占用端口 3000/3001，与 Docker 容器的 3100 端口冲突
+2. **代码不同步**：后台进程使用旧代码，导致开发体验不一致
+3. **热更新失效**：多个开发服务器会导致热更新混乱
+4. **资源浪费**：多个进程同时运行消耗系统资源
+
+#### 🛠️ 故障排除：
+
+如果遇到端口冲突或多余进程：
+
+```bash
+# 🚨 强制清理所有违规进程（最高权限）
+pkill -9 -f "npm run dev"
+pkill -9 -f "next dev"
+pkill -9 -f "node.*next"
+sudo killall -9 node 2>/dev/null
+
+# 🔥 彻底清理顽固进程
+pgrep -f "npm.*run.*dev" | xargs -r kill -9 2>/dev/null
+pgrep -f "next.*dev" | xargs -r kill -9 2>/dev/null
+
+# 🧹 验证清理结果
+ps aux | grep -E "(npm.*run.*dev|next.*dev)" | grep -v grep || echo "✅ 所有违规进程已清理"
+
+# ✅ 验证只有 Docker 容器在运行
+docker ps | grep xorigo
+
+# ✅ 确认端口状态
+curl -I http://localhost:3100  # 应该返回 200
+curl -I http://localhost:3000  # 应该无响应
+curl -I http://localhost:3001  # 应该无响应
+```
+
+#### 📋 开发环境检查清单：
+
+- [ ] Docker 容器运行在端口 3100
+- [ ] 端口 3000/3001 没有其他服务
+- [ ] 代码修改能自动热更新
+- [ ] 浏览器自动刷新功能正常
+- [ ] 没有运行 `npm run dev` 进程
+
+**记住**：**Docker 热更新容器是唯一正确的开发方式！**
+
+---
+
 ## 🎨 组件设计核心原则
 
 ### 1. 原子化设计 (Atomic Design)

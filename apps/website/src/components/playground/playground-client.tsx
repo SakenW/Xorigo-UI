@@ -1,11 +1,23 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { PlaygroundErrorBoundary } from '@/components/errors'
 import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
 import { Badge } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
+import { XorigoUIProvider } from './xorigo-ui-provider'
 import dynamic from 'next/dynamic'
+
+// 动态导入 ComponentPreview 避免服务端渲染问题
+const ComponentPreview = dynamic(() => import('./component-preview').then(mod => ({ default: mod.ComponentPreview })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-full bg-muted animate-pulse">
+      <div className="text-muted-foreground">组件预览加载中...</div>
+    </div>
+  ),
+})
 
 // 动态导入 Monaco Editor 避免服务端渲染问题
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
@@ -126,9 +138,52 @@ export default function FormExample() {
 ]
 
 export function PlaygroundClient() {
+  const searchParams = useSearchParams()
   const [selectedExample, setSelectedExample] = useState(componentExamples[0])
   const [code, setCode] = useState(componentExamples[0].code)
   const [activeTheme, setActiveTheme] = useState('default')
+
+  // 处理来自 Gallery 的 URL 参数
+  useEffect(() => {
+    const recipeId = searchParams.get('recipe')
+    const recipeName = searchParams.get('name')
+
+    if (recipeId && recipeName) {
+      // 尝试匹配现有示例
+      const matchedExample = componentExamples.find(example => example.id === recipeId)
+
+      if (matchedExample) {
+        setSelectedExample(matchedExample)
+        setCode(matchedExample.code)
+      } else {
+        // 如果没有匹配的示例，创建一个基于配方名称的示例
+        const customExample = {
+          id: recipeId,
+          name: decodeURIComponent(recipeName),
+          description: '来自 Gallery 的组件示例',
+          code: `export default function ${decodeURIComponent(recipeName).replace(/[^a-zA-Z0-9]/g, '')}Example() {
+  return (
+    <div className="p-6 border rounded-lg bg-card">
+      <h3 className="text-lg font-semibold mb-4">
+        ${decodeURIComponent(recipeName)}
+      </h3>
+      <p className="text-muted-foreground">
+        这是一个来自 Gallery 的组件示例。
+      </p>
+      <div className="mt-4">
+        <Button>示例按钮</Button>
+      </div>
+    </div>
+  )
+}`
+        }
+
+        // 将自定义示例添加到示例列表（临时）
+        setSelectedExample(customExample)
+        setCode(customExample.code)
+      }
+    }
+  }, [searchParams])
 
   // 选择示例
   const selectExample = useCallback((example: typeof componentExamples[0]) => {
@@ -149,7 +204,8 @@ export function PlaygroundClient() {
 
   return (
     <PlaygroundErrorBoundary>
-      <div className="flex h-screen bg-background">
+      <XorigoUIProvider>
+        <div className="flex h-screen bg-background">
         {/* 左侧编辑器区域 */}
         <div className="w-1/2 flex flex-col border-r border-border">
           {/* 编辑器头部 */}
@@ -244,18 +300,12 @@ export function PlaygroundClient() {
                 </CardHeader>
                 <CardContent className={`p-6 ${activeTheme === 'dark' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
                   <div id="preview-container">
-                    {/* TODO: 动态渲染 React 组件 */}
-                    <div className="p-4 border-2 border-dashed border-muted rounded-lg">
-                      <p className="text-center text-muted-foreground">
-                        组件预览功能开发中...
-                      </p>
-                      <div className="mt-4 text-sm">
-                        <p>当前代码：</p>
-                        <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto max-h-40">
-                          {code}
-                        </pre>
-                      </div>
-                    </div>
+                    <ComponentPreview
+                      componentName={selectedExample.name}
+                      props={{ theme: activeTheme }}
+                      code={code}
+                      className="w-full"
+                    />
                   </div>
                 </CardContent>
               </Card>
@@ -263,6 +313,7 @@ export function PlaygroundClient() {
           </div>
         </div>
       </div>
+      </XorigoUIProvider>
     </PlaygroundErrorBoundary>
   )
 }

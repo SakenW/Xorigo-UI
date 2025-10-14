@@ -3,41 +3,74 @@
 import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cn } from '@/utils'
+import { cn } from '../utils/cn'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
+
+// 模态框变体
+const modalVariants = cva(
+  'relative w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl',
+  {
+    variants: {
+      variant: {
+        default: '',
+        danger: 'border-2 border-red-200 dark:border-red-800',
+        warning: 'border-2 border-amber-200 dark:border-amber-800',
+        success: 'border-2 border-emerald-200 dark:border-emerald-800',
+        info: 'border-2 border-blue-200 dark:border-blue-800',
+      },
+      size: {
+        sm: 'max-w-md',
+        md: 'max-w-lg',
+        lg: 'max-w-2xl',
+        xl: 'max-w-4xl',
+        full: 'max-w-full mx-4',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+)
 
 // 模态框接口
-export interface ModalProps {
+export interface ModalProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof modalVariants> {
   open: boolean
   onClose: () => void
   title?: string
   children: React.ReactNode
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
-  variant?: 'default' | 'danger' | 'warning' | 'success' | 'info'
   closable?: boolean
   maskClosable?: boolean
   centered?: boolean
   footer?: React.ReactNode
-  className?: string
   width?: string | number
   zIndex?: number
 }
 
 // 模态框组件
-export const Modal: React.FC<ModalProps> = ({
-  open,
-  onClose,
-  title,
-  children,
-  size = 'md',
-  variant = 'default',
-  closable = true,
-  maskClosable = true,
-  centered = false,
-  footer,
-  className = '',
-  width,
-  zIndex = 1000,
-}) => {
+export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
+  (
+    {
+      open,
+      onClose,
+      title,
+      children,
+      size,
+      variant,
+      closable = true,
+      maskClosable = true,
+      centered = false,
+      footer,
+      className,
+      width,
+      zIndex = 1000,
+      ...props
+    },
+    ref
+  ) => {
   // 处理ESC键关闭
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -63,23 +96,13 @@ export const Modal: React.FC<ModalProps> = ({
     }
   }, [open])
 
-  const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
-    full: 'max-w-full mx-4',
+  const variantIcons: Record<string, React.ReactNode> = {
+    danger: <AlertCircle className="w-5 h-5 text-red-500" />,
+    warning: <AlertTriangle className="w-5 h-5 text-amber-500" />,
+    success: <CheckCircle className="w-5 h-5 text-emerald-500" />,
+    info: <Info className="w-5 h-5 text-blue-500" />,
+    default: null,
   }
-
-  const variantIcons: Record<string, string> = {
-    danger: '⚠️',
-    warning: '⚠️',
-    success: '✅',
-    info: 'ℹ️',
-    default: '',
-  }
-
-  const modalWidth = width || sizeClasses[size]
 
   const handleMaskClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && maskClosable) {
@@ -115,12 +138,17 @@ export const Modal: React.FC<ModalProps> = ({
             style={{ zIndex: zIndex + 1 }}
           >
             <motion.div
+              ref={ref}
               className={cn(
-                'relative w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl',
-                modalWidth,
+                modalVariants({ variant, size }),
                 className
               )}
-              style={{ maxHeight: '90vh', overflow: 'auto' }}
+              style={{
+                maxHeight: '90vh',
+                overflow: 'auto',
+                width: width || undefined
+              }}
+              {...props}
             >
               {/* 标题栏 */}
               {(title || closable) && (
@@ -141,8 +169,9 @@ export const Modal: React.FC<ModalProps> = ({
                       className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
+                      aria-label="Close modal"
                     >
-                      ✕
+                      <X className="w-5 h-5" />
                     </motion.button>
                   )}
                 </div>
@@ -165,38 +194,65 @@ export const Modal: React.FC<ModalProps> = ({
   )
 
   return createPortal(modalContent, document.body)
-}
+})
 
 Modal.displayName = 'Modal'
 
+// 抽屉变体
+const drawerVariants = cva(
+  'fixed bg-white dark:bg-gray-800 shadow-2xl',
+  {
+    variants: {
+      placement: {
+        left: 'left-0 top-0 h-full',
+        right: 'right-0 top-0 h-full',
+        top: 'top-0 left-0 right-0 w-full',
+        bottom: 'bottom-0 left-0 right-0 w-full',
+      },
+      size: {
+        sm: 'w-80 h-64',
+        md: 'w-96 h-96',
+        lg: 'w-[32rem] h-[32rem]',
+      },
+    },
+    defaultVariants: {
+      placement: 'right',
+      size: 'md',
+    },
+  }
+)
+
 // 抽屉组件
-export interface DrawerProps {
+export interface DrawerProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof drawerVariants> {
   open: boolean
   onClose: () => void
   title?: string
   children: React.ReactNode
-  placement?: 'left' | 'right' | 'top' | 'bottom'
-  size?: 'sm' | 'md' | 'lg'
   closable?: boolean
   maskClosable?: boolean
   footer?: React.ReactNode
-  className?: string
   zIndex?: number
 }
 
-export const Drawer: React.FC<DrawerProps> = ({
-  open,
-  onClose,
-  title,
-  children,
-  placement = 'right',
-  size = 'md',
-  closable = true,
-  maskClosable = true,
-  footer,
-  className = '',
-  zIndex = 1000,
-}) => {
+export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>((
+  {
+    open,
+    onClose,
+    title,
+    children,
+    placement,
+    size,
+    closable = true,
+    maskClosable = true,
+    footer,
+    className,
+    zIndex = 1000,
+    ...props
+  },
+  ref
+) => {
   // 处理ESC键关闭
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -222,13 +278,7 @@ export const Drawer: React.FC<DrawerProps> = ({
     }
   }, [open])
 
-  const sizeClasses = {
-    sm: placement === 'left' || placement === 'right' ? 'w-80' : 'h-64',
-    md: placement === 'left' || placement === 'right' ? 'w-96' : 'h-96',
-    lg:
-      placement === 'left' || placement === 'right' ? 'w-lg' : 'h-128',
-  }
-
+  
   const handleMaskClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && maskClosable) {
       onClose()
@@ -283,18 +333,12 @@ export const Drawer: React.FC<DrawerProps> = ({
 
           {/* 抽屉内容 */}
           <motion.div
+            ref={ref}
             className={cn(
-              'fixed bg-white dark:bg-gray-800 shadow-2xl z-1002',
-              (placement === 'left' || placement === 'right') && 'h-full',
-              (placement === 'top' || placement === 'bottom') && 'w-full',
-              sizeClasses[size],
-              placement === 'left' && 'left-0 top-0',
-              placement === 'right' && 'right-0 top-0',
-              placement === 'top' && 'top-0 left-0 right-0',
-              placement === 'bottom' && 'bottom-0 left-0 right-0',
+              drawerVariants({ placement, size }),
               className
             )}
-            {...drawerVariants}
+            {...props}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             style={{ zIndex: zIndex + 1 }}
           >
@@ -312,8 +356,9 @@ export const Drawer: React.FC<DrawerProps> = ({
                     className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
+                    aria-label="Close drawer"
                   >
-                    ✕
+                    <X className="w-5 h-5" />
                   </motion.button>
                 )}
               </div>
@@ -340,6 +385,6 @@ export const Drawer: React.FC<DrawerProps> = ({
   )
 
   return createPortal(drawerContent, document.body)
-}
+})
 
 Drawer.displayName = 'Drawer'

@@ -34,6 +34,132 @@
 }
 ```
 
+### 🔗 组件库集成策略
+
+#### 严格依赖原则
+- **仅使用packages组件**: Website的所有UI组件必须来自`@xorigo-ui/core`
+- **禁止重复实现**: 不在Website中重新实现已存在的组件
+- **样式一致性**: Website样式完全由packages中的主题系统控制
+
+#### 组件使用模式
+```typescript
+// ✅ 正确：从packages导入组件
+import { Button, Card, Input } from '@xorigo-ui/core'
+
+// ❌ 错误：在Website中重新实现组件
+// const CustomButton = () => { /* 重新实现 */ }
+```
+
+#### 样式系统依赖
+```typescript
+// Website样式完全依赖packages
+// 1. 主题变量来自 packages/core/src/theme/
+// 2. 设计令牌来自 packages/core/src/tokens/
+// 3. 组件样式在packages中定义
+
+// Website页面中的使用
+export default function GalleryPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* 所有组件和样式都来自packages */}
+      <Button variant="primary">从packages导入的Button</Button>
+      <Card>从packages导入的Card</Card>
+    </div>
+  )
+}
+```
+
+#### 数据流向
+```
+packages/core/src/ (组件定义)
+    ↓ 构建导出
+Website imports (@xorigo-ui/core)
+    ↓ 运行时使用
+用户界面 (所见即所得)
+```
+
+#### 展示完整性验证
+- ✅ **组件覆盖度**: Website必须展示packages中100%的组件
+- ✅ **变体完整性**: 必须展示每个组件的所有变体和状态
+- ✅ **交互一致性**: Website上的交互行为与packages中定义完全一致
+- ✅ **主题同步**: Website上的样式变化与packages主题系统同步
+
+#### 组件扩展流程
+当Website需要展示packages中不存在的组件时，遵循以下流程：
+
+```mermaid
+graph TD
+    A[识别缺失组件] --> B[在packages中设计和实现]
+    B --> C[添加到组件库导出]
+    C --> D[更新packages版本]
+    D --> E[Website自动可用]
+    E --> F[Gallery自动展示]
+    F --> G[Playground自动支持]
+    G --> H[Docs自动生成文档]
+```
+
+**具体步骤**：
+1. **需求分析** - 明确缺失组件的功能需求
+2. **packages开发** - 在`packages/core/src/`中创建组件
+3. **导出配置** - 在`packages/core/src/index.ts`中添加导出
+4. **类型定义** - 添加完整的TypeScript类型
+5. **测试验证** - 编写单元测试
+6. **文档编写** - 更新组件文档
+7. **Website集成** - Website自动识别并展示新组件
+
+**示例流程**：
+```typescript
+// 1. 在packages中创建新组件
+// packages/core/src/notification/Toast.tsx
+export function Toast({ message, variant = 'info' }) {
+  // 组件实现
+}
+
+// 2. 添加到导出
+// packages/core/src/index.ts
+export * from './notification/Toast'
+
+// 3. Website自动可用
+// apps/website/src/components/gallery/gallery-client.tsx
+import { Toast } from '@xorigo-ui/core' // 自动可用
+
+// 4. Gallery自动展示
+// 组件会被自动包含在Gallery的分类导航中
+```
+
+#### 组件发现和映射机制
+
+**自动组件扫描**：
+```typescript
+// apps/website/src/data/component-classification.ts
+// 自动扫描packages中的组件并映射到9大分类体系
+const baseComponents = [
+  {
+    name: 'Button',
+    description: '按钮组件 - 支持多种变体和尺寸',
+    component: () => import('@xorigo-ui/core').Button, // 动态导入
+    source: 'packages/core/src/ui/Button.tsx',
+    category: 'base'
+  },
+  // ... 其他组件
+]
+```
+
+**实时同步更新**：
+- packages中新增组件 → Website自动识别
+- 组件API变化 → Gallery立即反映
+- 样式更新 → 所有页面同步更新
+
+**禁止绕过流程**：
+```typescript
+// ❌ 错误：在Website中直接实现缺失组件
+// apps/website/src/components/ui/Toast.tsx
+export function Toast() { /* 重新实现 */ }
+
+// ✅ 正确：先在packages中实现，再在Website中使用
+// packages/core/src/notification/Toast.tsx → apps/website导入使用
+```
+
 ---
 
 ## 📐 整体架构
@@ -77,21 +203,22 @@ Xorigo UI 仓库结构
 
 ## 🎯 Next.js 网站功能规划
 
-### 1. Gallery（配方库）- `/gallery`
+### 1. Gallery（组件库展示）- `/gallery`
 
 **核心功能**：
-- ✅ 展示所有七轴配方（当前20个）
-- ✅ 实时搜索和过滤
-- ✅ 配方预览卡片
-- ✅ 按七轴参数分组浏览
-- ✅ 收藏和评分功能（localStorage）
+- ✅ 展示所有组件库组件（基于9大分类体系）
+- ✅ 按分类组织展示（Base、Layout、Navigation、Form、Data Display、Feedback、Overlay、Composite、System、Visualization）
+- ✅ 组件变体和状态展示
+- ✅ 实时搜索和过滤功能
+- ✅ 组件预览和交互演示
 - ✅ 深色/浅色模式切换
 
 **技术特性**：
-- **SSR/SSG**：配方列表静态生成（`generateStaticParams`）
-- **ISR**：定期重新验证（支持新增配方）
-- **Client Component**：搜索、过滤、收藏等交互
-- **Streaming**：大量配方时渐进式渲染
+- **SSR/SSG**：组件列表静态生成（`generateStaticParams`）
+- **ISR**：定期重新验证（支持新增组件）
+- **Client Component**：搜索、过滤、预览等交互
+- **Streaming**：大量组件时渐进式渲染
+- **动态导入**：按需加载组件进行预览
 
 ### 2. Adoption Matrix（取用矩阵）- `/adoption`
 

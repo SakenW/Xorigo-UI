@@ -202,11 +202,11 @@ export function CTA() {
               文档
             </a>
             <a
-              href="/playground"
+              href="/workbench"
               className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               <Zap className="h-4 w-4" />
-              演练场
+              Workbench
             </a>
             <a
               href="/gallery"

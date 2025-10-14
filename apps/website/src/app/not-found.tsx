@@ -120,10 +120,10 @@ export default function NotFound() {
               </Link>
               <span className="text-gray-400">•</span>
               <Link
-                href="/playground"
+                href="/workbench"
                 className="text-blue-600 hover:text-blue-800 underline"
               >
-                Playground
+                Workbench
               </Link>
               <span className="text-gray-400">•</span>
               <Link

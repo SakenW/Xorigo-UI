@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent } from '@xorigo-ui/core'
+import { Badge } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
+import { Input } from '@xorigo-ui/core'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface Recipe {
   id: string
@@ -33,6 +34,7 @@ interface GalleryClientProps {
  * 从服务端组件接收静态数据
  */
 export function GalleryClient({ recipes, categories }: GalleryClientProps) {
+  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -44,6 +46,13 @@ export function GalleryClient({ recipes, categories }: GalleryClientProps) {
                          recipe.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     return matchesCategory && matchesSearch
   })
+
+  // 预览组件 - 跳转到 Playground
+  const handlePreview = (recipe: Recipe) => {
+    // 构建 Playground URL，带上配方信息
+    const playgroundUrl = `/playground?recipe=${recipe.id}&name=${encodeURIComponent(recipe.name)}`
+    router.push(playgroundUrl)
+  }
 
   return (
     <>
@@ -164,7 +173,12 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
               查看详情
             </Button>
           </Link>
-          <Button variant="outline" size="sm" className="px-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="px-3"
+            onClick={() => handlePreview(recipe)}
+          >
             预览
           </Button>
         </div>

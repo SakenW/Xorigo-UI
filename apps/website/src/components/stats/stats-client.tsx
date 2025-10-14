@@ -15,14 +15,48 @@ interface StatData {
 
 interface StatsClientProps {
   statsData: StatData[]
-  getColorClasses: (color: string) => any
 }
 
 /**
  * Stats 客户端组件 - 处理数字动画效果
- * 从服务端组件接收静态数据和样式函数
+ * 从服务端组件接收静态数据
  */
-export function StatsClient({ statsData, getColorClasses }: StatsClientProps) {
+export function StatsClient({ statsData }: StatsClientProps) {
+  const getColorClasses = (color: string) => {
+    const colorMap = {
+      blue: {
+        bg: 'bg-blue-100 dark:bg-blue-900/20',
+        icon: 'text-blue-600 dark:text-blue-400',
+        badge: 'bg-blue-500 text-white'
+      },
+      green: {
+        bg: 'bg-green-100 dark:bg-green-900/20',
+        icon: 'text-green-600 dark:text-green-400',
+        badge: 'bg-green-500 text-white'
+      },
+      purple: {
+        bg: 'bg-purple-100 dark:bg-purple-900/20',
+        icon: 'text-purple-600 dark:text-purple-400',
+        badge: 'bg-purple-500 text-white'
+      },
+      orange: {
+        bg: 'bg-orange-100 dark:bg-orange-900/20',
+        icon: 'text-orange-600 dark:text-orange-400',
+        badge: 'bg-orange-500 text-white'
+      },
+      yellow: {
+        bg: 'bg-yellow-100 dark:bg-yellow-900/20',
+        icon: 'text-yellow-600 dark:text-yellow-400',
+        badge: 'bg-yellow-500 text-white'
+      },
+      indigo: {
+        bg: 'bg-indigo-100 dark:bg-indigo-900/20',
+        icon: 'text-indigo-600 dark:text-indigo-400',
+        badge: 'bg-indigo-500 text-white'
+      }
+    }
+    return colorMap[color as keyof typeof colorMap] || colorMap.blue
+  }
   const [counters, setCounters] = useState(
     statsData.map(stat => ({ ...stat, currentValue: 0 }))
   )

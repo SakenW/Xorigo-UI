@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xorigo UI 布局组件演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .container-variants {
+            @apply p-6 space-y-4;
+        }
+        .container-demo {
+            @apply border-2 border-dashed border-gray-300 rounded-lg p-4 text-center;
+        }
+        .grid-demo {
+            @apply p-6 space-y-4;
+        }
+        .grid-item {
+            @apply bg-blue-100 dark:bg-blue-900 p-4 rounded text-center;
+        }
+        .panel-demo {
+            @apply p-6 space-y-4;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen p-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+            Xorigo UI 布局组件演示
+        </h1>
+
+        <!-- Container 组件演示 -->
+        <section class="container-variants">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Container 组件</h2>
+
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Default 容器</h3>
+                    <div class="container-demo mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
+                        <p class="text-gray-600 dark:text-gray-400">Default 变体 - 居中对齐，最大宽度限制</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Fluid 容器</h3>
+                    <div class="container-demo w-full px-4 sm:px-6 lg:px-8">
+                        <p class="text-gray-600 dark:text-gray-400">Fluid 变体 - 全宽度，无最大宽度限制</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Centered 容器</h3>
+                    <div class="container-demo mx-auto flex items-center justify-center max-w-screen-lg px-4 sm:px-6 lg:px-8 h-32">
+                        <p class="text-gray-600 dark:text-gray-400">Centered 变体 - 内容居中对齐</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">不同尺寸的容器</h3>
+                    <div class="space-y-2">
+                        <div class="container-demo mx-auto max-w-screen-sm px-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Small 容器</p>
+                        </div>
+                        <div class="container-demo mx-auto max-w-screen-md px-4">
+                            <p class="text-gray-600 dark:text-gray-400">Medium 容器</p>
+                        </div>
+                        <div class="container-demo mx-auto max-w-screen-xl px-4">
+                            <p class="text-gray-600 dark:text-gray-400">XLarge 容器</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid 组件演示 -->
+        <section class="grid-demo">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Grid 组件</h2>
+
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">默认网格 (3列)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="grid-item">网格项 1</div>
+                        <div class="grid-item">网格项 2</div>
+                        <div class="grid-item">网格项 3</div>
+                        <div class="grid-item">网格项 4</div>
+                        <div class="grid-item">网格项 5</div>
+                        <div class="grid-item">网格项 6</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Auto-fit 网格</h3>
+                    <div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+                        <div class="grid-item">Auto-fit 项目 1</div>
+                        <div class="grid-item">Auto-fit 项目 2</div>
+                        <div class="grid-item">Auto-fit 项目 3</div>
+                        <div class="grid-item">Auto-fit 项目 4</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">跨行跨列示例</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="grid-item col-span-2">跨2列</div>
+                        <div class="grid-item">正常项</div>
+                        <div class="grid-item">正常项</div>
+                        <div class="grid-item">正常项</div>
+                        <div class="grid-item row-span-2 col-span-2">跨2行2列</div>
+                        <div class="grid-item">正常项</div>
+                        <div class="grid-item">正常项</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel 组件演示 -->
+        <section class="panel-demo">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Panel 组件</h2>
+
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Default Panel</h3>
+                    <div class="w-full border border-gray-200 rounded-lg overflow-hidden bg-white dark:bg-gray-800 dark:border-gray-700">
+                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
+                            <h4 class="font-medium text-gray-900 dark:text-white">面板标题</h4>
+                        </div>
+                        <div class="px-6 py-4">
+                            <p class="text-gray-600 dark:text-gray-400">这是面板内容区域。Panel 组件支持多种变体和尺寸，可以用于卡片、折叠面板等多种场景。</p>
+                        </div>
+                        <div class="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
+                            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">确认</button>
+                            <button class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800">取消</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Elevated Panel</h3>
+                    <div class="w-full border border-gray-200 rounded-lg overflow-hidden bg-white shadow-lg dark:bg-gray-800 dark:border-gray-700">
+                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
+                            <h4 class="font-medium text-gray-900 dark:text-white">提升面板</h4>
+                        </div>
+                        <div class="px-6 py-4">
+                            <p class="text-gray-600 dark:text-gray-400">这个面板使用了 elevated 变体，具有阴影效果。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">Outlined Panel</h3>
+                    <div class="w-full border-2 border-gray-300 rounded-lg overflow-hidden bg-white dark:bg-gray-800 dark:border-gray-600">
+                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-900/50">
+                            <h4 class="font-medium text-gray-900 dark:text-white">轮廓面板</h4>
+                        </div>
+                        <div class="px-6 py-4">
+                            <p class="text-gray-600 dark:text-gray-400">这个面板使用了 outlined 变体，具有更粗的边框。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2 text-gray-700 dark:text-gray-300">不同尺寸的 Panel</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="w-full border border-gray-200 rounded-lg overflow-hidden bg-white dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50 text-sm">
+                                <h4 class="font-medium text-gray-900 dark:text-white">小尺寸</h4>
+                            </div>
+                            <div class="px-4 py-3 text-sm">
+                                <p class="text-gray-600 dark:text-gray-400">小型面板内容</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full border border-gray-200 rounded-lg overflow-hidden bg-white dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
+                                <h4 class="font-medium text-gray-900 dark:text-white">中等尺寸</h4>
+                            </div>
+                            <div class="px-6 py-4">
+                                <p class="text-gray-600 dark:text-gray-400">中等面板内容</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full border border-gray-200 rounded-lg overflow-hidden bg-white dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex items-center justify-between px-8 py-6 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50 text-lg">
+                                <h4 class="font-medium text-gray-900 dark:text-white">大尺寸</h4>
+                            </div>
+                            <div class="px-8 py-6 text-lg">
+                                <p class="text-gray-600 dark:text-gray-400">大型面板内容</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="mt-12 p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <h2 class="text-xl font-semibold mb-2 text-green-800 dark:text-green-200">✅ 实现完成总结</h2>
+            <div class="text-green-700 dark:text-green-300 space-y-2">
+                <p><strong>Container 组件：</strong> 支持 default、fluid、constrained、centered 四种变体，5种尺寸，响应式设计和内边距控制</p>
+                <p><strong>Grid 组件：</strong> 支持 default、auto-fit、masonry 三种变体，1-12列响应式控制，间距控制和自定义最小/最大宽度</p>
+                <p><strong>GridItem 组件：</strong> 支持跨行跨列控制，完整的网格定位功能</p>
+                <p><strong>Panel 复合组件：</strong> 包含 Panel、PanelHeader、PanelContent、PanelFooter，支持4种变体、3种尺寸、可折叠状态和 Framer Motion 动画</p>
+                <p><strong>技术特性：</strong> Class Variance Authority (CVA)、完整的 TypeScript 类型、forwardRef 支持、主题系统集成、displayName</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

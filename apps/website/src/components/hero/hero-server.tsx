@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Sparkles, Zap } from 'lucide-react'
+import { ArrowRight, Sparkles, Zap } from '@/components/ui/lucide-icons'
 import { HeroClient } from './hero-client'
 
 /**

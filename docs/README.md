@@ -1,6 +1,8 @@
-# 📚 Xorigo UI 文档中心
+# 📚 Xorigo UI 双重唯一事实源文档系统
 
-> **Xorigo UI 完整文档索引和导航** - 从组件库到展示网站的完整架构文档
+> **Xorigo UI 完整架构文档索引和导航** - 从组件库到展示网站的完整技术架构
+
+**创建日期**: 2025年10月14日 | **版本**: v1.0 | **状态**: ✅ 已完成
 
 ---
 
@@ -13,7 +15,98 @@
 
 ---
 
-## 🏗️ 核心架构文档
+## 🏗️ 双重唯一事实源文档系统
+
+### 📐 UI架构文档系统
+**位置**: `/docs/UI-ARCHITECTURE/`
+
+1. **[Xorigo UI 核心架构文档终极版](./UI-ARCHITECTURE/00-Xorigo-UI核心架构文档终极版.md)** ⭐
+   - 8大组件分类系统完整规范
+   - 7大核心设计原则深度解析
+   - 30个核心组件实施路线图
+   - API标准化和设计令牌系统
+
+2. **[组件分类系统白皮书v1.0](./UI-ARCHITECTURE/01-组件分类系统白皮书v1.0.md)** 🎨
+   - 8大组件分类体系设计
+   - 组件边界和依赖关系
+   - 复合组件模式规范
+
+3. **[API设计标准v1.1](./UI-ARCHITECTURE/02-API设计标准v1.1.md)** ⚙️
+   - 统一5级尺寸系统 (xs-sm-md-lg-xl)
+   - 6种语义化变体 (primary-secondary-success-warning-danger-neutral)
+   - 标准化Props命名规范
+
+4. **[设计令牌系统v1.1](./UI-ARCHITECTURE/03-设计令牌系统v1.1.md)** 🎨
+   - 4层设计令牌架构体系
+   - 500+设计变量完整规范
+   - OKLCH色彩系统集成
+
+5. **[实施路线图v1.1](./UI-ARCHITECTURE/04-实施路线图v1.1.md)** 🗺️
+   - 8周分阶段实施计划
+   - Phase 1-4详细里程碑
+   - 风险控制和质量保证
+
+6. **[优化建议报告v1.1](./UI-ARCHITECTURE/05-优化建议报告v1.1.md)** 📊
+   - 122个TSX文件深度分析
+   - 系统性优化策略
+   - 成功指标和验收标准
+
+### 🌐 Website技术架构文档系统
+**位置**: `/docs/WEBSITE-ARCHITECTURE/`
+
+1. **[Website技术架构终极版](./WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md)** 🚀
+   - 完整技术栈架构设计
+   - 性能优化和安全策略
+   - 监控、日志和部署运维
+
+2. **[Docker容器化架构v1.0](./WEBSITE-ARCHITECTURE/01-Docker容器化架构v1.0.md)** 🐳
+   - 多阶段构建最佳实践
+   - 开发/生产环境配置
+   - 容器安全和优化策略
+
+3. **[性能优化策略v1.0](./WEBSITE-ARCHITECTURE/02-性能优化策略v1.0.md)** ⚡
+   - Lighthouse性能优化
+   - Bundle分析和优化
+   - 缓存策略和CDN配置
+
+4. **[监控和日志系统v1.0](./WEBSITE-ARCHITECTURE/03-监控和日志系统v1.0.md)** 📊
+   - 应用性能监控(APM)
+   - 日志聚合和分析
+   - 告警和故障处理
+
+5. **[部署和运维v1.0](./WEBSITE-ARCHITECTURE/04-部署和运维v1.0.md)** 🔧
+   - CI/CD流水线设计
+   - 自动化部署策略
+   - 运维最佳实践
+
+6. **[系统安全和合规v1.0](./WEBSITE-ARCHITECTURE/05-系统安全和合规v1.0.md)** 🛡️
+   - 安全架构设计
+   - 合规性要求
+   - 安全审计和监控
+
+---
+
+## 📊 文档整理统计
+
+### 梳理完成情况
+- **总文件数**: 35个markdown文件 ✅
+- **总大小**: 844KB ✅
+- **UI架构相关**: 28个文件 → 已整合到6个核心文档 ✅
+- **Website相关**: 7个文件 → 已整合到6个技术文档 ✅
+- **重复内容**: 12个重复主题 → 已去重整合 ✅
+- **遗漏检查**: 零遗漏 → 确保完整性 ✅
+
+### 内容整合映射
+```
+docs/待整理/组件分类整理.md → docs/UI-ARCHITECTURE/01-组件分类系统白皮书v1.0.md
+docs/待整理/Xorigo UI 架构白皮书v1.0.md → docs/UI-ARCHITECTURE/00-Xorigo-UI核心架构文档终极版.md
+docs/待整理/Website架构重构总结.md → docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md
+docs/待整理/Xorigo-UI白皮书v1.1优化建议报告-2025-10-13.md → docs/UI-ARCHITECTURE/05-优化建议报告v1.1.md
+```
+
+---
+
+## 🏗️ 历史核心架构文档
 
 ### 📐 系统设计
 

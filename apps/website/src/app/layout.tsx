@@ -1,4 +1,5 @@
 import { RootErrorBoundary } from '@/components/errors'
+import { ThemeProvider } from '@/components/theme'
 
 export default function RootLayout({
   children,
@@ -6,11 +7,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body>
-        <RootErrorBoundary>
-          {children}
-        </RootErrorBoundary>
+        <ThemeProvider defaultTheme="system" storageKey="xorigo-ui-theme">
+          <RootErrorBoundary>
+            {children}
+          </RootErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   )

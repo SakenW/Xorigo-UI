@@ -61,6 +61,36 @@ if [ ! -d "node_modules/@xorigo-ui/tokens" ]; then
     npm install --legacy-peer-deps --no-audit --no-fund
 fi
 
+echo "  检查 @xorigo-ui/style-recipe..."
+if [ ! -d "node_modules/@xorigo-ui/style-recipe" ]; then
+    echo "  📦 安装 @xorigo-ui/style-recipe..."
+    npm install --legacy-peer-deps --no-audit --no-fund
+fi
+
+# 设置 Monorepo 包的符号链接
+echo "🔗 设置 Monorepo 包符号链接..."
+for package in core tokens style-recipe registry; do
+    if [ -d "/packages/$package" ] && [ ! -L "node_modules/@xorigo-ui/$package" ]; then
+        echo "  🔗 链接 @xorigo-ui/$package -> /packages/$package"
+        ln -sf "/packages/$package" "node_modules/@xorigo-ui/$package"
+    fi
+done
+
+# 为 core 包建立 monorepo 依赖链接
+echo "🔗 为 core 包建立依赖链接..."
+if [ -d "/packages/core" ]; then
+    # 创建 core 包的 node_modules 目录结构
+    mkdir -p "/packages/core/node_modules/@xorigo-ui"
+
+    # 在 core 包中链接其他依赖包
+    for dep_package in tokens style-recipe registry; do
+        if [ -d "/packages/$dep_package" ] && [ ! -L "/packages/core/node_modules/@xorigo-ui/$dep_package" ]; then
+            echo "  🔗 链接 core -> ../$dep_package"
+            ln -sf "/packages/$dep_package" "/packages/core/node_modules/@xorigo-ui/$dep_package"
+        fi
+    done
+fi
+
 # 清理 Next.js 缓存（避免缓存问题）
 echo "🧹 清理 Next.js 缓存..."
 rm -rf .next || true
