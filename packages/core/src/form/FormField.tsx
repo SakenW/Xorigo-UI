@@ -555,4 +555,4 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
 
 FormField.displayName = "FormField"
 
-export { formFieldVariants, labelVariants, helperTextVariants, errorTextVariants }
+export { formFieldVariants, labelVariants as formLabelVariants, helperTextVariants, errorTextVariants }

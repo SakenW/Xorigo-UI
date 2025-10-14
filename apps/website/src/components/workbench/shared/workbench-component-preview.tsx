@@ -37,16 +37,44 @@ export function WorkbenchComponentPreview({
     setComponent(null)
 
     try {
+      // 预处理代码：移除import和export语句，因为我们已经在环境中提供了这些依赖
+      const processedCode = code
+        .replace(/import\s+.*?from\s+['"]@xorigo-ui\/core['"];?\s*/g, '')
+        .replace(/import\s+.*?from\s+['"]react['"];?\s*/g, '')
+        .replace(/import\s+{.*?}\s+from\s+['"]react['"];?\s*/g, '')
+        .replace(/export\s+default\s+/g, 'const ')
+        .replace(/export\s+/g, '')
+
       // 创建一个安全的执行环境
       const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
       const safeCode = `
-        ${code}
+        ${processedCode}
         return ${componentName};
       `
 
-      // 执行代码
-      const fn = new AsyncFunction('React', 'Button', 'Card', 'CardContent', 'CardHeader', 'Badge', 'Input', safeCode)
-      const result = fn(React, Button, Card, CardContent, CardHeader, Badge, Input)
+      // 执行代码，提供所有必要的依赖
+      const fn = new AsyncFunction(
+        'React',
+        'useState',
+        'Button',
+        'Card',
+        'CardContent',
+        'CardHeader',
+        'Badge',
+        'Input',
+        safeCode
+      )
+
+      const result = fn(
+        React,
+        React.useState,
+        Button,
+        Card,
+        CardContent,
+        CardHeader,
+        Badge,
+        Input
+      )
 
       // 如果结果是组件，则设置组件
       if (typeof result === 'function') {

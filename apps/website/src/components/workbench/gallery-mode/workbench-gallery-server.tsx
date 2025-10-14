@@ -21,7 +21,7 @@ import { WorkbenchGalleryClient } from './workbench-gallery-client'
  */
 export function WorkbenchGalleryServer() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="w-full h-full">
       <Suspense fallback={<WorkbenchGallerySkeleton />}>
         <WorkbenchGalleryContent />
       </Suspense>

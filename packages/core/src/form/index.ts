@@ -26,7 +26,7 @@ export { FormField as FormFieldUI } from './FormField'
 export type { FormFieldProps as FormFieldUIProps } from './FormField'
 export {
   formFieldVariants,
-  labelVariants,
+  labelVariants as formLabelVariants,
   helperTextVariants,
   errorTextVariants
 } from './FormField'
@@ -68,9 +68,9 @@ export type {
 } from './ValidationMessage'
 export {
   validationMessageVariants,
-  iconVariants,
-  textVariants,
-  listVariants
+  iconVariants as validationIconVariants,
+  textVariants as validationTextVariants,
+  listVariants as validationListVariants
 } from './ValidationMessage'
 
 // ===========================

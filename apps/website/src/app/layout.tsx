@@ -1,5 +1,7 @@
 import { RootErrorBoundary } from '@/components/errors'
 import { ThemeProvider } from '@/components/theme'
+import { ErrorBoundary } from '@/components/monitoring/ErrorBoundary'
+import { PerformanceMonitor } from '@/components/monitoring/PerformanceMonitor'
 
 export default function RootLayout({
   children,
@@ -10,9 +12,12 @@ export default function RootLayout({
     <html lang="zh-CN" suppressHydrationWarning>
       <body>
         <ThemeProvider defaultTheme="system" storageKey="xorigo-ui-theme">
-          <RootErrorBoundary>
-            {children}
-          </RootErrorBoundary>
+          <ErrorBoundary>
+            <RootErrorBoundary>
+              {children}
+              <PerformanceMonitor />
+            </RootErrorBoundary>
+          </ErrorBoundary>
         </ThemeProvider>
       </body>
     </html>

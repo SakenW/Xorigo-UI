@@ -1,0 +1,250 @@
+# ============================================
+# Xorigo UI 生产环境 Docker Compose 配置
+# Phase 6: 零停机部署 + 性能监控 + 错误追踪
+# ============================================
+
+version: '3.8'
+
+services:
+  # 主应用服务 - Next.js Website
+  xorigo-ui-website:
+    image: xorigo-ui-website:${VERSION:-latest}
+    container_name: xorigo-ui-website-prod
+    restart: unless-stopped
+    ports:
+      - "${WEBSITE_PORT:-3100}:3100"
+    volumes:
+      # 日志挂载
+      - ./logs/nginx:/var/log/nginx
+      - ./logs/app:/app/logs
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3100
+      - HOSTNAME=0.0.0.0
+      # 性能监控环境变量
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SENTRY_ENVIRONMENT=production
+      - SENTRY_RELEASE=${VERSION:-latest}
+      # Core Web Vitals 监控
+      - WEB_VITALS_ENABLED=true
+      - WEB_VITALS_SAMPLE_RATE=${WEB_VITALS_SAMPLE_RATE:-0.1}
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:3100/api/health && curl -f http://localhost:3100/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    labels:
+      - "com.xorigo-ui.service=website"
+      - "com.xorigo-ui.environment=production"
+      - "com.xorigo-ui.version=${VERSION:-latest}"
+      - "com.xorigo-ui.monitoring.enabled=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.xorigo-ui.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.xorigo-ui.tls=true"
+      - "traefik.http.routers.xorigo-ui.tls.certresolver=letsencrypt"
+      - "traefik.http.services.xorigo-ui.loadbalancer.server.port=3100"
+    networks:
+      - xorigo-ui-network
+      - monitoring
+
+  # Redis 缓存服务 - 提升性能
+  redis:
+    image: redis:7-alpine
+    container_name: xorigo-ui-redis-prod
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "sh", "-c", "redis-cli -a ${REDIS_PASSWORD} ping || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    labels:
+      - "com.xorigo-ui.service=redis"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - xorigo-ui-network
+
+  # Nginx 反向代理 + SSL 终止 + 缓存
+  nginx:
+    image: nginx:alpine
+    container_name: xorigo-ui-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./config/nginx/ssl:/etc/nginx/ssl:ro
+      - ./logs/nginx:/var/log/nginx
+      - nginx_cache:/var/cache/nginx
+    depends_on:
+      - xorigo-ui-website
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    labels:
+      - "com.xorigo-ui.service=nginx"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - xorigo-ui-network
+      - monitoring
+
+  # Prometheus 监控指标收集
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: xorigo-ui-prometheus
+    restart: unless-stopped
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    healthcheck:
+      test: ["CMD", "sh", "-c", "wget --quiet --tries=1 --spider http://localhost:9090/-/healthy || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=prometheus"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - monitoring
+
+  # Grafana 可视化面板
+  grafana:
+    image: grafana/grafana:latest
+    container_name: xorigo-ui-grafana
+    restart: unless-stopped
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=grafana"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - monitoring
+
+  # Node Exporter 系统指标
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: xorigo-ui-node-exporter
+    restart: unless-stopped
+    ports:
+      - "${NODE_EXPORTER_PORT:-9100}:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:9100/metrics || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=node-exporter"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - monitoring
+
+  # cAdvisor 容器性能监控
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: xorigo-ui-cadvisor
+    restart: unless-stopped
+    ports:
+      - "${CADVISOR_PORT:-8080}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=cadvisor"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - monitoring
+
+volumes:
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  nginx_cache:
+    driver: local
+
+networks:
+  xorigo-ui-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+  monitoring:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16

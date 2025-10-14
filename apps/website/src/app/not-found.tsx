@@ -127,7 +127,7 @@ export default function NotFound() {
               </Link>
               <span className="text-gray-400">•</span>
               <Link
-                href="/gallery"
+                href="/workbench?mode=gallery"
                 className="text-blue-600 hover:text-blue-800 underline"
               >
                 组件展示

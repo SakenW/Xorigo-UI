@@ -510,4 +510,4 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
 
 ValidationSummary.displayName = "ValidationSummary"
 
-export { validationMessageVariants, iconVariants, textVariants, listVariants }
+export { validationMessageVariants, iconVariants as validationIconVariants, textVariants as validationTextVariants, listVariants as validationListVariants }

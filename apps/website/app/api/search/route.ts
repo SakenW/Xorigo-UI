@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
             id: comp.id,
             title: comp.name,
             description: comp.description,
-            url: `/gallery?component=${comp.id}`,
+            url: `/workbench?mode=gallery&component=${comp.id}`,
             category: comp.category,
             tags: comp.tags,
             score,
@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
             id: cat.id,
             title: cat.name,
             description: cat.description,
-            url: `/gallery?category=${cat.id}`,
+            url: `/workbench?mode=gallery&category=${cat.id}`,
             tags: cat.tags || [],
             score,
           })
@@ -179,7 +179,7 @@ export async function GET(request: NextRequest) {
             id: tag,
             title: tag,
             description: `${tagData.count} components tagged with "${tag}"`,
-            url: `/gallery?tag=${encodeURIComponent(tag)}`,
+            url: `/workbench?mode=gallery&tag=${encodeURIComponent(tag)}`,
             tags: [tag],
             score,
           })

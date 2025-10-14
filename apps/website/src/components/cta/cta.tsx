@@ -209,7 +209,7 @@ export function CTA() {
               Workbench
             </a>
             <a
-              href="/gallery"
+              href="/workbench?mode=gallery"
               className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               <Sparkles className="h-4 w-4" />

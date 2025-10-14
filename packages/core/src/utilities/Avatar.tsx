@@ -187,62 +187,6 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
 
 Avatar.displayName = "Avatar"
 
-// Avatar Group component
-export interface AvatarGroupProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof avatarVariants> {
-  children: React.ReactNode
-  max?: number
-  showMore?: boolean
-  moreText?: string
-}
-
-const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({
-    className,
-    size,
-    variant,
-    children,
-    max = 5,
-    showMore = true,
-    moreText = "+{count}",
-    ...props
-  }, ref) => {
-    const avatars = React.Children.toArray(children).slice(0, max)
-    const remainingCount = React.Children.count(children) - max
-
-    return (
-      <div
-        ref={ref}
-        className={cn("flex items-center -space-x-2", className)}
-        {...props}
-      >
-        {avatars.map((avatar, index) => (
-          <div
-            key={index}
-            className="relative inline-block ring-2 ring-white rounded-full"
-            style={{ zIndex: avatars.length - index }}
-          >
-            {avatar}
-          </div>
-        ))}
-        {showMore && remainingCount > 0 && (
-          <div
-            className={cn(
-              avatarVariants({ size, variant }),
-              "ring-2 ring-white bg-gray-100 text-gray-600 text-xs font-medium"
-            )}
-          >
-            {moreText.replace('{count}', remainingCount.toString())}
-          </div>
-        )}
-      </div>
-    )
-  }
-)
-
-AvatarGroup.displayName = "AvatarGroup"
-
 // Avatar with presence status
 export const AvatarWithPresence = React.forwardRef<
   HTMLDivElement,
@@ -263,7 +207,6 @@ AvatarWithPresence.displayName = "AvatarWithPresence"
 
 export {
   Avatar,
-  AvatarGroup,
   avatarVariants,
   avatarImageVariants,
   avatarFallbackVariants,
