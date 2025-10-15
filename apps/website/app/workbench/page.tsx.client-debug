@@ -1,0 +1,157 @@
+/**
+ * Workbench 调试页面 - 简化版本
+ * 测试客户端组件是否能正常渲染
+ */
+
+'use client'
+
+import { useState } from 'react'
+
+export default function DebugWorkbenchPage() {
+  const [count, setCount] = useState(0)
+  const [showHybrid, setShowHybrid] = useState(false)
+
+  return (
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
+      <h1>🔧 Workbench 客户端组件调试页面</h1>
+
+      {/* 调试说明 */}
+      <div style={{
+        backgroundColor: '#f8f9fa',
+        padding: '15px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        border: '1px solid #dee2e6'
+      }}>
+        <h2>🎯 调试目标</h2>
+        <p>测试带有 'use client' 指令的组件是否能在 Workbench 路由下正常渲染。</p>
+        <p><strong>当前状态：</strong>这是一个客户端组件，使用了 useState Hook。</p>
+      </div>
+
+      {/* 基础功能测试 */}
+      <section style={{
+        backgroundColor: '#e8f5e8',
+        padding: '20px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        border: '2px solid #28a745'
+      }}>
+        <h3>✅ 基础客户端组件测试</h3>
+        <p>这个部分验证客户端组件的基本功能：</p>
+
+        <div style={{ margin: '15px 0' }}>
+          <button
+            onClick={() => setCount(count + 1)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              marginRight: '10px'
+            }}
+          >
+            点击计数 (+1)
+          </button>
+
+          <button
+            onClick={() => setCount(0)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#6c757d',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+          >
+            重置
+          </button>
+        </div>
+
+        <div style={{
+          padding: '10px',
+          backgroundColor: '#d4edda',
+          border: '1px solid #c3e6cb',
+          borderRadius: '4px',
+          fontSize: '18px',
+          fontWeight: 'bold'
+        }}>
+          计数器: {count}
+        </div>
+
+        <p style={{ marginTop: '10px', fontSize: '14px', color: '#155724' }}>
+          ✅ 如果能看到按钮并点击计数，说明客户端组件基础功能正常。
+        </p>
+      </section>
+
+      {/* 状态测试 */}
+      <section style={{
+        backgroundColor: '#fff3cd',
+        padding: '20px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        border: '2px solid #ffc107'
+      }}>
+        <h3>🔄 状态管理测试</h3>
+        <p>测试 React Hooks 和状态更新：</p>
+
+        <button
+          onClick={() => setShowHybrid(!showHybrid)}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#17a2b8',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          {showHybrid ? '隐藏' : '显示'} 额外内容
+        </button>
+
+        {showHybrid && (
+          <div style={{
+            marginTop: '10px',
+            padding: '10px',
+            backgroundColor: '#d1ecf1',
+            border: '1px solid #bee5eb',
+            borderRadius: '4px'
+          }}>
+            <p>🎉 这是通过状态切换显示的内容！</p>
+            <p>如果能看到这段文字，说明条件渲染也正常工作。</p>
+          </div>
+        )}
+      </section>
+
+      {/* 诊断信息 */}
+      <section style={{
+        backgroundColor: '#f8f9fa',
+        padding: '15px',
+        borderRadius: '8px',
+        marginTop: '20px',
+        border: '1px solid #dee2e6'
+      }}>
+        <h3>🔍 诊断信息</h3>
+        <ul>
+          <li><strong>组件类型</strong>: 客户端组件 ('use client')</li>
+          <li><strong>使用的 Hooks</strong>: useState</li>
+          <li><strong>当前计数</strong>: {count}</li>
+          <li><strong>状态切换</strong>: {showHybrid ? '显示' : '隐藏'}</li>
+          <li><strong>页面渲染时间</strong>: {new Date().toLocaleTimeString()}</li>
+        </ul>
+
+        <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
+          <strong>如果这个页面正常显示：</strong>
+          <ul style={{ marginTop: '5px', marginBottom: '0' }}>
+            <li>✅ 客户端组件可以渲染</li>
+            <li>✅ React Hooks 正常工作</li>
+            <li>✅ 事件处理正常</li>
+            <li>✅ 状态更新正常</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  )
+}

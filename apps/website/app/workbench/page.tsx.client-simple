@@ -1,0 +1,15 @@
+/**
+ * 最简单的客户端组件测试
+ */
+
+'use client'
+
+export default function TestClientSimplePage() {
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>最简单的客户端组件</h1>
+      <p>这只是一个最基础的客户端组件，不使用任何 hooks。</p>
+      <p>如果这个页面显示 404，说明所有客户端组件都有问题。</p>
+    </div>
+  )
+}

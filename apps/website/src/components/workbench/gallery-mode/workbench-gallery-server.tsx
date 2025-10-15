@@ -8,7 +8,7 @@
  * 遵循组件源规则：所有UI组件来自 @xorigo-ui/core
  */
 
-import { ComponentCategory, componentCategories } from '@/data/component-classification'
+import { ComponentCategory, componentCategories } from '../../../data/component-classification'
 import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
 import { Badge } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'

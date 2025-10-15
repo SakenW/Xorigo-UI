@@ -1,0 +1,80 @@
+# ============================================
+# Xorigo UI 简化生产环境 Docker Compose 配置
+# 仅包含核心服务，无监控组件
+# ============================================
+
+version: '3.8'
+
+services:
+  # 主应用服务 - Next.js Website
+  xorigo-ui-website:
+    build:
+      context: ./apps/website
+      dockerfile: Dockerfile
+      target: runner
+    image: xorigo-ui-website:prod
+    container_name: xorigo-ui-website-prod
+    restart: unless-stopped
+    ports:
+      - "${WEBSITE_PORT:-3100}:3100"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3100
+      - HOSTNAME=0.0.0.0
+    healthcheck:
+      test: ["CMD", "sh", "-c", "wget --spider --quiet http://localhost:3100/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    labels:
+      - "com.xorigo-ui.service=website"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - xorigo-ui-network
+
+  # Redis 缓存服务（可选）
+  redis:
+    image: redis:7-alpine
+    container_name: xorigo-ui-redis-prod
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-prod123}"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "redis-cli -a ${REDIS_PASSWORD:-prod123} ping || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    labels:
+      - "com.xorigo-ui.service=redis"
+      - "com.xorigo-ui.environment=production"
+    networks:
+      - xorigo-ui-network
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  xorigo-ui-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

@@ -1,0 +1,84 @@
+/**
+ * 测试简单的参数处理 - 不使用 useSearchParams
+ */
+
+'use client'
+
+import { useState, useEffect } from 'react'
+
+export default function TestSimpleParamsPage() {
+  const [mounted, setMounted] = useState(false)
+  const [mode, setMode] = useState('gallery')
+
+  useEffect(() => {
+    setMounted(true)
+    // 客户端获取 URL 参数
+    const urlParams = new URLSearchParams(window.location.search)
+    const urlMode = urlParams.get('mode') || 'gallery'
+    setMode(urlMode)
+    console.log('URL mode:', urlMode)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">加载中...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+          🎨 Workbench v2.0 - 参数测试
+        </h1>
+
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">URL 参数状态</h2>
+          <div className="space-y-4">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <span className="text-blue-700">当前模式: </span>
+              <span className="font-mono bg-blue-100 px-2 py-1 rounded">{mode}</span>
+            </div>
+
+            <div className="p-4 bg-green-50 rounded-lg">
+              <span className="text-green-700">完整 URL: </span>
+              <span className="font-mono text-sm bg-green-100 px-2 py-1 rounded break-all">
+                {typeof window !== 'undefined' ? window.location.href : 'Server-side'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex space-x-4">
+          <a
+            href="/workbench?mode=gallery"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Gallery 模式
+          </a>
+          <a
+            href="/workbench?mode=editor"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          >
+            Editor 模式
+          </a>
+          <a
+            href="/workbench?mode=split"
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Split 模式
+          </a>
+        </div>
+
+        <div className="mt-6 text-center text-gray-500 text-sm">
+          如果您能看到这个页面，说明客户端参数处理正常
+        </div>
+      </div>
+    </div>
+  )
+}

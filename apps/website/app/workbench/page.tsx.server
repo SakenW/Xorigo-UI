@@ -1,0 +1,36 @@
+/**
+ * 服务器端渲染测试页面 - 不使用 'use client'
+ */
+
+export default function TestServerPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>Workbench 服务器端测试</h1>
+      <p>这是一个服务器端渲染的页面，不使用 'use client'。</p>
+      <div style={{
+        backgroundColor: '#e8f5e8',
+        padding: '15px',
+        borderRadius: '5px',
+        marginTop: '20px',
+        border: '1px solid #4caf50'
+      }}>
+        <h2>服务器端状态</h2>
+        <ul>
+          <li>✅ Next.js 服务器正常</li>
+          <li>✅ 服务器端组件渲染正常</li>
+          <li>✅ 路由系统工作正常</li>
+        </ul>
+      </div>
+      <div style={{
+        backgroundColor: '#fff3cd',
+        padding: '15px',
+        borderRadius: '5px',
+        marginTop: '20px',
+        border: '1px solid #ffc107'
+      }}>
+        <h2>下一步测试</h2>
+        <p>如果这个页面正常显示，问题可能出现在客户端组件上。</p>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,77 @@
+/**
+ * 最小化 Workbench 页面 - 用于逐步诊断运行时错误
+ */
+
+'use client'
+
+import { useState, useEffect } from 'react'
+
+export default function MinimalWorkbenchPage() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    console.log('MinimalWorkbenchPage mounted successfully')
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">加载中...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+          🎨 Workbench v2.0
+        </h1>
+
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">系统状态</h2>
+          <div className="space-y-2">
+            <div className="flex items-center">
+              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+              <span className="text-gray-700">路由系统: 正常工作</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+              <span className="text-gray-700">React 组件: 正常渲染</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+              <span className="text-gray-700">状态管理: 正常工作</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <h2 className="text-xl font-semibold mb-4">功能模式</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="border rounded-lg p-4">
+              <div className="text-lg font-medium mb-2">🎨 Gallery 模式</div>
+              <p className="text-gray-600 text-sm">浏览组件库配方和示例</p>
+            </div>
+            <div className="border rounded-lg p-4">
+              <div className="text-lg font-medium mb-2">✏️ Editor 模式</div>
+              <p className="text-gray-600 text-sm">实时编辑代码并预览效果</p>
+            </div>
+            <div className="border rounded-lg p-4">
+              <div className="text-lg font-medium mb-2">📱 Split 模式</div>
+              <p className="text-gray-600 text-sm">画廊和编辑器并排显示</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 text-center text-gray-500 text-sm">
+          Workbench v2.0 - 统一组件工作台 • 架构重构完成
+        </div>
+      </div>
+    </div>
+  )
+}

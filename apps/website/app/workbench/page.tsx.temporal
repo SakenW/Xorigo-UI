@@ -1,0 +1,140 @@
+/**
+ * 临时服务器端 Workbench 页面
+ * 提供基本的 Workbench 功能，等待客户端组件问题修复
+ */
+
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Workbench - Xorigo UI',
+  description: 'Xorigo UI 统一组件工作台 - 整合 Gallery 和 Playground',
+}
+
+// 从 URL 获取参数的服务器端函数
+function getModeFromRequest(): string {
+  // 注意：这是一个简化版本，实际应用中需要更完善的参数处理
+  return 'gallery'
+}
+
+export default function TemporalWorkbenchPage() {
+  const currentMode = getModeFromRequest()
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* 头部 */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-gray-900">Workbench v2.0</h1>
+              <span className="ml-4 px-3 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded-full">
+                临时版本
+              </span>
+            </div>
+            <nav className="flex space-x-4">
+              <a
+                href="/workbench"
+                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                🎨 Gallery
+              </a>
+              <a
+                href="/workbench?mode=editor"
+                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                ✏️ Editor
+              </a>
+              <a
+                href="/workbench?mode=split"
+                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                📱 Split
+              </a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* 主内容 */}
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          {/* 状态卡片 */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">🔧 系统状态</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <h3 className="text-sm font-medium text-green-800">路由系统</h3>
+                <p className="mt-1 text-sm text-green-700">✅ 正常工作</p>
+              </div>
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <h3 className="text-sm font-medium text-green-800">服务器端渲染</h3>
+                <p className="mt-1 text-sm text-green-700">✅ 正常工作</p>
+              </div>
+              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <h3 className="text-sm font-medium text-yellow-800">客户端组件</h3>
+                <p className="mt-1 text-sm text-yellow-700">⚠️ 需要修复</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 功能说明 */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">📋 功能模式</h2>
+            <div className="space-y-4">
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h3 className="text-lg font-medium text-gray-900">🎨 Gallery 模式</h3>
+                <p className="text-gray-600">浏览组件库配方和示例，支持搜索和过滤功能</p>
+              </div>
+              <div className="border-l-4 border-green-500 pl-4">
+                <h3 className="text-lg font-medium text-gray-900">✏️ Editor 模式</h3>
+                <p className="text-gray-600">实时编辑代码并预览效果，集成 Monaco 编辑器</p>
+              </div>
+              <div className="border-l-4 border-purple-500 pl-4">
+                <h3 className="text-lg font-medium text-gray-900">📱 Split 模式</h3>
+                <p className="text-gray-600">画廊和编辑器并排显示，提供最佳开发体验</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 当前状态 */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">🎯 当前状态</h2>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-blue-800">
+                <strong>当前模式:</strong> {currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}
+              </p>
+              <p className="text-blue-700 mt-2">
+                Workbench v2.0 架构重构已完成，正在修复客户端组件渲染问题。
+              </p>
+            </div>
+          </div>
+
+          {/* 快速操作 */}
+          <div className="mt-6 flex space-x-4">
+            <a
+              href="/"
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              🏠 返回首页
+            </a>
+            <a
+              href="/docs"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              📚 查看文档
+            </a>
+          </div>
+        </div>
+      </main>
+
+      {/* 页脚 */}
+      <footer className="bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-sm text-gray-500">
+            Workbench v2.0 - 统一组件工作台 • Xorigo UI 组件库
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}

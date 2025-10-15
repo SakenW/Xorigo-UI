@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import path from 'path'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -34,15 +35,15 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       'framer-motion': require.resolve('framer-motion'),
-      // 添加 @xorigo-ui 包的解析路径
-      '@xorigo-ui/core': '/app/packages/core/src/index.ts',
-      '@xorigo-ui/system': '/app/packages/system/src/index.ts',
-      '@xorigo-ui/style-recipe': '/app/packages/style-recipe/src/index.ts',
-      '@xorigo-ui/tokens': '/app/packages/tokens/src/index.ts',
+      // 添加 @xorigo-ui 包的解析路径 - 使用相对路径
+      '@xorigo-ui/core': path.resolve(__dirname, '../../packages/core/src/index.ts'),
+      '@xorigo-ui/system': path.resolve(__dirname, '../../packages/system/src/index.ts'),
+      '@xorigo-ui/style-recipe': path.resolve(__dirname, '../../packages/style-recipe/src/index.ts'),
+      '@xorigo-ui/tokens': path.resolve(__dirname, '../../packages/tokens/src/index.ts'),
       // 添加内部包的路径别名解析
-      '@/utils': '/app/packages/core/src/utils/index.ts',
-      '@/lib': '/app/packages/core/src/lib/index.ts',
-      '@/components': '/app/packages/core/src/components/index.ts',
+      '@/utils': path.resolve(__dirname, '../../packages/core/src/utils/index.ts'),
+      '@/lib': path.resolve(__dirname, '../../packages/core/src/lib/index.ts'),
+      '@/components': path.resolve(__dirname, '../../packages/core/src/components/index.ts'),
     }
 
     return config
