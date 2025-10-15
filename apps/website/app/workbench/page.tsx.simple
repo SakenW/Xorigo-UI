@@ -1,0 +1,25 @@
+/**
+ * 超简单测试页面 - 不使用任何外部依赖
+ */
+
+export default function TestSimplePage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>Workbench 测试页面</h1>
+      <p>如果您能看到这个页面，说明基础路由工作正常。</p>
+      <div style={{
+        backgroundColor: '#f0f0f0',
+        padding: '15px',
+        borderRadius: '5px',
+        marginTop: '20px'
+      }}>
+        <h2>状态检查</h2>
+        <ul>
+          <li>✅ Next.js 路由正常</li>
+          <li>✅ React 组件渲染正常</li>
+          <li>✅ 页面内容显示正常</li>
+        </ul>
+      </div>
+    </div>
+  )
+}

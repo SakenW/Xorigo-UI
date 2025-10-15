@@ -1,0 +1,99 @@
+/**
+ * 测试 React hooks 和状态管理的页面
+ */
+
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
+
+export default function TestHooksPage() {
+  const [count, setCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    setMounted(true)
+    console.log('TestHooksPage mounted, searchParams:', searchParams.toString())
+  }, [searchParams])
+
+  const mode = searchParams.get('mode') || 'gallery'
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">加载中...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+          🎨 Workbench v2.0 - Hooks 测试
+        </h1>
+
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">React Hooks 状态</h2>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+              <span className="text-green-700">useState 计数器</span>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setCount(count - 1)}
+                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  -
+                </button>
+                <span className="font-mono text-lg">{count}</span>
+                <button
+                  onClick={() => setCount(count + 1)}
+                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <span className="text-blue-700">当前模式: </span>
+              <span className="font-mono bg-blue-100 px-2 py-1 rounded">{mode}</span>
+            </div>
+
+            <div className="p-4 bg-yellow-50 rounded-lg">
+              <span className="text-yellow-700">URL 参数: </span>
+              <span className="font-mono text-sm bg-yellow-100 px-2 py-1 rounded">
+                {searchParams.toString() || '(无参数)'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex space-x-4">
+          <a
+            href="/workbench?mode=gallery"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Gallery 模式
+          </a>
+          <a
+            href="/workbench?mode=editor"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          >
+            Editor 模式
+          </a>
+          <a
+            href="/workbench?mode=split"
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Split 模式
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}

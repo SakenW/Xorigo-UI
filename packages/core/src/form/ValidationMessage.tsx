@@ -50,7 +50,7 @@ const validationMessageVariants = cva(
   }
 )
 
-const iconVariants = cva(
+const validationIconVariants = cva(
   // 基础样式
   "flex-shrink-0",
   {
@@ -74,7 +74,7 @@ const iconVariants = cva(
   }
 )
 
-const textVariants = cva(
+const validationTextVariants = cva(
   // 基础样式
   "font-medium",
   {
@@ -91,7 +91,7 @@ const textVariants = cva(
   }
 )
 
-const listVariants = cva(
+const validationListVariants = cva(
   // 基础样式
   "space-y-1",
   {
@@ -292,7 +292,7 @@ export const ValidationMessage = forwardRef<HTMLDivElement, ValidationMessagePro
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className={textVariants({ size })}>
+          <p className={validationTextVariants({ size })}>
             {msg.message}
           </p>
         </div>
@@ -427,10 +427,10 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
     <div ref={ref} className="space-y-4" {...props}>
       {errors.length > 0 && (
         <div className="space-y-2">
-          <h4 className={textVariants({ size }) + " font-medium text-red-600 dark:text-red-400"}>
+          <h4 className={validationTextVariants({ size }) + " font-medium text-red-600 dark:text-red-400"}>
             错误 ({errors.length})
           </h4>
-          <div className={listVariants({ size })}>
+          <div className={validationListVariants({ size })}>
             {errors.map((error, index) => (
               <ValidationMessage
                 key={`error-${index}`}
@@ -447,10 +447,10 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
 
       {warnings.length > 0 && (
         <div className="space-y-2">
-          <h4 className={textVariants({ size }) + " font-medium text-yellow-600 dark:text-yellow-400"}>
+          <h4 className={validationTextVariants({ size }) + " font-medium text-yellow-600 dark:text-yellow-400"}>
             警告 ({warnings.length})
           </h4>
-          <div className={listVariants({ size })}>
+          <div className={validationListVariants({ size })}>
             {warnings.map((warning, index) => (
               <ValidationMessage
                 key={`warning-${index}`}
@@ -467,10 +467,10 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
 
       {successes.length > 0 && (
         <div className="space-y-2">
-          <h4 className={textVariants({ size }) + " font-medium text-green-600 dark:text-green-400"}>
+          <h4 className={validationTextVariants({ size }) + " font-medium text-green-600 dark:text-green-400"}>
             成功 ({successes.length})
           </h4>
-          <div className={listVariants({ size })}>
+          <div className={validationListVariants({ size })}>
             {successes.map((success, index) => (
               <ValidationMessage
                 key={`success-${index}`}
@@ -487,10 +487,10 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
 
       {infos.length > 0 && (
         <div className="space-y-2">
-          <h4 className={textVariants({ size }) + " font-medium text-blue-600 dark:text-blue-400"}>
+          <h4 className={validationTextVariants({ size }) + " font-medium text-blue-600 dark:text-blue-400"}>
             信息 ({infos.length})
           </h4>
-          <div className={listVariants({ size })}>
+          <div className={validationListVariants({ size })}>
             {infos.map((info, index) => (
               <ValidationMessage
                 key={`info-${index}`}
@@ -510,4 +510,4 @@ export const ValidationSummary = forwardRef<HTMLDivElement, ValidationSummaryPro
 
 ValidationSummary.displayName = "ValidationSummary"
 
-export { validationMessageVariants, iconVariants as validationIconVariants, textVariants as validationTextVariants, listVariants as validationListVariants }
+export { validationMessageVariants, validationIconVariants, validationTextVariants, validationListVariants }

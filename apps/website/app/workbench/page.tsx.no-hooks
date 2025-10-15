@@ -1,0 +1,25 @@
+/**
+ * 最简单的客户端组件 - 不使用 hooks
+ */
+
+'use client'
+
+export default function TestClientSimpleNoHooksPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>最简单的客户端组件</h1>
+      <p>这个组件不使用任何 React hooks。</p>
+      <p>如果这个页面显示 404，说明所有客户端组件都有问题。</p>
+      <div style={{
+        backgroundColor: '#e8f5e8',
+        padding: '15px',
+        borderRadius: '5px',
+        marginTop: '20px'
+      }}>
+        <h2>测试结果</h2>
+        <p>✅ 如果您能看到这个内容，客户端组件基础功能正常。</p>
+        <p>❌ 如果看到 404，客户端组件渲染有问题。</p>
+      </div>
+    </div>
+  )
+}

@@ -44,7 +44,7 @@ const formFieldVariants = cva(
   }
 )
 
-const labelVariants = cva(
+const formLabelVariants = cva(
   // 基础样式
   "font-medium transition-all duration-200",
   {
@@ -321,7 +321,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
         id={labelId}
         htmlFor={fieldId}
         className={cn(
-          labelVariants({
+          formLabelVariants({
             variant,
             size,
             required: isRequired,
@@ -555,4 +555,4 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
 
 FormField.displayName = "FormField"
 
-export { formFieldVariants, labelVariants as formLabelVariants, helperTextVariants, errorTextVariants }
+export { formFieldVariants, formLabelVariants, helperTextVariants, errorTextVariants }

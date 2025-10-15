@@ -1,0 +1,28 @@
+/**
+ * 最简单的测试 - 服务器端组件
+ */
+
+export default function SimpleTestPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>🔧 最简单的服务器端组件测试</h1>
+      <p>如果你能看到这个页面，说明：</p>
+      <ul>
+        <li>✅ Workbench 路由本身是正常的</li>
+        <li>✅ 服务器端组件可以正常渲染</li>
+        <li>✅ 问题可能出在客户端组件上</li>
+      </ul>
+
+      <div style={{
+        backgroundColor: '#e8f5e8',
+        padding: '15px',
+        borderRadius: '5px',
+        marginTop: '20px'
+      }}>
+        <h2>当前状态</h2>
+        <p>这是一个纯服务器端组件，没有使用 'use client' 指令。</p>
+        <p>时间: {new Date().toLocaleString()}</p>
+      </div>
+    </div>
+  )
+}
