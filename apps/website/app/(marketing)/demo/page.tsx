@@ -20,7 +20,7 @@ import dynamic from 'next/dynamic'
 const MinimalTechHome = dynamic(() => import('./v1-minimal'), { ssr: false })
 const DeveloperHome = dynamic(() => import('./v2-developer'), { ssr: false })
 const CreativeHome = dynamic(() => import('./v3-creative'), { ssr: false })
-const UltimateHome = dynamic(() => import('./ultimate-stable'), { ssr: false })
+const UltimateHome = dynamic(() => import('./ultimate-ultimate-enhanced/page'), { ssr: false })
 
 /**
  * 首页选择器 - 预览和选择不同风格的首页
@@ -63,13 +63,13 @@ const HomepageSelector = () => {
     },
     {
       id: 4,
-      title: '终极稳定版',
-      description: '稳定性能 • 优化体验 • 无错误',
+      title: '✨ 终极增强版',
+      description: '顶级视觉 • 智能优化 • 沉浸体验',
       icon: <Crown className="w-6 h-6" />,
       gradient: 'from-purple-500 via-pink-500 to-cyan-500',
       preview: '/demo-v4.jpg',
       component: UltimateHome,
-      features: ['稳定粒子系统', '简化3D轮播', '平滑滚动', '鼠标光晕', '优化性能', '代码编辑器', '渐变背景']
+      features: ['鼠标交互粒子', '智能性能监控', '3D组件轮播', '流体动画', '增强代码雨', '性能控制面板', '沉浸式体验']
     }
   ]
 
@@ -207,7 +207,7 @@ const HomepageSelector = () => {
                   <code className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded">极简版: /demo/v1-minimal</code>
                   <code className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded">开发版: /demo/v2-developer</code>
                   <code className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded">创意版: /demo/v3-creative</code>
-                  <code className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded">稳定版: /demo/ultimate-stable</code>
+                  <code className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded font-bold text-purple-600">✨ 增强版: /demo/ultimate-ultimate-enhanced</code>
                 </div>
               </div>
             </motion.div>

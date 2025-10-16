@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense } from 'react'
-import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue, useVelocity, useAnimationFrame, MotionValue, useInView } from 'framer-motion'
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useInView } from 'framer-motion'
 import { Button, Card, AnimatedCard, Typography, Surface, Code as CodeComponent } from '@xorigo-ui/core'
 import {
   Sparkles,
@@ -34,8 +34,6 @@ import {
   Lightbulb,
   Wand2,
   ArrowUpRight,
-  Menu,
-  X,
   Hexagon,
   Triangle,
   Circle,
@@ -46,306 +44,241 @@ import {
   GitBranch,
   Cloud,
   Lock,
-  Workflow,
-  Infinity,
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Eye,
-  Fingerprint,
-  Timer,
-  Activity
+  Workflow
 } from 'lucide-react'
 
 /**
- * 终极最终版 - 极致细节与动效的巅峰
- * 新增特性：
- * - 视差滚动系统
- * - 3D轮播展示
- * - 鼠标光晕追踪
- * - 音效系统（可选）
- * - 加载动画
- * - 组件实时预览
- * - 智能主题切换
- * - 流体动画系统
- * - 高级交互反馈
+ * 最终稳定版本 - 使用成熟库和方法
+ * 专注于稳定性和性能，修复了质量切换和代码雨问题
  */
 
-// 页面加载动画
-const PageLoader = () => {
-  const [progress, setProgress] = useState(0)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          setTimeout(() => setIsLoaded(true), 500)
-          return 100
-        }
-        return prev + Math.random() * 15
-      })
-    }, 100)
-    return () => clearInterval(interval)
-  }, [])
-
-  if (isLoaded) return null
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="text-center">
-        <motion.div
-          className="w-32 h-32 mx-auto mb-8"
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear"
-          }}
-        >
-          <div className="relative w-full h-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-3xl animate-pulse" />
-            <div className="absolute inset-2 bg-black rounded-2xl flex items-center justify-center">
-              <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                X
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
-        <div className="w-64 h-2 bg-gray-900 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"
-            style={{ width: `${progress}%` }}
-            transition={{ type: 'spring', stiffness: 50 }}
-          />
-        </div>
-
-        <motion.p
-          className="mt-4 text-gray-400"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-        >
-          初始化组件系统...
-        </motion.p>
-      </div>
-    </motion.div>
-  )
+// 性能配置
+const PERFORMANCE_CONFIG = {
+  high: {
+    particleCount: 50,
+    codeLines: 15,
+    animationDuration: 20,
+    enableGlow: true,
+    enableParallax: true
+  },
+  medium: {
+    particleCount: 30,
+    codeLines: 10,
+    animationDuration: 15,
+    enableGlow: false,
+    enableParallax: true
+  },
+  low: {
+    particleCount: 15,
+    codeLines: 5,
+    animationDuration: 10,
+    enableGlow: false,
+    enableParallax: false
+  }
 }
 
-// 超级粒子系统 - 带鼠标轨迹
-const SuperParticleSystem = () => {
-  const [mounted, setMounted] = useState(false)
-  const [particles, setParticles] = useState<Array<{
-    id: number
-    x: number
-    y: number
-    vx: number
-    vy: number
-    size: number
-    color: string
-    life: number
-    type: 'normal' | 'trail' | 'explosion'
-  }>>([])
+// 简化性能监控 Hook
+const usePerformanceMonitor = () => {
+  const [performanceLevel, setPerformanceLevel] = useState<'high' | 'medium' | 'low'>('high')
+  const [fps, setFps] = useState(60)
+  const frameCount = useRef(0)
+  const lastTime = useRef(Date.now())
 
-  const [mouseTrail, setMouseTrail] = useState<Array<{ x: number; y: number; id: number }>>([])
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const mouseXSmooth = useSpring(mouseX, { stiffness: 100, damping: 30 })
-  const mouseYSmooth = useSpring(mouseY, { stiffness: 100, damping: 30 })
+  useEffect(() => {
+    let animationId: number
+
+    const measureFPS = () => {
+      frameCount.current++
+      const currentTime = Date.now()
+      const deltaTime = currentTime - lastTime.current
+
+      if (deltaTime >= 1000) {
+        const currentFps = Math.round((frameCount.current * 1000) / deltaTime)
+        setFps(currentFps)
+
+        // 自动调整性能等级
+        if (currentFps < 30 && performanceLevel !== 'low') {
+          setPerformanceLevel('low')
+        } else if (currentFps < 45 && performanceLevel === 'high') {
+          setPerformanceLevel('medium')
+        } else if (currentFps > 55 && performanceLevel !== 'high') {
+          setPerformanceLevel('high')
+        }
+
+        frameCount.current = 0
+        lastTime.current = currentTime
+      }
+
+      animationId = requestAnimationFrame(measureFPS)
+    }
+
+    animationId = requestAnimationFrame(measureFPS)
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+      }
+    }
+  }, [performanceLevel])
+
+  const setManualPerformanceLevel = (level: 'high' | 'medium' | 'low') => {
+    setPerformanceLevel(level)
+    console.log(`性能等级切换到: ${level}`)
+  }
+
+  return {
+    performanceLevel,
+    fps,
+    setPerformanceLevel: setManualPerformanceLevel,
+    config: PERFORMANCE_CONFIG[performanceLevel]
+  }
+}
+
+// 简化粒子系统
+const SimpleParticleSystem = ({ config }: { config: any }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+  }, [])
 
-    // 初始化粒子
-    const initialParticles = Array.from({ length: 80 }, (_, i) => ({
-      id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
+  useEffect(() => {
+    if (!mounted || !canvasRef.current) return
+
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+
+    const particles = Array.from({ length: config.particleCount }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
       size: Math.random() * 3 + 1,
-      color: ['#8B5CF6', '#06B6D4', '#EC4899', '#F59E0B', '#10B981'][Math.floor(Math.random() * 5)],
-      life: 1,
-      type: 'normal' as const
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+      color: ['#8B5CF6', '#06B6D4', '#EC4899', '#F59E0B'][Math.floor(Math.random() * 4)]
     }))
-    setParticles(initialParticles)
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX)
-      mouseY.set(e.clientY)
+    let animationId: number
 
-      // 添加鼠标轨迹
-      setMouseTrail(prev => {
-        const newTrail = [...prev, { x: e.clientX, y: e.clientY, id: Date.now() }]
-        return newTrail.slice(-20) // 保留最后20个点
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach(particle => {
+        particle.x += particle.speedX
+        particle.y += particle.speedY
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1
+        if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1
+
+        ctx.beginPath()
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+        ctx.fillStyle = particle.color
+        ctx.globalAlpha = 0.8
+        ctx.fill()
       })
+
+      animationId = requestAnimationFrame(animate)
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [mouseX, mouseY])
+    animate()
 
-  // 粒子物理动画
-  useAnimationFrame(() => {
-    setParticles(prev => prev.map(particle => {
-      let { x, y, vx, vy, life, type } = particle
+    const handleResize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
 
-      if (type === 'normal') {
-        // 鼠标吸引力和排斥力
-        const dx = mouseXSmooth.get() - x
-        const dy = mouseYSmooth.get() - y
-        const distance = Math.sqrt(dx * dx + dy * dy)
+    window.addEventListener('resize', handleResize)
 
-        if (distance < 150) {
-          const force = (150 - distance) / 150 * 0.03
-          vx += (dx / distance) * force
-          vy += (dy / distance) * force
-        }
-
-        // 粒子间相互作用
-        prev.forEach(other => {
-          if (other.id !== particle.id) {
-            const odx = other.x - x
-            const ody = other.y - y
-            const odist = Math.sqrt(odx * odx + ody * ody)
-
-            if (odist < 50 && odist > 0) {
-              const repel = (50 - odist) / 50 * 0.01
-              vx -= (odx / odist) * repel
-              vy -= (ody / odist) * repel
-            }
-          }
-        })
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId)
       }
-
-      // 阻尼
-      vx *= 0.98
-      vy *= 0.98
-
-      // 更新位置
-      x += vx
-      y += vy
-
-      // 边界反弹
-      if (x < 0 || x > window.innerWidth) {
-        vx = -vx * 0.8
-        x = Math.max(0, Math.min(window.innerWidth, x))
-      }
-      if (y < 0 || y > window.innerHeight) {
-        vy = -vy * 0.8
-        y = Math.max(0, Math.min(window.innerHeight, y))
-      }
-
-      // 生命周期
-      life -= type === 'explosion' ? 0.02 : 0.001
-      if (life <= 0) {
-        x = Math.random() * window.innerWidth
-        y = Math.random() * window.innerHeight
-        life = 1
-        type = 'normal'
-      }
-
-      return { ...particle, x, y, vx, vy, life, type }
-    }))
-  })
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [mounted, config])
 
   if (!mounted) return null
 
   return (
-    <div className="fixed inset-0 pointer-events-none">
-      {/* 粒子 */}
-      {particles.map(particle => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            x: particle.x,
-            y: particle.y,
-            width: particle.size * (particle.type === 'explosion' ? 2 : 1),
-            height: particle.size * (particle.type === 'explosion' ? 2 : 1),
-            backgroundColor: particle.color,
-            opacity: particle.life * 0.6,
-            filter: `blur(${(1 - particle.life) * 2}px)`,
-            boxShadow: `0 0 ${20 * particle.life}px ${particle.color}`
-          }}
-        />
-      ))}
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ opacity: config.enableGlow ? 0.8 : 0.6 }}
+    />
+  )
+}
 
-      {/* 鼠标轨迹 */}
-      {mouseTrail.map((point, index) => (
-        <motion.div
-          key={point.id}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: point.x,
-            top: point.y,
-            backgroundColor: '#8B5CF6',
-            opacity: (index / mouseTrail.length) * 0.5,
-            filter: `blur(${(1 - index / mouseTrail.length) * 3}px)`
-          }}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0 }}
-        />
-      ))}
+// CSS 代码雨效果
+const CodeRainEffect = ({ config }: { config: any }) => {
+  const [mounted, setMounted] = useState(false)
 
-      {/* 鼠标超级光晕 */}
-      <motion.div
-        className="absolute w-[600px] h-[600px] pointer-events-none"
-        style={{
-          x: mouseXSmooth,
-          y: mouseYSmooth,
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <div className="relative w-full h-full">
-          <motion.div
-            className="absolute inset-0 bg-gradient-radial from-purple-500/30 via-purple-500/10 to-transparent"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              repeatType: "reverse"
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/30" />
+      <div className="code-rain-container">
+        {Array.from({ length: config.codeLines }, (_, i) => (
+          <div
+            key={i}
+            className="code-rain-line"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * config.animationDuration}s`,
+              animationDuration: `${config.animationDuration + Math.random() * 10}s`,
+              opacity: config.enableGlow ? 0.7 : 0.4
             }}
-          />
-          <motion.div
-            className="absolute inset-[15%] bg-gradient-radial from-cyan-500/20 via-cyan-500/10 to-transparent"
-            animate={{ scale: [1.2, 1, 1.2] }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-          <motion.div
-            className="absolute inset-[30%] bg-gradient-radial from-pink-500/15 via-pink-500/05 to-transparent"
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-        </div>
-      </motion.div>
+          >
+            {Array.from({ length: 15 }, (_, j) => (
+              <span key={j} style={{
+                color: ['#8B5CF6', '#06B6D4', '#EC4899', '#F59E0B'][Math.floor(Math.random() * 4)]
+              }}>
+                {['{', '}', '[]', '()', ';', 'const', 'let', 'var', 'function', 'return', '=>', '<', '>', '/', '*'][Math.floor(Math.random() * 15)]}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <style jsx>{`
+        .code-rain-container {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .code-rain-line {
+          position: absolute;
+          top: -100px;
+          font-family: 'Courier New', monospace;
+          font-size: 12px;
+          line-height: 1.2;
+          white-space: pre;
+          animation: code-rain linear infinite;
+          text-shadow: 0 0 5px currentColor;
+        }
+
+        @keyframes code-rain {
+          to {
+            transform: translateY(calc(100vh + 200px));
+          }
+        }
+      `}</style>
     </div>
   )
 }
 
-// 3D组件轮播展示
-const Component3DCarousel = () => {
+// 简化3D轮播
+const SimpleCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const components = [
     { name: 'Button', icon: <Box />, color: 'from-purple-500 to-pink-500' },
@@ -359,16 +292,15 @@ const Component3DCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % components.length)
-    }, 3000)
+    }, 4000)
     return () => clearInterval(interval)
   }, [components.length])
 
   return (
-    <div className="relative h-96 flex items-center justify-center perspective-1000">
+    <div className="relative h-80 flex items-center justify-center">
       <div className="relative w-full h-full max-w-4xl">
         {components.map((component, index) => {
           const offset = index - activeIndex
-          const absOffset = Math.abs(offset)
           const isActive = offset === 0
 
           return (
@@ -376,57 +308,32 @@ const Component3DCarousel = () => {
               key={component.name}
               className="absolute inset-0 flex items-center justify-center"
               animate={{
-                x: `${offset * 120}%`,
-                z: -absOffset * 200,
-                rotateY: offset * -30,
-                opacity: absOffset > 1 ? 0 : 1 - absOffset * 0.3,
-                scale: 1 - absOffset * 0.2
+                x: `${offset * 100}%`,
+                opacity: Math.abs(offset) > 1 ? 0 : 1 - Math.abs(offset) * 0.5,
+                scale: 1 - Math.abs(offset) * 0.2,
+                zIndex: isActive ? 10 : 5 - Math.abs(offset)
               }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-              style={{ transformStyle: 'preserve-3d' }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <motion.div
-                className={`relative w-64 h-80 rounded-3xl bg-gradient-to-br ${component.color} p-[2px] cursor-pointer`}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
+                className={`relative w-64 h-72 rounded-2xl bg-gradient-to-br ${component.color} p-[2px] cursor-pointer`}
+                whileHover={{ scale: isActive ? 1.05 : 1.02 }}
                 onClick={() => setActiveIndex(index)}
               >
-                <div className="relative w-full h-full bg-black/90 rounded-3xl p-8 flex flex-col items-center justify-center">
+                <div className="relative w-full h-full bg-black/90 rounded-2xl p-8 flex flex-col items-center justify-center">
                   <motion.div
-                    className="text-6xl mb-6"
+                    className="text-6xl mb-4"
                     animate={{
                       rotateY: isActive ? 360 : 0,
                     }}
-                    transition={{
-                      duration: 2,
-                      repeat: isActive ? Infinity : 0,
-                      repeatType: "loop"
-                    }}
+                    transition={{ duration: 2 }}
                   >
                     {React.cloneElement(component.icon as React.ReactElement, {
-                      className: 'w-24 h-24 text-white'
+                      className: 'w-20 h-20 text-white'
                     })}
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{component.name}</h3>
-                  <p className="text-gray-400 text-center">现代化的 {component.name} 组件</p>
-
-                  {isActive && (
-                    <motion.div
-                      className="absolute inset-0 rounded-3xl"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: [0, 0.5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                      style={{
-                        background: `radial-gradient(circle at center, ${
-                          component.color.includes('purple') ? 'rgba(139, 92, 246, 0.3)' :
-                          component.color.includes('cyan') ? 'rgba(6, 182, 212, 0.3)' :
-                          component.color.includes('yellow') ? 'rgba(245, 158, 11, 0.3)' :
-                          component.color.includes('green') ? 'rgba(16, 185, 129, 0.3)' :
-                          component.color.includes('indigo') ? 'rgba(99, 102, 241, 0.3)' :
-                          'rgba(236, 72, 153, 0.3)'
-                        } 0%, transparent 70%)`
-                      }}
-                    />
-                  )}
+                  <h3 className="text-xl font-bold text-white mb-2">{component.name}</h3>
+                  <p className="text-gray-400 text-center text-sm">现代化的 {component.name} 组件</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -434,7 +341,6 @@ const Component3DCarousel = () => {
         })}
       </div>
 
-      {/* 控制点 */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2">
         {components.map((_, index) => (
           <button
@@ -450,168 +356,63 @@ const Component3DCarousel = () => {
   )
 }
 
-// 视差卡片
-const ParallaxCard = ({ children, offset = 0, className = '' }: any) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [offset, -offset])
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.8])
-
+// 性能控制面板
+const PerformanceControlPanel = ({
+  performanceLevel,
+  fps,
+  setPerformanceLevel
+}: {
+  performanceLevel: 'high' | 'medium' | 'low'
+  fps: number
+  setPerformanceLevel: (level: 'high' | 'medium' | 'low') => void
+}) => {
   return (
     <motion.div
-      ref={ref}
-      style={{ y, opacity, scale }}
-      className={className}
+      className="fixed top-20 right-4 bg-black/80 backdrop-blur-md rounded-lg p-4 border border-purple-500/20 z-50"
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 2 }}
     >
-      {children}
-    </motion.div>
-  )
-}
+      <h3 className="text-white font-bold mb-3 text-sm">性能控制</h3>
 
-// 流体背景动画
-const FluidBackground = () => {
-  return (
-    <div className="fixed inset-0 pointer-events-none opacity-20">
-      <svg className="w-full h-full">
-        <defs>
-          <filter id="fluid">
-            <feTurbulence baseFrequency="0.01" numOctaves="2" result="turbulence" />
-            <feColorMatrix in="turbulence" type="saturate" values="2" />
-          </filter>
-        </defs>
-        <motion.rect
-          width="100%"
-          height="100%"
-          filter="url(#fluid)"
-          className="fill-purple-500/20"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0]
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear"
-          }}
-        />
-      </svg>
-    </div>
-  )
-}
-
-// 代码编辑器组件
-const CodeEditor = () => {
-  const [code, setCode] = useState(`import { Button, Card } from '@xorigo-ui/core'
-
-function App() {
-  return (
-    <Card className="p-6">
-      <h1>欢迎使用 Xorigo UI</h1>
-      <Button variant="primary">
-        开始构建
-      </Button>
-    </Card>
-  )
-}`)
-
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = () => {
-    if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      navigator.clipboard.writeText(code)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-purple-500/20"
-    >
-      {/* 编辑器头部 */}
-      <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b border-purple-500/10">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 bg-red-500 rounded-full" />
-            <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-            <div className="w-3 h-3 bg-green-500 rounded-full" />
-          </div>
-          <span className="text-gray-400 text-sm ml-2">App.tsx</span>
+      <div className="mb-3">
+        <div className="text-gray-400 text-xs mb-1">FPS: {fps}</div>
+        <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
+          <motion.div
+            className={`h-full transition-colors ${
+              fps > 50 ? 'bg-green-500' : fps > 30 ? 'bg-yellow-500' : 'bg-red-500'
+            }`}
+            style={{ width: `${Math.min(fps, 60) / 60 * 100}%` }}
+          />
         </div>
-        <button
-          onClick={handleCopy}
-          className="text-gray-400 hover:text-white transition-colors"
-        >
-          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-        </button>
       </div>
 
-      {/* 代码内容 */}
-      <pre className="p-6 text-sm overflow-x-auto">
-        <code className="text-gray-300">{code}</code>
-      </pre>
-
-      {/* 实时预览按钮 */}
-      <motion.button
-        className="absolute bottom-4 right-4 bg-purple-500/20 backdrop-blur-sm border border-purple-500/50 text-purple-400 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-500/30 transition-colors"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Play className="w-4 h-4" />
-        实时预览
-      </motion.button>
+      <div className="space-y-2">
+        {[
+          { value: 'high', label: '高画质', color: 'bg-red-500' },
+          { value: 'medium', label: '中画质', color: 'bg-yellow-500' },
+          { value: 'low', label: '低画质', color: 'bg-green-500' }
+        ].map(({ value, label, color }) => (
+          <button
+            key={value}
+            onClick={() => setPerformanceLevel(value as 'high' | 'medium' | 'low')}
+            className={`w-full px-3 py-1 text-xs rounded transition-all ${
+              performanceLevel === value
+                ? `${color} text-white`
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </motion.div>
   )
 }
 
-// 统计数字滚动动画
-const CounterAnimation = ({ value, suffix = '' }: { value: number; suffix?: string }) => {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-
-  useEffect(() => {
-    if (isInView) {
-      let start = 0
-      const end = value
-      const duration = 2000
-      const increment = end / (duration / 16)
-
-      const timer = setInterval(() => {
-        start += increment
-        if (start >= end) {
-          setCount(end)
-          clearInterval(timer)
-        } else {
-          setCount(Math.floor(start))
-        }
-      }, 16)
-
-      return () => clearInterval(timer)
-    }
-  }, [isInView, value])
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}{suffix}
-    </span>
-  )
-}
-
-// 导航栏增强版
-const EnhancedNavbar = () => {
+// 简化导航栏
+const SimpleNavbar = () => {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { scrollY } = useScroll()
-  const navbarY = useTransform(scrollY, [0, 100], [0, -100])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -623,45 +424,38 @@ const EnhancedNavbar = () => {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled
-          ? 'bg-black/90 backdrop-blur-3xl border-b border-purple-500/20 shadow-2xl shadow-purple-500/10'
+          ? 'bg-black/90 backdrop-blur-xl border-b border-purple-500/20 shadow-lg'
           : 'bg-transparent'
       }`}
-      style={{ y: navbarY }}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo增强 */}
           <motion.div
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
-            <motion.div className="relative w-12 h-12">
+            <motion.div className="relative w-10 h-10">
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl"
-                animate={{
-                  rotate: 360,
-                }}
+                className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg"
+                animate={{ rotate: 360 }}
                 transition={{ duration: 10, repeat: Infinity, repeatType: "loop", ease: 'linear' }}
               />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500/50 to-cyan-500/50 rounded-xl blur-md"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-              />
-              <div className="relative w-full h-full flex items-center justify-center text-white font-bold text-2xl">
+              <div className="relative w-full h-full flex items-center justify-center text-white font-bold text-lg">
                 X
               </div>
             </motion.div>
-            <div className="text-2xl font-bold">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient bg-300">
+            <div className="text-xl font-bold">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
                 Xorigo UI
               </span>
             </div>
           </motion.div>
 
-          {/* Desktop Menu增强 */}
           <div className="hidden md:flex items-center gap-8">
             {['组件', '文档', '主题', 'GitHub'].map((item, i) => (
               <motion.a
@@ -674,10 +468,6 @@ const EnhancedNavbar = () => {
                 transition={{ delay: i * 0.1 }}
               >
                 <span className="relative z-10">{item}</span>
-                <motion.div
-                  className="absolute -inset-x-2 -inset-y-1 bg-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                  layoutId="nav-hover"
-                />
                 <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 scale-x-0 group-hover:scale-x-100 transition-transform" />
               </motion.a>
             ))}
@@ -688,57 +478,24 @@ const EnhancedNavbar = () => {
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10 flex items-center">
-                <Rocket className="w-4 h-4 mr-2 group-hover:rotate-45 transition-transform" />
+                <Rocket className="w-4 h-4 mr-2" />
                 开始使用
               </span>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
-                initial={{ x: '100%' }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3 }}
-              />
             </motion.button>
           </div>
-
-          {/* Mobile Menu按钮 */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden relative w-8 h-8 flex items-center justify-center"
-          >
-            <AnimatePresence mode="wait">
-              {mobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                >
-                  <X className="w-6 h-6 text-white" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                >
-                  <Menu className="w-6 h-6 text-white" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
         </div>
       </div>
     </motion.nav>
   )
 }
 
+
 // 主组件
 export default function UltimateFinalHome() {
   const { scrollYProgress } = useScroll()
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [1, 0.8])
-  const opacityProgress = useTransform(scrollYProgress, [0, 0.5], [1, 0.6])
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [1, 0.9])
+  const opacityProgress = useTransform(scrollYProgress, [0, 0.5], [1, 0.7])
+  const { performanceLevel, fps, setPerformanceLevel, config } = usePerformanceMonitor()
 
   const stats = [
     { label: '组件', value: 50, suffix: '+', icon: <Box /> },
@@ -747,270 +504,163 @@ export default function UltimateFinalHome() {
     { label: '性能提升', value: 50, suffix: '%', icon: <Zap /> }
   ]
 
-  const [soundEnabled, setSoundEnabled] = useState(false)
-
   return (
-    <AnimatePresence>
-      <PageLoader key="page-loader" />
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* 背景效果 */}
+      <SimpleParticleSystem config={config} />
+      <CodeRainEffect config={config} />
 
-      <motion.div
-        key="main-content"
-        className="min-h-screen bg-black text-white relative overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {/* 背景效果层 */}
-        <FluidBackground />
-        <SuperParticleSystem />
+      {/* 性能控制面板 */}
+      <PerformanceControlPanel
+        performanceLevel={performanceLevel}
+        fps={fps}
+        setPerformanceLevel={setPerformanceLevel}
+      />
 
-        {/* 导航栏 */}
-        <EnhancedNavbar />
+      {/* 导航栏 */}
+      <SimpleNavbar />
 
-        {/* Hero Section增强版 */}
-        <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-          <motion.div
-            className="max-w-7xl mx-auto w-full"
-            style={{ scale: scaleProgress, opacity: opacityProgress }}
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <motion.div
+          className="max-w-7xl mx-auto w-full text-center relative z-10"
+          style={{ scale: scaleProgress, opacity: opacityProgress }}
+        >
+          {/* 标题 */}
+          <motion.h1
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
           >
-            <div className="text-center">
-              {/* 声音控制 */}
-              <motion.button
-                className="fixed bottom-4 right-4 z-50 bg-purple-500/20 backdrop-blur-sm border border-purple-500/50 text-purple-400 p-3 rounded-full"
-                onClick={() => setSoundEnabled(!soundEnabled)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-              </motion.button>
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+              Xorigo UI
+            </span>
+          </motion.h1>
 
-              {/* 标题超级动画 */}
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-              >
-                <motion.h1
-                  className="text-7xl md:text-8xl lg:text-9xl font-bold mb-8"
-                  style={{ perspective: '1000px' }}
-                >
-                  <motion.span
-                    className="inline-block bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient bg-300"
-                    animate={{
-                      rotateX: [0, 10, 0],
-                      rotateY: [-10, 0, 10, 0, -10],
-                    }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "easeInOut"
-                    }}
-                  >
-                    Xorigo UI
-                  </motion.span>
-                </motion.h1>
+          <motion.p
+            className="text-2xl text-gray-300 mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            下一代 React 组件库
+          </motion.p>
 
-                <motion.p
-                  className="text-3xl text-gray-300 mb-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  下一代 React 组件库
-                </motion.p>
+          <motion.p
+            className="text-lg text-gray-500 mb-12 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            由 Saken 与 AI 协作打造，为现代 Web 应用提供极致的开发体验
+          </motion.p>
 
-                <motion.p
-                  className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  由 Saken 与 AI 协作打造，为现代 Web 应用提供极致的开发体验
-                </motion.p>
+          {/* CTA按钮组 */}
+          <motion.div
+            className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <motion.button
+              className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-12 py-5 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-purple-500/30 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10 flex items-center justify-center">
+                <Rocket className="w-5 h-5 mr-2" />
+                开始使用
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+              </span>
+            </motion.button>
 
-                {/* CTA按钮组 */}
-                <motion.div
-                  className="flex flex-col sm:flex-row gap-6 justify-center mb-20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  <motion.button
-                    className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-12 py-5 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-purple-500/30 transition-all"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span className="relative z-10 flex items-center justify-center">
-                      <Rocket className="w-5 h-5 mr-2 group-hover:animate-bounce" />
-                      开始使用
-                      <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
-                    </span>
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
-                      initial={{ x: '100%' }}
-                      whileHover={{ x: 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.button>
-
-                  <motion.button
-                    className="group border-2 border-purple-500/50 hover:border-purple-400 text-white px-12 py-5 rounded-2xl text-lg font-bold backdrop-blur-sm hover:bg-purple-500/10 transition-all"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => window.open('https://github.com/SakenW/Xorigo-UI', '_blank')}
-                  >
-                    <Github className="w-5 h-5 mr-2 inline-block group-hover:rotate-12 transition-transform" />
-                    GitHub
-                  </motion.button>
-                </motion.div>
-              </motion.div>
-
-              {/* 代码编辑器展示 */}
-              <motion.div
-                className="max-w-4xl mx-auto"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-              >
-                <CodeEditor />
-              </motion.div>
-            </div>
+            <motion.button
+              className="group border-2 border-purple-500/50 hover:border-purple-400 text-white px-12 py-5 rounded-2xl text-lg font-bold backdrop-blur-sm hover:bg-purple-500/10 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.open('https://github.com/SakenW/Xorigo-UI', '_blank')}
+            >
+              <Github className="w-5 h-5 mr-2 inline-block group-hover:rotate-12 transition-transform" />
+              GitHub
+            </motion.button>
           </motion.div>
-        </section>
+        </motion.div>
+      </section>
 
-        {/* 3D组件展示 */}
-        <section className="py-32 px-6">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
-            >
-              <h2 className="text-5xl md:text-6xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  组件预览
-                </span>
-              </h2>
-              <p className="text-xl text-gray-400">
-                探索我们精心打造的每一个组件
-              </p>
-            </motion.div>
+      {/* 组件展示 */}
+      <section className="py-32 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                组件预览
+              </span>
+            </h2>
+            <p className="text-lg text-gray-400">
+              探索我们精心打造的每一个组件
+            </p>
+          </motion.div>
 
-            <Component3DCarousel />
+          <SimpleCarousel />
+        </div>
+      </section>
+
+      {/* 统计数据 */}
+      <section className="py-32 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <motion.div
+                  className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {React.cloneElement(stat.icon as React.ReactElement, {
+                    className: 'w-8 h-8 text-white'
+                  })}
+                </motion.div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                  {stat.value}{stat.suffix}
+                </div>
+                <div className="text-gray-400">{stat.label}</div>
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 统计数据 */}
-        <section className="py-32 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <ParallaxCard key={stat.label} offset={50 * (index + 1)}>
-                  <motion.div
-                    className="text-center"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <motion.div
-                      className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center"
-                      whileHover={{ rotate: 360, scale: 1.1 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {React.cloneElement(stat.icon as React.ReactElement, {
-                        className: 'w-10 h-10 text-white'
-                      })}
-                    </motion.div>
-                    <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                      <CounterAnimation value={stat.value} suffix={stat.suffix} />
-                    </div>
-                    <div className="text-gray-400">{stat.label}</div>
-                  </motion.div>
-                </ParallaxCard>
-              ))}
-            </div>
-          </div>
-        </section>
+      {/* Footer */}
+      <footer className="py-20 px-6 border-t border-purple-500/20 relative z-10">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.p
+            className="text-gray-400"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            Created with ❤️ by Saken + AI • {new Date().getFullYear()}
+          </motion.p>
+        </div>
+      </footer>
 
-        {/* Footer */}
-        <footer className="py-20 px-6 border-t border-purple-500/20">
-          <div className="max-w-7xl mx-auto text-center">
-            <motion.p
-              className="text-gray-400"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              Created with ❤️ by Saken + AI • {new Date().getFullYear()}
-            </motion.p>
-          </div>
-        </footer>
-
-        {/* 样式 */}
-        <style jsx global>{`
-          @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-gradient {
-            animation: gradient 6s ease infinite;
-          }
-          .bg-300 {
-            background-size: 300% 300%;
-          }
-          .perspective-1000 {
-            perspective: 1000px;
-          }
-          .bg-gradient-radial {
-            background: radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to));
-          }
-          /* CSS动画定义 */
-          .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          }
-          @keyframes pulse {
-            0%, 100% {
-              opacity: 1;
-            }
-            50% {
-              opacity: .5;
-            }
-          }
-          .animate-bounce {
-            animation: bounce 1s infinite;
-          }
-          @keyframes bounce {
-            0%, 100% {
-              transform: translateY(-25%);
-              animation-timing-function: cubic-bezier(0.8,0,1,1);
-            }
-            50% {
-              transform: translateY(0);
-              animation-timing-function: cubic-bezier(0,0,0.2,1);
-            }
-          }
-          @keyframes spin {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-          @keyframes fadeInOut {
-            0%, 100% {
-              opacity: 0.5;
-            }
-            50% {
-              opacity: 1;
-            }
-          }
-        `}</style>
-      </motion.div>
-    </AnimatePresence>
+      {/* 性能信息显示 */}
+      <div className="fixed bottom-4 left-4 bg-black/60 backdrop-blur-sm rounded px-2 py-1 text-xs text-gray-400 z-50">
+        性能: {performanceLevel} | FPS: {fps}
+      </div>
+    </div>
   )
 }

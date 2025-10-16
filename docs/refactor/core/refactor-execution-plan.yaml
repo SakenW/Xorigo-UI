@@ -1,0 +1,721 @@
+meta:
+  version: 1.0
+  project: "Xorigo-UI"
+  description: "重构与校验一体化执行计划"
+  created: "2025-10-16"
+  author: "Xorigo-UI Team"
+  enforce: true
+
+references:
+  - title: "Xorigo-UI核心架构文档"
+    path: "docs/WEBSITE-ARCHITECTURE/00-Xorigo-UI核心架构文档终极版.md"
+    relevance: "组件分层/令牌/测试金字塔"
+    mandatory: true
+  - title: "关键架构规则"
+    path: "docs/WEBSITE-ARCHITECTURE/CRITICAL-ARCHITECTURE-RULE.md"
+    relevance: "Website 只消费规则"
+    mandatory: true
+  - title: "Website技术架构"
+    path: "docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md"
+    relevance: "模块边界/路由/旅程"
+    mandatory: true
+
+project_context:
+  structure:
+    packages:
+      - name: "@xorigo-ui/core"
+        purpose: "核心UI组件库"
+        status: "active"
+        exports: ["index", "theme"]
+      - name: "@xorigo-ui/tokens"
+        purpose: "设计令牌系统"
+        status: "active"
+      - name: "@xorigo-ui/style-recipe"
+        purpose: "样式配方系统"
+        status: "active"
+      - name: "@xorigo-ui/system"
+        purpose: "系统级工具"
+        status: "active"
+      - name: "@xorigo-ui/hooks"
+        purpose: "React Hooks"
+        status: "active"
+      - name: "@xorigo-ui/i18n"
+        purpose: "国际化支持"
+        status: "active"
+      - name: "@xorigo-ui/registry"
+        purpose: "组件注册表"
+        status: "active"
+      - name: "@xorigo-ui/cli"
+        purpose: "命令行工具"
+        status: "active"
+
+    apps:
+      - name: "website"
+        purpose: "官方网站，仅消费packages"
+        role: "consumer_only"
+        framework: "Next.js 15"
+        status: "active"
+
+  current_state:
+    build_system: "Vite + TypeScript"
+    test_framework: "Vitest + Testing Library"
+    bundling: "ESM + CJS 双格式"
+    storybook: "已配置，端口6009"
+    docker: "开发环境热更新支持"
+    ci_cd: "基础GitHub Actions"
+    release: "手动发布，缺少自动化"
+
+  gaps_identified:
+    - "按需打包：缺少组件级入口"
+    - "a11y自动化：缺少axe-core集成"
+    - "视觉回归：缺少截图对比"
+    - "SSR兼容：Framer Motion兜底不完整"
+    - "发版流水线：缺少Changesets"
+    - "架构守卫：缺少自动化检查"
+
+phases:
+  - id: "phase-1-build-optimization"
+    title: "构建优化与按需打包"
+    priority: "P0"
+    estimated_time: "2-3 days"
+    dependencies: []
+
+    tasks:
+      - id: "add-component-exports"
+        title: "添加组件级导出入口"
+        description: "为core包添加button、card、dialog等组件的独立入口，支持按需导入"
+        type: "implementation"
+        files_to_create:
+          - path: "packages/core/src/components/index.ts"
+            template: "component-exports"
+          - path: "packages/core/src/components/button.tsx"
+            template: "component-entry"
+          - path: "packages/core/src/components/card.tsx"
+            template: "component-entry"
+          - path: "packages/core/src/components/dialog.tsx"
+            template: "component-entry"
+          - path: "packages/core/src/components/tabs.tsx"
+            template: "component-entry"
+        files_to_modify:
+          - path: "packages/core/vite.config.ts"
+            modifications:
+              - "添加多入口配置"
+              - "为每个组件创建独立构建点"
+        commands:
+          - "创建组件级导出文件"
+          - "更新Vite配置支持多入口构建"
+          - "测试组件级导入功能"
+        verification:
+          - type: "import_test"
+            command: "node -e \"require('@xorigo-ui/core/button')\""
+          - type: "bundle_analysis"
+            command: "npx vite-bundle-analyzer packages/core/dist"
+          - type: "tree_shaking_test"
+            command: "npx webpack-bundle-analyzer --mode production"
+        success_criteria:
+          - "import '@xorigo-ui/core/button' 正常工作"
+          - "Bundle分析显示tree-shaking生效"
+          - "按需导入体积减少 > 30%"
+
+      - id: "update-package-exports"
+        title: "更新package.json exports配置"
+        description: "完善exports字段，支持ESM/CJS/types的组件级导出"
+        type: "configuration"
+        files_to_modify:
+          - path: "packages/core/package.json"
+            modifications:
+              - "添加组件级exports配置"
+              - "配置sideEffects字段"
+              - "确保files字段包含dist"
+        verification:
+          - type: "typescript_resolution"
+            command: "npx tsc --noEmit --traceResolution"
+          - type: "import_test_esm"
+            command: "node --input-type=module -e \"import button from '@xorigo-ui/core/button'\""
+          - type: "import_test_cjs"
+            command: "node -e \"const button = require('@xorigo-ui/core/button')\""
+        success_criteria:
+          - "所有导入方式都有类型支持"
+          - "ESM和CJS导入都正常工作"
+          - "sideEffects配置正确，支持tree-shaking"
+
+  - id: "phase-2-theme-decoupling"
+    title: "主题系统三层解耦"
+    priority: "P0"
+    estimated_time: "2-3 days"
+    dependencies: ["phase-1-build-optimization"]
+
+    tasks:
+      - id: "enhance-tokens-package"
+        title: "增强tokens包功能"
+        description: "完善设计令牌系统，支持CSS变量映射和语义化令牌"
+        type: "enhancement"
+        files_to_modify:
+          - path: "packages/tokens/src/colors.ts"
+            modifications:
+              - "定义语义化颜色令牌"
+              - "创建CSS变量映射"
+              - "支持多主题配方"
+          - path: "packages/tokens/src/index.ts"
+            modifications:
+              - "导出完整的令牌系统"
+              - "添加主题切换工具函数"
+        files_to_create:
+          - path: "packages/tokens/src/themes.ts"
+            template: "theme-recipes"
+          - path: "packages/tokens/src/css-variables.ts"
+            template: "css-variables"
+        verification:
+          - type: "css_variable_test"
+            command: "grep -r \"var(--color\" packages/tokens/src/"
+          - type: "theme_switch_test"
+            command: "node -e \"const {themes} = require('@xorigo-ui/tokens'); console.log(Object.keys(themes))\""
+        success_criteria:
+          - "令牌仅引用CSS变量"
+          - "支持亮色/暗色主题切换"
+          - "语义化令牌覆盖完整"
+
+      - id: "remove-hardcoded-colors"
+        title: "移除硬编码颜色值"
+        description: "将组件中的硬编码颜色替换为CSS变量，确保主题切换无需重新编译"
+        type: "refactoring"
+        scope: "packages/core/src/components/*"
+        files_to_scan:
+          - pattern: "**/*.{ts,tsx}"
+          - exclude: "**/*.test.*"
+        commands:
+          - "搜索硬编码颜色值：#xxxxx, rgb(), rgba()"
+          - "替换为对应CSS变量"
+          - "使用class-variance-authority优化变体"
+        verification:
+          - type: "hardcoded_color_check"
+            command: "! grep -r \"#[0-9a-fA-F]\\{3,6\\}\" packages/core/src/components/ || grep -r \"rgb\\|rgba\" packages/core/src/components/"
+          - type: "css_variable_usage"
+            command: "grep -r \"var(--color\" packages/core/src/components/ | wc -l"
+        success_criteria:
+          - "无硬编码颜色值"
+          - "所有颜色使用CSS变量"
+          - "主题切换无需重新编译"
+
+  - id: "phase-3-a11y-automation"
+    title: "a11y自动化集成"
+    priority: "P0"
+    estimated_time: "3-4 days"
+    dependencies: ["phase-2-theme-decoupling"]
+
+    tasks:
+      - id: "integrate-axe-core"
+        title: "集成axe-core测试"
+        description: "为核心组件添加自动化可访问性测试，确保符合WCAG标准"
+        type: "testing"
+        dependencies:
+          - "@axe-core/playwright": "^4.8.0"
+          - "@playwright/test": "^1.40.0"
+        files_to_create:
+          - path: "packages/core/tests/a11y/dialog.a11y.spec.ts"
+            template: "a11y-dialog-test"
+          - path: "packages/core/tests/a11y/tabs.a11y.spec.ts"
+            template: "a11y-tabs-test"
+          - path: "packages/core/tests/a11y/button.a11y.spec.ts"
+            template: "a11y-button-test"
+          - path: "packages/core/tests/a11y/dropdown.a11y.spec.ts"
+            template: "a11y-dropdown-test"
+          - path: "packages/core/playwright.config.ts"
+            template: "playwright-config"
+        files_to_modify:
+          - path: "packages/core/package.json"
+            modifications:
+              - "添加a11y测试脚本"
+              - "添加playwright依赖"
+        commands:
+          - "安装a11y测试依赖"
+          - "创建核心组件a11y测试"
+          - "配置Playwright axe集成"
+        verification:
+          - type: "axe_scan"
+            command: "npm run test:a11y"
+          - type: "violation_check"
+            command: "npm run test:a11y -- --reporter=json | jq '.suites[].specs[].tests[].results[].violations | length'"
+        success_criteria:
+          - "所有组件axe violations = 0"
+          - "a11y测试通过率100%"
+          - "CI中自动运行a11y检查"
+
+      - id: "keyboard-matrix-tests"
+        title: "键盘矩阵测试"
+        description: "为交互组件添加完整的键盘导航测试，覆盖所有键盘交互模式"
+        type: "testing"
+        components:
+          - name: "Dialog"
+            interactions: ["Tab", "Shift+Tab", "Enter", "Escape"]
+            focus_management: "trap"
+          - name: "Tabs"
+            interactions: ["Tab", "Shift+Tab", "ArrowLeft", "ArrowRight", "Enter", "Space"]
+            focus_management: "roving"
+          - name: "Dropdown"
+            interactions: ["Tab", "Shift+Tab", "Enter", "Space", "ArrowUp", "ArrowDown", "Escape"]
+            focus_management: "menu"
+          - name: "Tooltip"
+            interactions: ["Tab", "Shift+Tab", "Escape"]
+            focus_management: "reference"
+        verification:
+          - type: "keyboard_navigation_test"
+            command: "npm run test:a11y -- --grep 'keyboard'"
+          - type: "focus_management_test"
+            command: "npm run test:a11y -- --grep 'focus'"
+        success_criteria:
+          - "Tab/Shift+Tab导航正常"
+          - "Enter/Space激活功能"
+          - "Escape关闭功能"
+          - "方向键导航功能"
+          - "焦点管理正确"
+
+  - id: "phase-4-visual-regression"
+    title: "视觉回归保护"
+    priority: "P1"
+    estimated_time: "2-3 days"
+    dependencies: ["phase-3-a11y-automation"]
+
+    tasks:
+      - id: "setup-visual-tests"
+        title: "设置视觉测试"
+        description: "使用Playwright截图对比保护视觉正确性，建立视觉回归基线"
+        type: "testing"
+        files_to_create:
+          - path: "packages/core/tests/visual/button.visual.spec.ts"
+            template: "visual-button-test"
+          - path: "packages/core/tests/visual/card.visual.spec.ts"
+            template: "visual-card-test"
+          - path: "packages/core/tests/visual/dialog.visual.spec.ts"
+            template: "visual-dialog-test"
+          - path: "packages/core/playwright-visual.config.ts"
+            template: "playwright-visual-config"
+        files_to_modify:
+          - path: "packages/core/package.json"
+            modifications:
+              - "添加视觉测试脚本"
+        commands:
+          - "创建关键组件视觉测试"
+          - "配置截图对比阈值"
+          - "生成初始视觉基线"
+        verification:
+          - type: "visual_regression_test"
+            command: "npm run test:visual"
+          - type: "screenshot_comparison"
+            command: "npm run test:visual -- --update-snapshots"
+        success_criteria:
+          - "视觉差异阈值 < 0.02"
+          - "CI失败提供差异报告"
+          - "支持本地更新基线"
+
+      - id: "integrate-storybook-visual"
+        title: "集成Storybook视觉测试"
+        description: "基于Storybook创建视觉回归测试，自动化组件展示截图"
+        type: "integration"
+        files_to_create:
+          - path: "packages/core/tests/visual/storybook.visual.spec.ts"
+            template: "storybook-visual-test"
+        commands:
+          - "为所有stories创建截图测试"
+          - "配置自动化截图更新"
+          - "集成到CI流程"
+        verification:
+          - type: "storybook_screenshots"
+            command: "npm run test:visual:storybook"
+          - type: "story_coverage"
+            command: "npm run test:visual:storybook -- --list"
+        success_criteria:
+          - "所有组件stories有视觉覆盖"
+          - "支持本地更新基线"
+          - "Storybook截图自动化"
+
+  - id: "phase-5-ssr-compatibility"
+    title: "SSR兼容性优化"
+    priority: "P0"
+    estimated_time: "2-3 days"
+    dependencies: ["phase-4-visual-regression"]
+
+    tasks:
+      - id: "motion-ssr-provider"
+        title: "Motion SSR Provider"
+        description: "创建支持SSR的Motion Provider，解决Framer Motion的hydration问题"
+        type: "implementation"
+        files_to_create:
+          - path: "packages/core/src/components/motion-provider.tsx"
+            template: "motion-provider"
+          - path: "packages/core/src/components/animated-wrapper.tsx"
+            template: "animated-wrapper"
+        files_to_modify:
+          - path: "packages/core/src/components/animated-*.tsx"
+            modifications:
+              - "添加客户端检测逻辑"
+              - "优化动画组件SSR兜底"
+              - "使用'use client'指令"
+        commands:
+          - "创建客户端检测逻辑"
+          - "优化动画组件SSR兜底"
+          - "更新所有动画组件"
+        verification:
+          - type: "nextjs_build_test"
+            command: "cd apps/website && npm run build"
+          - type: "hydration_check"
+            command: "cd apps/website && npm run start && curl -s http://localhost:3000"
+          - type: "client_animation_test"
+            command: "cd apps/website && npm run dev & sleep 5 && curl -s http://localhost:3100"
+        success_criteria:
+          - "Next.js构建无window错误"
+          - "无hydration mismatch"
+          - "动画在客户端正常工作"
+
+      - id: "ssr-demo-page"
+        title: "SSR演示页面"
+        description: "在Website中创建SSR兼容性演示页，展示各类组件的SSR表现"
+        type: "implementation"
+        files_to_create:
+          - path: "apps/website/app/(marketing)/ssr-test/page.tsx"
+            template: "ssr-demo-page"
+          - path: "apps/website/app/(marketing)/ssr-test/components.tsx"
+            template: "ssr-test-components"
+        commands:
+          - "创建SSR测试页面"
+          - "添加各类组件SSR示例"
+          - "测试交互功能"
+        verification:
+          - type: "ssr_rendering_test"
+            command: "cd apps/website && npm run build && npm run start"
+          - type: "component_interaction_test"
+            command: "curl -s http://localhost:3000/ssr-test | grep -o '<button.*>.*</button>'"
+        success_criteria:
+          - "页面正常SSR渲染"
+          - "交互功能客户端正常"
+          - "无SSR相关错误"
+
+  - id: "phase-6-release-pipeline"
+    title: "发版流水线建设"
+    priority: "P1"
+    estimated_time: "3-4 days"
+    dependencies: ["phase-5-ssr-compatibility"]
+
+    tasks:
+      - id: "setup-changesets"
+        title: "设置Changesets"
+        description: "初始化并配置Changesets语义化发版，支持多包协同版本管理"
+        type: "configuration"
+        files_to_create:
+          - path: ".changeset/config.json"
+            template: "changeset-config"
+          - path: ".changeset/readme.md"
+            template: "changeset-readme"
+        files_to_modify:
+          - path: "package.json"
+            modifications:
+              - "添加changeset依赖"
+              - "添加发布脚本"
+              - "添加验证脚本"
+        commands:
+          - "npx changeset init"
+          - "配置linked packages"
+          - "添加发布脚本"
+        verification:
+          - type: "changeset_cli_test"
+            command: "npx changeset --help"
+          - type: "version_test"
+            command: "npm run version-packages --dry-run"
+          - type: "publish_test"
+            command: "npm run release --dry-run"
+        success_criteria:
+          - "Changesets CLI正常工作"
+          - "能生成版本变更日志"
+          - "支持语义化版本管理"
+
+      - id: "ci-cd-setup"
+        title: "CI/CD流水线设置"
+        description: "创建完整的构建、测试、发布流水线，包含架构守卫"
+        type: "infrastructure"
+        files_to_create:
+          - path: ".github/workflows/ci.yml"
+            template: "ci-workflow"
+          - path: ".github/workflows/release.yml"
+            template: "release-workflow"
+          - path: "scripts/check-architecture-consistency.sh"
+            template: "architecture-check"
+          - path: ".github/workflows/visual-regression.yml"
+            template: "visual-regression-workflow"
+        commands:
+          - "创建CI工作流"
+          - "创建Release工作流"
+          - "添加架构守卫脚本"
+          - "配置环境变量和密钥"
+        verification:
+          - type: "ci_workflow_test"
+            command: "act -j ci" # 使用act测试GitHub Actions
+          - type: "architecture_check_test"
+            command: "bash ./scripts/check-architecture-consistency.sh"
+          - type: "release_workflow_test"
+            command: "act -j release --secret-file .secrets"
+        success_criteria:
+          - "CI完整通过所有检查"
+          - "架构违规能被自动阻断"
+          - "发布流程自动化完成"
+
+quality_gates:
+  - id: "architecture-consistency"
+    name: "架构一致性检查"
+    description: "确保Website只消费不创造，符合SSOT要求"
+    script: "scripts/check-architecture-consistency.sh"
+    blocking: true
+    error_message: "架构一致性检查失败，请修复后重试"
+
+  - id: "type-safety"
+    name: "TypeScript类型检查"
+    description: "确保所有代码通过TypeScript严格模式检查"
+    command: "npm run type-check"
+    blocking: true
+    error_message: "TypeScript类型检查失败"
+
+  - id: "code-quality"
+    name: "代码质量检查"
+    description: "确保所有代码符合ESLint规则"
+    command: "npm run lint"
+    blocking: true
+    error_message: "代码质量检查失败"
+
+  - id: "unit-tests"
+    name: "单元测试"
+    description: "确保所有单元测试通过"
+    command: "npm run test"
+    blocking: true
+    error_message: "单元测试失败"
+
+  - id: "accessibility"
+    name: "可访问性检查"
+    description: "确保axe-core检测0 violations"
+    command: "npm run test:a11y"
+    blocking: true
+    error_message: "可访问性检查失败"
+
+  - id: "visual-regression"
+    name: "视觉回归检查"
+    description: "确保视觉差异在阈值范围内"
+    command: "npm run test:visual"
+    blocking: false
+    error_message: "视觉回归检查失败，请确认是否需要更新基线"
+
+  - id: "build-success"
+    name: "构建成功检查"
+    description: "确保所有包能够成功构建"
+    command: "npm run build"
+    blocking: true
+    error_message: "构建失败"
+
+success_criteria:
+  build_optimization:
+    description: "构建优化目标"
+    criteria:
+      - item: "支持按需导入组件"
+        verification: "import '@xorigo-ui/core/button' 正常工作"
+      - item: "Tree-shaking生效"
+        verification: "Bundle分析显示未使用代码被移除"
+      - item: "Bundle体积优化"
+        verification: "按需导入体积减少 > 30%"
+
+  theme_system:
+    description: "主题系统目标"
+    criteria:
+      - item: "三层架构解耦"
+        verification: "tokens/theme/core职责清晰分离"
+      - item: "无硬编码颜色"
+        verification: "所有样式基于CSS变量"
+      - item: "主题切换灵活"
+        verification: "切换主题无需重新编译"
+
+  accessibility:
+    description: "可访问性目标"
+    criteria:
+      - item: "axe-core检测通过"
+        verification: "所有组件0 violations"
+      - item: "键盘导航完整"
+        verification: "Tab/Enter/Space/Escape/Arrows支持"
+      - item: "WCAG合规"
+        verification: "符合WCAG 2.1 AA标准"
+
+  visual_regression:
+    description: "视觉回归目标"
+    criteria:
+      - item: "视觉基线建立"
+        verification: "所有关键组件有基线截图"
+      - item: "自动化检测"
+        verification: "CI自动运行视觉测试"
+      - item: "差异控制"
+        verification: "视觉差异阈值 < 0.02"
+
+  ssr_compatibility:
+    description: "SSR兼容性目标"
+    criteria:
+      - item: "Next.js 15兼容"
+        verification: "构建和运行时无错误"
+      - item: "零Hydration错误"
+        verification: "无hydration mismatch警告"
+      - item: "动画客户端正常"
+        verification: "Framer Motion正确降级"
+
+  release_pipeline:
+    description: "发版流水线目标"
+    criteria:
+      - item: "语义化发版"
+        verification: "Changesets自动管理版本"
+      - item: "CI/CD完整"
+        verification: "自动完成测试构建发布"
+      - item: "架构守卫"
+        verification: "自动检测架构违规"
+
+rollback_plan:
+  strategy: "gradual"
+  description: "渐进式发布策略，降低风险"
+
+  phases:
+    - phase: "next-tag-release"
+      description: "先发布@xorigo-ui/core@next标记进行试用"
+      duration: "1-2 days"
+      monitoring:
+        - "npm下载量监控"
+        - "错误报告监控"
+        - "GitHub issues监控"
+
+    - phase: "stability-period"
+      description: "稳定期，收集用户反馈"
+      duration: "3-5 days"
+      actions:
+        - "密切监控错误报告"
+        - "快速响应问题"
+        - "准备hotfix版本"
+
+    - phase: "stable-release"
+      description: "如无问题，发布stable版本"
+      condition: "next标记期间无严重问题"
+
+  emergency_rollback:
+    triggers:
+      - "严重错误报告"
+      - "大规模构建失败"
+      - "安全漏洞发现"
+    actions:
+      - "立即发布回滚版本"
+      - "更新文档和变更日志"
+      - "通知所有用户"
+
+  compatibility_maintenance:
+    description: "拆分包时的兼容性维护"
+    measures:
+      - "保留core旧入口一个小版本周期"
+      - "标记@deprecated并提供迁移指南"
+      - "所有breaking change需要major版本升级"
+
+  quality_protection:
+    description: "质量保护网措施"
+    requirements:
+      - "新样式必须通过视觉回归测试"
+      - "新组件必须通过axe-core检测"
+      - "架构违规在CI中被自动阻断"
+      - "TypeScript严格模式必须通过"
+
+risk_mitigation:
+  technical_risks:
+    - risk: "构建配置复杂化"
+      mitigation: "详细文档和脚本自动化"
+      probability: "medium"
+      impact: "medium"
+
+    - risk: "依赖版本冲突"
+      mitigation: "精确的依赖管理和测试矩阵"
+      probability: "low"
+      impact: "high"
+
+    - risk: "性能回归"
+      mitigation: "性能基准测试和监控"
+      probability: "medium"
+      impact: "high"
+
+  operational_risks:
+    - risk: "发布流程中断"
+      mitigation: "完整的回滚计划和hotfix流程"
+      probability: "low"
+      impact: "critical"
+
+    - risk: "团队学习成本"
+      mitigation: "详细文档和培训材料"
+      probability: "high"
+      impact: "medium"
+
+monitoring:
+  metrics:
+    - name: "bundle_size"
+      description: "包体积监控"
+      threshold: "按需导入 < 50KB"
+
+    - name: "build_time"
+      description: "构建时间监控"
+      threshold: "CI构建 < 10分钟"
+
+    - name: "test_coverage"
+      description: "测试覆盖率监控"
+      threshold: "> 80%"
+
+    - name: "a11y_score"
+      description: "可访问性评分"
+      threshold: "axe violations = 0"
+
+  alerts:
+    - type: "build_failure"
+      channel: "github_issues"
+      severity: "high"
+
+    - type: "a11y_regression"
+      channel: "slack"
+      severity: "medium"
+
+    - type: "visual_regression"
+      channel: "slack"
+      severity: "low"
+
+documentation:
+  required:
+    - "组件使用指南更新"
+    - "迁移指南（如有breaking change）"
+    - "API文档更新"
+    - "变更日志自动生成"
+
+  templates:
+    - name: "release_notes"
+      path: ".changeset/templates/release-notes.md.hbs"
+    - name: "migration_guide"
+      path: "docs/migration-guides/"
+    - name: "api_reference"
+      path: "docs/api/"
+
+execution_order:
+  parallel_groups:
+    - group: "phase-1"
+      tasks: ["add-component-exports", "update-package-exports"]
+
+    - group: "phase-2"
+      tasks: ["enhance-tokens-package", "remove-hardcoded-colors"]
+
+    - group: "phase-3"
+      tasks: ["integrate-axe-core", "keyboard-matrix-tests"]
+
+    - group: "phase-4"
+      tasks: ["setup-visual-tests", "integrate-storybook-visual"]
+
+    - group: "phase-5"
+      tasks: ["motion-ssr-provider", "ssr-demo-page"]
+
+    - group: "phase-6"
+      tasks: ["setup-changesets", "ci-cd-setup"]
+
+  dependencies:
+    "phase-2": ["phase-1"]
+    "phase-3": ["phase-2"]
+    "phase-4": ["phase-3"]
+    "phase-5": ["phase-4"]
+    "phase-6": ["phase-5"]

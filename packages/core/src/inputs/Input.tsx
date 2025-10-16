@@ -205,8 +205,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       showCharCount = false,
       maxLength,
       type = 'text',
+      value,
       defaultValue,
-      value = defaultValue,
       onChange,
       onValidationChange,
       required = false,
@@ -333,6 +333,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               type={actualType}
               value={value}
               onChange={onChange}
+              defaultValue={value === undefined ? defaultValue : undefined}
               onFocus={handleFocus}
               onBlur={handleBlur}
               disabled={disabled}
