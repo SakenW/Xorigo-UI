@@ -1,0 +1,286 @@
+# GitHub Actions Release 工作流模板
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  # 架构一致性检查
+  architecture-check:
+    name: Architecture Guard
+    runs-on: ubuntu-latest
+    outputs:
+      should-release: ${{ steps.changeset.outputs.hasChangesets }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Architecture Check
+        run: bash ./scripts/check-architecture-consistency.sh
+
+      - name: Check for changesets
+        id: changeset
+        uses: changesets/action@v1
+        with:
+          version: "npm run version-packages --dry-run"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 代码质量检查
+  quality-check:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    needs: architecture-check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type Check
+        run: npm run type-check
+
+      - name: Format Check
+        run: npm run format:check
+
+  # 单元测试
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: architecture-check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+  # 可访问性测试
+  a11y-tests:
+    name: Accessibility Tests
+    runs-on: ubuntu-latest
+    needs: architecture-check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run a11y Tests
+        run: npm run test:a11y
+
+      - name: Upload a11y Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: a11y-report
+          path: test-results/a11y-report.html
+
+  # 视觉回归测试
+  visual-tests:
+    name: Visual Regression Tests
+    runs-on: ubuntu-latest
+    needs: architecture-check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Start Storybook
+        run: npm run storybook &
+        wait-on http://localhost:6009
+
+      - name: Run Visual Tests
+        run: npm run test:visual
+
+      - name: Upload Visual Diff Report
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: visual-diff-report
+          path: test-results/
+
+  # 构建测试
+  build-test:
+    name: Build Test
+    runs-on: ubuntu-latest
+    needs: [quality-check, unit-tests]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Packages
+        run: npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ matrix.os }}
+          path: |
+            packages/*/dist
+            !packages/*/dist/**/*.map
+
+  # 版本发布
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [a11y-tests, visual-tests, build-test, architecture-check]
+    if: needs.architecture-check.outputs.should-release == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Packages
+        run: npm run build
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm run release
+          commit: "chore: release packages"
+          title: "chore: release packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.changesets.outputs.published == 'true'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.changesets.outputs.publishedPackages[0].version }}
+          release_name: Release v${{ steps.changesets.outputs.publishedPackages[0].version }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+
+  # 通知发布结果
+  notify:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: always() && needs.release.result == 'success'
+    steps:
+      - name: Notify Slack
+        if: steps.changesets.outputs.published == 'true'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: '#releases'
+          text: '🎉 Xorigo-UI 新版本发布成功！'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Teams
+        if: steps.changesets.outputs.published == 'true'
+        uses: jooaodanieel/action-notify-microsoft-teams@v1
+        with:
+          webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: '🎉 Release Published'
+          summary: 'Xorigo-UI new version published successfully'
+          text: 'Xorigo-UI v${{ steps.changesets.outputs.publishedPackages[0].version }} has been published to NPM'
+          theme_color: 'good'

@@ -1,2 +1,0 @@
-Unknown subcommand: .claude-flow/refactor-agents.yml
-Run "claude-flow hive-mind help" for usage information

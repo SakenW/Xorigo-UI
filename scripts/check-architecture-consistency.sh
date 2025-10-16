@@ -1,0 +1,1 @@
+/home/saken/project/Xorigo-UI/docs/refactor/scripts/check-architecture-consistency.sh
