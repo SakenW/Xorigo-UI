@@ -29,6 +29,9 @@ export * from './datadisplay/'
 // Charts 数据可视化 - 图表组件
 export * from './charts/'
 
+// Loading 加载组件 - 加载状态
+export * from './loading/'
+
 // Utilities 技术基元 - 技术底层
 export * from './utilities/'
 
@@ -165,30 +168,24 @@ export {
 
 // 设计令牌系统
 export {
-  // 核心令牌和工具
-  getCoreTokens,
-  getAllRecipeMeta,
-  getAllDensityPresets,
+  // 基础设计令牌
+  colorTokens,
 
-  // 类型导出
-  type DTCGToken,
-  type DTCGPalette,
-  type DTCGCoreTokens,
-  type DTCGRecipeMeta,
-  type DTCGDensityPreset,
+  // 令牌转换器
+  tokenTransformer,
 
-  // 密度预设
-  comfortable,
-  spacious,
-  compact,
+  // 语义化令牌
+  semanticTokens,
 
-  // 基础数据
-  typography,
-  spacing,
+  // 主题管理
+  themeManager,
+  themeUtils,
 
-  // 组件别名
-  buttonAliases,
-  cardAliases,
+  // 颜色迁移工具
+  ColorMigrator,
+
+  // 主题验证
+  validateThemeSystem,
 } from '@xorigo-ui/tokens'
 
 // 主题系统

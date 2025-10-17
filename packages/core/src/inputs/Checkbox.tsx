@@ -2,6 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '@xorigo-ui/system'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils'
 import { Check, Minus } from 'lucide-react'
 
@@ -14,19 +15,19 @@ const checkboxVariants = cva(
       variant: {
         // 默认样式 - 实心方块
         default:
-          'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-blue-600 focus:ring-blue-500/20 checked:bg-blue-600 checked:border-blue-600 dark:checked:bg-blue-500',
+          'border-[var(--border-secondary)] bg-[var(--bg-secondary)] text-[var(--text-primary-action)] focus:ring-[var(--ring-primary-action)]/20 checked:bg-[var(--bg-primary-action)] checked:border-[var(--border-primary-action)]',
 
         // 填充样式 - 背景色填充
         filled:
-          'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-900 text-blue-600 focus:ring-blue-500/20 checked:bg-blue-600 checked:border-blue-600 dark:checked:bg-blue-500',
+          'border-[var(--border-secondary)] bg-[var(--bg-tertiary)] text-[var(--text-primary-action)] focus:ring-[var(--ring-primary-action)]/20 checked:bg-[var(--bg-primary-action)] checked:border-[var(--border-primary-action)]',
 
         // 轮廓样式 - 粗边框
         outlined:
-          'border-2 border-gray-300 dark:border-gray-600 bg-transparent text-blue-600 focus:ring-blue-500/20 checked:border-blue-600 dark:checked:border-blue-500',
+          'border-2 border-[var(--border-secondary)] bg-transparent text-[var(--text-primary-action)] focus:ring-[var(--ring-primary-action)]/20 checked:border-[var(--border-primary-action)]',
 
         // 霓虹样式 - 赛博朋克风格
         neon:
-          'border-cyan-400 bg-black/50 text-cyan-400 focus:ring-cyan-400/20 checked:bg-cyan-600 checked:border-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.3)] checked:shadow-[0_0_10px_rgba(6,182,212,0.5)]',
+          'border-[var(--border-info)] bg-[var(--bg-contrast-high)]/50 text-[var(--text-info)] focus:ring-[var(--ring-info)]/20 checked:bg-[var(--bg-info)] checked:border-[var(--border-info)] shadow-[0_0_5px_var(--border-info)] checked:shadow-[0_0_10px_var(--border-info)]',
       },
       size: {
         sm: 'h-4 w-4',
@@ -35,9 +36,9 @@ const checkboxVariants = cva(
       },
       status: {
         default: '',
-        error: 'border-red-500 focus:ring-red-500/20 checked:border-red-600 dark:checked:border-red-500',
-        success: 'border-green-500 focus:ring-green-500/20 checked:border-green-600 dark:checked:border-green-500',
-        warning: 'border-yellow-500 focus:ring-yellow-500/20 checked:border-yellow-600 dark:checked:border-yellow-500',
+        error: 'border-[var(--border-error)] focus:ring-[var(--ring-error)]/20 checked:border-[var(--border-error)]',
+        success: 'border-[var(--border-success)] focus:ring-[var(--ring-success)]/20 checked:border-[var(--border-success)]',
+        warning: 'border-[var(--border-warning)] focus:ring-[var(--ring-warning)]/20 checked:border-[var(--border-warning)]',
       },
       indeterminate: {
         true: '',
@@ -48,38 +49,38 @@ const checkboxVariants = cva(
       {
         indeterminate: true,
         variant: 'default',
-        className: 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500',
+        className: 'bg-[var(--bg-primary-action)] border-[var(--border-primary-action)]',
       },
       {
         indeterminate: true,
         variant: 'filled',
-        className: 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500',
+        className: 'bg-[var(--bg-primary-action)] border-[var(--border-primary-action)]',
       },
       {
         indeterminate: true,
         variant: 'outlined',
-        className: 'border-blue-600 dark:border-blue-500',
+        className: 'border-[var(--border-primary-action)]',
       },
       {
         indeterminate: true,
         variant: 'neon',
-        className: 'bg-cyan-600 border-cyan-400',
+        className: 'bg-[var(--bg-info)] border-[var(--border-info)]',
       },
       // indeterminate + status 样式
       {
         indeterminate: true,
         status: 'error',
-        className: 'bg-red-600 border-red-600 dark:bg-red-500 dark:border-red-500',
+        className: 'bg-[var(--bg-error)] border-[var(--border-error)]',
       },
       {
         indeterminate: true,
         status: 'success',
-        className: 'bg-green-600 border-green-600 dark:bg-green-500 dark:border-green-500',
+        className: 'bg-[var(--bg-success)] border-[var(--border-success)]',
       },
       {
         indeterminate: true,
         status: 'warning',
-        className: 'bg-yellow-600 border-yellow-600 dark:bg-yellow-500 dark:border-yellow-500',
+        className: 'bg-[var(--bg-warning)] border-[var(--border-warning)]',
       },
     ],
     defaultVariants: {
@@ -198,7 +199,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           }),
           // 隐藏原生checkbox样式，显示自定义样式
           'appearance-none',
-          variant === 'neon' && 'text-cyan-400'
+          variant === 'neon' && 'text-[var(--text-info)]'
         )}
         style={getCheckboxThemeStyle()}
         whileHover={!disabled ? { scale: 1.05 } : undefined}
@@ -242,9 +243,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           className={cn(
             'text-sm font-medium cursor-pointer select-none',
             disabled
-              ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
-              : 'text-gray-700 dark:text-gray-300',
-            effectiveStatus === 'error' && 'text-red-700 dark:text-red-400',
+              ? 'text-[var(--text-disabled)] cursor-not-allowed'
+              : 'text-[var(--text-primary)]',
+            effectiveStatus === 'error' && 'text-[var(--text-error)]',
             labelPosition === 'left' ? 'mr-3' : 'ml-3'
           )}
           initial={{ opacity: 0, x: labelPosition === 'left' ? -10 : 10 }}
@@ -252,7 +253,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           transition={{ duration: 0.2 }}
         >
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-[var(--text-error)] ml-1">*</span>}
         </motion.label>
       )
     }
@@ -281,7 +282,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             className={cn(
               'text-sm mt-1',
               labelPosition === 'left' ? 'ml-8' : 'ml-8',
-              'text-gray-500 dark:text-gray-400'
+              'text-[var(--text-secondary)]'
             )}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -296,7 +297,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           {error && (
             <motion.p
               className={cn(
-                'text-sm mt-1 text-red-600 dark:text-red-400',
+                'text-sm mt-1 text-[var(--text-error)]',
                 labelPosition === 'left' ? 'ml-8' : 'ml-8'
               )}
               initial={{ opacity: 0, height: 0 }}

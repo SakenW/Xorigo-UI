@@ -51,6 +51,14 @@ export {
   type TabPaneProps,
 } from './Tabs'
 
+// 画廊导航组件
+export {
+  ComponentNav,
+  type NavGroup,
+  type NavItem,
+  type ComponentNavProps,
+} from './ComponentNav'
+
 // 兼容性组件（待重构）
 export * from './Navbar'
 export * from './BasicHeader'

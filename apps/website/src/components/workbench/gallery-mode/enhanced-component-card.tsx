@@ -1843,6 +1843,8 @@ function EnhancedComponentRenderer({ componentName, variant = 'default' }: { com
   }
 }
 
+export { EnhancedComponentRenderer }
+
 export function EnhancedComponentCard({
   component,
   onEdit,

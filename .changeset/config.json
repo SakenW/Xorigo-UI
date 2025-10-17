@@ -1,0 +1,34 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
+  "changelog": [
+    "@changesets/cli/changelog",
+    {
+      "repo": "https://github.com/your-org/xorigo-ui",
+      "types": {
+        "chore": { "hidden": true },
+        "docs": { "hidden": true },
+        "style": { "hidden": true },
+        "perf": { "hidden": true },
+        "refactor": { "hidden": true },
+        "breaking": { "section": "💥 BREAKING CHANGES" },
+        "feat": { "section": "🚀 Features" },
+        "fix": { "section": "🐛 Bug Fixes" },
+        "security": { "section": "🔒 Security" }
+      }
+    }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [
+    ["@xorigo-ui/tokens", "@xorigo-ui/style-recipe", "@xorigo-ui/system", "@xorigo-ui/core"]
+  ],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "@xorigo-ui/i18n",
+    "@xorigo-ui/hooks"
+  ],
+  "_______": "以上配置确保核心包版本同步发布",
+  "___": "忽略i18n和hooks包，因为它们是内部依赖"
+}

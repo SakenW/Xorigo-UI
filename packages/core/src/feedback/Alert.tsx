@@ -1,7 +1,8 @@
 import React from 'react'
-import { motion } from 'framer-motion'
+import { SSRMotionDiv, SSRAnimatePresence } from '../components/motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../utils/cn'
+import { semanticColors } from '@xorigo-ui/tokens'
 
 export interface AlertProps {
   title?: string
@@ -11,6 +12,14 @@ export interface AlertProps {
   onClose?: () => void
   className?: string
   icon?: React.ReactNode
+  /**
+   * 是否显示Alert
+   */
+  visible?: boolean
+  /**
+   * 强制启用动画（忽略全局设置）
+   */
+  forceAnimation?: boolean
 }
 
 export const Alert: React.FC<AlertProps> = ({
@@ -21,39 +30,37 @@ export const Alert: React.FC<AlertProps> = ({
   onClose,
   className = '',
   icon,
+  visible = true,
+  forceAnimation = false,
 }) => {
   const variantStyles = {
     info: {
-      container:
-        'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800',
-      icon: 'text-blue-400',
-      title: 'text-blue-800 dark:text-blue-300',
-      message: 'text-blue-700 dark:text-blue-400',
-      button: 'text-blue-400 hover:text-blue-500',
+      container: `bg-[var(--bg-info)] border-[var(--border-info)]`,
+      icon: 'text-[var(--text-info)]',
+      title: 'text-[var(--text-info)]',
+      message: 'text-[var(--text-info)]',
+      button: 'text-[var(--text-info)] hover:text-[var(--text-info)]',
     },
     success: {
-      container:
-        'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800',
-      icon: 'text-green-400',
-      title: 'text-green-800 dark:text-green-300',
-      message: 'text-green-700 dark:text-green-400',
-      button: 'text-green-400 hover:text-green-500',
+      container: `bg-[var(--bg-success)] border-[var(--border-success)]`,
+      icon: 'text-[var(--text-success)]',
+      title: 'text-[var(--text-success)]',
+      message: 'text-[var(--text-success)]',
+      button: 'text-[var(--text-success)] hover:text-[var(--text-success)]',
     },
     warning: {
-      container:
-        'bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800',
-      icon: 'text-yellow-400',
-      title: 'text-yellow-800 dark:text-yellow-300',
-      message: 'text-yellow-700 dark:text-yellow-400',
-      button: 'text-yellow-400 hover:text-yellow-500',
+      container: `bg-[var(--bg-warning)] border-[var(--border-warning)]`,
+      icon: 'text-[var(--text-warning)]',
+      title: 'text-[var(--text-warning)]',
+      message: 'text-[var(--text-warning)]',
+      button: 'text-[var(--text-warning)] hover:text-[var(--text-warning)]',
     },
     error: {
-      container:
-        'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800',
-      icon: 'text-red-400',
-      title: 'text-red-800 dark:text-red-300',
-      message: 'text-red-700 dark:text-red-400',
-      button: 'text-red-400 hover:text-red-500',
+      container: `bg-[var(--bg-error)] border-[var(--border-error)]`,
+      icon: 'text-[var(--text-error)]',
+      title: 'text-[var(--text-error)]',
+      message: 'text-[var(--text-error)]',
+      button: 'text-[var(--text-error)] hover:text-[var(--text-error)]',
     },
   }
 
@@ -67,51 +74,58 @@ export const Alert: React.FC<AlertProps> = ({
   const styles = variantStyles[variant]
 
   return (
-    <motion.div
-      className={cn(
-        'p-4 border rounded-md',
-        styles.container,
-        className
-      )}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="flex">
-        <div className="shrink-0">
-          <div className={styles.icon}>
-            {icon || <span className="text-xl">{defaultIcons[variant]}</span>}
-          </div>
-        </div>
-        <div className="ml-3 flex-1">
-          {title && (
-            <h3 className={cn('text-sm font-medium', styles.title)}>
-              {title}
-            </h3>
+    <SSRAnimatePresence>
+      {visible && (
+        <SSRMotionDiv
+          className={cn(
+            'p-4 border rounded-md',
+            styles.container,
+            className
           )}
-          <div className={cn('text-sm', title && 'mt-1', styles.message)}>
-            {message}
-          </div>
-        </div>
-        {closable && (
-          <div className="ml-auto pl-3">
-            <motion.button
-              onClick={onClose}
-              className={cn(
-                'inline-flex rounded-md p-1.5 focus:outline-hidden focus:ring-2 focus:ring-offset-2',
-                styles.button
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+          forceAnimation={forceAnimation}
+        >
+          <div className="flex">
+            <div className="shrink-0">
+              <div className={styles.icon}>
+                {icon || <span className="text-xl">{defaultIcons[variant]}</span>}
+              </div>
+            </div>
+            <div className="ml-3 flex-1">
+              {title && (
+                <h3 className={cn('text-sm font-medium', styles.title)}>
+                  {title}
+                </h3>
               )}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <span className="sr-only">关闭</span>
-              ✕
-            </motion.button>
+              <div className={cn('text-sm', title && 'mt-1', styles.message)}>
+                {message}
+              </div>
+            </div>
+            {closable && (
+              <div className="ml-auto pl-3">
+                <SSRMotionDiv
+                  as="button"
+                  onClick={onClose}
+                  className={cn(
+                    'inline-flex rounded-md p-1.5 focus:outline-hidden focus:ring-2 focus:ring-offset-2',
+                    styles.button
+                  )}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  forceAnimation={forceAnimation}
+                >
+                  <span className="sr-only">关闭</span>
+                  ✕
+                </SSRMotionDiv>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </motion.div>
+        </SSRMotionDiv>
+      )}
+    </SSRAnimatePresence>
   )
 }
 

@@ -4,58 +4,25 @@ import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense } fr
 import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue, useVelocity, useAnimationFrame, MotionValue, useInView } from 'framer-motion'
 import { Button, Card, AnimatedCard, Typography, Surface, Code as CodeComponent } from '@xorigo-ui/core'
 import {
-  Sparkles,
   Zap,
-  Layers,
   Palette,
   Box,
-  Star,
   Github,
   ArrowRight,
-  MousePointer2,
-  Gem,
-  Flame,
-  Award,
-  Crown,
-  Heart,
-  Terminal as TerminalIcon,
   Copy,
   Check,
-  ChevronRight,
   Code2,
-  Cpu,
-  FileCode,
-  Package,
   Rocket,
-  Globe,
-  Shield,
-  Gauge,
-  Puzzle,
-  Lightbulb,
-  Wand2,
-  ArrowUpRight,
   Menu,
   X,
-  Hexagon,
-  Triangle,
-  Circle,
   Square,
   Pentagon,
   Braces,
   Database,
-  GitBranch,
-  Cloud,
-  Lock,
-  Workflow,
-  Infinity,
+  FileCode,
   Play,
-  Pause,
   Volume2,
-  VolumeX,
-  Eye,
-  Fingerprint,
-  Timer,
-  Activity
+  VolumeX
 } from 'lucide-react'
 
 /**
@@ -73,22 +40,23 @@ import {
  * - 统计数字动画
  */
 
-// 页面加载动画
+// 页面加载动画 - 优化快速加载
 const PageLoader = () => {
   const [progress, setProgress] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
+    // 更快的加载速度
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval)
-          setTimeout(() => setIsLoaded(true), 500)
+          setTimeout(() => setIsLoaded(true), 300) // 减少延迟：500ms → 300ms
           return 100
         }
-        return prev + Math.random() * 15
+        return prev + Math.random() * 25 // 加快进度：15 → 25
       })
-    }, 100)
+    }, 60) // 加快更新频率：100ms → 60ms
     return () => clearInterval(interval)
   }, [])
 
@@ -98,275 +66,364 @@ const PageLoader = () => {
     <motion.div
       className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3 }} // 退场更快：0.5s → 0.3s
     >
       <div className="text-center">
         <motion.div
-          className="w-32 h-32 mx-auto mb-8"
+          className="w-24 h-24 mx-auto mb-6" // 缩小尺寸减少视觉停留
           animate={{ rotate: 360 }}
           transition={{
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear"
+            duration: 1.5, // 旋转加快
+            ease: "linear",
+            repeat: Infinity
           }}
         >
           <div className="relative w-full h-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-3xl animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-3xl" />
             <div className="absolute inset-2 bg-black rounded-2xl flex items-center justify-center">
-              <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
                 X
               </span>
             </div>
           </div>
         </motion.div>
 
-        <div className="w-64 h-2 bg-gray-900 rounded-full overflow-hidden">
+        <div className="w-48 h-1.5 bg-gray-900 rounded-full overflow-hidden"> {/* 缩小进度条 */}
           <motion.div
             className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"
             style={{ width: `${progress}%` }}
-            transition={{ type: 'spring', stiffness: 50 }}
+            transition={{ type: 'spring', stiffness: 80 }}
           />
         </div>
-
-        <motion.p
-          className="mt-4 text-gray-400"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-        >
-          初始化组件系统...
-        </motion.p>
       </div>
     </motion.div>
   )
 }
 
-// 超级粒子系统 - 带鼠标轨迹
+// ✨ 萤火虫粒子系统 - 精致梦幻版
 const SuperParticleSystem = () => {
   const [mounted, setMounted] = useState(false)
-  const [particles, setParticles] = useState<Array<{
+  const [fireflies, setFireflies] = useState<Array<{
     id: number
     x: number
     y: number
     vx: number
     vy: number
+    targetX: number
+    targetY: number
     size: number
-    color: string
-    life: number
-    type: 'normal' | 'trail' | 'explosion'
+    baseOpacity: number
+    currentOpacity: number
+    glowPhase: number
+    wanderAngle: number
+    wanderSpeed: number
+    isAttracted: boolean
+    attractionStrength: number
   }>>([])
 
-  const [mouseTrail, setMouseTrail] = useState<Array<{ x: number; y: number; id: number }>>([])
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const mouseXSmooth = useSpring(mouseX, { stiffness: 100, damping: 30 })
-  const mouseYSmooth = useSpring(mouseY, { stiffness: 100, damping: 30 })
+  const mouseVelocity = useVelocity(mouseY)
+  const lastMouseTime = useRef(Date.now())
+  const isMouseMoving = useRef(false)
+
+  // 获取鼠标当前位置
+  const getCurrentMousePos = () => ({
+    x: mouseX.get(),
+    y: mouseY.get()
+  })
 
   useEffect(() => {
     setMounted(true)
 
-    // 初始化粒子
-    const initialParticles = Array.from({ length: 80 }, (_, i) => ({
+    // 🦋 初始化萤火虫粒子
+    const initFireflies = Array.from({ length: 20 }, (_, i) => ({
       id: i,
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 3 + 1,
-      color: ['#8B5CF6', '#06B6D4', '#EC4899', '#F59E0B', '#10B981'][Math.floor(Math.random() * 5)],
-      life: 1,
-      type: 'normal' as const
+      vx: 0,
+      vy: 0,
+      targetX: Math.random() * window.innerWidth,
+      targetY: Math.random() * window.innerHeight,
+      size: Math.random() * 2 + 1.5,
+      baseOpacity: Math.random() * 0.3 + 0.2,
+      currentOpacity: Math.random() * 0.3 + 0.2,
+      glowPhase: Math.random() * Math.PI * 2,
+      wanderAngle: Math.random() * Math.PI * 2,
+      wanderSpeed: Math.random() * 0.02 + 0.01,
+      isAttracted: false,
+      attractionStrength: 0
     }))
-    setParticles(initialParticles)
+    setFireflies(initFireflies)
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-
-      // 添加鼠标轨迹
-      setMouseTrail(prev => {
-        const newTrail = [...prev, { x: e.clientX, y: e.clientY, id: Date.now() }]
-        return newTrail.slice(-20) // 保留最后20个点
-      })
+      lastMouseTime.current = Date.now()
+      isMouseMoving.current = true
     }
 
     window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [mouseX, mouseY])
 
-  // 粒子物理动画
-  useAnimationFrame(() => {
-    setParticles(prev => prev.map(particle => {
-      let { x, y, vx, vy, life, type } = particle
+    // 持续检测鼠标是否停止移动 - 可靠检测
+    const mouseStopChecker = setInterval(() => {
+      const timeSinceLastMove = Date.now() - lastMouseTime.current
+      if (timeSinceLastMove > 1000) { // 1秒后标记停止
+        isMouseMoving.current = false
+      }
+    }, 200) // 更频繁的检测
 
-      if (type === 'normal') {
-        // 鼠标吸引力和排斥力
-        const dx = mouseXSmooth.get() - x
-        const dy = mouseYSmooth.get() - y
-        const distance = Math.sqrt(dx * dx + dy * dy)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      clearInterval(mouseStopChecker)
+    }
+  }, [mouseX, mouseY, mouseVelocity])
 
-        if (distance < 150) {
-          const force = (150 - distance) / 150 * 0.03
-          vx += (dx / distance) * force
-          vy += (dy / distance) * force
-        }
+  // ✨ 萤火虫飞舞动画
+  useEffect(() => {
+    let animationId: number
+    let lastTime = 0
+    const targetFPS = 30
+    const frameInterval = 1000 / targetFPS
 
-        // 粒子间相互作用
-        prev.forEach(other => {
-          if (other.id !== particle.id) {
-            const odx = other.x - x
-            const ody = other.y - y
-            const odist = Math.sqrt(odx * odx + ody)
+    const animate = (currentTime: number) => {
+      if (currentTime - lastTime >= frameInterval) {
+        const mousePos = getCurrentMousePos()
 
-            if (odist < 50 && odist > 0) {
-              const repel = (50 - odist) / 50 * 0.01
-              vx -= (odx / odist) * repel
-              vy -= (ody / odist) * repel
-            }
+        setFireflies(prev => prev.map(firefly => {
+          let {
+            x, y, vx, vy, targetX, targetY,
+            glowPhase, wanderAngle, wanderSpeed,
+            isAttracted, attractionStrength
+          } = firefly
+
+          // 🌟 更新闪烁相位
+          glowPhase += 0.05
+
+          // 🎯 计算与鼠标的距离
+          const dx = mousePos.x - x
+          const dy = mousePos.y - y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          // 🦋 判断是否应该被吸引 - 修复自动飞走机制
+          const shouldBeAttracted = isMouseMoving.current && distance < 300
+          const minSafeDistance = 70
+          const maxSafeDistance = 120
+          const idealDistance = 95
+
+          // 简化响应逻辑，确保状态转换可靠
+          if (shouldBeAttracted && !isAttracted) {
+            // 开始吸引
+            isAttracted = true
+            attractionStrength = 0
+          } else if (!shouldBeAttracted && isAttracted) {
+            // 停止吸引，立即切换到漫游并飞走
+            isAttracted = false
+            attractionStrength = 0
+            // 设置远离鼠标的新目标
+            const escapeAngle = Math.atan2(y - mousePos.y, x - mousePos.x)
+            const escapeDistance = 300 + Math.random() * 200
+            targetX = mousePos.x + Math.cos(escapeAngle) * escapeDistance
+            targetY = mousePos.y + Math.sin(escapeAngle) * escapeDistance
           }
-        })
+
+          if (isAttracted) {
+            // 🧲 明显的吸引效果 - 让萤火虫真正被吸引
+            attractionStrength = Math.min(attractionStrength + 0.01, 0.8)
+
+            if (distance > maxSafeDistance) {
+              // 在安全距离外，强有力地吸引
+              const attractForce = attractionStrength * 0.1
+              vx += (dx / distance) * attractForce
+              vy += (dy / distance) * attractForce
+            } else if (distance < minSafeDistance) {
+              // 只在很近时才轻微推开
+              const repelForce = (minSafeDistance - distance) / minSafeDistance * 0.05
+              vx -= (dx / distance) * repelForce
+              vy -= (dy / distance) * repelForce
+            } else {
+              // 在理想距离范围内，轻微调整保持稳定
+              const adjustForce = (distance - idealDistance) / (maxSafeDistance - minSafeDistance) * 0.1
+              const targetAngle = Math.atan2(dy, dx) + adjustForce * 0.2
+
+              // 主要靠轨道运动控制位置
+              const orbitAngle = Math.atan2(dy, dx) + 0.01
+              const orbitRadius = idealDistance + Math.sin(currentTime * 0.001 + firefly.id) * 8
+              const orbitX = mousePos.x + Math.cos(orbitAngle) * orbitRadius
+              const orbitY = mousePos.y + Math.sin(orbitAngle) * orbitRadius
+
+              const orbitDx = orbitX - x
+              const orbitDy = orbitY - y
+              const orbitDistance = Math.sqrt(orbitDx * orbitDx + orbitDy * orbitDy)
+
+              if (orbitDistance > 3) {
+                vx += (orbitDx / orbitDistance) * 0.04
+                vy += (orbitDy / orbitDistance) * 0.04
+              }
+            }
+
+            // 🌊 极其随机的漂移 - 几乎不直接环绕鼠标
+            const randomFactor = Math.random() * 0.8 - 0.4
+            const wobble = Math.sin(currentTime * 0.001 + firefly.id) * 1.2
+            const driftAngle = Math.atan2(dy, dx) + wobble + randomFactor
+
+            // 极其微弱的向鼠标倾向
+            const weakInfluence = 0.003 + Math.random() * 0.002
+            vx += Math.cos(driftAngle) * weakInfluence
+            vy += Math.sin(driftAngle) * weakInfluence
+          } else {
+            // 🎲 自然漫游 - 正常漫游，不主动逃离
+            attractionStrength = Math.max(attractionStrength - 0.008, 0)
+
+            // 正常随机漫游
+            if (Math.random() < 0.02) { // 增加改变目标的频率
+              targetX = Math.random() * window.innerWidth
+              targetY = Math.random() * window.innerHeight
+            }
+
+            const targetDx = targetX - x
+            const targetDy = targetY - y
+            const targetDistance = Math.sqrt(targetDx * targetDx + targetDy * targetDy)
+
+            if (targetDistance > 5) {
+              vx += (targetDx / targetDistance) * wanderSpeed * 1.5 // 增强漫游速度
+              vy += (targetDy / targetDistance) * wanderSpeed * 1.5
+            }
+
+            // 添加自然的随机漂移，增强动感
+            wanderAngle += (Math.random() - 0.5) * 0.15
+            vx += Math.cos(wanderAngle) * 0.08
+            vy += Math.sin(wanderAngle) * 0.08
+          }
+
+          // 💫 应用阻力
+          vx *= 0.95
+          vy *= 0.95
+
+          // 更新位置
+          x += vx
+          y += vy
+
+          // 🌍 边界处理 - 严格约束在视窗内，防止横向滚动条
+          const margin = 10
+          if (x < margin) {
+            x = margin
+            vx = Math.abs(vx) * 0.5 // 反弹并减速
+          } else if (x > window.innerWidth - margin) {
+            x = window.innerWidth - margin
+            vx = -Math.abs(vx) * 0.5 // 反弹并减速
+          }
+
+          if (y < margin) {
+            y = margin
+            vy = Math.abs(vy) * 0.5 // 反弹并减速
+          } else if (y > window.innerHeight - margin) {
+            y = window.innerHeight - margin
+            vy = -Math.abs(vy) * 0.5 // 反弹并减速
+          }
+
+          // ✨ 计算当前透明度（闪烁效果）
+          const glowIntensity = Math.sin(glowPhase) * 0.3 + 0.7
+          const currentOpacity = firefly.baseOpacity * glowIntensity
+
+          return {
+            ...firefly,
+            x, y, vx, vy, targetX, targetY,
+            glowPhase, wanderAngle, wanderSpeed,
+            isAttracted, attractionStrength, currentOpacity
+          }
+        }))
+
+        lastTime = currentTime
       }
+      animationId = requestAnimationFrame(animate)
+    }
 
-      // 阻尼
-      vx *= 0.98
-      vy *= 0.98
-
-      // 更新位置
-      x += vx
-      y += vy
-
-      // 边界反弹
-      if (x < 0 || x > window.innerWidth) {
-        vx = -vx * 0.8
-        x = Math.max(0, Math.min(window.innerWidth, x))
-      }
-      if (y < 0 || y > window.innerHeight) {
-        vy = -vy * 0.8
-        y = Math.max(0, Math.min(window.innerHeight, y))
-      }
-
-      // 生命周期
-      life -= type === 'explosion' ? 0.02 : 0.001
-      if (life <= 0) {
-        x = Math.random() * window.innerWidth
-        y = Math.random() * window.innerHeight
-        life = 1
-        type = 'normal'
-      }
-
-      return { ...particle, x, y, vx, vy, life, type }
-    }))
-  })
+    animationId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animationId)
+  }, [mouseX, mouseY])
 
   if (!mounted) return null
 
+  // ✨ 渲染萤火虫粒子
+  const renderFirefly = (firefly: typeof fireflies[0]) => {
+    return (
+      <div
+        key={firefly.id}
+        style={{
+          position: 'absolute',
+          left: firefly.x,
+          top: firefly.y,
+          width: firefly.size * 2,
+          height: firefly.size * 2,
+          backgroundColor: '#ffeb3b',
+          borderRadius: '50%',
+          opacity: firefly.currentOpacity,
+          transform: 'translate(-50%, -50%)',
+          boxShadow: `
+            0 0 ${firefly.size * 8}px rgba(255, 235, 59, ${firefly.currentOpacity}),
+            0 0 ${firefly.size * 4}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.6}),
+            0 0 ${firefly.size * 2}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.3})
+          `,
+          filter: 'blur(0.5px)',
+          willChange: 'transform, opacity',
+          mixBlendMode: 'screen'
+        }}
+      />
+    )
+  }
+
   return (
     <div className="fixed inset-0 pointer-events-none">
-      {/* 粒子 */}
-      {particles.map(particle => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            x: particle.x,
-            y: particle.y,
-            width: particle.size * (particle.type === 'explosion' ? 2 : 1),
-            height: particle.size * (particle.type === 'explosion' ? 2 : 1),
-            backgroundColor: particle.color,
-            opacity: particle.life * 0.6,
-            filter: `blur(${(1 - particle.life) * 2}px)`,
-            boxShadow: `0 0 ${20 * particle.life}px ${particle.color}`
-          }}
-        />
-      ))}
-
-      {/* 鼠标轨迹 */}
-      {mouseTrail.map((point, index) => (
-        <motion.div
-          key={point.id}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: point.x,
-            top: point.y,
-            backgroundColor: '#8B5CF6',
-            opacity: (index / mouseTrail.length) * 0.5,
-            filter: `blur(${(1 - index / mouseTrail.length) * 3}px)`
-          }}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0 }}
-        />
-      ))}
-
-      {/* 鼠标超级光晕 */}
-      <motion.div
-        className="absolute w-[600px] h-[600px] pointer-events-none"
-        style={{
-          x: mouseXSmooth,
-          y: mouseYSmooth,
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <div className="relative w-full h-full">
-          <motion.div
-            className="absolute inset-0 bg-gradient-radial from-purple-500/30 via-purple-500/10 to-transparent"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-          <motion.div
-            className="absolute inset-[15%] bg-gradient-radial from-cyan-500/20 via-cyan-500/10 to-transparent"
-            animate={{ scale: [1.2, 1, 1.2] }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-          <motion.div
-            className="absolute inset-[30%] bg-gradient-radial from-pink-500/15 via-pink-500/05 to-transparent"
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-        </div>
-      </motion.div>
+      {/* ✨ 渲染萤火虫 */}
+      {fireflies.map(firefly => renderFirefly(firefly))}
     </div>
   )
 }
 
-// 3D组件轮播展示
+// 修复版3D组件轮播展示
 const Component3DCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
+
   const components = [
-    { name: 'Button', icon: <Box />, color: 'from-purple-500 to-pink-500' },
-    { name: 'Card', icon: <Square />, color: 'from-cyan-500 to-blue-500' },
-    { name: 'Input', icon: <Braces />, color: 'from-yellow-500 to-orange-500' },
-    { name: 'Modal', icon: <Pentagon />, color: 'from-green-500 to-teal-500' },
-    { name: 'Table', icon: <Database />, color: 'from-indigo-500 to-purple-500' },
-    { name: 'Form', icon: <FileCode />, color: 'from-pink-500 to-rose-500' }
+    { name: 'Button', icon: <Box />, color: 'from-purple-500 to-pink-500', desc: '灵活的按钮组件' },
+    { name: 'Card', icon: <Square />, color: 'from-cyan-500 to-blue-500', desc: '优雅的卡片容器' },
+    { name: 'Input', icon: <Braces />, color: 'from-yellow-500 to-orange-500', desc: '强大的表单输入' },
+    { name: 'Modal', icon: <Pentagon />, color: 'from-green-500 to-teal-500', desc: '流畅的弹窗组件' },
+    { name: 'Table', icon: <Database />, color: 'from-indigo-500 to-purple-500', desc: '智能数据表格' },
+    { name: 'Form', icon: <FileCode />, color: 'from-pink-500 to-rose-500', desc: '完整的表单方案' }
   ]
 
+  // 自动轮播效果 - 简化版
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % components.length)
-    }, 3000)
-    return () => clearInterval(interval)
+    if (isHovering) return
+
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % components.length)
+    }, 4000)
+
+    return () => clearInterval(timer)
+  }, [isHovering, components.length])
+
+  // 导航函数 - 简化版
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + components.length) % components.length)
+  }, [components.length])
+
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % components.length)
   }, [components.length])
 
   return (
-    <div className="relative h-96 flex items-center justify-center perspective-1000">
-      <div className="relative w-full h-full max-w-4xl">
+    <div
+      className="relative h-[450px] flex items-center justify-center"
+      style={{ perspective: '1200px' }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* 3D轮播容器 */}
+      <div className="relative w-full h-full max-w-6xl">
         {components.map((component, index) => {
           const offset = index - activeIndex
           const absOffset = Math.abs(offset)
@@ -375,58 +432,93 @@ const Component3DCarousel = () => {
           return (
             <motion.div
               key={component.name}
-              className="absolute inset-0 flex items-center justify-center"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               animate={{
-                x: `${offset * 120}%`,
-                z: -absOffset * 200,
-                rotateY: offset * -30,
-                opacity: absOffset > 1 ? 0 : 1 - absOffset * 0.3,
-                scale: 1 - absOffset * 0.2
+                x: `${offset * 120}px`,
+                z: isActive ? 0 : -absOffset * 150,
+                rotateY: offset * -25,
+                opacity: absOffset > 2 ? 0 : isActive ? 1 : 0.5,
+                scale: isActive ? 1.1 : 0.8,
               }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-              style={{ transformStyle: 'preserve-3d' }}
+              transition={{
+                type: 'spring',
+                stiffness: 120,
+                damping: 25,
+                duration: 0.5
+              }}
+              style={{
+                transformStyle: 'preserve-3d',
+                zIndex: isActive ? 30 : 20 - absOffset * 2
+              }}
             >
               <motion.div
-                className={`relative w-64 h-80 rounded-3xl bg-gradient-to-br ${component.color} p-[2px] cursor-pointer`}
-                whileHover={{ scale: 1.05, rotateY: 5 }}
+                className={`relative w-72 h-96 rounded-3xl bg-gradient-to-br ${component.color} p-[3px] cursor-pointer ${
+                  isActive ? 'shadow-2xl' : 'shadow-lg'
+                }`}
+                whileHover={{
+                  scale: isActive ? 1.08 : 1.03,
+                  rotateY: 5,
+                }}
                 onClick={() => setActiveIndex(index)}
+                style={{
+                  boxShadow: isActive
+                    ? '0 25px 60px rgba(168, 85, 247, 0.4), 0 0 40px rgba(168, 85, 247, 0.2)'
+                    : '0 10px 30px rgba(0, 0, 0, 0.3)'
+                }}
               >
-                <div className="relative w-full h-full bg-black/90 rounded-3xl p-8 flex flex-col items-center justify-center">
+                {/* 卡片内容 */}
+                <div className="relative w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-6 flex flex-col items-center justify-center overflow-hidden"
+                     style={{
+                       background: 'linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%)'
+                     }}>
+                  {/* 顶部装饰光线 */}
+                  <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${
+                    isActive ? 'via-white/40' : 'via-white/20'
+                  } to-transparent`} />
+
+                  {/* 图标 */}
                   <motion.div
-                    className="text-6xl mb-6"
+                    className={`relative mb-4 ${isActive ? 'p-6' : 'p-4'} bg-white/5 rounded-xl backdrop-blur-sm`}
                     animate={{
-                      rotateY: isActive ? 360 : 0,
+                      rotateY: isActive ? [0, 360] : 0,
+                      scale: isActive ? [1, 1.1, 1] : 1
                     }}
                     transition={{
-                      duration: 2,
-                      repeat: isActive ? Infinity : undefined,
-                      repeatType: "loop"
+                      rotateY: {
+                        duration: 3,
+                        ease: "linear",
+                        repeat: isActive ? Infinity : 0
+                      }
                     }}
                   >
                     {React.cloneElement(component.icon as React.ReactElement, {
-                      className: 'w-24 h-24 text-white'
+                      className: `${isActive ? 'w-16 h-16' : 'w-12 h-12'} text-white drop-shadow-lg`
                     })}
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{component.name}</h3>
-                  <p className="text-gray-400 text-center">现代化的 {component.name} 组件</p>
 
+                  {/* 组件名称 */}
+                  <motion.h3
+                    className={`${isActive ? 'text-2xl' : 'text-lg'} font-bold text-white mb-2`}
+                  >
+                    {component.name}
+                  </motion.h3>
+
+                  {/* 描述文字 */}
+                  <p className={`text-center ${isActive ? 'text-sm text-gray-300' : 'text-xs text-gray-500'}`}>
+                    {component.desc}
+                  </p>
+
+                  {/* 底部标签 */}
                   {isActive && (
                     <motion.div
-                      className="absolute inset-0 rounded-3xl"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: [0, 0.5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                      style={{
-                        background: `radial-gradient(circle at center, ${
-                          component.color.includes('purple') ? 'rgba(139, 92, 246, 0.3)' :
-                          component.color.includes('cyan') ? 'rgba(6, 182, 212, 0.3)' :
-                          component.color.includes('yellow') ? 'rgba(245, 158, 11, 0.3)' :
-                          component.color.includes('green') ? 'rgba(16, 185, 129, 0.3)' :
-                          component.color.includes('indigo') ? 'rgba(99, 102, 241, 0.3)' :
-                          'rgba(236, 72, 153, 0.3)'
-                        } 0%, transparent 70%)`
-                      }}
-                    />
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                        <span className="text-xs text-white font-medium">当前选中</span>
+                      </div>
+                    </motion.div>
                   )}
                 </div>
               </motion.div>
@@ -436,54 +528,175 @@ const Component3DCarousel = () => {
       </div>
 
       {/* 控制点 */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2">
-        {components.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === activeIndex ? 'w-8 bg-purple-500' : 'bg-gray-600'
-            }`}
-            onClick={() => setActiveIndex(index)}
-          />
-        ))}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-sm px-4 py-3 rounded-full border border-white/10 z-10">
+        {components.map((component, index) => {
+          const isActive = index === activeIndex
+          return (
+            <motion.button
+              key={index}
+              className={`relative rounded-full transition-all ${
+                isActive
+                  ? 'w-8 h-2 bg-gradient-to-r from-purple-500 to-cyan-500'
+                  : 'w-2 h-2 bg-gray-600 hover:bg-gray-500'
+              }`}
+              onClick={() => setActiveIndex(index)}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isActive && (
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-white"
+                  style={{ opacity: 0.3 }}
+                />
+              )}
+            </motion.button>
+          )
+        })}
+      </div>
+
+      {/* 左右切换按钮 */}
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+        <motion.button
+          className="w-10 h-10 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-purple-500/40 transition-all"
+          onClick={handlePrev}
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="w-4 h-4 rotate-180" />
+        </motion.button>
+      </div>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+        <motion.button
+          className="w-10 h-10 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-purple-500/40 transition-all"
+          onClick={handleNext}
+          whileHover={{ scale: 1.1, x: 5 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="w-4 h-4" />
+        </motion.button>
       </div>
     </div>
   )
 }
 
-// 流体背景动画
+// 🌌 全屏流动背景系统 - 重新设计版
 const FluidBackground = () => {
+  const [time, setTime] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(prev => prev + 0.01)
+    }, 40)
+    return () => clearInterval(interval)
+  }, [])
+
+  // 更明显的流动效果参数
+  const breathScale = 1 + Math.sin(time * 0.6) * 0.08 // 增强呼吸幅度
+
+  // 全屏流动光点 - 重新设计位置和颜色
+  const flowingPoints = [
+    {
+      x: 20 + Math.sin(time * 0.4) * 40, // 20% ± 40%
+      y: 30 + Math.cos(time * 0.5) * 30, // 30% ± 30%
+      size: 400 + Math.sin(time * 0.8) * 200, // 400px ± 200px
+      color: 'rgba(139, 92, 246, 0.15)', // 紫色，更明显
+      blendMode: 'screen'
+    },
+    {
+      x: 80 + Math.cos(time * 0.6) * 30, // 80% ± 30%
+      y: 20 + Math.sin(time * 0.4) * 40, // 20% ± 40%
+      size: 350 + Math.cos(time * 0.7) * 150, // 350px ± 150px
+      color: 'rgba(6, 182, 212, 0.12)', // 青色
+      blendMode: 'screen'
+    },
+    {
+      x: 50 + Math.sin(time * 0.3) * 50, // 50% ± 50%
+      y: 70 + Math.cos(time * 0.5) * 20, // 70% ± 20%
+      size: 450 + Math.sin(time * 0.9) * 100, // 450px ± 100px
+      color: 'rgba(236, 72, 153, 0.10)', // 粉色
+      blendMode: 'screen'
+    },
+    {
+      x: 15 + Math.cos(time * 0.7) * 15, // 15% ± 15%
+      y: 60 + Math.sin(time * 0.4) * 25, // 60% ± 25%
+      size: 300 + Math.cos(time * 0.6) * 100, // 300px ± 100px
+      color: 'rgba(251, 146, 60, 0.08)', // 橙色
+      blendMode: 'screen'
+    },
+    {
+      x: 85 + Math.sin(time * 0.5) * 25, // 85% ± 25%
+      y: 50 + Math.cos(time * 0.3) * 35, // 50% ± 35%
+      size: 380 + Math.sin(time * 0.8) * 120, // 380px ± 120px
+      color: 'rgba(163, 230, 53, 0.09)', // 绿色
+      blendMode: 'screen'
+    }
+  ]
+
   return (
-    <div className="fixed inset-0 pointer-events-none opacity-20">
-      <svg className="w-full h-full">
-        <defs>
-          <filter id="fluid">
-            <feTurbulence baseFrequency="0.01" numOctaves="2" result="turbulence" />
-            <feColorMatrix in="turbulence" type="saturate" values="2" />
-          </filter>
-        </defs>
-        <motion.rect
-          width="100%"
-          height="100%"
-          filter="url(#fluid)"
-          className="fill-purple-500/20"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0]
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear"
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {/* 基础暗色背景 */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(${135 + Math.sin(time * 0.2) * 10}deg,
+            #000000 0%,
+            #0a0a1a 30%,
+            #1a1a2e 60%,
+            #0a0a1a 100%)
+          `
+        }}
+      />
+
+      {/* 流动光点系统 */}
+      {flowingPoints.map((point, index) => (
+        <motion.div
+          key={index}
+          className="absolute rounded-full"
+          style={{
+            left: `${point.x}%`,
+            top: `${point.y}%`,
+            width: `${point.size}px`,
+            height: `${point.size}px`,
+            background: `radial-gradient(circle, ${point.color} 0%, transparent 70%)`,
+            mixBlendMode: point.blendMode,
+            transform: 'translate(-50%, -50%)',
+            filter: 'blur(2px)',
+            scale: breathScale
           }}
         />
-      </svg>
+      ))}
+
+      {/* 网格装饰线 */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+          opacity: 0.5
+        }}
+      />
+
+      {/* 额外的小光点装饰 */}
+      {Array.from({ length: 8 }, (_, i) => (
+        <div
+          key={`decor-${i}`}
+          className="absolute w-1 h-1 bg-purple-400/20 rounded-full"
+          style={{
+            left: `${10 + i * 12}%`,
+            top: `${15 + (i % 3) * 25}%`,
+            opacity: 0.3 + Math.sin(time + i) * 0.2
+          }}
+        />
+      ))}
     </div>
   )
 }
 
-// 代码编辑器组件
+// 增强代码编辑器组件
 const CodeEditor = () => {
   const [code, setCode] = useState(`import { Button, Card } from '@xorigo-ui/core'
 
@@ -512,40 +725,97 @@ function App() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-purple-500/20"
+      className="relative bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-800/95 rounded-2xl overflow-hidden border border-purple-500/30 shadow-2xl shadow-purple-500/10"
     >
-      {/* 编辑器头部 */}
-      <div className="flex items-center justify-between px-4 py-3 bg-black/50 border-b border-purple-500/10">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 bg-red-500 rounded-full" />
-            <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-            <div className="w-3 h-3 bg-green-500 rounded-full" />
+      {/* 顶部光晕效果 */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+
+      {/* 编辑器头部 - 增强设计 */}
+      <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 backdrop-blur-sm border-b border-purple-500/20">
+        <div className="flex items-center gap-3">
+          {/* macOS 风格按钮 */}
+          <div className="flex gap-2">
+            <motion.div
+              className="w-3 h-3 bg-red-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
+            <motion.div
+              className="w-3 h-3 bg-yellow-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(234, 179, 8, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
+            <motion.div
+              className="w-3 h-3 bg-green-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(34, 197, 94, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
           </div>
-          <span className="text-gray-400 text-sm ml-2">App.tsx</span>
+
+          {/* 文件名标签 */}
+          <div className="flex items-center gap-2 px-3 py-1 bg-purple-500/10 rounded-md border border-purple-500/20">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+            <span className="text-gray-300 text-sm font-medium">App.tsx</span>
+          </div>
         </div>
-        <button
+
+        {/* 复制按钮 - 增强交互 */}
+        <motion.button
           onClick={handleCopy}
-          className="text-gray-400 hover:text-white transition-colors"
+          className="group relative px-3 py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-400/50 rounded-lg transition-all"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-        </button>
+          <div className="flex items-center gap-2">
+            <AnimatePresence mode="wait">
+              {copied ? (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  className="text-green-400"
+                >
+                  <Check className="w-4 h-4" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="copy"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="text-gray-400 group-hover:text-purple-400 transition-colors"
+                >
+                  <Copy className="w-4 h-4" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <span className="text-xs text-gray-400 group-hover:text-purple-400 transition-colors">
+              {copied ? '已复制' : '复制'}
+            </span>
+          </div>
+        </motion.button>
       </div>
 
-      {/* 代码内容 */}
-      <pre className="p-6 text-sm overflow-x-auto">
-        <code className="text-gray-300">{code}</code>
-      </pre>
+      {/* 代码内容区域 - 左对齐标准格式 */}
+      <div className="relative">
+        {/* 行号列 */}
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-black/40 border-r border-purple-500/10 flex flex-col py-6 text-right pr-3">
+          {code.split('\n').map((_, i) => (
+            <span key={i} className="text-xs text-gray-600 leading-6 font-mono">
+              {i + 1}
+            </span>
+          ))}
+        </div>
 
-      {/* 实时预览按钮 */}
-      <motion.button
-        className="absolute bottom-4 right-4 bg-purple-500/20 backdrop-blur-sm border border-purple-500/50 text-purple-400 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-500/30 transition-colors"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Play className="w-4 h-4" />
-        实时预览
-      </motion.button>
+        {/* 代码内容 - 左对齐，无居中 */}
+        <pre className="pl-16 pr-6 py-6 text-sm overflow-x-auto text-left">
+          <code className="text-gray-300 font-mono leading-6 whitespace-pre">{code}</code>
+        </pre>
+      </div>
+
+      {/* 装饰性光效 */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
     </motion.div>
   )
 }
@@ -554,7 +824,11 @@ function App() {
 const CounterAnimation = ({ value, suffix = '' }: { value: number; suffix?: string }) => {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
+  const isInView = useInView(ref, {
+    once: true,
+    amount: 0.1, // 当元素10%进入视窗时就触发 - 更早触发
+    margin: "-200px 0px" // 提前200px触发 - 更明显的提前量
+  })
 
   useEffect(() => {
     if (isInView) {
@@ -601,7 +875,7 @@ const EnhancedNavbar = () => {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled
           ? 'bg-black/90 backdrop-blur-3xl border-b border-purple-500/20 shadow-2xl shadow-purple-500/10'
           : 'bg-transparent'
@@ -610,7 +884,7 @@ const EnhancedNavbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo增强 */}
+          {/* Logo增强 - 修复文字剪裁 + 流动光影动效 */}
           <motion.div
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
@@ -621,21 +895,62 @@ const EnhancedNavbar = () => {
                 animate={{
                   rotate: 360,
                 }}
-                transition={{ duration: 10, repeat: Infinity, repeatType: "loop", ease: 'linear' }}
+                transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
               />
               <motion.div
                 className="absolute inset-0 bg-gradient-to-br from-purple-500/50 to-cyan-500/50 rounded-xl blur-md"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
               />
               <div className="relative w-full h-full flex items-center justify-center text-white font-bold text-2xl">
                 X
               </div>
             </motion.div>
-            <div className="text-2xl font-bold">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient bg-300">
+
+            {/* 文字容器 - 添加足够的 padding 防止剪裁 */}
+            <div className="text-2xl font-bold px-1 py-1 overflow-visible">
+              <motion.span
+                className="inline-block relative"
+                style={{
+                  background: 'linear-gradient(90deg, #a855f7 0%, #ec4899 25%, #06b6d4 50%, #a855f7 75%, #ec4899 100%)',
+                  backgroundSize: '300% 100%',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                }}
+                transition={{
+                  duration: 8,
+                  ease: 'linear',
+                  repeat: Infinity,
+                }}
+              >
                 Xorigo UI
-              </span>
+
+                {/* 光影流动效果层 */}
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  style={{
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    mixBlendMode: 'overlay',
+                  }}
+                  animate={{
+                    x: ['-200%', '200%']
+                  }}
+                  transition={{
+                    duration: 3,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatDelay: 1
+                  }}
+                >
+                  Xorigo UI
+                </motion.span>
+              </motion.span>
             </div>
           </motion.div>
 
@@ -714,9 +1029,22 @@ const EnhancedNavbar = () => {
 
 // 主组件
 export default function StableExcellentHome() {
-  const { scrollYProgress } = useScroll()
+  const { scrollY, scrollYProgress } = useScroll()
   const scaleProgress = useTransform(scrollYProgress, [0, 1], [1, 0.8])
   const opacityProgress = useTransform(scrollYProgress, [0, 0.5], [1, 0.6])
+
+  // 优化滚动衔接动画
+  const heroOpacity = useTransform(scrollY, [0, 300, 600], [1, 0.8, 0])
+  const heroScale = useTransform(scrollY, [0, 400], [1, 0.95])
+  const heroY = useTransform(scrollY, [0, 500], [0, -100])
+  const codeEditorOpacity = useTransform(scrollY, [0, 200, 400], [1, 0.8, 0])
+  const codeEditorY = useTransform(scrollY, [0, 300], [0, -50])
+
+  // 第二屏进入动画
+  const carouselOpacity = useTransform(scrollY, [300, 600, 800], [0, 0.8, 1])
+  const carouselY = useTransform(scrollY, [300, 600], [100, 0])
+  const sectionTitleOpacity = useTransform(scrollY, [200, 500, 700], [0, 0.8, 1])
+  const sectionTitleY = useTransform(scrollY, [200, 500], [50, 0])
 
   const stats = [
     { label: '组件', value: 50, suffix: '+', icon: <Box /> },
@@ -726,6 +1054,61 @@ export default function StableExcellentHome() {
   ]
 
   const [soundEnabled, setSoundEnabled] = useState(false)
+
+  // ✨ 点击涟漪效果组件
+  const ClickRipple = () => {
+    const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([])
+    const rippleIdRef = useRef(0)
+
+    useEffect(() => {
+      const handleClick = (e: MouseEvent) => {
+        const newRipple = {
+          id: rippleIdRef.current++,
+          x: e.clientX,
+          y: e.clientY
+        }
+        setRipples(prev => [...prev, newRipple])
+
+        // 800ms后自动移除涟漪
+        setTimeout(() => {
+          setRipples(prev => prev.filter(r => r.id !== newRipple.id))
+        }, 800)
+      }
+
+      window.addEventListener('mousedown', handleClick)
+      return () => window.removeEventListener('mousedown', handleClick)
+    }, [])
+
+    return (
+      <div className="fixed inset-0 pointer-events-none z-[9999]">
+        <AnimatePresence>
+          {ripples.map(ripple => (
+            <motion.div
+              key={ripple.id}
+              className="absolute"
+              style={{
+                left: ripple.x,
+                top: ripple.y,
+                transform: 'translate(-50%, -50%)',
+              }}
+              initial={{ scale: 0, opacity: 0.8 }}
+              animate={{
+                scale: [0, 3, 5],
+                opacity: [0.8, 0.3, 0],
+              }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.8,
+                ease: "easeOut"
+              }}
+            >
+              <div className="w-8 h-8 rounded-full border-2 border-purple-400" />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    )
+  }
 
   return (
     <AnimatePresence>
@@ -741,15 +1124,20 @@ export default function StableExcellentHome() {
         {/* 背景效果层 */}
         <FluidBackground />
         <SuperParticleSystem />
+        <ClickRipple />
 
         {/* 导航栏 */}
         <EnhancedNavbar />
 
-        {/* Hero Section增强版 */}
-        <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        {/* Hero Section增强版 - 优化滚动衔接，向上提内容 */}
+        <section className="relative min-h-screen flex items-start justify-center px-6 pt-18">
           <motion.div
             className="max-w-7xl mx-auto w-full"
-            style={{ scale: scaleProgress, opacity: opacityProgress }}
+            style={{
+              scale: heroScale,
+              opacity: heroOpacity,
+              y: heroY
+            }}
           >
             <div className="text-center">
               {/* 声音控制 */}
@@ -758,42 +1146,139 @@ export default function StableExcellentHome() {
                 onClick={() => setSoundEnabled(!soundEnabled)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                style={{ opacity: heroOpacity }}
               >
                 {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
               </motion.button>
 
-              {/* 标题超级动画 */}
+              {/* 标题超级动画 - 流动渐变光影 */}
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <motion.h1
-                  className="text-7xl md:text-8xl lg:text-9xl font-bold mb-8"
-                  style={{ perspective: '1000px' }}
-                >
-                  <motion.span
-                    className="inline-block bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent animate-gradient bg-300"
-                    animate={{
-                      rotateX: [0, 10, 0],
-                      rotateY: [-10, 0, 10, 0, -10],
-                    }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "easeInOut"
+                {/* 增加容器高度，防止下降字符被剪裁 */}
+                <div className="relative px-6 py-6 overflow-visible">
+                  <motion.h1
+                    className="text-7xl md:text-8xl lg:text-9xl font-bold mb-12 leading-relaxed"
+                    style={{
+                      perspective: '1000px',
+                      lineHeight: '1.3'
                     }}
                   >
-                    Xorigo UI
-                  </motion.span>
-                </motion.h1>
+                    <motion.span
+                      className="inline-block relative pb-4"
+                      animate={{
+                        rotateX: [0, 3, 0, -3, 0],
+                      }}
+                      transition={{
+                        rotateX: {
+                          duration: 10,
+                          ease: 'easeInOut',
+                          repeat: Infinity,
+                        }
+                      }}
+                    >
+                      {/* 基础渐变文字层 - 无缝循环流动 */}
+                      <motion.div
+                        className="relative"
+                        style={{
+                          background: 'linear-gradient(110deg, #a855f7 0%, #ec4899 12.5%, #06b6d4 25%, #10b981 37.5%, #f59e0b 50%, #ec4899 62.5%, #a855f7 75%, #06b6d4 87.5%, #a855f7 100%)',
+                          backgroundSize: '400% 100%',
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                        }}
+                        animate={{
+                          backgroundPosition: ['0% 50%', '100% 50%', '200% 50%', '300% 50%', '400% 50%'],
+                        }}
+                        transition={{
+                          duration: 25,
+                          ease: 'linear',
+                          repeat: Infinity,
+                        }}
+                      >
+                        Xorigo UI
+                      </motion.div>
+
+                      {/* 光影流动效果层 1 - 主光束（减慢速度） */}
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%)',
+                          backgroundSize: '200% 100%',
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                          mixBlendMode: 'overlay',
+                        }}
+                        animate={{
+                          backgroundPosition: ['-200% 0%', '200% 0%']
+                        }}
+                        transition={{
+                          duration: 4, // 减慢：2.5s → 4s
+                          ease: 'easeInOut',
+                          repeat: Infinity,
+                          repeatDelay: 1.5 // 增加间隔：0.8s → 1.5s
+                        }}
+                      >
+                        Xorigo UI
+                      </motion.div>
+
+                      {/* 光影流动效果层 2 - 副光束（反向，更慢） */}
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.4) 50%, transparent 100%)',
+                          backgroundSize: '150% 100%',
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                          mixBlendMode: 'screen',
+                        }}
+                        animate={{
+                          backgroundPosition: ['200% 0%', '-200% 0%']
+                        }}
+                        transition={{
+                          duration: 6, // 减慢：4s → 6s
+                          ease: 'easeInOut',
+                          repeat: Infinity,
+                          repeatDelay: 1 // 增加间隔：0.3s → 1s
+                        }}
+                      >
+                        Xorigo UI
+                      </motion.div>
+
+                      {/* 脉冲光晕效果（更慢呼吸） */}
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%)',
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                          mixBlendMode: 'color-dodge',
+                        }}
+                        animate={{
+                          opacity: [0.3, 0.7, 0.3], // 降低峰值：0.8 → 0.7
+                        }}
+                        transition={{
+                          duration: 5, // 减慢：3s → 5s
+                          ease: 'easeInOut',
+                          repeat: Infinity,
+                        }}
+                      >
+                        Xorigo UI
+                      </motion.div>
+                    </motion.span>
+                  </motion.h1>
+                </div>
 
                 <motion.p
                   className="text-3xl text-gray-300 mb-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.4, duration: 0.6 }} // 更快出现
                 >
                   下一代 React 组件库
                 </motion.p>
@@ -802,7 +1287,7 @@ export default function StableExcellentHome() {
                   className="text-xl text-gray-500 mb-12 max-w-3xl mx-auto"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.6, duration: 0.6 }} // 更快出现
                 >
                   由 Saken 与 AI 协作打造，为现代 Web 应用提供极致的开发体验
                 </motion.p>
@@ -812,7 +1297,7 @@ export default function StableExcellentHome() {
                   className="flex flex-col sm:flex-row gap-6 justify-center mb-20"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
+                  transition={{ delay: 0.8, duration: 0.5 }} // 更快出现
                 >
                   <motion.button
                     className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-12 py-5 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-purple-500/30 transition-all"
@@ -844,27 +1329,77 @@ export default function StableExcellentHome() {
                 </motion.div>
               </motion.div>
 
-              {/* 代码编辑器展示 */}
+              {/* 代码编辑器展示 - 左右布局 */}
               <motion.div
-                className="max-w-4xl mx-auto"
+                className="max-w-7xl mx-auto"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
+                transition={{ delay: 1.1, duration: 0.6 }}
+                style={{
+                  opacity: codeEditorOpacity,
+                  y: codeEditorY
+                }}
               >
-                <CodeEditor />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* 左侧：代码编辑器 */}
+                  <CodeEditor />
+
+                  {/* 右侧：实时预览 */}
+                  <motion.div
+                    className="relative bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-800/95 rounded-2xl overflow-hidden border border-cyan-500/30 shadow-2xl shadow-cyan-500/10 p-8"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.3, duration: 0.6 }}
+                  >
+                    {/* 顶部光晕 */}
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+
+                    {/* 预览标题 */}
+                    <div className="flex items-center gap-2 mb-6">
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                      <span className="text-gray-300 text-sm font-medium">实时预览</span>
+                    </div>
+
+                    {/* 预览内容 */}
+                    <motion.div
+                      className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                    >
+                      <h1 className="text-2xl font-bold text-white mb-4">欢迎使用 Xorigo UI</h1>
+                      <motion.button
+                        className="relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-6 py-3 rounded-lg font-medium shadow-lg"
+                        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(168, 85, 247, 0.5)' }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span className="relative z-10">开始构建</span>
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
+                          initial={{ x: '100%' }}
+                          whileHover={{ x: 0 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </motion.button>
+                    </motion.div>
+
+                    {/* 装饰光效 */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+                  </motion.div>
+                </div>
               </motion.div>
             </div>
           </motion.div>
         </section>
 
-        {/* 3D组件展示 */}
-        <section className="py-32 px-6">
+        {/* 3D组件展示 - 优化滚动衔接，避免导航条重叠 */}
+        <section className="py-8 px-6 pt-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
+              className="text-center mb-12"
+              style={{
+                opacity: sectionTitleOpacity,
+                y: sectionTitleY
+              }}
             >
               <h2 className="text-5xl md:text-6xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
@@ -876,55 +1411,66 @@ export default function StableExcellentHome() {
               </p>
             </motion.div>
 
-            <Component3DCarousel />
+            <motion.div
+              style={{
+                opacity: carouselOpacity,
+                y: carouselY
+              }}
+            >
+              <Component3DCarousel />
+            </motion.div>
           </div>
         </section>
 
-        {/* 统计数据 */}
-        <section className="py-32 px-6">
+        {/* 统计数据 - 完全重构版本 */}
+        <section className="py-12 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
-                    {React.cloneElement(stat.icon as React.ReactElement, {
-                      className: 'w-8 h-8 text-white'
-                    })}
-                  </div>
-                  <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-                    <CounterAnimation value={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div className="text-gray-400">{stat.label}</div>
-                </motion.div>
-              ))}
+              {/* 简单直接的统计卡片实现 */}
+              <div className="text-center opacity-100 scale-100 transition-all duration-300">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
+                  <Box className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                  50+
+                </div>
+                <div className="text-gray-400">组件</div>
+              </div>
+
+              <div className="text-center opacity-100 scale-100 transition-all duration-300">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
+                  <Palette className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                  20+
+                </div>
+                <div className="text-gray-400">主题</div>
+              </div>
+
+              <div className="text-center opacity-100 scale-100 transition-all duration-300">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
+                  <Code2 className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                  100%
+                </div>
+                <div className="text-gray-400">TypeScript</div>
+              </div>
+
+              <div className="text-center opacity-100 scale-100 transition-all duration-300">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
+                  <Zap className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                  50%
+                </div>
+                <div className="text-gray-400">性能提升</div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-20 px-6 border-t border-purple-500/20">
-          <div className="max-w-7xl mx-auto text-center">
-            <motion.p
-              className="text-gray-400"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              Created with ❤️ by Saken + AI • {new Date().getFullYear()}
-              <br />
-              <span className="text-sm text-purple-400">
-                稳定优秀版 • 基于ultimate-final.tsx • 视觉震撼且性能稳定
-              </span>
-            </motion.p>
-          </div>
-        </footer>
+        {/* 页脚由全局布局提供，无需在这里重复添加 */}
       </motion.div>
     </AnimatePresence>
   )

@@ -242,7 +242,22 @@ export function WorkbenchGalleryClientEnhanced({
               : "grid-cols-1"
           )}>
             {searchResults.map((component, index) => (
-              <div key={component.name} className="animate-in fade-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+              <div
+                key={component.name}
+                className="transition-all duration-300 ease-out opacity-0"
+                style={{
+                  transitionDelay: `${index * 30}ms`,
+                  transform: 'translateY(20px)'
+                }}
+                ref={(el) => {
+                  if (el) {
+                    setTimeout(() => {
+                      el.style.opacity = '1'
+                      el.style.transform = 'translateY(0)'
+                    }, 100 + index * 30)
+                  }
+                }}
+              >
                 <EnhancedComponentCard
                   component={component}
                   onEdit={(comp) => console.log('Edit component:', comp)}

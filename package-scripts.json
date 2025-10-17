@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "visual:test": "playwright test tests/visual",
+    "visual:test:headed": "playwright test tests/visual --headed",
+    "visual:test:debug": "playwright test tests/visual --debug",
+    "visual:test:ui": "playwright test tests/visual --ui",
+    "visual:test:report": "node scripts/visual-test-summary.js",
+    "visual:test:update": "bash scripts/update-visual-baselines.sh --all",
+    "visual:update:component": "bash scripts/update-visual-baselines.sh --component",
+    "visual:update:theme": "bash scripts/update-visual-baselines.sh --theme",
+    "visual:serve": "npx http-server tests/visual -p 3101 -c-1 --cors",
+    "visual:setup": "npx playwright install && npx playwright install-deps",
+    "visual:clean": "rm -rf test-results playwright-report visual-reports tests/visual/screenshots/actual tests/visual/screenshots/diff",
+    "test:visual": "npm run visual:test",
+    "test:visual:ci": "CI=true npm run visual:test"
+  }
+}

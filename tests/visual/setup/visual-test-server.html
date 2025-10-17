@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xorigo UI 视觉测试服务器</title>
+    <style>
+        /* 预加载样式，确保测试环境一致 */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.5;
+        }
+
+        /* 防止闪烁的加载样式 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f8fafc;
+        }
+
+        .loading::after {
+            content: '加载中...';
+            font-size: 18px;
+            color: #64748b;
+        }
+
+        /* 视觉测试专用样式 */
+        .visual-test-indicator {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* 确保字体加载一致性 */
+        @font-face {
+            font-family: 'Test Font';
+            src: local('Arial');
+            font-display: block;
+        }
+
+        /* 防止动画影响截图 */
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-delay: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+            transition-delay: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 视觉测试指示器 -->
+    <div class="visual-test-indicator" id="test-indicator">
+        准备中...
+    </div>
+
+    <!-- 加载指示器 -->
+    <div class="loading" id="loading">
+        正在准备视觉测试环境...
+    </div>
+
+    <!-- React应用挂载点 -->
+    <div id="root"></div>
+
+    <!-- 测试脚本 -->
+    <script>
+        // 视觉测试环境配置
+        window.VISUAL_TEST_CONFIG = {
+            // 防止自动聚焦
+            preventAutoFocus: true,
+            // 防止滚动
+            preventScroll: true,
+            // 测试模式
+            testMode: true,
+            // 截图延迟
+            screenshotDelay: 500
+        };
+
+        // 等待页面完全加载
+        window.addEventListener('load', function() {
+            // 隐藏加载指示器
+            const loading = document.getElementById('loading');
+            if (loading) {
+                loading.style.display = 'none';
+            }
+
+            // 更新测试指示器
+            const indicator = document.getElementById('test-indicator');
+            if (indicator) {
+                const params = new URLSearchParams(window.location.search);
+                const page = params.get('page') || 'components';
+                const theme = params.get('theme') || 'default';
+                indicator.textContent = `${page} - ${theme}`;
+            }
+
+            // 通知测试环境准备就绪
+            window.dispatchEvent(new CustomEvent('visual-test-ready'));
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(event) {
+            console.error('视觉测试环境错误:', event.error);
+            const indicator = document.getElementById('test-indicator');
+            if (indicator) {
+                indicator.textContent = '错误: ' + event.message;
+                indicator.style.background = '#dc2626';
+            }
+        });
+
+        // 防止默认滚动行为
+        document.addEventListener('DOMContentLoaded', function() {
+            // 禁用body滚动（由测试控制）
+            document.body.style.overflow = 'hidden';
+
+            // 设置初始视口信息
+            const updateViewportInfo = () => {
+                const indicator = document.getElementById('test-indicator');
+                if (indicator) {
+                    const params = new URLSearchParams(window.location.search);
+                    const page = params.get('page') || 'components';
+                    const theme = params.get('theme') || 'default';
+                    indicator.textContent = `${page} - ${theme} (${window.innerWidth}x${window.innerHeight})`;
+                }
+            };
+
+            window.addEventListener('resize', updateViewportInfo);
+            updateViewportInfo();
+        });
+
+        // 防止右键菜单（影响截图）
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // 防止文本选择（影响截图一致性）
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // 设置全局变量用于测试
+        window.VISUAL_TEST_READY = false;
+
+        // React应用加载完成后设置
+        window.addEventListener('visual-test-ready', function() {
+            window.VISUAL_TEST_READY = true;
+            console.log('✅ 视觉测试环境准备就绪');
+        });
+    </script>
+
+    <!-- React应用 -->
+    <script type="module" src="./visual-test-server.tsx"></script>
+</body>
+</html>

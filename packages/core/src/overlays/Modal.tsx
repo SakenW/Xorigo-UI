@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { cn } from '../utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
+import { getModalAriaProps, generateAriaId, createFocusTrap } from '../utils/accessibility'
 
 // 模态框变体
 const modalVariants = cva(
@@ -71,6 +72,21 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     },
     ref
   ) => {
+    const modalRef = useRef<HTMLDivElement>(null)
+    const focusTrapRef = useRef<ReturnType<typeof createFocusTrap> | null>(null)
+    const previousFocusRef = useRef<HTMLElement | null>(null)
+
+    // 生成可访问性相关的ID
+    const titleId = title ? generateAriaId('modal-title') : undefined
+    const descriptionId = generateAriaId('modal-description')
+
+    // 生成可访问性属性
+    const ariaProps = getModalAriaProps({
+      title,
+      labelId: titleId,
+      descriptionId,
+      modal: true
+    })
   // 处理ESC键关闭
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -83,16 +99,38 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     return () => document.removeEventListener('keydown', handleEsc)
   }, [open, onClose])
 
-  // 处理滚动锁定
+  // 处理滚动锁定和焦点管理
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden'
+      // 保存当前焦点元素
+      previousFocusRef.current = document.activeElement as HTMLElement
+
+      // 设置焦点陷阱
+      if (modalRef.current) {
+        focusTrapRef.current = createFocusTrap(modalRef.current)
+        focusTrapRef.current.activate()
+      }
     } else {
       document.body.style.overflow = 'unset'
+
+      // 清理焦点陷阱
+      if (focusTrapRef.current) {
+        focusTrapRef.current.deactivate()
+        focusTrapRef.current = null
+      }
+
+      // 恢复焦点到之前的元素
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus()
+      }
     }
 
     return () => {
       document.body.style.overflow = 'unset'
+      if (focusTrapRef.current) {
+        focusTrapRef.current.deactivate()
+      }
     }
   }, [open])
 
@@ -138,7 +176,11 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             style={{ zIndex: zIndex + 1 }}
           >
             <motion.div
-              ref={ref}
+              ref={(node) => {
+                modalRef.current = node
+                if (typeof ref === 'function') ref(node)
+                else if (ref) ref.current = node
+              }}
               className={cn(
                 modalVariants({ variant, size }),
                 className
@@ -148,6 +190,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 overflow: 'auto',
                 width: width || undefined
               }}
+              {...ariaProps}
               {...props}
             >
               {/* 标题栏 */}
@@ -158,7 +201,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                       <span className="text-xl">{variantIcons[variant]}</span>
                     )}
                     {title && (
-                      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                      <h2 id={titleId} className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                         {title}
                       </h2>
                     )}
@@ -178,7 +221,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               )}
 
               {/* 内容区域 */}
-              <div className="p-6">{children}</div>
+              <div id={descriptionId} className="p-6">{children}</div>
 
               {/* 底部区域 */}
               {footer && (

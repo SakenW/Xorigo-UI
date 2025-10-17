@@ -130,7 +130,7 @@ export interface CodeProps
   extends Omit<HTMLMotionProps<'code'>, 'variant'>,
     VariantProps<typeof codeVariants> {
   /** 代码内容 */
-  children: string
+  children?: string
   /** 是否显示行号 */
   showLineNumbers?: boolean
   /** 起始行号 */
@@ -158,7 +158,7 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
     size = 'sm',
     language = 'javascript',
     theme = 'auto',
-    children,
+    children = '',
     showLineNumbers = false,
     startLineNumber = 1,
     showCopyButton = true,
@@ -172,6 +172,9 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
   }, ref) => {
     const [copied, setCopied] = useState(false)
     const [error, setError] = useState<string | null>(null)
+
+    // 防御性检查：确保 children 是字符串
+    const codeContent = children ?? ''
 
     // 简单的语法高亮函数
     const highlightSyntax = useCallback((code: string, lang: string) => {
@@ -218,7 +221,7 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
     // 复制到剪贴板
     const copyToClipboard = useCallback(async () => {
       try {
-        await navigator.clipboard.writeText(children)
+        await navigator.clipboard.writeText(codeContent)
         setCopied(true)
         setError(null)
         setTimeout(() => setCopied(false), 2000)
@@ -226,7 +229,7 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
         setError('复制失败')
         setTimeout(() => setError(null), 2000)
       }
-    }, [children])
+    }, [codeContent])
 
     // 内联代码
     if (variant === 'inline') {
@@ -239,16 +242,16 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
           {...props}
         >
           {syntaxHighlight ? (
-            <span dangerouslySetInnerHTML={{ __html: highlightSyntax(children, language) }} />
+            <span dangerouslySetInnerHTML={{ __html: highlightSyntax(codeContent, language) }} />
           ) : (
-            children
+            codeContent
           )}
         </motion.code>
       )
     }
 
     // 多行代码
-    const lines = children.split('\n')
+    const lines = codeContent.split('\n')
     const shouldShowLineNumbers = showLineNumbers && lines.length > 1
 
     return (
@@ -338,9 +341,9 @@ export const Code = forwardRef<HTMLElement, CodeProps>(
                 </div>
               </div>
             ) : syntaxHighlight ? (
-              <span dangerouslySetInnerHTML={{ __html: highlightSyntax(children, language) }} />
+              <span dangerouslySetInnerHTML={{ __html: highlightSyntax(codeContent, language) }} />
             ) : (
-              children
+              codeContent
             )}
           </code>
         </pre>

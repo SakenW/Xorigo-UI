@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils/cn'
 import { Avatar } from '../utilities/Avatar'
 
@@ -47,7 +48,7 @@ const stackContainerVariants = cva(
 
 // 更多计数器样式
 const moreCounterVariants = cva(
-  'flex items-center justify-center rounded-full font-medium text-white border-2 border-white dark:border-gray-900 bg-gray-500',
+  'flex items-center justify-center rounded-full font-medium text-[var(--text-inverse)] border-2 border-[var(--bg-secondary)] bg-[var(--text-tertiary)]',
   {
     variants: {
       size: {
@@ -142,7 +143,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
                 key={index}
                 style={getStackStyle(index, visibleAvatars.length)}
                 className={cn(
-                  'relative inline-block border-2 border-white dark:border-gray-900 rounded-full',
+                  'relative inline-block border-2 border-[var(--bg-secondary)] rounded-full',
                   hoverable && 'cursor-pointer'
                 )}
                 {...hoverAnimation}
@@ -176,7 +177,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
             key={index}
             style={getStackStyle(index, visibleAvatars.length)}
             className={cn(
-              'relative inline-block border-2 border-white dark:border-gray-900',
+              'relative inline-block border-2 border-[var(--bg-secondary)]',
               variant === 'circle' ? 'rounded-full' : variant === 'square' ? 'rounded-md' : 'rounded-full',
               hoverable && 'cursor-pointer'
             )}

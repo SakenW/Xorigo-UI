@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '@/utils'
 
 export interface SkeletonProps {
@@ -35,7 +36,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   return (
     <motion.div
       className={cn(
-        'bg-gray-200 dark:bg-gray-700',
+        'bg-[var(--bg-disabled)]',
         variantClasses[variant],
         animation === 'pulse' && 'animate-pulse',
         className
@@ -77,7 +78,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
     switch (type) {
       case 'card':
         return (
-          <div className="space-y-3 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div className="space-y-3 p-4 border border-[var(--border-primary)] rounded-lg">
             <Skeleton variant="rectangular" height="200px" />
             <Skeleton variant="text" width="60%" />
             <Skeleton variant="text" width="80%" />
@@ -112,7 +113,7 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
 
       case 'profile':
         return (
-          <div className="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div className="flex items-start gap-4 p-4 border border-[var(--border-primary)] rounded-lg">
             <Skeleton variant="circular" width="80px" height="80px" />
             <div className="flex-1 space-y-3">
               <Skeleton variant="text" width="50%" height="1.5em" />
@@ -126,14 +127,14 @@ export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
       case 'table':
         return (
           <div className="space-y-2">
-            <div className="grid grid-cols-4 gap-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="grid grid-cols-4 gap-4 p-4 bg-[var(--bg-tertiary)] rounded-lg">
               <Skeleton variant="text" />
               <Skeleton variant="text" />
               <Skeleton variant="text" />
               <Skeleton variant="text" />
             </div>
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+              <div key={i} className="grid grid-cols-4 gap-4 p-4 border-b border-[var(--border-primary)]">
                 <Skeleton variant="text" />
                 <Skeleton variant="text" />
                 <Skeleton variant="text" />

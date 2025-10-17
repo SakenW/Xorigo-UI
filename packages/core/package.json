@@ -16,6 +16,256 @@
       "types": "./dist/theme.d.ts",
       "import": "./dist/theme.mjs",
       "require": "./dist/theme.cjs.js"
+    },
+    "./ui": {
+      "types": "./dist/ui.d.ts",
+      "import": "./dist/ui.mjs",
+      "require": "./dist/ui.cjs.js"
+    },
+    "./inputs": {
+      "types": "./dist/inputs.d.ts",
+      "import": "./dist/inputs.mjs",
+      "require": "./dist/inputs.cjs.js"
+    },
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "import": "./dist/form.mjs",
+      "require": "./dist/form.cjs.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation.d.ts",
+      "import": "./dist/navigation.mjs",
+      "require": "./dist/navigation.cjs.js"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.ts",
+      "import": "./dist/layout.mjs",
+      "require": "./dist/layout.cjs.js"
+    },
+    "./feedback": {
+      "types": "./dist/feedback.d.ts",
+      "import": "./dist/feedback.mjs",
+      "require": "./dist/feedback.cjs.js"
+    },
+    "./overlays": {
+      "types": "./dist/overlays.d.ts",
+      "import": "./dist/overlays.mjs",
+      "require": "./dist/overlays.cjs.js"
+    },
+    "./datadisplay": {
+      "types": "./dist/datadisplay.d.ts",
+      "import": "./dist/datadisplay.mjs",
+      "require": "./dist/datadisplay.cjs.js"
+    },
+    "./charts": {
+      "types": "./dist/charts.d.ts",
+      "import": "./dist/charts.mjs",
+      "require": "./dist/charts.cjs.js"
+    },
+    "./utilities": {
+      "types": "./dist/utilities.d.ts",
+      "import": "./dist/utilities.mjs",
+      "require": "./dist/utilities.cjs.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.mjs",
+      "require": "./dist/types.cjs.js"
+    },
+    "./Button": {
+      "types": "./dist/Button.d.ts",
+      "import": "./dist/Button.mjs",
+      "require": "./dist/Button.cjs.js"
+    },
+    "./Card": {
+      "types": "./dist/Card.d.ts",
+      "import": "./dist/Card.mjs",
+      "require": "./dist/Card.cjs.js"
+    },
+    "./Input": {
+      "types": "./dist/Input.d.ts",
+      "import": "./dist/Input.mjs",
+      "require": "./dist/Input.cjs.js"
+    },
+    "./Modal": {
+      "types": "./dist/Modal.d.ts",
+      "import": "./dist/Modal.mjs",
+      "require": "./dist/Modal.cjs.js"
+    },
+    "./Table": {
+      "types": "./dist/Table.d.ts",
+      "import": "./dist/Table.mjs",
+      "require": "./dist/Table.cjs.js"
+    },
+    "./Alert": {
+      "types": "./dist/Alert.d.ts",
+      "import": "./dist/Alert.mjs",
+      "require": "./dist/Alert.cjs.js"
+    },
+    "./Toast": {
+      "types": "./dist/Toast.d.ts",
+      "import": "./dist/Toast.mjs",
+      "require": "./dist/Toast.cjs.js"
+    },
+    "./Dialog": {
+      "types": "./dist/Dialog.d.ts",
+      "import": "./dist/Dialog.mjs",
+      "require": "./dist/Dialog.cjs.js"
+    },
+    "./Grid": {
+      "types": "./dist/Grid.d.ts",
+      "import": "./dist/Grid.mjs",
+      "require": "./dist/Grid.cjs.js"
+    },
+    "./Flex": {
+      "types": "./dist/Flex.d.ts",
+      "import": "./dist/Flex.mjs",
+      "require": "./dist/Flex.cjs.js"
+    },
+    "./Container": {
+      "types": "./dist/Container.d.ts",
+      "import": "./dist/Container.mjs",
+      "require": "./dist/Container.cjs.js"
+    },
+    "./Select": {
+      "types": "./dist/Select.d.ts",
+      "import": "./dist/Select.mjs",
+      "require": "./dist/Select.cjs.js"
+    },
+    "./Checkbox": {
+      "types": "./dist/Checkbox.d.ts",
+      "import": "./dist/Checkbox.mjs",
+      "require": "./dist/Checkbox.cjs.js"
+    },
+    "./Radio": {
+      "types": "./dist/Radio.d.ts",
+      "import": "./dist/Radio.mjs",
+      "require": "./dist/Radio.cjs.js"
+    },
+    "./Switch": {
+      "types": "./dist/Switch.d.ts",
+      "import": "./dist/Switch.mjs",
+      "require": "./dist/Switch.cjs.js"
+    },
+    "./Tabs": {
+      "types": "./dist/Tabs.d.ts",
+      "import": "./dist/Tabs.mjs",
+      "require": "./dist/Tabs.cjs.js"
+    },
+    "./Breadcrumb": {
+      "types": "./dist/Breadcrumb.d.ts",
+      "import": "./dist/Breadcrumb.mjs",
+      "require": "./dist/Breadcrumb.cjs.js"
+    },
+    "./Pagination": {
+      "types": "./dist/Pagination.d.ts",
+      "import": "./dist/Pagination.mjs",
+      "require": "./dist/Pagination.cjs.js"
+    },
+    "./Navbar": {
+      "types": "./dist/Navbar.d.ts",
+      "import": "./dist/Navbar.mjs",
+      "require": "./dist/Navbar.cjs.js"
+    },
+    "./Sidebar": {
+      "types": "./dist/Sidebar.d.ts",
+      "import": "./dist/Sidebar.mjs",
+      "require": "./dist/Sidebar.cjs.js"
+    },
+    "./Loading": {
+      "types": "./dist/Loading.d.ts",
+      "import": "./dist/Loading.mjs",
+      "require": "./dist/Loading.cjs.js"
+    },
+    "./Spinner": {
+      "types": "./dist/Spinner.d.ts",
+      "import": "./dist/Spinner.mjs",
+      "require": "./dist/Spinner.cjs.js"
+    },
+    "./Badge": {
+      "types": "./dist/Badge.d.ts",
+      "import": "./dist/Badge.mjs",
+      "require": "./dist/Badge.cjs.js"
+    },
+    "./Avatar": {
+      "types": "./dist/Avatar.d.ts",
+      "import": "./dist/Avatar.mjs",
+      "require": "./dist/Avatar.cjs.js"
+    },
+    "./Tooltip": {
+      "types": "./dist/Tooltip.d.ts",
+      "import": "./dist/Tooltip.mjs",
+      "require": "./dist/Tooltip.cjs.js"
+    },
+    "./Progress": {
+      "types": "./dist/Progress.d.ts",
+      "import": "./dist/Progress.mjs",
+      "require": "./dist/Progress.cjs.js"
+    },
+    "./Notification": {
+      "types": "./dist/Notification.d.ts",
+      "import": "./dist/Notification.mjs",
+      "require": "./dist/Notification.cjs.js"
+    },
+    "./Form": {
+      "types": "./dist/Form.d.ts",
+      "import": "./dist/Form.mjs",
+      "require": "./dist/Form.cjs.js"
+    },
+    "./FormField": {
+      "types": "./dist/FormField.d.ts",
+      "import": "./dist/FormField.mjs",
+      "require": "./dist/FormField.cjs.js"
+    },
+    "./ListGroup": {
+      "types": "./dist/ListGroup.d.ts",
+      "import": "./dist/ListGroup.mjs",
+      "require": "./dist/ListGroup.cjs.js"
+    },
+    "./Accordion": {
+      "types": "./dist/Accordion.d.ts",
+      "import": "./dist/Accordion.mjs",
+      "require": "./dist/Accordion.cjs.js"
+    },
+    "./Carousel": {
+      "types": "./dist/Carousel.d.ts",
+      "import": "./dist/Carousel.mjs",
+      "require": "./dist/Carousel.cjs.js"
+    },
+    "./Chart": {
+      "types": "./dist/Chart.d.ts",
+      "import": "./dist/Chart.mjs",
+      "require": "./dist/Chart.cjs.js"
+    },
+    "./LineChart": {
+      "types": "./dist/LineChart.d.ts",
+      "import": "./dist/LineChart.mjs",
+      "require": "./dist/LineChart.cjs.js"
+    },
+    "./BarChart": {
+      "types": "./dist/BarChart.d.ts",
+      "import": "./dist/BarChart.mjs",
+      "require": "./dist/BarChart.cjs.js"
+    },
+    "./PieChart": {
+      "types": "./dist/PieChart.d.ts",
+      "import": "./dist/PieChart.mjs",
+      "require": "./dist/PieChart.cjs.js"
+    },
+    "./Gauge": {
+      "types": "./dist/Gauge.d.ts",
+      "import": "./dist/Gauge.mjs",
+      "require": "./dist/Gauge.cjs.js"
+    },
+    "./Stat": {
+      "types": "./dist/Stat.d.ts",
+      "import": "./dist/Stat.mjs",
+      "require": "./dist/Stat.cjs.js"
     }
   },
   "files": [
@@ -26,7 +276,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:ssr": "vite build --config vite.config.ssr.ts",
+    "build:all": "npm run build && npm run build:ssr",
     "build:strict": "tsc && vite build",
+    "build:ssr:strict": "tsc && vite build --config vite.config.ssr.ts",
     "build:types": "tsc --emitDeclarationOnly",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -35,9 +288,17 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,md}\"",
     "test": "vitest",
+    "test:ssr": "vitest --run src/ssr/**/*.test.ts",
+    "test:ssr:watch": "vitest src/ssr/**/*.test.ts",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "clean": "rm -rf dist node_modules"
+    "test:ssr:coverage": "vitest --coverage src/ssr/**/*.test.ts",
+    "test:accessibility": "vitest --run src/components/__tests__/*.accessibility.test.tsx",
+    "accessibility:check": "tsx scripts/check-accessibility.ts",
+    "accessibility:check:components": "tsx scripts/check-accessibility.ts --components Button,Input,Modal,Alert",
+    "accessibility:check:report": "tsx scripts/check-accessibility.ts --output accessibility-report.md",
+    "color-contrast:check": "tsx scripts/check-accessibility.ts --theme default",
+    "clean": "rm -rf dist dist-ssr node_modules"
   },
   "keywords": [
     "react",
@@ -47,6 +308,9 @@
     "tailwind",
     "framer-motion",
     "typescript",
+    "ssr",
+    "server-side-rendering",
+    "nextjs",
     "xorigo-ui"
   ],
   "author": "Xorigo UI Team",
@@ -57,15 +321,15 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@xorigo-ui/tokens": "file:../tokens",
-    "@xorigo-ui/style-recipe": "file:../style-recipe",
-    "@xorigo-ui/system": "file:../system",
-    "@xorigo-ui/hooks": "file:../hooks",
-    "@xorigo-ui/i18n": "file:../i18n",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-toast": "^1.2.15",
+    "@xorigo-ui/hooks": "file:../hooks",
+    "@xorigo-ui/i18n": "file:../i18n",
+    "@xorigo-ui/style-recipe": "file:../style-recipe",
+    "@xorigo-ui/system": "file:../system",
+    "@xorigo-ui/tokens": "file:../tokens",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "color-contrast-checker": "^2.1.0",
@@ -75,6 +339,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.10.2",
     "@tailwindcss/postcss": "^4.1.14",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
@@ -86,10 +351,13 @@
     "@vitejs/plugin-react-swc": "^4.1.0",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "axe-core": "^4.11.0",
     "eslint": "^9.37.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.23",
+    "glob": "^7.2.3",
+    "jest-axe": "^10.0.0",
     "jsdom": "^27.0.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
@@ -102,5 +370,8 @@
     "vite-plugin-dts": "^4.3.0",
     "vitest": "^3.2.4"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.52.4"
+  }
 }

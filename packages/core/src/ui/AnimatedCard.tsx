@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@xorigo-ui/system'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '@/utils'
 
 export interface AnimatedCardProps {
@@ -46,13 +47,13 @@ const cardVariants = {
 const getCardStyles = (variant: string) => {
   switch (variant) {
     case 'glass':
-      return 'bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg'
+      return 'bg-[var(--bg-glass)] backdrop-blur-md border-[var(--border-glass)] shadow-lg'
     case 'gradient':
-      return 'bg-linear-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xs border border-white/10'
+      return 'bg-linear-to-br from-[var(--bg-primary-action)]/20 to-[var(--bg-secondary-action)]/20 backdrop-blur-xs border-[var(--border-glass)]'
     case 'neumorphic':
-      return 'bg-gray-100 dark:bg-gray-900 shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)] dark:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(255,255,255,0.1)] border-0'
+      return 'bg-[var(--bg-tertiary)] shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)] border-0'
     default:
-      return 'bg-white dark:bg-gray-800 shadow-xs border border-gray-200 dark:border-gray-700'
+      return 'bg-[var(--bg-secondary)] shadow-xs border-[var(--border-primary)]'
   }
 }
 
@@ -133,7 +134,7 @@ export const AnimatedCard: React.FC<AnimatedCardProps> = ({
               />
             )}
             {variant === 'glass' && (
-              <div className="absolute inset-0 bg-white/5 dark:bg-black/5 rounded-xl" />
+              <div className="absolute inset-0 bg-[var(--bg-glass)] rounded-xl" />
             )}
           </motion.div>
         )}

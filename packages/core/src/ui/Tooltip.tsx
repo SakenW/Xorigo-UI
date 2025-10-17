@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 
@@ -12,11 +13,11 @@ const tooltipVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-gray-900 dark:bg-gray-700',
-        success: 'bg-emerald-600 dark:bg-emerald-700',
-        warning: 'bg-amber-600 dark:bg-amber-700',
-        error: 'bg-red-600 dark:bg-red-700',
-        info: 'bg-blue-600 dark:bg-blue-700',
+        default: 'bg-[var(--bg-inverse)]',
+        success: 'bg-[var(--bg-success)]',
+        warning: 'bg-[var(--bg-warning)]',
+        error: 'bg-[var(--bg-error)]',
+        info: 'bg-[var(--bg-info)]',
       },
       size: {
         sm: 'px-2 py-1 text-xs',
@@ -37,11 +38,11 @@ const arrowVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-gray-900 dark:bg-gray-700',
-        success: 'bg-emerald-600 dark:bg-emerald-700',
-        warning: 'bg-amber-600 dark:bg-amber-700',
-        error: 'bg-red-600 dark:bg-red-700',
-        info: 'bg-blue-600 dark:bg-blue-700',
+        default: 'bg-[var(--bg-inverse)]',
+        success: 'bg-[var(--bg-success)]',
+        warning: 'bg-[var(--bg-warning)]',
+        error: 'bg-[var(--bg-error)]',
+        info: 'bg-[var(--bg-info)]',
       },
     },
     defaultVariants: {

@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react'
 import { motion, type MotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '@xorigo-ui/system'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '@/utils'
 import { Skeleton } from './Skeleton'
 
@@ -12,24 +13,24 @@ const cardVariants = cva('rounded-lg border transition-all duration-200', {
   variants: {
     variant: {
       default:
-        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xs',
+        'border-[var(--border-primary)] bg-[var(--bg-secondary)] shadow-xs',
       elevated:
-        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg',
+        'border-[var(--border-primary)] bg-[var(--bg-secondary)] shadow-lg',
       bordered:
-        'border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800',
+        'border-2 border-[var(--border-secondary)] bg-[var(--bg-secondary)]',
       filled:
-        'border-transparent bg-gray-50 dark:bg-gray-900',
+        'border-transparent bg-[var(--bg-tertiary)]',
       glass:
-        'border-white/20 dark:border-white/10 bg-white/10 dark:bg-black/10 backdrop-blur-md shadow-lg',
+        'border-[var(--border-glass)] bg-[var(--bg-glass)] backdrop-blur-md shadow-lg',
       neumorphic:
-        'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)] dark:shadow-[8px_8px_16px_rgba(0,0,0,0.3),-8px_-8px_16px_rgba(255,255,255,0.1)]',
+        'border-[var(--border-secondary)] bg-[var(--bg-tertiary)] shadow-[8px_8px_16px_rgba(0,0,0,0.1),-8px_-8px_16px_rgba(255,255,255,0.9)]',
       gradient:
-        'border-transparent bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg',
-      neon: 'border-cyan-400 bg-black/50 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)]',
+        'border-transparent bg-gradient-to-br from-[var(--bg-primary-action)] to-[var(--bg-secondary-action)] text-[var(--text-inverse)] shadow-lg',
+      neon: 'border-[var(--border-info)] bg-[var(--bg-contrast-high)]/50 text-[var(--text-info)] shadow-[0_0_20px_var(--border-info)]',
       outlined:
-        'border-2 border-gray-300 dark:border-gray-600 bg-transparent dark:bg-transparent',
+        'border-2 border-[var(--border-secondary)] bg-transparent',
       interactive:
-        'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xs cursor-pointer',
+        'border-[var(--border-primary)] bg-[var(--bg-secondary)] shadow-xs cursor-pointer',
     },
     density: {
       compact: 'p-3',
@@ -161,7 +162,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           cardVariants({ variant, density: effectiveDensity, animated, className }),
           isClickable && 'cursor-pointer',
-          isHoverable && 'hover:border-gray-300 dark:hover:border-gray-600'
+          isHoverable && 'hover:border-[var(--border-secondary)]'
         )}
         style={getCardStyle()}
         whileHover={hoverAnimation}
@@ -214,12 +215,12 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   >
     <div className="space-y-1">
       {title && (
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)]">
           {title}
         </h3>
       )}
       {subtitle && (
-        <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>
+        <p className="text-sm text-[var(--text-secondary)]">{subtitle}</p>
       )}
     </div>
     {action && <div>{action}</div>}
@@ -300,14 +301,14 @@ export const CardImage: React.FC<CardImageProps> = ({
     return (
       <div
         className={cn(
-          'bg-gray-200 dark:bg-gray-700 flex items-center justify-center',
+          'bg-[var(--bg-disabled)] flex items-center justify-center',
           aspectRatioClasses[aspectRatio],
           positionClasses[position],
           className
         )}
       >
         <svg
-          className="w-12 h-12 text-gray-400"
+          className="w-12 h-12 text-[var(--text-disabled)]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
