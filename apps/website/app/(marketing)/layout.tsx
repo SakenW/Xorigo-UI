@@ -70,7 +70,7 @@ const EnhancedNavbar = () => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled
-          ? 'bg-black/90 backdrop-blur-3xl border-b border-purple-500/20 shadow-2xl shadow-purple-500/10'
+          ? 'bg-black/90 backdrop-blur-3xl shadow-2xl shadow-purple-500/10'
           : 'bg-transparent'
       }`}
       style={{ y: navbarY }}
@@ -228,43 +228,52 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
       </main>
 
       {/* 页脚 */}
-      <footer className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+      <footer className="relative z-30 border-t border-purple-500/20 bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-lg">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* 品牌信息 */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/25">
                   <span className="text-white font-bold text-sm">XO</span>
                 </div>
-                <span className="text-xl font-bold text-gray-900 dark:text-white">
+                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
                   Xorigo UI
                 </span>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-400 leading-relaxed">
                 基于 React 19 + TypeScript 5.9 + Tailwind CSS 4 的现代化组件库
               </p>
             </div>
 
             {/* 产品 */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-sm font-semibold text-white mb-4">
                 产品
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
-                  <Link href="/workbench?mode=gallery" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    组件库
+                  <Link href="/workbench?mode=gallery" className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      组件库
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/workbench?mode=editor" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    演练场
+                  <Link href="/workbench?mode=editor" className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      演练场
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    文档
+                  <Link href="/docs" className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      文档
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
               </ul>
@@ -272,23 +281,32 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
 
             {/* 资源 */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-sm font-semibold text-white mb-4">
                 资源
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
-                  <Link href="/docs/getting-started" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    快速开始
+                  <Link href="/docs/getting-started" className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      快速开始
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs/tokens" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    设计令牌
+                  <Link href="/docs/tokens" className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      设计令牌
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/matrix" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    无障碍工具
+                  <Link href="/matrix" className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      无障碍工具
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
               </ul>
@@ -296,23 +314,29 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
 
             {/* 社区 */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-sm font-semibold text-white mb-4">
                 社区
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
                   <Link
                     href="https://github.com/xorigo-ui/xorigo-ui"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 group"
                   >
-                    GitHub
+                    <span className="relative">
+                      GitHub
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    关于我们
+                  <Link href="/about" className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      关于我们
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 </li>
               </ul>
@@ -320,8 +344,8 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
           </div>
 
           {/* 版权信息 */}
-          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-8 pt-8 border-t border-purple-500/20">
+            <p className="text-center text-sm text-gray-500">
               © 2025 Xorigo UI. 基于 MIT 许可证开源.
             </p>
           </div>
