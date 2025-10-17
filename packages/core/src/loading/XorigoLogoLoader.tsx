@@ -199,25 +199,7 @@ export const XorigoLogoLoader = ({
               }}
             />
 
-            {/* X logo - 围绕原点脉动 */}
-            <motion.span
-              className={cn(
-                "absolute text-white font-bold",
-                currentSize.text
-              )}
-              animate={{
-                scale: [0.9, 1, 0.9],
-                opacity: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: 2,
-                ease: "easeInOut",
-                repeat: Infinity
-              }}
-            >
-              X
-            </motion.span>
-          </motion.div>
+            </motion.div>
         </div>
 
         {/* 原点光芒 - 增强版 */}
