@@ -40,7 +40,7 @@ import {
  * - 统计数字动画
  */
 
-// 页面加载动画 - 使用 XorigoLogoLoader
+// 页面加载动画 - 使用 XorigoLogoLoader，确保在首屏中央
 const PageLoader = () => {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -57,17 +57,46 @@ const PageLoader = () => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
+      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+      style={{
+        // 确保在首屏正中央显示
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999
+      }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <XorigoLogoLoader
-        variant="enhanced"
-        size="xl"
-        duration={2000}
-        showProgress={true}
-        className="scale-110" // 稍微放大以突出品牌效果
-      />
+      <div className="flex flex-col items-center justify-center">
+        <XorigoLogoLoader
+          variant="enhanced"
+          size="xl"
+          duration={2000}
+          showProgress={true}
+          className="scale-125" // 增大一些以突出品牌效果
+        />
+
+        {/* 增加品牌文字 */}
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+            Xorigo UI
+          </h2>
+          <p className="text-gray-400 text-lg">
+            下一代 React 组件库
+          </p>
+        </motion.div>
+      </div>
     </motion.div>
   )
 }

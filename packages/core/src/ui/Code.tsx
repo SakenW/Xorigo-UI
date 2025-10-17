@@ -361,12 +361,8 @@ export const InlineCode = forwardRef<HTMLElement, Omit<CodeProps, 'variant'>>(
 
 InlineCode.displayName = 'InlineCode'
 
-// 代码块快捷组件
-export const CodeBlock = forwardRef<HTMLElement, Omit<CodeProps, 'variant'>>(
-  (props, ref) => <Code ref={ref} variant="block" {...props} />
-)
-
-CodeBlock.displayName = 'CodeBlock'
+// 注意：CodeBlock 组件已移动到 datadisplay/CodeBlock.tsx
+// 这里不再导出以避免命名冲突
 
 // 多行代码快捷组件
 export const MultiLineCode = forwardRef<HTMLElement, Omit<CodeProps, 'variant'>>(
