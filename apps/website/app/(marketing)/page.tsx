@@ -2,6 +2,58 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo, useContext, Suspense } from 'react'
 import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue, useVelocity, useAnimationFrame, MotionValue, useInView } from 'framer-motion'
+
+// 🎯 动画优化：创建 variants 简化动画参数配置
+const pageVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 }
+}
+
+const cardVariants = {
+  initial: { opacity: 0, scale: 0.9, y: 20 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
+  },
+  hover: {
+    scale: 1.02,
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+}
+
+const floatVariants = {
+  animate: {
+    y: [0, -8, 0],
+    transition: { duration: 3, ease: "easeInOut", repeat: Infinity }
+  }
+}
+
+// 🎯 动画优化：创建随机偏移函数，避免周期同步卡顿
+const createRandomizedAnimation = (baseDuration: number, variance: number = 0.2, index: number = 0) => {
+  // 使用索引作为种子，确保每个组件有稳定的随机值
+  const seedRandom = (index: number) => {
+    const x = Math.sin(index) * 10000
+    return x - Math.floor(x)
+  }
+
+  const randomOffset = seedRandom(index) * variance
+  const randomDelay = seedRandom(index + 100) * 0.5
+
+  return {
+    duration: baseDuration + randomOffset,
+    ease: [0.4, 0, 0.6, 1] as const, // 修复类型错误
+    repeat: Infinity,
+    delay: randomDelay
+  }
+}
+
+// 🎯 动画优化：创建 will-change 样式生成器
+const createWillChange = (properties: string[]) => ({
+  willChange: properties.join(', ')
+})
 import { Button, Card, AnimatedCard, Typography, Surface, Code as CodeComponent, XorigoLogoLoader } from '@xorigo-ui/core'
 import {
   Zap,
@@ -45,9 +97,10 @@ import {
  * - 统计数字动画
  */
 
-// 页面加载动画 - 使用 XorigoLogoLoader，确保在首屏中央
+// 🎯 页面加载动画优化：增加淡出层与 content transition，避免闪烁
 const PageLoader = () => {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
     // 使用预设时间让 XorigoLogoLoader 完成动画
@@ -55,7 +108,15 @@ const PageLoader = () => {
       setIsLoaded(true)
     }, 2500) // 与 XorigoLogoLoader 的默认 duration 2000ms + 缓冲时间匹配
 
-    return () => clearTimeout(timer)
+    // 延迟显示内容，避免闪烁
+    const contentTimer = setTimeout(() => {
+      setShowContent(true)
+    }, 2600)
+
+    return () => {
+      clearTimeout(timer)
+      clearTimeout(contentTimer)
+    }
   }, [])
 
   if (isLoaded) return null
@@ -64,7 +125,7 @@ const PageLoader = () => {
     <motion.div
       className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
       style={{
-        // 确保在首屏正中央显示
+        ...createWillChange(['opacity', 'transform']),
         position: 'fixed',
         top: 0,
         left: 0,
@@ -75,8 +136,11 @@ const PageLoader = () => {
         justifyContent: 'center',
         zIndex: 9999
       }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="flex flex-col items-center justify-center">
         <XorigoLogoLoader
@@ -87,19 +151,26 @@ const PageLoader = () => {
           className="scale-125" // 增大一些以突出品牌效果
         />
 
-        {/* 增加品牌文字 */}
+        {/* 增加品牌文字 - 使用 variants 优化 */}
         <motion.div
           className="mt-8 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          style={createWillChange(['opacity', 'transform'])}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
             Xorigo UI
           </h2>
-          <p className="text-gray-400 text-lg">
+          <motion.p
+            className="text-gray-400 text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+          >
             下一代 React 组件库
-          </p>
+          </motion.p>
         </motion.div>
       </div>
     </motion.div>
@@ -834,6 +905,7 @@ const ComponentCategoryGrid = ({
               {/* 🌟 超精致卡片容器 */}
               <motion.div
                 className={`relative cursor-pointer transform-gpu aspect-square`}
+                style={createWillChange(['transform', 'opacity'])}
                 whileHover={{
                   y: -12,
                   scale: 1.03,
@@ -859,11 +931,7 @@ const ComponentCategoryGrid = ({
                     scale: isSelected ? [1, 1.2, 1] : isHovered ? [1, 1.1, 1] : [1, 1.05, 1],
                     opacity: isSelected ? [0.5, 0.8, 0.5] : isHovered ? [0.3, 0.5, 0.3] : [0.2, 0.4, 0.2],
                   }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
+                  transition={createRandomizedAnimation(4, 0.8, index)}
                 />
 
                 {/* ✨ 第二层：精致的光晕边框 */}
@@ -961,11 +1029,7 @@ const ComponentCategoryGrid = ({
                           scale: [0.8, 1.3, 0.8],
                           opacity: [0.3, 0.7, 0.3],
                         }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
+                        transition={createRandomizedAnimation(3, 0.6, index * 10)}
                       />
 
                       {/* 图标主体 */}
@@ -1048,11 +1112,7 @@ const ComponentCategoryGrid = ({
                             scale: isSelected ? [1.2, 1.8, 1.2] : isHovered ? [1.1, 1.4, 1.1] : [1, 1.2, 1],
                             opacity: isSelected ? [0.4, 0.7, 0.4] : isHovered ? [0.3, 0.5, 0.3] : [0.2, 0.3, 0.2],
                           }}
-                          transition={{
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
+                          transition={createRandomizedAnimation(4, 0.8, index * 15)}
                         />
 
                         {/* 数量显示主体 */}
@@ -1203,11 +1263,7 @@ const ComponentCategoryGrid = ({
                       opacity: isSelected ? [0.3, 0.6, 0.3] : [0.2, 0.4, 0.2],
                       scale: [1, 1.1, 1],
                     }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
+                    transition={createRandomizedAnimation(4, 0.8, 1)}
                   />
                 </div>
               </motion.div>
@@ -1256,11 +1312,7 @@ const ComponentCategoryGrid = ({
                   scale: [1, 1.15, 1],
                   opacity: [0.4, 0.7, 0.4],
                 }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                transition={createRandomizedAnimation(6, 1.2, 2)}
               />
 
               <div className="relative z-10">
@@ -1298,11 +1350,7 @@ const ComponentCategoryGrid = ({
                           scale: [0.9, 1.2, 0.9],
                           opacity: [0.3, 0.6, 0.3],
                         }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
+                        transition={createRandomizedAnimation(3, 0.6, 3)}
                       />
 
                       {React.cloneElement(
@@ -2005,11 +2053,7 @@ export default function Home() {
                         animate={{
                           opacity: [0.3, 0.7, 0.3], // 降低峰值：0.8 → 0.7
                         }}
-                        transition={{
-                          duration: 5, // 减慢：3s → 5s
-                          ease: 'easeInOut',
-                          repeat: Infinity,
-                        }}
+                        transition={createRandomizedAnimation(5, 1.0, 4)}
                       >
                         Xorigo UI
                       </motion.div>
@@ -2150,6 +2194,7 @@ export default function Home() {
                 {/* 统计卡片 1 - 组件数量 */}
                 <motion.div
                   className="text-center group relative"
+                  style={createWillChange(['transform', 'opacity'])}
                   initial={{ opacity: 0, y: 40, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, amount: 0.4 }}
@@ -2182,11 +2227,7 @@ export default function Home() {
                       animate={{
                         opacity: [0.3, 0.6, 0.3],
                       }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
+                      transition={createRandomizedAnimation(3, 0.6, 5)}
                     />
                     <Box className="w-10 h-10 text-white relative z-10" />
                   </motion.div>
@@ -2260,6 +2301,7 @@ export default function Home() {
                 {/* 统计卡片 2 - 主题 */}
                 <motion.div
                   className="text-center group relative"
+                  style={createWillChange(['transform', 'opacity'])}
                   initial={{ opacity: 0, y: 40, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, amount: 0.4 }}
@@ -2292,11 +2334,7 @@ export default function Home() {
                       animate={{
                         opacity: [0.3, 0.6, 0.3],
                       }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
+                      transition={createRandomizedAnimation(3, 0.6, 5)}
                     />
                     <Palette className="w-10 h-10 text-white relative z-10" />
                   </motion.div>
@@ -2370,6 +2408,7 @@ export default function Home() {
                 {/* 统计卡片 3 - TypeScript */}
                 <motion.div
                   className="text-center group relative"
+                  style={createWillChange(['transform', 'opacity'])}
                   initial={{ opacity: 0, y: 40, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, amount: 0.4 }}
@@ -2402,11 +2441,7 @@ export default function Home() {
                       animate={{
                         opacity: [0.3, 0.6, 0.3],
                       }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
+                      transition={createRandomizedAnimation(3, 0.6, 5)}
                     />
                     <Code2 className="w-10 h-10 text-white relative z-10" />
                   </motion.div>
@@ -2480,6 +2515,7 @@ export default function Home() {
                 {/* 统计卡片 4 - 性能提升 */}
                 <motion.div
                   className="text-center group relative"
+                  style={createWillChange(['transform', 'opacity'])}
                   initial={{ opacity: 0, y: 40, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, amount: 0.4 }}
@@ -2512,11 +2548,7 @@ export default function Home() {
                       animate={{
                         opacity: [0.3, 0.6, 0.3],
                       }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
+                      transition={createRandomizedAnimation(3, 0.6, 5)}
                     />
                     <Zap className="w-10 h-10 text-white relative z-10" />
                   </motion.div>
