@@ -1,161 +1,88 @@
 /**
- * 🎨 TH-UI 令牌系统 - 统一导出
+ * 🎨 Xorigo-UI 令牌系统 - 统一导出
  *
  * 基于 DTCG 标准的设计令牌系统
- * 从 src/tokens/ 目录动态加载令牌数据
+ * 三层架构：令牌 → 转换 → 语义化
  */
 
 // ============================================================================
-// 兼容性导出 - 旧版颜色令牌 (Legacy Color Tokens Export)
+// 第一层：设计令牌 (Design Tokens)
 // ============================================================================
 
 export * from './colors'
 
 // ============================================================================
-// 核心令牌导出 (Core Tokens Export)
+// 第二层：令牌转换器 (Token Transformer)
 // ============================================================================
 
-import neutralScaleData from './core/palettes/neutralScale.json'
-import blueScaleData from './core/palettes/blueScale.json'
-import cyanScaleData from './core/palettes/cyanScale.json'
-import purpleScaleData from './core/palettes/purpleScale.json'
-import stateColorsData from './core/palettes/stateColors.json'
-
-import typographyData from './core/foundations/typography.json'
-import spacingData from './core/foundations/spacing.json'
-
-// 再导出供外部使用
-export { neutralScaleData as neutralScale }
-export { blueScaleData as blueScale }
-export { cyanScaleData as cyanScale }
-export { purpleScaleData as purpleScale }
-export { stateColorsData as stateColors }
-export { typographyData as typography }
-export { spacingData as spacing }
+export * from './token-transform'
 
 // ============================================================================
-// 配方导出 (Recipes Export)
+// 第三层：语义化令牌 (Semantic Tokens)
 // ============================================================================
 
-import corporateBlueData from './recipes/corporate-blue/meta.json'
-export { corporateBlueData as corporateBlue }
+export * from './semantic-tokens'
 
 // ============================================================================
-// 密度预设导出 (Density Presets Export)
+// 主题配方系统 (Theme Recipe System)
 // ============================================================================
 
-import comfortableData from './density-presets/comfortable.json'
-import spaciousData from './density-presets/spacious.json'
-import compactData from './density-presets/compact.json'
-
-export { comfortableData as comfortable }
-export { spaciousData as spacious }
-export { compactData as compact }
+export * from './themes'
 
 // ============================================================================
-// 组件别名导出 (Component Aliases Export)
+// 颜色迁移工具 (Color Migration Tools)
 // ============================================================================
 
-export { default as buttonAliases } from './aliases/components/button.json'
-export { default as cardAliases } from './aliases/components/card.json'
+export * from './color-migration'
 
 // ============================================================================
-// 类型定义 (Type Definitions)
+// 主题验证工具 (Theme Validation Tools)
 // ============================================================================
 
-export interface DTCGToken {
-  $value: string | number
-  $type: string
-  $description?: string
-}
-
-export interface DTCGPalette {
-  [key: string]: DTCGToken | string | any
-}
-
-export interface DTCGCoreTokens {
-  palettes: {
-    neutralScale: DTCGPalette
-    blueScale: DTCGPalette
-    cyanScale: DTCGPalette
-    purpleScale: DTCGPalette
-    stateColors: DTCGPalette
-  }
-  foundations: {
-    typography: Record<string, any>
-    spacing: Record<string, any>
-  }
-}
-
-export interface DTCGRecipeMeta {
-  axes?: {
-    mode?: 'light' | 'dark' | 'hc'
-    base?: { neutral: string, contrast: string }
-    accent?: { strategy: string, hues: string[] }
-    tone?: 'calm' | 'standard' | 'vivid'
-    density?: 'spacious' | 'comfortable' | 'compact'
-    motion?: { pack: string, curve: string }
-    surface?: string[]
-  }
-  oklchTone?: Record<string, { dC: number, dL: number }>
-  a11y?: {
-    text: number
-    largeText: number
-    nonText: number
-  }
-  [key: string]: any // 允许额外的 DTCG 元数据字段
-}
-
-export interface DTCGDensityPreset {
-  multipliers?: {
-    typography?: Record<string, number | any>
-    spacing?: Record<string, number | any>
-    sizing?: Record<string, number | any>
-    border?: Record<string, number | any>
-    shadow?: Record<string, number | any>
-  }
-  [key: string]: any // 允许额外的 DTCG 元数据字段
-}
+export * from './theme-validation'
 
 // ============================================================================
-// 工具函数 (Utility Functions)
+// 组件别名系统 (Component Aliases)
+// ============================================================================
+
+export * from './component-aliases'
+
+// ============================================================================
+// 令牌访问器 (Token Accessors)
+// ============================================================================
+
+export * from './token-accessors'
+
+// ============================================================================
+// 便捷的令牌导出 (Convenience Token Exports)
 // ============================================================================
 
 /**
- * 获取所有核心令牌
+ * 获取所有设计令牌
  */
-export function getCoreTokens(): DTCGCoreTokens {
-  return {
-    palettes: {
-      neutralScale: neutralScaleData as DTCGPalette,
-      blueScale: blueScaleData as DTCGPalette,
-      cyanScale: cyanScaleData as DTCGPalette,
-      purpleScale: purpleScaleData as DTCGPalette,
-      stateColors: stateColorsData as DTCGPalette
-    },
-    foundations: {
-      typography: typographyData,
-      spacing: spacingData
-    }
-  }
-}
+export { colorTokens } from './colors'
 
 /**
- * 获取所有配方元数据
+ * 获取令牌转换器实例
  */
-export function getAllRecipeMeta(): Record<string, DTCGRecipeMeta> {
-  return {
-    'corporate-blue': corporateBlueData as unknown as DTCGRecipeMeta
-  }
-}
+export { TokenTransformer, tokenTransformer } from './token-transform'
 
 /**
- * 获取所有密度预设
+ * 获取语义化令牌
  */
-export function getAllDensityPresets(): Record<string, DTCGDensityPreset> {
-  return {
-    comfortable: comfortableData as DTCGDensityPreset,
-    spacious: spaciousData as DTCGDensityPreset,
-    compact: compactData as DTCGDensityPreset
-  }
-}
+export { semanticTokens } from './semantic-tokens'
+
+/**
+ * 获取主题管理器
+ */
+export { themeManager, themeUtils } from './themes'
+
+/**
+ * 获取颜色迁移工具
+ */
+export { ColorMigrator } from './color-migration'
+
+/**
+ * 验证主题系统
+ */
+export { validateThemeSystem } from './theme-validation'

@@ -24,7 +24,6 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "strict": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],

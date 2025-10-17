@@ -1,5 +1,6 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils/cn'
 
 const typographyVariants = cva(
@@ -55,10 +56,10 @@ const typographyVariants = cva(
         primary: "text-primary",
         secondary: "text-secondary",
         destructive: "text-destructive",
-        success: "text-green-600",
-        warning: "text-yellow-600",
-        error: "text-red-600",
-        info: "text-blue-600",
+        success: "text-[var(--text-success)]",
+        warning: "text-[var(--text-warning)]",
+        error: "text-[var(--text-error)]",
+        info: "text-[var(--text-info)]",
       },
       align: {
         left: "text-left",

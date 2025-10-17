@@ -92,7 +92,7 @@ function AlertDemo() {
           message="这是一个信息提示组件，用于向用户展示一般性信息。"
         />
         <Alert
-          variant="destructive"
+          variant="error"
           title="错误提示"
           message="这是一个错误提示，通常用于显示操作失败或异常情况。"
         />

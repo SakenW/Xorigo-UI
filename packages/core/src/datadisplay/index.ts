@@ -21,6 +21,10 @@ export * from './AccordionItem'
 export * from './AccordionHeader'
 export * from './AccordionContent'
 
+// 画廊组件
+export * from './CodeBlock'
+export * from './ComponentCard'
+
 // 兼容性导出
 export * from './AdvancedCard'
 export * from './List'

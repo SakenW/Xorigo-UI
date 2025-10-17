@@ -27,7 +27,37 @@
     "deploy": "bash scripts/deploy.sh",
     "deploy:stop": "bash scripts/deploy-stop.sh",
     "deploy:logs": "bash scripts/deploy-logs.sh",
-    "deploy:rebuild": "bash scripts/deploy-rebuild.sh"
+    "deploy:rebuild": "bash scripts/deploy-rebuild.sh",
+    "visual:test": "playwright test tests/visual",
+    "visual:test:headed": "playwright test tests/visual --headed",
+    "visual:test:debug": "playwright test tests/visual --debug",
+    "visual:test:ui": "playwright test tests/visual --ui",
+    "visual:test:report": "node scripts/visual-test-summary.js",
+    "visual:test:update": "bash scripts/update-visual-baselines.sh --all",
+    "visual:update:component": "bash scripts/update-visual-baselines.sh --component",
+    "visual:update:theme": "bash scripts/update-visual-baselines.sh --theme",
+    "visual:serve": "npx http-server tests/visual -p 3101 -c-1 --cors",
+    "visual:setup": "npx playwright install && npx playwright install-deps",
+    "visual:clean": "rm -rf test-results playwright-report visual-reports tests/visual/screenshots/actual tests/visual/screenshots/diff",
+    "test:visual": "npm run visual:test",
+    "test:visual:ci": "CI=true npm run visual:test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "release:beta": "changeset publish --tag beta",
+    "release:alpha": "changeset publish --tag alpha",
+    "release:dry-run": "changeset publish --dry-run",
+    "preinstall": "npx only-allow npm",
+    "postinstall": "npm run build:packages",
+    "build:packages": "npm run build --workspaces --if-present",
+    "lint:changed": "npx lint-staged",
+    "prepare": "husky install || true",
+    "check:all": "npm run lint && npm run type-check && npm run test && npm run build:all",
+    "release:validate": "node scripts/validate-release.js",
+    "security:audit": "npm audit --audit-level=high",
+    "security:fix": "npm audit fix",
+    "deps:update": "npm update --save",
+    "deps:check": "npm outdated"
   },
   "keywords": [
     "monorepo",
@@ -41,17 +71,29 @@
   "author": "Xorigo UI Team",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.12",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.1",
     "@eslint/js": "^9.37.0",
+    "@playwright/test": "^1.56.0",
     "@storybook/addon-a11y": "^9.1.10",
     "@storybook/react-vite": "^9.1.10",
     "@storybook/testing-library": "^0.2.2",
     "@types/node": "^24.7.2",
     "dependency-cruiser": "^16.10.4",
+    "eslint": "^9.37.0",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.23",
     "eslint-plugin-storybook": "9.1.10",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
     "madge": "^8.0.0",
+    "only-allow": "^1.2.1",
+    "playwright": "^1.56.0",
+    "playwright-chromium": "^1.56.0",
+    "playwright-firefox": "^1.56.0",
+    "playwright-webkit": "^1.56.0",
     "prettier": "^3.6.2",
     "storybook": "^9.1.10",
     "tsx": "^4.20.6",
@@ -78,5 +120,45 @@
     "ajv": "^8.17.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "feat",
+          "fix",
+          "docs",
+          "style",
+          "refactor",
+          "perf",
+          "test",
+          "chore",
+          "revert",
+          "build",
+          "ci",
+          "release"
+        ]
+      ],
+      "scope-case": [2, "always", "pascal-case"],
+      "subject-case": [2, "never", ["start-case", "pascal-case", "upper-case"]]
+    }
   }
 }

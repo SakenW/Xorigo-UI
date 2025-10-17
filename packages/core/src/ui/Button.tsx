@@ -2,8 +2,46 @@ import React, { forwardRef } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '@xorigo-ui/system'
+import { semanticUtils } from '@xorigo-ui/tokens'
 import { cn } from '@/utils'
 import { Spinner } from './Spinner'
+import { getButtonAriaProps } from '../utils/accessibility'
+
+// 使用语义化令牌定义按钮变体
+const getSemanticVariantClasses = () => ({
+  // 主要按钮 - 使用语义化主色
+  primary: `bg-gradient-to-r from-[var(--bg-primary-action)] to-[var(--bg-secondary-action)] text-[var(--text-inverse)] shadow-lg hover:shadow-xl hover:scale-105 focus:ring-[var(--ring-primary-action)]`,
+
+  // 次要按钮 - 使用语义化次要色
+  secondary: `bg-[var(--bg-secondary)] text-[var(--text-primary)] border border-[var(--border-secondary)] hover:bg-[var(--bg-tertiary)] focus:ring-[var(--border-primary)]`,
+
+  // 成功按钮 - 使用语义化成功色
+  success: `bg-gradient-to-r from-[var(--bg-success)] to-[var(--bg-success-hover)] text-[var(--text-inverse)] shadow-lg hover:shadow-xl hover:scale-105 focus:ring-[var(--ring-success)]`,
+
+  // 警告按钮 - 使用语义化警告色
+  warning: `bg-gradient-to-r from-[var(--bg-warning)] to-[var(--bg-warning-hover)] text-[var(--text-inverse)] shadow-lg hover:shadow-xl hover:scale-105 focus:ring-[var(--ring-warning)]`,
+
+  // 危险按钮 - 使用语义化错误色
+  danger: `bg-gradient-to-r from-[var(--bg-error)] to-[var(--bg-error-hover)] text-[var(--text-inverse)] shadow-lg hover:shadow-xl hover:scale-105 focus:ring-[var(--ring-error)]`,
+
+  // 幽灵按钮 - 透明背景，hover 时显示背景
+  ghost: `text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] focus:ring-[var(--border-primary)]`,
+
+  // 链接按钮 - 无背景无边框
+  link: `text-[var(--text-primary-action)] hover:text-[var(--text-primary-action-hover)] hover:underline focus:ring-[var(--ring-primary-action)] shadow-none`,
+
+  // 轮廓按钮
+  outline: `border-2 text-[var(--text-primary-action)] border-[var(--border-primary-action)] hover:bg-[var(--bg-primary-action)] hover:text-[var(--text-inverse)] focus:ring-[var(--ring-primary-action)]`,
+
+  // 玻璃按钮 - 使用语义化玻璃效果
+  glass: `backdrop-blur-xs bg-[var(--bg-glass)] border-[var(--border-glass)] text-[var(--text-glass)] hover:bg-[var(--bg-floating)] focus:ring-[var(--ring-primary-action)] will-change-transform`,
+
+  // 霓虹按钮 - 使用语义化信息色
+  neon: `bg-[var(--bg-contrast-high)] text-[var(--text-info)] border border-[var(--border-info)] shadow-[0_0_10px_var(--border-info)] hover:shadow-[0_0_20px_var(--border-info)] hover:text-[var(--text-info)] focus:ring-[var(--ring-info)]`,
+
+  // 渐变边框按钮
+  gradientOutline: `relative bg-transparent text-transparent bg-clip-text bg-gradient-to-r from-[var(--bg-primary-action)] to-[var(--bg-secondary-action)] before:absolute before:inset-0 before:rounded-lg before:p-[2px] before:bg-gradient-to-r before:from-[var(--bg-primary-action)] before:to-[var(--bg-secondary-action)] before:-z-10 hover:before:scale-105 before:transition-transform`,
+})
 
 // 按钮变体配置
 const buttonVariants = cva(
@@ -13,46 +51,37 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // 主要按钮 - 使用主题渐变
-        primary:
-          'bg-linear-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-blue-500',
+        primary: '',
 
         // 次要按钮
-        secondary:
-          'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 focus:ring-gray-500',
+        secondary: '',
 
         // 成功按钮
-        success:
-          'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-green-500',
+        success: '',
 
         // 警告按钮
-        warning:
-          'bg-linear-to-r from-amber-500 to-orange-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-amber-500',
+        warning: '',
 
         // 危险按钮
-        danger:
-          'bg-linear-to-r from-red-500 to-pink-600 text-white shadow-lg hover:shadow-xl hover:scale-105 focus:ring-red-500',
+        danger: '',
 
         // 幽灵按钮 - 透明背景，hover 时显示背景
-        ghost:
-          'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500',
+        ghost: '',
 
         // 链接按钮 - 无背景无边框
-        link: 'text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500 hover:underline focus:ring-blue-500 shadow-none',
+        link: '',
 
         // 轮廓按钮
-        outline:
-          'border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white focus:ring-blue-500',
+        outline: '',
 
         // 玻璃按钮
-        glass:
-          'backdrop-blur-xs bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20 text-gray-900 dark:text-gray-100 hover:bg-white/30 dark:hover:bg-black/30 focus:ring-blue-500 will-change-transform',
+        glass: '',
 
         // 霓虹按钮
-        neon: 'bg-black text-cyan-400 border border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.5)] hover:shadow-[0_0_20px_rgba(6,182,212,0.8)] hover:text-cyan-300 focus:ring-cyan-400',
+        neon: '',
 
         // 渐变边框按钮
-        gradientOutline:
-          'relative bg-transparent text-transparent bg-clip-text bg-linear-to-r from-blue-500 to-purple-600 before:absolute before:inset-0 before:rounded-lg before:p-[2px] before:bg-linear-to-r before:from-blue-500 before:to-purple-600 before:-z-10 hover:before:scale-105 before:transition-transform',
+        gradientOutline: '',
       },
       size: {
         xs: 'px-2 py-1 text-xs min-h-[24px]',
@@ -140,6 +169,14 @@ export interface ButtonProps
   icon?: React.ReactNode
   /** 旧版兼容 - 使用 leftIcon/rightIcon 替代 */
   iconPosition?: 'left' | 'right'
+  /** 可访问性属性 */
+  ariaLabel?: string
+  /** 按钮状态 - 用于toggle按钮 */
+  pressed?: boolean
+  /** 展开状态 - 用于下拉菜单等 */
+  expanded?: boolean
+  /** 描述信息 */
+  describedBy?: string
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -159,6 +196,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       // 旧版兼容
       icon,
       iconPosition = 'left',
+      // 可访问性属性
+      ariaLabel,
+      pressed,
+      expanded,
+      describedBy,
       ...props
     },
     ref
@@ -169,8 +211,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const finalLeftIcon = leftIcon || (icon && iconPosition === 'left' ? icon : undefined)
     const finalRightIcon = rightIcon || (icon && iconPosition === 'right' ? icon : undefined)
 
+    // 获取语义化变体类名
+    const getSemanticClasses = () => {
+      const semanticVariants = getSemanticVariantClasses()
+      return semanticVariants[variant as keyof typeof semanticVariants] || ''
+    }
+
     // 获取主题样式
     const getButtonStyle = () => {
+      // 语义化令牌优先，fallback到主题配置
       switch (variant) {
         case 'primary':
           return { background: themeConfig.gradient }
@@ -192,17 +241,32 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </span>
     )
 
+    // 生成可访问性属性
+    const ariaProps = getButtonAriaProps({
+      loading,
+      disabled,
+      pressed,
+      expanded,
+      label: ariaLabel,
+      describedBy
+    })
+
     // iconOnly 模式
     if (iconOnly) {
       return (
         <motion.button
           ref={ref}
-          className={cn(buttonVariants({ variant, size, fullWidth, iconOnly, className }))}
+          className={cn(
+            buttonVariants({ variant, size, fullWidth, iconOnly }),
+            getSemanticClasses(),
+            className
+          )}
           disabled={disabled || loading}
           style={getButtonStyle()}
           whileHover={{ scale: disabled || loading ? 1 : 1.05 }}
           whileTap={{ scale: disabled || loading ? 1 : 0.95 }}
           transition={{ duration: 0.2 }}
+          {...ariaProps}
           {...props}
         >
           {loading ? (
@@ -220,12 +284,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        className={cn(buttonVariants({ variant, size, fullWidth, className }))}
+        className={cn(
+          buttonVariants({ variant, size, fullWidth }),
+          getSemanticClasses(),
+          className
+        )}
         disabled={disabled || loading}
         style={getButtonStyle()}
         whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
         whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
         transition={{ duration: 0.2 }}
+        {...ariaProps}
         {...props}
       >
         {/* Loading Spinner */}

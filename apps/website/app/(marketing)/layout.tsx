@@ -1,19 +1,20 @@
 'use client'
 
-import { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
+import { useScroll, useTransform } from 'framer-motion'
 import {
-  BarChart3,
-  Code2,
-  FileText,
   Github,
+  ArrowRight,
   Menu,
   X,
+  Rocket,
   Zap,
-  Sparkles
+  Sparkles,
+  BarChart3,
+  Code2,
+  FileText
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -49,149 +50,192 @@ const marketingNavigation = [
   }
 ]
 
-export default function MarketingLayout({ children }: MarketingLayoutProps) {
+// 新的增强导航栏组件
+const EnhancedNavbar = () => {
+  const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const { scrollY } = useScroll()
+  const navbarY = useTransform(scrollY, [0, 100], [0, -100])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* 导航栏 */}
-      <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
-        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">XO</span>
-                </div>
-                <span className="text-xl font-bold text-gray-900 dark:text-white">
-                  Xorigo UI
-                </span>
-              </Link>
-
-              {/* 桌面端导航 */}
-              <div className="hidden md:flex items-center gap-6">
-                {marketingNavigation.map((item) => {
-                  const Icon = item.icon
-                  const isActive = pathname === item.href
-
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                        isActive
-                          ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
-                          : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      )}
-                    >
-                      <Icon className="h-4 w-4" />
-                      {item.name}
-                    </Link>
-                  )
-                })}
+    <motion.nav
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        scrolled
+          ? 'bg-black/90 backdrop-blur-3xl border-b border-purple-500/20 shadow-2xl shadow-purple-500/10'
+          : 'bg-transparent'
+      }`}
+      style={{ y: navbarY }}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo增强 - 修复文字剪裁 + 流动光影动效 */}
+          <motion.div
+            className="flex items-center gap-3"
+            whileHover={{ scale: 1.05 }}
+          >
+            <motion.div className="relative w-12 h-12">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl"
+                animate={{
+                  rotate: 360,
+                }}
+                transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-purple-500/50 to-cyan-500/50 rounded-xl blur-md"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
+              />
+              <div className="relative w-full h-full flex items-center justify-center text-white font-bold text-2xl">
+                X
               </div>
-            </div>
+            </motion.div>
 
-            {/* 右侧按钮 */}
-            <div className="flex items-center gap-4">
-              {/* GitHub 按钮 */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hidden md:flex items-center gap-2"
-                asChild
+            {/* 文字容器 - 添加足够的 padding 防止剪裁 */}
+            <div className="text-2xl font-bold px-1 py-1 overflow-visible">
+              <motion.span
+                className="inline-block relative"
+                style={{
+                  background: 'linear-gradient(90deg, #a855f7 0%, #ec4899 25%, #06b6d4 50%, #a855f7 75%, #ec4899 100%)',
+                  backgroundSize: '300% 100%',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                }}
+                transition={{
+                  duration: 8,
+                  ease: 'linear',
+                  repeat: Infinity,
+                }}
               >
-                <Link
-                  href="https://github.com/xorigo-ui/xorigo-ui"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github className="h-4 w-4" />
-                  GitHub
-                </Link>
-              </Button>
+                Xorigo UI
 
-              {/* 开始使用按钮 */}
-              <Button size="sm" className="hidden md:flex items-center gap-2" asChild>
-                <Link href="/docs/getting-started">
-                  <Zap className="h-4 w-4" />
-                  开始使用
-                </Link>
-              </Button>
-
-              {/* 移动端菜单按钮 */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                {mobileMenuOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
-              </button>
+                {/* 移除横向移动效果，只保留基础渐变动画 */}
+              </motion.span>
             </div>
+          </motion.div>
+
+          {/* Desktop Menu增强 */}
+          <div className="hidden md:flex items-center gap-8">
+            {['组件', '文档', '主题', 'GitHub'].map((item, i) => (
+              <motion.a
+                key={item}
+                href={item === 'GitHub' ? 'https://github.com/SakenW/Xorigo-UI' : `#${item}`}
+                target={item === 'GitHub' ? '_blank' : undefined}
+                className="relative text-gray-400 hover:text-white transition-colors group"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <span className="relative z-10">{item}</span>
+                <motion.div
+                  className="absolute -inset-x-2 -inset-y-1 bg-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  layoutId="nav-hover"
+                />
+                <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 scale-x-0 group-hover:scale-x-100 transition-transform" />
+              </motion.a>
+            ))}
+
+            <motion.button
+              className="relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-6 py-2.5 rounded-full font-medium shadow-lg hover:shadow-purple-500/25 transition-all group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10 flex items-center">
+                <Rocket className="w-4 h-4 mr-2 group-hover:rotate-45 transition-transform" />
+                开始使用
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
+                initial={{ x: '100%' }}
+                whileHover={{ x: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.button>
           </div>
 
-          {/* 移动端导航菜单 */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-4">
-              <div className="space-y-2">
-                {marketingNavigation.map((item) => {
-                  const Icon = item.icon
-                  const isActive = pathname === item.href
-
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-md text-base font-medium transition-colors w-full",
-                        isActive
-                          ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
-                          : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      )}
-                    >
-                      <Icon className="h-5 w-5" />
-                      {item.name}
-                    </Link>
-                  )
-                })}
-              </div>
-
-              {/* 移动端按钮 */}
-              <div className="mt-6 space-y-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <Link
-                    href="https://github.com/xorigo-ui/xorigo-ui"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="h-4 w-4 mr-2" />
-                    GitHub
-                  </Link>
-                </Button>
-
-                <Button size="sm" className="w-full" asChild>
-                  <Link href="/docs/getting-started">
-                    <Zap className="h-4 w-4 mr-2" />
-                    开始使用
-                  </Link>
-                </Button>
-              </div>
+          {/* Mobile Menu按钮 */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden relative w-8 h-8 flex items-center justify-center"
+          >
+            <div className={mobileMenuOpen ? 'block' : 'hidden'}>
+              <X className="w-6 h-6 text-white" />
             </div>
-          )}
-        </nav>
-      </header>
+            <div className={mobileMenuOpen ? 'hidden' : 'block'}>
+              <Menu className="w-6 h-6 text-white" />
+            </div>
+          </motion.button>
+        </div>
+      </div>
+
+      {/* 移动端菜单 */}
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-3xl border-b border-purple-500/20"
+        >
+          <div className="px-6 py-4 space-y-4">
+            {marketingNavigation.map((item) => {
+              const Icon = item.icon
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all"
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.name}
+                </a>
+              )
+            })}
+
+            <div className="pt-4 border-t border-purple-500/20 space-y-3">
+              <a
+                href="https://github.com/xorigo-ui/xorigo-ui"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all"
+              >
+                <Github className="h-5 w-5" />
+                GitHub
+              </a>
+
+              <a
+                href="/docs/getting-started"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 text-white transition-all"
+              >
+                <Zap className="h-5 w-5" />
+                开始使用
+              </a>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </motion.nav>
+  )
+}
+
+export default function MarketingLayout({ children }: MarketingLayoutProps) {
+  return (
+    <div className="min-h-screen bg-black text-white">
+      {/* 新的导航栏 */}
+      <EnhancedNavbar />
 
       {/* 页面内容 */}
       <main className="flex-1">

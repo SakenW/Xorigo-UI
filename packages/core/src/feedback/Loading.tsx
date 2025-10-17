@@ -1,12 +1,16 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { cn } from '@/utils'
+import { SSRMotionDiv } from '../components/motion'
+import { cn } from '../utils/cn'
 
 export interface LoadingProps {
   size?: 'sm' | 'md' | 'lg'
   text?: string
   overlay?: boolean
   className?: string
+  /**
+   * 强制启用动画（忽略全局设置）
+   */
+  forceAnimation?: boolean
 }
 
 export const Loading: React.FC<LoadingProps> = ({
@@ -14,6 +18,7 @@ export const Loading: React.FC<LoadingProps> = ({
   text,
   overlay = false,
   className = '',
+  forceAnimation = false,
 }) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
@@ -28,13 +33,14 @@ export const Loading: React.FC<LoadingProps> = ({
   return (
     <div className={cn(containerClasses, className)}>
       <div className="flex flex-col items-center space-y-2">
-        <motion.div
+        <SSRMotionDiv
           className={cn(
             sizeClasses[size],
             'border-2 border-gray-200 dark:border-gray-700 border-t-blue-600 dark:border-t-blue-500 rounded-full'
           )}
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          forceAnimation={forceAnimation}
         />
         {text && (
           <p
@@ -74,7 +80,7 @@ const InternalSpinner: React.FC<InternalSpinnerProps> = ({
   }
 
   return (
-    <motion.div
+    <SSRMotionDiv
       className={cn(
         sizeClasses[size],
         'border-2 border-gray-200 dark:border-gray-700 rounded-full',

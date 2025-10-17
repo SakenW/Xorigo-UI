@@ -4,39 +4,56 @@ import React, { useState, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '@xorigo-ui/system'
+import { semanticUtils } from '@xorigo-ui/tokens'
 import { cn } from '../utils'
 import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
+import { getInputAriaProps, generateAriaId } from '../utils/accessibility'
+
+// 使用语义化令牌定义Input变体
+const getSemanticInputClasses = () => ({
+  // 默认样式 - 带边框和背景
+  default: `border border-[var(--border-secondary)] bg-[var(--bg-secondary)] text-[var(--text-primary)] focus:border-[var(--border-focus)] focus:ring-2 focus:ring-[var(--ring-primary-action)]/20`,
+
+  // 填充样式 - 无边框，有背景色
+  filled: `border-0 bg-[var(--bg-tertiary)] text-[var(--text-primary)] focus:bg-[var(--bg-secondary)] focus:ring-2 focus:ring-[var(--ring-primary-action)]/20`,
+
+  // 轮廓样式 - 粗边框，透明背景
+  outlined: `border-2 border-[var(--border-secondary)] bg-transparent text-[var(--text-primary)] focus:border-[var(--border-focus)]`,
+
+  // 下划线样式 - 仅底部边框
+  underlined: `border-0 border-b-2 border-[var(--border-secondary)] bg-transparent text-[var(--text-primary)] rounded-none px-0 focus:border-[var(--border-focus)]`,
+
+  // 幽灵样式 - 透明背景，hover时显示
+  ghost: `border-0 bg-transparent text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--ring-primary-action)]/20 hover:bg-[var(--bg-tertiary)]`,
+
+  // 霓虹样式 - 赛博朋克风格
+  neon: `border border-[var(--border-info)] bg-[var(--bg-contrast-high)]/50 text-[var(--text-info)] focus:ring-[var(--ring-info)] focus:border-[var(--border-info)] shadow-[0_0_10px_var(--border-info)] focus:shadow-[0_0_20px_var(--border-info)]`,
+})
 
 // Input变体配置
 const inputVariants = cva(
   // 基础样式
-  'w-full rounded-lg transition-all duration-200 focus:outline-hidden disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed',
+  'w-full rounded-lg transition-all duration-200 focus:outline-hidden disabled:bg-[var(--bg-disabled)] disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
         // 默认样式 - 带边框和背景
-        default:
-          'border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20',
+        default: '',
 
         // 填充样式 - 无边框，有背景色
-        filled:
-          'border-0 bg-gray-100 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500/20',
+        filled: '',
 
         // 轮廓样式 - 粗边框，透明背景
-        outlined:
-          'border-2 border-gray-300 dark:border-gray-600 bg-transparent focus:border-blue-500',
+        outlined: '',
 
         // 下划线样式 - 仅底部边框
-        underlined:
-          'border-0 border-b-2 border-gray-300 dark:border-gray-600 bg-transparent rounded-none px-0 focus:border-blue-500',
+        underlined: '',
 
         // 幽灵样式 - 透明背景，hover时显示
-        ghost:
-          'border-0 bg-transparent focus:ring-2 focus:ring-blue-500/20 hover:bg-gray-100 dark:hover:bg-gray-800',
+        ghost: '',
 
         // 霓虹样式 - 赛博朋克风格
-        neon:
-          'border border-cyan-400 bg-black/50 text-cyan-400 focus:ring-cyan-400 focus:border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)] focus:shadow-[0_0_20px_rgba(6,182,212,0.5)]',
+        neon: '',
       },
       size: {
         sm: 'px-3 py-1.5 text-sm',
@@ -45,9 +62,9 @@ const inputVariants = cva(
       },
       status: {
         default: '',
-        error: 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
-        success: 'border-green-500 focus:border-green-500 focus:ring-green-500/20',
-        warning: 'border-yellow-500 focus:border-yellow-500 focus:ring-yellow-500/20',
+        error: 'border-[var(--border-error)] focus:border-[var(--border-error)] focus:ring-[var(--ring-error)]/20',
+        success: 'border-[var(--border-success)] focus:border-[var(--border-success)] focus:ring-[var(--ring-success)]/20',
+        warning: 'border-[var(--border-warning)] focus:border-[var(--border-warning)] focus:ring-[var(--ring-warning)]/20',
       },
       hasLeftElement: {
         true: '',
@@ -160,13 +177,13 @@ const FloatingLabel: React.FC<{
       className={cn(
         'absolute left-3 pointer-events-none',
         isFloating
-          ? 'text-xs -top-2 bg-white dark:bg-gray-800 px-1'
+          ? 'text-xs -top-2 bg-[var(--bg-secondary)] px-1'
           : 'text-sm top-1/2',
         error
-          ? 'text-red-500'
+          ? 'text-[var(--text-error)]'
           : isFocused
-            ? 'text-blue-500'
-            : 'text-gray-500 dark:text-gray-400'
+            ? 'text-[var(--text-primary-action)]'
+            : 'text-[var(--text-tertiary)]'
       )}
       initial={false}
       animate={{
@@ -176,7 +193,7 @@ const FloatingLabel: React.FC<{
       transition={{ duration: 0.2 }}
     >
       {label}
-      {required && <span className="text-red-500 ml-1">*</span>}
+      {required && <span className="text-[var(--text-error)] ml-1">*</span>}
     </motion.label>
   )
 }
@@ -223,11 +240,31 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [showPassword, setShowPassword] = useState(false)
     const inputId = id || `input-${React.useId()}`
 
+    // 生成可访问性相关的ID
+    const helperId = helperText ? generateAriaId('helper') : undefined
+    const errorId = error ? generateAriaId('error') : undefined
+
+    // 合并状态 - 必须在 use 之前定义
+    const effectiveStatus = status || validationState || (error ? 'error' : 'default')
+
+    // 构建 describedBy 数组
+    const describedByParts = []
+    if (helperId) describedByParts.push(helperId)
+    if (errorId) describedByParts.push(errorId)
+    const describedBy = describedByParts.length > 0 ? describedByParts.join(' ') : undefined
+
+    // 生成可访问性属性
+    const ariaProps = getInputAriaProps({
+      label: label && !floatingLabel ? label : undefined,
+      error,
+      helperText,
+      required,
+      invalid: effectiveStatus === 'error',
+      describedBy
+    })
+
     const hasValue = String(value).length > 0
     const shouldShowFloatingLabel = floatingLabel && label
-
-    // 合并状态
-    const effectiveStatus = status || validationState || (error ? 'error' : 'default')
 
     // 确定是否有左侧和右侧元素
     const hasLeftElement = !!(leftIcon || prefix)
@@ -255,11 +292,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const getStatusIcon = () => {
       switch (effectiveStatus) {
         case 'success':
-          return <Check className="w-4 h-4 text-green-500" />
+          return <Check className="w-4 h-4 text-[var(--text-success)]" />
         case 'error':
-          return <AlertCircle className="w-4 h-4 text-red-500" />
+          return <AlertCircle className="w-4 h-4 text-[var(--text-error)]" />
         case 'warning':
-          return <AlertTriangle className="w-4 h-4 text-yellow-500" />
+          return <AlertTriangle className="w-4 h-4 text-[var(--text-warning)]" />
         default:
           return null
       }
@@ -277,12 +314,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const actualType = type === 'password' && showPassword ? 'text' : type
 
+    // 获取语义化变体类名
+    const getSemanticClasses = () => {
+      const semanticVariants = getSemanticInputClasses()
+      return semanticVariants[variant as keyof typeof semanticVariants] || ''
+    }
+
     // 获取主题样式
     const getInputThemeStyle = (): React.CSSProperties => {
       if (variant === 'neon') {
         return {
           boxShadow: `0 0 10px ${themeConfig.glow}`,
-          borderColor: (themeConfig.colors?.[400] as unknown as string) || '#38bdf8',
+          borderColor: 'var(--border-info)',
         }
       }
       return {}
@@ -294,12 +337,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {!shouldShowFloatingLabel && label && (
           <motion.label
             htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            className="block text-sm font-medium text-[var(--text-secondary)] mb-1"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {required && <span className="text-[var(--text-error)] ml-1">*</span>}
           </motion.label>
         )}
 
@@ -309,14 +352,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
               {/* 前缀图标 */}
               {leftIcon && (
-                <div className="ml-3 text-gray-400 flex items-center">
+                <div className="ml-3 text-[var(--text-tertiary)] flex items-center">
                   {leftIcon}
                 </div>
               )}
               {/* 前缀文本 */}
               {prefix && (
                 <span className={cn(
-                  'text-gray-500 dark:text-gray-400 select-none',
+                  'text-[var(--text-tertiary)] select-none',
                   leftIcon ? 'ml-2' : 'ml-3'
                 )}>
                   {prefix}
@@ -348,16 +391,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                   hasRightElement,
                   floatingLabel,
                 }),
+                getSemanticClasses(),
                 // 主题相关的额外样式
-                'text-gray-900 dark:text-gray-100',
-                'placeholder:text-gray-500 dark:placeholder:text-gray-400',
-                variant === 'neon' && 'text-cyan-400'
+                'text-[var(--text-primary)]',
+                'placeholder:text-[var(--text-tertiary)]',
+                variant === 'neon' && 'text-[var(--text-info)]'
               )}
               style={getInputThemeStyle()}
               whileFocus={{
                 scale: disabled ? 1 : 1.01,
                 transition: { duration: 0.2 },
               }}
+              {...ariaProps}
               // 过滤掉与Framer Motion冲突的属性
               {...Object.keys(restProps).reduce((acc, key) => {
                 if (!['onDrag', 'onDragStart', 'onDragEnd'].includes(key)) {
@@ -384,7 +429,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                 {/* 后缀文本 */}
                 {suffix && (
-                  <span className="text-gray-500 dark:text-gray-400 select-none">
+                  <span className="text-[var(--text-tertiary)] select-none">
                     {suffix}
                   </span>
                 )}
@@ -395,8 +440,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     className={cn(
                       'text-xs',
                       String(value).length >= maxLength
-                        ? 'text-red-500'
-                        : 'text-gray-400'
+                        ? 'text-[var(--text-error)]'
+                        : 'text-[var(--text-tertiary)]'
                     )}
                   >
                     {String(value).length}/{maxLength}
@@ -411,7 +456,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                   <motion.button
                     type="button"
                     onClick={handleClear}
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label="清除"
@@ -425,7 +470,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                   <motion.button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label={showPassword ? '隐藏密码' : '显示密码'}
@@ -435,7 +480,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 )}
 
                 {/* 自定义后缀图标 */}
-                {rightIcon && <div className="text-gray-400">{rightIcon}</div>}
+                {rightIcon && <div className="text-[var(--text-tertiary)]">{rightIcon}</div>}
               </div>
             )}
           </div>
@@ -445,7 +490,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <AnimatePresence>
           {error && (
             <motion.p
-              className="mt-1 text-sm text-red-600 dark:text-red-400"
+              id={errorId}
+              className="mt-1 text-sm text-[var(--text-error)]"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -458,7 +504,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {/* 帮助信息 */}
         {!error && helperText && (
           <motion.p
-            className="mt-1 text-sm text-gray-500 dark:text-gray-400"
+            id={helperId}
+            className="mt-1 text-sm text-[var(--text-tertiary)]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >

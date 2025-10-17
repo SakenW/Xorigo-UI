@@ -27,15 +27,15 @@
     "test:sync": "npm run sync -- --verbose"
   },
   "dependencies": {
-    "commander": "^13.0.0",
     "chalk": "^5.0.0",
-    "ora": "^6.0.0",
-    "chokidar": "^4.0.0"
+    "chokidar": "^4.0.0",
+    "commander": "^13.0.0",
+    "ora": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.7.2",
-    "typescript": "~5.9.3",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.3"
   },
   "keywords": [
     "xorigo-ui",
@@ -46,5 +46,8 @@
     "quality-check"
   ],
   "author": "Xorigo UI Team",
-  "license": "MIT"
+  "license": "MIT",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.52.4"
+  }
 }

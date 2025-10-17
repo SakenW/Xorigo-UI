@@ -31,13 +31,15 @@
   ],
   "author": "Xorigo UI Team",
   "license": "MIT",
-  "peerDependencies": {},
-  "dependencies": {},
   "devDependencies": {
     "@types/node": "^24.7.0",
+    "expect-playwright": "^0.8.0",
     "typescript": "~5.9.3",
     "vite": "^7.1.9",
     "vite-plugin-dts": "^4.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.52.4"
+  }
 }

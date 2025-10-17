@@ -109,5 +109,8 @@
     "website"
   ],
   "author": "Xorigo UI Team",
-  "license": "MIT"
+  "license": "MIT",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.52.4"
+  }
 }

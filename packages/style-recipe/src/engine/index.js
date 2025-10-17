@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 🎨 TH-UI 风格配方体系 - 配方引擎 (Recipe Engine)
  *
@@ -17,10 +18,9 @@ import { officialRecipes, getRecipe } from '../recipes';
  * 风格配方引擎
  */
 export class StyleRecipeEngine {
-    config;
-    currentRecipe = null;
-    axisLocks = [];
     constructor(config = {}) {
+        this.currentRecipe = null;
+        this.axisLocks = [];
         this.config = {
             defaultRecipe: 'light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow',
             availableRecipes: officialRecipes,

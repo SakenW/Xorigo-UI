@@ -2,35 +2,83 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import pkg from 'glob'
+const { glob } = pkg
+
+// 动态生成多入口配置
+const generateEntryPoints = async () => {
+  const rootDir = resolve(__dirname, 'src')
+
+  // 主入口点
+  const entryPoints = {
+    index: resolve(rootDir, 'index.ts'),
+
+    // 分类入口点
+    ui: resolve(rootDir, 'ui/index.ts'),
+    inputs: resolve(rootDir, 'inputs/index.ts'),
+    form: resolve(rootDir, 'form/index.ts'),
+    navigation: resolve(rootDir, 'navigation/index.ts'),
+    layout: resolve(rootDir, 'layout/index.ts'),
+    feedback: resolve(rootDir, 'feedback/index.ts'),
+    overlays: resolve(rootDir, 'overlays/index.ts'),
+    datadisplay: resolve(rootDir, 'datadisplay/index.ts'),
+    charts: resolve(rootDir, 'charts/index.ts'),
+    utilities: resolve(rootDir, 'utilities/index.ts'),
+  }
+
+  // 自动发现组件级入口点
+  try {
+    // 查找所有组件目录下的主要组件文件
+    const componentFiles = await glob('src/{ui,inputs,form,navigation,layout,feedback,overlays,datadisplay,charts,utilities}/*.{ts,tsx}', {
+      cwd: __dirname,
+      ignore: ['**/index.ts', '**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx']
+    })
+
+    // 为每个组件创建入口点
+    for (const file of componentFiles) {
+      const componentName = file.match(/\/([^/]+)\.[^.]+$/)?.[1]
+      if (componentName && !file.includes('/index.')) {
+        entryPoints[componentName] = resolve(__dirname, file)
+      }
+    }
+  } catch (error) {
+    console.warn('自动发现组件入口点时出错:', error)
+  }
+
+  return entryPoints
+}
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    // 启用类型声明文件生成
-    dts({
-      include: ['src'],
-      exclude: [
-        '**/*.test.ts',
-        '**/*.test.tsx',
-        '**/*.stories.tsx',
-        'src/test/**',
-        '**/*.spec.ts',
-        '**/*.spec.tsx',
-        'src/blocks/**', // 暂时排除 blocks 目录（存在类型错误）
-      ],
-      rollupTypes: false, // 暂时禁用合并（API Extractor有兼容性问题）
-      insertTypesEntry: true, // 启用自动插入类型声明文件
-      outDir: 'dist', // 输出到 dist 目录
-      compilerOptions: {
-        skipLibCheck: true, // 跳过库检查
-        noEmitOnError: false, // 即使有错误也生成类型
-      },
-      // 为每个入口点生成类型声明文件
-      entryRoot: './src',
-      copyDtsFiles: true,
-    }),
-  ],
+export default defineConfig(async () => {
+  const entryPoints = await generateEntryPoints()
+
+  return {
+    plugins: [
+      react(),
+      // 启用类型声明文件生成
+      dts({
+        include: ['src'],
+        exclude: [
+          '**/*.test.ts',
+          '**/*.test.tsx',
+          '**/*.stories.tsx',
+          'src/test/**',
+          '**/*.spec.ts',
+          '**/*.spec.tsx',
+          'src/blocks/**', // 暂时排除 blocks 目录（存在类型错误）
+        ],
+        rollupTypes: false, // 暂时禁用合并（API Extractor有兼容性问题）
+        insertTypesEntry: true, // 启用自动插入类型声明文件
+        outDir: 'dist', // 输出到 dist 目录
+        compilerOptions: {
+          skipLibCheck: true, // 跳过库检查
+          noEmitOnError: false, // 即使有错误也生成类型
+        },
+        // 为每个入口点生成类型声明文件
+        entryRoot: './src',
+        copyDtsFiles: true,
+      }),
+    ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
@@ -45,10 +93,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: {
-        index: resolve(__dirname, 'src/index.ts'),
-        // theme: resolve(__dirname, 'src/theme/index.ts'), // 暂时禁用，目录不存在
-      },
+      entry: entryPoints,
       name: 'Xorigo UI',
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => {
@@ -96,11 +141,18 @@ export default defineConfig({
           if (assetInfo.name === 'style.css') return 'xorigo-ui.css'
           return assetInfo.name || 'assets/[name][extname]'
         },
+        // 为分类导出创建子目录
+        preserveModules: false, // 不保持模块结构，使用入口点文件名
+        // 确保按需导入的chunk分离
+        manualChunks: undefined, // 让每个入口点生成独立的chunk
       },
     },
     sourcemap: true,
     // 清空输出目录
     emptyOutDir: true,
+    // 优化构建性能
+    target: 'esnext',
+    minify: 'esbuild',
   },
   test: {
     globals: true,
@@ -108,12 +160,40 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
     css: true,
   },
-  // 添加此配置以解决Vite 7的包解析问题
+  // SSR构建配置优化
   ssr: {
-    noExternal: ['@xorigo-ui/core']
+    // 服务端构建时需要外部化的依赖
+    external: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      'framer-motion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-slot',
+      'lucide-react',
+      'class-variance-authority',
+      'clsx',
+      'culori',
+      'color-contrast-checker',
+      'tailwind-merge',
+      'react-router-dom'
+    ],
+    // 确保内部包可以正常解析
+    noExternal: ['@xorigo-ui/tokens', '@xorigo-ui/style-recipe', '@xorigo-ui/system', '@xorigo-ui/hooks', '@xorigo-ui/i18n']
   },
-  // 解决Vite 7包解析问题
+  // 客户端优化
   optimizeDeps: {
-    include: ['@xorigo-ui/core']
+    include: [
+      '@xorigo-ui/core',
+      '@xorigo-ui/tokens',
+      '@xorigo-ui/style-recipe',
+      '@xorigo-ui/system',
+      'framer-motion'
+    ],
+    exclude: ['@xorigo-ui/hooks', '@xorigo-ui/i18n']
   }
+}
 })
