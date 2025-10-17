@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { cn } from '../utils/cn'
 
 interface XorigoLogoLoaderProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -17,11 +17,12 @@ interface XorigoLogoLoaderProps {
  * Xorigo Logo 加载组件
  *
  * 语义：Xorigo 代表"原点" - 组件库的起源和核心
+ * 视觉概念：以原点为中心的能量扩散和汇聚动画
  *
  * 变体说明：
- * - default: 完整的加载动画，包含背景渐变和进度条
- * - minimal: 简约版本，只有Logo旋转
- * - enhanced: 增强版本，带有粒子效果和多层动画
+ * - default: 完整的圆形原点动画，包含波纹扩散
+ * - minimal: 简约版本，只有核心原点脉动
+ * - enhanced: 增强版本，带有轨道粒子和多层波纹
  */
 export const XorigoLogoLoader = ({
   size = 'md',
@@ -59,10 +60,10 @@ export const XorigoLogoLoader = ({
 
   // 尺寸配置
   const sizeConfig = {
-    sm: { container: 'w-16 h-16', text: 'text-xl', icon: 'text-lg' },
-    md: { container: 'w-24 h-24', text: 'text-2xl', icon: 'text-2xl' },
-    lg: { container: 'w-32 h-32', text: 'text-3xl', icon: 'text-3xl' },
-    xl: { container: 'w-40 h-40', text: 'text-4xl', icon: 'text-4xl' }
+    sm: { container: 'w-16 h-16', text: 'text-xl', origin: 'w-2 h-2', orbit: 'w-12 h-12' },
+    md: { container: 'w-24 h-24', text: 'text-2xl', origin: 'w-3 h-3', orbit: 'w-18 h-18' },
+    lg: { container: 'w-32 h-32', text: 'text-3xl', origin: 'w-4 h-4', orbit: 'w-24 h-24' },
+    xl: { container: 'w-40 h-40', text: 'text-4xl', origin: 'w-5 h-5', orbit: 'w-30 h-30' }
   }
 
   const currentSize = sizeConfig[size]
@@ -78,171 +79,165 @@ export const XorigoLogoLoader = ({
           "transition-all duration-300 ease-out"
         )}
         animate={{
-          scale: [0.8, 1, 1.2, 1],
-          opacity: [0, 1, 1, 0]
+          scale: [0.8, 1, 1.05, 1],
+          opacity: [0, 1, 1, 1]  // 保持可见状态
         }}
         transition={{
-          duration: duration / 2,
+          duration: 1.5, // 固定进入动画时间，不依赖duration
           ease: "easeInOut"
         }}
-        onAnimationComplete={() => {
-          if (variant !== 'minimal') {
-            // 开始内部动画
-          }
-        }}
       >
-        {/* 背景渐变层 */}
+        {/* 原点背景 - 圆形渐变 */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl"
+          className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full"
           animate={{
-            rotate: [0, 360],
-            scale: [1, 1.1, 1]
+            scale: [1, 1.1, 1],
           }}
           transition={{
-            rotate: {
-              duration: 3,
-              ease: "linear",
-              repeat: Infinity
-            },
-            scale: {
-              duration: 1.5,
-              ease: "easeInOut",
-              repeat: Infinity
-            }
+            duration: 2,
+            ease: "easeInOut",
+            repeat: Infinity
           }}
         />
 
-        {/* 脉冲效果层 - 增强版 */}
-        {variant === 'enhanced' && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-purple-500/60 to-cyan-500/60 rounded-2xl blur-md"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.5, 0.8, 0.5]
-            }}
-            transition={{
-              duration: 2,
-              ease: "easeInOut",
-              repeat: Infinity
-            }}
-          />
-        )}
-
-        {/* 粒子效果 - 增强版 */}
-        {variant === 'enhanced' && (
+        {/* 波纹扩散效果 - 象征原点的能量扩散 */}
+        {variant !== 'minimal' && (
           <>
-            {[...Array(6)].map((_, i) => (
+            {[...Array(3)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 bg-white rounded-full"
-                style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)'
-                }}
+                className="absolute inset-0 rounded-full border border-purple-400/30"
                 animate={{
-                  rotate: [0, 360],
-                  scale: [1, 0, 1],
-                  opacity: [0.8, 0.4, 0.8],
-                  x: [0, Math.cos(i * 60) * 40],
-                  y: [0, Math.sin(i * 60) * 40]
+                  scale: [1, 1.8, 2.5],
+                  opacity: [0.6, 0.2, 0],
                 }}
                 transition={{
-                  duration: 3,
-                  ease: "linear",
+                  duration: 2,
+                  ease: "easeOut",
                   repeat: Infinity,
-                  delay: i * 0.5
+                  delay: i * 0.7,
+                  repeatDelay: i * 0.3
                 }}
               />
             ))}
           </>
         )}
 
-        {/* Logo 文字 */}
-        <div className={cn(
-          "relative w-full h-full flex items-center justify-center text-white font-bold",
-          currentSize.text
-        )}>
-          <span className="relative z-10">X</span>
-
-          {/* X 豉字的原点含义 - 脉冲效果 */}
-          {variant === 'enhanced' && (
-            <>
+        {/* 轨道粒子 - 增强版 */}
+        {variant === 'enhanced' && (
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{
+              transformOrigin: 'center'
+            }}
+            animate={{
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 8,
+              ease: "linear",
+              repeat: Infinity
+            }}
+          >
+            {[...Array(6)].map((_, i) => (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                key={i}
+                className={cn(
+                  "absolute bg-gradient-to-r from-purple-300 to-cyan-300 rounded-full",
+                  currentSize.origin
+                )}
                 style={{
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  left: '50%',
+                  top: '0%',
+                  transform: 'translateX(-50%) translateY(-50%)',
                 }}
-                animate={{
-                  opacity: [0.3, 0.7, 0.3]
-                }}
-                transition={{
-                  duration: 2,
-                  ease: "easeInOut",
-                  repeat: Infinity
-                }}
-              >
-                X
-              </motion.div>
-
-              {/* 原点含义的视觉化 - 小圆点 */}
-              <motion.div
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.8, 1, 0.8]
-                }}
-                transition={{
-                  duration: 1.5,
-                  ease: "easeInOut",
-                  repeat: Infinity
-                }}
-              />
-
-              <motion.div
-                className="absolute -top-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-purple-400 rounded-full"
                 animate={{
                   scale: [1, 1.5, 1],
                   opacity: [0.8, 1, 0.8],
-                  delay: 0.75
                 }}
                 transition={{
                   duration: 1.5,
                   ease: "easeInOut",
-                  repeat: Infinity
+                  repeat: Infinity,
+                  delay: i * 0.25
                 }}
               />
-            </>
-          )}
+            ))}
+          </motion.div>
+        )}
+
+        {/* 中心原点 - 象征起源的核心 */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.div
+            className={cn(
+              "relative bg-black rounded-full flex items-center justify-center",
+              size === 'sm' ? 'w-10 h-10' : size === 'md' ? 'w-14 h-14' : size === 'lg' ? 'w-18 h-18' : 'w-22 h-22'
+            )}
+            animate={{
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 1.5,
+              ease: "easeInOut",
+              repeat: Infinity
+            }}
+          >
+            {/* 核心原点 */}
+            <motion.div
+              className={cn(
+                "rounded-full bg-gradient-to-r from-purple-400 to-cyan-400",
+                currentSize.origin
+              )}
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{
+                duration: 1,
+                ease: "easeInOut",
+                repeat: Infinity
+              }}
+            />
+
+            {/* X logo - 围绕原点脉动 */}
+            <motion.span
+              className={cn(
+                "absolute text-white font-bold",
+                currentSize.text
+              )}
+              animate={{
+                scale: [0.9, 1, 0.9],
+                opacity: [0.5, 1, 0.5],
+              }}
+              transition={{
+                duration: 2,
+                ease: "easeInOut",
+                repeat: Infinity
+              }}
+            >
+              X
+            </motion.span>
+          </motion.div>
         </div>
 
-        {/* 边框效果 - 增强版 */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl"
-          style={{
-            border: '2px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: variant === 'enhanced'
-              ? '0 0 20px rgba(168, 85, 247, 0.3), 0 0 40px rgba(6, 182, 212, 0.2)'
-              : '0 0 10px rgba(168, 85, 247, 0.2)'
-          }}
-          animate={{
-            opacity: [0.3, 0.7, 0.3],
-            boxShadow: variant === 'enhanced'
-              ? [
-                '0 0 20px rgba(168, 85, 247, 0.3)',
-                '0 0 40px rgba(6, 182, 212, 0.2)',
-                '0 0 20px rgba(168, 85, 247, 0.3)'
-              ]
-              : ['0 0 10px rgba(168, 85, 247, 0.2)']
-          }}
-          transition={{
-            duration: 2,
-            ease: 'easeInOut',
-            repeat: Infinity
-          }}
-        />
+        {/* 原点光芒 - 增强版 */}
+        {variant === 'enhanced' && (
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(6,182,212,0.05) 50%, transparent 70%)',
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.6, 0.9, 0.6],
+            }}
+            transition={{
+              duration: 2.5,
+              ease: "easeInOut",
+              repeat: Infinity
+            }}
+          />
+        )}
       </motion.div>
 
       {/* 进度条 */}
@@ -278,7 +273,7 @@ export const XorigoLogoLoader = ({
             size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-base'
           )}
         >
-          {variant === 'enhanced' ? '正在初始化 Xorigo UI...' : '加载中...'}
+          {variant === 'enhanced' ? '正在从原点启动...' : '加载中...'}
         </motion.p>
 
         {variant === 'enhanced' && (
@@ -291,7 +286,7 @@ export const XorigoLogoLoader = ({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            组件库原点
+            Xorigo UI · 组件库原点
           </motion.p>
         )}
       </motion.div>
@@ -326,3 +321,5 @@ export const FastXorigoLoader = createXorigoLoader('fast')
 export const StandardXorigoLoader = createXorigoLoader('standard')
 export const FullXorigoLoader = createXorigoLoader('full')
 export const ImmersiveXorigoLoader = createXorigoLoader('immersive')
+
+export type { XorigoLogoLoaderProps }

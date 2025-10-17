@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useScroll, useTransform } from 'framer-motion'
+import { NavbarOriginLogo } from '@/components/ui/NavbarOriginLogo'
 import {
   Github,
   ArrowRight,
@@ -76,28 +77,12 @@ const EnhancedNavbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo增强 - 修复文字剪裁 + 流动光影动效 */}
+          {/* Logo增强 - 使用NavbarOriginLogo组件，持续循环的原点动画 */}
           <motion.div
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
-            <motion.div className="relative w-12 h-12">
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl"
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{ duration: 10, ease: 'linear', repeat: Infinity }}
-              />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500/50 to-cyan-500/50 rounded-xl blur-md"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-              />
-              <div className="relative w-full h-full flex items-center justify-center text-white font-bold text-2xl">
-                X
-              </div>
-            </motion.div>
+            <NavbarOriginLogo size={48} className="scale-90" />
 
             {/* 文字容器 - 添加足够的 padding 防止剪裁 */}
             <div className="text-2xl font-bold px-1 py-1 overflow-visible">
