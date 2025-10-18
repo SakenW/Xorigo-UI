@@ -351,16 +351,26 @@ const responsiveStyles = tv({
 2. **禁止保存文件到根目录**。
 3. 文件必须放在规范目录：
 
-   * `/src/components` - 组件库源码
-   * `/src/tokens` - 设计令牌
-   * `/src/theme` - 主题系统
-   * `/src/utils` - 工具函数
-   * `/src/hooks` - 自定义钩子
-   * `/src/types` - TypeScript 类型
-   * `/tests` - 测试文件
-   * `/docs` - 文档
-   * `/examples` - 示例代码
-   * `/scripts` - 构建和部署脚本
+   **Core组件库目录**：
+   * `/packages/core/src/components` - 组件库源码
+   * `/packages/core/src/tokens` - 设计令牌
+   * `/packages/core/src/theme` - 主题系统
+   * `/packages/core/src/utils` - 工具函数
+   * `/packages/core/src/hooks` - 自定义钩子
+   * `/packages/core/src/types` - TypeScript 类型
+   * `/packages/core/tests` - 测试文件
+   * `/packages/core/docs` - 文档
+   * `/packages/core/examples` - 示例代码
+   * `/packages/core/scripts` - 构建和部署脚本
+
+   **Website应用目录** (根据WEBSITE-ARCHITECTURE文档)：
+   * `/apps/website/app/(marketing)/components` - 营销页面组件
+   * `/apps/website/app/(dashboard)/components` - 功能页面组件
+   * `/apps/website/app/(content)/components` - 内容页面组件
+   * `/apps/website/src/components` - 通用共享组件
+   * `/apps/website/src/utils` - Website专用工具函数
+   * `/apps/website/src/hooks` - Website专用钩子
+   * `/apps/website/src/types` - Website专用类型定义
 
 4. **Claude Code 的 Task 工具** 是唯一执行方式；MCP 仅负责协调。
 
