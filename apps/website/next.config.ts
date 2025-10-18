@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
       'framer-motion': require.resolve('framer-motion'),
       // 添加 @xorigo-ui 包的解析路径 - 使用相对路径
       '@xorigo-ui/core': path.resolve(__dirname, '../../packages/core/src/index.ts'),
+      '@xorigo-ui/core/effects': path.resolve(__dirname, '../../packages/core/src/effects/index.ts'),
+      '@xorigo-ui/core/showcase': path.resolve(__dirname, '../../packages/core/src/showcase/index.ts'),
+      '@xorigo-ui/core/interactive': path.resolve(__dirname, '../../packages/core/src/interactive/index.ts'),
       '@xorigo-ui/system': path.resolve(__dirname, '../../packages/system/src/index.ts'),
       '@xorigo-ui/style-recipe': path.resolve(__dirname, '../../packages/style-recipe/src/index.ts'),
       '@xorigo-ui/tokens': path.resolve(__dirname, '../../packages/tokens/src/index.ts'),

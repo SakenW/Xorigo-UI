@@ -7,6 +7,24 @@ import { cn } from '@/utils'
 import { Spinner } from './Spinner'
 import { getButtonAriaProps } from '../utils/accessibility'
 
+// 测试Props生成工具 - 从v1.1版本引入
+const generateTestProps = (component: string, options: {
+  variant?: string
+  size?: string
+  state?: string
+  testId?: string
+}) => {
+  const { variant, size, state, testId } = options
+  const testIdValue = testId || `${component}-${variant || 'default'}-${size || 'md'}-${state || 'normal'}`
+  return {
+    'data-testid': testIdValue,
+    'data-component': component,
+    'data-variant': variant,
+    'data-size': size,
+    'data-state': state,
+  }
+}
+
 // 使用语义化令牌定义按钮变体
 const getSemanticVariantClasses = () => ({
   // 主要按钮 - 使用语义化主色
@@ -177,6 +195,10 @@ export interface ButtonProps
   expanded?: boolean
   /** 描述信息 */
   describedBy?: string
+  /** 测试ID - 从v1.1版本引入 */
+  testId?: string
+  /** 错误状态 - 从v1.1版本引入 */
+  error?: boolean
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -201,6 +223,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       pressed,
       expanded,
       describedBy,
+      // v1.1版本新增属性
+      testId,
+      error = false,
       ...props
     },
     ref
@@ -251,6 +276,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       describedBy
     })
 
+    // 生成测试Props - 从v1.1版本引入
+    const testProps = generateTestProps('button', {
+      variant,
+      size,
+      state: disabled ? 'disabled' : loading ? 'loading' : error ? 'error' : 'normal',
+      testId,
+    })
+
+    // 确定组件状态 - 从v1.1版本引入
+    const componentState = disabled ? 'disabled' : loading ? 'loading' : error ? 'error' : 'normal'
+
     // iconOnly 模式
     if (iconOnly) {
       return (
@@ -267,6 +303,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           whileTap={{ scale: disabled || loading ? 1 : 0.95 }}
           transition={{ duration: 0.2 }}
           {...ariaProps}
+          {...testProps}
           {...props}
         >
           {loading ? (
@@ -295,6 +332,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
         transition={{ duration: 0.2 }}
         {...ariaProps}
+        {...testProps}
         {...props}
       >
         {/* Loading Spinner */}
@@ -326,3 +364,57 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 Button.displayName = 'Button'
+
+// 导出变体类型
+export { buttonVariants }
+export type ButtonVariants = VariantProps<typeof buttonVariants>
+
+// ButtonGroup复合组件 - 从v1.1版本引入
+export const ButtonGroup = forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    variant?: ButtonProps['variant']
+    size?: ButtonProps['size']
+  }
+>(({ className, variant, size, children, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "inline-flex",
+      // 分组样式
+      "[&>*:not(:first-child)]:-ml-px",
+      "[&>*:not(:first-child)]:rounded-l-none",
+      "[&>*:not(:last-child)]:rounded-r-none",
+      className
+    )}
+    role="group"
+    {...props}
+  >
+    {/* 克隆子组件并注入相同的 variant 和 size */}
+    {React.Children.map(children, (child) => {
+      if (React.isValidElement(child) && child.type === Button) {
+        return React.cloneElement(child, {
+          variant: variant || child.props.variant,
+          size: size || child.props.size,
+        } as ButtonProps)
+      }
+      return child
+    })}
+  </div>
+))
+
+ButtonGroup.displayName = 'ButtonGroup'
+
+// 复合组件类型定义 - 从v1.1版本引入
+export interface ButtonCompound {
+  Root: typeof Button
+  Group: typeof ButtonGroup
+}
+
+/**
+ * Button 复合组件 - 从v1.1版本引入
+ */
+export const ButtonComponent: ButtonCompound = {
+  Root: Button,
+  Group: ButtonGroup,
+}

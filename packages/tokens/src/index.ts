@@ -11,6 +11,8 @@
 
 export * from './colors'
 
+export * from './category-colors'
+
 // ============================================================================
 // 第二层：令牌转换器 (Token Transformer)
 // ============================================================================
@@ -61,6 +63,21 @@ export * from './token-accessors'
  * 获取所有设计令牌
  */
 export { colorTokens } from './colors'
+
+/**
+ * 获取组件分类颜色令牌
+ */
+export {
+  componentCategoryColors,
+  getCategoryColors,
+  getCategoryIds,
+  hasCategoryColors,
+  getPrimaryColor,
+  getGradientColor,
+  getHoverGradient,
+  type ComponentCategoryColors,
+  type ComponentCategory
+} from './category-colors'
 
 /**
  * 获取令牌转换器实例

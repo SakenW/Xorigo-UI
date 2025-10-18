@@ -32,6 +32,15 @@ export * from './charts/'
 // Loading 加载组件 - 加载状态
 export * from './loading/'
 
+// Effects 特效组件 - 视觉特效
+export * from './effects/'
+
+// Interactive 交互组件 - 交互逻辑
+export * from './interactive/'
+
+// Showcase 展示组件 - 演示组件
+export * from './showcase/'
+
 // Utilities 技术基元 - 技术底层
 export * from './utilities/'
 

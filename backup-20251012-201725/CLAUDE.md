@@ -1,10 +1,10 @@
-# 🎨 Xorigo UI × Claude Code 开发指南
+# 🎨 TH-UI × Claude Code 开发指南
 
 ---
 
 ## 📋 项目概述
 
-**Xorigo UI** 是从 Xorigo UI 原点设计系统 提取的独立 UI 设计系统和组件库，专为现代 React 应用设计。
+**TH-UI** 是从 Trans-Hub 提取的独立 UI 设计系统和组件库，专为现代 React 应用设计。
 
 **技术栈**：
 - **React 19** + **TypeScript 5.9** + **Tailwind CSS 4** + **Framer Motion 12**
@@ -25,7 +25,7 @@
 
 ## 🎭 角色定义
 
-你是 **Xorigo UI 组件库的核心守护者**，深谙 **现代前端开发最佳实践** 和 **组件库设计哲学**。
+你是 **TH-UI 组件库的核心守护者**，深谙 **现代前端开发最佳实践** 和 **组件库设计哲学**。
 
 **背景**：你已经在 React 生态工作多年，参与和审核过无数组件库项目，理解"组件设计"与"开发体验"的平衡。
 
@@ -45,94 +45,6 @@
    - 确保 Vite、Tailwind、Framer Motion 的最佳集成
    - 维护开发环境的一致性和高效性
    - 协调 MCP 与 Claude Code 的配合
-
----
-
-## 🐳 Docker 开发环境规范
-
-### 🚫 严格禁止：禁止运行 npm run dev
-
-**🚨 重要规则**：**本项目使用 Docker 热更新容器进行开发，严禁在任何情况下运行 `npm run dev` 命令！**
-
-**⚠️ 违规后果警告**：
-- 立即终止所有 `npm run dev` 进程
-- 可能导致端口冲突和开发环境混乱
-- 违反项目开发规范，将被强制清理
-
-#### 正确的开发流程：
-
-1. **✅ 启动开发环境**：
-   ```bash
-   # 启动 Docker 热更新容器
-   npm run docker:dev
-
-   # 或者直接使用 Docker
-   docker-compose -f docker-compose.dev.monorepo.yml up
-   ```
-
-2. **✅ 访问应用**：
-   ```
-   http://localhost:3100  # Docker 容器热更新端口
-   ```
-
-3. **✅ 热更新**：
-   - 修改代码后自动重新编译
-   - 浏览器自动刷新显示更改
-   - 无需手动重启任何服务
-
-#### 🚫 禁止的操作：
-
-```bash
-# ❌ 绝对禁止这些命令！
-npm run dev
-cd apps/website && npm run dev
-yarn dev
-pnpm dev
-```
-
-#### ⚠️ 违规后果：
-
-1. **端口冲突**：`npm run dev` 会占用端口 3000/3001，与 Docker 容器的 3100 端口冲突
-2. **代码不同步**：后台进程使用旧代码，导致开发体验不一致
-3. **热更新失效**：多个开发服务器会导致热更新混乱
-4. **资源浪费**：多个进程同时运行消耗系统资源
-
-#### 🛠️ 故障排除：
-
-如果遇到端口冲突或多余进程：
-
-```bash
-# 🚨 强制清理所有违规进程（最高权限）
-pkill -9 -f "npm run dev"
-pkill -9 -f "next dev"
-pkill -9 -f "node.*next"
-sudo killall -9 node 2>/dev/null
-
-# 🔥 彻底清理顽固进程
-pgrep -f "npm.*run.*dev" | xargs -r kill -9 2>/dev/null
-pgrep -f "next.*dev" | xargs -r kill -9 2>/dev/null
-
-# 🧹 验证清理结果
-ps aux | grep -E "(npm.*run.*dev|next.*dev)" | grep -v grep || echo "✅ 所有违规进程已清理"
-
-# ✅ 验证只有 Docker 容器在运行
-docker ps | grep xorigo
-
-# ✅ 确认端口状态
-curl -I http://localhost:3100  # 应该返回 200
-curl -I http://localhost:3000  # 应该无响应
-curl -I http://localhost:3001  # 应该无响应
-```
-
-#### 📋 开发环境检查清单：
-
-- [ ] Docker 容器运行在端口 3100
-- [ ] 端口 3000/3001 没有其他服务
-- [ ] 代码修改能自动热更新
-- [ ] 浏览器自动刷新功能正常
-- [ ] 没有运行 `npm run dev` 进程
-
-**记住**：**Docker 热更新容器是唯一正确的开发方式！**
 
 ---
 
@@ -351,26 +263,16 @@ const responsiveStyles = tv({
 2. **禁止保存文件到根目录**。
 3. 文件必须放在规范目录：
 
-   **Core组件库目录**：
-   * `/packages/core/src/components` - 组件库源码
-   * `/packages/core/src/tokens` - 设计令牌
-   * `/packages/core/src/theme` - 主题系统
-   * `/packages/core/src/utils` - 工具函数
-   * `/packages/core/src/hooks` - 自定义钩子
-   * `/packages/core/src/types` - TypeScript 类型
-   * `/packages/core/tests` - 测试文件
-   * `/packages/core/docs` - 文档
-   * `/packages/core/examples` - 示例代码
-   * `/packages/core/scripts` - 构建和部署脚本
-
-   **Website应用目录** (根据WEBSITE-ARCHITECTURE文档)：
-   * `/apps/website/app/(marketing)/components` - 营销页面组件
-   * `/apps/website/app/(dashboard)/components` - 功能页面组件
-   * `/apps/website/app/(content)/components` - 内容页面组件
-   * `/apps/website/src/components` - 通用共享组件
-   * `/apps/website/src/utils` - Website专用工具函数
-   * `/apps/website/src/hooks` - Website专用钩子
-   * `/apps/website/src/types` - Website专用类型定义
+   * `/src/components` - 组件库源码
+   * `/src/tokens` - 设计令牌
+   * `/src/theme` - 主题系统
+   * `/src/utils` - 工具函数
+   * `/src/hooks` - 自定义钩子
+   * `/src/types` - TypeScript 类型
+   * `/tests` - 测试文件
+   * `/docs` - 文档
+   * `/examples` - 示例代码
+   * `/scripts` - 构建和部署脚本
 
 4. **Claude Code 的 Task 工具** 是唯一执行方式；MCP 仅负责协调。
 
@@ -623,7 +525,7 @@ export * from './Modal'
 ```typescript
 // tests/components/Button.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react'
-import { Button } from '@xorigo-ui/core'
+import { Button } from '@th-ui/core'
 
 describe('Button', () => {
   it('renders correctly', () => {
@@ -1017,176 +919,7 @@ docs/reports/
 
 ---
 
-## 🛡️ 通用检测系统
-
-### 系统架构
-
-**🎯 路径感知检测**：根据文件路径自动触发相应的检测模块，优化 token 使用
-
-**📂 监控目录结构**：
-```
-/home/saken/project/Xorigo-UI/
-├── apps/                    # 应用目录 (🔍 Apps专用检测)
-│   └── website/             # Website应用
-└── packages/                # 组件库目录 (🔍 Packages专用检测)
-    ├── core/                # 核心组件库
-    ├── tokens/              # 设计令牌
-    └── style-recipe/        # 样式配方
-```
-
-**🧩 模块化检测系统**：
-
-#### Packages 目录专用检测模块
-- **naming-package**: 组件库严格命名规范 (60 tokens)
-  - 组件文件 PascalCase 命名
-  - 禁止版本号和连字符
-  - 工具函数 camelCase 命名
-  - 目录结构合规性
-
-- **api-component**: 组件 API 设计标准 (150 tokens)
-  - 基础属性检查 (className, children, disabled)
-  - 变体系统 (cva) 使用
-  - forwardRef 支持
-  - displayName 和类型导出
-
-#### Apps 目录专用检测模块
-- **naming-app**: 应用命名规范 (50 tokens)
-  - 页面路由 kebab-case 命名
-  - 组件文件夹 PascalCase 命名
-  - 组件文件命名规范
-
-- **content-app**: 应用内容质量 (120 tokens)
-  - 页面元数据 (metadata) 检查
-  - 硬编码路由检测
-  - 组件直接 API 导入检测
-  - 大组件文件提醒
-
-#### 通用检测模块
-- **structure-common**: 基础文件结构 (40 tokens)
-  - 临时文件检测
-  - 空文件和大文件提醒
-  - 基础文件组织检查
-
-### Token 优化策略
-
-**💡 智能模块选择**：
-- **轻量级模式**：默认启用，根据操作类型和文件大小优化检测
-- **预算控制**：每次操作最大 200 tokens，优先高优先级检测
-- **路径过滤**：只运行适用的检测模块，减少不必要的消耗
-
-**📊 Token 消耗估算**：
-```
-Packages 目录：
-- 命名检测: ~60 tokens
-- API 检测: ~150 tokens
-- 总计: ~210 tokens (优化后 ~126 tokens)
-
-Apps 目录：
-- 命名检测: ~50 tokens
-- 内容检测: ~120 tokens
-- 总计: ~170 tokens (优化后 ~102 tokens)
-
-平均节省: ~40% token 消耗
-```
-
-### 使用方式
-
-**🤖 Claude Agents 集成**：
-
-Xorigo UI 项目使用独立的 Agent 架构，每个 Agent 负责特定的功能领域：
-
-```typescript
-// 导入代码质量检测 Agent
-import { codeQualityDetector } from '.claude/agents'
-
-// 自动触发检测
-const results = await codeQualityDetector.detect({
-  operation: 'edit',
-  filePath: '/home/saken/project/Xorigo-UI/packages/core/src/ui/Button.tsx',
-  content: '新的组件代码',
-  workspace: '/home/saken/project/Xorigo-UI',
-  timestamp: new Date()
-})
-
-// 获取 Agent 状态
-const status = codeQualityDetector.getStatus()
-```
-
-**可用 Agents**：
-- 🔍 **代码质量检测 Agent**：检测命名规范、架构规则、组件分类等
-- 🚧 更多 Agent 开发中...
-```
-
-**⚡ Agent 管理工具**：
-```bash
-# 查看 Agent 状态
-import { getAgentStatus, getActiveAgents } from '.claude/agents'
-const agents = getActiveAgents()
-const status = getAgentStatus('code-quality-detector')
-
-# Agent 健康检查
-const health = await codeQualityDetector.healthCheck()
-```
-
-**🚨 检测结果示例**：
-```json
-{
-  "severity": "error",
-  "message": "组件文件 Button-v1.1.tsx 不能包含版本号",
-  "suggestion": "移除文件名中的版本信息，使用 Git 管理版本",
-  "autoFix": {
-    "command": "mv \"Button-v1.1.tsx\" \"Button.tsx\"",
-    "description": "重命名为标准格式"
-  }
-}
-```
-
-### 配置和扩展
-
-**⚙️ Agent 配置**：
-```typescript
-// 配置代码质量检测 Agent
-codeQualityDetector.configure({
-  tokenOptimization: {
-    maxTokensPerOperation: 200,
-    enableLightweightMode: true
-  }
-})
-
-// 启用/禁用 Agent
-codeQualityDetector.setEnabled(true)
-```
-
-**🔌 自定义检测模块**：
-```typescript
-// 注册新模块
-DetectionSystem.registerModule({
-  id: 'custom-rule',
-  name: '自定义检测',
-  description: '自定义检测规则',
-  enabled: true,
-  tokenCost: 80,
-  rules: [...],
-  check: async (context) => { ... }
-})
-```
-
-**📈 监控统计**：
-```bash
-# 获取检测统计
-projectDetectionSystem.getStats()
-// 输出: {
-//   modules: { total: 5, loaded: true },
-//   tokenOptimizer: { estimatedSavings: "~76 tokens per operation (40% savings)" },
-//   directories: 2,
-//   project: "Xorigo UI",
-//   level: "project"
-// }
-```
-
----
-
-**维护**: Xorigo UI Team
+**维护**: TH-UI Team
 **版本**: 0.1.0
 **技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12
 **部署状态**: ✅ Docker 开发/生产环境就绪

@@ -6,12 +6,4 @@
  */
 
 export { XorigoLogoLoader } from './XorigoLogoLoader'
-export type { XorigoLogoLoaderProps } from './XorigoLogoLoader'
-export {
-  XorigoLogoLoaderPresets,
-  createXorigoLoader,
-  FastXorigoLoader,
-  StandardXorigoLoader,
-  FullXorigoLoader,
-  ImmersiveXorigoLoader
-} from './XorigoLogoLoader'
+export type { XorigoLogoLoaderProps, LoaderSize } from './XorigoLogoLoader'
