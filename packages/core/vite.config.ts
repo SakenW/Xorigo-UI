@@ -24,15 +24,23 @@ const generateEntryPoints = async () => {
     datadisplay: resolve(rootDir, 'datadisplay/index.ts'),
     charts: resolve(rootDir, 'charts/index.ts'),
     utilities: resolve(rootDir, 'utilities/index.ts'),
+
+    // 特殊分类入口点
+    effects: resolve(rootDir, 'effects/index.ts'),
+    showcase: resolve(rootDir, 'showcase/index.ts'),
+    interactive: resolve(rootDir, 'interactive/index.ts'),
   }
 
   // 自动发现组件级入口点
   try {
     // 查找所有组件目录下的主要组件文件
-    const componentFiles = await glob('src/{ui,inputs,form,navigation,layout,feedback,overlays,datadisplay,charts,utilities}/*.{ts,tsx}', {
+    const componentFilesResult = await glob('src/{ui,inputs,form,navigation,layout,feedback,overlays,datadisplay,charts,utilities}/*.{ts,tsx}', {
       cwd: __dirname,
       ignore: ['**/index.ts', '**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx']
     })
+
+    // 确保获取到文件数组
+    const componentFiles = Array.isArray(componentFilesResult) ? componentFilesResult : []
 
     // 为每个组件创建入口点
     for (const file of componentFiles) {

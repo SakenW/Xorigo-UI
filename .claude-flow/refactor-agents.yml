@@ -1,0 +1,209 @@
+# Xorigo UI Website 架构重构 - Hive-Mind Agent 配置
+# 版本: 1.0
+# 日期: 2025-01-14
+
+project:
+  name: xorigo-ui-website-refactor
+  version: v2.0
+  mode: hive-mind
+  coordination: orchestrator-led
+
+# Agent 定义
+agents:
+  # 总协调器 - 负责整体协调
+  orchestrator:
+    name: Orchestrator Agent
+    role: 总协调器
+    priority: 1
+    responsibilities:
+      - 协调所有子Agent工作
+      - 监控整体进度
+      - 处理Agent间依赖
+      - 生成进度报告
+    context_files:
+      - docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md
+      - docs/WEBSITE-ARCHITECTURE/REFACTOR-EXECUTION-PLAN.md
+      - docs/WEBSITE-ARCHITECTURE/COMPLETION-REPORT-20251014.md
+
+  # 架构验证器 - 最高优先级，全程监控
+  architecture_validator:
+    name: Architecture Validator Agent
+    role: 架构合规监督者
+    priority: 0  # 最高优先级
+    auto_trigger: true  # 自动触发
+    responsibilities:
+      - 实时验证架构合规性
+      - 阻止违反架构的操作
+      - 强制执行组件源规则
+      - 检测功能重叠
+    validation_rules:
+      component_source:
+        enforce: true
+        rule: "Website必须从packages/导入所有UI组件"
+        block_patterns:
+          - "export function.*Button"
+          - "export const.*Card"
+          - "React.FC.*Component"
+      module_boundaries:
+        components: ["display", "copy", "search", "filter"]
+        workbench: ["edit", "experiment", "preview", "combine"]
+        tools: ["standalone", "independent"]
+      zero_overlap:
+        threshold: 0
+        action: block
+    context_files:
+      - docs/WEBSITE-ARCHITECTURE/CRITICAL-ARCHITECTURE-RULE.md
+      - architecture-validator.config.ts
+      - docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md
+
+  # 分析器 - Phase 1
+  analyzer:
+    name: Analyzer Agent
+    role: 代码分析专家
+    priority: 2
+    phase: 1
+    responsibilities:
+      - 扫描现有Gallery和Playground代码
+      - 识别功能重叠点（70-90%）
+      - 生成依赖关系图
+      - 创建迁移清单
+    output:
+      - analysis-report.md
+      - overlap-matrix.json
+      - migration-checklist.md
+    context_files:
+      - apps/website/app/gallery/**/*
+      - apps/website/app/playground/**/*
+      - docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md
+
+  # 构建器 - Phase 2
+  builder:
+    name: Builder Agent
+    role: 模块构建专家
+    priority: 3
+    phase: 2
+    depends_on: [analyzer]
+    responsibilities:
+      - 构建新的Workbench模块
+      - 实现Gallery Mode（视觉浏览）
+      - 实现Editor Mode（代码编辑）
+      - 创建模式切换机制
+    rules:
+      - 所有UI组件必须从@xorigo-ui/core导入
+      - 不允许在Website中创建新组件
+      - 必须通过Architecture Validator验证
+    output:
+      - apps/website/app/(dashboard)/workbench/**/*
+      - workbench-implementation-report.md
+    context_files:
+      - docs/WEBSITE-ARCHITECTURE/00-Website技术架构终极版.md
+      - docs/WEBSITE-ARCHITECTURE/CRITICAL-ARCHITECTURE-RULE.md
+      - packages/core/src/**/*
+
+  # 迁移器 - Phase 2-3
+  migrator:
+    name: Migrator Agent
+    role: 代码迁移专家
+    priority: 4
+    phase: 2
+    depends_on: [analyzer, builder]
+    responsibilities:
+      - 迁移Gallery功能到Workbench Gallery Mode
+      - 迁移Playground功能到Workbench Editor Mode
+      - 更新路由和导航
+      - 处理状态迁移
+    rules:
+      - 保持功能完整性
+      - 确保零重叠
+      - 所有组件导入符合规则
+    output:
+      - migration-report.md
+      - route-mapping.json
+    context_files:
+      - analysis-report.md
+      - apps/website/app/(dashboard)/workbench/**/*
+
+  # 测试器 - Phase 3-4
+  tester:
+    name: Tester Agent
+    role: 质量保证专家
+    priority: 5
+    phase: 3
+    depends_on: [builder, migrator]
+    responsibilities:
+      - 功能完整性测试
+      - 性能基准测试
+      - 架构合规性测试
+      - 组件源规则验证
+    test_targets:
+      - 所有新模块功能正常
+      - 无功能重叠
+      - 所有组件来自packages
+      - 路由正确配置
+    output:
+      - test-report.md
+      - performance-benchmarks.json
+      - compliance-report.md
+
+# 执行流程
+workflow:
+  phases:
+    phase_1:
+      name: "分析与验证"
+      duration: "Week 1"
+      agents: [orchestrator, architecture_validator, analyzer]
+      gates:
+        - 重叠分析完成
+        - 迁移清单确认
+        - 架构验证通过
+
+    phase_2:
+      name: "构建与迁移"
+      duration: "Week 2-3"
+      agents: [orchestrator, architecture_validator, builder, migrator]
+      gates:
+        - Workbench模块构建完成
+        - 代码迁移完成
+        - 所有组件源规则验证通过
+
+    phase_3:
+      name: "测试与优化"
+      duration: "Week 4"
+      agents: [orchestrator, architecture_validator, tester]
+      gates:
+        - 所有测试通过
+        - 性能达标
+        - 架构100%合规
+
+# 协调规则
+coordination:
+  communication:
+    method: hive-mind
+    sync_interval: real-time
+
+  conflict_resolution:
+    authority: architecture_validator  # 最终仲裁者
+
+  quality_gates:
+    - architecture_validator必须批准所有操作
+    - 组件源规则违规自动拒绝
+    - 功能重叠检测到立即阻止
+
+# 监控指标
+metrics:
+  track:
+    - 功能重叠度（目标：0%）
+    - 模块独立性（目标：100%）
+    - 架构合规性（目标：100%）
+    - 组件源合规（目标：100%）
+
+  alerts:
+    - 架构偏离警报
+    - 组件源违规警报
+    - 功能重叠警报
+
+# 输出配置
+output:
+  reports_dir: docs/WEBSITE-ARCHITECTURE/refactor-reports
+  log_level: detailed
+  checkpoint_frequency: after_each_phase

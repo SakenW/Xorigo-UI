@@ -89,23 +89,6 @@ yarn.lock
 *.sqlite
 *.sqlite3
 .hive.db*
-memory.db
-
-# AI 工具生成的文件
-.claude-flow/
-.swarm/
-.claude/
-
-# 文档和元数据
-CLAUDE.md
-CLAUDE_HIVE_MIND.md
-HIVE_MIND_COMMANDS.md
-HIVE_MIND_FIXED_GUIDE.md
-SIMPLE_HIVE_COMMANDS.md
-SWITCH-FIX-SUMMARY.md
-COMMAND-COMPONENT-SUMMARY.md
-SEVEN_AXIS_SYSTEM_GUIDE.md
-RECIPE_GUIDE.md
 
 # 备份文件
 packages-thui-tokens-backup/
@@ -193,3 +176,5 @@ dist-ssr
 ~$*
 .*.swp
 .*.swo
+
+.playwright-mcp

@@ -266,6 +266,21 @@
       "types": "./dist/Stat.d.ts",
       "import": "./dist/Stat.mjs",
       "require": "./dist/Stat.cjs.js"
+    },
+    "./effects": {
+      "types": "./dist/effects.d.ts",
+      "import": "./dist/effects.mjs",
+      "require": "./dist/effects.cjs.js"
+    },
+    "./showcase": {
+      "types": "./dist/showcase.d.ts",
+      "import": "./dist/showcase.mjs",
+      "require": "./dist/showcase.cjs.js"
+    },
+    "./interactive": {
+      "types": "./dist/interactive.d.ts",
+      "import": "./dist/interactive.mjs",
+      "require": "./dist/interactive.cjs.js"
     }
   },
   "files": [
@@ -298,6 +313,14 @@
     "accessibility:check:components": "tsx scripts/check-accessibility.ts --components Button,Input,Modal,Alert",
     "accessibility:check:report": "tsx scripts/check-accessibility.ts --output accessibility-report.md",
     "color-contrast:check": "tsx scripts/check-accessibility.ts --theme default",
+    "compliance:naming": "tsx src/agents/ComplianceCLI.ts naming",
+    "compliance:structure": "tsx src/agents/ComplianceCLI.ts structure",
+    "compliance:api": "tsx src/agents/ComplianceCLI.ts api",
+    "compliance:full": "tsx src/agents/ComplianceCLI.ts full",
+    "compliance:fix": "tsx src/agents/ComplianceCLI.ts fix",
+    "compliance:report": "tsx src/agents/ComplianceCLI.ts report",
+    "compliance:check": "tsx src/agents/ComplianceCLI.ts full --ci",
+    "compliance:watch": "tsx src/agents/ComplianceCLI.ts full --watch",
     "clean": "rm -rf dist dist-ssr node_modules"
   },
   "keywords": [
