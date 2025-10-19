@@ -20,15 +20,10 @@
       "Bash(npm run build:*)",
       "Bash(npm run type-check:*)",
       "Bash(lsof:*)",
-      "Bash(npm run dev:*)",
-      "Bash(docker restart:*)",
-      "Bash(docker stop:*)",
-      "Bash(docker rm:*)",
       "Bash(npm run docker:dev:*)",
+      "Bash(npm run agent:*)",
+      "Bash(npm run docker:*)",
       "Bash(npx vite:*)",
-      "Bash(docker system prune:*)",
-      "Bash(docker-compose:*)",
-      "Bash(docker logs:*)",
       "Bash(curl:*)",
       "Bash(xargs:*)",
       "Bash(echo:*)",
@@ -41,8 +36,6 @@
       "Bash(npm install:*)",
       "Bash(node:*)",
       "Bash(npx tsc:*)",
-      "Bash(claude-flow:*)",
-      "Bash(npx claude-flow *)",
       "Bash(npm run lint)",
       "Bash(npm run test:*)",
       "Bash(npm test *)",
@@ -59,97 +52,267 @@
       "Bash(git stash *)",
       "Bash(jq *)",
       "Bash(which *)",
-      "Bash(pwd)"
+      "Bash(pwd)",
+      "Bash(npx prettier *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(rm *)"
     ],
     "deny": [
       "Bash(rm -rf /)",
       "Bash(curl * | bash)",
       "Bash(wget * | sh)",
-      "Bash(eval *)"
+      "Bash(eval *)",
+      "Bash(npm run dev:*)",
+      "Bash(yarn dev)",
+      "Bash(pnpm dev)",
+      "Bash(next dev)",
+      "Bash(docker-compose *)",
+      "Bash(docker run *)",
+      "Bash(docker start *)",
+      "Bash(docker stop *)",
+      "Bash(docker restart *)",
+      "Bash(docker build *)",
+      "Bash(docker images *)",
+      "Bash(docker rmi *)",
+      "Bash(docker pull *)",
+      "Bash(docker push *)",
+      "Bash(docker tag *)",
+      "Bash(docker system *)",
+      "Bash(docker network *)",
+      "Bash(docker volume *)",
+      "Bash(docker prune *)"
     ]
   },
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | ~/.config/claude-flow/intelligent-hooks-executor.sh"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | jq -r '.tool_input.command // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks pre-command --command '{}' --validate-safety true --prepare-resources true"
-          }
+  "hooks": [
+    {
+      "name": "UserPromptSubmit-ClaudeFlow",
+      "description": "Claude Flow 用户提交处理",
+      "matcher": "UserPromptSubmit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | ~/.config/claude-flow/intelligent-hooks-executor.sh"
+        }
+      ]
+    },
+    {
+      "name": "bash-validation-docker-protection",
+      "description": "Bash 命令验证和 Docker 开发服务器保护",
+      "matcher": {
+        "tool": "Bash"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | python3 .claude/hooks/validate-bash.py"
+        }
+      ]
+    },
+    {
+      "name": "pre-edit-load-context",
+      "description": "编辑前加载上下文",
+      "matcher": {
+        "tool": [
+          "Write",
+          "Edit",
+          "MultiEdit"
         ]
       },
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | jq -r '.tool_input.file_path // .tool_input.path // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks pre-edit --file '{}' --auto-assign-agents false --load-context true"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | jq -r '.tool_input.command // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks post-command --command '{}' --track-metrics true --store-results true"
-          }
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | jq -r '.tool_input.file_path // .tool_input.path // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks pre-edit --file '{}' --auto-assign-agents false --load-context true"
+        }
+      ]
+    },
+    {
+      "name": "post-edit-update-memory",
+      "description": "编辑后更新内存",
+      "matcher": {
+        "tool": [
+          "Write",
+          "Edit",
+          "MultiEdit"
         ]
       },
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | jq -r '.tool_input.file_path // .tool_input.path // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks post-edit --file '{}' --format true --update-memory true"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "manual",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/bin/bash -c 'INPUT=$(cat); CUSTOM=$(echo \"$INPUT\" | jq -r \".custom_instructions // \\\"\\\"\"); echo \"🔄 PreCompact Guidance:\"; echo \"📋 IMPORTANT: Review CLAUDE.md in project root for:\"; echo \"   • Xorigo UI 组件库开发最佳实践\"; echo \"   • React 19 + TypeScript 5.9 + Tailwind CSS 4\"; echo \"   • 组件设计原子化原则和 API 一致性\"; echo \"   • Docker 开发/生产环境配置\"; echo \"   • 并发执行规则 (GOLDEN RULE: 1 MESSAGE = ALL OPERATIONS)\"; if [ -n \"$CUSTOM\" ]; then echo \"🎯 Custom compact instructions: $CUSTOM\"; fi; echo \"✅ Ready for compact operation\"'"
-          }
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | jq -r '.tool_input.file_path // .tool_input.path // empty' | tr '\\n' '\\0' | xargs -0 -I {} npx claude-flow@alpha hooks post-edit --file '{}' --format true --update-memory true"
+        }
+      ]
+    },
+    {
+      "name": "precompact-manual-guidance",
+      "description": "手动压缩前的指导",
+      "matcher": {
+        "type": "manual"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "/bin/bash -c 'INPUT=$(cat); CUSTOM=$(echo \"$INPUT\" | jq -r \".custom_instructions // \\\"\\\"\"); echo \"🔄 PreCompact Guidance:\"; echo \"📋 IMPORTANT: Review CLAUDE.md in project root for:\"; echo \"   • Xorigo UI 组件库开发最佳实践\"; echo \"   • React 19 + TypeScript 5.9 + Tailwind CSS 4\"; echo \"   • 组件设计原子化原则和 API 一致性\"; echo \"   • Docker 开发/生产环境配置\"; echo \"   • 并发执行规则 (GOLDEN RULE: 1 MESSAGE = ALL OPERATIONS)\"; if [ -n \"$CUSTOM\" ]; then echo \"🎯 Custom compact instructions: $CUSTOM\"; fi; echo \"✅ Ready for compact operation\"'"
+        }
+      ]
+    },
+    {
+      "name": "precompact-auto-guidance",
+      "description": "自动压缩前的指导",
+      "matcher": {
+        "type": "auto"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "/bin/bash -c 'echo \"🔄 Auto-Compact Guidance (Context Window Full):\"; echo \"📋 CRITICAL: Before compacting, ensure you understand:\"; echo \"   • Xorigo UI 组件库核心职责：守护组件设计哲学\"; echo \"   • 技术栈：React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12\"; echo \"   • 组件设计原则：原子化、API 一致性、主题系统集成\"; echo \"   • Docker 部署标准化：开发环境 3100 端口\"; echo \"⚡ Apply GOLDEN RULE: Always batch operations in single messages\"; echo \"✅ Auto-compact proceeding with Xorigo UI context\"'"
+        }
+      ]
+    },
+    {
+      "name": "session-end-summary",
+      "description": "会话结束总结",
+      "matcher": "Stop",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "npx claude-flow@alpha hooks session-end --generate-summary true --persist-state true --export-metrics true"
+        }
+      ]
+    },
+    {
+      "name": "code-quality-detector",
+      "description": "Xorigo UI 代码质量检测和规范检查",
+      "matcher": {
+        "tool": [
+          "Edit",
+          "Write",
+          "MultiEdit"
+        ],
+        "path": [
+          "/home/saken/project/Xorigo-UI/**/*.ts",
+          "/home/saken/project/Xorigo-UI/**/*.tsx",
+          "/home/saken/project/Xorigo-UI/**/*.js",
+          "/home/saken/project/Xorigo-UI/**/*.jsx",
+          "/home/saken/project/Xorigo-UI/**/*.md"
         ]
       },
-      {
-        "matcher": "auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/bin/bash -c 'echo \"🔄 Auto-Compact Guidance (Context Window Full):\"; echo \"📋 CRITICAL: Before compacting, ensure you understand:\"; echo \"   • Xorigo UI 组件库核心职责：守护组件设计哲学\"; echo \"   • 技术栈：React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12\"; echo \"   • 组件设计原则：原子化、API 一致性、主题系统集成\"; echo \"   • Docker 部署标准化：开发环境 3100 端口\"; echo \"⚡ Apply GOLDEN RULE: Always batch operations in single messages\"; echo \"✅ Auto-compact proceeding with Xorigo UI context\"'"
-          }
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .claude/agents/code-quality-detector/agent.js --tool-input {{tool_input}}",
+          "enabled": true,
+          "timeout": 30000,
+          "runSync": false,
+          "errorBehavior": "fail"
+        }
+      ]
+    },
+    {
+      "name": "typescript-format",
+      "description": "TypeScript 文件自动格式化",
+      "matcher": {
+        "tool": [
+          "Edit",
+          "Write"
+        ],
+        "path": [
+          "/home/saken/project/Xorigo-UI/**/*.ts",
+          "/home/saken/project/Xorigo-UI/**/*.tsx"
         ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npx claude-flow@alpha hooks session-end --generate-summary true --persist-state true --export-metrics true"
-          }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "jq -r '.tool_input.file_path' | { read file_path; if echo \"$file_path\" | grep -q '\\.tsx\\?$'; then npx prettier --write \"$file_path\" 2>/dev/null || true; fi; }",
+          "enabled": true,
+          "timeout": 10000,
+          "runSync": true,
+          "errorBehavior": "ignore"
+        }
+      ]
+    },
+    {
+      "name": "protection-sensitive-files",
+      "description": "保护敏感文件不被修改",
+      "matcher": {
+        "tool": [
+          "Edit",
+          "Write",
+          "MultiEdit"
+        ],
+        "path": [
+          "/home/saken/project/Xorigo-UI/.git/**",
+          "/home/saken/project/Xorigo-UI/node_modules/**",
+          "/home/saken/project/Xorigo-UI/dist/**",
+          "/home/saken/project/Xorigo-UI/.next/**",
+          "/home/saken/project/Xorigo-UI/packages/*/dist/**",
+          "/home/saken/project/Xorigo-UI/apps/website/.next/**",
+          "/home/saken/project/Xorigo-UI/apps/website/out/**",
+          "/home/saken/project/Xorigo-UI/package-lock.json",
+          "/home/saken/project/Xorigo-UI/yarn.lock",
+          "/home/saken/project/Xorigo-UI/pnpm-lock.yaml"
         ]
-      }
-    ]
-  },
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "echo 'Protected file: $(jq -r '.tool_input.file_path') - Edit not allowed' && exit 1",
+          "enabled": true,
+          "timeout": 5000,
+          "runSync": true,
+          "errorBehavior": "fail"
+        }
+      ]
+    },
+    {
+      "name": "architecture-rule-check",
+      "description": "检查 Website 架构规则合规性",
+      "matcher": {
+        "tool": [
+          "Edit",
+          "Write"
+        ],
+        "path": [
+          "/home/saken/project/Xorigo-UI/apps/website/**"
+        ]
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .claude/agents/code-quality-detector/agent.js --check=architecture --tool-input {{tool_input}}",
+          "enabled": true,
+          "timeout": 15000,
+          "runSync": false,
+          "errorBehavior": "warn"
+        }
+      ]
+    },
+    {
+      "name": "package-naming-check",
+      "description": "检查 packages 目录组件命名规范",
+      "matcher": {
+        "tool": [
+          "Edit",
+          "Write"
+        ],
+        "path": [
+          "/home/saken/project/Xorigo-UI/packages/**"
+        ]
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node .claude/agents/code-quality-detector/agent.js --check=naming --tool-input {{tool_input}}",
+          "enabled": true,
+          "timeout": 15000,
+          "runSync": false,
+          "errorBehavior": "warn"
+        }
+      ]
+    }
+  ],
   "includeCoAuthoredBy": true,
   "enabledMcpjsonServers": ["claude-flow"]
 }
