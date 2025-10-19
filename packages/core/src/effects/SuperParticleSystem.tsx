@@ -259,14 +259,14 @@ const SuperParticleSystem = () => {
           top: firefly.y,
           width: firefly.size * 2,
           height: firefly.size * 2,
-          backgroundColor: '#ffeb3b',
+          backgroundColor: 'var(--color-warning-400)',
           borderRadius: '50%',
           opacity: firefly.currentOpacity,
           transform: 'translate(-50%, -50%)',
           boxShadow: `
-            0 0 ${firefly.size * 8}px rgba(255, 235, 59, ${firefly.currentOpacity}),
-            0 0 ${firefly.size * 4}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.6}),
-            0 0 ${firefly.size * 2}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.3})
+            0 0 ${firefly.size * 8}px var(--color-warning-400),
+            0 0 ${firefly.size * 4}px var(--color-warning-300),
+            0 0 ${firefly.size * 2}px var(--color-warning-200)
           `,
           filter: 'blur(0.5px)',
           willChange: 'transform, opacity',
@@ -285,3 +285,4 @@ const SuperParticleSystem = () => {
 }
 
 export { SuperParticleSystem }
+export default SuperParticleSystem

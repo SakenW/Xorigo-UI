@@ -4,9 +4,8 @@ import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { cn } from '../utils/cn'
 
-// 关键：直接使用你现有的 Logo 组件作为“中间的圆”
-// 路径照你给的：/home/saken/project/Xorigo-UI/apps/website/src/components/ui/NavbarOriginLogo.tsx
-import NavbarOriginLogo from '@/components/ui/NavbarOriginLogo'
+// 导入原点Logo组件
+import NavbarOriginLogo from '../components/ui/NavbarOriginLogo'
 
 export type LoaderSize = 'sm' | 'md' | 'lg' | 'xl'
 
@@ -99,7 +98,7 @@ export const XorigoLogoLoader: React.FC<XorigoLogoLoaderProps> = ({
           breatheSeconds={reduce ? breatheSeconds * 1.5 : breatheSeconds}
           gradientSeconds={reduce ? gradientSeconds * 1.5 : gradientSeconds}
           // 保持品牌色系；有需要你也可以把 ringStops 透传为主题色数组
-          // ringStops={['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef']}
+          // ringStops={['var(--color-purple-500)', 'var(--color-pink-400)', 'var(--color-cyan-400)', 'var(--color-cyan-500)', 'var(--color-purple-500)']}
           // 建议默认混合模式（若你的 Logo 支持 mode，使用 'hybrid'；若不支持，此行可删）
           // @ts-ignore 兼容你先前的实现：如果没有此 prop，TS 会忽略
           mode="hybrid"

@@ -55,10 +55,6 @@ const createWillChange = (properties: string[]) => ({
   willChange: properties.join(', ')
 })
 import { Button, Card, AnimatedCard, Typography, Surface, Code as CodeComponent, XorigoLogoLoader } from '@xorigo-ui/core'
-import { SuperParticleSystem, FluidBackground } from '../../src/components/effects'
-import { Component3DCarousel } from '../../src/components/showcase'
-import { CodeEditor } from '../../src/components/interactive'
-import { categoryColors } from '@xorigo-ui/tokens'
 import {
   Zap,
   Palette,
@@ -181,7 +177,484 @@ const PageLoader = () => {
   )
 }
 
+// ✨ 萤火虫粒子系统 - 精致梦幻版
+const SuperParticleSystem = () => {
+  const [mounted, setMounted] = useState(false)
+  const [fireflies, setFireflies] = useState<Array<{
+    id: number
+    x: number
+    y: number
+    vx: number
+    vy: number
+    targetX: number
+    targetY: number
+    size: number
+    baseOpacity: number
+    currentOpacity: number
+    glowPhase: number
+    wanderAngle: number
+    wanderSpeed: number
+    isAttracted: boolean
+    attractionStrength: number
+  }>>([])
 
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const mouseVelocity = useVelocity(mouseY)
+  const lastMouseTime = useRef(Date.now())
+  const isMouseMoving = useRef(false)
+
+  // 获取鼠标当前位置
+  const getCurrentMousePos = () => ({
+    x: mouseX.get(),
+    y: mouseY.get()
+  })
+
+  useEffect(() => {
+    setMounted(true)
+
+    // 🦋 初始化萤火虫粒子
+    const initFireflies = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: 0,
+      vy: 0,
+      targetX: Math.random() * window.innerWidth,
+      targetY: Math.random() * window.innerHeight,
+      size: Math.random() * 2 + 1.5,
+      baseOpacity: Math.random() * 0.3 + 0.2,
+      currentOpacity: Math.random() * 0.3 + 0.2,
+      glowPhase: Math.random() * Math.PI * 2,
+      wanderAngle: Math.random() * Math.PI * 2,
+      wanderSpeed: Math.random() * 0.02 + 0.01,
+      isAttracted: false,
+      attractionStrength: 0
+    }))
+    setFireflies(initFireflies)
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
+      lastMouseTime.current = Date.now()
+      isMouseMoving.current = true
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+
+    // 持续检测鼠标是否停止移动 - 可靠检测
+    const mouseStopChecker = setInterval(() => {
+      const timeSinceLastMove = Date.now() - lastMouseTime.current
+      if (timeSinceLastMove > 1000) { // 1秒后标记停止
+        isMouseMoving.current = false
+      }
+    }, 200) // 更频繁的检测
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      clearInterval(mouseStopChecker)
+    }
+  }, [mouseX, mouseY, mouseVelocity])
+
+  // ✨ 萤火虫飞舞动画
+  useEffect(() => {
+    let animationId: number
+    let lastTime = 0
+    const targetFPS = 30
+    const frameInterval = 1000 / targetFPS
+
+    const animate = (currentTime: number) => {
+      if (currentTime - lastTime >= frameInterval) {
+        const mousePos = getCurrentMousePos()
+
+        setFireflies(prev => prev.map(firefly => {
+          let {
+            x, y, vx, vy, targetX, targetY,
+            glowPhase, wanderAngle, wanderSpeed,
+            isAttracted, attractionStrength
+          } = firefly
+
+          // 🌟 更新闪烁相位
+          glowPhase += 0.05
+
+          // 🎯 计算与鼠标的距离
+          const dx = mousePos.x - x
+          const dy = mousePos.y - y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          // 🦋 判断是否应该被吸引 - 修复自动飞走机制
+          const shouldBeAttracted = isMouseMoving.current && distance < 300
+          const minSafeDistance = 70
+          const maxSafeDistance = 120
+          const idealDistance = 95
+
+          // 简化响应逻辑，确保状态转换可靠
+          if (shouldBeAttracted && !isAttracted) {
+            // 开始吸引
+            isAttracted = true
+            attractionStrength = 0
+          } else if (!shouldBeAttracted && isAttracted) {
+            // 停止吸引，立即切换到漫游并飞走
+            isAttracted = false
+            attractionStrength = 0
+            // 设置远离鼠标的新目标
+            const escapeAngle = Math.atan2(y - mousePos.y, x - mousePos.x)
+            const escapeDistance = 300 + Math.random() * 200
+            targetX = mousePos.x + Math.cos(escapeAngle) * escapeDistance
+            targetY = mousePos.y + Math.sin(escapeAngle) * escapeDistance
+          }
+
+          if (isAttracted) {
+            // 🧲 明显的吸引效果 - 让萤火虫真正被吸引
+            attractionStrength = Math.min(attractionStrength + 0.01, 0.8)
+
+            if (distance > maxSafeDistance) {
+              // 在安全距离外，强有力地吸引
+              const attractForce = attractionStrength * 0.1
+              vx += (dx / distance) * attractForce
+              vy += (dy / distance) * attractForce
+            } else if (distance < minSafeDistance) {
+              // 只在很近时才轻微推开
+              const repelForce = (minSafeDistance - distance) / minSafeDistance * 0.05
+              vx -= (dx / distance) * repelForce
+              vy -= (dy / distance) * repelForce
+            } else {
+              // 在理想距离范围内，轻微调整保持稳定
+              const adjustForce = (distance - idealDistance) / (maxSafeDistance - minSafeDistance) * 0.1
+              const targetAngle = Math.atan2(dy, dx) + adjustForce * 0.2
+
+              // 主要靠轨道运动控制位置
+              const orbitAngle = Math.atan2(dy, dx) + 0.01
+              const orbitRadius = idealDistance + Math.sin(currentTime * 0.001 + firefly.id) * 8
+              const orbitX = mousePos.x + Math.cos(orbitAngle) * orbitRadius
+              const orbitY = mousePos.y + Math.sin(orbitAngle) * orbitRadius
+
+              const orbitDx = orbitX - x
+              const orbitDy = orbitY - y
+              const orbitDistance = Math.sqrt(orbitDx * orbitDx + orbitDy * orbitDy)
+
+              if (orbitDistance > 3) {
+                vx += (orbitDx / orbitDistance) * 0.04
+                vy += (orbitDy / orbitDistance) * 0.04
+              }
+            }
+
+            // 🌊 极其随机的漂移 - 几乎不直接环绕鼠标
+            const randomFactor = Math.random() * 0.8 - 0.4
+            const wobble = Math.sin(currentTime * 0.001 + firefly.id) * 1.2
+            const driftAngle = Math.atan2(dy, dx) + wobble + randomFactor
+
+            // 极其微弱的向鼠标倾向
+            const weakInfluence = 0.003 + Math.random() * 0.002
+            vx += Math.cos(driftAngle) * weakInfluence
+            vy += Math.sin(driftAngle) * weakInfluence
+          } else {
+            // 🎲 自然漫游 - 正常漫游，不主动逃离
+            attractionStrength = Math.max(attractionStrength - 0.008, 0)
+
+            // 正常随机漫游
+            if (Math.random() < 0.02) { // 增加改变目标的频率
+              targetX = Math.random() * window.innerWidth
+              targetY = Math.random() * window.innerHeight
+            }
+
+            const targetDx = targetX - x
+            const targetDy = targetY - y
+            const targetDistance = Math.sqrt(targetDx * targetDx + targetDy * targetDy)
+
+            if (targetDistance > 5) {
+              vx += (targetDx / targetDistance) * wanderSpeed * 1.5 // 增强漫游速度
+              vy += (targetDy / targetDistance) * wanderSpeed * 1.5
+            }
+
+            // 添加自然的随机漂移，增强动感
+            wanderAngle += (Math.random() - 0.5) * 0.15
+            vx += Math.cos(wanderAngle) * 0.08
+            vy += Math.sin(wanderAngle) * 0.08
+          }
+
+          // 💫 应用阻力
+          vx *= 0.95
+          vy *= 0.95
+
+          // 更新位置
+          x += vx
+          y += vy
+
+          // 🌍 边界处理 - 严格约束在视窗内，防止横向滚动条
+          const margin = 10
+          if (x < margin) {
+            x = margin
+            vx = Math.abs(vx) * 0.5 // 反弹并减速
+          } else if (x > window.innerWidth - margin) {
+            x = window.innerWidth - margin
+            vx = -Math.abs(vx) * 0.5 // 反弹并减速
+          }
+
+          if (y < margin) {
+            y = margin
+            vy = Math.abs(vy) * 0.5 // 反弹并减速
+          } else if (y > window.innerHeight - margin) {
+            y = window.innerHeight - margin
+            vy = -Math.abs(vy) * 0.5 // 反弹并减速
+          }
+
+          // ✨ 计算当前透明度（闪烁效果）
+          const glowIntensity = Math.sin(glowPhase) * 0.3 + 0.7
+          const currentOpacity = firefly.baseOpacity * glowIntensity
+
+          return {
+            ...firefly,
+            x, y, vx, vy, targetX, targetY,
+            glowPhase, wanderAngle, wanderSpeed,
+            isAttracted, attractionStrength, currentOpacity
+          }
+        }))
+
+        lastTime = currentTime
+      }
+      animationId = requestAnimationFrame(animate)
+    }
+
+    animationId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animationId)
+  }, [mouseX, mouseY])
+
+  if (!mounted) return null
+
+  // ✨ 渲染萤火虫粒子
+  const renderFirefly = (firefly: typeof fireflies[0]) => {
+    return (
+      <div
+        key={firefly.id}
+        style={{
+          position: 'absolute',
+          left: firefly.x,
+          top: firefly.y,
+          width: firefly.size * 2,
+          height: firefly.size * 2,
+          backgroundColor: '#ffeb3b',
+          borderRadius: '50%',
+          opacity: firefly.currentOpacity,
+          transform: 'translate(-50%, -50%)',
+          boxShadow: `
+            0 0 ${firefly.size * 8}px rgba(255, 235, 59, ${firefly.currentOpacity}),
+            0 0 ${firefly.size * 4}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.6}),
+            0 0 ${firefly.size * 2}px rgba(255, 235, 59, ${firefly.currentOpacity * 0.3})
+          `,
+          filter: 'blur(0.5px)',
+          willChange: 'transform, opacity',
+          mixBlendMode: 'screen'
+        }}
+      />
+    )
+  }
+
+  return (
+    <div className="fixed inset-0 pointer-events-none">
+      {/* ✨ 渲染萤火虫 */}
+      {fireflies.map(firefly => renderFirefly(firefly))}
+    </div>
+  )
+}
+
+// 修复版3D组件轮播展示
+const Component3DCarousel = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
+
+  const components = [
+    { name: 'Button', icon: <Box />, color: 'from-purple-500 to-pink-500', desc: '灵活的按钮组件' },
+    { name: 'Card', icon: <Square />, color: 'from-cyan-500 to-blue-500', desc: '优雅的卡片容器' },
+    { name: 'Input', icon: <Braces />, color: 'from-yellow-500 to-orange-500', desc: '强大的表单输入' },
+    { name: 'Modal', icon: <Pentagon />, color: 'from-green-500 to-teal-500', desc: '流畅的弹窗组件' },
+    { name: 'Table', icon: <Database />, color: 'from-indigo-500 to-purple-500', desc: '智能数据表格' },
+    { name: 'Form', icon: <FileCode />, color: 'from-pink-500 to-rose-500', desc: '完整的表单方案' }
+  ]
+
+  // 自动轮播效果 - 简化版
+  useEffect(() => {
+    if (isHovering) return
+
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % components.length)
+    }, 4000)
+
+    return () => clearInterval(timer)
+  }, [isHovering, components.length])
+
+  // 导航函数 - 简化版
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + components.length) % components.length)
+  }, [components.length])
+
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % components.length)
+  }, [components.length])
+
+  return (
+    <div
+      className="relative h-[450px] flex items-center justify-center"
+      style={{ perspective: '1200px' }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* 3D轮播容器 */}
+      <div className="relative w-full h-full max-w-6xl">
+        {components.map((component, index) => {
+          const offset = index - activeIndex
+          const absOffset = Math.abs(offset)
+          const isActive = offset === 0
+
+          return (
+            <motion.div
+              key={component.name}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              animate={{
+                x: `${offset * 120}px`,
+                z: isActive ? 0 : -absOffset * 150,
+                rotateY: offset * -25,
+                opacity: absOffset > 2 ? 0 : isActive ? 1 : 0.5,
+                scale: isActive ? 1.1 : 0.8,
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: 120,
+                damping: 25,
+                duration: 0.5
+              }}
+              style={{
+                transformStyle: 'preserve-3d',
+                zIndex: isActive ? 30 : 20 - absOffset * 2
+              }}
+            >
+              <motion.div
+                className={`relative w-72 h-96 rounded-3xl bg-gradient-to-br ${component.color} p-[3px] cursor-pointer ${
+                  isActive ? 'shadow-2xl' : 'shadow-lg'
+                }`}
+                whileHover={{
+                  scale: isActive ? 1.08 : 1.03,
+                  rotateY: 5,
+                }}
+                onClick={() => setActiveIndex(index)}
+                style={{
+                  boxShadow: isActive
+                    ? '0 25px 60px rgba(168, 85, 247, 0.4), 0 0 40px rgba(168, 85, 247, 0.2)'
+                    : '0 10px 30px rgba(0, 0, 0, 0.3)'
+                }}
+              >
+                {/* 卡片内容 */}
+                <div className="relative w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-6 flex flex-col items-center justify-center overflow-hidden"
+                     style={{
+                       background: 'linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%)'
+                     }}>
+                  {/* 顶部装饰光线 */}
+                  <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${
+                    isActive ? 'via-white/40' : 'via-white/20'
+                  } to-transparent`} />
+
+                  {/* 图标 */}
+                  <motion.div
+                    className={`relative mb-4 ${isActive ? 'p-6' : 'p-4'} bg-white/5 rounded-xl backdrop-blur-sm`}
+                    animate={{
+                      rotateY: isActive ? [0, 360] : 0,
+                      scale: isActive ? [1, 1.1, 1] : 1
+                    }}
+                    transition={{
+                      rotateY: {
+                        duration: 3,
+                        ease: "linear",
+                        repeat: isActive ? Infinity : 0
+                      }
+                    }}
+                  >
+                    {React.cloneElement(component.icon as React.ReactElement, {
+                      className: `${isActive ? 'w-16 h-16' : 'w-12 h-12'} text-white drop-shadow-lg`
+                    })}
+                  </motion.div>
+
+                  {/* 组件名称 */}
+                  <motion.h3
+                    className={`${isActive ? 'text-2xl' : 'text-lg'} font-bold text-white mb-2`}
+                  >
+                    {component.name}
+                  </motion.h3>
+
+                  {/* 描述文字 */}
+                  <p className={`text-center ${isActive ? 'text-sm text-gray-300' : 'text-xs text-gray-500'}`}>
+                    {component.desc}
+                  </p>
+
+                  {/* 底部标签 */}
+                  {isActive && (
+                    <motion.div
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <div className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                        <span className="text-xs text-white font-medium">当前选中</span>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )
+        })}
+      </div>
+
+      {/* 控制点 */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-sm px-4 py-3 rounded-full border border-white/10 z-10">
+        {components.map((component, index) => {
+          const isActive = index === activeIndex
+          return (
+            <motion.button
+              key={index}
+              className={`relative rounded-full transition-all ${
+                isActive
+                  ? 'w-8 h-2 bg-gradient-to-r from-purple-500 to-cyan-500'
+                  : 'w-2 h-2 bg-gray-600 hover:bg-gray-500'
+              }`}
+              onClick={() => setActiveIndex(index)}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isActive && (
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-white"
+                  style={{ opacity: 0.3 }}
+                />
+              )}
+            </motion.button>
+          )
+        })}
+      </div>
+
+      {/* 左右切换按钮 */}
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+        <motion.button
+          className="w-10 h-10 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-purple-500/40 transition-all"
+          onClick={handlePrev}
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="w-4 h-4 rotate-180" />
+        </motion.button>
+      </div>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+        <motion.button
+          className="w-10 h-10 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-purple-500/40 transition-all"
+          onClick={handleNext}
+          whileHover={{ scale: 1.1, x: 5 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowRight className="w-4 h-4" />
+        </motion.button>
+      </div>
+    </div>
+  )
+}
 
 // 🎨 优化版组件分类网格展示
 const ComponentCategoryGrid = ({
@@ -1060,7 +1533,246 @@ const ComponentCategoryGrid = ({
   )
 }
 
+// 🌌 全屏流动背景系统 - 重新设计版
+const FluidBackground = () => {
+  const [time, setTime] = useState(0)
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(prev => prev + 0.01)
+    }, 40)
+    return () => clearInterval(interval)
+  }, [])
+
+  // 更明显的流动效果参数
+  const breathScale = 1 + Math.sin(time * 0.6) * 0.08 // 增强呼吸幅度
+
+  // 全屏流动光点 - 重新设计位置和颜色
+  const flowingPoints = [
+    {
+      x: 20 + Math.sin(time * 0.4) * 40, // 20% ± 40%
+      y: 30 + Math.cos(time * 0.5) * 30, // 30% ± 30%
+      size: 400 + Math.sin(time * 0.8) * 200, // 400px ± 200px
+      color: 'rgba(139, 92, 246, 0.15)', // 紫色，更明显
+      blendMode: 'screen'
+    },
+    {
+      x: 80 + Math.cos(time * 0.6) * 30, // 80% ± 30%
+      y: 20 + Math.sin(time * 0.4) * 40, // 20% ± 40%
+      size: 350 + Math.cos(time * 0.7) * 150, // 350px ± 150px
+      color: 'rgba(6, 182, 212, 0.12)', // 青色
+      blendMode: 'screen'
+    },
+    {
+      x: 50 + Math.sin(time * 0.3) * 50, // 50% ± 50%
+      y: 70 + Math.cos(time * 0.5) * 20, // 70% ± 20%
+      size: 450 + Math.sin(time * 0.9) * 100, // 450px ± 100px
+      color: 'rgba(236, 72, 153, 0.10)', // 粉色
+      blendMode: 'screen'
+    },
+    {
+      x: 15 + Math.cos(time * 0.7) * 15, // 15% ± 15%
+      y: 60 + Math.sin(time * 0.4) * 25, // 60% ± 25%
+      size: 300 + Math.cos(time * 0.6) * 100, // 300px ± 100px
+      color: 'rgba(251, 146, 60, 0.08)', // 橙色
+      blendMode: 'screen'
+    },
+    {
+      x: 85 + Math.sin(time * 0.5) * 25, // 85% ± 25%
+      y: 50 + Math.cos(time * 0.3) * 35, // 50% ± 35%
+      size: 380 + Math.sin(time * 0.8) * 120, // 380px ± 120px
+      color: 'rgba(163, 230, 53, 0.09)', // 绿色
+      blendMode: 'screen'
+    }
+  ]
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {/* 基础暗色背景 */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(${135 + Math.sin(time * 0.2) * 10}deg,
+            #000000 0%,
+            #0a0a1a 30%,
+            #1a1a2e 60%,
+            #0a0a1a 100%)
+          `
+        }}
+      />
+
+      {/* 流动光点系统 */}
+      {flowingPoints.map((point, index) => (
+        <motion.div
+          key={index}
+          className="absolute rounded-full"
+          style={{
+            left: `${point.x}%`,
+            top: `${point.y}%`,
+            width: `${point.size}px`,
+            height: `${point.size}px`,
+            background: `radial-gradient(circle, ${point.color} 0%, transparent 70%)`,
+            mixBlendMode: point.blendMode,
+            transform: 'translate(-50%, -50%)',
+            filter: 'blur(2px)',
+            scale: breathScale
+          }}
+        />
+      ))}
+
+      {/* 网格装饰线 */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+          opacity: 0.5
+        }}
+      />
+
+      {/* 额外的小光点装饰 */}
+      {Array.from({ length: 8 }, (_, i) => (
+        <div
+          key={`decor-${i}`}
+          className="absolute w-1 h-1 bg-purple-400/20 rounded-full"
+          style={{
+            left: `${10 + i * 12}%`,
+            top: `${15 + (i % 3) * 25}%`,
+            opacity: 0.3 + Math.sin(time + i) * 0.2
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+// 增强代码编辑器组件
+const CodeEditor = () => {
+  const [code, setCode] = useState(`import { Button, Card } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <Card className="p-6">
+      <h1>欢迎使用 Xorigo UI</h1>
+      <Button variant="primary">
+        开始构建
+      </Button>
+    </Card>
+  )
+}`)
+
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="relative bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-800/95 rounded-2xl overflow-hidden border border-purple-500/30 shadow-2xl shadow-purple-500/10"
+    >
+      {/* 顶部光晕效果 */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+
+      {/* 编辑器头部 - 增强设计 */}
+      <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 backdrop-blur-sm border-b border-purple-500/20">
+        <div className="flex items-center gap-3">
+          {/* macOS 风格按钮 */}
+          <div className="flex gap-2">
+            <motion.div
+              className="w-3 h-3 bg-red-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
+            <motion.div
+              className="w-3 h-3 bg-yellow-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(234, 179, 8, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
+            <motion.div
+              className="w-3 h-3 bg-green-500 rounded-full cursor-pointer"
+              whileHover={{ scale: 1.2, boxShadow: '0 0 8px rgba(34, 197, 94, 0.6)' }}
+              whileTap={{ scale: 0.9 }}
+            />
+          </div>
+
+          {/* 文件名标签 */}
+          <div className="flex items-center gap-2 px-3 py-1 bg-purple-500/10 rounded-md border border-purple-500/20">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+            <span className="text-gray-300 text-sm font-medium">App.tsx</span>
+          </div>
+        </div>
+
+        {/* 复制按钮 - 增强交互 */}
+        <motion.button
+          onClick={handleCopy}
+          className="group relative px-3 py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-400/50 rounded-lg transition-all"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="flex items-center gap-2">
+            <AnimatePresence mode="wait">
+              {copied ? (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  className="text-green-400"
+                >
+                  <Check className="w-4 h-4" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="copy"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="text-gray-400 group-hover:text-purple-400 transition-colors"
+                >
+                  <Copy className="w-4 h-4" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <span className="text-xs text-gray-400 group-hover:text-purple-400 transition-colors">
+              {copied ? '已复制' : '复制'}
+            </span>
+          </div>
+        </motion.button>
+      </div>
+
+      {/* 代码内容区域 - 左对齐标准格式 */}
+      <div className="relative">
+        {/* 行号列 */}
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-black/40 border-r border-purple-500/10 flex flex-col py-6 text-right pr-3">
+          {code.split('\n').map((_, i) => (
+            <span key={i} className="text-xs text-gray-600 leading-6 font-mono">
+              {i + 1}
+            </span>
+          ))}
+        </div>
+
+        {/* 代码内容 - 左对齐，无居中 */}
+        <pre className="pl-16 pr-6 py-6 text-sm overflow-x-auto text-left">
+          <code className="text-gray-300 font-mono leading-6 whitespace-pre">{code}</code>
+        </pre>
+      </div>
+
+      {/* 装饰性光效 */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+    </motion.div>
+  )
+}
 
 // 简单可靠的统计数字动画 - 最简单版本，永不消失
 const CounterAnimation = ({ value, suffix = '' }: { value: number; suffix?: string }) => {
@@ -1480,6 +2192,7 @@ export default function Home() {
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {/* 统计卡片 1 - 组件数量 */}
+                  <div className="absolute -inset-8 z-40 group-hover:block hidden"></div>
                 <motion.div
                   className="text-center group relative"
                   style={createWillChange(['transform', 'opacity'])}
@@ -1587,6 +2300,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* 统计卡片 2 - 主题 */}
+                  <div className="absolute -inset-8 z-40 group-hover:block hidden"></div>
                 <motion.div
                   className="text-center group relative"
                   style={createWillChange(['transform', 'opacity'])}
@@ -1694,6 +2408,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* 统计卡片 3 - TypeScript */}
+                  <div className="absolute -inset-8 z-40 group-hover:block hidden"></div>
                 <motion.div
                   className="text-center group relative"
                   style={createWillChange(['transform', 'opacity'])}
@@ -1801,6 +2516,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* 统计卡片 4 - 性能提升 */}
+                  <div className="absolute -inset-8 z-40 group-hover:block hidden"></div>
                 <motion.div
                   className="text-center group relative"
                   style={createWillChange(['transform', 'opacity'])}
