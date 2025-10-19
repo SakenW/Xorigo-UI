@@ -19,6 +19,55 @@
 - 🔧 **API 设计检测**：组件 API 一致性、TypeScript 类型安全
 - 📦 **组件分类检测**：9 大组件分类系统规范
 
+### 🚀 开发服务器代理 (Dev Server Agent)
+- **名称**: `dev-server-agent`
+- **版本**: `1.0.0`
+- **功能**: 专门负责开发服务器和Docker容器操作的子代理
+- **状态**: ✅ 活跃
+- **严格约束**:
+  - ❌ **严禁使用 `npm run dev` 命令**
+  - ✅ **必须使用 Docker 热更新容器**
+  - ✅ **端口必须为 3100**
+  - ✅ **使用 `docker-compose.dev.monorepo.yml`**
+
+#### 核心能力
+- 🐳 **Docker 环境管理**：热更新容器启动、停止、重启
+- 🧹 **违规进程清理**：自动检测和终止 `npm run dev` 进程
+- 🔍 **端口冲突检测**：确保端口 3100 独占使用
+- 📊 **容器日志管理**：实时查看和监控容器日志
+- 🏥 **健康状态监控**：开发环境状态检查和报告
+
+#### 使用方式
+```typescript
+import { getDevServer } from '.claude/agents'
+
+// 获取代理实例
+const devServer = getDevServer()
+
+// 启动开发环境 (唯一正确方式)
+await devServer.startDevEnvironment()
+
+// 检查违规情况
+const violations = await devServer.checkForViolations()
+
+// 清理违规进程
+await devServer.cleanupViolatingProcesses()
+```
+
+#### 🚨 重要约束
+```bash
+# ❌ 绝对禁止的命令
+npm run dev
+npm run dev:website
+yarn dev
+pnpm dev
+
+# ✅ 唯一正确的命令
+npm run docker:dev
+# 或通过代理
+await devServer.startDevEnvironment()
+```
+
 ---
 
 ## 🏗️ Agent 架构
