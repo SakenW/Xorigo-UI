@@ -4,11 +4,33 @@ import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
+
+// 添加渐变动画样式
+const gradientStyles = `
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .gradient-animated {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+`
+
+// 在组件挂载时注入样式
+if (typeof window !== 'undefined') {
+  const styleElement = document.createElement('style')
+  styleElement.textContent = gradientStyles
+  document.head.appendChild(styleElement)
+}
 import { Input } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
 import { Badge } from '@xorigo-ui/core'
 import { Typography } from '@xorigo-ui/core'
 import { ComponentCard, CodeBlock } from '@xorigo-ui/core'
+import { GradientDemonstrator } from '../gradient-demonstrator/gradient-demonstrator'
 import { getAllComponents } from '../../../data/component-classification'
 import { ComponentPropertiesDrawer } from './component-properties-drawer'
 import { WorkbenchLayout } from '../workbench-layout'
@@ -104,6 +126,10 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
           'system-portals': ['Portal'],
           'system-focus': ['FocusTrap', 'FocusScope'],
           'system-utils': ['ScrollLock', 'DismissableLayer', 'VisuallyHidden'],
+          'gradient-text': ['GradientText'],
+          'gradient-background': ['GradientBackground'],
+          'gradient-border': ['GradientBorder'],
+          'gradient-demo': ['GradientDemo'],
           'viz-charts': ['Chart', 'BarChart', 'LineChart', 'PieChart'],
           'viz-gauges': ['Gauge', 'Stat'],
         }
@@ -424,6 +450,7 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
         <div className="relative w-full min-h-[400px]">
           <MasonryLayout
             items={masonryItems}
+            columns={3}
             gap={24}
             enableAnimation={true}
             itemClassName="masonry-item"
@@ -515,8 +542,72 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
                           <Badge variant="success">成功</Badge>
                         </div>
                       )}
+                      {/* 渐变组件展示 */}
+                      {component.name === 'GradientText' && (
+                        <div className="text-center space-y-2">
+                          <div className="inline-block">
+                            <div style={{
+                              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
+                              fontSize: '14px',
+                              fontWeight: 'bold',
+                              padding: '4px 8px',
+                              borderRadius: '6px',
+                              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text'
+                            }}>
+                              渐变文字
+                            </div>
+                          </div>
+                          <div className="text-xs text-[var(--text-tertiary)]">
+                            支持动态分类
+                          </div>
+                        </div>
+                      )}
+                      {component.name === 'GradientBackground' && (
+                        <div className="w-full p-3 rounded-lg text-white text-center text-xs relative overflow-hidden" style={{
+                          background: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)',
+                          backgroundSize: '200% 200%',
+                          animation: 'gradient-shift 3s ease infinite'
+                        }}>
+                          <div className="relative z-10">
+                            <div className="font-medium">渐变背景</div>
+                            <div className="text-xs opacity-90 mt-1">支持动画效果</div>
+                          </div>
+                        </div>
+                      )}
+                      {component.name === 'GradientBorder' && (
+                        <div className="w-full p-3 rounded-lg text-center text-xs relative" style={{
+                          background: 'linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b)',
+                          backgroundSize: '200% 200%',
+                          animation: 'gradient-shift 3s ease infinite',
+                          padding: '2px'
+                        }}>
+                          <div className="bg-white rounded p-2">
+                            <div className="font-medium text-gray-800">渐变边框</div>
+                            <div className="text-xs text-gray-600 mt-1">动态彩色边框</div>
+                          </div>
+                        </div>
+                      )}
+                      {component.name === 'GradientDemo' && (
+                        <div className="text-center space-y-2">
+                          <div className="text-lg mb-1">🌈</div>
+                          <div className="text-xs text-[var(--text-tertiary)] font-medium">
+                            渐变演示系统
+                          </div>
+                          <div className="flex justify-center gap-1 mt-2">
+                            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                            <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                            <div className="w-2 h-2 rounded-full bg-pink-500"></div>
+                          </div>
+                        </div>
+                      )}
                       {/* 其他组件的默认展示 */}
-                      {!['Button', 'Input', 'Card', 'Modal', 'Alert', 'Typography', 'Tabs', 'Tooltip', 'Loading', 'Badge'].includes(component.name) && (
+                      {!['Button', 'Input', 'Card', 'Modal', 'Alert', 'Typography', 'Tabs', 'Tooltip', 'Loading', 'Badge', 'GradientText', 'GradientBackground', 'GradientBorder', 'GradientDemo'].includes(component.name) && (
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 bg-[var(--bg-tertiary)] rounded flex items-center justify-center text-sm font-bold">
                             {component.name.charAt(0)}
@@ -578,6 +669,79 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
 <Input clearable placeholder="可清除" />
 <Input showPasswordToggle type="password" placeholder="密码输入" />
 <Input floatingLabel label="浮动标签" placeholder="" />` :
+                          component.name === 'GradientText' ? `import { GradientText } from '@xorigo-ui/core'
+
+// 基础用法
+<GradientText category="ui-basic">
+  渐变文字
+</GradientText>
+
+// 不同分类
+<GradientText category="navigation">导航文字</GradientText>
+<GradientText category="feedback">反馈文字</GradientText>
+<GradientText category="data-display">数据文字</GradientText>
+
+// 状态变化
+<GradientText category="ui-basic" state="hover">悬停状态</GradientText>
+<GradientText category="ui-basic" state="selected">选中状态</GradientText>
+
+// 自定义标签
+<GradientText category="forms" as="h1">标题渐变</GradientText>
+<GradientText category="charts" as="span">内联渐变</GradientText>` :
+                          component.name === 'GradientBackground' ? `import { GradientBackground } from '@xorigo-ui/core'
+
+// 基础用法
+<GradientBackground category="ui-basic">
+  内容区域
+</GradientBackground>
+
+// 动画效果
+<GradientBackground category="feedback" animated={true}>
+  动画背景
+</GradientBackground>
+
+// 不同分类
+<GradientBackground category="navigation">导航背景</GradientBackground>
+<GradientBackground category="overlays">覆盖层背景</GradientBackground>
+
+// 状态变化
+<GradientBackground category="inputs" state="hover">悬停背景</GradientBackground>
+<GradientBackground category="layout" state="selected">选中背景</GradientBackground>` :
+                          component.name === 'GradientBorder' ? `import { GradientBorder } from '@xorigo-ui/core'
+
+// 基础用法
+<GradientBorder category="ui-basic">
+  内容区域
+</GradientBorder>
+
+// 动画效果
+<GradientBorder category="charts" animated={true}>
+  动画边框
+</GradientBorder>
+
+// 不同分类
+<GradientBorder category="navigation">导航边框</GradientBorder>
+<GradientBorder category="forms">表单边框</GradientBorder>
+
+// 状态变化
+<GradientBorder category="feedback" state="hover">悬停边框</GradientBorder>
+<GradientBorder category="layout" state="selected">选中边框</GradientBorder>` :
+                          component.name === 'GradientDemo' ? `import { GradientDemo } from '@xorigo-ui/core'
+
+// 完整演示系统
+<GradientDemo />
+
+// 组件特性：
+// - 10个组件分类配色方案
+// - 3种状态变化 (normal, hover, selected)
+// - 交互式标签导航 (总览、组件、状态、代码)
+// - 实时预览和代码示例
+// - 令牌化渐变系统
+// - 完全消除硬编码
+
+// 支持的组件分类：
+// ui-basic, inputs, navigation, feedback, overlays,
+// data-display, layout, charts, forms, utilities` :
                           `import { ${component.name} } from '@xorigo-ui/core'
 
 // 基础用法

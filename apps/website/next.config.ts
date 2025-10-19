@@ -31,12 +31,22 @@ const nextConfig: NextConfig = {
       }
     }
 
+    // 添加扩展名解析支持
+    config.resolve.extensions = [
+      ...config.resolve.extensions,
+      '.tsx',
+      '.ts',
+      '.jsx',
+      '.js'
+    ]
+
     // 添加别名处理
     config.resolve.alias = {
       ...config.resolve.alias,
       'framer-motion': require.resolve('framer-motion'),
       // 添加 @xorigo-ui 包的解析路径 - 使用相对路径
       '@xorigo-ui/core': path.resolve(__dirname, '../../packages/core/src/index.ts'),
+      '@xorigo-ui/core/utils': path.resolve(__dirname, '../../packages/core/src/utils/index.ts'),
       '@xorigo-ui/core/effects': path.resolve(__dirname, '../../packages/core/src/effects/index.ts'),
       '@xorigo-ui/core/showcase': path.resolve(__dirname, '../../packages/core/src/showcase/index.ts'),
       '@xorigo-ui/core/interactive': path.resolve(__dirname, '../../packages/core/src/interactive/index.ts'),

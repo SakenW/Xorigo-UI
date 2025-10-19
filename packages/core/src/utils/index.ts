@@ -14,6 +14,9 @@ export * from './color'
 // Matrix 可访问性验证系统
 export * from './matrix'
 
+// 渐变令牌工具 - 暂时禁用，Docker容器模块解析问题
+// export * from './gradient-tokens'
+
 // 重新导出常用工具函数
 export {
   cn,

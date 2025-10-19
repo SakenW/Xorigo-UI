@@ -804,6 +804,74 @@ export function WorkbenchLayout({
         ],
       },
       {
+        id: 'separator-gradient',
+        label: 'Gradient 渐变组件',
+        icon: '🌈',
+        active: false,
+        children: [
+          {
+            id: 'gradient-text',
+            label: '渐变文字',
+            icon: '📝',
+            active: selectedCategory === 'gradient-text',
+            children: [
+              {
+                id: 'component-GradientText',
+                label: 'GradientText 渐变文字',
+                icon: '📝',
+                active: selectedCategory === 'component-GradientText',
+                badge: '10分类+3状态',
+              },
+            ],
+          },
+          {
+            id: 'gradient-background',
+            label: '渐变背景',
+            icon: '🎨',
+            active: selectedCategory === 'gradient-background',
+            children: [
+              {
+                id: 'component-GradientBackground',
+                label: 'GradientBackground 渐变背景',
+                icon: '🎨',
+                active: selectedCategory === 'component-GradientBackground',
+                badge: '动画支持',
+              },
+            ],
+          },
+          {
+            id: 'gradient-border',
+            label: '渐变边框',
+            icon: '🔲',
+            active: selectedCategory === 'gradient-border',
+            children: [
+              {
+                id: 'component-GradientBorder',
+                label: 'GradientBorder 渐变边框',
+                icon: '🔲',
+                active: selectedCategory === 'component-GradientBorder',
+                badge: '动画支持',
+              },
+            ],
+          },
+          {
+            id: 'gradient-demo',
+            label: '渐变演示',
+            icon: '🌈',
+            active: selectedCategory === 'gradient-demo',
+            children: [
+              {
+                id: 'component-GradientDemo',
+                label: 'GradientDemo 渐变演示',
+                icon: '🌈',
+                active: selectedCategory === 'component-GradientDemo',
+                badge: '完整演示',
+              },
+            ],
+          },
+        ],
+      },
+      {
         id: 'separator-visualization',
         label: 'Visualization 可视化组件',
         icon: '📈',

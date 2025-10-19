@@ -5,7 +5,15 @@
     "CLAUDE_FLOW_HOOKS_ENABLED": "true",
     "CLAUDE_FLOW_TELEMETRY_ENABLED": "true",
     "CLAUDE_FLOW_REMOTE_EXECUTION": "true",
-    "CLAUDE_FLOW_CHECKPOINTS_ENABLED": "true"
+    "CLAUDE_FLOW_CHECKPOINTS_ENABLED": "true",
+    "CLAUDE_GLOBAL_AUDIO_ENABLED": "true",
+    "XORIGO_AUDIO_ENABLED": "true",
+    "CLAUDE_LARK_ENABLED": "true",
+    "XORIGO_FEISHU_ENABLED": "true",
+    "CLAUDE_HOOKS_DEBUG": "false",
+    "XORIGO_DOCKER_DEV_PORT": "3100",
+    "XORIGO_PROJECT_NAME": "Xorigo UI",
+    "XORIGO_TECH_STACK": "React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12"
   },
   "permissions": {
     "allow": [
@@ -36,6 +44,8 @@
       "Bash(npm install:*)",
       "Bash(node:*)",
       "Bash(npx tsc:*)",
+      "Bash(docker-compose -f docker-compose.dev.monorepo.yml:*)",
+      "Bash(docker-compose -f docker-compose.prod.yml:*)",
       "Bash(npm run lint)",
       "Bash(npm run test:*)",
       "Bash(npm test *)",
@@ -82,10 +92,62 @@
       "Bash(docker system *)",
       "Bash(docker network *)",
       "Bash(docker volume *)",
-      "Bash(docker prune *)"
+      "Bash(docker prune *)",
+      "Bash(npm run dev)",
+      "Bash(npm run dev:website)",
+      "Bash(npm run dev:core)"
     ]
   },
   "hooks": [
+    {
+      "name": "global-hooks-integration",
+      "description": "全局通用 Hooks 集成",
+      "matcher": "UserPromptSubmit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | python3 ~/.claude/claude-dispatch.py hook UserPromptSubmit",
+          "enabled": true,
+          "timeout": 10000,
+          "runSync": true,
+          "errorBehavior": "ignore"
+        }
+      ]
+    },
+    {
+      "name": "global-pre-tool-use",
+      "description": "全局 PreToolUse 安全检查",
+      "matcher": {
+        "tool": ["Bash", "Write", "Edit", "MultiEdit", "Read"]
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | python3 ~/.claude/claude-dispatch.py hook PreToolUse",
+          "enabled": true,
+          "timeout": 30000,
+          "runSync": true,
+          "errorBehavior": "fail"
+        }
+      ]
+    },
+    {
+      "name": "global-post-tool-use",
+      "description": "全局 PostToolUse 处理",
+      "matcher": {
+        "tool": ["Bash", "Write", "Edit", "MultiEdit", "Read", "TodoWrite"]
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | python3 ~/.claude/claude-dispatch.py hook PostToolUse",
+          "enabled": true,
+          "timeout": 20000,
+          "runSync": false,
+          "errorBehavior": "ignore"
+        }
+      ]
+    },
     {
       "name": "UserPromptSubmit-ClaudeFlow",
       "description": "Claude Flow 用户提交处理",
@@ -309,6 +371,63 @@
           "timeout": 15000,
           "runSync": false,
           "errorBehavior": "warn"
+        }
+      ]
+    },
+    {
+      "name": "xorigo-ui-todo-enhancement",
+      "description": "Xorigo UI Todo 增强功能 - 在全局 hooks 基础上添加项目定制",
+      "matcher": {
+        "tool": "TodoWrite"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "cat | python3 .claude/hooks/todo-audio-feedback.py",
+          "enabled": true,
+          "timeout": 5000,
+          "runSync": true,
+          "errorBehavior": "ignore"
+        },
+        {
+          "type": "command",
+          "command": "cat | python3 .claude/hooks/todo-feishu-notification.py",
+          "enabled": true,
+          "timeout": 15000,
+          "runSync": false,
+          "errorBehavior": "ignore"
+        }
+      ]
+    },
+    {
+      "name": "session-start-xorigo",
+      "description": "Xorigo UI 项目会话启动初始化",
+      "matcher": {
+        "tool": "Start"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 ~/.claude/claude-dispatch.py hook SessionStart",
+          "enabled": true,
+          "timeout": 15000,
+          "runSync": true,
+          "errorBehavior": "ignore"
+        }
+      ]
+    },
+    {
+      "name": "session-end-xorigo",
+      "description": "Xorigo UI 项目会话结束处理",
+      "matcher": "Stop",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python3 ~/.claude/claude-dispatch.py hook SessionEnd",
+          "enabled": true,
+          "timeout": 10000,
+          "runSync": false,
+          "errorBehavior": "ignore"
         }
       ]
     }
