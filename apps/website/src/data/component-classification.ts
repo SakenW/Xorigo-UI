@@ -458,7 +458,40 @@ const systemComponents: ComponentInfo[] = [
 ]
 
 // ============================================================================
-// 9. 📈 Visualization (可视化组件) - 数据可视化和图表组件
+// 9. 🌈 Gradient (渐变组件) - 渐变效果和视觉增强组件
+// ============================================================================
+const gradientComponents: ComponentInfo[] = [
+  {
+    name: 'GradientText',
+    description: '渐变文字组件 - 支持令牌化配色和状态变化',
+    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
+    props: ['category', 'state', 'as', 'className'],
+    category: 'gradient'
+  },
+  {
+    name: 'GradientBackground',
+    description: '渐变背景组件 - 支持动画和令牌化配色',
+    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
+    props: ['category', 'state', 'animated', 'as', 'className'],
+    category: 'gradient'
+  },
+  {
+    name: 'GradientBorder',
+    description: '渐变边框组件 - 支持动画和令牌化配色',
+    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
+    props: ['category', 'state', 'animated', 'as', 'className'],
+    category: 'gradient'
+  },
+  {
+    name: 'GradientDemo',
+    description: '渐变演示组件 - 完整的渐变系统演示和交互',
+    props: ['activeTab', 'selectedCategory', 'onCategoryChange'],
+    category: 'gradient'
+  }
+]
+
+// ============================================================================
+// 10. 📈 Visualization (可视化组件) - 数据可视化和图表组件
 // ============================================================================
 const visualizationComponents: ComponentInfo[] = [
   {
@@ -631,12 +664,20 @@ export const componentCategories: ComponentCategory[] = [
     order: 9
   },
   {
+    id: 'gradient',
+    name: 'Gradient 渐变组件',
+    icon: '🌈',
+    description: '渐变效果和视觉增强组件，支持令牌化配色',
+    components: gradientComponents,
+    order: 10
+  },
+  {
     id: 'visualization',
     name: 'Visualization 可视化组件',
     icon: '📈',
     description: '数据可视化和图表组件',
     components: visualizationComponents,
-    order: 10
+    order: 11
   }
 ]
 

@@ -241,6 +241,70 @@ export {
   type OverlayContentProps,
 } from './OverlayTrigger'
 
+// ============================================================================
+// 默认导出 - 组件集合
+// ============================================================================
+
+// 先导入所有组件
+import {
+  Dialog,
+  DialogHeader,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from './Dialog'
+
+import {
+  Drawer,
+  DrawerHeader,
+  DrawerContent,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+} from './Drawer'
+
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+} from './Popover'
+
+import { Modal } from './Modal'
+
+import {
+  Sheet,
+  SheetHeader,
+  SheetContent,
+  SheetFooter,
+  TopSheet,
+  BottomSheet,
+  LeftSheet,
+  RightSheet,
+} from './Sheet'
+
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  TopHoverCard,
+  BottomHoverCard,
+  LeftHoverCard,
+  RightHoverCard,
+} from './HoverCard'
+
+import { Lightbox, ImageLightbox } from './Lightbox'
+
+import {
+  OverlayTrigger,
+  Trigger,
+  OverlayContent,
+  TooltipTrigger,
+  DropdownTrigger,
+  ModalTrigger,
+} from './OverlayTrigger'
+
 // 默认导出所有组件
 export default {
   // Dialog 组件
@@ -298,12 +362,6 @@ export default {
   TooltipTrigger,
   DropdownTrigger,
   ModalTrigger,
-
-  // 组件分组 (临时注释以解决构建问题)
-  // DialogComponents,
-  // DrawerComponents,
-  // PopoverComponents,
-  // ModalComponents,
 
   // 工具
   getOverlayZIndex,

@@ -309,6 +309,14 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link href="/workbench/gradient" className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 group">
+                    <span className="relative">
+                      渐变演示
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </div>
 

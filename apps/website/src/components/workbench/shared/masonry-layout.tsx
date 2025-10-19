@@ -18,7 +18,7 @@ export interface MasonryItem {
   height?: number
 }
 
-export interface MasonryHorizontalProps {
+export interface MasonryLayoutProps {
   items: MasonryItem[]
   /** 列数（横向优先：视觉左→右为 0…columns-1 列） */
   columns?: number
@@ -49,7 +49,7 @@ interface ItemPos {
  * 2) DOM 顺序保持为 items 原顺序（有利于可访问性与 SEO），视觉通过 transform 定位
  * 3) ResizeObserver 监听容器宽度与每项高度，实时重算
  */
-export function MasonryHorizontal({
+export function MasonryLayout({
   items,
   columns = 3,
   gap = 24,
@@ -58,7 +58,7 @@ export function MasonryHorizontal({
   enableAnimation = true,
   initialLayoutDelayMs = 0,
   children,
-}: MasonryHorizontalProps) {
+}: MasonryLayoutProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   // 记录每个 item 的真实高度（像素）
@@ -92,37 +92,63 @@ export function MasonryHorizontal({
   /** 监听容器宽度 */
   useEffect(() => {
     if (!containerRef.current) return
+
     const ro = new ResizeObserver((entries) => {
       const e = entries[0]
-      if (e) setContainerWidth(e.contentRect.width)
+      if (e && e.contentRect.width > 0) {
+        const newWidth = e.contentRect.width
+        // 只有当宽度发生显著变化时才更新
+        setContainerWidth((prevWidth) => {
+          if (Math.abs(prevWidth - newWidth) > 10) {
+            return newWidth
+          }
+          return prevWidth
+        })
+      }
     })
+
     ro.observe(containerRef.current)
+
+    // 初始设置容器宽度
+    const initialWidth = containerRef.current.offsetWidth
+    if (initialWidth > 0) {
+      setContainerWidth(initialWidth)
+    }
+
     return () => ro.disconnect()
   }, [])
 
   /** 监听每个 item 的高度变化（图片加载、内容变更等） */
   useEffect(() => {
     const observers: ResizeObserver[] = []
-    itemRefs.forEach((el, id) => {
-      if (!el) return
-      const ro = new ResizeObserver((entries) => {
-        const entry = entries[0]
-        if (entry) {
-          const h = entry.contentRect.height
-          setSizes((prev) => {
-            const next = new Map(prev)
-            // 仅在变化时更新，减少重算频率
-            if (Math.abs((next.get(id) ?? 0) - h) > 0.5) {
-              next.set(id, h)
-            }
-            return next
-          })
-        }
+
+    // 延迟执行以确保 DOM 元素已经渲染
+    const timeoutId = setTimeout(() => {
+      itemRefs.forEach((el, id) => {
+        if (!el) return
+        const ro = new ResizeObserver((entries) => {
+          const entry = entries[0]
+          if (entry) {
+            const h = entry.contentRect.height
+            setSizes((prev) => {
+              const next = new Map(prev)
+              // 仅在变化时更新，减少重算频率
+              if (Math.abs((next.get(id) ?? 0) - h) > 0.5) {
+                next.set(id, h)
+              }
+              return next
+            })
+          }
+        })
+        ro.observe(el)
+        observers.push(ro)
       })
-      ro.observe(el)
-      observers.push(ro)
-    })
-    return () => observers.forEach((o) => o.disconnect())
+    }, 100) // 延迟100ms确保DOM渲染完成
+
+    return () => {
+      clearTimeout(timeoutId)
+      observers.forEach((o) => o.disconnect())
+    }
   }, [itemRefs])
 
   /** 核心：根据容器宽度 + 列数 + gap + 每项高度，计算每项的绝对定位坐标 */
@@ -165,12 +191,22 @@ export function MasonryHorizontal({
 
   // 初次与依赖变更时布局
   useLayoutEffect(() => {
-    if (initialLayoutDelayMs > 0) {
-      const t = setTimeout(doLayout, initialLayoutDelayMs)
+    // 延迟布局计算以确保 DOM 元素和 ResizeObserver 都已就绪
+    const delay = Math.max(initialLayoutDelayMs, 200)
+
+    if (delay > 0) {
+      const t = setTimeout(doLayout, delay)
       return () => clearTimeout(t)
     }
     doLayout()
   }, [doLayout, initialLayoutDelayMs])
+
+  // 当 sizes 更新时重新布局
+  useLayoutEffect(() => {
+    if (sizes.size > 0 && containerWidth > 0) {
+      doLayout()
+    }
+  }, [sizes, containerWidth, doLayout])
 
   // 容器样式（相对定位 + 显式高度托底）
   const containerStyle: React.CSSProperties = useMemo(
