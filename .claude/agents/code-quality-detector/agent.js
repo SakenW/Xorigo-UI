@@ -25,11 +25,25 @@ const DETECTION_RULES = {
       {
         name: 'no-local-ui-components',
         message: 'Website 不应直接创建 UI 组件，应从 packages/core 导入',
-        check: (content) => {
+        check: (content, filePath) => {
+          // 排除页面文件 (page.tsx, layout.tsx 等)
+          const isPageFile = /page\.tsx$|layout\.tsx$|error\.tsx$|loading\.tsx$|not-found\.tsx$/.test(filePath)
+          if (isPageFile) {
+            return false
+          }
+
           // 检查是否创建了本地 UI 组件
-          const hasLocalComponent = /export\s+(default\s+)?function\s+\w+|const\s+\w+\s*=\s*\(\s*\)\s*=>|export\s+const\s+\w+\s*=/.test(content) &&
-                                 (content.includes('return') && (content.includes('<div') || content.includes('<button') || content.includes('<input')))
-          return hasLocalComponent
+          // 更严格的检测：必须在 components 目录下且导出可复用的组件
+          const isComponentsFile = filePath.includes('/components/')
+          if (!isComponentsFile) {
+            return false
+          }
+
+          // 检查是否导出了多个组件或者复杂的可复用组件
+          const hasMultipleExports = (content.match(/export\s+(function|const)/g) || []).length > 1
+          const hasComplexComponent = /export\s+(default\s+)?function\s+\w+.*\{[\s\S]*return[\s\S]*<[\w]/.test(content)
+
+          return hasMultipleExports || hasComplexComponent
         }
       }
     ]
@@ -53,7 +67,8 @@ const DETECTION_RULES = {
         name: 'default-export-component',
         message: '组件文件应有默认导出',
         check: (content) => {
-          return /export\s+default/.test(content)
+          // 如果文件已经有默认导出，则不报错
+          return !/export\s+default/.test(content)
         }
       }
     ]
