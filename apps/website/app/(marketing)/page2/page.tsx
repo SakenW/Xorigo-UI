@@ -19,61 +19,6 @@ import { CodeDemo, StatsCard } from '@xorigo-ui/core'
 // 导入 HeroTitle 特效组件
 import { HeroTitle } from '@xorigo-ui/core'
 
-
-// ✨ 点击涟漪效果组件
-const ClickRipple = () => {
-  const [ripples, setRipples] = React.useState<Array<{ id: number; x: number; y: number }>>([])
-  const rippleIdRef = React.useRef(0)
-
-  React.useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const newRipple = {
-        id: rippleIdRef.current++,
-        x: e.clientX,
-        y: e.clientY
-      }
-      setRipples(prev => [...prev, newRipple])
-
-      setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id))
-      }, 800)
-    }
-
-    window.addEventListener('mousedown', handleClick)
-    return () => window.removeEventListener('mousedown', handleClick)
-  }, [])
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[9999]">
-      <AnimatePresence>
-        {ripples.map(ripple => (
-          <motion.div
-            key={ripple.id}
-            className="absolute"
-            style={{
-              left: ripple.x,
-              top: ripple.y,
-              transform: 'translate(-50%, -50%)',
-            }}
-            initial={{ scale: 0, opacity: 0.8 }}
-            animate={{
-              scale: [0, 3, 5],
-              opacity: [0.8, 0.3, 0],
-            }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut"
-            }}
-          >
-            <div className="w-8 h-8 rounded-full border-2 border-[var(--color-primary-400)]" />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
-  )
-}
-
 /**
  * Xorigo UI 重构版首页
  *
@@ -84,14 +29,15 @@ export default function Page2() {
   const [isLoading, setIsLoading] = useState(true)
   const { scrollY } = useScroll()
 
-  // 滚动动画配置
-  const heroOpacity = useTransform(scrollY, [0, 300, 600], [1, 0.8, 0])
-  const heroScale = useTransform(scrollY, [0, 400], [1, 0.95])
-  const heroY = useTransform(scrollY, [0, 500], [0, -100])
-  const carouselOpacity = useTransform(scrollY, [300, 600, 800], [0, 0.8, 1])
-  const carouselY = useTransform(scrollY, [300, 600], [100, 0])
-  const sectionTitleOpacity = useTransform(scrollY, [200, 500, 700], [0, 0.8, 1])
-  const sectionTitleY = useTransform(scrollY, [200, 500], [50, 0])
+  // 调整后的滚动动画配置 - 让用户在第二屏看到动画过程
+  const heroOpacity = useTransform(scrollY, [0, 150], [1, 0])
+  const codeOpacity = useTransform(scrollY, [100, 400], [0, 1.1]) // 延迟到用户滚动到第二屏时开始
+  const gridOpacity = useTransform(scrollY, [300, 500], [0, 1])
+  const ctaOpacity = useTransform(scrollY, [450, 650], [0, 1])
+
+  // 滚动指示器 - 调整后配合新的动画时机
+  const shouldShowScrollIndicator = useTransform(scrollY, [50, 180], [1, 0])
+  const shouldShowBackToTop = useTransform(scrollY, [200, 350], [0, 1])
 
   // 控制加载状态，与 PageLoader 协调
   useEffect(() => {
@@ -159,15 +105,52 @@ export default function Page2() {
             colorVar200="#fde68a"
           />
         </div>
-        <ClickRipple />
+
+        {/* 📜 滚动进度指示器 */}
+        <motion.div
+          className="fixed left-0 top-0 w-1 h-full bg-gradient-to-b from-[var(--color-primary-500)] to-[var(--color-accent-500)] z-[60] origin-top"
+          style={{
+            scaleY: useTransform(scrollY, [0, 1000], [0, 1])
+          }}
+        />
+
+        {/* 📜 平滑滚动指示 */}
+        <motion.div
+          className="fixed bottom-8 right-8 z-[60]"
+          style={{
+            opacity: shouldShowScrollIndicator
+          }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <motion.div
+              className="w-2 h-2 bg-[var(--color-primary-400)] rounded-full"
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-xs text-[var(--color-text-secondary)]">向下滚动</span>
+          </div>
+        </motion.div>
+
+        {/* 🚀 返回顶部按钮 */}
+        <motion.button
+          className="fixed bottom-8 right-8 z-[60] p-3 bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white rounded-full shadow-lg transition-colors"
+          style={{
+            opacity: shouldShowBackToTop
+          }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </motion.button>
 
         {/* 🚀 Hero Section */}
         <motion.section
-          className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-32 pb-20"
+          className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-4"
           style={{
-            opacity: heroOpacity,
-            scale: heroScale,
-            y: heroY
+            opacity: heroOpacity
           }}
         >
           <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -220,7 +203,7 @@ export default function Page2() {
 
             {/* 📊 统计数据 */}
             <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
@@ -240,92 +223,108 @@ export default function Page2() {
             </div>
         </motion.section>
 
-        {/* 💻 代码编辑器独立区域 */}
-        <section className="relative py-32 px-4">
+        {/* 💻 代码编辑器区域 - 调整后的增强渐显效果 */}
+        <motion.section
+          className="relative -mt-20 pt-4 pb-16 px-4"
+          style={{
+            opacity: codeOpacity,
+            y: useTransform(scrollY, [100, 400], [120, 0]),
+            scale: useTransform(scrollY, [100, 400], [0.92, 1]) // 调整缩放时机
+          }}
+        >
           <motion.div
             className="max-w-7xl mx-auto"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            viewport={{ once: true, amount: 0.3 }}
           >
-            {/* 区域标题 */}
+            {/* 区域标题 - 调整后的增强渐显效果 */}
             <motion.h2
               className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-[var(--color-primary-400)] to-[var(--color-accent-400)] bg-clip-text text-transparent"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              viewport={{ once: true }}
+              style={{
+                opacity: useTransform(scrollY, [100, 200], [0, 1]),
+                y: useTransform(scrollY, [100, 200], [80, 0]),
+                scale: useTransform(scrollY, [100, 200], [0.88, 1]),
+                filter: useTransform(scrollY, [100, 200], ['blur(8px)', 'blur(0px)'])
+              }}
             >
               实时代码演示
             </motion.h2>
 
             <motion.p
               className="text-xl text-[var(--color-text-secondary)] text-center mb-16 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+              style={{
+                opacity: useTransform(scrollY, [150, 250], [0, 1]),
+                y: useTransform(scrollY, [150, 250], [70, 0]),
+                scale: useTransform(scrollY, [150, 250], [0.9, 1]),
+                filter: useTransform(scrollY, [150, 250], ['blur(6px)', 'blur(0px)'])
+              }}
             >
               即时预览组件效果，感受 Xorigo UI 的开发体验
             </motion.p>
 
-            {/* 代码编辑器 */}
-            <CodeDemo />
+            {/* 代码编辑器 - 调整后的增强渐显效果 */}
+            <motion.div
+              style={{
+                opacity: useTransform(scrollY, [200, 350], [0, 1]),
+                y: useTransform(scrollY, [200, 350], [100, 0]),
+                scale: useTransform(scrollY, [200, 350], [0.85, 1]),
+                filter: useTransform(scrollY, [200, 350], ['blur(12px)', 'blur(0px)'])
+              }}
+            >
+              <CodeDemo />
+            </motion.div>
           </motion.div>
-        </section>
+        </motion.section>
 
-        {/* 📦 组件分类网格 */}
-        <section className="relative py-32 px-4">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[var(--color-secondary-400)] to-[var(--color-accent-400)] bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+        {/* 📦 组件分类网格 - 紧凑布局 */}
+        <motion.section
+          className="relative py-16 px-4"
+          style={{
+            opacity: gridOpacity
+          }}
+        >
+          <motion.div
+            className="max-w-7xl mx-auto"
           >
-            组件分类
-          </motion.h2>
+            <motion.h2
+              className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-[var(--color-secondary-400)] to-[var(--color-accent-400)] bg-clip-text text-transparent"
+            >
+              组件分类
+            </motion.h2>
 
-          <ComponentCategoryGrid
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
-        </section>
+            <ComponentCategoryGrid
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          </motion.div>
+        </motion.section>
 
-        {/* 🚀 CTA Section */}
-        <section className="relative py-32 px-4">
-          <div className="max-w-4xl mx-auto text-center">
+        {/* 🚀 CTA Section - 紧凑布局 */}
+        <motion.section
+          className="relative py-20 px-4"
+          style={{
+            opacity: ctaOpacity
+          }}
+        >
+          <motion.div
+            className="max-w-4xl mx-auto text-center"
+          >
             <motion.h2
               className="text-4xl md:text-5xl font-bold mb-8 text-[var(--color-text-primary)]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
             >
               立即开始使用
             </motion.h2>
 
             <motion.p
               className="text-xl text-[var(--color-text-secondary)] mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
             >
               快速构建现代化的 React 应用
             </motion.p>
 
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
             >
               <a
                 href="/docs"
-                className="px-8 py-4 bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white rounded-lg font-semibold transition-colors"
+                className="px-8 py-4 bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white rounded-lg font-semibold transition-all transform hover:scale-105"
               >
                 查看文档
               </a>
@@ -333,13 +332,13 @@ export default function Page2() {
                 href="https://github.com/Xorigo/xorigo-ui"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-[var(--color-surface-dark)] hover:bg-[var(--color-surface-medium)] text-[var(--color-text-primary)] rounded-lg font-semibold border border-[var(--color-primary-500)]/30 transition-colors"
+                className="px-8 py-4 bg-[var(--color-surface-dark)] hover:bg-[var(--color-surface-medium)] text-[var(--color-text-primary)] rounded-lg font-semibold border border-[var(--color-primary-500)]/30 transition-all transform hover:scale-105 hover:border-[var(--color-primary-500)]/60"
               >
                 GitHub
               </a>
             </motion.div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
       </motion.div>
     </>
   )
