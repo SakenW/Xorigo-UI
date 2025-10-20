@@ -99,8 +99,15 @@ const PageLoader = () => {
           animate="animate"
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-[var(--color-primary-400)] to-[var(--color-info-400)] bg-clip-text text-transparent mb-2">
-            Xorigo UI
+          <h2 className="text-3xl font-bold mb-2 relative">
+            {/* 渐变文字层 */}
+            <span className="bg-gradient-to-r from-[var(--color-primary-400)] to-[var(--color-info-400)] bg-clip-text text-transparent">
+              Xorigo UI
+            </span>
+            {/* 后备文字层 - 支持不兼容bg-clip-text的浏览器 */}
+            <span className="absolute inset-0 text-[var(--color-primary-300)]" aria-hidden="true">
+              Xorigo UI
+            </span>
           </h2>
           <motion.p
             className="text-[var(--color-text-secondary)] text-lg"

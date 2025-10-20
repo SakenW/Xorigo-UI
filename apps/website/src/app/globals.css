@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
+    /* 字体变量定义 */
+    --font-sans: "Ubuntu", "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", sans-serif;
+    --font-mono: "Ubuntu Mono", "Source Code Pro", "Noto Sans Mono CJK SC", "Microsoft YaHei Mono", monospace;
+
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
