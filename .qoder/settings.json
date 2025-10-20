@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "ask": [
+      "Read(!/home/saken/project/Xorigo-UI/**)",
+      "Edit(!/home/saken/project/Xorigo-UI/**)"
+    ],
+    "allow": [
+      "Read(/home/saken/project/Xorigo-UI/**)",
+      "Edit(/home/saken/project/Xorigo-UI/**)"
+    ]
+  },
+  "memoryImport": {},
+  "monitoring": {}
+}

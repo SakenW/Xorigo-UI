@@ -10,10 +10,11 @@ import {
   PageLoader,
   Component3DCarousel,
   ComponentCategoryGrid,
-  FluidBackground,
-  CodeEditor,
-  StatsCard
+  FluidBackground
 } from '@/components/marketing'
+
+// 导入通用组件库
+import { CodeDemo, StatsCard } from '@xorigo-ui/core'
 
 // 导入 HeroTitle 特效组件
 import { HeroTitle } from '@xorigo-ui/core'
@@ -149,7 +150,15 @@ export default function Page2() {
       >
         {/* 🎨 背景效果层 */}
         <FluidBackground />
-        <SuperParticleSystem />
+        {/* 萤火虫背景效果 */}
+        <div className="fixed inset-0 pointer-events-none z-[10]" style={{ isolation: 'isolate' }}>
+          <SuperParticleSystem
+            count={50}
+            colorVar400="#fbbf24"
+            colorVar300="#fcd34d"
+            colorVar200="#fde68a"
+          />
+        </div>
         <ClickRipple />
 
         {/* 🚀 Hero Section */}
@@ -262,7 +271,7 @@ export default function Page2() {
             </motion.p>
 
             {/* 代码编辑器 */}
-            <CodeEditor />
+            <CodeDemo />
           </motion.div>
         </section>
 
