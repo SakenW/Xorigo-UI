@@ -299,6 +299,9 @@ export function useThemeSystem(options: ThemeSystemOptions = {}): UseThemeSystem
 
   // 预设配方列表
   const presetRecipes = useMemo(() => {
+    if (!allRecipes || !Array.isArray(allRecipes)) {
+      return []
+    }
     return allRecipes.map(recipe => ({
       id: recipe.id,
       name: recipe.name,
@@ -306,7 +309,7 @@ export function useThemeSystem(options: ThemeSystemOptions = {}): UseThemeSystem
       description: recipe.description,
       recipeId: recipe.id
     }))
-  }, [])
+  }, [allRecipes])
 
   // 快速配置列表
   const quickConfigs = useMemo(() => QUICK_CONFIGS, [])

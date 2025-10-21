@@ -1,0 +1,503 @@
+---
+title: 主题系统概览
+description: Xorigo UI 的主题系统，支持内置主题和自定义主题
+sidebar:
+  order: 0
+---
+
+import { Card, Cards } from '@astrojs/starlight/components'
+
+Xorigo UI 提供了强大的主题系统，支持 10 种内置主题、完全自定义主题、实时主题切换和深色模式。
+
+## 主题特性
+
+<Cards>
+  <Card title="🎨 内置主题" icon="palette">
+    10 种精心设计的内置主题，覆盖各种使用场景
+  </Card>
+  <Card title="🌙 深色模式" icon="moon">
+    支持系统级深色模式和手动切换
+  </Card>
+  <Card title="⚙️ 自定义主题" icon="settings">
+    完全可定制的颜色、字体和间距系统
+  </Card>
+  <Card title="🔄 实时切换" icon="refresh">
+    无需刷新页面，实时切换主题
+  </Card>
+  <Card title="📱 响应式" icon="devices">
+    主题自动适配不同设备和屏幕尺寸
+  </Card>
+  <Card title="♿ 可访问性" icon="accessibility">
+    所有主题都符合 WCAG 2.1 可访问性标准
+  </Card>
+</Cards>
+
+## 内置主题
+
+### 1. 默认主题 (Default)
+
+```tsx
+<ThemeProvider theme="default">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 清新简洁，适合大多数应用场景
+- 主色调: 蓝色 (#3b82f6)
+- 背景: 白色系
+- 适用: 管理后台、企业应用
+
+### 2. 深色主题 (Dark)
+
+```tsx
+<ThemeProvider theme="dark">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 深色背景，护眼设计
+- 主色调: 蓝色 (#3b82f6)
+- 背景: 深灰色系
+- 适用: 开发工具、数据分析平台
+
+### 3. 极简主题 (Minimal)
+
+```tsx
+<ThemeProvider theme="minimal">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 极简设计，减少视觉干扰
+- 主色调: 灰色系
+- 背景: 纯白
+- 适用: 写作工具、专注应用
+
+### 4. 商务主题 (Business)
+
+```tsx
+<ThemeProvider theme="business">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 专业稳重，商务风格
+- 主色调: 深蓝色 (#1e40af)
+- 背景: 浅灰色系
+- 适用: 企业官网、商务平台
+
+### 5. 创意主题 (Creative)
+
+```tsx
+<ThemeProvider theme="creative">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 活泼现代，充满创意
+- 主色调: 紫色 (#8b5cf6)
+- 背景: 渐变色系
+- 适用: 创意工具、设计平台
+
+### 6. 自然主题 (Nature)
+
+```tsx
+<ThemeProvider theme="nature">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 自然清新，环保理念
+- 主色调: 绿色 (#10b981)
+- 背景: 大地色系
+- 适用: 环保应用、健康平台
+
+### 7. 科技主题 (Tech)
+
+```tsx
+<ThemeProvider theme="tech">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 科技感强，未来主义
+- 主色调: 青色 (#06b6d4)
+- 背景: 深色系
+- 适用: 科技产品、AI 应用
+
+### 8. 温暖主题 (Warm)
+
+```tsx
+<ThemeProvider theme="warm">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 温暖舒适，亲和力强
+- 主色调: 橙色 (#f97316)
+- 背景: 暖色系
+- 适用: 社交应用、生活服务
+
+### 9. 冷静主题 (Cool)
+
+```tsx
+<ThemeProvider theme="cool">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 冷静理性，专业感强
+- 主色调: 蓝绿色 (#0891b2)
+- 背景: 冷色系
+- 适用: 金融应用、医疗平台
+
+### 10. 高对比主题 (High Contrast)
+
+```tsx
+<ThemeProvider theme="high-contrast">
+  <App />
+</ThemeProvider>
+```
+
+**特点**: 高对比度，可访问性强
+- 主色调: 纯黑纯白
+- 背景: 强对比色系
+- 适用: 可访问性应用、特殊需求用户
+
+## 主题切换
+
+### 系统主题检测
+
+```tsx
+import { useTheme } from '@xorigo-ui/core'
+
+function ThemeToggle() {
+  const { theme, setTheme, systemTheme } = useTheme()
+
+  return (
+    <div>
+      <p>当前主题: {theme}</p>
+      <p>系统主题: {systemTheme}</p>
+
+      <button onClick={() => setTheme('light')}>
+        浅色
+      </button>
+      <button onClick={() => setTheme('dark')}>
+        深色
+      </button>
+      <button onClick={() => setTheme('system')}>
+        跟随系统
+      </button>
+    </div>
+  )
+}
+```
+
+### 主题切换动画
+
+```tsx
+import { ThemeProvider, useTheme } from '@xorigo-ui/core'
+import { motion, AnimatePresence } from 'framer-motion'
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.button
+        key={theme}
+        initial={{ rotate: -180, opacity: 0 }}
+        animate={{ rotate: 0, opacity: 1 }}
+        exit={{ rotate: 180, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      >
+        {theme === 'dark' ? '🌙' : '☀️'}
+      </motion.button>
+    </AnimatePresence>
+  )
+}
+```
+
+## 自定义主题
+
+### 基础自定义
+
+```tsx
+const customTheme = {
+  name: 'my-custom-theme',
+  colors: {
+    primary: {
+      50: '#eff6ff',
+      100: '#dbeafe',
+      200: '#bfdbfe',
+      300: '#93c5fd',
+      400: '#60a5fa',
+      500: '#3b82f6',  // 主色
+      600: '#2563eb',
+      700: '#1d4ed8',
+      800: '#1e40af',
+      900: '#1e3a8a',
+    },
+    secondary: {
+      50: '#f8fafc',
+      100: '#f1f5f9',
+      200: '#e2e8f0',
+      300: '#cbd5e1',
+      400: '#94a3b8',
+      500: '#64748b',  // 次要色
+      600: '#475569',
+      700: '#334155',
+      800: '#1e293b',
+      900: '#0f172a',
+    }
+  },
+  typography: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+    },
+    fontSize: {
+      xs: ['0.75rem', { lineHeight: '1rem' }],
+      sm: ['0.875rem', { lineHeight: '1.25rem' }],
+      base: ['1rem', { lineHeight: '1.5rem' }],
+      lg: ['1.125rem', { lineHeight: '1.75rem' }],
+    }
+  },
+  spacing: {
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
+  }
+}
+
+<ThemeProvider theme={customTheme}>
+  <App />
+</ThemeProvider>
+```
+
+### 高级自定义
+
+```tsx
+const advancedTheme = {
+  name: 'advanced-theme',
+  colors: {
+    primary: '#3b82f6',
+    secondary: '#64748b',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    info: '#06b6d4',
+    background: '#ffffff',
+    surface: '#f8fafc',
+    text: {
+      primary: '#1f2937',
+      secondary: '#6b7280',
+      muted: '#9ca3af',
+    },
+    border: {
+      light: '#e5e7eb',
+      medium: '#d1d5db',
+      dark: '#9ca3af',
+    }
+  },
+  typography: {
+    fontFamily: {
+      sans: '"Inter", system-ui, sans-serif',
+      mono: '"JetBrains Mono", Consolas, monospace',
+      display: '"Cal Sans", sans-serif',
+    },
+    fontSize: {
+      xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '-0.025em' }],
+      sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '-0.025em' }],
+      base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],
+      lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.025em' }],
+      xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.025em' }],
+    },
+    fontWeight: {
+      light: 300,
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+    }
+  },
+  spacing: {
+    0: '0',
+    1: '0.25rem',   // 4px
+    2: '0.5rem',    // 8px
+    3: '0.75rem',   // 12px
+    4: '1rem',      // 16px
+    5: '1.25rem',   // 20px
+    6: '1.5rem',    // 24px
+    8: '2rem',      // 32px
+    10: '2.5rem',   // 40px
+    12: '3rem',     // 48px
+    16: '4rem',     // 64px
+    20: '5rem',     // 80px
+    24: '6rem',     // 96px
+  },
+  borderRadius: {
+    none: '0',
+    sm: '0.125rem',
+    base: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    xl: '0.75rem',
+    '2xl': '1rem',
+    full: '9999px',
+  },
+  shadows: {
+    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    base: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  },
+  transitions: {
+    fast: '150ms ease-in-out',
+    base: '250ms ease-in-out',
+    slow: '350ms ease-in-out',
+  }
+}
+```
+
+## 主题持久化
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+import { useState, useEffect } from 'react'
+
+function App() {
+  const [theme, setTheme] = useState('default')
+
+  // 从 localStorage 读取主题
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      setTheme(savedTheme)
+    }
+  }, [])
+
+  // 保存主题到 localStorage
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <YourApp onThemeChange={handleThemeChange} />
+    </ThemeProvider>
+  )
+}
+```
+
+## 主题检测
+
+### 系统主题检测
+
+```tsx
+import { useTheme } from '@xorigo-ui/core'
+
+function SystemThemeInfo() {
+  const { systemTheme, prefersDark } = useTheme()
+
+  return (
+    <div>
+      <p>系统主题: {systemTheme}</p>
+      <p>偏好深色模式: {prefersDark ? '是' : '否'}</p>
+    </div>
+  )
+}
+```
+
+### 媒体查询监听
+
+```tsx
+import { useEffect } from 'react'
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(query)
+    if (media.matches !== matches) {
+      setMatches(media.matches)
+    }
+
+    const listener = () => setMatches(media.matches)
+    media.addEventListener('change', listener)
+
+    return () => media.removeEventListener('change', listener)
+  }, [matches, query])
+
+  return matches
+}
+
+function ThemeDetection() {
+  const prefersDark = useMediaQuery('(prefers-color-scheme: dark)')
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+
+  return (
+    <div>
+      <p>用户偏好深色模式: {prefersDark ? '是' : '否'}</p>
+      <p>用户偏好减少动画: {prefersReducedMotion ? '是' : '否'}</p>
+    </div>
+  )
+}
+```
+
+## 最佳实践
+
+### 1. 主题命名
+
+```tsx
+// ✅ 好的主题命名
+const themes = {
+  'company-brand': { /* ... */ },
+  'admin-dashboard': { /* ... */ },
+  'customer-portal': { /* ... */ }
+}
+
+// ❌ 避免的主题命名
+const themes = {
+  'theme1': { /* ... */ },
+  'blue-theme': { /* ... */ },
+  'dark-v2': { /* ... */ }
+}
+```
+
+### 2. 颜色对比度
+
+```tsx
+// 确保足够的对比度 (WCAG AA 标准: 4.5:1)
+const accessibleTheme = {
+  colors: {
+    background: '#ffffff',
+    text: '#1f2937',  // 对比度 > 7:1
+    primary: '#3b82f6',
+    'primary-foreground': '#ffffff'  // 对比度 > 4.5:1
+  }
+}
+```
+
+### 3. 渐进增强
+
+```tsx
+// 为不支持 CSS 变量的浏览器提供回退
+.fallback-styles {
+  background-color: #3b82f6; /* 回退值 */
+  background-color: var(--color-primary-500);
+}
+```
+
+## 工具和资源
+
+- **主题生成器**: 在线主题创建工具
+- **对比度检查器**: 确保可访问性
+- **调色板工具**: 创建和谐的配色方案
+- **主题预览**: 实时预览主题效果
+- **导出工具**: 导出主题配置文件

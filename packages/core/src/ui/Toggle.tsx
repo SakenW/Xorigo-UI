@@ -315,5 +315,3 @@ export const ToggleGroup: React.FC<ToggleGroupProps> = ({
 }
 
 ToggleGroup.displayName = 'ToggleGroup'
-
-export { Toggle, ToggleGroup }

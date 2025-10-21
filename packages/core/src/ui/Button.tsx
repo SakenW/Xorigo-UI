@@ -3,7 +3,7 @@ import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useTheme } from '@xorigo-ui/system'
 import { semanticUtils } from '@xorigo-ui/tokens'
-import { cn } from '@/utils'
+import { cn } from '../utils'
 import { Spinner } from './Spinner'
 import { getButtonAriaProps } from '../utils/accessibility'
 

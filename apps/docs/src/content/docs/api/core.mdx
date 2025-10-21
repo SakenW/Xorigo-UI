@@ -1,0 +1,686 @@
+---
+title: 核心 API
+description: Xorigo UI 核心组件和工具的 API 参考
+sidebar:
+  order: 0
+---
+
+本文档提供 Xorigo UI 核心 API 的详细参考。
+
+## 主题 API
+
+### ThemeProvider
+
+为应用提供主题上下文。
+
+#### 语法
+
+```tsx
+<ThemeProvider theme={theme} children={children} />
+```
+
+#### 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `theme` | `Theme \| string` | `'default'` | 主题对象或主题名称 |
+| `children` | `React.ReactNode` | - | 子组件 |
+| `storageKey` | `string` | `'xorigo-theme'` | 本地存储的键名 |
+| `enableSystem` | `boolean` | `true` | 是否支持系统主题检测 |
+| `defaultTheme` | `string` | `'system'` | 默认主题 |
+
+#### 示例
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <ThemeProvider theme="dark" enableSystem>
+      <YourApp />
+    </ThemeProvider>
+  )
+}
+```
+
+### useTheme
+
+获取当前主题信息和主题控制函数。
+
+#### 语法
+
+```tsx
+const theme = useTheme()
+```
+
+#### 返回值
+
+```typescript
+interface ThemeContextType {
+  theme: string                    // 当前主题名称
+  setTheme: (theme: string) => void  // 设置主题
+  systemTheme: string             // 系统主题
+  resolvedTheme: string           // 解析后的主题
+  themes: Record<string, Theme>   // 所有可用主题
+  colors: ThemeColors             // 当前主题颜色
+  typography: ThemeTypography     // 当前主题字体
+}
+```
+
+#### 示例
+
+```tsx
+import { useTheme } from '@xorigo-ui/core'
+
+function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme()
+
+  return (
+    <div>
+      <p>当前主题: {theme}</p>
+      <p>解析主题: {resolvedTheme}</p>
+      <button onClick={() => setTheme('dark')}>
+        切换到深色主题
+      </button>
+    </div>
+  )
+}
+```
+
+## 组件 API
+
+### Button
+
+基础按钮组件。
+
+#### 语法
+
+```tsx
+<Button variant="primary" size="md" disabled={false}>
+  按钮
+</Button>
+```
+
+#### 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'primary'` | 按钮变体 |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 按钮尺寸 |
+| `disabled` | `boolean` | `false` | 是否禁用 |
+| `loading` | `boolean` | `false` | 是否显示加载状态 |
+| `asChild` | `boolean` | `false` | 是否作为子组件渲染 |
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 按钮内容 |
+| `onClick` | `(event: React.MouseEvent) => void` | - | 点击事件处理器 |
+
+#### 示例
+
+```tsx
+import { Button } from '@xorigo-ui/core'
+
+function Example() {
+  return (
+    <div className="space-x-2">
+      <Button variant="primary">主要按钮</Button>
+      <Button variant="secondary">次要按钮</Button>
+      <Button variant="outline">轮廓按钮</Button>
+      <Button disabled>禁用按钮</Button>
+      <Button loading>加载中...</Button>
+    </div>
+  )
+}
+```
+
+### Input
+
+输入框组件。
+
+#### 语法
+
+```tsx
+<Input type="text" placeholder="请输入内容" />
+```
+
+#### 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `type` | `string` | `'text'` | 输入框类型 |
+| `placeholder` | `string` | - | 占位符文本 |
+| `value` | `string` | - | 输入值 |
+| `defaultValue` | `string` | - | 默认值 |
+| `disabled` | `boolean` | `false` | 是否禁用 |
+| `error` | `boolean` | `false` | 是否显示错误状态 |
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `onChange` | `(event: React.ChangeEvent<HTMLInputElement>) => void` | - | 值变化事件 |
+
+#### 示例
+
+```tsx
+import { Input } from '@xorigo-ui/core'
+
+function Example() {
+  const [value, setValue] = useState('')
+
+  return (
+    <Input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      placeholder="请输入内容"
+    />
+  )
+}
+```
+
+### Card
+
+卡片容器组件。
+
+#### 语法
+
+```tsx
+<Card>
+  <CardHeader>标题</CardHeader>
+  <CardContent>内容</CardContent>
+  <CardFooter>底部</CardFooter>
+</Card>
+```
+
+#### Card 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 子组件 |
+
+#### CardHeader 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 标题内容 |
+
+#### CardContent 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 内容 |
+
+#### CardFooter 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 底部内容 |
+
+#### 示例
+
+```tsx
+import { Card, CardHeader, CardContent, CardFooter } from '@xorigo-ui/core'
+
+function Example() {
+  return (
+    <Card className="w-80">
+      <CardHeader>
+        <h3>卡片标题</h3>
+      </CardHeader>
+      <CardContent>
+        <p>这是卡片的内容区域。</p>
+      </CardContent>
+      <CardFooter>
+        <Button>操作按钮</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+### Modal
+
+模态框组件。
+
+#### 语法
+
+```tsx
+<Modal isOpen={open} onClose={setOpen}>
+  <ModalHeader>标题</ModalHeader>
+  <ModalBody>内容</ModalBody>
+  <ModalFooter>底部</ModalFooter>
+</Modal>
+```
+
+#### Modal 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `isOpen` | `boolean` | - | 是否打开 |
+| `onClose` | `() => void` | - | 关闭回调 |
+| `closeOnOverlayClick` | `boolean` | `true` | 点击遮罩是否关闭 |
+| `closeOnEsc` | `boolean` | `true` | 按 ESC 键是否关闭 |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 模态框尺寸 |
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 子组件 |
+
+#### 示例
+
+```tsx
+import { Modal, Button } from '@xorigo-ui/core'
+
+function Example() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div>
+      <Button onClick={() => setIsOpen(true)}>
+        打开模态框
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalHeader>确认操作</ModalHeader>
+        <ModalBody>
+          您确定要执行此操作吗？
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setIsOpen(false)}>
+            取消
+          </Button>
+          <Button onClick={() => setIsOpen(false)}>
+            确认
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  )
+}
+```
+
+## Hooks API
+
+### useClickOutside
+
+检测点击元素外部的 Hook。
+
+#### 语法
+
+```tsx
+const ref = useClickOutside(callback)
+```
+
+#### 参数
+
+| 参数 | 类型 | 描述 |
+|------|------|------|
+| `callback` | `() => void` | 点击外部时的回调函数 |
+
+#### 返回值
+
+`React.RefObject<HTMLDivElement>` - 可附加到元素的 ref
+
+#### 示例
+
+```tsx
+import { useClickOutside } from '@xorigo-ui/core'
+
+function Dropdown() {
+  const [isOpen, setIsOpen] = useState(false)
+  const ref = useClickOutside(() => setIsOpen(false))
+
+  return (
+    <div ref={ref} className="relative">
+      <Button onClick={() => setIsOpen(!isOpen)}>
+        菜单
+      </Button>
+      {isOpen && (
+        <div className="absolute top-full mt-2 bg-white border rounded-md shadow-lg">
+          <div className="py-2">
+            <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+              选项 1
+            </a>
+            <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+              选项 2
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### useKeyboardNavigation
+
+键盘导航 Hook。
+
+#### 语法
+
+```tsx
+const { selectedIndex, handleKeyDown } = useKeyboardNavigation(items, onSelect)
+```
+
+#### 参数
+
+| 参数 | 类型 | 描述 |
+|------|------|------|
+| `items` | `T[]` | 可导航的项目数组 |
+| `onSelect` | `(item: T, index: number) => void` | 选择项目的回调函数 |
+| `options` | `KeyboardNavigationOptions` | 配置选项 |
+
+#### 返回值
+
+```typescript
+interface UseKeyboardNavigationReturn<T> {
+  selectedIndex: number
+  handleKeyDown: (event: React.KeyboardEvent) => void
+  setSelectedIndex: (index: number) => void
+}
+```
+
+#### 示例
+
+```tsx
+import { useKeyboardNavigation } from '@xorigo-ui/core'
+
+function Menu() {
+  const items = ['选项 1', '选项 2', '选项 3']
+
+  const { selectedIndex, handleKeyDown } = useKeyboardNavigation(
+    items,
+    (item, index) => {
+      console.log('选择了:', item)
+    }
+  )
+
+  return (
+    <div onKeyDown={handleKeyDown} tabIndex={0}>
+      {items.map((item, index) => (
+        <div
+          key={index}
+          className={index === selectedIndex ? 'bg-blue-100' : ''}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+## 工具函数 API
+
+### cn
+
+合并 CSS 类名的工具函数。
+
+#### 语法
+
+```tsx
+const className = cn('class1', 'class2', condition && 'class3')
+```
+
+#### 参数
+
+`...args: (string | undefined | null | false)[]` - 类名参数
+
+#### 返回值
+
+`string` - 合并后的类名字符串
+
+#### 示例
+
+```tsx
+import { cn } from '@xorigo-ui/core'
+
+function Button({ variant, className, ...props }) {
+  return (
+    <button
+      className={cn(
+        'base-button-styles',
+        variant === 'primary' && 'bg-blue-500',
+        variant === 'secondary' && 'bg-gray-500',
+        className
+      )}
+      {...props}
+    />
+  )
+}
+```
+
+### formatCurrency
+
+格式化货币的工具函数。
+
+#### 语法
+
+```tsx
+const formatted = formatCurrency(amount, currency, locale)
+```
+
+#### 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `amount` | `number` | - | 金额 |
+| `currency` | `string` | `'CNY'` | 货币代码 |
+| `locale` | `string` | `'zh-CN'` | 地区代码 |
+
+#### 返回值
+
+`string` - 格式化后的货币字符串
+
+#### 示例
+
+```tsx
+import { formatCurrency } from '@xorigo-ui/core'
+
+function PriceDisplay({ price }) {
+  return <span>{formatCurrency(price, 'CNY', 'zh-CN')}</span>
+}
+
+// 使用示例
+<PriceDisplay price={1234.56} />
+// 输出: ¥1,234.56
+```
+
+### debounce
+
+防抖工具函数。
+
+#### 语法
+
+```tsx
+const debouncedFn = debounce(func, delay)
+```
+
+#### 参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `func` | `Function` | - | 要防抖的函数 |
+| `delay` | `number` | `300` | 延迟时间（毫秒） |
+
+#### 返回值
+
+`Function` - 防抖后的函数
+
+#### 示例
+
+```tsx
+import { debounce } from '@xorigo-ui/core'
+
+function SearchInput() {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+
+  const debouncedSearch = debounce(async (searchQuery) => {
+    if (searchQuery) {
+      const response = await fetch(`/api/search?q=${searchQuery}`)
+      const data = await response.json()
+      setResults(data.results)
+    } else {
+      setResults([])
+    }
+  }, 300)
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    setQuery(value)
+    debouncedSearch(value)
+  }
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        placeholder="搜索..."
+      />
+      {results.length > 0 && (
+        <ul>
+          {results.map((result, index) => (
+            <li key={index}>{result.title}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+```
+
+## 类型定义
+
+### Theme
+
+```typescript
+interface Theme {
+  name: string
+  colors: ThemeColors
+  typography: ThemeTypography
+  spacing: ThemeSpacing
+  borderRadius: ThemeBorderRadius
+  shadows: ThemeShadows
+  transitions: ThemeTransitions
+}
+```
+
+### ThemeColors
+
+```typescript
+interface ThemeColors {
+  primary: ColorScale
+  secondary: ColorScale
+  success: ColorScale
+  warning: ColorScale
+  error: ColorScale
+  info: ColorScale
+  background: string
+  surface: string
+  text: {
+    primary: string
+    secondary: string
+    muted: string
+    inverse: string
+  }
+  border: {
+    light: string
+    medium: string
+    dark: string
+  }
+}
+```
+
+### ColorScale
+
+```typescript
+interface ColorScale {
+  50: string
+  100: string
+  200: string
+  300: string
+  400: string
+  500: string
+  600: string
+  700: string
+  800: string
+  900: string
+}
+```
+
+### ComponentVariants
+
+```typescript
+interface ComponentVariants<T = Record<string, any>> {
+  base?: string
+  variants?: {
+    [K in keyof T]: {
+      [key: string]: string
+    }
+  }
+  defaultVariants?: Partial<T>
+  compoundVariants?: CompoundVariant<T>[]
+}
+```
+
+## 迁移指南
+
+### 从 v0.1.x 迁移到 v0.2.x
+
+#### 主题 API 变更
+
+```tsx
+// v0.1.x
+<ThemeProvider theme="dark">
+  <App />
+</ThemeProvider>
+
+// v0.2.x
+<ThemeProvider theme="dark" enableSystem defaultTheme="system">
+  <App />
+</ThemeProvider>
+```
+
+#### 组件 API 变更
+
+```tsx
+// v0.1.x
+<Button primary size="large">
+  按钮
+</Button>
+
+// v0.2.x
+<Button variant="primary" size="lg">
+  按钮
+</Button>
+```
+
+### 从其他 UI 库迁移
+
+#### 从 Ant Design 迁移
+
+```tsx
+// Ant Design
+<Button type="primary" size="large">
+  按钮
+</Button>
+
+// Xorigo UI
+<Button variant="primary" size="lg">
+  按钮
+</Button>
+```
+
+#### 从 Material-UI 迁移
+
+```tsx
+// Material-UI
+<Button variant="contained" color="primary" size="large">
+  按钮
+</Button>
+
+// Xorigo UI
+<Button variant="primary" size="lg">
+  按钮
+</Button>
+```

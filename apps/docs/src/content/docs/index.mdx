@@ -1,0 +1,116 @@
+---
+title: Xorigo UI
+description: 现代化 React UI 组件库，提供完整的设计系统和开发体验
+sidebar:
+  order: 1
+---
+
+import { Card, Cards } from '@astrojs/starlight/components'
+
+Xorigo UI 是一个现代化的 React UI 组件库，专为构建高质量、可访问的 Web 应用而设计。
+
+## ✨ 特性
+
+<Cards>
+  <Card title="🎨 设计系统" icon="artboard">
+    完整的设计令牌系统，支持 10 种内置主题和自定义主题
+  </Card>
+  <Card title="⚛️ React 19" icon="lightning">
+    基于 React 19 和 TypeScript 5.9，提供最新的开发体验
+  </Card>
+  <Card title="🎭 Framer Motion" icon="sparkles">
+    内置动画系统，支持流畅的交互和过渡效果
+  </Card>
+  <Card title="🎯 原子化设计" icon="layers">
+    遵循原子化设计原则，组件高度可复用和可组合
+  </Card>
+  <Card title="♿ 可访问性" icon="accessibility">
+    内置可访问性支持，遵循 WCAG 2.1 标准
+  </Card>
+  <Card title="📱 响应式" icon="devices">
+    完全响应式设计，支持各种设备和屏幕尺寸
+  </Card>
+</Cards>
+
+## 🚀 快速开始
+
+### 安装
+
+```bash
+npm install @xorigo-ui/core
+```
+
+### 基础使用
+
+```tsx
+import { Button, Card, Input } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <div className="p-4 space-y-4">
+      <Card>
+        <h1>欢迎使用 Xorigo UI</h1>
+        <Input placeholder="输入内容..." />
+        <Button variant="primary">提交</Button>
+      </Card>
+    </div>
+  )
+}
+```
+
+## 🎨 主题支持
+
+Xorigo UI 支持多种内置主题，可以轻松切换应用的外观：
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+// 使用深色主题
+<ThemeProvider theme="dark">
+  <App />
+</ThemeProvider>
+
+// 使用自定义主题
+<ThemeProvider theme={{
+  colors: {
+    primary: '#3b82f6',
+    secondary: '#64748b',
+    // ...更多颜色配置
+  }}>
+  <App />
+</ThemeProvider>
+```
+
+## 📦 包结构
+
+```
+@xorigo-ui/
+├── core/           # 核心组件库
+├── tokens/         # 设计令牌
+├── themes/         # 主题系统
+└── utils/          # 工具函数
+```
+
+## 🧪 技术栈
+
+- **React 19** - 最新的 React 版本
+- **TypeScript 5.9** - 类型安全
+- **Tailwind CSS 4** - 原子化 CSS
+- **Framer Motion 12** - 动画系统
+- **Vite** - 构建工具
+- **Vitest** - 测试框架
+
+## 📖 文档导航
+
+- [组件文档](./components/overview) - 查看所有可用组件
+- [设计系统](./design/tokens) - 了解设计令牌和规范
+- [开发指南](./development/architecture) - 学习如何贡献和扩展
+- [API 参考](./api/core) - 查看详细的 API 文档
+
+## 🤝 贡献
+
+欢迎贡献代码、报告问题或提出新功能建议！请查看 [贡献指南](./development/contributing) 了解详细信息。
+
+## 📄 许可证
+
+MIT License - 查看 [LICENSE](https://github.com/your-org/xorigo-ui/blob/main/LICENSE) 了解详情。

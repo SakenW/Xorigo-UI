@@ -1,117 +1,270 @@
-library: <你的组件库名>
+library: Xorigo UI
 versioning: semver
+version: "1.2.0"
+description: "Xorigo UI 组件库分类架构 - 白皮书 v1.2 十大分类架构"
 categories:
-  - id: base
-    title: 基础（Base）
+  - id: ui
+    title: UI 基础组件（UI - 视觉原子）
+    description: "包含按钮、卡片、输入框等基础UI元素"
     items:
-      - text            # 文本/排版：Typography, Heading, Paragraph, Code
-      - button          # Button, IconButton, ToggleButton
-      - icon            # 图标注册/渲染
-      - link            # Anchor/Link
-      - divider         # Separator/Divider
-      - avatar          # 头像
-      - kbd             # 键盘提示
-  - id: layout
-    title: 布局（Layout）
+      - animated-card    # 动画卡片
+      - avatar           # 头像组件
+      - badge            # 徽章组件
+      - button           # 按钮组件
+      - card             # 卡片组件
+      - code             # 代码展示
+      - copy-button      # 复制按钮
+      - divider          # 分割线
+      - icon             # 图标组件
+      - kbd              # 键盘提示
+      - scroll-area      # 滚动区域
+      - separator        # 分隔符
+      - skeleton         # 骨架屏
+      - spinner          # 加载动画
+      - surface          # 表面组件
+      - switch-no-motion # 无动画开关
+      - toggle           # 切换按钮
+      - tooltip          # 提示框
+      - typography       # 排版组件
+
+  - id: inputs
+    title: Inputs 输入控件（Inputs - 表单输入）
+    description: "包含输入框、选择器、复选框等表单输入组件"
     items:
-      - box             # 最小容器/Box
-      - flex            # Flex/Stack/HStack/VStack
-      - grid            # Grid/Col/Row
-      - container       # 页面容器/宽度限制
-      - spacer          # 空白间距
-      - scroll-area     # 滚动容器/虚拟滚动适配位
-      - portal          # Portal/OverlayContainer
-      - safe-area       # 移动端安全区适配
-  - id: navigation
-    title: 导航（Navigation）
-    items:
-      - tabs
-      - menu            # Menu, ContextMenu
-      - breadcrumb
-      - pagination
-      - steps           # Stepper
-      - sidebar         # Sidenav/TreeMenu（可选）
-      - navbar          # AppBar/Header（可选）
+      - button-group     # 按钮组
+      - checkbox         # 复选框
+      - combobox         # 组合框
+      - command          # 命令组件
+      - input            # 输入框
+      - input-number     # 数字输入框
+      - password-input   # 密码输入框
+      - radio            # 单选框
+      - search-input     # 搜索输入框
+      - select           # 选择器
+      - switch           # 开关
+      - textarea         # 文本域
+      - slider           # 滑块
+
   - id: form
-    title: 数据录入（Form）
+    title: Forms 表单容器（Forms - 表单逻辑）
+    description: "表单容器与验证组件"
     items:
-      - input           # TextInput, TextArea, Password
-      - select          # Single/Multi, Combobox/Autocomplete
-      - checkbox
-      - radio
-      - switch          # Toggle
-      - slider
-      - number-input
-      - date-time       # DatePicker/TimePicker/Range
-      - upload          # 文件/图片上传
-      - richtext        # RTE/Markdown（可选，或外部集成）
-      - form            # Form/Field/Fieldset（容器与校验适配）
-  - id: data
-    title: 数据展示（Data Display）
+      - fieldset         # 字段集
+      - form             # 表单容器
+      - form-field       # 表单字段
+      - input-group      # 输入组
+      - validation-message # 验证消息
+
+  - id: navigation
+    title: Navigation 导航结构（Navigation - 导航组件）
+    description: "导航和页面结构组件"
     items:
-      - table           # DataGrid/虚拟表格
-      - list            # List/VirtualList
-      - card
-      - tag             # Tag/Chip
-      - badge
-      - tooltip         # 也可归 Feedback，但常与展示共用
-      - accordion       # Collapse/Details
-      - description     # Key-Value/Descriptions
-      - image           # Image/Preview
-      - code-view       # Code/DiffViewer（可选）
+      - basic-header     # 基础头部
+      - breadcrumb       # 面包屑导航
+      - component-nav    # 组件导航
+      - data-table       # 数据表格
+      - menu             # 菜单
+      - navbar           # 导航栏
+      - pagination       # 分页
+      - responsive-layout # 响应式布局
+      - sidebar          # 侧边栏
+      - tabs             # 标签页
+
+  - id: layout
+    title: Layout 布局分区（Layout - 布局工具）
+    description: "页面布局和容器组件"
+    items:
+      - box              # 基础容器
+      - container        # 页面容器
+      - flex             # 弹性布局
+      - grid             # 网格布局
+      - grid-item        # 网格项
+      - panel            # 面板容器
+      - panel-content    # 面板内容
+      - panel-footer     # 面板底部
+      - panel-header     # 面板头部
+      - spacer           # 间距组件
+
   - id: feedback
-    title: 反馈（Feedback）
+    title: Feedback 反馈状态（Feedback - 状态反馈）
+    description: "用户反馈和状态提示组件"
     items:
-      - modal           # Dialog/AlertDialog
-      - drawer
-      - popover
-      - toast           # Message/Snackbar
-      - progress        # Linear/Circular
-      - spinner         # Loading/Spin
-      - skeleton
-      - result          # 成功/失败/警告/403/404/500
-      - empty
-  - id: composite
-    title: 复合（Composite）
-    subcategories:
-      - id: business
-        title: 业务复合
-        items:
-          - form-dialog       # 表单弹窗：提交/校验/加载
-          - filter-panel      # 过滤条件面板
-          - table-editor      # 行内编辑/批量操作
-      - id: functional
-        title: 功能复合
-        items:
-          - tree              # Tree/TreeSelect
-          - transfer          # 穿梭框
-          - cascader
-          - file-manager      # 预览/批量/拖拽（可选）
-      - id: ui-pattern
-        title: 界面模式
-        items:
-          - page-header       # 标题/面包屑/操作区
-          - dashboard-layout  # 仪表盘分栏/卡片栅格
-          - empty-state       # 场景化空状态集合
+      - alert            # 警告提示
+      - loading          # 加载状态
+      - notification     # 通知消息
+      - progress         # 进度条
+      - theme-toggle     # 主题切换
+      - toast            # 轻提示
+
+  - id: overlays
+    title: Overlays 弹层遮罩（Overlays - 覆盖层）
+    description: "弹层和覆盖组件"
+    items:
+      - dialog           # 对话框
+      - drawer           # 抽屉
+      - hover-card       # 悬停卡片
+      - lightbox         # 灯箱
+      - modal            # 模态框
+      - overlay-trigger  # 覆盖层触发器
+      - popover          # 弹出框
+      - sheet            # 底部抽屉
+
+  - id: datadisplay
+    title: DataDisplay 数据展示（DataDisplay - 数据呈现）
+    description: "数据展示和呈现组件"
+    items:
+      - accordion        # 手风琴
+      - accordion-content # 手风琴内容
+      - accordion-header  # 手风琴头部
+      - accordion-item    # 手风琴项
+      - advanced-card    # 高级卡片
+      - carousel         # 轮播图
+      - carousel-control # 轮播控制
+      - carousel-item    # 轮播项
+      - code-block       # 代码块
+      - component-card   # 组件卡片
+      - list             # 列表
+      - table            # 表格
+      - table-body       # 表格主体
+      - table-cell       # 表格单元格
+      - table-header     # 表格头部
+      - table-row        # 表格行
+
+  - id: charts
+    title: Charts 数据可视化（Charts - 图表组件）
+    description: "数据可视化和图表组件"
+    items:
+      - line-chart       # 折线图
+      - bar-chart        # 柱状图
+      - pie-chart        # 饼图
+      - chart            # 图表基类
+      - gauge            # 仪表盘
+      - stat             # 统计数值
+      - chart-container  # 图表容器
+      - chart-tooltip    # 图表提示
+      - chart-legend     # 图表图例
+
+  - id: loading
+    title: Loading 加载组件（Loading - 加载状态）
+    description: "专门的加载状态组件"
+    items:
+      - xorigo-logo-loader # Xorigo Logo 加载动画
+
+  - id: effects
+    title: Effects 特效组件（Effects - 视觉特效）
+    description: "视觉特效和动画组件"
+    items:
+      - super-particle-system     # 超级粒子系统
+      - super-particle-system-simple # 简化版粒子系统
+      - fluid-background          # 流体背景
+      - hero-title               # 英雄标题
+
+  - id: interactive
+    title: Interactive 交互组件（Interactive - 交互逻辑）
+    description: "需要复杂用户交互的组件"
+    items:
+      - code-editor       # 代码编辑器
+
+  - id: showcase
+    title: Showcase 展示组件（Showcase - 演示组件）
+    description: "展示和演示组件"
+    items:
+      - component-3d-carousel # 3D组件轮播
+      - counter-animation   # 计数动画
+      - stats-card          # 统计卡片
+      - code-demo           # 代码演示
+
+  - id: blocks
+    title: Blocks 块级组件（Blocks - 页面块）
+    description: "页面级别的块级组件"
+    items:
+      # 块级组件导出（当前为空，预留扩展）
+
+  - id: utilities
+    title: Utilities 技术基元（Utilities - 技术底层）
+    description: "底层工具和基础组件"
+    items:
+      - avatar            # 头像工具
+      - badge             # 徽章工具
+      - config-provider   # 配置提供者
+      - dismissable-layer # 可关闭层
+      - divider           # 分割线工具
+      - focus-scope       # 焦点作用域
+      - focus-trap        # 焦点陷阱
+      - intersection-observer # 交叉观察器
+      - portal            # 传送门
+      - resize-observer   # 尺寸观察器
+      - ssr-boundary      # SSR边界
+      - scroll-lock       # 滚动锁定
+      - visually-hidden   # 视觉隐藏
+
   - id: system
-    title: 系统（System/Theming）
+    title: System 系统组件（System - 主题系统）
+    description: "主题系统和核心配置"
     items:
-      - theme-provider    # 主题/密度/圆角/字号 等设计令牌注入
-      - tokens            # 语义令牌：color/surface/content/state/elevation/motion
-      - mode-toggle       # 亮/暗/高对比
-      - motion            # 动效：duration/easing/presets + prefers-reduced-motion
-      - i18n-provider     # 文案/区域化（只做容器，不强绑定实现）
-      - a11y              # FocusTrap, VisuallyHidden, SkipNav
-      - z-layer           # Overlay 层级/避让策略
-  - id: visualization
-    title: 可视化（Visualization，独立层，外部图表库适配）
-    items:
-      - chart-adapter     # ECharts/Recharts 适配组件
-      - stat              # 统计数值/Sparkline/Gauge
+      - theme-provider    # 主题提供者
+      - gradient          # 渐变组件
+      - motion            # 动画系统
+      - design-tokens     # 设计令牌
+      - performance       # 性能优化
+      - accessibility     # 可访问性
+      - color             # 颜色系统
+      - matrix            # 可访问性矩阵
 meta:
+  architecture:
+    version: "1.2.0"
+    total_categories: 16
+    core_categories: 10
+    extended_categories: 6
+    total_components: 60+
+
+  design_principles:
+    - atomic_design                    # 原子化设计原则
+    - component_driven                 # 组件驱动开发
+    - accessibility_first             # 可访问性优先
+    - performance_optimized            # 性能优化
+    - theming_system                   # 完整主题系统
+
   patterns:
     - controlled_uncontrolled_policy   # 受控/非受控统一规则
     - keyboard_matrix                  # 键盘导航矩阵
     - overlay_behavior                 # 弹层/滚动锁定/回焦/层级
     - async_validation                 # 异步校验/aria-live
     - virtualization_contract          # 虚拟滚动接口约定
+    - ssr_compatibility                # 服务端渲染兼容性
+    - theme_integration                # 主题系统集成
+    - motion_support                   # 动画支持系统
+
+  tech_stack:
+    - "React 19.2.0"
+    - "TypeScript 5.9"
+    - "Tailwind CSS 3.4"
+    - "Framer Motion 12"
+    - "Vite (Library Mode)"
+
+  export_structure:
+    main_entry: "./packages/core/src/index.ts"
+    categorization: "directory-based"
+    naming_convention: "kebab-case for files, PascalCase for components"
+
+  notes: |
+    此文档反映 Xorigo UI 组件库的实际架构结构，与 packages/core/src/index.ts 保持一致。
+    十大核心分类：
+    1. UI 基础组件 (ui/)
+    2. Inputs 输入控件 (inputs/)
+    3. Forms 表单容器 (form/)
+    4. Navigation 导航结构 (navigation/)
+    5. Layout 布局分区 (layout/)
+    6. Feedback 反馈状态 (feedback/)
+    7. Overlays 弹层遮罩 (overlays/)
+    8. DataDisplay 数据展示 (datadisplay/)
+    9. Charts 数据可视化 (charts/)
+    10. Loading 加载组件 (loading/)
+
+    扩展分类：
+    11. Effects 特效组件 (effects/)
+    12. Interactive 交互组件 (interactive/)
+    13. Showcase 展示组件 (showcase/)
+    14. Blocks 块级组件 (blocks/)
+    15. Utilities 技术基元 (utilities/)
+    16. System 系统组件 (components/)

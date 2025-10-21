@@ -194,7 +194,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           checkboxVariants({
             variant,
             size,
-            status: effectiveStatus as any,
+            status: effectiveStatus as VariantProps<typeof checkboxVariants>['status'],
             indeterminate: effectiveIndeterminate,
           }),
           // 隐藏原生checkbox样式，显示自定义样式
@@ -211,7 +211,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             acc[key] = props[key as keyof typeof props]
           }
           return acc
-        }, {} as any)}
+        }, {} as React.InputHTMLAttributes<HTMLInputElement>)}
       />
     )
 
@@ -223,7 +223,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           checkboxVariants({
             variant,
             size,
-            status: effectiveStatus as any,
+            status: effectiveStatus as VariantProps<typeof checkboxVariants>['status'],
             indeterminate: effectiveIndeterminate,
           })
         )}

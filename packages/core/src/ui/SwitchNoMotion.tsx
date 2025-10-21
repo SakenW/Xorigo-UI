@@ -296,5 +296,3 @@ export const SwitchNoMotionGroup: React.FC<SwitchNoMotionGroupProps> = ({
 }
 
 SwitchNoMotionGroup.displayName = 'SwitchNoMotionGroup'
-
-export { SwitchNoMotion, SwitchNoMotionGroup }

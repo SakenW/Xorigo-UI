@@ -114,6 +114,8 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
 
 Typography.displayName = "Typography"
 
+export { Typography }
+
 // 便捷组件
 export const H1: React.FC<Omit<TypographyProps, 'variant' | 'as'>> = (props) => (
   <Typography variant="h1" as="h1" {...props} />
@@ -166,5 +168,3 @@ export const Small: React.FC<Omit<TypographyProps, 'variant'>> = (props) => (
 export const Muted: React.FC<Omit<TypographyProps, 'variant'>> = (props) => (
   <Typography variant="muted" {...props} />
 )
-
-export { Typography, typographyVariants }

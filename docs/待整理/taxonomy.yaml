@@ -1,0 +1,375 @@
+library: Xorigo UI
+versioning: semver
+version: "1.4.0"
+description: "Xorigo UI 组件库分类架构 - v1.4 Final（去重归位 + 七轴系统对齐 + 逐项备注）"
+
+categories:
+  - id: foundations
+    title: 基础设计（Foundations）
+    description: "静态设计令牌与基线规则（不含运行时状态）"
+    items:
+      - design-tokens         # 令牌汇总入口（颜色/尺寸/半径/阴影/间距等）
+      - color-tokens          # 色谱与语义色（含中性/强调基线，不含运行时选择）
+      - density-tokens        # 密度刻度：spacious/comfortable/compact
+      - motion-curves         # 动画曲线/时序基线：classic/soft/spring
+      - elevation-tokens      # 阴影与层级：卡片/浮层/交互态
+      - surface-tokens        # 表面视觉语言基线：flat/soft-shadow/glass/neon
+      - typography            # 排版：字号/行高/字重/字距/可读性
+      - ssr-compatibility     # SSR 约定：Hydration/Portal/边界
+      - performance           # 性能基线：懒加载/切片/虚拟化契约
+      - matrix                # 可访问性矩阵：键盘/读屏/焦点策略
+      - accessibility         # 无障碍基线：对比度/语义/焦点环
+      - breakpoints           # 响应断点与 token 映射
+      - z-index-tokens        # 分层优先级表：遮罩/浮层/提示
+      - motion-reduced        # 降低动效基线：prefers-reduced-motion
+      - density-guidelines    # 密度与留白规范（文档项）
+      - color-guidelines      # 色彩使用规范（文档项）
+
+  - id: system
+    title: 系统与主题（System / Runtime）
+    description: "运行时主题引擎、七轴状态机、无障碍/错误/打印/离线等系统能力"
+    items:
+      - theme-provider        # 主题 Provider：注入七轴与上下文
+      - theme-axis-controller # 七轴状态机：get/set/校验/建议
+      - theme-recipes         # 主题配方：18 预设 + 8 场景，一键应用
+      - theme-sync            # 跟随系统主题/持久化（light/dark/hc）
+      - contrast-support      # 高对比度适配：forced-colors/prefers-contrast
+      - accent-generator      # 主色策略生成：mono/analog/duo(hue)
+      - i18n-provider         # 国际化 Provider（可插适配）
+      - formatters            # 数字/日期/相对时间等格式化工具
+      - layer-manager         # 浮层/焦点/z-index/滚动锁 协调器
+      - error-boundary        # React 错误边界（区块/页面兜底与上报）
+      - suspense-boundary     # Suspense 兜底（数据/代码分片）
+      - print-support         # 打印/屏幕模式工具（print-only/screen-only）
+      - offline-indicator     # 离线/恢复监听与 UI 提示
+
+  - id: primitives
+    title: UI 基元（Primitives）
+    description: "可组合的无样式或轻样式原子组件与可达性基元"
+    items:
+      - button                # 按钮：尺寸/变体/状态
+      - badge                 # 徽章：状态/计数/可点击
+      - avatar                # 头像：占位/故障保护
+      - avatar-group          # 头像组：溢出计数
+      - icon                  # 图标封装（Lucide/自定义）
+      - link                  # 链接：外链图标/可访问性
+      - chip                  # 轻标签：可关闭/可选中
+      - tag                   # 标签：静态语义色
+      - kbd                   # 键盘提示：组合键/布局
+      - divider               # 分割线：水平/垂直
+      - separator             # 语义分隔（A11y）
+      - surface               # 表面容器：层级/背景/投影
+      - spinner               # 通用加载指示（品牌 Loader 另列）
+      - skeleton              # 骨架屏：延时/动画
+      - tooltip               # 工具提示：键盘可达
+      - toggle                # 切换按钮：二态
+      - switch                # 开关：motion?: 'none'|'default'
+      - scroll-area           # 滚动容器：可控滚条
+      - portal                # Portal：浮层挂载
+      - visually-hidden       # 屏幕阅读器可见
+      - focus-trap            # 焦点陷阱：对话框内循环
+      - focus-scope           # 焦点域：界定与恢复
+      - dismissable-layer     # 可关闭层：外击/ESC 统一
+      - overlay-trigger       # 覆盖层触发：对齐/开闭
+      - intersection-observer # 视口观察：懒加载
+      - resize-observer       # 尺寸观察：自适应
+      - scroll-lock           # 锁滚：弹层开启滚动管理
+      - ssr-boundary          # 仅客户端渲染边界
+      - aspect-ratio          # 比例容器：媒体适配
+      - truncate              # 文本截断：单/多行
+      - copy-button           # 通用复制按钮（独立于 code-block）
+      - skip-link             # 跳到主内容（A11y 基线）
+
+  - id: inputs
+    title: 表单输入（Inputs）
+    description: "统一受控/非受控策略，键盘矩阵一致"
+    items:
+      - input                 # 文本输入
+      - password-input        # 密码输入：可见切换
+      - input-number          # 数字输入：步进/限制
+      - textarea              # 多行文本
+      - checkbox              # 复选框：全选/半选
+      - radio                 # 单选框：分组/对齐
+      - select                # 选择器：单/多选
+      - combobox              # 组合框：搜索+选择
+      - slider                # 滑块：范围/单值
+      - search-input          # 搜索输入：清除/Submit
+      - button-group          # 按钮组：互斥/多选
+      - input-group           # 输入组：前后缀/组合
+      - segmented-control     # 分段选择：紧凑切换
+      - toggle-group          # Toggle 组：多选/标签态
+      - file-input            # 文件上传：拖拽/多文件
+      - dropzone              # 拖拽上传容器（亦可为 file-input 变体）
+      - input-mask            # 掩码输入：手机号/卡号/发票等
+      - date-picker           # 日期选择：单选
+      - date-range-picker     # 日期区间：起止/跨月
+      - time-picker           # 时间选择：步进/格式
+      - datetime-picker       # 日期时间组合
+      - color-picker          # 取色器：HSL/RGB/输入
+      - otp-input             # 验证码/一次性 PIN
+      - pin-input             # PIN 输入：固定长度
+      - tags-input            # 标签输入：建议/去重
+      - currency-input        # 金额输入：本地化/精度
+      - phone-input           # 国际电话：区号/掩码
+      - rating                # 评分输入：星级/表情
+
+  - id: forms
+    title: 表单容器与校验（Forms）
+    description: "容器/字段/多步/提交与错误呈现"
+    items:
+      - form                  # 表单容器：上下文/提交流
+      - fieldset              # 字段集：禁用/分组
+      - form-field            # 字段：label/help/error
+      - validation-message    # 校验提示：aria-live
+      - form-wizard           # 多步表单：步骤/校验联动
+      - stepper               # 步骤指示：进度/可点击
+      - submit-button         # 提交按钮：提交中/禁用
+      - form-reset            # 重置：脏值/确认
+      - field-array           # 动态字段数组：增删
+      - error-summary         # 错误汇总（键盘可达）
+      - autosave              # 自动保存（草稿/离开提示）
+
+  - id: layout
+    title: 布局（Layout）
+    description: "页面/组件级布局容器与工具"
+    items:
+      - container             # 页面容器：断点内宽
+      - box                   # 基础容器：语义包装
+      - stack                 # 堆叠：水平/垂直 + gap
+      - flex                  # 弹性布局：分布/换行
+      - grid                  # 网格：轨道/间距
+      - grid-item             # 网格项：跨行列
+      - spacer                # 空白间距：自适应
+      - split-pane            # 可拖拽分栏：持久化
+      - aspect-grid           # 等比例网格：媒体墙
+      - panel                 # 面板容器：卡槽
+      - panel-header          # 面板头：工具区
+      - panel-content         # 面板内容
+      - panel-footer          # 面板脚：行动区
+      - responsive-layout     # 响应式模板：壳体
+      - masonry               # 瀑布流（虚拟化/响应式）
+      - container-queries     # 容器查询包装
+      - sticky                # 吸顶/吸底容器
+      - viewport              # 安全区适配（刘海/底部手势）
+
+  - id: navigation
+    title: 导航（Navigation）
+    description: "站点/上下文导航结构与命令入口"
+    items:
+      - navbar                # 顶栏：品牌/导航/用户区
+      - basic-header          # 基础头部：标题/面包屑位
+      - breadcrumb            # 面包屑：可折叠/溢出
+      - dropdown-menu         # 下拉菜单：触发+对齐
+      - menubar               # 应用菜单栏：纵/横向
+      - menu                  # 菜单：层级/选择态
+      - sidebar               # 侧栏：可折叠/固定
+      - tabs                  # 标签页：可关闭/拖拽
+      - pagination            # 分页：键盘可达
+      - command-palette       # 命令面板：全局搜索/命令
+      - skip-links            # 多直达链接：主内容/导航/页脚
+      - breadcrumbs-collapsible # 长路径折叠（或作为 breadcrumb 变体）
+
+  - id: data-display
+    title: 数据呈现（Data Display）
+    description: "列表/表格/树/时间线/卡片/媒体/代码/虚拟化等"
+    items:
+      - list                  # 列表：可选/可展开
+      - table                 # 基表：表头/行列/对齐
+      - table-header          # 表头：排序/选择
+      - table-body            # 表体：虚拟化兼容
+      - table-row             # 行：选择/展开
+      - table-cell            # 单元格：对齐/合并
+      - data-table            # 高级表：分页/过滤/列设定
+      - sticky-header         # 吸顶表头/工具区容器
+      - column-resizer        # 列宽拖拽
+      - column-visibility     # 列显隐控制（持久化）
+      - row-selection         # 行选择（单/多/半选）
+      - infinite-loader       # 增量加载容器（与虚拟列表契约）
+      - tree                  # 树：异步加载/选择
+      - timeline              # 时间线：左右/交错
+      - description-list      # 属性-值：详情页
+      - empty-state           # 空态：插画/操作建议
+      - image                 # 媒体展示：占位/懒加载
+      - video                 # 视频容器：可达性/快捷键
+      - qr-code               # 二维码渲染：容错/Logo
+      - stat                  # 统计数值：趋势/单位
+      - stat-group            # 统计组：网格/对齐
+      - badge-list            # 徽章集合：筛选/标签云
+      - chip-list             # 芯片集合：可删除
+      - card                  # 卡片：信息容器
+      - animated-card         # 卡片变体：动效（建议以 variant 实现）
+      - advanced-card         # 卡片变体：信息密度（variant）
+      - component-card        # 组件展示卡：文档站
+      - carousel              # 轮播：自动/手动
+      - carousel-item         # 轮播项：媒体/自适应
+      - carousel-control      # 轮播控制：箭头/指示
+      - code-block            # 代码块：高亮/复制/变体
+      - virtual-list          # 虚拟列表：大数据量
+      - json-viewer           # JSON 视图：折叠/搜索
+      - highlight             # 关键词高亮：搜索联动
+      - metric-card           # 指标卡：趋势/对比
+      - map-container         # 地图容器（Adapter：Mapbox/Leaflet/ECharts）
+
+  - id: charts
+    title: 可视化（Charts）
+    description: "ChartCore 适配层 + 常用图型（第三方库解耦）"
+    items:
+      - chart                 # 基类/容器：数据/布局
+      - chart-container       # 自适应容器：尺寸监听
+      - chart-tooltip         # 悬浮提示：Portal
+      - chart-legend          # 图例：多序列切换
+      - line-chart            # 折线：趋势
+      - bar-chart             # 柱状：比较
+      - pie-chart             # 饼图：占比
+      - area-chart            # 面积：累计趋势
+      - scatter-plot          # 散点：相关性
+      - radar-chart           # 雷达：多维
+      - sparkline             # 迷你趋势线：紧凑
+      - gauge                 # 仪表盘：阈值/范围
+      - heatmap               # 热力：矩阵分布
+      - treemap               # 矩形树图：层级
+      - funnel                # 漏斗：转化
+      - histogram             # 直方图：分布
+      - candlestick           # K 线：金融
+      - violin                # 小提琴图：密度
+      - bullet                # 子弹图：目标/实际/阈值
+      - boxplot               # 箱线图：分位（可选，分析向）
+
+  - id: overlays
+    title: 弹层（Overlays）
+    description: "模态/抽屉/Popover/悬浮卡等覆盖层"
+    items:
+      - dialog                # 对话框：焦点陷阱/回焦
+      - drawer                # 抽屉：侧向滑出
+      - sheet                 # 底部抽屉：移动端友好
+      - popover               # 弹出层：就地交互
+      - hover-card            # 悬停卡：延迟/意图区域
+      - lightbox              # 灯箱：媒体放大预览
+      - context-menu          # 右键菜单：定位/快捷
+      - dropdown              # 下拉容器（与 navigation 的 dropdown-menu 区分）
+      - tour                  # 新手引导：步骤覆盖
+      - coachmark             # 焦点标注：单点引导
+
+  - id: feedback
+    title: 反馈（Feedback）
+    description: "状态/通知/进度/结果/无障碍提示"
+    items:
+      - alert                 # 警告/结果：语义色
+      - toast                 # 轻提示：队列/可关闭
+      - notification          # 通知：富文本/操作
+      - progress              # 线性进度（确定/不确定）
+      - progress-circle       # 环形进度（确定/不确定）
+      - top-progress-bar      # 顶部进度（路由切换）
+      - result                # 结果页：成功/失败/403/404
+      - aria-live-region      # 动态提示：屏幕阅读
+      - theme-toggle          # 主题切换：状态反馈
+      - confirm-dialog        # 确认框：模式化封装
+      - update-notice         # 版本更新/数据刷新提示
+      - announce              # SR-only 宣告工具（封装常见 aria-live 模式）
+
+  - id: loading
+    title: 加载（Loading）
+    description: "专用加载组件与骨架策略"
+    items:
+      - xorigo-logo-loader    # 品牌加载：中心动画
+      - skeleton-group        # 骨架组：延时/布局保序
+      - lazy-spinners         # 懒加载 Spinners：SSR 友好
+
+  - id: interactive
+    title: 交互（Interactive）
+    description: "拖拽/排序/框选/可调整/编辑器/对比等复杂交互"
+    items:
+      - code-editor           # 代码编辑器：复制/高亮
+      - drag-and-drop         # 拖拽：排序/看板
+      - sortable              # 可排序列表/网格（键盘可达）
+      - selection-rectangle   # 框选交互（画布/看板）
+      - resizable             # 可调整大小：句柄/约束
+      - editable              # 行内编辑：只读切换
+      - markdown-editor       # Markdown 编辑：预览
+      - diff-viewer           # 差异对比：并排/内联
+      - drag-scroll           # 拖拽滚动容器
+      - long-press            # 长按手势（移动端友好）
+
+  - id: effects
+    title: 特效（Effects）
+    description: "视觉动效/流体/视差/英雄标题等"
+    items:
+      - fluid-background      # 流体背景：GPU 友好
+      - hero-title            # 英雄区标题：渐变/发光
+      - super-particle-system # 粒子：交互/性能
+      - super-particle-system-simple # 简版粒子：低耗
+      - parallax              # 视差滚动：分层
+      - tilt                  # 3D 倾斜：鼠标跟随
+      - noise-overlay         # 噪点覆盖：质感
+      - cursor-trail          # 指针拖尾特效
+      - gradient-orbs         # 渐变球体
+      - confetti              # 庆祝/达成动效
+
+  - id: blocks
+    title: 模板与区块（Blocks）
+    description: "页面级可复用版块（营销/应用）"
+    items:
+      - hero-section          # 头图区：标题/CTA/媒体
+      - pricing-table         # 价格表：切换/对比
+      - feature-grid          # 特性网格：图标/文案
+      - testimonial           # 用户证言：头像/评级
+      - cta-section           # Call-to-Action：转化位
+      - auth-forms            # 登录注册：组合 Inputs/Forms
+      - dashboard-widgets     # 仪表盘小件：统计+图表
+      - table-toolbar         # 表格工具栏（列设置/过滤/导出）
+      - filter-bar            # 筛选条（标签化条件/快捷重置）
+
+  - id: labs
+    title: 实验室（Labs / Showcase）
+    description: "实验性/展示性组件，不承诺稳定 API（不进入主导出）"
+    items:
+      - component-3d-carousel # 3D 组件轮播：性能评估
+      - counter-animation     # 计数动画：文案驱动
+      - code-demo             # 代码演示容器：沙箱
+
+meta:
+  architecture:
+    version: "1.4.0"
+    total_categories: 16
+    total_components: 150+
+    classification:
+      core: [foundations, primitives, inputs, forms, layout, navigation, data-display, charts, overlays]
+      extended: [feedback, loading, interactive, effects, blocks, system, labs]
+    ssot: true
+
+  design_principles:
+    - atomic_design
+    - component_driven
+    - accessibility_first
+    - performance_optimized
+    - theming_system
+    - predictable_structure
+    - zero_duplication
+
+  tech_stack:
+    - React 19 (Core)
+    - TypeScript 5.9 (Types)
+    - Tailwind CSS 4 (Styling)
+    - Framer Motion 12 (Animation)
+    - Vite 7 (Library Mode)
+    - Radix Primitives 1.x (Headless A11y Primitives)
+    - TanStack Table + TanStack Virtual (Data Table & Virtualization)
+    - TanStack Query (Data Fetching/Cache)
+    - React Hook Form + Zod (Forms & Validation)
+    - Testing: Vitest + React Testing Library + Playwright
+    - Accessibility: axe-core (CI/E2E)
+    - Docs: Astro (Docs Site) + Storybook (Component Playground)
+    - Code: Shiki (Highlight) + Monaco (Editor)
+    - i18n/Date: Intl + date-fns
+    - Color: culori / colord
+    - Build & Monorepo: PNPM 9 + Turborepo + Changesets
+    - Lint & Format: ESLint + Prettier + Biome + Commitlint
+    - Bundling: tsup + rollup-plugin-dts
+    - Visual Regression: Argos (optional)
+
+
+  export_structure:
+    main_entry: "./packages/core/src/index.ts"
+    categorization: "directory-based"
+    naming_convention: "kebab-case for files, PascalCase for components"
+    docs_generation: "auto from taxonomy.yaml"

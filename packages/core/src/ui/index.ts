@@ -6,7 +6,6 @@
 // 基础组件
 export * from './AnimatedCard'
 export * from './Avatar'
-export * from './AvatarGroup'
 export * from './Badge'
 export * from './Button'
 export * from './Card'

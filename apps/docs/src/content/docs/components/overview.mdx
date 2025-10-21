@@ -1,0 +1,224 @@
+---
+title: 组件概览
+description: Xorigo UI 组件库的完整组件列表和分类
+sidebar:
+  order: 0
+---
+
+import { Card, Cards } from '@astrojs/starlight/components'
+
+Xorigo UI 提供了丰富的 React 组件，遵循原子化设计原则，支持高度定制和主题系统。
+
+## 组件分类
+
+<Cards>
+  <Card title="🔘 基础组件" icon="circle">
+    Button, Input, Badge, Label, Separator
+  </Card>
+  <Card title="📦 布局组件" icon="stack">
+    Card, Container, Grid, Flex, Spacer
+  </Card>
+  <Card title="📋 表单组件" icon="check-square">
+    Form, Field, Checkbox, Radio, Switch, Select
+  </Card>
+  <Card title="📊 数据展示" icon="table">
+    Table, List, Avatar, Progress, Chart
+  </Card>
+  <Card title="🔔 反馈组件" icon="bell">
+    Alert, Toast, Modal, Tooltip, Popover
+  </Card>
+  <Card title="🧭 导航组件" icon="compass">
+    Tabs, Menu, Breadcrumb, Pagination
+  </Card>
+</Cards>
+
+## 组件列表
+
+### 基础组件 (Atoms)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Button](./button) | 按钮，支持多种变体和状态 | ✅ 完成 |
+| [Input](./input) | 输入框，支持各种类型 | ✅ 完成 |
+| [Label](./label) | 标签，用于表单元素 | ✅ 完成 |
+| [Badge](./badge) | 徽章，用于状态标识 | ✅ 完成 |
+| [Separator](./separator) | 分隔线 | ✅ 完成 |
+| [Icon](./icon) | 图标组件 | 🚧 开发中 |
+| [Avatar](./avatar) | 头像组件 | 🚧 开发中 |
+
+### 布局组件 (Layout)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Card](./card) | 卡片容器 | ✅ 完成 |
+| [Container](./container) | 容器组件 | ✅ 完成 |
+| [Grid](./grid) | 网格布局 | 🚧 开发中 |
+| [Flex](./flex) | 弹性布局 | 🚧 开发中 |
+| [Spacer](./spacer) | 间距组件 | 📋 计划中 |
+
+### 表单组件 (Forms)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Form](./form) | 表单容器 | 🚧 开发中 |
+| [Field](./field) | 表单字段 | 🚧 开发中 |
+| [Checkbox](./checkbox) | 复选框 | 📋 计划中 |
+| [Radio](./radio) | 单选框 | 📋 计划中 |
+| [Switch](./switch) | 开关 | 📋 计划中 |
+| [Select](./select) | 选择器 | 📋 计划中 |
+| [Textarea](./textarea) | 多行文本输入 | 📋 计划中 |
+
+### 数据展示 (Data Display)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Table](./table) | 表格 | 🚧 开发中 |
+| [List](./list) | 列表 | 📋 计划中 |
+| [Progress](./progress) | 进度条 | 📋 计划中 |
+| [Chart](./chart) | 图表 | 📋 计划中 |
+
+### 反馈组件 (Feedback)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Alert](./alert) | 警告提示 | 🚧 开发中 |
+| [Toast](./toast) | 轻提示 | 🚧 开发中 |
+| [Modal](./modal) | 模态框 | ✅ 完成 |
+| [Tooltip](./tooltip) | 工具提示 | 📋 计划中 |
+| [Popover](./popover) | 气泡卡片 | 📋 计划中 |
+
+### 导航组件 (Navigation)
+
+| 组件 | 描述 | 状态 |
+|------|------|------|
+| [Tabs](./tabs) | 标签页 | 📋 计划中 |
+| [Menu](./menu) | 菜单 | 📋 计划中 |
+| [Breadcrumb](./breadcrumb) | 面包屑 | 📋 计划中 |
+| [Pagination](./pagination) | 分页 | 📋 计划中 |
+
+## 设计原则
+
+### 1. 原子化设计
+
+我们的组件遵循原子化设计原则：
+
+- **原子 (Atoms)**：最基本的 UI 构建块，如 Button、Input
+- **分子 (Molecules)**：原子的简单组合，如 SearchInput、FormField
+- **生物体 (Organisms)**：复杂的组件组合，如 Header、DataTable
+
+### 2. 一致性 API
+
+所有组件都遵循一致的 API 设计：
+
+```tsx
+interface ComponentProps {
+  variant?: 'primary' | 'secondary' | 'outline'  // 变体系统
+  size?: 'sm' | 'md' | 'lg'                       // 尺寸系统
+  className?: string                              // 样式扩展
+  children?: React.ReactNode                      // 内容组合
+  disabled?: boolean                              // 状态控制
+}
+```
+
+### 3. 可访问性优先
+
+- 内置 ARIA 属性支持
+- 键盘导航友好
+- 屏幕阅读器兼容
+- 符合 WCAG 2.1 标准
+
+### 4. 主题系统集成
+
+- 使用 CSS 变量实现主题切换
+- 支持 10 种内置主题
+- 完全可定制的颜色系统
+- 响应式设计支持
+
+## 使用指南
+
+### 按需导入
+
+推荐使用按需导入来减少打包体积：
+
+```tsx
+// ✅ 推荐：按需导入
+import { Button, Input } from '@xorigo-ui/core'
+
+// ❌ 不推荐：全量导入
+import * as XorigoUI from '@xorigo-ui/core'
+```
+
+### 组合使用
+
+组件设计为可组合使用：
+
+```tsx
+import { Card, CardHeader, CardContent, CardFooter, Button, Input } from '@xorigo-ui/core'
+
+function LoginForm() {
+  return (
+    <Card className="w-96">
+      <CardHeader>
+        <h2>登录</h2>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Input placeholder="用户名" />
+        <Input type="password" placeholder="密码" />
+      </CardContent>
+      <CardFooter>
+        <Button className="w-full">登录</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+### 主题定制
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <ThemeProvider theme="dark">
+      <YourComponents />
+    </ThemeProvider>
+  )
+}
+```
+
+## 路线图
+
+### v0.2.0 (计划中)
+- [ ] Form 组件系统
+- [ ] Table 组件
+- [ ] Tabs 组件
+- [ ] Tooltip 组件
+
+### v0.3.0 (计划中)
+- [ ] Chart 组件
+- [ ] 虚拟滚动
+- [ ] 拖拽排序
+- [ ] 国际化支持
+
+### 长期规划
+- [ ] 移动端优化组件
+- [ ] 3D 图表组件
+- [ ] AR/VR 组件支持
+- [ ] Web Components 支持
+
+## 贡献指南
+
+我们欢迎社区贡献！请查看 [贡献指南](../development/contributing) 了解如何：
+
+- 提交新的组件
+- 报告 Bug
+- 改进文档
+- 提出功能建议
+
+## 性能指标
+
+- **包体积**: 核心包 < 50KB (gzipped)
+- **渲染性能**: 首屏渲染 < 16ms
+- **动画流畅度**: 60fps
+- **可访问性**: WCAG 2.1 AA 级别

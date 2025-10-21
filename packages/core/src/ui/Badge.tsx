@@ -212,5 +212,3 @@ export const BadgeGroup: React.FC<BadgeGroupProps> = ({
 }
 
 BadgeGroup.displayName = 'BadgeGroup'
-
-export { Badge, BadgeGroup }
