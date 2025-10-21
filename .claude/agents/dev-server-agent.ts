@@ -705,9 +705,9 @@ export class DevServerAgent {
     const cleanupCommands = [
       'pkill -9 -f "npm.*run.*dev" 2>/dev/null || true',
       'pkill -9 -f "next.*dev" 2>/dev/null || true',
-      'sudo killall -9 node 2>/dev/null || true',
       'pgrep -f "npm.*run.*dev" | xargs -r kill -9 2>/dev/null || true',
       'pgrep -f "next.*dev" | xargs -r kill -9 2>/dev/null || true'
+      // 注意：移除了危险的 killall node 命令
     ]
 
     for (const command of cleanupCommands) {

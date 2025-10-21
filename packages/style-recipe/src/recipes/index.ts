@@ -18,6 +18,17 @@ import type {
   SurfaceAxis,
 } from '../types'
 
+// 导入备份主题配方
+import {
+  legacyThemeRecipes,
+  legacyRecipeMap,
+  legacyRecipesByCategory,
+  getLegacyRecipe,
+  getLegacyRecipesByCategory,
+  searchLegacyRecipes,
+  getRecommendedLegacyRecipes,
+} from './legacy-themes'
+
 // ============================================================================
 // 官方配方集合 (Official Recipe Collection)
 // ============================================================================
@@ -323,20 +334,28 @@ export const officialRecipes: StyleRecipe[] = [
 ] as const
 
 /**
+ * 所有配方（官方 + 备份主题）
+ */
+export const allRecipes: StyleRecipe[] = [
+  ...officialRecipes,
+  ...legacyThemeRecipes,
+] as const
+
+/**
  * 配方映射表
  */
-export const recipeMap: Record<string, StyleRecipe> = officialRecipes.reduce(
-  (map, recipe) => {
+export const recipeMap: Record<string, StyleRecipe> = {
+  ...officialRecipes.reduce((map, recipe) => {
     map[recipe.id] = recipe
     return map
-  },
-  {} as Record<string, StyleRecipe>
-)
+  }, {} as Record<string, StyleRecipe>),
+  ...legacyRecipeMap,
+}
 
 /**
  * 按类别分组的配方
  */
-export const recipesByCategory = officialRecipes.reduce((groups, recipe) => {
+export const recipesByCategory = allRecipes.reduce((groups, recipe) => {
   if (!groups[recipe.category]) {
     groups[recipe.category] = []
   }
@@ -380,7 +399,29 @@ export function getRecommendedRecipes(): StyleRecipe[] {
     corporateBlueRecipe, // 企业推荐
     minimalWhiteRecipe,  // 内容推荐
     techCyanRecipe,      // 开发者推荐
+    warmSunriseRecipe,   // 备份主题推荐
   ]
+}
+
+/**
+ * 获取推荐备份主题配方
+ */
+export function getRecommendedLegacyRecipes(): StyleRecipe[] {
+  return [
+    warmSunriseRecipe,    // 温暖推荐
+    forestNatureRecipe,   // 自然推荐
+    dreamyRainbowRecipe,  // 创意推荐
+    royalVioletRecipe,   // 优雅推荐
+  ]
+}
+
+/**
+ * 搜索所有配方（官方 + 备份主题）
+ */
+export function searchAllRecipes(query: string): StyleRecipe[] {
+  const officialResults = searchRecipes(query)
+  const legacyResults = searchLegacyRecipes(query)
+  return [...officialResults, ...legacyResults]
 }
 
 // ============================================================================

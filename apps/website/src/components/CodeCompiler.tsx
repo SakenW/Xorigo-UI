@@ -113,7 +113,7 @@ export default function CodeCompiler() {
                 onChange={(e) => setConfig({ ...config, sourcemap: e.target.checked })}
                 className="mr-2"
               />
-              <span className="text-sm">Source Map</span>
+              <span className="text-sm">源码映射</span>
             </label>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function CodeCompiler() {
                 {result.map && (
                   <details className="mt-4">
                     <summary className="cursor-pointer font-semibold">
-                      Source Map
+                      源码映射
                     </summary>
                     <pre className="bg-white p-4 rounded border overflow-x-auto text-xs mt-2">
                       <code>{result.map}</code>

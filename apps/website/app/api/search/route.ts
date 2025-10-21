@@ -89,8 +89,8 @@ export async function GET(request: NextRequest) {
     if (!query.trim()) {
       return NextResponse.json({
         success: false,
-        error: 'Validation failed',
-        message: 'Search query is required',
+        error: '验证失败',
+        message: '搜索关键词为必填项',
       }, {
         status: 400,
         headers: corsHeaders,
@@ -178,7 +178,7 @@ export async function GET(request: NextRequest) {
             type: 'tag',
             id: tag,
             title: tag,
-            description: `${tagData.count} components tagged with "${tag}"`,
+            description: `${tagData.count} 个组件标记为 "${tag}"`,
             url: `/workbench?mode=gallery&tag=${encodeURIComponent(tag)}`,
             tags: [tag],
             score,
@@ -223,8 +223,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: false,
-      error: 'Internal server error',
-      message: 'Failed to perform search',
+      error: '服务器内部错误',
+      message: '搜索执行失败',
     }, {
       status: 500,
       headers: corsHeaders,

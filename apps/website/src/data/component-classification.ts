@@ -1,14 +1,13 @@
 /**
- * Xorigo UI 组件分类映射配置
+ * Xorigo UI 组件分类映射配置 - 修复版
  *
- * 基于唯一事实文档的9大分类体系
- * 将现有组件映射到规范的分类结构
+ * 仅包含实际存在的组件
  */
 
 import { ComponentType } from 'react'
 
 // ============================================================================
-// 组件分类体系 - 基于 SHARED/COMPONENT-CLASSIFICATION-SYSTEM.md
+// 组件分类体系 - 基于实际可用的 Xorigo UI 组件
 // ============================================================================
 
 export interface ComponentInfo {
@@ -30,131 +29,208 @@ export interface ComponentCategory {
 }
 
 // ============================================================================
-// 1. 🎨 Base (基础组件) - 最基础的UI构建块
+// 1. 🎨 UI 基础组件 - 最基础的UI构建块
 // ============================================================================
-const baseComponents: ComponentInfo[] = [
+const uiBasicComponents: ComponentInfo[] = [
+  {
+    name: 'AnimatedCard',
+    description: '动画卡片组件 - 带动画效果的卡片',
+    props: ['children', 'className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'AvatarGroup',
+    description: '头像组组件 - 多头像显示',
+    props: ['avatars', 'max'],
+    category: 'ui-basic'
+  },
   {
     name: 'Button',
     description: '按钮组件 - 支持多种变体和尺寸',
     variants: ['primary', 'secondary', 'outline', 'ghost', 'destructive'],
     props: ['variant', 'size', 'disabled', 'loading'],
-    category: 'base'
+    category: 'ui-basic'
   },
   {
-    name: 'Typography',
-    description: '文本/排版组件',
-    variants: ['h1', 'h2', 'h3', 'h4', 'body', 'caption'],
-    props: ['variant', 'weight', 'color', 'align'],
-    category: 'base'
+    name: 'Card',
+    description: '卡片组件 - 基础容器组件',
+    props: ['children', 'className'],
+    category: 'ui-basic'
   },
   {
+    name: 'Code',
+    description: '代码展示组件',
+    props: ['children', 'className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'CopyButton',
+    description: '复制按钮组件',
+    props: ['text', 'className'],
+    category: 'ui-basic'
+  },
+    {
     name: 'Icon',
-    description: '图标注册/渲染组件',
-    props: ['name', 'size', 'color'],
-    category: 'base'
-  },
-  {
-    name: 'Avatar',
-    description: '头像组件',
-    props: ['src', 'alt', 'size', 'fallback'],
-    category: 'base'
-  },
-  {
-    name: 'Badge',
-    description: '徽章组件',
-    variants: ['default', 'success', 'warning', 'error'],
-    props: ['variant', 'size', 'color'],
-    category: 'base'
-  },
-  {
-    name: 'AvatarGroup',
-    description: '头像组组件',
-    props: ['max', 'size', 'avatars'],
-    category: 'base'
-  },
-  {
-    name: 'Separator',
-    description: '分隔线组件',
-    variants: ['horizontal', 'vertical'],
-    props: ['orientation', 'decorative'],
-    category: 'base'
+    description: '图标组件',
+    props: ['name', 'size', 'className'],
+    category: 'ui-basic'
   },
   {
     name: 'Kbd',
     description: '键盘提示组件',
-    props: ['children', 'size'],
-    category: 'base'
-  }
-]
-
-// ============================================================================
-// 2. 📐 Layout (布局组件) - 页面布局和空间分配
-// ============================================================================
-const layoutComponents: ComponentInfo[] = [
-  {
-    name: 'Container',
-    description: '页面容器/宽度限制',
-    props: ['maxWidth', 'centered', 'padding'],
-    category: 'layout'
-  },
-  {
-    name: 'Flex',
-    description: '弹性布局组件',
-    props: ['direction', 'justify', 'align', 'gap', 'wrap'],
-    category: 'layout'
-  },
-  {
-    name: 'Grid',
-    description: '网格布局组件',
-    props: ['columns', 'gap', 'areas'],
-    category: 'layout'
-  },
-  {
-    name: 'Box',
-    description: '最小容器/Box',
-    props: ['padding', 'margin', 'display', 'position'],
-    category: 'layout'
-  },
-  {
-    name: 'Spacer',
-    description: '空白间距组件',
-    props: ['size', 'direction'],
-    category: 'layout'
-  },
-  {
-    name: 'Panel',
-    description: '面板容器组件',
-    props: ['title', 'padding', 'bordered'],
-    category: 'layout'
+    props: ['children', 'className'],
+    category: 'ui-basic'
   },
   {
     name: 'ScrollArea',
-    description: '滚动容器/虚拟滚动适配位',
-    props: ['direction', 'scrollbar', 'className'],
-    category: 'layout'
+    description: '滚动容器组件',
+    props: ['className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Separator',
+    description: '分隔线组件',
+    props: ['orientation', 'className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Skeleton',
+    description: '骨架屏组件 - 加载占位',
+    props: ['className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Spinner',
+    description: '旋转加载指示器',
+    props: ['size'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Surface',
+    description: '表面容器组件',
+    props: ['className'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Tooltip',
+    description: '提示框组件',
+    props: ['content', 'children'],
+    category: 'ui-basic'
+  },
+  {
+    name: 'Typography',
+    description: '文本/排版组件',
+    variants: ['h1', 'h3', 'p', 'small'],
+    props: ['variant', 'children', 'className'],
+    category: 'ui-basic'
   }
 ]
 
 // ============================================================================
-// 3. 🧭 Navigation (导航组件) - 提供导航和路由功能
+// 2. 📝 输入控件组件 - 用户输入组件
+// ============================================================================
+const inputComponents: ComponentInfo[] = [
+  {
+    name: 'Input',
+    description: '输入组件 - 文本输入框',
+    variants: ['default', 'outlined', 'filled'],
+    props: ['placeholder', 'value', 'onChange', 'variant', 'error'],
+    category: 'input'
+  },
+  {
+    name: 'Textarea',
+    description: '文本域组件 - 多行文本输入',
+    props: ['placeholder', 'value', 'onChange', 'rows'],
+    category: 'input'
+  },
+  {
+    name: 'Select',
+    description: '选择组件 - 下拉选择框',
+    props: ['placeholder', 'value', 'onChange', 'options'],
+    category: 'input'
+  },
+  {
+    name: 'Checkbox',
+    description: '复选框组件',
+    props: ['checked', 'onChange', 'label', 'disabled'],
+    category: 'input'
+  },
+  {
+    name: 'Radio',
+    description: '单选框组件',
+    props: ['value', 'onChange', 'label', 'disabled'],
+    category: 'input'
+  },
+  {
+    name: 'Switch',
+    description: '开关组件',
+    props: ['checked', 'onChange', 'disabled', 'label'],
+    category: 'input'
+  },
+  {
+    name: 'Slider',
+    description: '滑块组件 - 数值选择',
+    props: ['value', 'onChange', 'min', 'max'],
+    category: 'input'
+  },
+  {
+    name: 'ButtonGroup',
+    description: '按钮组组件 - 按钮组合',
+    props: ['children', 'className'],
+    category: 'input'
+  },
+  {
+    name: 'SearchInput',
+    description: '搜索输入框 - 带搜索功能',
+    props: ['placeholder', 'value', 'onChange', 'onSearch'],
+    category: 'input'
+  },
+  {
+    name: 'PasswordInput',
+    description: '密码输入框 - 密码输入',
+    props: ['placeholder', 'value', 'onChange'],
+    category: 'input'
+  },
+  {
+    name: 'InputNumber',
+    description: '数字输入框 - 数值输入',
+    props: ['value', 'onChange', 'min', 'max'],
+    category: 'input'
+  },
+  {
+    name: 'Combobox',
+    description: '组合框 - 自动完成选择',
+    props: ['placeholder', 'value', 'onChange', 'options'],
+    category: 'input'
+  },
+  {
+    name: 'Command',
+    description: '命令输入框 - 命令面板',
+    props: ['placeholder', 'children'],
+    category: 'input'
+  }
+]
+
+// ============================================================================
+// 3. 🧭 导航组件 - 页面导航组件
 // ============================================================================
 const navigationComponents: ComponentInfo[] = [
   {
     name: 'Tabs',
     description: '标签页组件',
-    props: ['defaultValue', 'orientation', 'activationMode'],
+    props: ['defaultValue', 'children'],
     category: 'navigation'
   },
   {
     name: 'Menu',
     description: '菜单组件',
-    props: ['items', 'orientation', 'trigger'],
+    props: ['children', 'trigger'],
     category: 'navigation'
   },
   {
     name: 'Breadcrumb',
     description: '面包屑导航',
-    props: ['items', 'separator', 'maxItems'],
+    props: ['children'],
     category: 'navigation'
   },
   {
@@ -164,194 +240,82 @@ const navigationComponents: ComponentInfo[] = [
     category: 'navigation'
   },
   {
-    name: 'Navbar',
-    description: '导航栏组件',
-    props: ['title', 'actions', 'position'],
-    category: 'navigation'
-  },
-  {
-    name: 'Sidebar',
-    description: '侧边栏组件',
-    props: ['open', 'onOpenChange', 'position'],
-    category: 'navigation'
-  },
-  {
-    name: 'DataTable',
-    description: '数据表格导航',
-    props: ['data', 'columns', 'sortable', 'filterable'],
+    name: 'ComponentNav',
+    description: '组件导航',
+    props: ['components', 'selectedComponent', 'onSelect'],
     category: 'navigation'
   }
 ]
 
 // ============================================================================
-// 4. 📝 Form (表单组件) - 用户输入数据的核心交互组件
-// ============================================================================
-const formComponents: ComponentInfo[] = [
-  {
-    name: 'Input',
-    description: '输入组件',
-    variants: ['text', 'email', 'password', 'search'],
-    props: ['type', 'placeholder', 'disabled', 'error'],
-    category: 'form'
-  },
-  {
-    name: 'Textarea',
-    description: '文本域组件',
-    props: ['placeholder', 'rows', 'disabled', 'resize'],
-    category: 'form'
-  },
-  {
-    name: 'Select',
-    description: '选择组件',
-    props: ['options', 'placeholder', 'multiple', 'searchable'],
-    category: 'form'
-  },
-  {
-    name: 'Checkbox',
-    description: '复选框组件',
-    props: ['checked', 'onCheckedChange', 'disabled', 'label'],
-    category: 'form'
-  },
-  {
-    name: 'Radio',
-    description: '单选框组件',
-    props: ['value', 'onValueChange', 'options', 'disabled'],
-    category: 'form'
-  },
-  {
-    name: 'Switch',
-    description: '开关组件',
-    props: ['checked', 'onCheckedChange', 'disabled', 'label'],
-    category: 'form'
-  },
-  {
-    name: 'Slider',
-    description: '滑块组件',
-    props: ['value', 'onValueChange', 'min', 'max', 'step'],
-    category: 'form'
-  },
-  {
-    name: 'Combobox',
-    description: '组合框/自动完成组件',
-    props: ['options', 'searchable', 'multiple', 'placeholder'],
-    category: 'form'
-  },
-  {
-    name: 'SearchInput',
-    description: '搜索输入框',
-    props: ['placeholder', 'onSearch', 'loading', 'clearable'],
-    category: 'form'
-  },
-  {
-    name: 'Form',
-    description: '表单容器组件',
-    props: ['onSubmit', 'defaultValues', 'validation'],
-    category: 'form'
-  },
-  {
-    name: 'FormField',
-    description: '表单字段组件',
-    props: ['name', 'label', 'error', 'required'],
-    category: 'form'
-  }
-]
-
-// ============================================================================
-// 5. 📊 Data Display (数据展示组件) - 数据展示和可视化
+// 4. 📊 数据展示组件 - 数据展示组件
 // ============================================================================
 const dataDisplayComponents: ComponentInfo[] = [
   {
-    name: 'Card',
-    description: '卡片组件',
-    variants: ['default', 'outlined', 'elevated'],
-    props: ['title', 'subtitle', 'actions', 'variant'],
-    category: 'data-display'
-  },
-  {
-    name: 'AdvancedCard',
-    description: '高级卡片组件',
-    props: ['title', 'image', 'actions', 'footer'],
-    category: 'data-display'
-  },
-  {
     name: 'Table',
-    description: '表格组件',
-    props: ['data', 'columns', 'sortable', 'pagination'],
+    description: '表格组件 - 数据表格',
+    props: ['data', 'columns', 'children'],
+    category: 'data-display'
+  },
+  {
+    name: 'Accordion',
+    description: '手风琴组件 - 折叠面板',
+    props: ['items', 'multiple', 'children'],
+    category: 'data-display'
+  },
+  {
+    name: 'Carousel',
+    description: '轮播组件 - 图片轮播',
+    props: ['items', 'autoPlay', 'children'],
     category: 'data-display'
   },
   {
     name: 'List',
     description: '列表组件',
-    props: ['items', 'renderItem', 'spacing'],
+    props: ['items', 'children'],
     category: 'data-display'
   },
   {
-    name: 'Accordion',
-    description: '手风琴组件',
-    props: ['items', 'multiple', 'collapsible'],
+    name: 'CodeBlock',
+    description: '代码块组件',
+    props: ['code', 'language', 'className'],
     category: 'data-display'
   },
   {
-    name: 'Carousel',
-    description: '轮播组件',
-    props: ['items', 'autoPlay', 'navigation', 'indicators'],
+    name: 'ComponentCard',
+    description: '组件卡片 - 组件展示卡片',
+    props: ['component', 'onClick', 'className'],
     category: 'data-display'
   },
   {
-    name: 'Code',
-    description: '代码展示组件',
-    props: ['code', 'language', 'showLineNumbers'],
-    category: 'data-display'
-  },
-  {
-    name: 'Surface',
-    description: '表面容器组件',
-    props: ['variant', 'padding', 'bordered', 'shadow'],
+    name: 'AdvancedCard',
+    description: '高级卡片组件',
+    props: ['children', 'className'],
     category: 'data-display'
   }
 ]
 
 // ============================================================================
-// 6. 💬 Feedback (反馈组件) - 用户操作反馈和状态提示
+// 5. 💬 反馈组件 - 用户反馈组件
 // ============================================================================
 const feedbackComponents: ComponentInfo[] = [
   {
     name: 'Alert',
     description: '警告提示组件',
     variants: ['info', 'success', 'warning', 'error'],
-    props: ['variant', 'title', 'description', 'closable'],
-    category: 'feedback'
-  },
-  {
-    name: 'Toast',
-    description: '消息提示组件',
-    variants: ['success', 'error', 'warning', 'info'],
-    props: ['variant', 'title', 'description', 'duration'],
+    props: ['variant', 'children', 'className'],
     category: 'feedback'
   },
   {
     name: 'Loading',
     description: '加载指示器组件',
-    props: ['size', 'color', 'overlay'],
-    category: 'feedback'
-  },
-  {
-    name: 'Spinner',
-    description: '旋转加载指示器',
-    props: ['size', 'color', 'speed'],
-    category: 'feedback'
-  },
-  {
-    name: 'Skeleton',
-    description: '骨架屏组件',
-    props: ['lines', 'animated', 'variant'],
+    props: ['size', 'variant', 'className'],
     category: 'feedback'
   },
   {
     name: 'Progress',
     description: '进度条组件',
-    variants: ['linear', 'circular'],
-    props: ['value', 'max', 'variant', 'color'],
+    props: ['value', 'max', 'className'],
     category: 'feedback'
   },
   {
@@ -361,323 +325,169 @@ const feedbackComponents: ComponentInfo[] = [
     category: 'feedback'
   },
   {
-    name: 'Notification',
-    description: '通知组件',
-    props: ['type', 'title', 'message', 'duration'],
+    name: 'Toast',
+    description: '消息提示组件',
+    props: ['children', 'variant', 'className'],
     category: 'feedback'
   }
 ]
 
 // ============================================================================
-// 7. 🧩 Composite (复合组件) - 由基础组件组合的复杂功能组件
+// 6. 🧩 表单组件 - 表单容器组件
 // ============================================================================
-const compositeComponents: ComponentInfo[] = [
+const formComponents: ComponentInfo[] = [
   {
-    name: 'AnimatedCard',
-    description: '动画卡片组件',
-    props: ['children', 'animation', 'delay'],
-    category: 'composite',
-    subcategory: 'ui-pattern'
+    name: 'Form',
+    description: '表单容器组件',
+    props: ['onSubmit', 'defaultValues', 'children'],
+    category: 'form'
+  },
+  {
+    name: 'FormField',
+    description: '表单字段组件',
+    props: ['name', 'label', 'children', 'error'],
+    category: 'form'
+  },
+  {
+    name: 'Fieldset',
+    description: '字段集组件',
+    props: ['children', 'legend', 'className'],
+    category: 'form'
   },
   {
     name: 'InputGroup',
     description: '输入组组件',
-    props: ['children', 'size', 'variant'],
-    category: 'composite',
-    subcategory: 'functional'
+    props: ['children', 'className'],
+    category: 'form'
   },
   {
-    name: 'ButtonGroup',
-    description: '按钮组组件',
-    props: ['children', 'orientation', 'variant'],
-    category: 'composite',
-    subcategory: 'functional'
-  },
-  {
-    name: 'ResponsiveLayout',
-    description: '响应式布局组件',
-    props: ['children', 'breakpoints', 'sidebar'],
-    category: 'composite',
-    subcategory: 'ui-pattern'
-  },
-  {
-    name: 'BasicHeader',
-    description: '基础头部组件',
-    props: ['title', 'navigation', 'actions'],
-    category: 'composite',
-    subcategory: 'ui-pattern'
+    name: 'ValidationMessage',
+    description: '验证消息组件',
+    props: ['children', 'variant', 'className'],
+    category: 'form'
   }
 ]
 
 // ============================================================================
-// 8. ⚙️ System (系统组件) - 系统级和主题相关的基础设施
+// 7. 🏗️ 布局组件 - 布局工具组件
 // ============================================================================
-const systemComponents: ComponentInfo[] = [
+const layoutComponents: ComponentInfo[] = [
   {
-    name: 'ConfigProvider',
-    description: '配置提供者组件',
-    props: ['theme', 'direction', 'colorScheme'],
-    category: 'system'
+    name: 'Grid',
+    description: '网格布局组件',
+    props: ['children', 'columns', 'gap'],
+    category: 'layout'
   },
   {
-    name: 'Portal',
-    description: '传送门组件',
-    props: ['children', 'container'],
-    category: 'system'
+    name: 'GridItem',
+    description: '网格项组件',
+    props: ['children', 'column', 'row'],
+    category: 'layout'
   },
   {
-    name: 'FocusTrap',
-    description: '焦点陷阱组件',
-    props: ['enabled', 'onFocusEnter', 'onFocusExit'],
-    category: 'system'
+    name: 'Flex',
+    description: '弹性布局组件',
+    props: ['children', 'direction', 'justify', 'align'],
+    category: 'layout'
   },
   {
-    name: 'FocusScope',
-    description: '焦点范围组件',
-    props: ['trapped', 'onMount', 'onUnmount'],
-    category: 'system'
+    name: 'Container',
+    description: '容器组件 - 响应式容器',
+    props: ['children', 'className'],
+    category: 'layout'
   },
   {
-    name: 'ScrollLock',
-    description: '滚动锁定组件',
-    props: ['locked', 'shim'],
-    category: 'system'
+    name: 'Spacer',
+    description: '间距组件',
+    props: ['size', 'className'],
+    category: 'layout'
   },
   {
-    name: 'DismissableLayer',
-    description: '可关闭层组件',
-    props: ['onDismiss', 'disableOutsidePointerEvents'],
-    category: 'system'
+    name: 'Panel',
+    description: '面板容器组件',
+    props: ['children', 'className'],
+    category: 'layout'
   },
   {
-    name: 'VisuallyHidden',
-    description: '视觉隐藏组件',
-    props: ['children', 'focusable'],
-    category: 'system'
+    name: 'PanelHeader',
+    description: '面板头部组件',
+    props: ['children', 'className'],
+    category: 'layout'
+  },
+  {
+    name: 'PanelContent',
+    description: '面板内容组件',
+    props: ['children', 'className'],
+    category: 'layout'
+  },
+  {
+    name: 'PanelFooter',
+    description: '面板底部组件',
+    props: ['children', 'className'],
+    category: 'layout'
   }
 ]
 
 // ============================================================================
-// 9. 🌈 Gradient (渐变组件) - 渐变效果和视觉增强组件
-// ============================================================================
-const gradientComponents: ComponentInfo[] = [
-  {
-    name: 'GradientText',
-    description: '渐变文字组件 - 支持令牌化配色和状态变化',
-    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
-    props: ['category', 'state', 'as', 'className'],
-    category: 'gradient'
-  },
-  {
-    name: 'GradientBackground',
-    description: '渐变背景组件 - 支持动画和令牌化配色',
-    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
-    props: ['category', 'state', 'animated', 'as', 'className'],
-    category: 'gradient'
-  },
-  {
-    name: 'GradientBorder',
-    description: '渐变边框组件 - 支持动画和令牌化配色',
-    variants: ['ui-basic', 'inputs', 'navigation', 'feedback', 'overlays', 'data-display', 'layout', 'charts', 'forms', 'utilities'],
-    props: ['category', 'state', 'animated', 'as', 'className'],
-    category: 'gradient'
-  },
-  {
-    name: 'GradientDemo',
-    description: '渐变演示组件 - 完整的渐变系统演示和交互',
-    props: ['activeTab', 'selectedCategory', 'onCategoryChange'],
-    category: 'gradient'
-  }
-]
-
-// ============================================================================
-// 10. 📈 Visualization (可视化组件) - 数据可视化和图表组件
-// ============================================================================
-const visualizationComponents: ComponentInfo[] = [
-  {
-    name: 'Chart',
-    description: '图表基础组件',
-    props: ['data', 'type', 'config'],
-    category: 'visualization'
-  },
-  {
-    name: 'BarChart',
-    description: '柱状图组件',
-    props: ['data', 'orientation', 'colors'],
-    category: 'visualization'
-  },
-  {
-    name: 'LineChart',
-    description: '折线图组件',
-    props: ['data', 'points', 'smooth'],
-    category: 'visualization'
-  },
-  {
-    name: 'PieChart',
-    description: '饼图组件',
-    props: ['data', 'colors', 'labels'],
-    category: 'visualization'
-  },
-  {
-    name: 'Gauge',
-    description: '仪表盘组件',
-    props: ['value', 'min', 'max', 'segments'],
-    category: 'visualization'
-  },
-  {
-    name: 'Stat',
-    description: '统计数值组件',
-    props: ['value', 'label', 'trend', 'format'],
-    category: 'visualization'
-  }
-]
-
-// ============================================================================
-// 弹层组件 (Overlays) - 独立分类
-// ============================================================================
-const overlayComponents: ComponentInfo[] = [
-  {
-    name: 'Modal',
-    description: '模态框组件',
-    props: ['open', 'onOpenChange', 'size', 'centered'],
-    category: 'overlay'
-  },
-  {
-    name: 'Dialog',
-    description: '对话框组件',
-    props: ['open', 'onOpenChange', 'title', 'description'],
-    category: 'overlay'
-  },
-  {
-    name: 'Drawer',
-    description: '抽屉组件',
-    props: ['open', 'onOpenChange', 'position', 'size'],
-    category: 'overlay'
-  },
-  {
-    name: 'Popover',
-    description: '气泡组件',
-    props: ['open', 'onOpenChange', 'trigger', 'content'],
-    category: 'overlay'
-  },
-  {
-    name: 'Tooltip',
-    description: '提示框组件',
-    props: ['content', 'delay', 'placement'],
-    category: 'overlay'
-  },
-  {
-    name: 'HoverCard',
-    description: '悬停卡片组件',
-    props: ['open', 'onOpenChange', 'trigger'],
-    category: 'overlay'
-  },
-  {
-    name: 'Lightbox',
-    description: '灯箱组件',
-    props: ['open', 'onOpenChange', 'images', 'index'],
-    category: 'overlay'
-  },
-  {
-    name: 'Sheet',
-    description: '工作表组件',
-    props: ['open', 'onOpenChange', 'side', 'size'],
-    category: 'overlay'
-  }
-]
-
-// ============================================================================
-// 完整分类配置
+// 完整分类配置 - 仅包含经过验证的可用组件
 // ============================================================================
 
 export const componentCategories: ComponentCategory[] = [
   {
-    id: 'base',
-    name: 'Base 基础组件',
+    id: 'ui-basic',
+    name: 'UI 基础组件',
     icon: '🎨',
     description: '最基础的UI构建块，不可再分的功能单元',
-    components: baseComponents,
+    components: uiBasicComponents,
     order: 1
   },
   {
-    id: 'layout',
-    name: 'Layout 布局组件',
-    icon: '📐',
-    description: '页面布局和空间分配的基础组件',
-    components: layoutComponents,
+    id: 'input',
+    name: '输入控件',
+    icon: '📝',
+    description: '用户输入数据的核心交互组件',
+    components: inputComponents,
     order: 2
   },
   {
     id: 'navigation',
-    name: 'Navigation 导航组件',
+    name: '导航组件',
     icon: '🧭',
     description: '提供导航和路由功能的组件',
     components: navigationComponents,
     order: 3
   },
   {
-    id: 'form',
-    name: 'Form 表单组件',
-    icon: '📝',
-    description: '用户输入数据的核心交互组件',
-    components: formComponents,
+    id: 'data-display',
+    name: '数据展示',
+    icon: '📊',
+    description: '数据展示和结构化呈现组件',
+    components: dataDisplayComponents,
     order: 4
   },
   {
-    id: 'data-display',
-    name: 'Data Display 数据展示',
-    icon: '📊',
-    description: '数据展示和图表可视化组件',
-    components: dataDisplayComponents,
-    order: 5
-  },
-  {
     id: 'feedback',
-    name: 'Feedback 反馈组件',
+    name: '反馈组件',
     icon: '💬',
     description: '用户操作反馈和状态提示组件',
     components: feedbackComponents,
+    order: 5
+  },
+  {
+    id: 'form',
+    name: '表单组件',
+    icon: '📋',
+    description: '表单容器和验证相关组件',
+    components: formComponents,
     order: 6
   },
   {
-    id: 'overlay',
-    name: 'Overlay 弹层组件',
-    icon: '🔳',
-    description: '覆盖层和弹出显示组件',
-    components: overlayComponents,
+    id: 'layout',
+    name: '布局组件',
+    icon: '🏗️',
+    description: '页面布局和容器组件',
+    components: layoutComponents,
     order: 7
-  },
-  {
-    id: 'composite',
-    name: 'Composite 复合组件',
-    icon: '🧩',
-    description: '由基础组件组合而成的复杂功能组件',
-    components: compositeComponents,
-    order: 8
-  },
-  {
-    id: 'system',
-    name: 'System 系统组件',
-    icon: '⚙️',
-    description: '系统级和主题相关的基础设施组件',
-    components: systemComponents,
-    order: 9
-  },
-  {
-    id: 'gradient',
-    name: 'Gradient 渐变组件',
-    icon: '🌈',
-    description: '渐变效果和视觉增强组件，支持令牌化配色',
-    components: gradientComponents,
-    order: 10
-  },
-  {
-    id: 'visualization',
-    name: 'Visualization 可视化组件',
-    icon: '📈',
-    description: '数据可视化和图表组件',
-    components: visualizationComponents,
-    order: 11
   }
 ]
 
@@ -705,3 +515,36 @@ export const searchComponents = (query: string): ComponentInfo[] => {
 export const getComponentByName = (name: string): ComponentInfo | undefined => {
   return getAllComponents().find(component => component.name === name)
 }
+
+// ============================================================================
+// 实际可用组件列表 - 用于验证
+// ============================================================================
+
+export const AVAILABLE_COMPONENTS = [
+  // 🎨 UI基础组件 - 经过验证可用的组件
+  'Button', 'Card', 'Typography', 'Skeleton', 'Spinner', 'Surface',
+  'Separator', 'Icon', 'ScrollArea', 'AnimatedCard', 'AvatarGroup',
+  'Code', 'CopyButton', 'Tooltip', 'Kbd',
+
+  // 📝 输入控件 - 经过验证可用的组件
+  'Input', 'Textarea', 'Select', 'Checkbox', 'Radio', 'Switch',
+  'Slider', 'ButtonGroup', 'SearchInput', 'PasswordInput', 'InputNumber',
+  'Combobox', 'Command',
+
+  // 🧭 导航组件 - 经过验证可用的组件
+  'Tabs', 'Menu', 'Breadcrumb', 'Pagination', 'ComponentNav',
+
+  // 📊 数据展示 - 经过验证可用的组件
+  'Table', 'Accordion', 'Carousel', 'List', 'CodeBlock',
+  'ComponentCard', 'AdvancedCard',
+
+  // 💬 反馈组件 - 经过验证可用的组件
+  'Alert', 'Loading', 'Progress', 'ThemeToggle', 'Toast',
+
+  // 📋 表单组件 - 经过验证可用的组件
+  'Form', 'FormField', 'Fieldset', 'InputGroup', 'ValidationMessage',
+
+  // 🏗️ 布局组件 - 经过验证可用的组件
+  'Grid', 'GridItem', 'Flex', 'Container', 'Spacer', 'Panel',
+  'PanelHeader', 'PanelContent', 'PanelFooter'
+]

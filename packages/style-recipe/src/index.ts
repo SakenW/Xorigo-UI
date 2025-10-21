@@ -68,14 +68,27 @@ export {
   classicNeutralRecipe,
   highContrastProRecipe,
 
+  // 备份主题配方
+  warmSunriseRecipe,
+  pinkRomanceRecipe,
+  forestNatureRecipe,
+  deepOceanRecipe,
+  royalVioletRecipe,
+  vibrantLemonRecipe,
+  dreamyRainbowRecipe,
+  carnivalCircusRecipe,
+
   // 配方集合与工具
   officialRecipes,
+  allRecipes,
   recipeMap,
   recipesByCategory,
   getRecipe,
   getRecipesByCategory,
   searchRecipes,
+  searchAllRecipes,
   getRecommendedRecipes,
+  getRecommendedLegacyRecipes,
   validateRecipeID,
   parseRecipeID,
 } from './recipes'
@@ -147,6 +160,12 @@ export {
   StyleRecipeContext,
   type StyleRecipeContextType,
 } from './provider/StyleRecipeProvider'
+
+// ============================================================================
+// 组件 (Components)
+// ============================================================================
+
+export { default as SevenAxisEditor } from './components/SevenAxisEditor'
 
 // ============================================================================
 // 工具函数 (Utility Functions)

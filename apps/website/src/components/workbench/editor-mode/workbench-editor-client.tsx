@@ -410,14 +410,14 @@ export function WorkbenchEditorClient({
         {/* 编辑器底部状态栏 */}
         <div className="h-8 border-t border-border bg-muted px-4 flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center space-x-4">
-            <span>Lines: {code.split('\n').length}</span>
+            <span>行数: {code.split('\n').length}</span>
             <span>•</span>
-            <span>Characters: {code.length}</span>
+            <span>字符数: {code.length}</span>
           </div>
           <div className="flex items-center space-x-2">
             <span>TypeScript</span>
             <span>•</span>
-            <span>{activeTheme === 'dark' ? 'Dark' : 'Light'} Theme</span>
+            <span>{activeTheme === 'dark' ? '深色' : '浅色'} 主题</span>
           </div>
         </div>
       </div>
@@ -501,7 +501,7 @@ export function WorkbenchEditorClient({
                 <CardContent className={`p-6 ${activeTheme === 'dark' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
                   <div id="preview-container">
                     <ComponentPreview
-                      componentName={selectedExample?.name || 'Unknown'}
+                      componentName={selectedExample?.name || '未知组件'}
                       props={{
                         theme: showThemeEditor ? themeState.mode : activeTheme,
                         ...componentProps
@@ -519,26 +519,26 @@ export function WorkbenchEditorClient({
         {/* 预览底部状态栏 */}
         <div className="h-8 border-t border-border bg-muted px-4 flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center space-x-4">
-            <span>Mode: {mode}</span>
+            <span>模式: {mode}</span>
             <span>•</span>
-            <span>Theme: {showThemeEditor ? themeState.mode : activeTheme}</span>
+            <span>主题: {showThemeEditor ? themeState.mode : activeTheme}</span>
             {showPropsEditor && (
               <>
                 <span>•</span>
-                <span>Props: {Object.keys(componentProps).length}</span>
+                <span>属性: {Object.keys(componentProps).length}</span>
               </>
             )}
             {showThemeEditor && (
               <>
                 <span>•</span>
-                <span>Density: {themeState.density}</span>
+                <span>密度: {themeState.density}</span>
               </>
             )}
           </div>
           <div className="flex items-center space-x-2">
-            <span>Auto-refresh</span>
+            <span>自动刷新</span>
             <span>•</span>
-            <span>Error handling: ON</span>
+            <span>错误处理: 开启</span>
           </div>
         </div>
       </div>

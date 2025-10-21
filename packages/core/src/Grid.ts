@@ -3,5 +3,7 @@
  * 支持按需导入：import { Grid } from '@xorigo-ui/core/Grid'
  */
 
-export { Grid, GridItem } from './layout/Grid'
-export type { GridProps, GridItemProps } from './layout/Grid'
+export { Grid } from './layout/Grid'
+export { GridItem } from './layout/GridItem'
+export type { GridProps } from './layout/Grid'
+export type { GridItemProps } from './layout/GridItem'
