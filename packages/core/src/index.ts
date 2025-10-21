@@ -206,12 +206,26 @@ export {
   type ThemeProviderProps,
 } from '@xorigo-ui/system'
 
-// Hooks（占位，待实现）
-// export {
-//   useControllableState,
-//   useKeyboardNavigation,
-//   useOverlay,
-//   useFocusReturn,
-//   useDebouncedValue,
-//   useVirtualList,
-// } from '@xorigo-ui/hooks'
+// 性能优化工具和 Hooks
+export {
+  useNeonTheme,
+  createStatusProps,
+  createVariantProps,
+  type NeonVariant,
+} from './hooks/useNeonTheme'
+
+export {
+  createMemoComponent,
+  createOptimizedComponent,
+  useMemoClassName,
+  useCVAClassName,
+  useMemoStyles,
+  useEventCallback,
+  useDebounce,
+  useThrottle,
+  createLazyComponent,
+  useConditionalRender,
+  useOptimizedList,
+  withPerformanceMonitoring,
+  useVirtualizedList,
+} from './utils/performance'

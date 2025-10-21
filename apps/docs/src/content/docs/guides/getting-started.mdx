@@ -1,0 +1,281 @@
+---
+title: 快速开始
+description: 如何快速开始使用 Xorigo UI 组件库
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+
+本指南将帮助你快速上手 Xorigo UI 组件库。
+
+## 前置要求
+
+- Node.js 22.0.0 或更高版本
+- React 19.2.0 或更高版本
+- 支持 ES2022+ 的构建工具
+
+## 安装
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @xorigo-ui/core
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @xorigo-ui/core
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @xorigo-ui/core
+    ```
+  </TabItem>
+</Tabs>
+
+### 可选依赖
+
+```bash
+# 如果需要动画功能
+npm install framer-motion
+
+# 如果需要主题支持
+npm install next-themes
+```
+
+## 基础配置
+
+### 1. 导入样式
+
+在你的应用入口文件中导入基础样式：
+
+```tsx
+// src/main.tsx 或 src/app/layout.tsx
+import '@xorigo-ui/core/styles.css'
+```
+
+### 2. 配置 Tailwind CSS
+
+如果你已经在使用 Tailwind CSS，需要确保 Xorigo UI 的设计令牌被正确加载：
+
+```js
+// tailwind.config.js
+export default {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@xorigo-ui/**/*.{js,ts,jsx,tsx}'
+  ],
+  theme: {
+    extend: {
+      // Xorigo UI 的设计令牌会自动扩展到这里
+    }
+  }
+}
+```
+
+### 3. 设置主题提供者（可选）
+
+```tsx
+// src/App.tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <ThemeProvider theme="light">
+      {/* 你的应用组件 */}
+    </ThemeProvider>
+  )
+}
+```
+
+## 使用组件
+
+### 基础用法
+
+```tsx
+import { Button, Card, Input, Badge } from '@xorigo-ui/core'
+
+export default function Example() {
+  return (
+    <div className="p-6 space-y-4">
+      <Card className="max-w-md">
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">用户信息</h2>
+          <Input placeholder="请输入用户名" />
+          <Input type="password" placeholder="请输入密码" />
+          <div className="flex items-center justify-between">
+            <Badge variant="secondary">新用户</Badge>
+            <Button variant="primary">登录</Button>
+          </div>
+        </div>
+      </Card>
+    </div>
+  )
+}
+```
+
+### 组件变体
+
+大多数组件支持多种变体：
+
+```tsx
+import { Button } from '@xorigo-ui/core'
+
+function ButtonExamples() {
+  return (
+    <div className="flex gap-2">
+      <Button variant="primary">主要按钮</Button>
+      <Button variant="secondary">次要按钮</Button>
+      <Button variant="outline">轮廓按钮</Button>
+      <Button variant="ghost">幽灵按钮</Button>
+    </div>
+  )
+}
+```
+
+### 尺寸控制
+
+```tsx
+import { Button } from '@xorigo-ui/core'
+
+function ButtonSizes() {
+  return (
+    <div className="flex items-center gap-2">
+      <Button size="sm">小号</Button>
+      <Button size="md">中号</Button>
+      <Button size="lg">大号</Button>
+    </div>
+  )
+}
+```
+
+## 主题定制
+
+### 使用内置主题
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+function App() {
+  return (
+    <ThemeProvider theme="dark">
+      <YourApp />
+    </ThemeProvider>
+  )
+}
+```
+
+### 自定义主题
+
+```tsx
+import { ThemeProvider } from '@xorigo-ui/core'
+
+const customTheme = {
+  colors: {
+    primary: {
+      50: '#eff6ff',
+      500: '#3b82f6',
+      600: '#2563eb',
+      900: '#1e3a8a',
+    },
+    // ...其他颜色配置
+  },
+  spacing: {
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+  }
+}
+
+function App() {
+  return (
+    <ThemeProvider theme={customTheme}>
+      <YourApp />
+    </ThemeProvider>
+  )
+}
+```
+
+## 动画支持
+
+Xorigo UI 集成了 Framer Motion，支持丰富的动画效果：
+
+```tsx
+import { AnimatedCard, Button } from '@xorigo-ui/core'
+import { useState } from 'react'
+
+function AnimatedExample() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className="space-y-4">
+      <Button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? '关闭' : '打开'}卡片
+      </Button>
+
+      <AnimatedCard
+        isOpen={isOpen}
+        variants={{
+          hidden: { opacity: 0, y: -20 },
+          visible: { opacity: 1, y: 0 }
+        }}
+      >
+        <p>这是一个带有动画效果的卡片！</p>
+      </AnimatedCard>
+    </div>
+  )
+}
+```
+
+## 可访问性
+
+Xorigo UI 内置了可访问性支持：
+
+```tsx
+import { Button, Input, Label } from '@xorigo-ui/core'
+
+function AccessibleForm() {
+  return (
+    <form className="space-y-4">
+      <div>
+        <Label htmlFor="email">邮箱地址</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="请输入邮箱"
+          aria-describedby="email-help"
+        />
+        <p id="email-help" className="text-sm text-gray-600">
+          我们将使用此邮箱发送通知
+        </p>
+      </div>
+
+      <Button type="submit" aria-label="提交表单">
+        提交
+      </Button>
+    </form>
+  )
+}
+```
+
+## 下一步
+
+- 查看 [组件文档](../components/overview) 了解所有可用组件
+- 学习 [设计系统](../design/tokens) 了解设计令牌和规范
+- 探索 [主题系统](../themes/overview) 定制你的应用外观
+
+## 常见问题
+
+### Q: 如何解决样式冲突？
+
+A: 确保正确导入了 `@xorigo-ui/core/styles.css`，并检查 Tailwind CSS 配置。
+
+### Q: 支持哪些浏览器？
+
+A: Xorigo UI 支持所有现代浏览器，包括 Chrome、Firefox、Safari、Edge 的最新版本。
+
+### Q: 如何贡献代码？
+
+A: 请查看 [贡献指南](../development/contributing) 了解详细信息。

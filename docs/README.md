@@ -11,6 +11,9 @@
 ### 🚀 新手入门
 - [**项目概览**](../README.md) - 了解 Xorigo UI 是什么
 - [**开发指南**](../CLAUDE.md) - 开发规范和最佳实践
+- [**MCP 配置指南**](./MCP-Configuration-Guide.md) - AI 增强开发工具配置 (🆕 新增)
+- [**MCP 快速参考**](./MCP-Quick-Reference.md) - MCP 工具速查卡 (🆕 新增)
+- [**MCP 使用示例**](./MCP-Usage-Examples.md) - 实际使用案例演示 (🆕 新增)
 - [**快速开始**](./guides/QUICK_START.md) - 5分钟上手指南 (🔄 待创建)
 
 ---
@@ -210,6 +213,11 @@ docs/待整理/Xorigo-UI白皮书v1.1优化建议报告-2025-10-13.md → docs/U
 ```
 docs/
 ├── README.md                              # 📚 本文档（文档中心）
+│
+├── 🤖 MCP-Enhanced Development/           # AI 增强开发工具（3个）
+│   ├── MCP-Configuration-Guide.md         # ⚙️ MCP 配置详细指南 (🆕)
+│   ├── MCP-Quick-Reference.md             # 📋 MCP 快速参考卡 (🆕)
+│   └── MCP-Usage-Examples.md              # 💡 MCP 实际使用示例 (🆕)
 │
 ├── 🏗️ architecture/                         # 核心架构文档（9个）
 │   ├── SEVEN_AXIS_SYSTEM.md               # ⭐ 七轴系统完整架构 (41KB)

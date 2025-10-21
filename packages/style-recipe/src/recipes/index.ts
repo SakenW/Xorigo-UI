@@ -29,6 +29,9 @@ import {
   getRecommendedLegacyRecipes,
 } from './legacy-themes'
 
+// 导入配方别名映射
+import { RECIPE_ALIASES, getRealRecipeId, isRecipeAlias } from './recipe-aliases'
+
 // ============================================================================
 // 官方配方集合 (Official Recipe Collection)
 // ============================================================================
@@ -367,7 +370,9 @@ export const recipesByCategory = allRecipes.reduce((groups, recipe) => {
  * 获取配方
  */
 export function getRecipe(id: StyleRecipeID): StyleRecipe | undefined {
-  return recipeMap[id]
+  // 支持别名
+  const realId = isRecipeAlias(id) ? getRealRecipeId(id) : id
+  return recipeMap[realId]
 }
 
 /**
@@ -404,7 +409,7 @@ export function getRecommendedRecipes(): StyleRecipe[] {
 }
 
 /**
- * 获取推荐备份主题配方
+ * 获取推荐的备份主题配方
  */
 export function getRecommendedLegacyRecipes(): StyleRecipe[] {
   return [
@@ -463,3 +468,6 @@ export function parseRecipeID(id: string): {
     surface: parts.slice(6).join('.') as SurfaceAxis,
   }
 }
+
+// 导出配方别名工具函数
+export { RECIPE_ALIASES, getRealRecipeId, isRecipeAlias }

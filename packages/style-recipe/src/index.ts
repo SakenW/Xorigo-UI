@@ -91,6 +91,11 @@ export {
   getRecommendedLegacyRecipes,
   validateRecipeID,
   parseRecipeID,
+
+  // 配方别名
+  RECIPE_ALIASES,
+  getRealRecipeId,
+  isRecipeAlias,
 } from './recipes'
 
 // ============================================================================
@@ -166,6 +171,26 @@ export {
 // ============================================================================
 
 export { default as SevenAxisEditor } from './components/SevenAxisEditor'
+
+// 七轴主题系统演示组件
+export { ThemeSystemDemo, ThemeSystemDemoWrapper } from './components/ThemeSystemDemo'
+
+// 动态主题钩子
+export { useDynamicTheme } from './hooks/useDynamicTheme'
+
+// 主题系统钩子 (三层架构)
+export { useThemeSystem } from './hooks/useThemeSystem'
+
+// 应用级集成示例
+export {
+  AppThemeProvider,
+  useAppTheme,
+  ThemeSwitcher,
+  DashboardDemo,
+  EditorDemo,
+  ThemeSystemApp,
+  THEME_INTEGRATION_GUIDE
+} from './examples/ThemeSystemIntegration'
 
 // ============================================================================
 // 工具函数 (Utility Functions)

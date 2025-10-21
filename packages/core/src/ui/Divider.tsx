@@ -232,5 +232,3 @@ export const VerticalTextDivider: React.FC<VerticalTextDividerProps> = ({
 }
 
 VerticalTextDivider.displayName = 'VerticalTextDivider'
-
-export { Divider, VerticalTextDivider }

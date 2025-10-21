@@ -1,0 +1,234 @@
+/* Xorigo UI 自定义样式 */
+
+/* 自定义 CSS 变量 */
+:root {
+  --xorigo-primary: 220 90% 56%;
+  --xorigo-primary-foreground: 220 90% 98%;
+
+  --xorigo-secondary: 220 84% 61%;
+  --xorigo-secondary-foreground: 220 84% 98%;
+
+  --xorigo-background: 0 0% 100%;
+  --xorigo-foreground: 222 84% 5%;
+
+  --xorigo-muted: 210 40% 96%;
+  --xorigo-muted-foreground: 215 16% 47%;
+
+  --xorigo-border: 214 32% 91%;
+  --xorigo-input: 214 32% 91%;
+  --xorigo-ring: 220 90% 56%;
+}
+
+/* 暗色主题 */
+[data-theme='dark'] {
+  --xorigo-primary: 220 90% 56%;
+  --xorigo-primary-foreground: 222 84% 5%;
+
+  --xorigo-secondary: 217 33% 17%;
+  --xorigo-secondary-foreground: 210 40% 98%;
+
+  --xorigo-background: 222 84% 5%;
+  --xorigo-foreground: 210 40% 98%;
+
+  --xorigo-muted: 217 33% 17%;
+  --xorigo-muted-foreground: 215 20% 65%;
+
+  --xorigo-border: 217 33% 17%;
+  --xorigo-input: 217 33% 17%;
+  --xorigo-ring: 212 100% 84%;
+}
+
+/* 组件样式增强 */
+.xorigo-button {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  @apply disabled:pointer-events-none disabled:opacity-50;
+  @apply h-10 px-4 py-2;
+}
+
+.xorigo-button-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.xorigo-button-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.xorigo-button-outline {
+  @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+}
+
+.xorigo-button-ghost {
+  @apply hover:bg-accent hover:text-accent-foreground;
+}
+
+.xorigo-button-destructive {
+  @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
+}
+
+/* 卡片组件 */
+.xorigo-card {
+  @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+}
+
+.xorigo-card-header {
+  @apply flex flex-col space-y-1.5 p-6;
+}
+
+.xorigo-card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+
+.xorigo-card-description {
+  @apply text-sm text-muted-foreground;
+}
+
+.xorigo-card-content {
+  @apply p-6 pt-0;
+}
+
+.xorigo-card-footer {
+  @apply flex items-center p-6 pt-0;
+}
+
+/* 输入框组件 */
+.xorigo-input {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm;
+  @apply ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium;
+  @apply placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2;
+  @apply focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* 标签组件 */
+.xorigo-label {
+  @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+}
+
+/* 徽章组件 */
+.xorigo-badge {
+  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+  @apply transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+}
+
+.xorigo-badge-default {
+  @apply border-transparent bg-primary text-primary-foreground hover:bg-primary/80;
+}
+
+.xorigo-badge-secondary {
+  @apply border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.xorigo-badge-destructive {
+  @apply border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80;
+}
+
+.xorigo-badge-outline {
+  @apply text-foreground;
+}
+
+/* Starlight 主题自定义 */
+.starlight-aside {
+  border-left: 4px solid var(--xorigo-primary);
+  background: hsl(var(--xorigo-muted) / 0.3);
+  padding-left: 1rem;
+}
+
+.starlight-aside--tip {
+  border-left-color: hsl(142 71% 45%);
+}
+
+.starlight-aside--note {
+  border-left-color: hsl(var(--xorigo-primary));
+}
+
+.starlight-aside--caution {
+  border-left-color: hsl(38 92% 50%);
+}
+
+.starlight-aside--danger {
+  border-left-color: hsl(0 84% 60%);
+}
+
+/* 代码块样式增强 */
+.astro-code {
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .xorigo-button {
+    @apply h-9 px-3 text-xs;
+  }
+
+  .xorigo-card {
+    @apply rounded-md;
+  }
+
+  .xorigo-card-header {
+    @apply p-4;
+  }
+
+  .xorigo-card-content {
+    @apply p-4 pt-0;
+  }
+
+  .xorigo-card-footer {
+    @apply p-4 pt-0;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 焦点样式 */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+}
+
+/* 加载动画 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current;
+  border-right-color: transparent;
+}
+
+/* 可访问性增强 */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner,
+  .fade-in {
+    animation: none;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .xorigo-button,
+  .starlight-on-this-page,
+  .starlight-search {
+    display: none;
+  }
+
+  .xorigo-card {
+    @apply border border-gray-300 shadow-none;
+  }
+}

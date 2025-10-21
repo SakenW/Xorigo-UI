@@ -1,0 +1,301 @@
+---
+title: Button 按钮
+description: 基础按钮组件，支持多种变体和状态
+sidebar:
+  order: 1
+---
+
+import { Example } from '../../../components/Example.astro'
+
+Button 是用户与应用交互最常用的组件，支持多种样式、尺寸和状态。
+
+## 基础用法
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+
+export default function ButtonExample() {
+  return (
+    <div className="flex gap-2">
+      <Button variant="primary">主要按钮</Button>
+      <Button variant="secondary">次要按钮</Button>
+      <Button variant="outline">轮廓按钮</Button>
+      <Button variant="ghost">幽灵按钮</Button>
+    </div>
+  )
+}
+  `}
+</Example>
+
+## 变体
+
+Button 组件支持以下变体：
+
+- `primary` - 主要按钮，用于主要操作
+- `secondary` - 次要按钮，用于次要操作
+- `outline` - 轮廓按钮，用于次要操作
+- `ghost` - 幽灵按钮，用于工具栏等场景
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+
+export default function ButtonVariants() {
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <Button variant="primary">Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+      </div>
+
+      <div className="flex gap-2">
+        <Button variant="destructive">Destructive</Button>
+        <Button variant="success">Success</Button>
+        <Button variant="warning">Warning</Button>
+        <Button variant="info">Info</Button>
+      </div>
+    </div>
+  )
+}
+  `}
+</Example>
+
+## 尺寸
+
+支持三种尺寸：
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+
+export default function ButtonSizes() {
+  return (
+    <div className="flex items-center gap-2">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  )
+}
+  `}
+</Example>
+
+## 状态
+
+### 禁用状态
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+
+export default function ButtonStates() {
+  return (
+    <div className="flex gap-2">
+      <Button disabled>禁用按钮</Button>
+      <Button variant="outline" disabled>禁用轮廓</Button>
+      <Button loading>加载中...</Button>
+    </div>
+  )
+}
+  `}
+</Example>
+
+### 加载状态
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+import { useState } from 'react'
+
+export default function ButtonLoading() {
+  const [loading, setLoading] = useState(false)
+
+  const handleClick = async () => {
+    setLoading(true)
+    // 模拟异步操作
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    setLoading(false)
+  }
+
+  return (
+    <Button loading={loading} onClick={handleClick}>
+      {loading ? '提交中...' : '提交'}
+    </Button>
+  )
+}
+  `}
+</Example>
+
+## 图标按钮
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+import { Search, Download, Heart } from 'lucide-react'
+
+export default function ButtonIcons() {
+  return (
+    <div className="flex gap-2">
+      <Button variant="outline" size="sm">
+        <Search className="h-4 w-4" />
+      </Button>
+      <Button variant="outline">
+        <Download className="h-4 w-4 mr-2" />
+        下载
+      </Button>
+      <Button variant="ghost">
+        <Heart className="h-4 w-4" />
+      </Button>
+    </div>
+  )
+}
+  `}
+</Example>
+
+## 块级按钮
+
+<Example client:load>
+  {`
+import { Button } from '@xorigo-ui/core'
+
+export default function ButtonBlock() {
+  return (
+    <div className="w-full space-y-2">
+      <Button variant="primary" className="w-full">
+        块级主按钮
+      </Button>
+      <Button variant="outline" className="w-full">
+        块级轮廓按钮
+      </Button>
+    </div>
+  )
+}
+  `}
+</Example>
+
+## API 参考
+
+### Button Props
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'success' \| 'warning' \| 'info'` | `'primary'` | 按钮变体 |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 按钮尺寸 |
+| `disabled` | `boolean` | `false` | 是否禁用 |
+| `loading` | `boolean` | `false` | 是否显示加载状态 |
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `children` | `React.ReactNode` | - | 按钮内容 |
+| `onClick` | `(event: React.MouseEvent<HTMLButtonElement>) => void` | - | 点击事件处理器 |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | 按钮类型 |
+| `asChild` | `boolean` | `false` | 是否作为子组件渲染 |
+
+### 继承属性
+
+Button 组件继承了所有 [`HTMLButtonElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement) 的标准属性。
+
+## 使用指南
+
+### 何时使用
+
+- **主要操作**：使用 `variant="primary"` 突出最重要的操作
+- **次要操作**：使用 `variant="secondary"` 或 `variant="outline"`
+- **危险操作**：使用 `variant="destructive"` 表示删除或破坏性操作
+- **工具栏**：使用 `variant="ghost"` 配合图标
+
+### 最佳实践
+
+1. **保持简洁**：按钮文本应该简洁明了，通常 1-4 个单词
+2. **明确的行动召唤**：使用动词开头，如"保存"、"删除"、"下载"
+3. **层次结构**：一个区域通常只有一个主要按钮，其他为次要按钮
+4. **状态反馈**：异步操作时使用 `loading` 状态提供反馈
+
+### 可访问性
+
+- 按钮应该有明确的 `aria-label` 或文本内容
+- 使用键盘导航时，按钮应该获得焦点
+- 禁用状态时，按钮不应该获得焦点
+
+## 示例场景
+
+### 表单提交
+
+```tsx
+import { Button, Input, Label } from '@xorigo-ui/core'
+import { useState } from 'react'
+
+export default function FormExample() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    // 处理表单提交
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    setIsSubmitting(false)
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <Label htmlFor="email">邮箱</Label>
+        <Input id="email" type="email" required />
+      </div>
+
+      <Button
+        type="submit"
+        loading={isSubmitting}
+        className="w-full"
+      >
+        {isSubmitting ? '注册中...' : '注册账号'}
+      </Button>
+    </form>
+  )
+}
+```
+
+### 操作确认
+
+```tsx
+import { Button } from '@xorigo-ui/core'
+import { useState } from 'react'
+
+export default function ConfirmationExample() {
+  const [isConfirmed, setIsConfirmed] = useState(false)
+
+  return (
+    <div className="space-y-4">
+      <Button
+        variant="destructive"
+        onClick={() => setIsConfirmed(true)}
+      >
+        删除项目
+      </Button>
+
+      {isConfirmed && (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setIsConfirmed(false)}
+          >
+            取消
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              // 执行删除操作
+              console.log('项目已删除')
+            }}
+          >
+            确认删除
+          </Button>
+        </div>
+      )}
+    </div>
+  )
+}
+```

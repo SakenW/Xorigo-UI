@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { semanticColors } from '@xorigo-ui/tokens'
-import { cn } from '../utils/cn'
+import { cn } from '../utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 // Tooltip 变体配置
@@ -184,7 +184,8 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       triggerRef.current = node
       
       // 如果原始子元素有自己的ref，也调用它
-      const { ref: originalRef } = children as any
+      const childElement = children as React.ReactElement<any>
+      const { ref: originalRef } = childElement.props || {}
       if (typeof originalRef === 'function') {
         originalRef(node)
       } else if (originalRef) {
@@ -194,7 +195,8 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     onMouseEnter: (e: React.MouseEvent) => {
       handleMouseEnter()
       // 安全地调用原始的onMouseEnter
-      const childProps = (children as any).props || {}
+      const childElement = children as React.ReactElement<any>
+      const childProps = childElement.props || {}
       if (typeof childProps.onMouseEnter === 'function') {
         childProps.onMouseEnter(e)
       }
@@ -202,12 +204,13 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     onMouseLeave: (e: React.MouseEvent) => {
       handleMouseLeave()
       // 安全地调用原始的onMouseLeave
-      const childProps = (children as any).props || {}
+      const childElement = children as React.ReactElement<any>
+      const childProps = childElement.props || {}
       if (typeof childProps.onMouseLeave === 'function') {
         childProps.onMouseLeave(e)
       }
     },
-  } as any)
+  } as React.HTMLAttributes<HTMLElement>)
 
   const getTransformOrigin = () => {
     switch (placement) {

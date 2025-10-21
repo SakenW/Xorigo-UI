@@ -243,5 +243,3 @@ export const SettingsIcon: React.FC<Omit<IconProps, 'children'>> = (props) => (
     </svg>
   </Icon>
 )
-
-export { Icon, iconVariants }
