@@ -107,8 +107,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: false,
-      error: 'Internal server error',
-      message: 'Failed to fetch components data',
+      error: '服务器内部错误',
+      message: '获取组件数据失败',
     }, {
       status: 500,
       headers: corsHeaders,
@@ -125,8 +125,8 @@ export async function POST(request: NextRequest) {
     if (!body.name || !body.category) {
       return NextResponse.json({
         success: false,
-        error: 'Validation failed',
-        message: 'Name and category are required',
+        error: '验证失败',
+        message: '名称和分类为必填项',
       }, {
         status: 400,
         headers: corsHeaders,
@@ -137,8 +137,8 @@ export async function POST(request: NextRequest) {
     // 目前返回占位响应
     return NextResponse.json({
       success: false,
-      error: 'Not implemented',
-      message: 'Component creation is not yet implemented',
+      error: '功能尚未实现',
+      message: '组件创建功能尚未实现',
     }, {
       status: 501,
       headers: corsHeaders,
@@ -149,8 +149,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: false,
-      error: 'Internal server error',
-      message: 'Failed to create component',
+      error: '服务器内部错误',
+      message: '组件创建失败',
     }, {
       status: 500,
       headers: corsHeaders,

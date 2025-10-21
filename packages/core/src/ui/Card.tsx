@@ -356,3 +356,6 @@ export const CardImage: React.FC<CardImageProps> = ({
 }
 
 CardImage.displayName = 'CardImage'
+
+// 导出cardVariants以便外部使用
+export { cardVariants }

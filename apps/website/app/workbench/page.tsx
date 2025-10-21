@@ -1,45 +1,37 @@
 /**
- * 简化的 Workbench 页面 - 服务器端组件
- * 直接导入客户端组件，不使用动态导入
+ * 增强的 Workbench 页面 - 服务器端组件
+ * 包含丰富的头部信息、统计展示和视觉优化
  */
 
 import { WorkbenchClient } from './workbench-client'
+import { WorkbenchHeader } from './workbench-header'
+import { DevelopmentSecurityMonitor } from '@/components/development-security-monitor'
 
 /**
  * Workbench 服务器端页面
- * 直接使用客户端组件
+ * 增强版本包含详细的头部信息和统计数据
  */
 export default function WorkbenchPage() {
+  const buildTime = new Date().toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  })
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* 标题区域 - 服务器端渲染 */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Xorigo UI Workbench
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            组件开发、测试和调试工作台
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10">
+      {/* 开发环境安全监控 */}
+      <DevelopmentSecurityMonitor />
 
-        {/* 客户端交互区域 */}
-        <WorkbenchClient />
+      {/* 客户端渲染的动画头部 */}
+      <WorkbenchHeader buildTime={buildTime} />
 
-        {/* 底部信息 - 服务器端渲染 */}
-        <div className="mt-16 text-center">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              开发环境信息
-            </h3>
-            <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-              <p>React: 19.x | Next.js: 15.x | TypeScript: 5.9.x</p>
-              <p>构建时间: {new Date().toLocaleString()}</p>
-              <p>渲染模式: 服务器端 + 客户端组件</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* 客户端交互区域 */}
+      <WorkbenchClient />
     </div>
   )
 }

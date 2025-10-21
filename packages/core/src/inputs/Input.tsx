@@ -518,3 +518,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 )
 
 Input.displayName = 'Input'
+
+// 导出inputVariants以便外部使用
+export { inputVariants }

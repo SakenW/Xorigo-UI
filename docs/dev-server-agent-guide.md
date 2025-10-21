@@ -113,12 +113,12 @@ await devServer.showLogs(true) // 实时日志
 当检测到违规进程时，代理会执行以下清理操作：
 
 ```bash
-# 强制终止违规进程
+# 强制终止违规进程 - 更安全的方式
 pkill -9 -f "npm.*run.*dev"
 pkill -9 -f "next.*dev"
-sudo killall -9 node
 pgrep -f "npm.*run.*dev" | xargs -r kill -9
 pgrep -f "next.*dev" | xargs -r kill -9
+# 注意：移除了危险的 killall node 命令，避免影响WSL和其他系统进程
 ```
 
 ### 健康监控
@@ -263,8 +263,10 @@ npm run agent:start
 # 手动停止所有容器
 docker-compose -f docker-compose.dev.monorepo.yml down
 
-# 手动清理进程
-sudo killall -9 node
+# 手动清理进程 - 更安全的方式
+pkill -9 -f "npm.*run.*dev"
+pkill -9 -f "next.*dev"
+# 注意：移除了危险的 killall node 命令，避免影响WSL和其他系统进程
 
 # 手动启动
 docker-compose -f docker-compose.dev.monorepo.yml up -d --build

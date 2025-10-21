@@ -109,9 +109,9 @@ class DevServerAgent {
 ```bash
 pkill -9 -f "npm.*run.*dev"
 pkill -9 -f "next.*dev"
-sudo killall -9 node
 pgrep -f "npm.*run.*dev" | xargs -r kill -9
 pgrep -f "next.*dev" | xargs -r kill -9
+# 注意：移除了危险的 killall node 命令，避免影响WSL和其他系统进程
 ```
 
 ### 3. 健康监控

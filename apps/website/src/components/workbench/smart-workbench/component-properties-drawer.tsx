@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cva } from 'class-variance-authority'
 import { cn } from '@/utils'
 import { Button } from '@xorigo-ui/core'
-import { Badge } from '@xorigo-ui/core'
+// Badge 组件不存在，已移除导入
 import { Input } from '@xorigo-ui/core'
 import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
 import { EnhancedComponentRenderer } from '../gallery-mode/enhanced-component-card'
@@ -84,9 +84,9 @@ export function ComponentPropertiesDrawer({
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{component.name}</h3>
-                  <Badge variant="outline" className="text-xs mt-0.5">
+                  <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200">
                     {component.category}
-                  </Badge>
+                  </span>
                 </div>
               </div>
               <button

@@ -1,9 +1,14 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils'
+import { useSearchHistory } from '../../../hooks/use-search-history'
+import { useSearchSuggestions } from '../../../hooks/use-search-suggestions'
+import { useWorkbenchShortcuts } from '../../../hooks/use-keyboard-shortcuts'
+import { SearchHistory, SearchSuggestions } from '../search/enhanced-search'
+import { KeyboardShortcutsHelp } from '../help/keyboard-shortcuts-help'
 
 // 添加渐变动画样式
 const gradientStyles = `
@@ -27,14 +32,16 @@ if (typeof window !== 'undefined') {
 }
 import { Input } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
-import { Badge } from '@xorigo-ui/core'
 import { Typography } from '@xorigo-ui/core'
 import { ComponentCard, CodeBlock } from '@xorigo-ui/core'
+import { EnhancedComponentCard } from '../cards/enhanced-component-card'
 import { GradientDemonstrator } from '../gradient-demonstrator/gradient-demonstrator'
 import { getAllComponents } from '../../../data/component-classification'
 import { ComponentPropertiesDrawer } from './component-properties-drawer'
 import { WorkbenchLayout } from '../workbench-layout'
 import { MasonryLayoutV2 } from '../shared/masonry-layout-v2'
+import { ComponentPreviewRenderer } from '../component-previews/enhanced-component-previews'
+import { generateComponentCodeExample } from '../component-previews/component-code-examples'
 
 /**
  * 搜索框变体配置 - 应用 ComponentCard 优雅设计
@@ -71,13 +78,115 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [showSearchHistory, setShowSearchHistory] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
+
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // 搜索历史管理
+  const {
+    searchHistory,
+    addToHistory,
+    removeFromHistory,
+    clearHistory,
+    selectHistoryItem
+  } = useSearchHistory()
+
+  // 搜索建议管理
+  const {
+    suggestions,
+    isLoading,
+    popularSuggestions,
+    showSuggestions
+  } = useSearchSuggestions(searchTerm)
 
   const components = getAllComponents()
-  const categories = Array.from(new Set(components.map(comp => comp.category)))
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // 处理搜索
+  const handleSearch = useCallback((term: string) => {
+    setSearchTerm(term)
+    if (term.trim()) {
+      addToHistory(term)
+    }
+    setShowSearchHistory(false)
+  }, [addToHistory])
+
+  // 处理搜索建议选择
+  const handleSuggestionSelect = useCallback((suggestion: string) => {
+    handleSearch(suggestion)
+    searchInputRef.current?.focus()
+  }, [handleSearch])
+
+  // 处理历史记录选择
+  const handleHistorySelect = useCallback((term: string) => {
+    handleSearch(term)
+    selectHistoryItem(term)
+    searchInputRef.current?.focus()
+  }, [handleSearch, selectHistoryItem])
+
+  // 处理搜索框焦点
+  const handleSearchFocus = useCallback(() => {
+    setIsSearchFocused(true)
+    setShowSearchHistory(searchTerm.trim() === '')
+  }, [searchTerm])
+
+  const handleSearchBlur = useCallback((e: React.FocusEvent) => {
+    // 延迟失去焦点，以便点击建议项
+    setTimeout(() => {
+      setIsSearchFocused(false)
+      setShowSearchHistory(false)
+    }, 150)
+  }, [])
+
+  // 清除搜索
+  const handleClearSearch = useCallback(() => {
+    setSearchTerm('')
+    setShowSearchHistory(true)
+    searchInputRef.current?.focus()
+  }, [])
+
+  // 获取所有分类
+  const categories = useMemo(() => {
+    return ['all', ...Array.from(new Set(components.map(comp => comp.category)))]
+  }, [components])
+
+  // 分类导航
+  const handleNextCategory = useCallback(() => {
+    const currentIndex = categories.indexOf(selectedCategory)
+    const nextIndex = (currentIndex + 1) % categories.length
+    setSelectedCategory(categories[nextIndex])
+  }, [categories, selectedCategory])
+
+  const handlePreviousCategory = useCallback(() => {
+    const currentIndex = categories.indexOf(selectedCategory)
+    const prevIndex = currentIndex === 0 ? categories.length - 1 : currentIndex - 1
+    setSelectedCategory(categories[prevIndex])
+  }, [categories, selectedCategory])
+
+  // 快捷键管理
+  const { shortcuts } = useWorkbenchShortcuts({
+    onToggleSidebar: () => {
+      // 这里可以触发侧边栏切换
+      console.log('Toggle sidebar')
+    },
+    onFocusSearch: () => {
+      searchInputRef.current?.focus()
+    },
+    onClearSearch: handleClearSearch,
+    onNextCategory: handleNextCategory,
+    onPreviousCategory: handlePreviousCategory,
+    onToggleTheme: () => {
+      // 这里可以触发主题切换
+      console.log('Toggle theme')
+    },
+    onShowHelp: () => {
+      setShowHelp(true)
+    }
+  })
 
   // 智能搜索逻辑 - 支持三层导航筛选
   const filteredComponents = components.filter(component => {
@@ -173,85 +282,244 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
       className={className}
       selectedCategory={selectedCategory}
       onCategorySelect={handleCategorySelect}
+      hideHeader={true} // 隐藏布局的头部，因为我们已经在外层定义了
     >
       <div className="p-6">
-        {/* 智能搜索区域 */}
-        <div className="mb-8">
+        {/* 增强的智能搜索区域 */}
+        <div className="mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className={cn(searchBoxVariants({ focused: isSearchFocused }))}
           >
-            <div className="p-6">
-              <div className="relative mb-6">
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                  🔍
-                </div>
-                <Input
-                  placeholder="搜索组件名称、功能或描述... (例如: 按钮、表单、导航)"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
-                  className="pl-12 pr-4 h-14 text-base border-0 bg-transparent focus:outline-none focus:ring-0"
-                />
-                {searchTerm && (
+            <div className="p-8">
+              {/* 搜索框标题 */}
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  🔍 组件搜索
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-2">
+                  智能搜索 60+ 个 UI 组件，支持按名称、功能和描述查找
+                </p>
+                <div className="flex items-center justify-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                  <span>按 / 聚焦搜索</span>
+                  <span>•</span>
+                  <span>Esc 清除搜索</span>
+                  <span>•</span>
+                  <span>↑↓ 切换分类</span>
+                  <span>•</span>
                   <button
-                    onClick={() => setSearchTerm('')}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    onClick={() => setShowHelp(true)}
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    ✕
+                    查看所有快捷键
                   </button>
-                )}
+                </div>
               </div>
 
-              {/* 智能推荐标签 */}
+              <div className="relative mb-8">
+                <div className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
+                  🔍
+                </div>
+                <div className="relative">
+                  <Input
+                    ref={searchInputRef}
+                    placeholder="搜索组件名称、功能或描述... (例如: 按钮、表单、导航、模态框)"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      const newTerm = e.target.value
+                      setSearchTerm(newTerm)
+                      if (newTerm.trim() === '') {
+                        setShowSearchHistory(true)
+                      }
+                    }}
+                    onFocus={handleSearchFocus}
+                    onBlur={handleSearchBlur}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSearch(searchTerm)
+                      } else if (e.key === 'Escape') {
+                        setSearchTerm('')
+                        setShowSearchHistory(false)
+                      }
+                    }}
+                    className="pl-16 pr-16 h-16 text-lg border-0 bg-transparent focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={handleClearSearch}
+                      className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+                      title="清除搜索"
+                    >
+                      ✕
+                    </button>
+                  )}
+
+                  {/* 搜索加载状态 */}
+                  {isLoading && (
+                    <div className="absolute right-16 top-1/2 transform -translate-y-1/2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
+                    </div>
+                  )}
+
+                  {/* 搜索建议下拉框 */}
+                  <AnimatePresence>
+                    {showSuggestions && isSearchFocused && (
+                      <SearchSuggestions
+                        suggestions={suggestions}
+                        onSuggestionSelect={handleSuggestionSelect}
+                        isVisible={showSuggestions}
+                        searchTerm={searchTerm}
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* 搜索历史 */}
+              <SearchHistory
+                searchHistory={searchHistory}
+                onHistorySelect={handleHistorySelect}
+                onHistoryClear={clearHistory}
+                onHistoryItemRemove={removeFromHistory}
+                isVisible={showSearchHistory && searchHistory.length > 0}
+              />
+
+              {/* 增强的智能推荐标签 */}
               {!searchTerm && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">智能推荐</span>
-                    <Badge variant="outline" className="text-xs">AI</Badge>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-medium text-gray-700 dark:text-gray-300">✨ 智能推荐</span>
+                      <span className="px-2 py-1 text-xs bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 border border-blue-200 rounded">AI 驱动</span>
+                    </div>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">点击标签快速搜索</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {['按钮组件', '表单输入', '数据展示', '导航菜单', '模态对话框', '布局容器'].map((tag) => (
-                      <button
-                        key={tag}
-                        onClick={() => setSearchTerm(tag)}
-                        className="px-3 py-1.5 text-sm bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 rounded-lg border border-blue-200/30 hover:border-blue-300/50 transition-all duration-200"
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                    {[
+                      { tag: '🔘 按钮组件', color: 'from-blue-50 to-blue-100', textColor: 'text-blue-700', borderColor: 'border-blue-200' },
+                      { tag: '📝 表单输入', color: 'from-green-50 to-green-100', textColor: 'text-green-700', borderColor: 'border-green-200' },
+                      { tag: '📊 数据展示', color: 'from-purple-50 to-purple-100', textColor: 'text-purple-700', borderColor: 'border-purple-200' },
+                      { tag: '🧭 导航菜单', color: 'from-orange-50 to-orange-100', textColor: 'text-orange-700', borderColor: 'border-orange-200' },
+                      { tag: '🪟 模态对话框', color: 'from-pink-50 to-pink-100', textColor: 'text-pink-700', borderColor: 'border-pink-200' },
+                      { tag: '📦 布局容器', color: 'from-indigo-50 to-indigo-100', textColor: 'text-indigo-700', borderColor: 'border-indigo-200' }
+                    ].map((item) => (
+                      <motion.button
+                        key={item.tag}
+                        onClick={() => handleSearch(item.tag)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "px-4 py-3 text-sm font-medium rounded-xl border transition-all duration-300 hover:shadow-md active:scale-95",
+                          `bg-gradient-to-r ${item.color} ${item.textColor} ${item.borderColor} hover:shadow-lg`
+                        )}
                       >
-                        {tag}
-                      </button>
+                        {item.tag}
+                      </motion.button>
                     ))}
+                  </div>
+
+                  {/* 热门搜索 */}
+                  <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">🔥 热门搜索</span>
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse delay-75"></div>
+                        <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse delay-150"></div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {popularSuggestions.map((tag) => (
+                        <motion.button
+                          key={tag}
+                          onClick={() => handleSearch(tag)}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+                        >
+                          {tag}
+                        </motion.button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
 
-                          </div>
+              {/* 搜索结果统计 */}
+              {searchTerm && (
+                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        搜索 "<span className="font-medium text-gray-900 dark:text-white">{searchTerm}</span>" 的结果
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                        {filteredComponents.length} 个组件
+                      </span>
+                      <button
+                        onClick={handleClearSearch}
+                        className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                      >
+                        清除搜索
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
         </div>
 
-        {/* 组件标题和统计信息 */}
-        <div className="mb-8 pb-6 border-b-2 border-[var(--border-secondary)]">
-          <h1 className="text-3xl font-bold text-[var(--text-primary)]">
-            智能组件工作台
-          </h1>
-          <p className="mt-2 text-base text-[var(--text-tertiary)]">
-            展示所有组件的变体、尺寸和状态。支持多种视觉风格，提供完整的交互反馈和无障碍支持。
-          </p>
+        {/* 组件分类和统计信息 */}
+        <div className="mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <span>🎨</span>
+                组件库
+              </h1>
+              <p className="mt-2 text-base text-gray-600 dark:text-gray-400">
+                探索 60+ 个高质量 UI 组件，涵盖基础、表单、布局、导航等 10 大分类
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                {filteredComponents.length}
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                个组件
+              </div>
+            </div>
+          </div>
 
-          {/* 统计信息 */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-[var(--bg-primary-action)]/10 text-[var(--bg-primary-action)] border border-[var(--bg-primary-action)]/20">
+          {/* 增强的统计信息 */}
+          <div className="flex flex-wrap gap-3">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
               {filteredComponents.length} 个组件
             </span>
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-[var(--bg-secondary-action)]/10 text-[var(--bg-secondary-action)] border border-[var(--bg-secondary-action)]/20">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800">
+                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                 {selectedCategory}
               </span>
             )}
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-[var(--bg-success)]/10 text-[var(--bg-success)] border border-[var(--bg-success)]/20">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               完整无障碍支持
+            </span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800">
+              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+              TypeScript 类型安全
+            </span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-400 border border-pink-200 dark:border-pink-800">
+              <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+              响应式设计
             </span>
           </div>
         </div>
@@ -270,291 +538,18 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
               if (!component) return null
 
               return (
-                <ComponentCard
-                key={component.name}
-                variant="default"
-                density="compact"
-                title={component.name}
-                subtitle={component.description}
-                showcase={
-                  <div className="flex flex-col items-center gap-2 p-3 bg-[var(--bg-secondary)]/50 rounded-lg min-h-[100px] justify-center">
-                    <div className="text-xl mb-1">🎨</div>
-                    <div className="text-sm text-[var(--text-tertiary)] text-center">
-                      {component.category} 组件
-                    </div>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {component.name === 'Button' && (
-                        <div className="grid grid-cols-2 gap-2 w-full">
-                          <Button size="sm" variant="primary">主要</Button>
-                          <Button size="sm" variant="secondary">次要</Button>
-                          <Button size="sm" variant="success">成功</Button>
-                          <Button size="sm" variant="warning">警告</Button>
-                          <Button size="sm" variant="danger">危险</Button>
-                          <Button size="sm" variant="ghost">幽灵</Button>
-                          <Button size="sm" variant="link">链接</Button>
-                          <Button size="sm" variant="outline">边框</Button>
-                        </div>
-                      )}
-                      {component.name === 'Input' && (
-                        <div className="flex flex-col gap-2 w-full">
-                          <Input size="sm" placeholder="默认样式" />
-                          <Input size="sm" variant="outlined" placeholder="轮廓样式" />
-                          <Input size="sm" variant="filled" placeholder="填充样式" />
-                          <Input size="sm" leftIcon={<span>🔍</span>} placeholder="左图标" />
-                        </div>
-                      )}
-                      {component.name === 'Card' && (
-                        <div className="p-3 bg-white rounded-lg border border-[var(--border-secondary)] shadow-sm">
-                          <div className="text-sm font-medium">Card 示例</div>
-                        </div>
-                      )}
-                      {component.name === 'Modal' && (
-                        <Button size="sm" variant="primary">打开模态框</Button>
-                      )}
-                      {component.name === 'Alert' && (
-                        <div className="p-2 bg-[var(--bg-info)]/10 border border-[var(--bg-info)]/20 rounded text-sm text-[var(--bg-info)]">
-                          Alert 提示
-                        </div>
-                      )}
-                      {component.name === 'Typography' && (
-                        <div className="text-center">
-                          <Typography variant="h3">标题</Typography>
-                          <Typography variant="p">段落文本</Typography>
-                        </div>
-                      )}
-                      {component.name === 'Tabs' && (
-                        <div className="flex gap-2">
-                          <span className="px-3 py-1 bg-[var(--bg-primary-action)]/10 text-[var(--bg-primary-action)] rounded text-sm">标签1</span>
-                          <span className="px-3 py-1 bg-[var(--bg-secondary)] text-[var(--text-secondary)] rounded text-sm">标签2</span>
-                        </div>
-                      )}
-                      {component.name === 'Tooltip' && (
-                        <div className="relative group">
-                          <Button size="sm" variant="ghost">悬停提示</Button>
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-[var(--bg-inverse)] text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                            Tooltip 提示
-                          </div>
-                        </div>
-                      )}
-                      {component.name === 'Loading' && (
-                        <div className="flex items-center gap-2">
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-[var(--bg-primary-action)] border-t-transparent"></div>
-                          <span className="text-sm text-[var(--text-tertiary)]">加载中...</span>
-                        </div>
-                      )}
-                      {component.name === 'Badge' && (
-                        <div className="flex gap-2">
-                          <Badge variant="default">默认</Badge>
-                          <Badge variant="primary">主要</Badge>
-                          <Badge variant="success">成功</Badge>
-                        </div>
-                      )}
-                      {/* 渐变组件展示 */}
-                      {component.name === 'GradientText' && (
-                        <div className="text-center space-y-2">
-                          <div className="inline-block">
-                            <div style={{
-                              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)',
-                              WebkitBackgroundClip: 'text',
-                              WebkitTextFillColor: 'transparent',
-                              backgroundClip: 'text',
-                              fontSize: '14px',
-                              fontWeight: 'bold',
-                              padding: '4px 8px',
-                              borderRadius: '6px',
-                              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                              WebkitBackgroundClip: 'text',
-                              WebkitTextFillColor: 'transparent',
-                              backgroundClip: 'text'
-                            }}>
-                              渐变文字
-                            </div>
-                          </div>
-                          <div className="text-xs text-[var(--text-tertiary)]">
-                            支持动态分类
-                          </div>
-                        </div>
-                      )}
-                      {component.name === 'GradientBackground' && (
-                        <div className="w-full p-3 rounded-lg text-white text-center text-xs relative overflow-hidden" style={{
-                          background: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)',
-                          backgroundSize: '200% 200%',
-                          animation: 'gradient-shift 3s ease infinite'
-                        }}>
-                          <div className="relative z-10">
-                            <div className="font-medium">渐变背景</div>
-                            <div className="text-xs opacity-90 mt-1">支持动画效果</div>
-                          </div>
-                        </div>
-                      )}
-                      {component.name === 'GradientBorder' && (
-                        <div className="w-full p-3 rounded-lg text-center text-xs relative" style={{
-                          background: 'linear-gradient(135deg, #8b5cf6, #ec4899, #f59e0b)',
-                          backgroundSize: '200% 200%',
-                          animation: 'gradient-shift 3s ease infinite',
-                          padding: '2px'
-                        }}>
-                          <div className="bg-white rounded p-2">
-                            <div className="font-medium text-gray-800">渐变边框</div>
-                            <div className="text-xs text-gray-600 mt-1">动态彩色边框</div>
-                          </div>
-                        </div>
-                      )}
-                      {component.name === 'GradientDemo' && (
-                        <div className="text-center space-y-2">
-                          <div className="text-lg mb-1">🌈</div>
-                          <div className="text-xs text-[var(--text-tertiary)] font-medium">
-                            渐变演示系统
-                          </div>
-                          <div className="flex justify-center gap-1 mt-2">
-                            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                            <div className="w-2 h-2 rounded-full bg-purple-500"></div>
-                            <div className="w-2 h-2 rounded-full bg-pink-500"></div>
-                          </div>
-                        </div>
-                      )}
-                      {/* 其他组件的默认展示 */}
-                      {!['Button', 'Input', 'Card', 'Modal', 'Alert', 'Typography', 'Tabs', 'Tooltip', 'Loading', 'Badge', 'GradientText', 'GradientBackground', 'GradientBorder', 'GradientDemo'].includes(component.name) && (
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-[var(--bg-tertiary)] rounded flex items-center justify-center text-sm font-bold">
-                            {component.name.charAt(0)}
-                          </div>
-                          <span className="text-sm text-[var(--text-secondary)]">{component.name}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                }
+                <EnhancedComponentCard
+                  key={component.name}
+                  component={component}
+                  variant="default"
+                  density="comfortable"
+                  interactive={true}
+                  showcase={
+                    <ComponentPreviewRenderer component={component} />
+                  }
                 usage={
                   <CodeBlock
-                    code={component.name === 'Button' ? `import { Button } from '@xorigo-ui/core'
-
-// 变体样式
-<Button variant="primary">主要按钮</Button>
-<Button variant="secondary">次要按钮</Button>
-<Button variant="success">成功按钮</Button>
-<Button variant="warning">警告按钮</Button>
-<Button variant="danger">危险按钮</Button>
-<Button variant="ghost">幽灵按钮</Button>
-<Button variant="link">链接按钮</Button>
-<Button variant="outline">边框按钮</Button>
-
-// 尺寸规格
-<Button size="xs">超小按钮</Button>
-<Button size="sm">小型按钮</Button>
-<Button size="md">中等按钮</Button>
-<Button size="lg">大型按钮</Button>
-<Button size="xl">超大按钮</Button>
-<Button size="2xl">特大按钮</Button>
-
-// 特殊状态
-<Button variant="primary" disabled>禁用状态</Button>
-<Button variant="primary" loading>加载状态</Button>
-<Button variant="primary" leftIcon={<span>→</span>}>左图标</Button>
-<Button variant="primary" iconOnly ariaLabel="星标">☆</Button>
-<Button variant="primary" fullWidth>全宽按钮</Button>` :
-                          component.name === 'Input' ? `import { Input } from '@xorigo-ui/core'
-
-// 变体样式
-<Input variant="default" placeholder="默认样式" />
-<Input variant="filled" placeholder="填充样式" />
-<Input variant="outlined" placeholder="轮廓样式" />
-<Input variant="underlined" placeholder="下划线样式" />
-<Input variant="ghost" placeholder="幽灵样式" />
-<Input variant="neon" placeholder="霓虹样式" />
-
-// 尺寸规格
-<Input size="sm" placeholder="小型输入框" />
-<Input size="md" placeholder="中型输入框" />
-<Input size="lg" placeholder="大型输入框" />
-
-// 特殊功能
-<Input label="标签文本" placeholder="带标签的输入框" />
-<Input error="错误信息" placeholder="错误状态" />
-<Input leftIcon={<span>🔍</span>} placeholder="左图标" />
-<Input rightIcon={<span>👁️</span>} placeholder="右图标" />
-<Input clearable placeholder="可清除" />
-<Input showPasswordToggle type="password" placeholder="密码输入" />
-<Input floatingLabel label="浮动标签" placeholder="" />` :
-                          component.name === 'GradientText' ? `import { GradientText } from '@xorigo-ui/core'
-
-// 基础用法
-<GradientText category="ui-basic">
-  渐变文字
-</GradientText>
-
-// 不同分类
-<GradientText category="navigation">导航文字</GradientText>
-<GradientText category="feedback">反馈文字</GradientText>
-<GradientText category="data-display">数据文字</GradientText>
-
-// 状态变化
-<GradientText category="ui-basic" state="hover">悬停状态</GradientText>
-<GradientText category="ui-basic" state="selected">选中状态</GradientText>
-
-// 自定义标签
-<GradientText category="forms" as="h1">标题渐变</GradientText>
-<GradientText category="charts" as="span">内联渐变</GradientText>` :
-                          component.name === 'GradientBackground' ? `import { GradientBackground } from '@xorigo-ui/core'
-
-// 基础用法
-<GradientBackground category="ui-basic">
-  内容区域
-</GradientBackground>
-
-// 动画效果
-<GradientBackground category="feedback" animated={true}>
-  动画背景
-</GradientBackground>
-
-// 不同分类
-<GradientBackground category="navigation">导航背景</GradientBackground>
-<GradientBackground category="overlays">覆盖层背景</GradientBackground>
-
-// 状态变化
-<GradientBackground category="inputs" state="hover">悬停背景</GradientBackground>
-<GradientBackground category="layout" state="selected">选中背景</GradientBackground>` :
-                          component.name === 'GradientBorder' ? `import { GradientBorder } from '@xorigo-ui/core'
-
-// 基础用法
-<GradientBorder category="ui-basic">
-  内容区域
-</GradientBorder>
-
-// 动画效果
-<GradientBorder category="charts" animated={true}>
-  动画边框
-</GradientBorder>
-
-// 不同分类
-<GradientBorder category="navigation">导航边框</GradientBorder>
-<GradientBorder category="forms">表单边框</GradientBorder>
-
-// 状态变化
-<GradientBorder category="feedback" state="hover">悬停边框</GradientBorder>
-<GradientBorder category="layout" state="selected">选中边框</GradientBorder>` :
-                          component.name === 'GradientDemo' ? `import { GradientDemo } from '@xorigo-ui/core'
-
-// 完整演示系统
-<GradientDemo />
-
-// 组件特性：
-// - 10个组件分类配色方案
-// - 3种状态变化 (normal, hover, selected)
-// - 交互式标签导航 (总览、组件、状态、代码)
-// - 实时预览和代码示例
-// - 令牌化渐变系统
-// - 完全消除硬编码
-
-// 支持的组件分类：
-// ui-basic, inputs, navigation, feedback, overlays,
-// data-display, layout, charts, forms, utilities` :
-                          `import { ${component.name} } from '@xorigo-ui/core'
-
-// 基础用法
-<${component.name} />
-
-// 更多示例请查看文档`}
+                    code={generateComponentCodeExample({ componentName: component.name })}
                     language="tsx"
                     title={`${component.name} 组件示例`}
                     copyable
@@ -600,6 +595,13 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
             />
           )}
         </AnimatePresence>
+
+        {/* 键盘快捷键帮助面板 */}
+        <KeyboardShortcutsHelp
+          isOpen={showHelp}
+          onClose={() => setShowHelp(false)}
+          shortcuts={shortcuts}
+        />
       </div>
     </WorkbenchLayout>
   )

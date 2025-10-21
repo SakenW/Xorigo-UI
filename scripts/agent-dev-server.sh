@@ -110,11 +110,13 @@ cleanup_processes() {
     pkill -9 -f "next.*dev" 2>/dev/null || true
     sleep 1
 
-    # 清理顽固进程
+    # 清理顽固进程 - 更安全的方式
     print_message $BLUE "清理顽固进程..."
-    sudo killall -9 node 2>/dev/null || true
+    # 注意：移除了危险的 killall node 命令，避免影响WSL和其他系统进程
     pgrep -f "npm.*run.*dev" | xargs -r kill -9 2>/dev/null || true
     pgrep -f "next.*dev" | xargs -r kill -9 2>/dev/null || true
+    fuser -k 3000/tcp 2>/dev/null || true
+    fuser -k 3001/tcp 2>/dev/null || true
 
     # 验证清理结果
     local remaining=$(ps aux | grep -E "npm.*run.*dev|next.*dev" | grep -v grep | wc -l)
