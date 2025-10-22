@@ -33,7 +33,7 @@ export const colorTokens = {
     400: { h: 10, s: 20, l: 70 },  // 暖调中灰
     500: { h: 5, s: 15, l: 50 },   // 暖调基准色
     600: { h: 8, s: 18, l: 40 },   // 暖调中深
-    700: { h: 12, s: 22, l: 30 },  // 暖调深灰
+    700: h: 12, s: 22, l: 30 },   // 暖调深灰
     800: { h: 15, s: 28, l: 20 },  // 暖调深灰
     900: { h: 18, s: 35, l: 10 },  // 暖调深灰
     950: { h: 20, s: 40, l: 5 }    // 暖调最深
@@ -241,7 +241,7 @@ export class ColorTokenGenerator {
       background: this.adjustLightness(baseColors.background, brightnessAdjustment),
       foreground: this.adjustLightness(baseColors.foreground, -brightnessAdjustment),
       primary: this.adjustSaturation(accentColors.primary, saturationAdjustment),
-      secondary: this.adjustLightness(baseColors.secondary || baseColors.background, brightnessAdjustment * 0.5),
+      secondary: this.adjustLightness(baseColors.secondary, brightnessAdjustment * 0.5),
 
       text: {
         primary: this.getContrastText(baseColors.foreground),
@@ -249,10 +249,10 @@ export class ColorTokenGenerator {
         tertiary: this.getContrastText(baseColors.background, 0.5),
         disabled: this.getContrastText(baseColors.background, 0.3),
         inverse: this.getContrastText(baseColors.foreground),
-        success: this.getContrastText(`hsl(${colorTokens.semantic.success[500].h}, ${colorTokens.semantic.success[500].s}%, ${colorTokens.semantic.success[500].l}%)`),
-        warning: this.getContrastText(`hsl(${colorTokens.semantic.warning[500].h}, ${colorTokens.semantic.warning[500].s}%, ${colorTokens.semantic.warning[500].l}%)`),
-        danger: this.getContrastText(`hsl(${colorTokens.semantic.danger[500].h}, ${colorTokens.semantic.danger[500].s}%, ${colorTokens.semantic.danger[500].l}%)`),
-        info: this.getContrastText(`hsl(${colorTokens.semantic.info[500].h}, ${colorTokens.semantic.info[500].s}%, ${colorTokens.semantic.info[500].l}%)`)
+        success: this.getContrastText(colorTokens.semantic.success[500]),
+        warning: this.getContrastText(colorTokens.semantic.warning[500]),
+        danger: this.getContrastText(colorTokens.semantic.danger[500]),
+        info: this.getContrastText(colorTokens.semantic.info[500])
       },
 
       border: {
@@ -260,59 +260,50 @@ export class ColorTokenGenerator {
         secondary: this.adjustLightness(baseColors.background, 0.2),
         tertiary: this.adjustLightness(baseColors.background, 0.4),
         focus: this.adjustLightness(accentColors.primary, 0.3),
-        error: `hsl(${colorTokens.semantic.danger[500].h}, ${colorTokens.semantic.danger[500].s}%, ${colorTokens.semantic.danger[500].l}%)`,
-        warning: `hsl(${colorTokens.semantic.warning[500].h}, ${colorTokens.semantic.warning[500].s}%, ${colorTokens.semantic.warning[500].l}%)`,
-        success: `hsl(${colorTokens.semantic.success[500].h}, ${colorTokens.semantic.success[500].s}%, ${colorTokens.semantic.success[500].l}%)`
+        error: colorTokens.semantic.danger[500],
+        warning: colorTokens.semantic.warning[500],
+        success: colorTokens.semantic.success[500]
       }
     }
   }
 
-  private static extractBaseColors(base: string): { background: string; foreground: string; secondary?: string } {
+  private static extractBaseColors(base: string): { background: string; foreground: string } {
     const baseColors = {
       'neutral-true-low': {
-        background: `hsl(${colorTokens.neutral[50].h}, ${colorTokens.neutral[50].s}%, ${colorTokens.neutral[50].l}%)`,
-        foreground: `hsl(${colorTokens.neutral[900].h}, ${colorTokens.neutral[900].s}%, ${colorTokens.neutral[900].l}%)`,
-        secondary: `hsl(${colorTokens.neutral[200].h}, ${colorTokens.neutral[200].s}%, ${colorTokens.neutral[200].l}%)`
+        background: colorTokens.neutral[50],
+        foreground: colorTokens.neutral[900]
       },
       'neutral-true-mid': {
-        background: `hsl(${colorTokens.neutral[100].h}, ${colorTokens.neutral[100].s}%, ${colorTokens.neutral[100].l}%)`,
-        foreground: `hsl(${colorTokens.neutral[800].h}, ${colorTokens.neutral[800].s}%, ${colorTokens.neutral[800].l}%)`,
-        secondary: `hsl(${colorTokens.neutral[300].h}, ${colorTokens.neutral[300].s}%, ${colorTokens.neutral[300].l}%)`
+        background: colorTokens.neutral[100],
+        foreground: colorTokens.neutral[800]
       },
       'neutral-true-high': {
-        background: `hsl(${colorTokens.neutral[200].h}, ${colorTokens.neutral[200].s}%, ${colorTokens.neutral[200].l}%)`,
-        foreground: `hsl(${colorTokens.neutral[700].h}, ${colorTokens.neutral[700].s}%, ${colorTokens.neutral[700].l}%)`,
-        secondary: `hsl(${colorTokens.neutral[400].h}, ${colorTokens.neutral[400].s}%, ${colorTokens.neutral[400].l}%)`
+        background: colorTokens.neutral[200],
+        foreground: colorTokens.neutral[700]
       },
       'neutral-warm-low': {
-        background: `hsl(${colorTokens['neutral-warm'][50].h}, ${colorTokens['neutral-warm'][50].s}%, ${colorTokens['neutral-warm'][50].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-warm'][900].h}, ${colorTokens['neutral-warm'][900].s}%, ${colorTokens['neutral-warm'][900].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-warm'][200].h}, ${colorTokens['neutral-warm'][200].s}%, ${colorTokens['neutral-warm'][200].l}%)`
+        background: colorTokens['neutral-warm'][50],
+        foreground: colorTokens['neutral-warm'][900]
       },
       'neutral-warm-mid': {
-        background: `hsl(${colorTokens['neutral-warm'][100].h}, ${colorTokens['neutral-warm'][100].s}%, ${colorTokens['neutral-warm'][100].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-warm'][800].h}, ${colorTokens['neutral-warm'][800].s}%, ${colorTokens['neutral-warm'][800].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-warm'][300].h}, ${colorTokens['neutral-warm'][300].s}%, ${colorTokens['neutral-warm'][300].l}%)`
+        background: colorTokens['neutral-warm'][100],
+        foreground: colorTokens['neutral-warm'][800]
       },
       'neutral-warm-high': {
-        background: `hsl(${colorTokens['neutral-warm'][200].h}, ${colorTokens['neutral-warm'][200].s}%, ${colorTokens['neutral-warm'][200].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-warm'][700].h}, ${colorTokens['neutral-warm'][700].s}%, ${colorTokens['neutral-warm'][700].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-warm'][400].h}, ${colorTokens['neutral-warm'][400].s}%, ${colorTokens['neutral-warm'][400].l}%)`
+        background: colorTokens['neutral-warm'][200],
+        foreground: colorTokens['neutral-warm'][700]
       },
       'neutral-cool-low': {
-        background: `hsl(${colorTokens['neutral-cool'][50].h}, ${colorTokens['neutral-cool'][50].s}%, ${colorTokens['neutral-cool'][50].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-cool'][900].h}, ${colorTokens['neutral-cool'][900].s}%, ${colorTokens['neutral-cool'][900].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-cool'][200].h}, ${colorTokens['neutral-cool'][200].s}%, ${colorTokens['neutral-cool'][200].l}%)`
+        background: colorTokens['neutral-cool'][50],
+        foreground: colorTokens['neutral-cool'][900]
       },
       'neutral-cool-mid': {
-        background: `hsl(${colorTokens['neutral-cool'][100].h}, ${colorTokens['neutral-cool'][100].s}%, ${colorTokens['neutral-cool'][100].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-cool'][800].h}, ${colorTokens['neutral-cool'][800].s}%, ${colorTokens['neutral-cool'][800].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-cool'][300].h}, ${colorTokens['neutral-cool'][300].s}%, ${colorTokens['neutral-cool'][300].l}%)`
+        background: colorTokens['neutral-cool'][100],
+        foreground: colorTokens['neutral-cool'][800]
       },
       'neutral-cool-high': {
-        background: `hsl(${colorTokens['neutral-cool'][200].h}, ${colorTokens['neutral-cool'][200].s}%, ${colorTokens['neutral-cool'][200].l}%)`,
-        foreground: `hsl(${colorTokens['neutral-cool'][700].h}, ${colorTokens['neutral-cool'][700].s}%, ${colorTokens['neutral-cool'][700].l}%)`,
-        secondary: `hsl(${colorTokens['neutral-cool'][400].h}, ${colorTokens['neutral-cool'][400].s}%, ${colorTokens['neutral-cool'][400].l}%)`
+        background: colorTokens['neutral-cool'][200],
+        foreground: colorTokens['neutral-cool'][700]
       }
     }
 
@@ -342,18 +333,9 @@ export class ColorTokenGenerator {
     return { primary: `hsl(${baseHue}, 100%, 50%)` }
   }
 
-  private static adjustLightness(color: { h: number; s: number; l: number } | string, adjustment: number): string {
-    if (typeof color === 'string') {
-      const match = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/)
-      if (!match) return color
-
-      const [, h, s, l] = match
-      const newL = Math.max(0, Math.min(100, parseFloat(l) + adjustment * 100))
-      return `hsl(${h}, ${s}%, ${newL}%)`
-    } else {
-      const newL = Math.max(0, Math.min(100, color.l + adjustment * 100))
-      return `hsl(${color.h}, ${color.s}%, ${newL}%)`
-    }
+  private static adjustLightness(color: { h: number; s: number; l: number }, adjustment: number): string {
+    const newL = Math.max(0, Math.min(100, color.l + adjustment * 100))
+    return `hsl(${color.h}, ${color.s}%, ${newL}%)`
   }
 
   private static adjustSaturation(color: string, factor: number): string {

@@ -26,6 +26,12 @@
 |-----------|---------|---------|---------|
 | **xorigo-build-publish-constraints** | 构建发布约束器 | 构建流程、版本控制、NPM 发布 | 构建验证、发布前检查、CI/CD 配置 |
 
+### 🔄 架构迁移相关 Skills
+
+| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+|-----------|---------|---------|---------|
+| **xorigo-migration-architecture-validator** | 迁移架构验证器 | 旧版本到新架构迁移验证、Skills协调 | 架构迁移、文件重组、兼容性检查 |
+
 ### 🛠️ 现有相关 Skills
 
 | Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
@@ -76,6 +82,19 @@
 "使用 xorigo-performance-optimizer 优化包大小"
 ```
 
+### 架构迁移
+
+```bash
+# 完整架构迁移
+"使用 xorigo-migration-architecture-validator 执行完整迁移流程"
+
+# 单文件迁移验证
+"使用 xorigo-migration-architecture-validator 验证单文件迁移合规性"
+
+# 冲突检测和解决
+"使用 xorigo-migration-architecture-validator 检测并解决迁移冲突"
+```
+
 ## 🔗 Skills 依赖关系
 
 ```mermaid
@@ -119,6 +138,12 @@ graph TD
    - 执行发布流程
    - CI/CD 配置
 
+4. **架构迁移操作**：
+   - 修改 src-archived 目录
+   - 执行文件迁移操作
+   - 重组目录结构
+   - 处理迁移冲突
+
 ### 手动激活命令
 
 ```bash
@@ -134,6 +159,9 @@ graph TD
 
 # 构建发布
 /claude skill xorigo-build-publish-constraints
+
+# 架构迁移
+/claude skill xorigo-migration-architecture-validator
 ```
 
 ## 📊 质量保证体系
