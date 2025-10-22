@@ -250,7 +250,7 @@ export interface ListItemData {
 }
 
 export interface ListItemProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>,
     VariantProps<typeof listItemVariants> {
   /**
    * 列表项数据
@@ -343,11 +343,11 @@ const List = React.forwardRef<HTMLDivElement, ListProps>(
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--list-border': `hsl(${theme.colors.border.primary})`,
-      '--list-bg': `hsl(${theme.colors.background})`,
-      '--list-text': `hsl(${theme.colors.text.primary})`,
-      '--list-hover': `hsl(${theme.colors.accent})`,
-      '--list-selected': `hsl(${theme.colors.accent})`,
+      ['--list-border' as any]: `var(--xor-border-primary)`,
+      ['--list-bg' as any]: `var(--xor-bg-primary)`,
+      ['--list-text' as any]: `var(--xor-text-primary)`,
+      ['--list-hover' as any]: `var(--xor-accent-primary)`,
+      ['--list-selected' as any]: `var(--xor-accent-primary)`,
       // 可根据七轴动态调整
     }
 
@@ -511,9 +511,9 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     }, [item, onClick])
 
     const themeStyles: React.CSSProperties = {
-      '--list-item-bg': selected ? `hsl(${theme.colors.accent})` : 'transparent',
-      '--list-item-text': selected ? `hsl(${theme.colors.accentForeground})` : `hsl(${theme.colors.text.primary})`,
-      '--list-item-border': `hsl(${theme.colors.border.primary})`,
+      ['--list-item-bg' as any]: selected ? `var(--xor-accent-primary)` : 'transparent',
+      ['--list-item-text' as any]: selected ? `var(--xor-accent-foreground)` : `var(--xor-text-primary)`,
+      ['--list-item-border' as any]: `var(--xor-border-primary)`,
     }
 
     if (children) {
@@ -696,3 +696,4 @@ ListItem.displayName = 'ListItem'
 
 export { List, ListItem, listVariants, listItemVariants }
 export type { ListProps, ListItemData, ListItemProps, ListGroupProps }
+

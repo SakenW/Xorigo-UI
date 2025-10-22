@@ -207,7 +207,8 @@ export class SurfaceTokenGenerator {
     intensity: number,
     size: number = 16
   ): string {
-    return `0 0 ${size}px ${color.replace('rgb', 'rgba').replace(')', `, ${intensity})`}`
+    const rgbaColor = color.replace('rgb', 'rgba').replace(')', `, ${intensity})`)
+    return `0 0 ${size}px ${rgbaColor}`
   }
 
   // 生成玻璃效果配置

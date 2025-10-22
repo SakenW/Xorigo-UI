@@ -217,8 +217,8 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         )`,
         ...(animated && {
           animation: 'progress-bar-stripes 1s linear infinite',
-        }),
-      },
+        })
+      })
     }
 
     // 生成 ARIA 属性
@@ -262,7 +262,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
             ...(indeterminate && {
               width: '30%',
               animation: 'progress-bar-indeterminate 1.5s ease-in-out infinite',
-            },
+            })
           }}
         />
 
