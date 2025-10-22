@@ -264,7 +264,7 @@ export interface TableProps<T = any>
 }
 
 export interface CellProps
-  extends React.TdHTMLAttributes<HTMLTableCellElement>,
+  extends Omit<React.TdHTMLAttributes<HTMLTableCellElement>, 'align'>,
     VariantProps<typeof cellVariants> {
   variant?: 'header' | 'data' | 'footer'
   children?: React.ReactNode
@@ -370,12 +370,12 @@ function TableInner<T = any>({
 
   // 生成主题样式
   const themeStyles: React.CSSProperties = {
-    '--table-border': `hsl(${theme.colors.border.primary})`,
-    '--table-bg': `hsl(${theme.colors.background})`,
-    '--table-header-bg': `hsl(${theme.colors.muted})`,
-    '--table-text': `hsl(${theme.colors.text.primary})`,
-    '--table-hover': `hsl(${theme.colors.accent})`,
-    '--table-striped': `hsl(${theme.colors.muted} / 0.3)`,
+    ['--table-border' as any]: `var(--xor-border-primary)`,
+    ['--table-bg' as any]: `var(--xor-bg-primary)`,
+    ['--table-header-bg' as any]: `var(--xor-muted)`,
+    ['--table-text' as any]: `var(--xor-text-primary)`,
+    ['--table-hover' as any]: `var(--xor-accent-primary)`,
+    ['--table-striped' as any]: `var(--xor-muted)`,
   }
 
   // 空状态

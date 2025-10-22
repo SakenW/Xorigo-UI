@@ -184,7 +184,7 @@ export interface CardProps
   className?: string
 }
 
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardHeaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * 标题
    */
@@ -235,7 +235,7 @@ export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 // Card 主组件实现
 // =============================================================================
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
     {
       variant,
@@ -260,32 +260,13 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
-
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      // 背景和文字颜色
-      '--card-bg': variant === 'default' ? `hsl(${theme.colors.card})` :
-                    variant === 'primary' ? `hsl(${theme.colors.primary})` :
-                    variant === 'secondary' ? `hsl(${theme.colors.secondary})` :
-                    variant === 'filled' ? `hsl(${theme.colors.muted})` :
-                    `hsl(${theme.colors.background})`,
-
-      '--card-text': variant === 'primary' ? `hsl(${theme.colors.primaryForeground})` :
-                       variant === 'secondary' ? `hsl(${theme.colors.secondaryForeground})` :
-                       `hsl(${theme.colors.cardForeground})`,
-
-      '--card-border': variant === 'primary' ? `hsl(${theme.colors.primary})` :
-                        variant === 'secondary' ? `hsl(${theme.colors.secondary})` :
-                        variant === 'success' ? `hsl(${theme.colors.success})` :
-                        variant === 'warning' ? `hsl(${theme.colors.warning})` :
-                        variant === 'destructive' ? `hsl(${theme.colors.destructive})` :
-                        `hsl(${theme.colors.border.primary})`,
-
-      // 阴影颜色
-      '--card-shadow': `hsl(${theme.colors.foreground} / 0.1)`,
-
-      // 可根据七轴动态调整
+      // 使用主题令牌
+      ['--card-bg' as any]: `var(--xor-bg-primary)`,
+      ['--card-text' as any]: `var(--xor-text-primary)`,
+      ['--card-border' as any]: `var(--xor-border-primary)`,
+      ['--card-shadow' as any]: `var(--xor-surface-shadow, hsl(0 0% 0% / 0.1))`,
     }
 
     // 处理点击事件
@@ -368,7 +349,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 // CardHeader 组件实现
 // =============================================================================
 
-const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   (
     {
       title,
@@ -382,8 +363,6 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
-
     return (
       <div
         ref={ref}
@@ -393,8 +372,8 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
           className
         )}
         style={{
-          '--card-header-text': `hsl(${theme.colors.cardForeground})`,
-          '--card-header-muted': `hsl(${theme.colors.mutedForeground})`,
+          ['--card-header-text' as any]: `var(--xor-text-primary)`,
+          ['--card-header-muted' as any]: `var(--xor-text-secondary)`,
         }}
         {...props}
       >
@@ -437,7 +416,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 // CardContent 组件实现
 // =============================================================================
 
-const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
   (
     {
       size,
@@ -450,8 +429,6 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
-
     return (
       <div
         ref={ref}
@@ -474,7 +451,7 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
           className
         )}
         style={{
-          '--card-content-text': `hsl(${theme.colors.cardForeground})`,
+          ['--card-content-text' as any]: `var(--xor-text-primary)`,
         }}
         {...props}
       >
@@ -488,7 +465,7 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
 // CardFooter 组件实现
 // =============================================================================
 
-const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   (
     {
       justify = 'end',
@@ -527,16 +504,16 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
 
 // SimpleCard - 简化卡片
 export interface SimpleCardProps extends Omit<CardProps, 'header' | 'footer'> {
-  title?: React.ReactNode
-  description?: React.ReactNode
+  cardTitle?: React.ReactNode
+  cardDescription?: React.ReactNode
 }
 
 export const SimpleCard = React.forwardRef<HTMLDivElement, SimpleCardProps>(
-  ({ title, description, children, ...props }, ref) => {
+  ({ cardTitle, cardDescription, children, ...props }, ref) => {
     return (
       <Card ref={ref} {...props}>
-        {(title || description) && (
-          <CardHeader title={title} description={description} />
+        {(cardTitle || cardDescription) && (
+          <CardHeader title={cardTitle} description={cardDescription} />
         )}
         {children && <CardContent>{children}</CardContent>}
       </Card>
@@ -653,8 +630,7 @@ CardContent.displayName = 'CardContent'
 CardFooter.displayName = 'CardFooter'
 
 // =============================================================================
-// 导出
+// 变体导出
 // =============================================================================
 
-export { Card, CardHeader, CardContent, CardFooter, cardVariants, cardContentVariants }
-export type { CardProps, CardHeaderProps, CardContentProps, CardFooterProps, SimpleCardProps, StatsCardProps }
+export { cardVariants, cardContentVariants }

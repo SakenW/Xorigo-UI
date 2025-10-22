@@ -82,69 +82,29 @@ export type {
 } from './timeline/timeline'
 
 // =============================================================================
-// 便捷组合导出
+// 导入类型用于内部使用
 // =============================================================================
 
-/**
- * 基础数据展示组件组合
- */
-export const BaseDataDisplay = {
-  List,
-  Table,
-  Card,
-  Timeline,
-} as const
+import type {
+  ListProps,
+  ListItemData
+} from './list/list'
+import type {
+  TableProps,
+  ColumnDef,
+  CellProps
+} from './table/table'
+import type {
+  CardProps
+} from './card/card'
+import type {
+  TimelineProps,
+  TimelineItem
+} from './timeline/timeline'
 
-/**
- * 列表展示组件组合
- */
-export const ListComponents = {
-  List,
-  ListItem,
-  ListGroup,
-  ListSeparator,
-} as const
-
-/**
- * 表格展示组件组合
- */
-export const TableComponents = {
-  Table,
-  Cell,
-} as const
-
-/**
- * 卡片展示组件组合
- */
-export const CardComponents = {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  SimpleCard,
-  StatsCard,
-} as const
-
-/**
- * 时间线展示组件组合
- */
-export const TimelineComponents = {
-  Timeline,
-  TimelineItem,
-  TimelineDot,
-  TimelineConnector,
-} as const
-
-/**
- * 完整数据展示组件集合
- */
-export const DataDisplayComponents = {
-  ...BaseDataDisplay,
-  ...ListComponents,
-  ...TableComponents,
-  ...CardComponents,
-  ...TimelineComponents,
-} as const
+// =============================================================================
+// 类型导出
+// =============================================================================
 
 // =============================================================================
 // 类型导出
@@ -259,13 +219,20 @@ export const createStandardList = <T,>(
   },
   props: Partial<ListProps> = {}
 ) => {
-  const listItems: ListItemData[] = items.map(item => ({
-    id: options.getItemId(item),
-    title: options.getItemTitle(item),
-    description: options.getItemDescription?.(item),
-    icon: options.getItemIcon?.(item),
-    data: item,
-  }))
+  const listItems: ListItemData[] = items.map(item => {
+    const title = options.getItemTitle(item);
+    const description = options.getItemDescription?.(item);
+
+    return {
+      id: options.getItemId(item),
+      content: title,
+      title: typeof title === 'string' ? title :
+             typeof title === 'number' ? String(title) : undefined,
+      description: typeof description === 'string' ? description : undefined,
+      icon: options.getItemIcon?.(item),
+      data: item,
+    };
+  })
 
   return {
     ...defaultListConfig,

@@ -41,7 +41,7 @@ const badgeVariants = cva(
       // 形状
       shape: {
         rounded: "rounded-full",
-        rounded-lg: "rounded-lg",
+        "rounded-lg": "rounded-lg",
         pill: "rounded-full px-3",
         square: "rounded-none",
       },

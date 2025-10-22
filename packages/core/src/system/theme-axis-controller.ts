@@ -59,11 +59,8 @@ const constraintRules: ConstraintRule[] = [
     condition: (axes) => axes.tone === 'vivid' && axes.surface.includes('neon'),
     action: (axes) => ({
       ...axes,
-      tokens: {
-        ...axes.tokens,
-        // 降低饱和度计算的标记
-        '_saturation_adjustment': 'reduced'
-      }
+      // 注意：在约束规则中无法直接修改 tokens，因为 ThemeAxes 没有这个属性
+      // 这个标记会在 generateThemeTokens 中处理
     }),
     warning: 'vivid + neon 组合：已自动降低饱和度以减少视觉疲劳'
   },
@@ -142,6 +139,14 @@ export function generateThemeTokens(axes: ThemeAxes): ThemeRecipe {
   const motionTokens = computeMotionTokens(constrainedAxes)
   const densityTokens = computeDensityTokens(constrainedAxes)
 
+  // 处理特殊组合约束（如 vivid + neon）
+  const adjustmentTokens: Record<string, string | number> = {}
+  if (constrainedAxes.tone === 'vivid' && constrainedAxes.surface.includes('neon')) {
+    Object.assign(adjustmentTokens, {
+      '_saturation_adjustment': 'reduced'
+    })
+  }
+
   return {
     id: `${constrainedAxes.mode}-${constrainedAxes.base}-${constrainedAxes.accent}-${Date.now()}`,
     name: `Generated Theme (${constrainedAxes.mode})`,
@@ -151,7 +156,8 @@ export function generateThemeTokens(axes: ThemeAxes): ThemeRecipe {
       ...accentTokens,
       ...surfaceTokens,
       ...motionTokens,
-      ...densityTokens
+      ...densityTokens,
+      ...adjustmentTokens
     }
   }
 }
@@ -174,7 +180,10 @@ function computeBaseTokens(axes: ThemeAxes): Record<string, string | number> {
 }
 
 function computeAccentTokens(axes: ThemeAxes): Record<string, string | number> {
-  const [strategy, hue] = axes.accent.match(/^(mono|analog|duo)\((.*)\)$) || []
+  const match = axes.accent.match(/^(mono|analog|duo)\((.*)\)$/)
+  if (!match) return {}
+
+  const [, strategy, hue] = match
 
   return {
     '--xor-accent-primary': getAccentColor(strategy, hue, 'primary'),
@@ -184,7 +193,7 @@ function computeAccentTokens(axes: ThemeAxes): Record<string, string | number> {
 }
 
 function computeSurfaceTokens(axes: ThemeAxes): Record<string, string | number> {
-  const surfaceTokens = {
+  const surfaceTokens: Record<string, string | number> = {
     '--xor-surface-bg': 'transparent',
     '--xor-surface-border': 'transparent',
     '--xor-surface-shadow': 'none',
@@ -241,13 +250,13 @@ function computeDensityTokens(axes: ThemeAxes): Record<string, string | number> 
 // === 辅助函数 ===
 function getBaseColor(baseColor: string, contrastLevel: string, variant: string): string {
   // 简化的颜色计算逻辑
-  const colors = {
+  const colors: Record<string, Record<string, string>> = {
     'neutral-warm': { low: '#fafafa', mid: '#f5f5f5', high: '#e5e5e5' },
     'neutral-cool': { low: '#f8f9fa', mid: '#f1f3f4', high: '#e8eaed' },
     'neutral-true': { low: '#ffffff', mid: '#fafafa', high: '#f5f5f5' }
   }
 
-  return colors[baseColor as keyof typeof colors]?.[contrastLevel as keyof typeof colors[typeof baseColor]] || '#ffffff'
+  return colors[baseColor]?.[contrastLevel] || '#ffffff'
 }
 
 function getTextColor(baseColor: string, contrastLevel: string, variant: string): string {
