@@ -51,7 +51,7 @@ const spacerVariants = cva(
 
       // 是否可见（用于调试）
       visible: {
-        true: "border border-dashed border-gray-300 bg-gray-50",
+        true: "border border-dashed border-[var(--xor-border-tertiary)] bg-[var(--xor-bg-secondary)]",
         false: "",
       },
 

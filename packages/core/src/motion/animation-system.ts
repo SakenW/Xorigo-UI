@@ -14,8 +14,8 @@ import type {
   PanInfo,
   TransformProperties
 } from 'framer-motion'
-import type { ThemeRecipe } from '@/system'
-import { motionVariants, animationDuration, animationEasing, springConfig } from '@/foundations/motion-curves'
+import type { ThemeRecipe } from '../system'
+import { motionVariants, animationDuration, animationEasing, springConfig } from '../foundations/motion-curves'
 
 // =============================================================================
 // 动画系统核心类型定义

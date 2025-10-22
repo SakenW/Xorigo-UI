@@ -4,6 +4,8 @@
  * 导航组件 - 标签页切换和内容管理
  */
 
+'use client'
+
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'

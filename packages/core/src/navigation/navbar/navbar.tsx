@@ -4,6 +4,8 @@
  * 导航组件 - 响应式导航栏和菜单控制
  */
 
+'use client'
+
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
@@ -189,9 +191,22 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       }
     }, [controlledMobileMenuOpen, internalMobileMenuOpen, onMobileMenuToggle])
 
-    // 生成主题相关的样式
+    // 生成主题相关的样式 - 使用七轴主题系统的统一命名
     const themeStyles: React.CSSProperties = {
-      // 背景和文字颜色
+      // 七轴主题令牌映射
+      '--xor-bg-primary': `hsl(${theme.colors.background.primary})`,
+      '--xor-bg-secondary': `hsl(${theme.colors.background.secondary})`,
+      '--xor-bg-tertiary': `hsl(${theme.colors.background.tertiary})`,
+      '--xor-text-primary': `hsl(${theme.colors.text.primary})`,
+      '--xor-text-secondary': `hsl(${theme.colors.text.secondary})`,
+      '--xor-text-tertiary': `hsl(${theme.colors.text.tertiary})`,
+      '--xor-border-primary': `hsl(${theme.colors.border.primary})`,
+      '--xor-primary': `hsl(${theme.colors.primary})`,
+      '--xor-secondary': `hsl(${theme.colors.secondary})`,
+      '--xor-text-on-primary': `hsl(${theme.colors.onPrimary})`,
+      '--xor-text-on-secondary': `hsl(${theme.colors.onSecondary})`,
+
+      // 背景和文字颜色（兼容变体系统）
       ...(variant === 'inverse' && {
         backgroundColor: `hsl(${theme.colors.foreground})`,
         color: `hsl(${theme.colors.background})`,
@@ -207,19 +222,6 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       ...(variant === 'transparent' && {
         backgroundColor: 'transparent',
       }),
-
-      // 边框颜色
-      '--navbar-border': `hsl(${theme.colors.border.primary})`,
-      '--navbar-bg': variant === 'default' ? `hsl(${theme.colors.background})` :
-                       variant === 'primary' ? `hsl(${theme.colors.primary})` :
-                       variant === 'secondary' ? `hsl(${theme.colors.secondary})` :
-                       variant === 'inverse' ? `hsl(${theme.colors.foreground})` :
-                       'transparent',
-      '--navbar-text': variant === 'inverse' ? `hsl(${theme.colors.background})` :
-                       variant === 'primary' ? `hsl(${theme.colors.primaryForeground})` :
-                       variant === 'secondary' ? `hsl(${theme.colors.secondaryForeground})` :
-                       `hsl(${theme.colors.text.primary})`,
-      // 可根据七轴动态调整
     }
 
     // 确定布局样式
@@ -244,12 +246,11 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         type="button"
         className={cn(
           "inline-flex items-center justify-center rounded-md p-2",
-          "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
-          "dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800",
-          "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500",
-          variant === 'inverse' && "hover:bg-gray-100/10",
-          variant === 'primary' && "text-primary-foreground hover:bg-primary-foreground/10",
-          variant === 'secondary' && "text-secondary-foreground hover:bg-secondary-foreground/10"
+          "text-[var(--xor-text-tertiary)] hover:text-[var(--xor-text-primary)] hover:bg-[var(--xor-bg-secondary)]",
+          "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--xor-primary)]",
+          variant === 'inverse' && "hover:bg-[var(--xor-bg-tertiary)]/10",
+          variant === 'primary' && "text-[var(--xor-text-on-primary)] hover:bg-[var(--xor-text-on-primary)]/10",
+          variant === 'secondary' && "text-[var(--xor-text-on-secondary)] hover:bg-[var(--xor-text-on-secondary)]/10"
         )}
         onClick={handleMobileMenuToggle}
         aria-label="Toggle menu"

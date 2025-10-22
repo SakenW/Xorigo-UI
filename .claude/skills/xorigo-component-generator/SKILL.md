@@ -58,12 +58,21 @@ tags: ["react", "component", "typescript", "tailwind", "design-system"]
 
 ```
 src/components/
-├── [ComponentName].tsx          # 主组件文件
-├── [ComponentName].test.tsx     # 单元测试
-├── [ComponentName].stories.tsx  # Storybook 故事
-├── [ComponentName].variants.ts  # 样式变体定义
-└── index.ts                     # 导出文件
+├── [component-name].tsx          # 主组件文件 (kebab-case)
+├── [component-name].test.tsx     # 单元测试 (kebab-case.test.tsx)
+├── [component-name].stories.tsx  # Storybook 故事 (kebab-case.stories.tsx)
+├── [component-name].variants.ts  # 样式变体定义 (kebab-case.variants.ts)
+├── [component-name].types.ts     # 类型定义 (kebab-case.types.ts)
+└── index.ts                      # 导出文件
 ```
+
+**文件命名规范说明**：
+- **使用 kebab-case** - 现代前端最佳实践，提供更好的跨平台可读性
+- **组件文件**：与组件功能对应的 kebab-case 格式 (`button.tsx`, `data-table.tsx`)
+- **类型文件**：以 `.types.ts` 结尾 (`button.types.ts`, `data-table.types.ts`)
+- **变体文件**：以 `.variants.ts` 结尾 (`button.variants.ts`, `data-table.variants.ts`)
+- **测试文件**：以 `.test.tsx` 结尾 (`button.test.tsx`, `data-table.test.tsx`)
+- **Storybook 文件**：以 `.stories.tsx` 结尾 (`button.stories.tsx`, `data-table.stories.tsx`)
 
 ## API 设计标准
 
@@ -105,6 +114,58 @@ interface ComponentProps {
 - Golden (金秋黄)
 - Crystal (水晶青)
 
+## 📝 现代文件命名最佳实践
+
+### 为什么选择 kebab-case 文件名
+
+**✅ 推荐的命名方式** (kebab-case 为现代前端标准):
+
+```typescript
+// 组件文件 - 使用 kebab-case
+button.tsx                 // ✅ 正确
+data-table.tsx             // ✅ 正确
+user-profile-card.tsx      // ✅ 正确
+
+// 复杂组件名 - 同样使用 kebab-case
+color-picker.tsx           // ✅ 正确
+date-range-selector.tsx    // ✅ 正确
+
+// 工具函数文件 - kebab-case
+format-date.ts             // ✅ 正确
+color-utils.ts             // ✅ 正确
+
+// 类型定义文件 - kebab-case
+button.types.ts            // ✅ 正确
+user-profile.types.ts      // ✅ 正确
+
+// 配置文件 - kebab-case
+theme-config.ts            // ✅ 正确
+api-endpoints.ts           // ✅ 正确
+```
+
+**❌ 避免的命名方式**:
+
+```typescript
+// 避免使用 camelCase 文件名
+button.tsx                 // ❌ 应该是 button.tsx
+colorTokens.ts             // ❌ 应该是 color-tokens.ts
+themeUtils.ts              // ❌ 应该是 theme-utils.ts
+
+// 避免使用 PascalCase 文件名
+Button.tsx                 // ❌ 应该是 button.tsx
+DataTable.tsx              // ❌ 应该是 data-table.tsx
+ColorPicker.tsx            // ❌ 应该是 color-picker.tsx
+```
+
+### 命名规范优势
+
+- **跨平台兼容性**：kebab-case 在所有操作系统和网络环境下都能正常工作
+- **可读性更好**：连字符比驼峰更易读，特别是长文件名
+- **URL 友好**：文件名与 URL 路径、路由保持一致风格
+- **SEO 优化**：搜索引擎更容易解析 kebab-case 格式的 URL
+- **现代标准**：Next.js、Vite、Tailwind CSS 等现代工具都推荐 kebab-case
+- **团队协作**：减少命名歧义，提高代码维护效率
+
 ## 质量保证
 
 生成的代码包含：
@@ -114,6 +175,7 @@ interface ComponentProps {
 - **可访问性** - axe-core 可访问性测试
 - **响应式测试** - 多屏幕尺寸验证
 - **主题测试** - 10 种主题下的视觉效果验证
+- **文件命名规范** - 严格遵循 kebab-case 现代前端标准
 
 ## 示例请求
 

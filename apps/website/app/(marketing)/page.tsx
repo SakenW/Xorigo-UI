@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { SuperParticleSystem } from '@xorigo-ui/core'
 import { Box, Palette, Code2, Zap } from 'lucide-react'
 
 // 导入拆分的营销组件
@@ -14,10 +13,12 @@ import {
 } from '@/components/marketing'
 
 // 导入通用组件库
-import { CodeDemo, StatsCard } from '@xorigo-ui/core'
-
-// 导入 HeroTitle 特效组件
-import { HeroTitle } from '@xorigo-ui/core'
+import {
+  CodeDemo,
+  StatsCard,
+  HeroTitle,
+  SuperParticleSystem
+} from '@xorigo-ui/core'
 
 /**
  * Xorigo UI 首页 - 重构版本

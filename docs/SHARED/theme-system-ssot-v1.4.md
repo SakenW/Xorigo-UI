@@ -1,0 +1,228 @@
+# 🎨 Xorigo UI 主题系统唯一事实文档（v1.4 SSOT）- 共享版本
+
+**作用域**：`packages/core` 与 `system` 层
+**职责**：组件库内部主题体系、设计令牌、运行时引擎、七轴约束逻辑
+**排除**：网站展示、交互演示、营销内容
+
+---
+
+## 一、项目架构边界
+
+| 方面   | `packages` 负责 | `website` 负责 |
+| ---- | ------------- | ------------ |
+| 组件开发 | ✅ 创建、维护、测试    | ❌ 仅消费        |
+| 主题系统 | ✅ 主题引擎、令牌     | ✅ 主题展示、切换    |
+| 文档编写 | ✅ API 与类型定义   | ✅ 使用文档、教程    |
+| 展示页面 | ❌ 不涉及         | ✅ 演示与营销      |
+| 构建发布 | ✅ NPM 包产出     | ✅ 网站部署       |
+| 用户交互 | ❌ 不直接面向用户     | ✅ 完整用户体验     |
+
+---
+
+## 二、目录结构（核心 SSOT）
+
+```
+packages/
+└─ core/
+   ├─ src/
+   │  ├─ foundations/                  # 设计令牌（静态层）
+   │  │  ├─ color-tokens.ts
+   │  │  ├─ density-tokens.ts
+   │  │  ├─ motion-curves.ts
+   │  │  ├─ surface-tokens.ts
+   │  │  └─ index.ts
+   │  ├─ system/                       # 主题引擎（运行时层）
+   │  │  ├─ theme-provider.tsx
+   │  │  ├─ theme-axis-controller.ts
+   │  │  ├─ accent-generator.ts
+   │  │  ├─ motion-system/
+   │  │  │  ├─ lazy-motion.tsx
+   │  │  │  ├─ ssr-animate-presence.tsx
+   │  │  │  └─ ssr-motion-div.tsx
+   │  │  ├─ recipes/
+   │  │  │  ├─ corporateBlueRecipe.ts
+   │  │  │  ├─ creativePurpleRecipe.ts
+   │  │  │  ├─ techCyanRecipe.ts
+   │  │  │  └─ index.ts
+   │  │  └─ index.ts
+   │  ├─ primitives/                   # UI 原子组件
+   │  │  ├─ button/
+   │  │  ├─ card/
+   │  │  ├─ surface/
+   │  │  └─ index.ts
+   │  ├─ components/                   # 结构与反馈组件
+   │  │  ├─ layout/
+   │  │  ├─ feedback/
+   │  │  ├─ navigation/
+   │  │  └─ index.ts
+   │  └─ index.ts                      # 顶层导出
+   ├─ package.json
+   ├─ tsconfig.json
+   └─ vite.config.ts
+```
+
+---
+
+## 三、七轴主题系统 （Seven-Axis Theme System）
+
+| 轴序  | 中文名  | 英文名          | 控制范围       | 类型定义 / 可选值                                                                                                                                     |
+| --- | ---- | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1️⃣ | 模式轴  | Mode Axis    | 光照模式       | `'light' \| 'dark' \| 'hc'`                                                                                                                    |
+| 2️⃣ | 基础色轴 | Base Axis    | 中性色调 × 对比度 | `${BaseColor}-${ContrastLevel}`<br>`BaseColor`: `neutral-warm` | `neutral-cool` | `neutral-true`<br>`ContrastLevel`: `low` | `mid` | `high`    |
+| 3️⃣ | 强调色轴 | Accent Axis  | 主色策略 × 色相  | `${AccentStrategy}(${AccentHue})`<br>`AccentStrategy`: `mono` | `analog` | `duo`                                                               |
+| 4️⃣ | 色调轴  | Tone Axis    | 饱和度 / 亮度曲线 | `'calm' \| 'standard' \| 'vivid'`                                                                                                              |
+| 5️⃣ | 密度轴  | Density Axis | 信息密度 / 留白  | `'spacious' \| 'comfortable' \| 'compact'`                                                                                                     |
+| 6️⃣ | 动效轴  | Motion Axis  | 动画节奏 / 幅度  | `${MotionIntensity}.${MotionCurve}`<br>`MotionIntensity`: `subtle` | `standard` | `expressive`<br>`MotionCurve`: `classic` | `soft` | `spring` |
+| 7️⃣ | 表面轴  | Surface Axis | 表面材质语言     | `'flat' \| 'soft-shadow' \| 'glass' \| 'neon' \| 'glass+neon'`                                                                                 |
+
+---
+
+## 四、运行时机制
+
+### 1. 核心文件
+
+| 文件                         | 作用                        |
+| -------------------------- | ------------------------- |
+| `theme-axis-controller.ts` | 定义 七轴 状态结构与组合规则           |
+| `theme-provider.tsx`       | React 上下文提供与 CSS 变量注入     |
+| `accent-generator.ts`      | 根据 Accent Axis 生成 主色 梯度   |
+| `motion-system/*`          | 动画曲线 / SSR 兼容封装           |
+| `recipes/*`                | 场景化 主题 预设 （build-time 常量） |
+
+### 2. 核心接口
+
+```ts
+// theme-axis-controller.ts
+export interface ThemeAxes {
+  mode: 'light' | 'dark' | 'hc'
+  base: `${'neutral-warm'|'neutral-cool'|'neutral-true'}-${'low'|'mid'|'high'}`
+  accent: `${'mono'|'analog'|'duo'}(${string})`
+  tone: 'calm' | 'standard' | 'vivid'
+  density: 'spacious' | 'comfortable' | 'compact'
+  motion: `${'subtle'|'standard'|'expressive'}.${'classic'|'soft'|'spring'}`
+  surface: 'flat' | 'soft-shadow' | 'glass' | 'neon' | 'glass+neon'
+}
+
+export interface ThemeRecipe {
+  id: string
+  name: string
+  axes: ThemeAxes
+  tokens: Record<string,string|number>
+}
+
+export function generateThemeTokens(axes: ThemeAxes): ThemeRecipe
+```
+
+```tsx
+// theme-provider.tsx
+export const ThemeProvider: React.FC<{ theme: ThemeRecipe }> = ({ theme, children }) => {
+  useEffect(() => applyThemeToRoot(theme.tokens), [theme])
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+}
+```
+
+---
+
+## 五、智能约束系统 （A11y Guard）
+
+`theme-axis-controller` 内部定义：
+
+| 校验键                 | 条件                                    | 处理                                                          |
+| ------------------- | ------------------------------------- | ----------------------------------------------------------- |
+| `motion × contrast` | `hc && motion.includes('expressive')` | 降级 `motion → subtle.classic`                                |
+| `tone × surface`    | `vivid && surface.includes('neon')`   | 降低 saturation 计算                                            |
+| `density × motion`  | `compact && expressive`               | 触发 UX 警告 `console.warn('High density + expressive motion')` |
+
+---
+
+## 六、设计令牌（Foundations）
+
+| 文件                  | 职责                            |
+| ------------------- | ----------------------------- |
+| `color-tokens.ts`   | 基础 HSL / LAB 色板 与 中性色曲线       |
+| `density-tokens.ts` | 间距、边距、字号 系数                   |
+| `motion-curves.ts`  | Easing 函数、持续时间、延迟配置           |
+| `surface-tokens.ts` | 阴影、透明度、模糊、发光参数                |
+| `index.ts`          | 聚合导出，供 system 与 primitives 调用 |
+
+---
+
+## 七、主题配方（Recipes）
+
+文件位置：`/packages/core/src/system/recipes/`
+
+| 文件                        | 预设标识              | 说明   |
+| ------------------------- | ----------------- | ---- |
+| `corporateBlueRecipe.ts`  | `corporate-blue`  | 企业蓝调 |
+| `creativePurpleRecipe.ts` | `creative-purple` | 创意紫  |
+| `techCyanRecipe.ts`       | `tech-cyan`       | 科技青  |
+| `index.ts`                | 全部导出 + 注册表        |      |
+
+结构示例：
+
+```ts
+export const techCyanRecipe: ThemeRecipe = {
+  id: 'tech-cyan',
+  name: 'Tech Cyan',
+  axes: {
+    mode: 'dark',
+    base: 'neutral-cool-mid',
+    accent: 'mono(cyan)',
+    tone: 'standard',
+    density: 'comfortable',
+    motion: 'subtle.classic',
+    surface: 'glass'
+  },
+  tokens: {
+    background: '#0d1b2a',
+    foreground: '#e0fbfc',
+    accent: '#00bcd4',
+    radius: 8
+  }
+}
+```
+
+---
+
+## 八、导出规范 （Exports Mapping）
+
+`package.json` 中定义唯一导出路径：
+
+```json
+"exports": {
+  ".": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
+  "./system": "./dist/system/index.mjs",
+  "./foundations": "./dist/foundations/index.mjs",
+  "./primitives": "./dist/primitives/index.mjs"
+}
+```
+
+---
+
+## 九、版本控制与构建
+
+| 工具                            | 用途                  |
+| ----------------------------- | ------------------- |
+| **PNPM 9**                    | Monorepo 管理         |
+| **Turborepo**                 | 构建编排                |
+| **tsup + rollup-plugin-dts**  | 产出 ESM/CJS 与 类型     |
+| **Changesets**                | 语义化版本与 changelog 生成 |
+| **Vitest + RTL + Playwright** | 测试体系                |
+| **axe-core**                  | A11y 自动化检测          |
+
+---
+
+## 十、文档声明
+
+本文件为 **Xorigo UI Theme System SSOT (v1.4)**
+适用范围：`packages/core` 层
+修改必须同步更新 `system/` 与 `foundations/` 模块。
+网站层仅消费本规范，不得修改。
+
+---
+
+*本文档为共享版本，适用于 UI 架构和 Website 技术架构的共用规范。*

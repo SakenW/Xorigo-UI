@@ -18,8 +18,8 @@ import {
   hoverVariants,
   pulseVariants,
   staggerVariants
-} from '@/motion'
-import { createThemeAnimation } from '@/motion/theme-integration'
+} from '../motion'
+import { createThemeAnimation } from '../motion/theme-integration'
 
 // 动画演示组件
 export function AnimationShowcase() {

@@ -114,8 +114,8 @@ describe('Card 组件测试', () => {
       expect(card).toHaveClass('shadow-sm')
     })
 
-    it('应该支持 outlined 变体', () => {
-      render(<Card variant="outlined">轮廓变体</Card>)
+    it('应该支持 outline 变体', () => {
+      render(<Card variant="outline">轮廓变体</Card>)
 
       const card = screen.getByRole('article')
       expect(card).toHaveClass('border-2')
@@ -135,12 +135,13 @@ describe('Card 组件测试', () => {
       expect(card).toHaveClass('border-0')
     })
 
-    it('应该支持 interactive 变体', () => {
-      render(<Card variant="interactive">交互变体</Card>)
+    it('应该支持 ghost 变体', () => {
+      render(<Card variant="ghost">幽灵变体</Card>)
 
       const card = screen.getByRole('article')
-      expect(card).toHaveClass('cursor-pointer')
-      expect(card).toHaveClass('transition-shadow')
+      expect(card).toHaveClass('border-transparent')
+      expect(card).toHaveClass('bg-transparent')
+      expect(card).toHaveClass('shadow-none')
     })
   })
 
@@ -193,11 +194,13 @@ describe('Card 组件测试', () => {
       expect(card).toHaveAttribute('aria-selected', 'true')
     })
 
-    it('应该支持 error 状态', () => {
-      render(<Card error>错误卡片</Card>)
+    it('应该支持 destructive 变体', () => {
+      render(<Card variant="destructive">错误卡片</Card>)
 
       const card = screen.getByRole('article')
-      expect(card).toHaveClass('border-red-200')
+      expect(card).toHaveClass('border-destructive')
+      expect(card).toHaveClass('bg-destructive')
+      expect(card).toHaveClass('text-destructive-foreground')
     })
   })
 
@@ -296,7 +299,7 @@ describe('Card 组件测试', () => {
         <CardHeader
           title="标题"
           description="描述"
-          action={action}
+          actions={action}
         />
       )
 
@@ -313,7 +316,7 @@ describe('Card 组件测试', () => {
 
     it('应该支持垂直对齐', () => {
       render(
-        <CardContent valign="middle">
+        <CardContent align="center">
           垂直居中内容
         </CardContent>
       )
@@ -343,7 +346,7 @@ describe('Card 组件测试', () => {
 
     it('应该支持对齐方式', () => {
       render(
-        <CardFooter align="right">
+        <CardFooter justify="end">
           右对齐底部
         </CardFooter>
       )

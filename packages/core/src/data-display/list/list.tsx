@@ -4,6 +4,8 @@
  * 数据展示组件 - 灵活的列表布局和交互
  */
 
+'use client'
+
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
