@@ -13,7 +13,7 @@ import {
   AnimatedPresence,
   fadeVariants,
   slideVariants
-} from '@/motion'
+} from '../motion'
 
 // 基础用法示例
 export function BasicUsage() {

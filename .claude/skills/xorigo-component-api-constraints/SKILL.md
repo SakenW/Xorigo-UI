@@ -31,19 +31,25 @@ tags: ["component-api", "design-constraints", "interface-standards", "react-patt
 packages/core/src/primitives/
 ├── button/
 │  ├── index.ts              # ✅ 统一导出
-│  ├── button.tsx           # ✅ 主组件实现
-│  ├── button.types.ts      # ✅ 类型定义
-│  ├── button.variants.ts   # ✅ CVA 变体定义
-│  └── button.stories.tsx   # ✅ Storybook 故事
+│  ├── button.tsx           # ✅ 主组件实现 (kebab-case)
+│  ├── button.types.ts      # ✅ 类型定义 (kebab-case.types.ts)
+│  ├── button.variants.ts   # ✅ CVA 变体定义 (kebab-case.variants.ts)
+│  └── button.stories.tsx   # ✅ Storybook 故事 (kebab-case.stories.tsx)
 ├── card/
 │  ├── index.ts
 │  ├── card.tsx
 │  ├── card.types.ts
 │  ├── card.variants.ts
-│  ├── card-header.tsx      # ✅ 子组件
-│  ├── card-content.tsx
-│  ├── card-footer.tsx
+│  ├── card-header.tsx      # ✅ 子组件 (kebab-case.tsx)
+│  ├── card-content.tsx     # ✅ 子组件 (kebab-case.tsx)
+│  ├── card-footer.tsx      # ✅ 子组件 (kebab-case.tsx)
 │  └── card.stories.tsx
+├── data-table/             # ✅ 复杂组件名使用 kebab-case
+│  ├── index.ts
+│  ├── data-table.tsx
+│  ├── data-table.types.ts
+│  ├── data-table.variants.ts
+│  └── data-table.stories.tsx
 ├── surface/
 │  ├── index.ts
 │  ├── surface.tsx
@@ -74,6 +80,14 @@ packages/core/src/components/
 │  └── index.ts
 └── index.ts                 # ✅ components 层统一导出
 ```
+
+**文件命名规范说明**：
+- **所有文件名使用 kebab-case** - 现代前端最佳实践
+- **组件主文件**：与目录同名 (button/button.tsx, data-table/data-table.tsx)
+- **类型文件**：以 `.types.ts` 结尾 (button.types.ts, data-table.types.ts)
+- **变体文件**：以 `.variants.ts` 结尾 (button.variants.ts, data-table.variants.ts)
+- **Storybook 文件**：以 `.stories.tsx` 结尾 (button.stories.tsx, data-table.stories.tsx)
+- **子组件文件**：使用 kebab-case (card-header.tsx, card-content.tsx, card-footer.tsx)
 
 ## 🎯 标准 API 设计模式
 
@@ -539,16 +553,67 @@ export class NamingConventionValidator {
       issues.push(`组件名称必须使用 PascalCase: ${componentName}`)
     }
 
-    // 验证文件命名 - kebab-case
+    // 验证文件命名 - kebab-case (现代前端最佳实践)
     const fileName = path.basename(filePath, '.tsx')
     if (!/^[a-z][a-z0-9-]*$/.test(fileName)) {
       issues.push(`文件名必须使用 kebab-case: ${fileName}`)
     }
 
-    // 验证目录结构
-    const expectedPath = `src/primitives/${fileName.toLowerCase()}/${fileName}.tsx`
+    // 验证目录结构 - 适配 kebab-case 文件名
+    const expectedPath = `src/primitives/${fileName}/${fileName}.tsx`
     if (filePath !== expectedPath) {
       warnings.push(`建议遵循标准目录结构: ${expectedPath}`)
+    }
+
+    return { valid: issues.length === 0, issues, warnings }
+  }
+
+  static validateFileNaming(fileName: string, fileType: 'component' | 'types' | 'variants' | 'stories' | 'test'): ValidationResult {
+    const issues = []
+    const warnings = []
+
+    // 基础命名规则 - 所有文件使用 kebab-case
+    if (!/^[a-z][a-z0-9-]*$/.test(fileName)) {
+      issues.push(`文件名必须使用 kebab-case: ${fileName}`)
+    }
+
+    // 根据文件类型进行特定验证
+    switch (fileType) {
+      case 'component':
+        // 组件主文件：与目录同名
+        // 例如: button/button.tsx, data-table/data-table.tsx
+        if (!fileName.includes('-') && fileName.length > 15) {
+          warnings.push(`复杂的组件名建议使用 kebab-case 提高可读性: ${fileName}`)
+        }
+        break
+
+      case 'types':
+        // 类型文件：component-name.types.ts
+        if (!fileName.endsWith('.types')) {
+          issues.push(`类型文件必须以 .types.ts 结尾: ${fileName}`)
+        }
+        break
+
+      case 'variants':
+        // 变体文件：component-name.variants.ts
+        if (!fileName.endsWith('.variants')) {
+          issues.push(`变体文件必须以 .variants.ts 结尾: ${fileName}`)
+        }
+        break
+
+      case 'stories':
+        // Storybook 文件：component-name.stories.tsx
+        if (!fileName.endsWith('.stories')) {
+          issues.push(`Storybook 文件必须以 .stories.tsx 结尾: ${fileName}`)
+        }
+        break
+
+      case 'test':
+        // 测试文件：component-name.test.tsx 或 component-name.spec.tsx
+        if (!fileName.endsWith('.test') && !fileName.endsWith('.spec')) {
+          issues.push(`测试文件必须以 .test.tsx 或 .spec.tsx 结尾: ${fileName}`)
+        }
+        break
     }
 
     return { valid: issues.length === 0, issues, warnings }
@@ -582,6 +647,121 @@ export class NamingConventionValidator {
   }
 }
 ```
+
+## 📝 现代文件命名最佳实践
+
+### 推荐的文件命名规范
+
+**✅ 正确的命名方式** (kebab-case 为现代前端标准):
+
+```typescript
+// 组件文件 - 使用 kebab-case
+button/
+├── index.ts              # 统一导出
+├── button.tsx           # 主组件实现
+├── button.types.ts      # 类型定义
+├── button.variants.ts   # CVA 变体定义
+├── button.stories.tsx   # Storybook 故事
+└── button.test.tsx      # 单元测试
+
+// 复杂组件名 - 同样使用 kebab-case
+data-table/
+├── index.ts
+├── data-table.tsx
+├── data-table.types.ts
+├── data-table.variants.ts
+├── data-table.stories.tsx
+└── data-table.test.tsx
+
+// 工具函数文件 - kebab-case
+color-tokens.ts           # ✅ 正确：颜色令牌工具
+theme-utils.ts            # ✅ 正确：主题工具函数
+component-helpers.ts      # ✅ 正确：组件辅助函数
+
+// 类型定义文件 - kebab-case
+global-types.ts           # ✅ 正确：全局类型
+api-types.ts              # ✅ 正确：API 类型
+component-types.ts        # ✅ 正确：组件类型
+
+// 配置文件 - kebab-case
+tailwind.config.ts        # ✅ 正确：Tailwind 配置
+vite.config.ts           # ✅ 正确：Vite 配置
+eslint.config.js         # ✅ 正确：ESLint 配置
+```
+
+**❌ 避免的命名方式**:
+
+```typescript
+// 避免使用 camelCase 文件名
+colorTokens.ts            # ❌ 应为 color-tokens.ts
+buttonTypes.ts            # ❌ 应为 button.types.ts
+dataTable.tsx             # ❌ 应为 data-table.tsx
+
+// 避免使用 PascalCase 文件名
+Button.tsx                # ❌ 应为 button.tsx
+DataTable.tsx             # ❌ 应为 data-table.tsx
+ColorTokens.ts            # ❌ 应为 color-tokens.ts
+
+// 避免使用数字开头或特殊字符
+1-utils.ts               # ❌ 不应使用数字开头
+@types.ts                # ❌ 不应使用特殊符号开头
+util!.ts                  # ❌ 不应使用感叹号
+```
+
+### 目录结构最佳实践
+
+**组件目录结构**:
+```typescript
+packages/core/src/primitives/
+├── button/
+│   ├── index.ts              # 统一导出
+│   ├── button.tsx           # 主组件 (kebab-case)
+│   ├── button.types.ts      # 类型定义 (kebab-case.types.ts)
+│   ├── button.variants.ts   # 变体定义 (kebab-case.variants.ts)
+│   ├── button.stories.tsx   # 故事文件 (kebab-case.stories.tsx)
+│   └── button.test.tsx      # 测试文件 (kebab-case.test.tsx)
+├── data-table/              # 复杂组件名使用 kebab-case
+│   ├── index.ts
+│   ├── data-table.tsx
+│   ├── data-table.types.ts
+│   ├── data-table.variants.ts
+│   ├── data-table.stories.tsx
+│   └── data-table.test.tsx
+└── index.ts                 # primitives 层统一导出
+```
+
+**工具函数目录结构**:
+```typescript
+packages/core/src/utils/
+├── color-tokens.ts          # 颜色相关工具
+├── theme-utils.ts           # 主题相关工具
+├── component-helpers.ts     # 组件辅助函数
+├── format-helpers.ts        # 格式化工具
+├── validation-utils.ts      # 验证工具
+└── index.ts                 # 工具函数统一导出
+```
+
+### 命名规范优势
+
+**1. 可读性和一致性**:
+- kebab-case 提供最佳的跨平台可读性
+- 文件名与 URL 路径、路由保持一致风格
+- 避免大小写敏感操作系统的问题
+
+**2. 现代前端标准**:
+- Next.js、Vite、Tailwind CSS 等现代工具都推荐 kebab-case
+- 符合 JavaScript/TypeScript 生态系统的最佳实践
+- 与包管理、模块导入保持一致性
+
+**3. 开发体验**:
+- 文件名自动补全更加友好
+- 文件搜索和过滤更加高效
+- 团队协作减少命名歧义
+
+**4. 工具兼容性**:
+- 与 ESLint、Prettier 等工具的最佳实践一致
+- Git 钩子、CI/CD 流程中的文件处理更可靠
+- 跨平台开发 (Windows/macOS/Linux) 兼容性最佳
 
 ## 🚀 使用方法
 
@@ -635,6 +815,7 @@ export class NamingConventionValidator {
 - ✅ 继承 HTMLButtonElement 属性
 - ✅ 实现 CVA 变体系统
 - ✅ 包含必需的 Props 接口
+- ✅ 文件命名遵循 kebab-case 规范
 
 ⚠️ 警告 (2)
 - ⚠️ 建议添加键盘导航支持
@@ -647,9 +828,11 @@ export class NamingConventionValidator {
 1. 使用 React.forwardRef 包装组件
 2. 添加 onKeyDown 事件处理
 3. 完善 TypeScript 类型定义
+4. 文件命名已符合现代前端 kebab-case 标准
 
 📊 合规性评分: 85/100
 🎯 API 设计质量: 良好
+📝 文件命名规范: ✅ 符合 kebab-case 标准
 ```
 
 ## 🛡️ 质量保证
@@ -657,6 +840,7 @@ export class NamingConventionValidator {
 ### 严格约束规则
 
 - **接口标准化**：所有组件必须遵循统一的 Props 接口模式
+- **文件命名规范**：所有文件名必须使用 kebab-case (现代前端标准)
 - **变体系统**：必须使用 CVA 管理组件变体
 - **类型安全**：完整的 TypeScript 类型定义和导出
 - **可访问性**：必需的 ARIA 属性和键盘导航支持
@@ -665,8 +849,9 @@ export class NamingConventionValidator {
 ### 自动化检查
 
 - **构建时验证**：编译时检查 API 设计合规性
-- **ESLint 规则**：自定义 ESLint 规则强制 API 标准
+- **ESLint 规则**：自定义 ESLint 规则强制 API 标准和文件命名规范
 - **TypeScript 检查**：严格的类型检查和接口验证
+- **文件命名检查**：自动验证 kebab-case 文件命名规范
 - **测试覆盖**：API 接口的单元测试覆盖
 
 基于 Xorigo UI v1.4 SSOT，确保所有组件 API 设计的一致性、可维护性和用户体验。

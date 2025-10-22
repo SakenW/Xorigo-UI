@@ -330,5 +330,7 @@ Surface.displayName = 'Surface'
 // 导出
 // =============================================================================
 
-export { Surface, SurfaceDecoration, surfaceVariants }
-export type { SurfaceProps, SurfaceDecorationProps }
+export { Surface, surfaceVariants }
+export type { SurfaceProps }
+
+// SurfaceDecoration 组件已移动到单独文件，这里不再导出以避免冲突

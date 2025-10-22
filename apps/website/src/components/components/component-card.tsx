@@ -5,12 +5,19 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader } from '@xorigo-ui/core'
-import { Button } from '@xorigo-ui/core'
-import { Badge } from '@xorigo-ui/core'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@xorigo-ui/core'
-import { Separator } from '@xorigo-ui/core'
-import { Tooltip } from '@xorigo-ui/core'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Button,
+  Badge,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Separator,
+  Tooltip
+} from '@xorigo-ui/core'
 import { Code, Copy, Check, Eye, Info, Download } from 'lucide-react'
 
 import { ComponentMeta, ComponentTag } from './component-registry'

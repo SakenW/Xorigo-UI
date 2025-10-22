@@ -4,6 +4,8 @@
  * 状态/通知/进度/结果/无障碍提示
  */
 
+'use client'
+
 import React, { useState, useRef, useEffect } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
@@ -22,8 +24,8 @@ const tooltipVariants = cva(
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
         default: "bg-popover text-popover-foreground border-border",
-        dark: "bg-gray-900 text-white border-gray-700",
-        light: "bg-white text-gray-900 border-gray-200",
+        dark: "bg-[var(--xor-bg-tertiary)] text-[var(--xor-text-primary)] border-[var(--xor-border-secondary)]",
+        light: "bg-[var(--xor-bg-primary)] text-[var(--xor-text-primary)] border-[var(--xor-border-primary)]",
         success: "bg-success text-success-foreground border-success",
         warning: "bg-warning text-warning-foreground border-warning",
         error: "bg-destructive text-destructive-foreground border-destructive",

@@ -25,11 +25,67 @@ export interface ThemeAxes {
   surface: SurfaceAxis
 }
 
+// === 颜色系统接口 ===
+export interface ThemeColors {
+  background: {
+    primary: string
+    secondary: string
+    tertiary: string
+    quaternary: string
+  }
+  text: {
+    primary: string
+    secondary: string
+    tertiary: string
+    quaternary: string
+    inverse: string
+  }
+  border: {
+    primary: string
+    secondary: string
+    tertiary: string
+    focus: string
+  }
+  primary: string
+  secondary: string
+  primaryForeground: string
+  secondaryForeground: string
+  foreground: string
+  success: string
+  error: string
+  warning: string
+  info: string
+  onSuccess: string
+  onError: string
+  onWarning: string
+  onInfo: string
+  popover: string
+  popoverForeground: string
+  card: string
+  cardForeground: string
+  muted: string
+  mutedForeground: string
+  accent: string
+  accentForeground: string
+  destructive: string
+  destructiveForeground: string
+}
+
+// === 表面系统接口 ===
+export interface ThemeSurface {
+  shadow: string
+  blur: string
+  glow: string
+  backdrop: string
+}
+
 export interface ThemeRecipe {
   id: string
   name: string
   axes: ThemeAxes
   tokens: Record<string, string | number>
+  colors: ThemeColors
+  surface: ThemeSurface
 }
 
 // === 智能约束系统（A11y Guard）===
@@ -147,6 +203,12 @@ export function generateThemeTokens(axes: ThemeAxes): ThemeRecipe {
     })
   }
 
+  // 生成颜色数据
+  const themeColors = generateThemeColors(constrainedAxes)
+
+  // 生成表面数据
+  const themeSurface = generateThemeSurface(constrainedAxes)
+
   return {
     id: `${constrainedAxes.mode}-${constrainedAxes.base}-${constrainedAxes.accent}-${Date.now()}`,
     name: `Generated Theme (${constrainedAxes.mode})`,
@@ -158,8 +220,157 @@ export function generateThemeTokens(axes: ThemeAxes): ThemeRecipe {
       ...motionTokens,
       ...densityTokens,
       ...adjustmentTokens
+    },
+    colors: themeColors,
+    surface: themeSurface
+  }
+}
+
+// === 颜色数据生成函数 ===
+function generateThemeColors(axes: ThemeAxes): ThemeColors {
+  const [baseColor, contrastLevel] = axes.base.split('-') as [string, string]
+  const match = axes.accent.match(/^(mono|analog|duo)\((.*)\)$/)
+  const [, strategy, hue] = match ? [match[1], match[2]] : ['mono', 'blue']
+
+  return {
+    background: {
+      primary: getBaseColor(baseColor, contrastLevel, 'primary'),
+      secondary: getBaseColor(baseColor, contrastLevel, 'secondary'),
+      tertiary: getBaseColor(baseColor, contrastLevel, 'tertiary'),
+      quaternary: getBaseColor(baseColor, contrastLevel, 'quaternary'),
+    },
+    text: {
+      primary: getTextColor(baseColor, contrastLevel, 'primary', axes.mode),
+      secondary: getTextColor(baseColor, contrastLevel, 'secondary', axes.mode),
+      tertiary: getTextColor(baseColor, contrastLevel, 'tertiary', axes.mode),
+      quaternary: getTextColor(baseColor, contrastLevel, 'quaternary', axes.mode),
+      inverse: getTextColor(baseColor, contrastLevel, 'inverse', axes.mode),
+    },
+    border: {
+      primary: getBorderColor(baseColor, contrastLevel, 'primary'),
+      secondary: getBorderColor(baseColor, contrastLevel, 'secondary'),
+      tertiary: getBorderColor(baseColor, contrastLevel, 'tertiary'),
+      focus: getAccentColor(strategy, hue, 'primary'),
+    },
+    primary: getAccentColor(strategy, hue, 'primary'),
+    secondary: getAccentColor(strategy, hue, 'secondary'),
+    primaryForeground: getOnAccentColor(strategy, hue, 'primary'),
+    secondaryForeground: getOnAccentColor(strategy, hue, 'secondary'),
+    foreground: getForegroundColor(axes.mode),
+    success: getFunctionalColor('success'),
+    error: getFunctionalColor('error'),
+    warning: getFunctionalColor('warning'),
+    info: getFunctionalColor('info'),
+    onSuccess: getOnFunctionalColor('success'),
+    onError: getOnFunctionalColor('error'),
+    onWarning: getOnFunctionalColor('warning'),
+    onInfo: getOnFunctionalColor('info'),
+    popover: getBaseColor(baseColor, contrastLevel, 'popover'),
+    popoverForeground: getTextColor(baseColor, contrastLevel, 'popover', axes.mode),
+    card: getBaseColor(baseColor, contrastLevel, 'card'),
+    cardForeground: getTextColor(baseColor, contrastLevel, 'card', axes.mode),
+    muted: getBaseColor(baseColor, contrastLevel, 'muted'),
+    mutedForeground: getTextColor(baseColor, contrastLevel, 'muted', axes.mode),
+    accent: getAccentColor(strategy, hue, 'accent'),
+    accentForeground: getOnAccentColor(strategy, hue, 'accent'),
+    destructive: getFunctionalColor('destructive'),
+    destructiveForeground: getOnFunctionalColor('destructive'),
+  }
+}
+
+// === 表面数据生成函数 ===
+function generateThemeSurface(axes: ThemeAxes): ThemeSurface {
+  return {
+    shadow: getSurfaceShadow(axes.surface),
+    blur: getSurfaceBlur(axes.surface),
+    glow: getSurfaceGlow(axes.surface),
+    backdrop: getSurfaceBackdrop(axes.surface),
+  }
+}
+
+// === 辅助函数扩展 ===
+function getBorderColor(baseColor: string, contrastLevel: string, variant: string): string {
+  // 简化的边框颜色计算
+  const colors: Record<string, Record<string, string>> = {
+    'neutral-warm': {
+      low: '#f5f0f0',
+      mid: '#e8e0e0',
+      high: '#d4c4c4'
+    },
+    'neutral-cool': {
+      low: '#f4f4f5',
+      mid: '#e8eaed',
+      high: '#d2d6db'
+    },
+    'neutral-true': {
+      low: '#fafafa',
+      mid: '#f5f5f5',
+      high: '#e5e5e5'
     }
   }
+  return colors[baseColor]?.[contrastLevel] || '#e5e5e5'
+}
+
+function getTextColor(baseColor: string, contrastLevel: string, variant: string, mode?: string): string {
+  // 简化的文字颜色计算
+  if (mode === 'dark') {
+    return '#ffffff'
+  }
+  return '#000000'
+}
+
+function getOnAccentColor(strategy: string, hue: string, variant: string): string {
+  // 简化的对比色计算
+  return '#ffffff'
+}
+
+function getForegroundColor(mode: string): string {
+  return mode === 'dark' ? '#ffffff' : '#000000'
+}
+
+function getFunctionalColor(type: string): string {
+  const colors = {
+    success: '#10b981',
+    error: '#ef4444',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    destructive: '#dc2626'
+  }
+  return colors[type as keyof typeof colors] || '#6b7280'
+}
+
+function getOnFunctionalColor(type: string): string {
+  return '#ffffff'
+}
+
+function getSurfaceShadow(surface: string): string {
+  const shadows = {
+    flat: 'none',
+    'soft-shadow': '0 4px 16px rgba(0, 0, 0, 0.1)',
+    glass: '0 8px 32px rgba(0, 0, 0, 0.1)',
+    neon: '0 0 20px var(--xor-primary)',
+    'glass+neon': '0 0 30px var(--xor-primary), 0 8px 32px rgba(0, 0, 0, 0.1)'
+  }
+  return shadows[surface as keyof typeof shadows] || 'none'
+}
+
+function getSurfaceBlur(surface: string): string {
+  const blurs = {
+    flat: '0px',
+    glass: 'blur(8px)',
+    'soft-shadow': '0px',
+    neon: '0px',
+    'glass+neon': 'blur(8px)'
+  }
+  return blurs[surface as keyof typeof blurs] || '0px'
+}
+
+function getSurfaceGlow(surface: string): string {
+  return surface.includes('neon') ? '0 0 30px currentColor' : 'none'
+}
+
+function getSurfaceBackdrop(surface: string): string {
+  return surface.includes('glass') ? 'rgba(255, 255, 255, 0.1)' : 'transparent'
 }
 
 // === 令牌计算函数 ===

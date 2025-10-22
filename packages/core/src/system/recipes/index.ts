@@ -5,8 +5,8 @@
  */
 
 import type { ThemeRecipe } from '../theme-axis-controller'
-import { corporateBlueRecipe, corporateBlueDarkRecipe } from './corporateBlueRecipe'
-import { techCyanRecipe, techCyanNeonRecipe } from './techCyanRecipe'
+import { corporateBlueRecipe, corporateBlueDarkRecipe } from './corporate-blue-recipe'
+import { techCyanRecipe, techCyanNeonRecipe } from './tech-cyan-recipe'
 
 // === 全部配方导出 ===
 export {

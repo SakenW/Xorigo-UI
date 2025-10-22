@@ -553,7 +553,7 @@ export interface TimelineDotProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode
 }
 
-export const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
+const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
   ({ status, active = false, completed = false, icon, className, ...props }, ref) => {
     const { theme } = useTheme()
 
@@ -605,7 +605,7 @@ export interface TimelineConnectorProps extends React.HTMLAttributes<HTMLDivElem
   color?: string
 }
 
-export const TimelineConnector = React.forwardRef<HTMLDivElement, TimelineConnectorProps>(
+const TimelineConnector = React.forwardRef<HTMLDivElement, TimelineConnectorProps>(
   ({ direction = 'vertical', style = 'solid', color, className, ...props }, ref) => {
     const { theme } = useTheme()
 

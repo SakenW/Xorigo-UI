@@ -4,7 +4,7 @@
 
 ## 📋 项目概述
 
-**Xorigo UI** 是从 Xorigo UI 原点设计系统 提取的独立 UI 设计系统和组件库，专为现代 React 应用设计。
+**Xorigo UI** 是一个现代化的 UI 设计系统和组件库，专为现代 React 应用设计。
 
 **技术栈**：
 - **React 19** + **TypeScript 5.9** + **Tailwind CSS 4** + **Framer Motion 12**
@@ -14,12 +14,13 @@
 - **包管理**: npm
 
 **核心特性**：
-- ✅ 17个核心组件 (Button/Card/Input/Modal等)
-- ✅ 10种主题配色 (亮暗模式支持)
-- ✅ 完整设计令牌系统
-- ✅ TypeScript 类型安全
-- ✅ 响应式设计
-- ✅ 动画系统 (Framer Motion)
+- ✅ 基于 Atomic Design 原则的组件体系
+- ✅ 七轴主题系统支持多种设计风格
+- ✅ 完整的设计令牌系统 (DTCG 标准)
+- ✅ TypeScript 类型安全和智能提示
+- ✅ 响应式设计和移动端适配
+- ✅ 流畅的动画系统 (Framer Motion 12)
+- ✅ 可访问性优先的设计理念
 
 ---
 
@@ -48,16 +49,11 @@
 
 ---
 
-## 🐳 Docker 开发环境规范
+## 🐳 Docker 开发环境
 
 ### 🚫 严格禁止：禁止运行 npm run dev
 
 **🚨 重要规则**：**本项目使用 Docker 热更新容器进行开发，严禁在任何情况下运行 `npm run dev` 命令！**
-
-**⚠️ 违规后果警告**：
-- 立即终止所有 `npm run dev` 进程
-- 可能导致端口冲突和开发环境混乱
-- 违反项目开发规范，将被强制清理
 
 #### 正确的开发流程：
 
@@ -75,55 +71,6 @@
    http://localhost:3100  # Docker 容器热更新端口
    ```
 
-3. **✅ 热更新**：
-   - 修改代码后自动重新编译
-   - 浏览器自动刷新显示更改
-   - 无需手动重启任何服务
-
-#### 🚫 禁止的操作：
-
-```bash
-# ❌ 绝对禁止这些命令！
-npm run dev
-cd apps/website && npm run dev
-yarn dev
-pnpm dev
-```
-
-#### ⚠️ 违规后果：
-
-1. **端口冲突**：`npm run dev` 会占用端口 3000/3001，与 Docker 容器的 3100 端口冲突
-2. **代码不同步**：后台进程使用旧代码，导致开发体验不一致
-3. **热更新失效**：多个开发服务器会导致热更新混乱
-4. **资源浪费**：多个进程同时运行消耗系统资源
-
-#### 🛠️ 故障排除：
-
-如果遇到端口冲突或多余进程：
-
-```bash
-# 🚨 强制清理所有违规进程（最高权限）
-pkill -9 -f "npm run dev"
-pkill -9 -f "next dev"
-pkill -9 -f "node.*next"
-sudo killall -9 node 2>/dev/null
-
-# 🔥 彻底清理顽固进程
-pgrep -f "npm.*run.*dev" | xargs -r kill -9 2>/dev/null
-pgrep -f "next.*dev" | xargs -r kill -9 2>/dev/null
-
-# 🧹 验证清理结果
-ps aux | grep -E "(npm.*run.*dev|next.*dev)" | grep -v grep || echo "✅ 所有违规进程已清理"
-
-# ✅ 验证只有 Docker 容器在运行
-docker ps | grep xorigo
-
-# ✅ 确认端口状态
-curl -I http://localhost:3100  # 应该返回 200
-curl -I http://localhost:3000  # 应该无响应
-curl -I http://localhost:3001  # 应该无响应
-```
-
 #### 📋 开发环境检查清单：
 
 - [ ] Docker 容器运行在端口 3100
@@ -134,115 +81,36 @@ curl -I http://localhost:3001  # 应该无响应
 
 **记住**：**Docker 热更新容器是唯一正确的开发方式！**
 
+> 💡 **详细Docker管理和故障排除**：使用 `xorigo-docker-unified-manager` 技能进行完整的Docker环境管理、容器监控、配置管理和故障排除。
+
 ---
 
-## 🎨 组件设计核心原则
+## 🎨 组件设计
 
-### 1. 原子化设计 (Atomic Design)
+### 核心原则
 
-**原子层 (Atoms)**：
-- 最基础的 UI 构建块（Button、Input、Icon）
-- 不可再分的功能单元
-- 强复用性，上下文无关
+1. **原子化设计 (Atomic Design)**：确保组件的可复用性和可组合性
+2. **API 设计一致性**：保持组件库的统一性和可预测性
+3. **主题系统集成**：确保所有组件与设计系统的一致性
+4. **TypeScript 类型安全**：提供优秀的开发体验和类型保护
 
-**分子层 (Molecules)**：
-- 原子的简单组合（SearchInput、AvatarGroup）
-- 具备基础交互功能
-- 保持相对简单的内部状态
+> 🛠️ **组件生成**：使用 `xorigo-component-generator` 技能来生成符合规范的组件模板，包含完整的TypeScript类型、Tailwind CSS样式、Framer Motion动画和主题系统集成。
 
-**生物体层 (Organisms)**：
-- 复杂的组件组合（Header、Sidebar、DataTable）
-- 复杂的内部状态和交互逻辑
-- 业务逻辑的载体
+### 组件API标准
 
-### 2. API 设计一致性
+**基础属性**：
+- `variant?: 'primary' | 'secondary' | 'outline-solid'`  - 变体系统
+- `size?: 'sm' | 'md' | 'lg'` - 尺寸系统
+- `className?: string` - 样式扩展
+- `children?: React.ReactNode` - 内容组合
+- `disabled?: boolean` - 状态控制
+- `onClick?: (event: Event) => void` - 事件处理
 
-**组件 API 标准化**：
-```typescript
-// ✅ 标准组件 API
-interface ComponentProps {
-  variant?: 'primary' | 'secondary' | 'outline-solid'  // 变体系统
-  size?: 'sm' | 'md' | 'lg'                       // 尺寸系统
-  className?: string                              // 样式扩展
-  children?: React.ReactNode                      // 内容组合
-  disabled?: boolean                              // 状态控制
-  onClick?: (event: Event) => void                // 事件处理
-}
-```
-
-**Props 命名规范**：
+**命名规范**：
 - 使用描述性名称（`isDisabled` 而非 `disabled`）
 - 布尔值使用 `is/has/should` 前缀
 - 事件处理器使用 `on` 前缀
 - 回调函数使用 `handle` 前缀
-
-### 3. 可组合性优先
-
-**Compound Components 模式**：
-```typescript
-// ✅ 可组合的 Card 组件
-<Card>
-  <CardHeader>标题</CardHeader>
-  <CardContent>内容</CardContent>
-  <CardFooter>
-    <Button>操作</Button>
-  </CardFooter>
-</Card>
-```
-
-**Render Props 模式**：
-```typescript
-// ✅ 灵活的渲染控制
-<DataTable
-  data={data}
-  columns={columns}
-  renderRow={({ row, index }) => (
-    <tr key={row.id}>
-      <td>{row.name}</td>
-      <td>{row.email}</td>
-    </tr>
-  )}
-/>
-```
-
-### 4. 主题系统集成
-
-**设计令牌使用**：
-```typescript
-// ✅ 使用主题令牌
-const buttonStyles = tv({
-  base: {
-    backgroundColor: 'var(--color-primary-500)',  // 主题变量
-    color: 'var(--color-text-on-primary)',
-    transition: 'all var(--transition-fast)',
-  },
-  variants: {
-    variant: {
-      primary: {
-        backgroundColor: 'var(--color-primary-500)',
-      },
-      secondary: {
-        backgroundColor: 'var(--color-secondary-500)',
-      }
-    }
-  }
-})
-```
-
-**响应式设计**：
-```typescript
-// ✅ 响应式变体
-const responsiveStyles = tv({
-  base: 'px-4 py-2',
-  variants: {
-    size: {
-      sm: 'text-sm px-3 py-1.5',
-      md: 'text-base px-4 py-2',
-      lg: 'text-lg px-6 py-3',
-    }
-  }
-})
-```
 
 ---
 
@@ -271,33 +139,7 @@ const responsiveStyles = tv({
 请确认我的理解是否准确？
 ```
 
-#### 2. **问题分解思考**
-
-**第一层：原子性分析**
-- 组件是否足够原子化？
-- 是否可以拆分为更小的组件？
-
-**第二层：API 一致性**
-- Props 命名是否符合规范？
-- 是否遵循现有的变体系统？
-
-**第三层：主题集成**
-- 是否使用了正确的设计令牌？
-- 在10种主题下是否表现一致？
-
-**第四层：可访问性**
-- ARIA 标签是否正确？
-- 键盘导航是否支持？
-
-**第五层：性能考虑**
-- 是否需要 React.memo？
-- 事件处理器是否优化？
-
-**第六层：TypeScript 类型**
-- 类型定义是否完整？
-- 泛型设计是否合理？
-
-#### 3. **决策输出模式**
+#### 2. **决策输出模式**
 
 ```text
 【核心判断】
@@ -308,37 +150,6 @@ const responsiveStyles = tv({
 - API 一致性：[最直接的标准化机会]
 - 主题适配：[潜在的主题集成问题]
 - 类型安全：[TypeScript 类型风险点]
-
-【组件设计方案】
-如果值得做：
-1. 保持原子化和可组合性
-2. 使用一致的 API 设计模式
-3. 完整集成主题系统
-4. 确保可访问性支持
-5. 提供完整的 TypeScript 类型
-
-如果不值得做：
-"这个设计过于复杂，违反了组件库的简洁性原则。建议拆分为多个组件。"
-```
-
-#### 4. **代码审查输出**
-
-```text
-【组件设计评分】
-🟢 符合设计系统 / 🟡 基本符合 / 🔴 不符合
-
-【类型安全评分】
-🟢 类型完备 / 🟡 部分类型 / 🔴 类型缺失
-
-【致命问题】
-- [指出最违背组件设计原则的部分]
-- [指出最严重的类型安全问题]
-
-【改进方向】
-"拆分这个复杂组件为多个原子组件"
-"API 应该遵循现有的变体模式"
-"必须使用主题令牌而非硬编码颜色"
-"事件处理器类型定义不完整"
 ```
 
 ---
@@ -363,7 +174,7 @@ const responsiveStyles = tv({
    * `/packages/core/examples` - 示例代码
    * `/packages/core/scripts` - 构建和部署脚本
 
-   **Website应用目录** (根据WEBSITE-ARCHITECTURE文档)：
+   **Website应用目录**：
    * `/apps/website/app/(marketing)/components` - 营销页面组件
    * `/apps/website/app/(dashboard)/components` - 功能页面组件
    * `/apps/website/app/(content)/components` - 内容页面组件
@@ -377,160 +188,25 @@ const responsiveStyles = tv({
 **黄金法则**
 👉 **"1 条消息 = 该上下文所有相关操作"**
 
-**强制模式**
-
-* **TodoWrite**：批量写入（≥5-10 条）
-* **Task Tool**：一次性并发所有代理
-* **File Operations**：批量操作（读写/编辑/搜索）
-* **Bash**：批量执行
-* **Memory**：批量存取
-
 ---
 
 ## 🛠️ 技术栈最佳实践
 
 ### React 19 + TypeScript
 
-**组件定义标准**：
-```typescript
-// ✅ 标准组件定义
-import React from 'react'
-import { cn } from '../utils/cn'
-import { cva, type VariantProps } from 'class-variance-authority'
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium transition-colors",
-  {
-    variants: {
-      variant: {
-        primary: "bg-primary-500 text-white hover:bg-primary-600",
-        secondary: "bg-secondary-500 text-white hover:bg-secondary-600",
-      },
-      size: {
-        sm: "h-8 px-3 text-sm",
-        md: "h-10 px-4 text-base",
-        lg: "h-12 px-6 text-lg",
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
-  }
-)
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  loading?: boolean
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading, children, ...props }, ref) => {
-    return (
-      <button
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        disabled={loading || props.disabled}
-        {...props}
-      >
-        {loading && <LoadingSpinner className="mr-2 h-4 w-4" />}
-        {children}
-      </button>
-    )
-  }
-)
-
-Button.displayName = "Button"
-
-export { Button, buttonVariants }
-```
+**组件定义标准**：使用现代React模式，包含完整的TypeScript类型定义和forwardRef支持。
 
 ### Tailwind CSS 4 集成
 
-**设计令牌使用**：
-```typescript
-// src/tokens/colors.ts
-export const colors = {
-  primary: {
-    50: '#eff6ff',
-    500: '#3b82f6',
-    600: '#2563eb',
-    900: '#1e3a8a',
-  },
-  // ... 完整的颜色系统
-}
-
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      colors: {
-        primary: colors.primary,
-        // ... 其他颜色
-      }
-    }
-  }
-}
-```
+> 🎨 **设计令牌管理**：使用 `xorigo-design-tokens-manager` 技能来管理foundations/层令牌的标准化、一致性和七轴系统集成。
 
 ### Framer Motion 12 动画
 
-**标准动画模式**：
-```typescript
-// ✅ 标准动画组件
-import { motion, AnimatePresence } from 'framer-motion'
-
-const motionVariants = {
-  hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 10 }
-}
-
-export const AnimatedCard = ({ children, ...props }) => (
-  <motion.div
-    variants={motionVariants}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-    transition={{ duration: 0.2 }}
-    {...props}
-  >
-    {children}
-  </motion.div>
-)
-```
+**标准动画模式**：使用variants系统、AnimatePresence和优化的transition配置。
 
 ### Vite Library Mode 配置
 
-**构建配置要点**：
-```typescript
-// vite.config.ts
-export default defineConfig({
-  plugins: [
-    react(),
-    // 类型生成插件（暂时禁用）
-    // dts({
-    //   include: ['src'],
-    //   rollupTypes: true,
-    // }),
-  ],
-  build: {
-    lib: {
-      entry: {
-        index: 'src/index.ts',
-        theme: 'src/theme/index.ts',
-        tokens: 'src/tokens/index.ts',
-      },
-      formats: ['es', 'cjs'],
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'framer-motion'],
-    },
-  },
-})
-```
+**构建配置要点**：配置library模式、external依赖和rollup选项。
 
 ---
 
@@ -538,8 +214,8 @@ export default defineConfig({
 
 ### 组件开发流程
 
-1. **设计令牌定义** → 在 `/src/tokens` 中定义相关设计令牌
-2. **组件实现** → 在 `/src/components` 中实现组件
+1. **设计令牌定义** → 使用设计令牌管理技能
+2. **组件实现** → 使用组件生成器技能
 3. **类型定义** → 确保完整的 TypeScript 类型支持
 4. **主题集成** → 验证在10种主题下的表现
 5. **测试编写** → 在 `/tests` 中编写单元测试
@@ -549,7 +225,6 @@ export default defineConfig({
 
 ```bash
 # 开发环境
-npm run dev              # Vite 开发服务器
 npm run docker:dev       # Docker 开发环境 (端口3100)
 
 # 构建
@@ -570,8 +245,6 @@ npm run test:coverage    # 测试覆盖率
 
 # Docker 部署
 npm run deploy           # 生产环境部署
-npm run deploy:logs      # 生产日志
-npm run deploy:stop      # 停止生产环境
 ```
 
 ### 配方系统与预览功能
@@ -588,30 +261,16 @@ npm run deploy:stop      # 停止生产环境
   - 实时配方切换，点击即生效
   - 多维度过滤器：模式/色调/密度/表面/类别
   - 配方预览区域：点击配方后在页面顶部展示实际效果
-  - 颜色匹配：预览渐变与实际应用效果完全一致
-
-**预览区域内容**：
-- 配方信息卡片：展示七轴参数、标签、颜色预览
-- 组件预览：卡片、按钮、标签等组件的实际效果展示
-- 实时切换：无需刷新页面，即时查看不同配方效果
 
 ### 组件命名规范
 
 **文件命名**：
-- 组件文件：PascalCase (Button.tsx, DataTable.tsx)
+- 组件文件：kebab-case (button.tsx, data-table.tsx)
 - 工具文件：camelCase (cn.ts, index.ts)
 - 配置文件：kebab-case (vite.config.ts)
 - 文档文件：kebab-case (usage.md, examples.md)
 
-**导出规范**：
-```typescript
-// src/components/index.ts - 按类别组织导出
-export * from './Button'
-export * from './Card'
-export * from './Input'
-export * from './Modal'
-// ... 其他组件
-```
+**导出规范**：按类别组织导出，遵循模块化原则。
 
 ---
 
@@ -619,32 +278,7 @@ export * from './Modal'
 
 ### 单元测试标准
 
-**组件测试模板**：
-```typescript
-// tests/components/Button.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react'
-import { Button } from '@xorigo-ui/core'
-
-describe('Button', () => {
-  it('renders correctly', () => {
-    render(<Button>Click me</Button>)
-    expect(screen.getByRole('button')).toBeInTheDocument()
-  })
-
-  it('handles click events', () => {
-    const handleClick = vi.fn()
-    render(<Button onClick={handleClick}>Click me</Button>)
-
-    fireEvent.click(screen.getByRole('button'))
-    expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('applies variant classes correctly', () => {
-    render(<Button variant="secondary">Secondary</Button>)
-    expect(screen.getByRole('button')).toHaveClass('bg-secondary-500')
-  })
-})
-```
+**组件测试模板**：使用Vitest和Testing Library进行组件渲染、事件处理、Props传递和可访问性测试。
 
 ### 测试覆盖要求
 
@@ -656,49 +290,9 @@ describe('Button', () => {
 
 ---
 
-## 🐳 Docker 部署规范
-
-### 开发环境 (Dockerfile.dev)
-
-**特点**：
-- 基于 Node.js 22 Alpine
-- 支持热更新 (Vite Dev Server)
-- 端口 3100 映射
-- 开发依赖完整安装
-
-**使用方式**：
-```bash
-npm run docker:dev       # 启动开发容器
-npm run docker:logs      # 查看开发日志
-npm run docker:stop      # 停止开发容器
-```
-
-### 生产环境 (Dockerfile)
-
-**特点**：
-- 多阶段构建 (Node.js 构建阶段 + Nginx 服务阶段)
-- 最终镜像大小 ~50MB
-- Gzip 压缩
-- 静态资源缓存优化
-- 健康检查端点
-
-**使用方式**：
-```bash
-npm run deploy           # 部署生产环境
-npm run deploy:logs      # 查看生产日志
-npm run deploy:stop      # 停止生产环境
-npm run deploy:rebuild   # 重新构建部署
-```
-
-### 端口配置
-
-- **开发环境**: http://localhost:3100 (Vite Dev Server)
-- **生产环境**: http://localhost:3100 (Nginx)
-- **健康检查**: http://localhost:3100/health
-
----
-
 ## 📝 文档命名规范
+
+> 📚 **文档管理**：使用 `xorigo-docs-structure-helper` 技能进行文档命名规范、目录结构组织和索引管理。
 
 ### 核心原则
 
@@ -710,173 +304,46 @@ npm run deploy:rebuild   # 重新构建部署
 
 **命名格式**：`{序号}-{scope}-{task}[-{stage}]-{描述}.md`
 
-### 作用域 (Scope) 分类
-
-| 作用域 | 格式 | 用途 | 序号范围 |
-|--------|------|------|----------|
-| **Phase** | `ph{N}[.{sub}]` | 项目开发阶段 (Phase 1-3) | 001-030 |
-| **Component** | `comp-c{N}[.{sub}]` | 组件开发任务 (Component 1-N) | 031-150 |
-| **Design System** | `ds-d{N}[.{sub}]` | 设计系统任务 (Design 1-N) | 151-200 |
-| **Build System** | `build-b{N}[.{sub}]` | 构建系统任务 (Build 1-N) | 201-250 |
-| **Testing** | `test-t{N}[.{sub}]` | 测试相关任务 (Test 1-N) | 251-300 |
-| **Documentation** | `doc-d{N}[.{sub}]` | 文档任务 (Doc 1-N) | 301-350 |
-| **Deployment** | `deploy-de{N}[.{sub}]` | 部署任务 (Deploy 1-N) | 351-400 |
-
-### 阶段标记 (Stage)
-
-- **子任务**: 点号分隔 (`ph1.1`, `comp-c3.2`, `ds-d1.5`)
-- **Round**: `r{N}` (`r1`, `r3`)
-- **Legacy**: `comp-legacy-r{N}` (历史组件优化)
-- **Planning**: `comp-planning-{category}` (组件规划文档)
-- **Research**: `comp-research-{topic}` (组件技术研究)
-
-### 组件分类 (Component Categories)
-
-**核心组件 (Core)**：
-- `comp-core-{name}` - 核心组件 (Button, Input, Card)
-- `comp-advanced-{name}` - 高级组件 (DataTable, AnimatedCard)
-- `comp-layout-{name}` - 布局组件 (Header, Sidebar, Layout)
-
-**功能分类 (Functional)**：
-- `comp-nav-{name}` - 导航组件 (Breadcrumb, Menu, Tabs)
-- `comp-form-{name}` - 表单组件 (Form, Field, Validator)
-- `comp-feedback-{name}` - 反馈组件 (Alert, Modal, Loading)
-- `comp-data-{name}` - 数据组件 (Table, Chart, List)
-
-### 缩写规范
-
-**必须移除的冗余词**：
-- `-report`, `-summary`, `-completion`, `-refactoring`
-- `-document`, `-analysis`, `-implementation`, `-development`
-
-**标准缩写**：
-- `component` → `comp`
-- `design` → `ds`
-- `system` → `sys`
-- `configuration` → `config`
-- `implementation` → `impl`
-- `optimization` → `opt`
-- `documentation` → `doc`
-- `testing` → `test`
-- `typescript` → `ts`
-- `animation` → `anim`
-
-### 命名示例
-
-**项目 Phase**：
-```
-001-ph1-project-init.md           # Phase 1 项目初始化
-005-ph2-design-tokens.md          # Phase 2 设计令牌系统
-012-ph3-component-migration.md    # Phase 3 组件迁移
-018-ph1-r2-completion.md          # Phase 1 Round 2 完成
-```
-
-**组件开发任务**：
-```
-032-comp-core-button.md           # Button 组件开发
-045-comp-advanced-datatable.md    # DataTable 高级组件
-058-comp-layout-header.md         # Header 布局组件
-067-comp-nav-breadcrumb-r1.md     # Breadcrumb 导航组件 Round 1
-075-comp-form-validator.md        # Validator 表单组件
-```
-
-**设计系统任务**：
-```
-152-comp-planning-core.md         # 核心组件规划
-160-comp-research-animations.md   # 动画系统研究
-168-comp-theme-palettes.md        # 主题调色板
-175-comp-tokens-typography.md     # 字体令牌设计
-```
-
-**构建系统任务**：
-```
-202-build-vite-config.md          # Vite 构建配置
-210-build-typedoc.md              # TypeScript 文档生成
-218-build-storybook.md            # Storybook 集成
-225-build-bundle-opt.md           # 打包优化
-```
-
-**测试任务**：
-```
-252-test-unit-coverage.md         # 单元测试覆盖率
-260-test-e2e-cypress.md            # E2E 测试 Cypress
-268-test-axe-accessibility.md      # 可访问性测试
-275-test-visual-regression.md     # 视觉回归测试
-```
-
-### 创建新文档检查清单
-
-1. **确定作用域**：
-   - [ ] 是项目 Phase (ph{N}) 还是具体开发任务？
-   - [ ] Component: `comp-{category}-{name}`, Design: `ds-d{N}`, Build: `build-b{N}`
-
-2. **分配序号**：
-   - [ ] 检查当前最大序号：`ls -1 docs/reports/ | grep -E '^[0-9]{3}-' | tail -1`
-   - [ ] 新序号 = 最大序号 + 1 (三位数格式 `%03d`)
-
-3. **构建文件名**：
-   - [ ] 格式：`{序号}-{scope}-{task}[-{stage}]-{描述}.md`
-   - [ ] 移除冗余词：`-report`, `-summary`, `-development`
-   - [ ] 长度检查：总长度 ≤ 65 字符
-
-4. **验证唯一性**：
-   - [ ] `ls -1 docs/reports/ | grep "{新文件名}"` 确保不重复
-
-5. **更新索引**：
-   - [ ] 更新 `/docs/reports/00-TIMELINE-INDEX.md`
-   - [ ] 更新对应类别的 README.md
-
-### 查询命令
-
-```bash
-# 查找 Phase 1 所有文档
-ls -1 docs/reports/ | grep -E '^[0-9]{3}-ph1'
-
-# 查找所有核心组件文档
-ls -1 docs/reports/ | grep -E '^[0-9]{3}-comp-core'
-
-# 查找所有 Round 文档
-ls -1 docs/reports/ | grep -E '-r[0-9]+-'
-
-# 查找设计系统相关文档
-ls -1 docs/reports/ | grep -E '^[0-9]{3}-(comp-planning|ds-d|comp-research)'
-
-# 获取当前最大序号
-ls -1 docs/reports/ | grep -E '^[0-9]{3}-' | tail -1 | cut -d'-' -f1
-```
-
 ### 文档组织结构
 
 ```
 docs/reports/
 ├── 00-TIMELINE-INDEX.md          # 总时间线索引
 ├── phases/                       # Phase 文档
-│   ├── README.md
-│   ├── 001-ph1-project-init.md
-│   └── 005-ph2-design-tokens.md
 ├── components/                   # 组件开发文档
-│   ├── README.md
-│   ├── core/                     # 核心组件
-│   ├── advanced/                 # 高级组件
-│   ├── layout/                   # 布局组件
-│   ├── navigation/               # 导航组件
-│   ├── form/                     # 表单组件
-│   └── feedback/                 # 反馈组件
 ├── design-system/                # 设计系统文档
-│   ├── README.md
-│   ├── tokens/                   # 设计令牌
-│   ├── themes/                   # 主题系统
-│   └── guidelines/               # 设计指南
 ├── build/                        # 构建系统文档
-│   ├── README.md
-│   ├── vite/                     # Vite 配置
-│   ├── typescript/               # TypeScript 配置
-│   └── testing/                  # 测试配置
 └── deployment/                   # 部署文档
-    ├── README.md
-    ├── docker/                   # Docker 配置
-    └── npm/                      # NPM 发布
 ```
+
+---
+
+## 🛡️ 代码质量检测
+
+> 🔍 **代码质量检测**：使用 `xorigo-code-quality-guard` 技能进行全方位的代码质量检测，包括命名规范、架构规则、API设计标准和组件分类系统合规性。
+
+### 检测范围
+
+- **命名规范检查**：确保文件命名符合kebab-case标准
+- **架构合规性**：验证目录结构和模块组织
+- **API设计标准**：检查组件API的一致性和完整性
+- **组件分类系统**：验证组件分类的准确性
+- **TypeScript类型**：确保类型安全和完整性
+
+### Agent集成
+
+```typescript
+// 自动触发检测
+const results = await codeQualityDetector.detect({
+  operation: 'edit',
+  filePath: '/path/to/file',
+  content: '文件内容',
+  workspace: '/home/saken/project/Xorigo-UI',
+  timestamp: new Date()
+})
+```
+
+---
 
 ## 📚 文档优先原则
 
@@ -903,22 +370,28 @@ docs/reports/
    - Framer Motion: "Framer Motion 12 [API] examples"
    - Tailwind: "Tailwind CSS 3 [feature] configuration"
    - Vite: "Vite library mode [configuration]"
-
-3. 验证信息质量：
-   - ✅ 确认文档匹配当前版本
-   - ✅ 优先官方文档和示例
-   - ✅ 检查是否有 "Recommended" 标记
 ```
 
-### 技术决策记录
+---
 
-**遇到技术决策时必须记录**：
-1. **问题/需求描述**：要解决什么问题或实现什么功能
-2. **Context7 研究过程**：查询的关键词、官方文档、推荐方案
-3. **方案对比**：官方推荐 vs 其他可选方案
-4. **实现细节**：代码示例、配置变更
-5. **测试验证**：功能测试、性能测试结果
-6. **经验总结**：关键发现、最佳实践、注意事项
+## 🎯 主题系统
+
+### 七轴主题系统
+
+Xorigo UI 基于七轴DTCG标准，支持：
+- **模式轴** (Mode): light/dark/auto
+- **色调轴** (Hue): 色相选择
+- **饱和度轴** (Saturation): 色彩鲜艳度
+- **亮度轴** (Lightness): 明暗程度
+- **密度轴** (Density): 空间紧凑度
+- **圆度轴** (Roundness): 边角圆润度
+- **对比度轴** (Contrast): 视觉对比度
+
+> 🎨 **主题管理**：使用 `xorigo-seven-axis-theme-developer` 技能来开发和维护七轴主题系统，确保所有组件严格遵循七轴约束逻辑和智能校验系统。
+
+### 配方系统
+
+支持20+预定义主题配方，可通过 `/recipes` 页面预览和切换。
 
 ---
 
@@ -927,16 +400,8 @@ docs/reports/
 ### 当前限制
 
 1. **TypeScript 严格模式**：暂时禁用 (`strict: false`)
-   - 原因：快速部署需要，待修复类型问题
-   - 计划：逐步修复类型错误后启用
-
 2. **类型声明生成**：vite-plugin-dts 暂时禁用
-   - 原因：类型声明生成失败
-   - 影响：构建产物缺少 .d.ts 文件
-
 3. **layouts 目录为空**：导致部分工具报错
-   - 原因：布局组件尚未实现
-   - 计划：后续添加布局组件
 
 ### 开发禁令
 
@@ -955,53 +420,6 @@ docs/reports/
 
 ---
 
-## 🎯 开发优先级
-
-### 第一优先级 (必须完成)
-
-1. **修复 TypeScript 类型错误**
-   - ThemeProvider 类型问题
-   - Framer Motion 类型兼容性
-   - 组件 Props 类型定义
-
-2. **启用严格模式**
-   - TypeScript strict: true
-   - 完善类型定义
-
-3. **启用类型声明生成**
-   - 修复 vite-plugin-dts 配置
-   - 确保构建产物包含 .d.ts 文件
-
-### 第二优先级 (重要)
-
-1. **完善测试覆盖**
-   - 组件单元测试
-   - 集成测试
-   - 可访问性测试
-
-2. **Storybook 集成**
-   - 组件示例展示
-   - 交互式文档
-
-3. **性能优化**
-   - Bundle 分析
-   - 组件懒加载
-   - 构建优化
-
-### 第三优先级 (可选)
-
-1. **更多组件**
-   - Table 组件
-   - Form 组件
-   - Menu 组件
-
-2. **高级功能**
-   - 国际化支持
-   - 主题编辑器
-   - 组件市场
-
----
-
 ## 🔑 核心原则总结
 
 * **组件设计原子化** → 确保组件的可复用性和可组合性
@@ -1017,172 +435,30 @@ docs/reports/
 
 ---
 
-## 🛡️ 通用检测系统
+## 🚀 技能生态系统
 
-### 系统架构
+Xorigo UI 项目拥有完整的技能生态系统，支持开发、测试、部署和文档生成的全生命周期管理：
 
-**🎯 路径感知检测**：根据文件路径自动触发相应的检测模块，优化 token 使用
+### 核心开发技能
+- `xorigo-component-generator` - 组件生成器
+- `xorigo-design-tokens-manager` - 设计令牌管理
+- `xorigo-seven-axis-theme-developer` - 七轴主题开发
+- `xorigo-code-quality-guard` - 代码质量检测
 
-**📂 监控目录结构**：
-```
-/home/saken/project/Xorigo-UI/
-├── apps/                    # 应用目录 (🔍 Apps专用检测)
-│   └── website/             # Website应用
-└── packages/                # 组件库目录 (🔍 Packages专用检测)
-    ├── core/                # 核心组件库
-    ├── tokens/              # 设计令牌
-    └── style-recipe/        # 样式配方
-```
+### 系统管理技能
+- `xorigo-docker-unified-manager` - Docker环境管理
+- `xorigo-build-publish-constraints` - 构建发布约束
+- `xorigo-migration-architecture-validator` - 架构迁移验证
 
-**🧩 模块化检测系统**：
+### 质量保证技能
+- `xorigo-test-automation` - 测试自动化
+- `xorigo-design-validator` - 设计验证
+- `xorigo-intelligent-constraints-system` - 智能约束系统
 
-#### Packages 目录专用检测模块
-- **naming-package**: 组件库严格命名规范 (60 tokens)
-  - 组件文件 PascalCase 命名
-  - 禁止版本号和连字符
-  - 工具函数 camelCase 命名
-  - 目录结构合规性
-
-- **api-component**: 组件 API 设计标准 (150 tokens)
-  - 基础属性检查 (className, children, disabled)
-  - 变体系统 (cva) 使用
-  - forwardRef 支持
-  - displayName 和类型导出
-
-#### Apps 目录专用检测模块
-- **naming-app**: 应用命名规范 (50 tokens)
-  - 页面路由 kebab-case 命名
-  - 组件文件夹 PascalCase 命名
-  - 组件文件命名规范
-
-- **content-app**: 应用内容质量 (120 tokens)
-  - 页面元数据 (metadata) 检查
-  - 硬编码路由检测
-  - 组件直接 API 导入检测
-  - 大组件文件提醒
-
-#### 通用检测模块
-- **structure-common**: 基础文件结构 (40 tokens)
-  - 临时文件检测
-  - 空文件和大文件提醒
-  - 基础文件组织检查
-
-### Token 优化策略
-
-**💡 智能模块选择**：
-- **轻量级模式**：默认启用，根据操作类型和文件大小优化检测
-- **预算控制**：每次操作最大 200 tokens，优先高优先级检测
-- **路径过滤**：只运行适用的检测模块，减少不必要的消耗
-
-**📊 Token 消耗估算**：
-```
-Packages 目录：
-- 命名检测: ~60 tokens
-- API 检测: ~150 tokens
-- 总计: ~210 tokens (优化后 ~126 tokens)
-
-Apps 目录：
-- 命名检测: ~50 tokens
-- 内容检测: ~120 tokens
-- 总计: ~170 tokens (优化后 ~102 tokens)
-
-平均节省: ~40% token 消耗
-```
-
-### 使用方式
-
-**🤖 Claude Agents 集成**：
-
-Xorigo UI 项目使用独立的 Agent 架构，每个 Agent 负责特定的功能领域：
-
-```typescript
-// 导入代码质量检测 Agent
-import { codeQualityDetector } from '.claude/agents'
-
-// 自动触发检测
-const results = await codeQualityDetector.detect({
-  operation: 'edit',
-  filePath: '/home/saken/project/Xorigo-UI/packages/core/src/ui/Button.tsx',
-  content: '新的组件代码',
-  workspace: '/home/saken/project/Xorigo-UI',
-  timestamp: new Date()
-})
-
-// 获取 Agent 状态
-const status = codeQualityDetector.getStatus()
-```
-
-**可用 Agents**：
-- 🔍 **代码质量检测 Agent**：检测命名规范、架构规则、组件分类等
-- 🚧 更多 Agent 开发中...
-```
-
-**⚡ Agent 管理工具**：
-```bash
-# 查看 Agent 状态
-import { getAgentStatus, getActiveAgents } from '.claude/agents'
-const agents = getActiveAgents()
-const status = getAgentStatus('code-quality-detector')
-
-# Agent 健康检查
-const health = await codeQualityDetector.healthCheck()
-```
-
-**🚨 检测结果示例**：
-```json
-{
-  "severity": "error",
-  "message": "组件文件 Button-v1.1.tsx 不能包含版本号",
-  "suggestion": "移除文件名中的版本信息，使用 Git 管理版本",
-  "autoFix": {
-    "command": "mv \"Button-v1.1.tsx\" \"Button.tsx\"",
-    "description": "重命名为标准格式"
-  }
-}
-```
-
-### 配置和扩展
-
-**⚙️ Agent 配置**：
-```typescript
-// 配置代码质量检测 Agent
-codeQualityDetector.configure({
-  tokenOptimization: {
-    maxTokensPerOperation: 200,
-    enableLightweightMode: true
-  }
-})
-
-// 启用/禁用 Agent
-codeQualityDetector.setEnabled(true)
-```
-
-**🔌 自定义检测模块**：
-```typescript
-// 注册新模块
-DetectionSystem.registerModule({
-  id: 'custom-rule',
-  name: '自定义检测',
-  description: '自定义检测规则',
-  enabled: true,
-  tokenCost: 80,
-  rules: [...],
-  check: async (context) => { ... }
-})
-```
-
-**📈 监控统计**：
-```bash
-# 获取检测统计
-projectDetectionSystem.getStats()
-// 输出: {
-//   modules: { total: 5, loaded: true },
-//   tokenOptimizer: { estimatedSavings: "~76 tokens per operation (40% savings)" },
-//   directories: 2,
-//   project: "Xorigo UI",
-//   level: "project"
-// }
-```
+### 文档和生成技能
+- `xorigo-docs-generator` - 文档生成
+- `xorigo-docs-structure-helper` - 文档结构辅助
+- `xorigo-performance-optimizer` - 性能优化
 
 ---
 

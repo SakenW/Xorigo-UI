@@ -6,10 +6,10 @@
  */
 
 import React from 'react'
-import type { ThemeRecipe } from '@/system'
+import type { ThemeRecipe } from '../system'
 import type { AnimationConfig, ThemeAwareAnimation, MotionAxisConfig } from './animation-system'
 import { animationSystem } from './animation-system'
-import { motionVariants, animationDuration, animationEasing } from '@/foundations/motion-curves'
+import { motionVariants, animationDuration, animationEasing } from '../foundations/motion-curves'
 
 // =============================================================================
 // 主题感知动画配置接口

@@ -2,8 +2,11 @@
 name: "Xorigo UI 代码质量守护者"
 description: "全方位检测 Xorigo UI 项目的代码质量，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "1.1.0"
 tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards"]
+changelog:
+  - "v1.1.0: 更新文件命名规范 - 普通文件采用 kebab-case，React 组件文件保持 PascalCase"
+  - "v1.0.0: 初始版本 - 完整的代码质量检测系统"
 ---
 
 # Xorigo UI 代码质量守护者
@@ -51,13 +54,36 @@ tags: ["code-quality", "naming", "architecture", "api-design", "classification",
 
 ## 质量标准
 
+### 🎯 现代前端命名规范
+
+**核心理念**：文件名是路径标识，变量名是代码语义，两者职责不同
+
+**推荐标准**：
+
+| 类型 | 文件名命名 | 导出变量命名 | 类型命名 | 示例 |
+|------|------------|-------------|----------|------|
+| React 组件 | PascalCase | camelCase | PascalCase | `Button.tsx` → `export const buttonVariants` |
+| 工具函数 | kebab-case | camelCase | PascalCase | `format-date.ts` → `export function formatDate()` |
+| 类型定义 | kebab-case | N/A | PascalCase | `user-types.ts` → `export interface UserType` |
+| 配置文件 | kebab-case | camelCase | PascalCase | `theme-config.ts` → `export const themeConfig` |
+| 常量文件 | kebab-case | UPPER_SNAKE_CASE | N/A | `api-constants.ts` → `export const API_BASE_URL` |
+
+**为什么选择 kebab-case 文件名**：
+1. **跨平台兼容**：避免大小写敏感问题 (Windows vs macOS/Linux)
+2. **工具生态支持**：TypeScript、ESLint、Vite、Next.js 默认支持
+3. **行业标准**：主流 UI 组件库 (Material-UI、Ant Design、Chakra UI) 都采用
+4. **可读性更好**：连字符比驼峰更易读，特别是长文件名
+5. **URL 友好**：可以直接用于路由，无需转换
+
 ### 📦 Packages 目录规范
 
 **组件命名规范**：
-- ✅ PascalCase: `Button.tsx`, `DataTable.tsx`
+- ✅ React 组件文件: PascalCase: `Button.tsx`, `DataTable.tsx`
+- ✅ 文件夹/其他文件: kebab-case: `color-tokens.ts`, `theme-utils.ts`, `xorigo-logo-loader.tsx`
+- ✅ 组件文件夹: PascalCase: `NavbarOriginLogo/`
 - ❌ 禁止版本号: `Button-v1.1.tsx`
-- ❌ 禁止连字符: `my-button.tsx`
 - ❌ 禁止下划线: `my_button.tsx`
+- ❌ 禁止 camelCase 文件名: `colorTokens.ts`, `themeUtils.ts`
 
 **API 设计标准**：
 ```typescript
@@ -87,18 +113,21 @@ packages/core/src/
 │   │   └── index.ts
 │   ├── Card/
 │   └── ...
-├── hooks/              # 自定义钩子
-├── utils/              # 工具函数
-├── types/              # 类型定义
-└── theme/              # 主题系统
+├── hooks/              # 自定义钩子 (use-xxx.ts)
+├── utils/              # 工具函数 (kebab-case.ts)
+├── types/              # 类型定义 (kebab-case.ts)
+└── theme/              # 主题系统 (theme-xxx.ts)
 ```
 
 ### 🌐 Apps 目录规范
 
 **页面命名规范**：
-- ✅ kebab-case: `user-profile/page.tsx`
+- ✅ 路由文件夹: kebab-case: `user-profile/`
+- ✅ 页面文件: kebab-case: `user-profile.tsx` 或 page.tsx
 - ✅ 路由参数: `[id]/page.tsx`
+- ✅ 组件文件夹: PascalCase: `UserProfileCard/`
 - ❌ 避免复杂嵌套: `a/b/c/d/page.tsx`
+- ❌ 禁止 camelCase 文件名: `userProfile.tsx`
 
 **组件导入规范**：
 ```typescript
@@ -180,6 +209,14 @@ import { Button } from '../../../packages/core/src/components/Button'
    建议: 重命名为 InputField.tsx
    自动修复: ✅ 可用
 
+❌ colorTokens.ts - 文件名应使用 kebab-case
+   建议: 重命名为 color-tokens.ts
+   自动修复: ✅ 可用
+
+❌ themeUtils.ts - 文件名应使用 kebab-case
+   建议: 重命名为 theme-utils.ts
+   自动修复: ✅ 可用
+
 ⚠️ CustomModal.tsx - 缺少标准属性
    建议: 添加 variant 和 size 属性
    自动修复: ✅ 可用
@@ -246,20 +283,30 @@ onBlur: 65% 组件支持 ⚠️
 ```typescript
 // 命名规范检查规则
 const namingRules = {
-  // 组件文件命名
+  // React 组件文件命名
   componentFiles: {
     pattern: /^[A-Z][a-zA-Z0-9]*\.tsx$/,
-    description: '组件文件必须使用 PascalCase',
+    description: 'React 组件文件必须使用 PascalCase',
     examples: {
       valid: ['Button.tsx', 'DataTable.tsx', 'UserProfile.tsx'],
-      invalid: ['button.tsx', 'data-table.tsx', 'Button_v1.tsx']
+      invalid: ['button.tsx', 'data-table.tsx', 'Button_v1.tsx', 'Button-v1.tsx']
     }
   },
 
-  // 工具函数命名
+  // 普通文件命名 (非组件文件)
+  regularFiles: {
+    pattern: /^[a-z][a-zA-Z0-9-]*\.(ts|tsx|js|jsx)$/,
+    description: '普通文件必须使用 kebab-case',
+    examples: {
+      valid: ['color-tokens.ts', 'theme-utils.ts', 'xorigo-logo-loader.tsx'],
+      invalid: ['colorTokens.ts', 'themeUtils.ts', 'color_tokens.ts', 'ColorTokens.ts']
+    }
+  },
+
+  // 工具函数命名 (导出的函数/变量)
   utilityFunctions: {
     pattern: /^[a-z][a-zA-Z0-9]*$/,
-    description: '工具函数使用 camelCase',
+    description: '导出的函数/变量使用 camelCase',
     examples: {
       valid: ['formatDate', 'calculateTotal', 'isValidEmail'],
       invalid: ['FormatDate', 'calculate_total', 'isValid-email']
@@ -273,6 +320,16 @@ const namingRules = {
     examples: {
       valid: ['API_BASE_URL', 'MAX_FILE_SIZE', 'DEFAULT_TIMEOUT'],
       invalid: ['apiBaseUrl', 'max_file_size', 'DefaultTimeout']
+    }
+  },
+
+  // 类型/接口命名
+  types: {
+    pattern: /^[A-Z][a-zA-Z0-9]*$/,
+    description: '类型和接口使用 PascalCase',
+    examples: {
+      valid: ['ColorTokenMap', 'ThemeConfig', 'UserSettings'],
+      invalid: ['colorTokenMap', 'theme_config', 'color-token-map']
     }
   }
 }
@@ -354,6 +411,8 @@ const apiDesignRules = {
 Button-v1.1.tsx → Button.tsx
 my_component.tsx → MyComponent.tsx
 data-table.tsx → DataTable.tsx
+colorTokens.ts → color-tokens.ts
+themeUtils.ts → theme-utils.ts
 ```
 
 **API 标准化**：
@@ -464,12 +523,30 @@ jobs:
 
 ## 最佳实践
 
+### 📏 评分标准
+
+**命名规范评分** (100分制)：
+- ✅ React 组件文件 PascalCase: +20分
+- ✅ 普通文件 kebab-case: +20分
+- ✅ 导出变量 camelCase: +15分
+- ✅ 类型定义 PascalCase: +15分
+- ✅ 常量 UPPER_SNAKE_CASE: +10分
+- ❌ 版本号文件名: -20分
+- ❌ 混合命名规范: -15分
+- ❌ 不一致命名: -10分
+
+**自动修复能力**：
+- 🟢 **完全可修复**: 文件重命名、变量命名
+- 🟡 **部分可修复**: 需要手动调整导入路径
+- 🔴 **需要手动修复**: 复杂的架构调整
+
 ### ✅ 代码质量原则
 
 1. **一致性优先** - 保持命名和 API 的一致性
 2. **可读性至上** - 代码应该自文档化
 3. **维护性考虑** - 便于未来维护和扩展
 4. **团队协作** - 考虑团队协作的便利性
+5. **现代标准** - 遵循当前前端生态最佳实践
 
 ### 📈 质量提升策略
 
@@ -477,5 +554,88 @@ jobs:
 2. **自动化优先** - 优先使用自动化工具
 3. **知识共享** - 建立团队质量标准共识
 4. **持续监控** - 建立质量监控体系
+5. **工具链集成** - 与 ESLint、Prettier、TypeScript 深度集成
+
+### 🔧 实际检查命令示例
+
+对我说：
+- "检查 utils 目录的文件命名是否符合 kebab-case 规范"
+- "验证所有组件文件的命名是否正确"
+- "分析 types 目录的文件命名和导出变量是否一致"
+- "生成完整的命名规范合规性报告"
+- "修复所有发现的命名问题"
+
+### 💻 检测实现示例
+
+**文件命名检测逻辑**：
+```typescript
+// 检测文件命名规范的伪代码
+function validateFileNaming(filePath: string, isComponent: boolean): ValidationResult {
+  const fileName = path.basename(filePath, path.extname(filePath));
+
+  if (isComponent) {
+    // React 组件文件必须使用 PascalCase
+    const isValidPascalCase = /^[A-Z][a-zA-Z0-9]*$/.test(fileName);
+    return {
+      isValid: isValidPascalCase,
+      suggestion: isValidPascalCase ? null : `重命名为 ${toPascalCase(fileName)}`,
+      autoFix: true
+    };
+  } else {
+    // 普通文件必须使用 kebab-case
+    const isValidKebabCase = /^[a-z][a-z0-9-]*$/.test(fileName);
+    return {
+      isValid: isValidKebabCase,
+      suggestion: isValidKebabCase ? null : `重命名为 ${toKebabCase(fileName)}`,
+      autoFix: true
+    };
+  }
+}
+
+// 示例检测结果
+[
+  { file: 'Button.tsx', isValid: true, isComponent: true },
+  { file: 'colorTokens.ts', isValid: false, suggestion: '重命名为 color-tokens.ts', autoFix: true },
+  { file: 'theme-utils.ts', isValid: true, isComponent: false },
+  { file: 'UserCard.tsx', isValid: true, isComponent: true }
+]
+```
+
+**自动修复实现**：
+```typescript
+// 自动重命名文件
+async function autoRenameFile(oldPath: string, newPath: string): Promise<void> {
+  // 1. 检查新文件名是否已存在
+  if (await fileExists(newPath)) {
+    throw new Error(`目标文件 ${newPath} 已存在`);
+  }
+
+  // 2. 更新所有导入路径
+  await updateImportPaths(oldPath, newPath);
+
+  // 3. 重命名文件
+  await fs.rename(oldPath, newPath);
+
+  // 4. 验证重命名结果
+  const renamed = await fileExists(newPath);
+  if (!renamed) {
+    throw new Error(`文件重命名失败: ${oldPath} → ${newPath}`);
+  }
+}
+
+// 更新导入路径
+async function updateImportPaths(oldPath: string, newPath: string): Promise<void> {
+  const files = await findFilesThatImport(oldPath);
+
+  for (const file of files) {
+    const content = await fs.readFile(file, 'utf-8');
+    const updated = content.replace(
+      generateImportRegex(oldPath),
+      generateNewImport(newPath)
+    );
+    await fs.writeFile(file, updated);
+  }
+}
+```
 
 让我知道你要检查什么代码质量问题，我会立即进行全面的代码质量分析和修复建议！

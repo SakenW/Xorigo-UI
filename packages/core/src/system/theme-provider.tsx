@@ -8,6 +8,8 @@
  * 4. 集成智能约束系统
  */
 
+'use client'
+
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import type { ThemeRecipe, ThemeAxes } from './theme-axis-controller'
 import { generateThemeTokens } from './theme-axis-controller'

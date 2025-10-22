@@ -4,6 +4,8 @@
  * 数据展示组件 - 功能完善的表格和数据处理
  */
 
+'use client'
+
 import React, { useState, useMemo } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'

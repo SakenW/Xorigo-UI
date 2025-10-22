@@ -214,7 +214,7 @@ export const MOTION_SYSTEM_INFO = {
  * 快速开始示例
  *
  * ```tsx
- * import { AnimatedCard, AnimatedButton, fadeVariants } from '@/motion'
+ * import { AnimatedCard, AnimatedButton, fadeVariants } from '@xorigo-ui/core/motion'
  *
  * function MyComponent() {
  *   return (
@@ -229,7 +229,7 @@ export const MOTION_SYSTEM_INFO = {
  *
  * 使用主题感知动画：
  * ```tsx
- * import { createThemeAnimation } from '@/motion'
+ * import { createThemeAnimation } from '@xorigo-ui/core/motion'
  *
  * const customAnimation = createThemeAnimation(
  *   { duration: 300, easing: 'ease-out' },
@@ -239,7 +239,7 @@ export const MOTION_SYSTEM_INFO = {
  *
  * 可访问性感知动画：
  * ```tsx
- * import { getAccessibleAnimation, isAnimationAccessible } from '@/motion'
+ * import { getAccessibleAnimation, isAnimationAccessible } from '@xorigo-ui/core/motion'
  *
  * const accessibleAnimation = getAccessibleAnimation(
  *   { duration: 200, easing: 'ease-out' },

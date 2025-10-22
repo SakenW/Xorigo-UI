@@ -66,7 +66,6 @@ export const primitives = {
   CardContent,
   CardFooter,
   Surface,
-  SurfaceDecoration,
 } as const
 
 // =============================================================================

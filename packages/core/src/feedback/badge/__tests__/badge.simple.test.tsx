@@ -25,10 +25,10 @@ const SimpleBadge = React.forwardRef<
   }
 >(({ className, variant = 'default', size = 'md', children, ...props }, ref) => {
   const variantClasses = {
-    default: 'bg-primary text-primary-foreground',
-    secondary: 'bg-secondary text-secondary-foreground',
-    destructive: 'bg-destructive text-destructive-foreground',
-    outline: 'border border-input bg-background text-foreground',
+    default: 'bg-[var(--xor-primary)] text-[var(--xor-text-on-primary)]',
+    secondary: 'bg-[var(--xor-secondary)] text-[var(--xor-text-on-secondary)]',
+    destructive: 'bg-[var(--xor-error)] text-[var(--xor-text-on-error)]',
+    outline: 'border border-[var(--xor-border-primary)] bg-[var(--xor-bg-primary)] text-[var(--xor-text-primary)]',
   }
 
   const sizeClasses = {
@@ -104,7 +104,7 @@ describe('Badge 组件简化测试', () => {
       expect(badge).toBeInTheDocument()
       expect(mockCn).toHaveBeenCalledWith(
         expect.any(String),
-        'bg-primary text-primary-foreground',
+        'bg-[var(--xor-primary)] text-[var(--xor-text-on-primary)]',
         expect.any(String),
         undefined
       )
@@ -117,7 +117,7 @@ describe('Badge 组件简化测试', () => {
       expect(badge).toBeInTheDocument()
       expect(mockCn).toHaveBeenCalledWith(
         expect.any(String),
-        'bg-secondary text-secondary-foreground',
+        'bg-[var(--xor-secondary)] text-[var(--xor-text-on-secondary)]',
         expect.any(String),
         undefined
       )
@@ -130,7 +130,7 @@ describe('Badge 组件简化测试', () => {
       expect(badge).toBeInTheDocument()
       expect(mockCn).toHaveBeenCalledWith(
         expect.any(String),
-        'bg-destructive text-destructive-foreground',
+        'bg-[var(--xor-error)] text-[var(--xor-text-on-error)]',
         expect.any(String),
         undefined
       )
@@ -143,7 +143,7 @@ describe('Badge 组件简化测试', () => {
       expect(badge).toBeInTheDocument()
       expect(mockCn).toHaveBeenCalledWith(
         expect.any(String),
-        'border border-input bg-background text-foreground',
+        'border border-[var(--xor-border-primary)] bg-[var(--xor-bg-primary)] text-[var(--xor-text-primary)]',
         expect.any(String),
         undefined
       )

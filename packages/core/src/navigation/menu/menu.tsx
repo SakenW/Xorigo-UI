@@ -4,6 +4,8 @@
  * 导航组件 - 下拉菜单和导航菜单
  */
 
+'use client'
+
 import React, { useState, useRef, useEffect } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'

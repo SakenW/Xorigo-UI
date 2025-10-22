@@ -99,24 +99,24 @@ describe('Badge 组件测试', () => {
       render(<Badge variant="success">成功徽章</Badge>)
 
       const badge = screen.getByText('成功徽章')
-      expect(badge).toHaveClass('bg-green-500')
-      expect(badge).toHaveClass('text-white')
+      expect(badge).toHaveClass('bg-[var(--xor-success)]')
+      expect(badge).toHaveClass('text-[var(--xor-text-on-success)]')
     })
 
     it('应该支持 warning 变体', () => {
       render(<Badge variant="warning">警告徽章</Badge>)
 
       const badge = screen.getByText('警告徽章')
-      expect(badge).toHaveClass('bg-yellow-500')
-      expect(badge).toHaveClass('text-white')
+      expect(badge).toHaveClass('bg-[var(--xor-warning)]')
+      expect(badge).toHaveClass('text-[var(--xor-text-on-warning)]')
     })
 
     it('应该支持 info 变体', () => {
       render(<Badge variant="info">信息徽章</Badge>)
 
       const badge = screen.getByText('信息徽章')
-      expect(badge).toHaveClass('bg-blue-500')
-      expect(badge).toHaveClass('text-white')
+      expect(badge).toHaveClass('bg-[var(--xor-info)]')
+      expect(badge).toHaveClass('text-[var(--xor-text-on-info)]')
     })
   })
 
