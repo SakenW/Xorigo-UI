@@ -3,7 +3,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { NavbarOriginLogo } from '@/components/ui/NavbarOriginLogo'
+import { XorigoLogo } from '@xorigo-ui/core'
 import {
   Github,
   Menu,
@@ -86,7 +86,7 @@ const EnhancedNavbar: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* 左侧：Logo + 品牌名 */}
           <motion.div className="flex items-center gap-3" whileHover={{ scale: 1.05 }}>
-            <NavbarOriginLogo size={48} className="scale-90" />
+            <XorigoLogo size={48} className="scale-90" />
             <div className="text-2xl font-bold px-1 py-1 overflow-visible">
               <motion.span
                 className="inline-block bg-gradient-to-r from-purple-500 via-cyan-400 to-pink-500 bg-clip-text text-transparent"

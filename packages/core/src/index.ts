@@ -2,6 +2,7 @@
 export * from './foundations'
 export * from './system'
 export * from './primitives'
+export * from './branding'
 
 // Phase 3 组件库导出
 export * from './feedback'

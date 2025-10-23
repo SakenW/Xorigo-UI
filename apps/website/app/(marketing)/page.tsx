@@ -44,7 +44,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2800) // 与 PageLoader 的退出时间协调
+    }, 2600) // 与 PageLoader 的退出时间协调，稍微提前触发退出动画
 
     return () => clearTimeout(timer)
   }, [])
@@ -61,7 +61,7 @@ export default function HomePage() {
     <>
       {/* 页面加载器 */}
       <AnimatePresence>
-        <PageLoader key="page-loader" />
+        {isLoading && <PageLoader key="page-loader" />}
       </AnimatePresence>
 
       {/* 加载遮罩层 - 在加载时显示，平滑过渡 */}
@@ -84,14 +84,14 @@ export default function HomePage() {
       <motion.div
         key="main-content"
         className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] relative overflow-hidden overflow-x-hidden"
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{
           opacity: isLoading ? 0 : 1,
           scale: isLoading ? 0.98 : 1,
           transition: {
-            duration: 1.2,
-            ease: "easeInOut",
-            delay: isLoading ? 0 : 0.2
+            duration: 1.0,
+            ease: [0.4, 0, 0.6, 1],
+            delay: 0.1 // 减少延迟，让主内容更快出现
           }
         }}
       >

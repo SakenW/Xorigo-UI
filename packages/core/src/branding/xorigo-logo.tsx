@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 
 type Mode = 'rotateGroup' | 'rotateGradient' | 'hybrid'
 
-export type NavbarOriginLogoProps = {
+export type XorigoLogoProps = {
   className?: string
   size?: number
   spinSeconds?: number         // 整环旋转一圈时间
@@ -20,7 +20,7 @@ export type NavbarOriginLogoProps = {
   mode?: Mode
 }
 
-export const NavbarOriginLogo: React.FC<NavbarOriginLogoProps> = React.memo(
+export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
   ({
     className = '',
     size = 48,
@@ -291,4 +291,4 @@ export const NavbarOriginLogo: React.FC<NavbarOriginLogoProps> = React.memo(
   }
 )
 
-export default NavbarOriginLogo
+export default XorigoLogo

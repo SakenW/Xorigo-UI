@@ -3,4 +3,4 @@
 // ===========================
 
 // 代码编辑器组件
-export * from './CodeEditor'
+export * from './code-editor'
