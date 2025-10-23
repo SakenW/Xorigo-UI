@@ -20,8 +20,8 @@ const alertVariants = cva(
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "border-border bg-background text-foreground",
-        destructive: "border-destructive bg-destructive text-destructive-foreground",
+        default: "border-border-base-base bg-background-primary text-text-primary",
+        destructive: "border-error-500 bg-error-500 text-error-600-foreground",
         warning: "border-warning bg-warning text-warning-foreground",
         success: "border-success bg-success text-success-foreground",
         info: "border-info bg-info text-info-foreground",
@@ -270,7 +270,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {(dismissible || showCloseButton) && (
           <button
             onClick={handleClose}
-            className="absolute right-2 top-2 rounded-md p-1 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="absolute right-2 top-2 rounded-md p-1 hover:bg-accent-500-500-500 hover:text-text-on-accent transition-colors"
             aria-label="关闭警告"
             style={{ color: 'var(--alert-text)', opacity: 0.7 }}
           >

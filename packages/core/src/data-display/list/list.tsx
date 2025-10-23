@@ -23,7 +23,7 @@ const listVariants = cva(
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
         default: "divide-y divide-border",
-        bordered: "border border-border rounded-lg divide-y divide-border",
+        bordered: "border border-border-base-base rounded-lg divide-y divide-border",
         flat: "space-y-1",
         card: "space-y-2",
         grid: "grid gap-4",
@@ -92,11 +92,11 @@ const listItemVariants = cva(
   {
     variants: {
       variant: {
-        default: "p-4 hover:bg-accent/50 transition-colors",
-        bordered: "p-4 border-b last:border-b-0 hover:bg-accent/50 transition-colors",
-        flat: "p-3 rounded-md hover:bg-accent transition-colors",
-        card: "p-4 border border-border rounded-lg hover:shadow-md transition-shadow",
-        grid: "flex flex-col p-4 border border-border rounded-lg hover:shadow-md transition-shadow",
+        default: "p-4 hover:bg-accent-500-500-500/50 transition-colors",
+        bordered: "p-4 border-b last:border-b-0 hover:bg-accent-500-500-500/50 transition-colors",
+        flat: "p-3 rounded-md hover:bg-accent-500-500-500 transition-colors",
+        card: "p-4 border border-border-base-base rounded-lg hover:shadow-md transition-shadow",
+        grid: "flex flex-col p-4 border border-border-base-base rounded-lg hover:shadow-md transition-shadow",
       },
 
       size: {
@@ -106,7 +106,7 @@ const listItemVariants = cva(
       },
 
       selected: {
-        true: "bg-accent text-accent-foreground",
+        true: "bg-accent-500-500 text-text-on-accent",
         false: "",
       },
 
@@ -383,7 +383,7 @@ const List = React.forwardRef<HTMLDivElement, ListProps>(
       return (
         <div
           ref={ref}
-          className={cn("flex flex-col items-center justify-center py-12 text-muted-foreground", className)}
+          className={cn("flex flex-col items-center justify-center py-12 text-text-secondary-600", className)}
           style={themeStyles}
           {...props}
         >
@@ -564,17 +564,17 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
         {/* 主要内容 */}
         <div className="flex-1 min-w-0">
           {item.title && (
-            <div className="font-medium text-foreground truncate">
+            <div className="font-medium text-text-primary truncate">
               {item.title}
             </div>
           )}
           {item.description && (
-            <div className="text-sm text-muted-foreground truncate mt-1">
+            <div className="text-sm text-text-secondary-600 truncate mt-1">
               {item.description}
             </div>
           )}
           {item.content && !item.title && !item.description && (
-            <div className="text-foreground">
+            <div className="text-text-primary">
               {item.content}
             </div>
           )}
@@ -582,7 +582,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
 
         {/* 元数据 */}
         {item.meta && (
-          <div className="flex-shrink-0 mr-3 text-sm text-muted-foreground">
+          <div className="flex-shrink-0 mr-3 text-sm text-text-secondary-600">
             {item.meta}
           </div>
         )}
@@ -612,8 +612,8 @@ export const ListGroup = React.forwardRef<HTMLDivElement, ListGroupProps>(
   ({ title, children, className, ...props }, ref) => {
     return (
       <div ref={ref} className={cn("mb-6", className)} {...props}>
-        <div className="px-4 py-2 bg-muted/50 border-b border-border">
-          <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+        <div className="px-4 py-2 bg-background-primary-secondary/50 border-b border-border-base-base">
+          <h3 className="text-sm font-medium text-text-secondary-600">{title}</h3>
         </div>
         <div>{children}</div>
       </div>

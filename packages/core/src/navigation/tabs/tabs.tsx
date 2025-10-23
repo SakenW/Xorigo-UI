@@ -22,9 +22,9 @@ const tabsVariants = cva(
     variants: {
       variant: {
         default: "",
-        underline: "border-b border-border",
+        underline: "border-b border-border-base-base",
         pills: "",
-        card: "bg-card rounded-lg border border-border p-1",
+        card: "bg-background-primary-primary rounded-lg border border-border-base-base p-1",
       },
       size: {
         sm: "text-sm",
@@ -60,9 +60,9 @@ const tabListVariants = cva(
         vertical: "flex-col space-y-1",
       },
       variant: {
-        default: "border-b border-border",
-        underline: "border-b border-border",
-        pills: "bg-muted rounded-lg p-1",
+        default: "border-b border-border-base-base",
+        underline: "border-b border-border-base-base",
+        pills: "bg-background-primary-secondary rounded-lg p-1",
         card: "",
       },
       justify: {
@@ -81,14 +81,14 @@ const tabListVariants = cva(
 )
 
 const tabTriggerVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "data-[active]:bg-background data-[active]:text-foreground data-[active]:shadow-sm",
-        underline: "border-b-2 border-transparent data-[active]:border-primary data-[active]:text-foreground",
-        pills: "data-[active]:bg-background data-[active]:shadow-sm",
-        card: "data-[active]:bg-background data-[active]:shadow-sm",
+        default: "data-[active]:bg-background-primary data-[active]:text-text-primary data-[active]:shadow-sm",
+        underline: "border-b-2 border-transparent data-[active]:border-primary data-[active]:text-text-primary",
+        pills: "data-[active]:bg-background-primary data-[active]:shadow-sm",
+        card: "data-[active]:bg-background-primary data-[active]:shadow-sm",
       },
       size: {
         sm: "px-2 py-1 text-xs",
@@ -262,7 +262,7 @@ const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
         data-state={isActive ? 'active' : 'inactive'}
         hidden={!isActive}
         className={cn(
-          "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
           !isActive && "hidden",
           className
         )}

@@ -41,12 +41,31 @@ export type {
   CellProps
 } from './table/table'
 
-// Card 组件系列
+// Advanced Card 组件系列
 export {
+  AdvancedCard,
   Card,
   CardHeader,
   CardContent,
   CardFooter,
+  StatCard,
+  ProductCard,
+  ArticleCard,
+  CardGrid
+} from './advanced-card/advanced-card'
+export type {
+  CardProps,
+  CardHeaderProps,
+  CardContentProps,
+  CardFooterProps,
+  StatCardProps,
+  ProductCardProps,
+  ArticleCardProps,
+  CardGridProps
+} from './advanced-card/advanced-card'
+
+// Card 组件系列 (重命名避免冲突)
+export {
   SimpleCard,
   StatsCard,
   cardVariants,
@@ -55,10 +74,6 @@ export {
   filterCards
 } from './card/card'
 export type {
-  CardProps,
-  CardHeaderProps,
-  CardContentProps,
-  CardFooterProps,
   SimpleCardProps,
   StatsCardProps
 } from './card/card'
@@ -357,18 +372,18 @@ export const dataDisplayThemeVariables = {
 export const dataDisplayThemeClasses = {
   // 列表样式
   list: 'divide-y divide-border',
-  listItem: 'p-4 hover:bg-accent/50 transition-colors',
+  listItem: 'p-4 hover:bg-accent-500-500-500/50 transition-colors',
   listGroup: 'mb-6',
   listSeparator: 'h-px bg-border my-2',
 
   // 表格样式
-  table: 'w-full border-collapse border border-border',
-  tableHeader: 'bg-muted/50 font-medium text-muted-foreground',
-  tableRow: 'hover:bg-accent/50 transition-colors',
-  tableCell: 'border-b border-border px-4 py-2 text-left',
+  table: 'w-full border-collapse border border-border-base-base',
+  tableHeader: 'bg-background-primary-secondary/50 font-medium text-text-secondary-600',
+  tableRow: 'hover:bg-accent-500-500-500/50 transition-colors',
+  tableCell: 'border-b border-border-base-base px-4 py-2 text-left',
 
   // 卡片样式
-  card: 'rounded-lg border bg-card text-card-foreground shadow-sm',
+  card: 'rounded-lg border bg-background-primary-primary text-text-primary shadow-sm',
   cardHeader: 'flex items-start justify-between p-4 pb-3',
   cardContent: 'p-4 pt-0',
   cardFooter: 'flex items-center justify-between p-4 pt-3',

@@ -51,7 +51,7 @@ const spacerVariants = cva(
 
       // 是否可见（用于调试）
       visible: {
-        true: "border border-dashed border-[var(--xor-border-tertiary)] bg-[var(--xor-bg-secondary)]",
+        true: "border border-dashed border-[var(--xor-border-tertiary)] bg-[var(--xor-bg-secondary-500-500)]",
         false: "",
       },
 
@@ -289,8 +289,8 @@ const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
       !block && !inline && 'inline-block',
       // 可见时添加背景和边框样式
       visible && {
-        'bg-gray-50': true,
-        'border border-dashed border-gray-300': true,
+        'bg-background-primary-primary': true,
+        'border border-dashed border-border-base-base-base': true,
       },
       className
     )

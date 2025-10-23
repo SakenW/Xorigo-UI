@@ -15,7 +15,7 @@ import {
 // 导入通用组件库
 import {
   CodeDemo,
-  StatsCard,
+  StatCard,
   HeroTitle,
   SuperParticleSystem
 } from '@xorigo-ui/core'
@@ -210,13 +210,12 @@ export default function HomePage() {
               transition={{ duration: 1, delay: 0.6 }}
             >
               {stats.map((stat, index) => (
-                <StatsCard
+                <StatCard
                   key={stat.label}
-                  label={stat.label}
+                  title={stat.label}
                   value={stat.value}
-                  suffix={stat.suffix}
+                  change={stat.change}
                   icon={stat.icon}
-                  delay={0.6 + index * 0.1}
                 />
               ))}
             </motion.div>

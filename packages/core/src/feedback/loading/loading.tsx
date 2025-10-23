@@ -26,7 +26,7 @@ const loadingVariants = cva(
         success: "",
         warning: "",
         destructive: "",
-        overlay: "absolute inset-0 bg-background/80 backdrop-blur-sm",
+        overlay: "absolute inset-0 bg-background-primary/80 backdrop-blur-sm",
         inline: "inline-flex",
       },
 
@@ -338,7 +338,7 @@ const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
           ref={ref}
           className={cn(
             "fixed inset-0 z-50 flex items-center justify-center",
-            "bg-background/80 backdrop-blur-sm",
+            "bg-background-primary/80 backdrop-blur-sm",
             className
           )}
           style={themeStyles}

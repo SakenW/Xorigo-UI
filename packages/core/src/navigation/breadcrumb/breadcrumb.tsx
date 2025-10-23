@@ -20,10 +20,10 @@ const breadcrumbVariants = cva(
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "text-muted-foreground",
+        default: "text-text-secondary-600",
         primary: "text-primary",
-        secondary: "text-secondary-foreground",
-        accent: "text-accent-foreground",
+        secondary: "text-secondary-600-600-foreground",
+        accent: "text-text-on-accent",
       },
 
       // 尺寸系统 - 使用七轴主题系统的密度令牌
@@ -348,8 +348,8 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
           )}
           <span className={cn(
             truncate && "truncate",
-            isActive && "font-medium text-foreground",
-            !isActive && clickable && !item.disabled && "hover:text-foreground cursor-pointer",
+            isActive && "font-medium text-text-primary",
+            !isActive && clickable && !item.disabled && "hover:text-text-primary cursor-pointer",
             item.disabled && "opacity-50 cursor-not-allowed"
           )}>
             {item.label}
@@ -481,8 +481,8 @@ export const BreadcrumbItemComponent = React.forwardRef<
         {icon && <span className="flex-shrink-0">{icon}</span>}
         <span className={cn(
           "truncate",
-          active && "font-medium text-foreground",
-          !active && !disabled && "hover:text-foreground cursor-pointer",
+          active && "font-medium text-text-primary",
+          !active && !disabled && "hover:text-text-primary cursor-pointer",
           disabled && "opacity-50 cursor-not-allowed",
           className
         )}>
@@ -547,7 +547,7 @@ export const BreadcrumbSeparator = React.forwardRef<HTMLSpanElement, BreadcrumbS
     return (
       <span
         ref={ref}
-        className={cn("mx-1 flex-shrink-0 text-muted-foreground", className)}
+        className={cn("mx-1 flex-shrink-0 text-text-secondary-600", className)}
         role="presentation"
         {...props}
       >
@@ -569,7 +569,7 @@ export const BreadcrumbEllipsis = React.forwardRef<HTMLSpanElement, BreadcrumbEl
     return (
       <span
         ref={ref}
-        className={cn("text-muted-foreground", className)}
+        className={cn("text-text-secondary-600", className)}
         role="presentation"
         {...props}
       >

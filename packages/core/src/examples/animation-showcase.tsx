@@ -20,6 +20,7 @@ import {
   staggerVariants
 } from '../motion'
 import { createThemeAnimation } from '../motion/theme-integration'
+import { ThemeProvider } from '../system/theme-provider'
 
 // 动画演示组件
 export function AnimationShowcase() {
@@ -53,47 +54,47 @@ export function AnimationShowcase() {
 
         {/* 标题区域 */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-text-primary mb-4">
             Xorigo UI 动画系统演示
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-text-secondary-600-600 max-w-2xl mx-auto">
             基于 Framer Motion 12 的主题感知动画系统，提供可访问性优先、性能优化的动画体验
           </p>
         </div>
 
         {/* 基础动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">基础动画效果</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">基础动画效果</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 淡入动画 */}
             <AnimatedCard animation="fade" variants={fadeVariants}>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">淡入动画</h3>
-              <p className="text-gray-600">使用 fadeVariants 实现的平滑淡入效果</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">淡入动画</h3>
+              <p className="text-text-secondary-600-600">使用 fadeVariants 实现的平滑淡入效果</p>
             </AnimatedCard>
 
             {/* 滑入动画 */}
             <AnimatedCard animation="slide" variants={slideVariants}>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">滑入动画</h3>
-              <p className="text-gray-600">使用 slideVariants 实现的滑入效果</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">滑入动画</h3>
+              <p className="text-text-secondary-600-600">使用 slideVariants 实现的滑入效果</p>
             </AnimatedCard>
 
             {/* 缩放动画 */}
             <AnimatedCard animation="scale" variants={scaleVariants}>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">缩放动画</h3>
-              <p className="text-gray-600">使用 scaleVariants 实现的缩放效果</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">缩放动画</h3>
+              <p className="text-text-secondary-600-600">使用 scaleVariants 实现的缩放效果</p>
             </AnimatedCard>
           </div>
         </section>
 
         {/* 交互式动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">交互式动画</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">交互式动画</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* 悬停和点击动画 */}
             <AnimatedCard variant="interactive" className="p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">悬停和点击效果</h3>
+              <h3 className="text-lg font-medium text-text-primary mb-4">悬停和点击效果</h3>
               <div className="space-y-4">
                 <AnimatedButton
                   variant="primary"
@@ -116,7 +117,7 @@ export function AnimationShowcase() {
 
             {/* 加载状态动画 */}
             <AnimatedCard variant="interactive" className="p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">加载状态动画</h3>
+              <h3 className="text-lg font-medium text-text-primary mb-4">加载状态动画</h3>
               <div className="space-y-4">
                 <AnimatedButton
                   variant="secondary"
@@ -129,8 +130,8 @@ export function AnimationShowcase() {
 
                 {isLoading && (
                   <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                    <span className="text-sm text-gray-600">处理中...</span>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600"></div>
+                    <span className="text-sm text-text-secondary-600-600">处理中...</span>
                   </div>
                 )}
               </div>
@@ -140,10 +141,10 @@ export function AnimationShowcase() {
 
         {/* 列表动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">列表动画效果</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">列表动画效果</h2>
 
           <AnimatedCard className="p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">错位动画列表</h3>
+            <h3 className="text-lg font-medium text-text-primary mb-4">错位动画列表</h3>
             <AnimatedList
               staggerDelay={0.1}
               direction="up"
@@ -153,7 +154,7 @@ export function AnimationShowcase() {
               {listItems.map((item, index) => (
                 <div
                   key={index}
-                  className="p-3 bg-white rounded-lg border border-gray-200 text-gray-700"
+                  className="p-3 bg-background-primary-primary rounded-lg border border-border-base-base-base text-text-secondary-600-600"
                 >
                   {item}
                 </div>
@@ -164,7 +165,7 @@ export function AnimationShowcase() {
 
         {/* 通知动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">通知动画</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">通知动画</h2>
 
           <div className="space-y-4">
             <div className="flex space-x-4">
@@ -199,7 +200,7 @@ export function AnimationShowcase() {
 
         {/* 条件渲染动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">条件渲染动画</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">条件渲染动画</h2>
 
           <AnimatedCard variant="interactive" className="p-6">
             <div className="space-y-4">
@@ -218,7 +219,7 @@ export function AnimationShowcase() {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-text-on-primary"
                   >
                     <h3 className="text-lg font-medium mb-2">条件渲染内容</h3>
                     <p>这个内容会根据按钮点击状态进行动画显示和隐藏。</p>
@@ -231,7 +232,7 @@ export function AnimationShowcase() {
 
         {/* 主题感知动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">主题感知动画</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">主题感知动画</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 微妙动画 */}
@@ -241,8 +242,8 @@ export function AnimationShowcase() {
               motionComplexity="simple"
               className="p-6"
             >
-              <h3 className="text-lg font-medium text-gray-900 mb-2">微妙动画</h3>
-              <p className="text-gray-600">适合阅读场景的轻柔动画效果</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">微妙动画</h3>
+              <p className="text-text-secondary-600-600">适合阅读场景的轻柔动画效果</p>
             </AnimatedCard>
 
             {/* 标准动画 */}
@@ -252,8 +253,8 @@ export function AnimationShowcase() {
               motionComplexity="moderate"
               className="p-6"
             >
-              <h3 className="text-lg font-medium text-gray-900 mb-2">标准动画</h3>
-              <p className="text-gray-600">平衡的动画体验，适合一般交互</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">标准动画</h3>
+              <p className="text-text-secondary-600-600">平衡的动画体验，适合一般交互</p>
             </AnimatedCard>
 
             {/* 表现力动画 */}
@@ -263,15 +264,15 @@ export function AnimationShowcase() {
               motionComplexity="complex"
               className="p-6"
             >
-              <h3 className="text-lg font-medium text-gray-900 mb-2">表现力动画</h3>
-              <p className="text-gray-600">丰富的动画效果，适合装饰元素</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">表现力动画</h3>
+              <p className="text-text-secondary-600-600">丰富的动画效果，适合装饰元素</p>
             </AnimatedCard>
           </div>
         </section>
 
         {/* 高级动画演示 */}
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">高级动画效果</h2>
+          <h2 className="text-2xl font-semibold text-text-primary">高级动画效果</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* 脉冲动画 */}
@@ -281,8 +282,8 @@ export function AnimationShowcase() {
               animate="animate"
               className="p-6"
             >
-              <h3 className="text-lg font-medium text-gray-900 mb-2">脉冲动画</h3>
-              <p className="text-gray-600">持续的呼吸效果，适合强调重要元素</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">脉冲动画</h3>
+              <p className="text-text-secondary-600-600">持续的呼吸效果，适合强调重要元素</p>
             </AnimatedCard>
 
             {/* 弹性动画 */}
@@ -302,23 +303,32 @@ export function AnimationShowcase() {
               }}
               className="p-6"
             >
-              <h3 className="text-lg font-medium text-gray-900 mb-2">弹性动画</h3>
-              <p className="text-gray-600">活泼的弹性效果，增加界面趣味性</p>
+              <h3 className="text-lg font-medium text-text-primary mb-2">弹性动画</h3>
+              <p className="text-text-secondary-600-600">活泼的弹性效果，增加界面趣味性</p>
             </AnimatedCard>
           </div>
         </section>
 
         {/* 底部信息 */}
-        <footer className="text-center py-8 border-t border-gray-200">
-          <p className="text-gray-600">
+        <footer className="text-center py-8 border-t border-border-base">
+          <p className="text-text-secondary">
             Xorigo UI 动画系统 - 基于 Framer Motion 12 构建
           </p>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-text-tertiary mt-2">
             支持主题感知 • 可访问性优先 • 性能优化
           </p>
         </footer>
       </div>
     </div>
+  )
+}
+
+// 主题包装器
+export function AnimationShowcaseWithTheme() {
+  return (
+    <ThemeProvider>
+      <AnimationShowcase />
+    </ThemeProvider>
   )
 }
 

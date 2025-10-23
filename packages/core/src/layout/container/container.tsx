@@ -88,11 +88,11 @@ const containerVariants = cva(
       // 背景样式
       background: {
         none: "",
-        muted: "bg-muted",
-        accent: "bg-accent",
-        card: "bg-card border border-border rounded-lg",
+        muted: "bg-background-primary-secondary",
+        accent: "bg-accent-500-500",
+        card: "bg-background-primary-primary border border-border-base-base rounded-lg",
         primary: "bg-primary text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground",
+        secondary: "bg-secondary-500-500 text-secondary-600-600-foreground",
       },
 
       // 阴影效果

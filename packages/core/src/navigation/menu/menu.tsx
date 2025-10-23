@@ -20,10 +20,10 @@ const menuVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-border bg-popover",
-        dropdown: "border-border bg-popover shadow-lg",
-        context: "border-border bg-popover shadow-xl",
-        navigation: "border-border bg-card",
+        default: "border-border-base-base bg-popover",
+        dropdown: "border-border-base-base bg-popover shadow-lg",
+        context: "border-border-base-base bg-popover shadow-xl",
+        navigation: "border-border-base-base bg-background-primary-primary",
       },
       size: {
         sm: "min-w-[6rem] p-0.5",
@@ -55,13 +55,13 @@ const menuItemVariants = cva(
   {
     variants: {
       variant: {
-        default: "focus:bg-accent focus:text-accent-foreground",
-        destructive: "text-destructive focus:bg-destructive focus:text-destructive-foreground",
+        default: "focus:bg-accent-500-500 focus:text-text-on-accent",
+        destructive: "text-error-600 focus:bg-error-500 focus:text-error-600-foreground",
         warning: "text-warning focus:bg-warning focus:text-warning-foreground",
         success: "text-success focus:bg-success focus:text-success-foreground",
       },
       active: {
-        true: "bg-accent text-accent-foreground",
+        true: "bg-accent-500-500 text-text-on-accent",
         false: "",
       },
       disabled: {
@@ -302,7 +302,7 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
         ref={ref}
         role={decorative ? 'none' : 'separator'}
         aria-orientation="horizontal"
-        className={cn("my-1 h-px bg-muted", className)}
+        className={cn("my-1 h-px bg-background-primary-secondary", className)}
         {...props}
       />
     )

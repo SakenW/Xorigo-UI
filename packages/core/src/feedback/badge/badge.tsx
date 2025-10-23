@@ -15,15 +15,15 @@ import { useTheme } from '../../system/theme-provider'
 
 const badgeVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "inline-flex items-center justify-center rounded-full border font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center justify-center rounded-full border font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
         default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground border-border",
+        secondary: "border-transparent bg-secondary-500-500 text-secondary-600-600-foreground hover:bg-secondary-500-500/80",
+        destructive: "border-transparent bg-error-500 text-error-600-foreground hover:bg-error-500/80",
+        outline: "text-text-primary border-border-base-base",
         success: "border-transparent bg-success text-success-foreground hover:bg-success/80",
         warning: "border-transparent bg-warning text-warning-foreground hover:bg-warning/80",
         info: "border-transparent bg-info text-info-foreground hover:bg-info/80",
@@ -49,7 +49,7 @@ const badgeVariants = cva(
       // 状态
       state: {
         default: "",
-        active: "ring-2 ring-ring ring-offset-2",
+        active: "ring-2 ring-primary-500 ring-offset-2",
         disabled: "opacity-50 cursor-not-allowed",
         interactive: "cursor-pointer hover:scale-105 active:scale-95",
       },
@@ -278,7 +278,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
           <button
             type="button"
             onClick={handleRemove}
-            className="ml-1 rounded-full p-0.5 hover:bg-black/10 hover:text-black dark:hover:bg-white/10 dark:hover:text-white transition-colors"
+            className="ml-1 rounded-full p-0.5 hover:bg-background-primary-inverse/10 hover:text-text-primary dark:hover:bg-background-primary-primary/10 dark:hover:text-text-on-primary transition-colors"
             aria-label="Remove badge"
           >
             <svg
