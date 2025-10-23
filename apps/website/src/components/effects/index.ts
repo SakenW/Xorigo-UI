@@ -1,2 +1,2 @@
-export { SuperParticleSystem } from './SuperParticleSystem'
-export { FluidBackground } from './FluidBackground'
+export { SuperParticleSystem } from './super-particle-system'
+export { FluidBackground } from './fluid-background'

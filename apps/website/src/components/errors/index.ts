@@ -10,16 +10,16 @@
  */
 
 // 核心错误边界组件
-import { RootErrorBoundary } from './RootErrorBoundary'
-import { PageErrorBoundary } from './PageErrorBoundary'
-import { PlaygroundErrorBoundary } from './PlaygroundErrorBoundary'
-import { MDXErrorBoundary } from './MDXErrorBoundary'
+import { RootErrorBoundary } from './root-error-boundary'
+import { PageErrorBoundary } from './page-error-boundary'
+import { PlaygroundErrorBoundary } from './playground-error-boundary'
+import { MDXErrorBoundary } from './mdx-error-boundary'
 
 // 重新导出
 export { RootErrorBoundary, PageErrorBoundary, PlaygroundErrorBoundary, MDXErrorBoundary }
 
 // 错误回退UI组件
-import { ErrorFallback, type ErrorFallbackProps } from './ErrorFallback'
+import { ErrorFallback, type ErrorFallbackProps } from './error-fallback'
 
 // 重新导出
 export { ErrorFallback, type ErrorFallbackProps }
