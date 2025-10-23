@@ -470,11 +470,6 @@ function getBaseColor(baseColor: string, contrastLevel: string, variant: string)
   return colors[baseColor]?.[contrastLevel] || '#ffffff'
 }
 
-function getTextColor(baseColor: string, contrastLevel: string, variant: string): string {
-  // 根据背景色和对比度计算文字颜色
-  return '#000000'
-}
-
 function getAccentColor(strategy: string, hue: string, variant: string): string {
   // 根据策略和色相计算强调色
   const hueColors = {

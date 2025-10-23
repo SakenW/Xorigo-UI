@@ -21,9 +21,9 @@ const tableVariants = cva(
   {
     variants: {
       variant: {
-        default: "border border-border",
-        striped: "border border-border",
-        bordered: "border border-border",
+        default: "border border-border-base-base",
+        striped: "border border-border-base-base",
+        bordered: "border border-border-base-base",
         ghost: "",
       },
 
@@ -71,13 +71,13 @@ const tableVariants = cva(
 
 const cellVariants = cva(
   // 基础样式
-  "border-b border-border text-left",
+  "border-b border-border-base-base text-left",
   {
     variants: {
       variant: {
-        header: "bg-muted/50 font-medium text-muted-foreground",
-        data: "bg-background",
-        footer: "bg-muted/30 font-medium",
+        header: "bg-background-primary-secondary/50 font-medium text-text-secondary-600",
+        data: "bg-background-primary",
+        footer: "bg-background-primary-secondary/30 font-medium",
       },
 
       size: {
@@ -102,13 +102,13 @@ const cellVariants = cva(
 
       // 可选列
       optional: {
-        true: "text-muted-foreground",
+        true: "text-text-secondary-600",
         false: "",
       },
 
       // 排序指示器
       sortable: {
-        true: "cursor-pointer hover:bg-accent/50 transition-colors",
+        true: "cursor-pointer hover:bg-accent-500-500-500/50 transition-colors",
         false: "",
       },
     },
@@ -383,7 +383,7 @@ function TableInner<T = any>({
   // 空状态
   if (!loading && processedData.length === 0) {
     return (
-      <div className="flex items-center justify-center py-12 text-muted-foreground border border-border rounded-lg">
+      <div className="flex items-center justify-center py-12 text-text-secondary-600 border border-border-base-base rounded-lg">
         {empty || (
           <div className="text-center">
             <div className="text-lg font-medium mb-2">暂无数据</div>
@@ -397,7 +397,7 @@ function TableInner<T = any>({
   // 加载状态
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12 border border-border rounded-lg">
+      <div className="flex items-center justify-center py-12 border border-border-base-base rounded-lg">
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
           <span>加载中...</span>
@@ -407,7 +407,7 @@ function TableInner<T = any>({
   }
 
   return (
-    <div className="w-full overflow-auto border border-border rounded-lg">
+    <div className="w-full overflow-auto border border-border-base-base rounded-lg">
       <table
         className={cn(
           tableVariants({ variant, size, layout, striped, hoverable, compact }),
@@ -427,7 +427,7 @@ function TableInner<T = any>({
                 align={column.align}
                 sortable={column.sortable}
                 className={cn(
-                  column.sortable && "cursor-pointer hover:bg-accent/50 transition-colors",
+                  column.sortable && "cursor-pointer hover:bg-accent-500-500-500/50 transition-colors",
                   column.className
                 )}
                 onClick={() => column.sortable && handleSort(column.id)}
@@ -471,7 +471,7 @@ function TableInner<T = any>({
 
             if (renderRow) {
               return (
-                <tr key={key} className={cn(isSelected && "bg-accent/50")}>
+                <tr key={key} className={cn(isSelected && "bg-accent-500-500/50")}>
                   {renderRow(row, index)}
                 </tr>
               )
@@ -481,9 +481,9 @@ function TableInner<T = any>({
               <tr
                 key={key}
                 className={cn(
-                  hoverable && "hover:bg-accent/50 transition-colors",
+                  hoverable && "hover:bg-accent-500-500-500/50 transition-colors",
                   striped && index % 2 === 1 && "bg-[var(--table-striped)]",
-                  isSelected && "bg-accent/50"
+                  isSelected && "bg-accent-500-500/50"
                 )}
               >
                 {columns.map((column) => {
@@ -515,15 +515,15 @@ function TableInner<T = any>({
 
       {/* 分页 */}
       {pagination && (
-        <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-muted/30">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between px-4 py-3 border-t border-border-base-base bg-background-primary-secondary/30">
+          <div className="text-sm text-text-secondary-600">
             显示第 {(pagination.page - 1) * pagination.pageSize + 1} 到{' '}
             {Math.min(pagination.page * pagination.pageSize, pagination.total)} 条，
             共 {pagination.total} 条记录
           </div>
           <div className="flex items-center space-x-2">
             <button
-              className="px-3 py-1 text-sm border border-border rounded hover:bg-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-1 text-sm border border-border-base-base rounded hover:bg-accent-500-500-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => pagination.onPageChange(pagination.page - 1)}
               disabled={pagination.page === 1}
             >
@@ -533,7 +533,7 @@ function TableInner<T = any>({
               第 {pagination.page} 页，共 {Math.ceil(pagination.total / pagination.pageSize)} 页
             </span>
             <button
-              className="px-3 py-1 text-sm border border-border rounded hover:bg-accent/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-3 py-1 text-sm border border-border-base-base rounded hover:bg-accent-500-500-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => pagination.onPageChange(pagination.page + 1)}
               disabled={pagination.page >= Math.ceil(pagination.total / pagination.pageSize)}
             >

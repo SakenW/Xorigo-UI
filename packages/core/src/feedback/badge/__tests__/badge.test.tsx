@@ -75,16 +75,16 @@ describe('Badge 组件测试', () => {
       render(<Badge variant="secondary">次要徽章</Badge>)
 
       const badge = screen.getByText('次要徽章')
-      expect(badge).toHaveClass('bg-secondary')
-      expect(badge).toHaveClass('text-secondary-foreground')
+      expect(badge).toHaveClass('bg-secondary-500-500')
+      expect(badge).toHaveClass('text-secondary-600-600-foreground')
     })
 
     it('应该支持 destructive 变体', () => {
       render(<Badge variant="destructive">危险徽章</Badge>)
 
       const badge = screen.getByText('危险徽章')
-      expect(badge).toHaveClass('bg-destructive')
-      expect(badge).toHaveClass('text-destructive-foreground')
+      expect(badge).toHaveClass('bg-error-500')
+      expect(badge).toHaveClass('text-error-600-foreground')
     })
 
     it('应该支持 outline 变体', () => {
@@ -92,7 +92,7 @@ describe('Badge 组件测试', () => {
 
       const badge = screen.getByText('轮廓徽章')
       expect(badge).toHaveClass('border')
-      expect(badge).toHaveClass('text-foreground')
+      expect(badge).toHaveClass('text-text-primary')
     })
 
     it('应该支持 success 变体', () => {
@@ -234,28 +234,28 @@ describe('Badge 组件测试', () => {
       render(<StatusBadge status="online">在线</StatusBadge>)
 
       const badge = screen.getByText('在线')
-      expect(badge).toHaveClass('bg-green-500')
+      expect(badge).toHaveClass('bg-success-500')
     })
 
     it('应该支持 offline 状态', () => {
       render(<StatusBadge status="offline">离线</StatusBadge>)
 
       const badge = screen.getByText('离线')
-      expect(badge).toHaveClass('bg-gray-500')
+      expect(badge).toHaveClass('bg-background-primary-primary0')
     })
 
     it('应该支持 busy 状态', () => {
       render(<StatusBadge status="busy">忙碌</StatusBadge>)
 
       const badge = screen.getByText('忙碌')
-      expect(badge).toHaveClass('bg-yellow-500')
+      expect(badge).toHaveClass('bg-warning-500')
     })
 
     it('应该支持 away 状态', () => {
       render(<StatusBadge status="away">离开</StatusBadge>)
 
       const badge = screen.getByText('离开')
-      expect(badge).toHaveClass('bg-orange-500')
+      expect(badge).toHaveClass('bg-warning-500')
     })
 
     it('应该支持自定义状态颜色', () => {
@@ -330,7 +330,7 @@ describe('Badge 组件测试', () => {
       expect(defaultClasses).toContain('transition-colors')
       expect(defaultClasses).toContain('focus:outline-none')
       expect(defaultClasses).toContain('focus:ring-2')
-      expect(defaultClasses).toContain('focus:ring-ring')
+      expect(defaultClasses).toContain('focus:ring-primary-500')
       expect(defaultClasses).toContain('focus:ring-offset-2')
 
       const successClasses = badgeVariants({
@@ -338,8 +338,8 @@ describe('Badge 组件测试', () => {
         size: 'lg',
         shape: 'rounded'
       })
-      expect(successClasses).toContain('bg-green-500')
-      expect(successClasses).toContain('text-white')
+      expect(successClasses).toContain('bg-success-500')
+      expect(successClasses).toContain('text-text-on-primary')
       expect(successClasses).toContain('px-3')
       expect(successClasses).toContain('py-1')
       expect(successClasses).toContain('text-base')

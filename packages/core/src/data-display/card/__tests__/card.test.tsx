@@ -198,9 +198,9 @@ describe('Card 组件测试', () => {
       render(<Card variant="destructive">错误卡片</Card>)
 
       const card = screen.getByRole('article')
-      expect(card).toHaveClass('border-destructive')
-      expect(card).toHaveClass('bg-destructive')
-      expect(card).toHaveClass('text-destructive-foreground')
+      expect(card).toHaveClass('border-error-500')
+      expect(card).toHaveClass('bg-error-500')
+      expect(card).toHaveClass('text-error-600-foreground')
     })
   })
 

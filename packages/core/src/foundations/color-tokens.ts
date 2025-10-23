@@ -158,29 +158,40 @@ export class ColorTokenGenerator {
 
     // 生成中性色变量
     Object.entries(colorTokens.neutral).forEach(([step, color]) => {
-      cssVars.push(`  --color-neutral-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+      if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+        cssVars.push(`  --color-neutral-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+      }
     })
 
     // 生成色温变体变量
     ['warm', 'cool', 'true'].forEach(warmth => {
-      const variant = colorTokens[`neutral-${warmth}` as keyof typeof colorTokens]
-      if (variant) {
+      const variantKey = `neutral-${warmth}` as keyof typeof colorTokens
+      const variant = colorTokens[variantKey]
+      if (variant && typeof variant === 'object') {
         Object.entries(variant).forEach(([step, color]) => {
-          cssVars.push(`  --color-neutral-${warmth}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+          if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+            cssVars.push(`  --color-neutral-${warmth}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+          }
         })
       }
     })
 
     // 生成主色变量
     Object.entries(colorTokens.primary).forEach(([step, color]) => {
-      cssVars.push(`  --color-primary-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+      if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+        cssVars.push(`  --color-primary-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+      }
     })
 
     // 生成语义化颜色变量
     Object.entries(colorTokens.semantic).forEach(([semantic, colors]) => {
-      Object.entries(colors).forEach(([step, color]) => {
-        cssVars.push(`  --color-${semantic}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
-      })
+      if (colors && typeof colors === 'object') {
+        Object.entries(colors).forEach(([step, color]) => {
+          if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+            cssVars.push(`  --color-${semantic}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+          }
+        })
+      }
     })
 
     return `:root {\n${cssVars.join('\n')}\n}`

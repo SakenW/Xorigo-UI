@@ -82,9 +82,9 @@ describe('Alert 组件测试', () => {
       )
 
       const alert = screen.getByRole('alert')
-      expect(alert).toHaveClass('border-border')
-      expect(alert).toHaveClass('bg-background')
-      expect(alert).toHaveClass('text-foreground')
+      expect(alert).toHaveClass('border-border-base-base')
+      expect(alert).toHaveClass('bg-background-primary')
+      expect(alert).toHaveClass('text-text-primary')
     })
 
     it('应该支持 destructive 变体', () => {
@@ -95,9 +95,9 @@ describe('Alert 组件测试', () => {
       )
 
       const alert = screen.getByRole('alert')
-      expect(alert).toHaveClass('border-destructive')
-      expect(alert).toHaveClass('bg-destructive')
-      expect(alert).toHaveClass('text-destructive-foreground')
+      expect(alert).toHaveClass('border-error-500')
+      expect(alert).toHaveClass('bg-error-500')
+      expect(alert).toHaveClass('text-error-600-foreground')
     })
 
     it('应该支持 warning 变体', () => {
@@ -110,7 +110,7 @@ describe('Alert 组件测试', () => {
       const alert = screen.getByRole('alert')
       expect(alert).toHaveClass('border-yellow-200')
       expect(alert).toHaveClass('bg-yellow-50')
-      expect(alert).toHaveClass('text-yellow-900')
+      expect(alert).toHaveClass('text-warning-900')
     })
 
     it('应该支持 success 变体', () => {
@@ -123,7 +123,7 @@ describe('Alert 组件测试', () => {
       const alert = screen.getByRole('alert')
       expect(alert).toHaveClass('border-green-200')
       expect(alert).toHaveClass('bg-green-50')
-      expect(alert).toHaveClass('text-green-900')
+      expect(alert).toHaveClass('text-success-900')
     })
 
     it('应该支持 info 变体', () => {
@@ -276,9 +276,9 @@ describe('Alert 组件测试', () => {
       expect(defaultClasses).toContain('p-4')
 
       const destructiveClasses = alertVariants({ variant: 'destructive' })
-      expect(destructiveClasses).toContain('border-destructive')
-      expect(destructiveClasses).toContain('bg-destructive')
-      expect(destructiveClasses).toContain('text-destructive-foreground')
+      expect(destructiveClasses).toContain('border-error-500')
+      expect(destructiveClasses).toContain('bg-error-500')
+      expect(destructiveClasses).toContain('text-error-600-foreground')
     })
   })
 
@@ -357,7 +357,7 @@ describe('Alert 组件测试', () => {
       const alert = screen.getByRole('alert')
       expect(alert).toHaveClass('border-green-200')
       expect(alert).toHaveClass('bg-green-50')
-      expect(alert).toHaveClass('text-green-900')
+      expect(alert).toHaveClass('text-success-900')
     })
   })
 

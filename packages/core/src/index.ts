@@ -8,6 +8,10 @@ export * from './feedback'
 export * from './layout'
 export * from './navigation'
 export * from './data-display'
+export * from './form'
+export * from './typography'
+export * from './showcase'
+export * from './effects'
 
 // 保留的旧组件（兼容性）
 export * from './data-display/table'

@@ -20,10 +20,10 @@ const buttonVariants = cva(
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        primary: "bg-primary-500 text-white hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
-        secondary: "bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        primary: "bg-primary-500 text-text-on-primary hover:bg-primary-600 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
+        secondary: "bg-secondary-500-500-500 text-text-on-primary hover:bg-secondary-500-500-600 focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2",
+        outline: "border border-input bg-background-primary hover:bg-accent-500-500-500 hover:text-text-on-accent focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
+        ghost: "hover:bg-accent-500-500-500 hover:text-text-on-accent",
         link: "text-primary underline-offset-4 hover:underline",
       },
 
@@ -40,9 +40,9 @@ const buttonVariants = cva(
         default: "",
         disabled: "pointer-events-none opacity-50",
         loading: "pointer-events-none",
-        success: "bg-success-500 text-white hover:bg-success-600",
-        warning: "bg-warning-500 text-white hover:bg-warning-600",
-        danger: "bg-danger-500 text-white hover:bg-danger-600",
+        success: "bg-success-500 text-text-on-primary hover:bg-success-600",
+        warning: "bg-warning-500 text-text-on-primary hover:bg-warning-600",
+        danger: "bg-danger-500 text-text-on-primary hover:bg-danger-600",
       }
     },
 

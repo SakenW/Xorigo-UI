@@ -23,12 +23,12 @@ const tooltipVariants = cva(
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "bg-popover text-popover-foreground border-border",
+        default: "bg-popover text-popover-foreground border-border-base-base",
         dark: "bg-[var(--xor-bg-tertiary)] text-[var(--xor-text-primary)] border-[var(--xor-border-secondary)]",
         light: "bg-[var(--xor-bg-primary)] text-[var(--xor-text-primary)] border-[var(--xor-border-primary)]",
         success: "bg-success text-success-foreground border-success",
         warning: "bg-warning text-warning-foreground border-warning",
-        error: "bg-destructive text-destructive-foreground border-destructive",
+        error: "bg-error-500 text-error-600-foreground border-error-500",
         info: "bg-info text-info-foreground border-info",
       },
 

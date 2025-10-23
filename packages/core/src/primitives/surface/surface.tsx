@@ -20,14 +20,14 @@ const surfaceVariants = cva(
     variants: {
       // 表面效果 - 使用七轴主题系统的表面令牌
       variant: {
-        flat: "bg-background text-foreground border border-border",
-        'soft-shadow': "bg-background text-foreground border border-border shadow-md",
-        glass: "bg-background/80 backdrop-blur-md border border-white/20 text-foreground",
-        neon: "bg-background text-foreground border border-primary/50 shadow-lg shadow-primary/25",
-        'glass+neon': "bg-background/60 backdrop-blur-md border border-primary/30 shadow-lg shadow-primary/40",
-        silk: "bg-gradient-to-br from-background/95 to-background/80 border border-white/10 text-foreground shadow-sm",
-        frosted: "bg-background/70 backdrop-blur-lg border border-white/10 text-foreground",
-        metallic: "bg-gradient-to-br from-background to-muted border border-white/20 text-foreground shadow-md",
+        flat: "bg-background-primary text-text-primary border border-border-base-base",
+        'soft-shadow': "bg-background-primary text-text-primary border border-border-base-base shadow-md",
+        glass: "bg-background-primary/80 backdrop-blur-md border border-white/20 text-text-primary",
+        neon: "bg-background-primary text-text-primary border border-primary/50 shadow-lg shadow-primary/25",
+        'glass+neon': "bg-background-primary/60 backdrop-blur-md border border-primary/30 shadow-lg shadow-primary/40",
+        silk: "bg-gradient-to-br from-background/95 to-background/80 border border-white/10 text-text-primary shadow-sm",
+        frosted: "bg-background-primary/70 backdrop-blur-lg border border-white/10 text-text-primary",
+        metallic: "bg-gradient-to-br from-background to-muted border border-white/20 text-text-primary shadow-md",
       },
 
       // 尺寸系统 - 使用七轴主题系统的密度令牌
@@ -63,7 +63,7 @@ const surfaceVariants = cva(
       // 交互状态
       interactive: {
         none: "",
-        hover: "hover:bg-accent/50 hover:shadow-lg transition-all duration-300 cursor-pointer",
+        hover: "hover:bg-accent-500-500-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer",
         click: "active:scale-95 cursor-pointer transition-transform duration-200",
       },
 

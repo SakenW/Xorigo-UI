@@ -15,21 +15,21 @@ import { useTheme } from '../../system/theme-provider'
 
 const cardVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "rounded-lg border bg-card text-card-foreground shadow-sm",
+  "rounded-lg border bg-background-primary-primary text-text-primary shadow-sm",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "border-border bg-card text-card-foreground",
-        outline: "border-2 border-border bg-background",
-        elevated: "border-border bg-card shadow-lg",
+        default: "border-border-base-base bg-background-primary-primary text-text-primary",
+        outline: "border-2 border-border-base-base bg-background-primary",
+        elevated: "border-border-base-base bg-background-primary-primary shadow-lg",
         ghost: "border-transparent bg-transparent shadow-none",
-        filled: "border-border bg-muted",
+        filled: "border-border-base-base bg-background-primary-secondary",
         primary: "border-primary bg-primary text-primary-foreground",
-        secondary: "border-secondary bg-secondary text-secondary-foreground",
+        secondary: "border-secondary bg-secondary-500-500 text-secondary-600-600-foreground",
         success: "border-success bg-success text-success-foreground",
         warning: "border-warning bg-warning text-warning-foreground",
-        destructive: "border-destructive bg-destructive text-destructive-foreground",
+        destructive: "border-error-500 bg-error-500 text-error-600-foreground",
       },
 
       // 尺寸系统 - 使用七轴主题系统的密度令牌
@@ -76,7 +76,7 @@ const cardVariants = cva(
 
       // 交互状态
       interactive: {
-        true: "cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        true: "cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
         false: "",
       },
 
@@ -290,7 +290,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
             interactive: interactive && !disabled && !loading,
             selectable,
           }),
-          selected && "ring-2 ring-ring ring-offset-2",
+          selected && "ring-2 ring-primary-500 ring-offset-2",
           disabled && "opacity-50 cursor-not-allowed",
           loading && "relative overflow-hidden",
           className
@@ -310,7 +310,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
         {/* 头部 */}
         {header && (
-          <div className="border-b border-border/50">
+          <div className="border-b border-border-base-base/50">
             {header}
           </div>
         )}
@@ -324,14 +324,14 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
         {/* 底部 */}
         {footer && (
-          <div className="border-t border-border/50 mt-auto">
+          <div className="border-t border-border-base-base/50 mt-auto">
             {footer}
           </div>
         )}
 
         {/* 加载遮罩 */}
         {loading && (
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="absolute inset-0 bg-background-primary/80 backdrop-blur-sm flex items-center justify-center">
             {loadingOverlay || (
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -373,7 +373,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
         )}
         style={{
           ['--card-header-text' as any]: `var(--xor-text-primary)`,
-          ['--card-header-muted' as any]: `var(--xor-text-secondary)`,
+          ['--card-header-muted' as any]: `var(--xor-text-secondary-600-600)`,
         }}
         {...props}
       >
@@ -394,7 +394,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
           )}
 
           {description && (
-            <p className="text-sm text-muted-foreground mt-1 text-card-header-muted">
+            <p className="text-sm text-text-secondary-600 mt-1 text-card-header-muted">
               {description}
             </p>
           )}
@@ -434,7 +434,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
         ref={ref}
         className={cn(
           cardContentVariants({ size, spacing }),
-          "text-card-foreground",
+          "text-text-primary",
           // 对齐样式
           {
             'text-center': align === 'center',
@@ -543,14 +543,14 @@ export const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
         <CardContent>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">{title}</p>
+              <p className="text-sm font-medium text-text-secondary-600">{title}</p>
               <p className="text-2xl font-bold">{value}</p>
               {change && (
                 <p className={cn(
                   "text-sm flex items-center",
                   change.type === 'increase' && "text-success",
-                  change.type === 'decrease' && "text-destructive",
-                  change.type === 'neutral' && "text-muted-foreground"
+                  change.type === 'decrease' && "text-error-600",
+                  change.type === 'neutral' && "text-text-secondary-600"
                 )}>
                   {change.type !== 'neutral' && (
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

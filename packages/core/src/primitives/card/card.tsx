@@ -15,16 +15,16 @@ import { useTheme } from '../../system/theme-provider'
 
 const cardVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "rounded-lg border bg-card text-card-foreground shadow-sm",
+  "rounded-lg border bg-background-primary-primary text-text-primary shadow-sm",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的表面令牌
       variant: {
-        default: "border-border bg-card",
-        outlined: "border-2 border-border bg-background",
-        elevated: "border-0 shadow-lg bg-card",
+        default: "border-border-base-base bg-background-primary-primary",
+        outlined: "border-2 border-border-base-base bg-background-primary",
+        elevated: "border-0 shadow-lg bg-background-primary-primary",
         ghost: "border-0 bg-transparent shadow-none",
-        filled: "border-0 bg-muted",
+        filled: "border-0 bg-background-primary-secondary",
       },
 
       // 尺寸系统 - 使用七轴主题系统的密度令牌
@@ -38,7 +38,7 @@ const cardVariants = cva(
       // 交互状态
       interactive: {
         none: "",
-        hover: "hover:shadow-md hover:bg-accent/50 cursor-pointer transition-all",
+        hover: "hover:shadow-md hover:bg-accent-500-500-500/50 cursor-pointer transition-all",
         click: "active:scale-95 cursor-pointer transition-transform",
       },
 
@@ -46,7 +46,7 @@ const cardVariants = cva(
       surface: {
         flat: "",
         'soft-shadow': "shadow-md",
-        glass: "backdrop-blur-md bg-card/80 border-white/20",
+        glass: "backdrop-blur-md bg-background-primary-primary/80 border-white/20",
         neon: "shadow-none border-primary/50 shadow-lg shadow-primary/25",
       }
     },
@@ -181,7 +181,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionPr
   ({ className, children, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm text-text-secondary-600", className)}
       {...props}
     >
       {children}
@@ -310,7 +310,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
         {/* 加载状态 */}
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/50 rounded-lg">
+          <div className="absolute inset-0 flex items-center justify-center bg-background-primary/50 rounded-lg">
             <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
           </div>
         )}

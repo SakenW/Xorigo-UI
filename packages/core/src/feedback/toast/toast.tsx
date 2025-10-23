@@ -8,9 +8,9 @@
 
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../../utils/cn'
+import { cn } from '../../foundations/utils/cn'
 import { useTheme } from '../../system/theme-provider'
-import { createThemeStyles } from '../../../utils/theme-token-mapper'
+import { createThemeStyles } from '../../utils/theme-token-mapper'
 
 // === Toast 变体系统 ===
 const toastVariants = cva(
@@ -132,7 +132,7 @@ export const Toast: React.FC<ToastProps> = ({
         {closable && (
           <button
             onClick={handleClose}
-            className="ml-3 text-[var(--xor-text-secondary)] hover:text-[var(--xor-text-primary)] transition-colors p-1 rounded hover:bg-[var(--xor-bg-secondary)]"
+            className="ml-3 text-[var(--xor-text-secondary-600-600)] hover:text-[var(--xor-text-primary)] transition-colors p-1 rounded hover:bg-[var(--xor-bg-secondary-500-500)]"
             aria-label="关闭通知"
           >
             ✕

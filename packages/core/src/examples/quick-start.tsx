@@ -14,6 +14,7 @@ import {
   fadeVariants,
   slideVariants
 } from '../motion'
+import { ThemeProvider } from '../system/theme-provider'
 
 // 基础用法示例
 export function BasicUsage() {
@@ -84,7 +85,7 @@ export function ListAnimation() {
       <h3 className="text-lg font-medium mb-4">错位动画列表</h3>
       <AnimatedList staggerDelay={0.1} direction="up">
         {items.map((item, index) => (
-          <div key={index} className="p-3 bg-gray-100 rounded mb-2">
+          <div key={index} className="p-3 bg-background-primary-secondary rounded mb-2">
             {item}
           </div>
         ))}
@@ -151,14 +152,14 @@ export function CompleteExample() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-background-primary-primary p-8">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* 头部 */}
         <header>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-text-primary">
             动画系统完整示例
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-text-secondary-600-600 mt-2">
             展示各种动画效果的实际应用场景
           </p>
         </header>
@@ -187,7 +188,7 @@ export function CompleteExample() {
               variant="interactive"
               className="p-6"
             >
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-text-primary mb-4">
                 快速操作
               </h2>
               <div className="space-y-3">
@@ -212,21 +213,21 @@ export function CompleteExample() {
               animation="slide"
               className="p-6"
             >
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-xl font-semibold text-text-primary mb-4">
                 系统状态
               </h2>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">系统运行状态</span>
-                  <span className="text-green-600 font-medium">正常</span>
+                  <span className="text-text-secondary-600-600">系统运行状态</span>
+                  <span className="text-success-600 font-medium">正常</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">动画性能</span>
-                  <span className="text-blue-600 font-medium">优秀</span>
+                  <span className="text-text-secondary-600-600">动画性能</span>
+                  <span className="text-primary-600 font-medium">优秀</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">可访问性</span>
-                  <span className="text-purple-600 font-medium">已启用</span>
+                  <span className="text-text-secondary-600-600">可访问性</span>
+                  <span className="text-secondary-600-600 font-medium">已启用</span>
                 </div>
               </div>
             </AnimatedCard>
@@ -234,7 +235,7 @@ export function CompleteExample() {
 
           {/* 数据列表 */}
           <AnimatedCard className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+            <h2 className="text-xl font-semibold text-text-primary mb-4">
               数据展示
             </h2>
             <AnimatedList
@@ -250,22 +251,22 @@ export function CompleteExample() {
               ].map((task, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-white border border-gray-200 rounded-lg"
+                  className="p-4 bg-background-primary-primary border border-border-base-base-base rounded-lg"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-medium text-gray-900">{task.title}</h3>
+                    <h3 className="font-medium text-text-primary">{task.title}</h3>
                     <span className={`text-sm px-2 py-1 rounded ${
-                      task.status === '已完成' ? 'bg-green-100 text-green-800' :
+                      task.status === '已完成' ? 'bg-success-100 text-success-800' :
                       task.status === '进行中' ? 'bg-blue-100 text-blue-800' :
-                      task.status === '待开始' ? 'bg-gray-100 text-gray-800' :
-                      'bg-yellow-100 text-yellow-800'
+                      task.status === '待开始' ? 'bg-background-primary-secondary text-text-primary' :
+                      'bg-warning-100 text-warning-800'
                     }`}>
                       {task.status}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-background-primary-tertiary rounded-full h-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-primary-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${task.progress}%` }}
                     ></div>
                   </div>
@@ -279,11 +280,21 @@ export function CompleteExample() {
   )
 }
 
+// 主题包装器
+export function QuickStartWithTheme() {
+  return (
+    <ThemeProvider>
+      <CompleteExample />
+    </ThemeProvider>
+  )
+}
+
 export default {
   BasicUsage,
   ThemedAnimation,
   ListAnimation,
   ConditionalAnimation,
   AccessibleAnimation,
-  CompleteExample
+  CompleteExample,
+  QuickStartWithTheme
 }

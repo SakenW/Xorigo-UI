@@ -15,15 +15,15 @@ import { useTheme } from '../../system/theme-provider'
 
 const notificationVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "relative w-full rounded-lg border bg-card text-card-foreground shadow-lg",
+  "relative w-full rounded-lg border bg-background-primary-primary text-text-primary shadow-lg",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "border-border",
+        default: "border-border-base-base",
         success: "border-success bg-success/10 text-success",
         warning: "border-warning bg-warning/10 text-warning",
-        error: "border-destructive bg-destructive/10 text-destructive",
+        error: "border-error-500 bg-error-500/10 text-error-600",
         info: "border-info bg-info/10 text-info",
       },
 
@@ -40,7 +40,7 @@ const notificationVariants = cva(
         default: "",
         unread: "border-l-4 border-l-current",
         read: "opacity-75",
-        highlighted: "ring-2 ring-ring ring-offset-2",
+        highlighted: "ring-2 ring-primary-500 ring-offset-2",
       },
 
       // 是否可交互
@@ -337,7 +337,7 @@ const Notification = React.forwardRef<HTMLDivElement, NotificationProps>(
         {showCloseButton && (
           <button
             onClick={handleClose}
-            className="flex-shrink-0 rounded-md p-1 hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="flex-shrink-0 rounded-md p-1 hover:bg-accent-500-500-500 hover:text-text-on-accent transition-colors"
             aria-label="关闭通知"
             style={{ color: 'var(--notification-text)', opacity: 0.7 }}
           >

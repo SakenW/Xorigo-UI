@@ -17,17 +17,17 @@ import { useTheme } from '../../system/theme-provider'
 
 const navbarVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "flex w-full items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+  "flex w-full items-center justify-between border-b bg-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-background-primary/60",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
       variant: {
-        default: "border-border bg-background",
-        floating: "border-border bg-background/95 backdrop-blur shadow-lg rounded-lg mx-4 mt-4",
+        default: "border-border-base-base bg-background-primary",
+        floating: "border-border-base-base bg-background-primary/95 backdrop-blur shadow-lg rounded-lg mx-4 mt-4",
         transparent: "border-transparent bg-transparent",
-        inverse: "border-border bg-foreground text-background",
+        inverse: "border-border-base-base bg-foreground text-text-primary",
         primary: "border-primary bg-primary text-primary-foreground",
-        secondary: "border-secondary bg-secondary text-secondary-foreground",
+        secondary: "border-secondary bg-secondary-500-500 text-secondary-600-600-foreground",
       },
 
       // 尺寸系统 - 使用七轴主题系统的密度令牌
@@ -195,10 +195,10 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     const themeStyles: React.CSSProperties = {
       // 七轴主题令牌映射
       '--xor-bg-primary': `hsl(${theme.colors.background.primary})`,
-      '--xor-bg-secondary': `hsl(${theme.colors.background.secondary})`,
+      '--xor-bg-secondary-500-500': `hsl(${theme.colors.background.secondary})`,
       '--xor-bg-tertiary': `hsl(${theme.colors.background.tertiary})`,
       '--xor-text-primary': `hsl(${theme.colors.text.primary})`,
-      '--xor-text-secondary': `hsl(${theme.colors.text.secondary})`,
+      '--xor-text-secondary-600-600': `hsl(${theme.colors.text.secondary})`,
       '--xor-text-tertiary': `hsl(${theme.colors.text.tertiary})`,
       '--xor-border-primary': `hsl(${theme.colors.border.primary})`,
       '--xor-primary': `hsl(${theme.colors.primary})`,
@@ -246,7 +246,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         type="button"
         className={cn(
           "inline-flex items-center justify-center rounded-md p-2",
-          "text-[var(--xor-text-tertiary)] hover:text-[var(--xor-text-primary)] hover:bg-[var(--xor-bg-secondary)]",
+          "text-[var(--xor-text-tertiary)] hover:text-[var(--xor-text-primary)] hover:bg-[var(--xor-bg-secondary-500-500)]",
           "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--xor-primary)]",
           variant === 'inverse' && "hover:bg-[var(--xor-bg-tertiary)]/10",
           variant === 'primary' && "text-[var(--xor-text-on-primary)] hover:bg-[var(--xor-text-on-primary)]/10",
@@ -334,7 +334,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
         {/* 移动端菜单 */}
         {mobileMenuOpen && (nav || actions) && (
-          <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur">
+          <div className="lg:hidden border-t border-border-base-base bg-background-primary/95 backdrop-blur">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {nav && (
                 <div className="space-y-1">
@@ -346,7 +346,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                 </div>
               )}
               {actions && (
-                <div className="border-t border-border pt-4 mt-4">
+                <div className="border-t border-border-base-base pt-4 mt-4">
                   <div className="space-y-1">
                     {React.Children.map(actions, (child, index) => (
                       <div key={index} className="block">

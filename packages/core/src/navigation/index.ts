@@ -80,7 +80,18 @@ export type {
   MenuSeparatorProps,
   MenuLabelProps,
   MenuGroupProps
-}
+} from './menu/menu'
+
+// Sidebar 组件系列
+export {
+  Sidebar,
+  sidebarVariants
+} from './sidebar/sidebar'
+export type {
+  SidebarProps,
+  SidebarItem,
+  SidebarItemComponentProps
+} from './sidebar/sidebar'
 
 // =============================================================================
 // 便捷组合导出
@@ -94,6 +105,7 @@ export const BaseNavigation = {
   Breadcrumb,
   Tabs,
   Menu,
+  Sidebar,
 } as const
 
 /**
@@ -141,6 +153,13 @@ export const NavbarComponents = {
 } as const
 
 /**
+ * 侧边栏组件组合
+ */
+export const SidebarComponents = {
+  Sidebar,
+} as const
+
+/**
  * 完整导航组件集合
  */
 export const NavigationComponents = {
@@ -149,6 +168,7 @@ export const NavigationComponents = {
   ...TabsComponents,
   ...MenuComponents,
   ...NavbarComponents,
+  ...SidebarComponents,
 } as const
 
 // =============================================================================
@@ -163,6 +183,7 @@ export type NavigationComponentProps =
   | BreadcrumbProps
   | TabsProps
   | MenuProps
+  | SidebarProps
 
 /**
  * 导航组件变体类型
@@ -321,23 +342,23 @@ export const navigationThemeVariables = {
  */
 export const navigationThemeClasses = {
   // 导航栏样式
-  navbar: 'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+  navbar: 'bg-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-background-primary/60',
 
   // 面包屑样式
-  breadcrumb: 'text-muted-foreground',
-  breadcrumbActive: 'text-foreground font-medium',
-  breadcrumbLink: 'hover:text-foreground transition-colors',
+  breadcrumb: 'text-text-secondary-600',
+  breadcrumbActive: 'text-text-primary font-medium',
+  breadcrumbLink: 'hover:text-text-primary transition-colors',
 
   // 标签页样式
   tabs: 'w-full',
-  tabsList: 'inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
-  tabsTrigger: 'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm',
-  tabsContent: 'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+  tabsList: 'inline-flex h-10 items-center justify-center rounded-md bg-background-primary-secondary p-1 text-text-secondary-600',
+  tabsTrigger: 'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background-primary data-[state=active]:text-text-primary data-[state=active]:shadow-sm',
+  tabsContent: 'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
 
   // 菜单样式
   menu: 'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-  menuItem: 'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-  menuSeparator: 'my-1 h-px bg-muted',
+  menuItem: 'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent-500-500 focus:text-text-on-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+  menuSeparator: 'my-1 h-px bg-background-primary-secondary',
 } as const
 
 // =============================================================================

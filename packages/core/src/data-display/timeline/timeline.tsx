@@ -482,7 +482,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(
               "w-3 h-3 rounded-full border-2",
               isActive && "w-4 h-4",
               isCompleted && "bg-primary border-primary",
-              !isCompleted && !isActive && "bg-background",
+              !isCompleted && !isActive && "bg-background-primary",
               "transition-all duration-200"
             )}
             style={{
@@ -512,7 +512,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(
             <div className="space-y-2">
               {/* 时间 */}
               {itemData.time && (
-                <div className="text-sm text-muted-foreground" style={{ color: 'var(--timeline-muted)' }}>
+                <div className="text-sm text-text-secondary-600" style={{ color: 'var(--timeline-muted)' }}>
                   {itemData.time}
                 </div>
               )}
@@ -574,7 +574,7 @@ const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
           "w-3 h-3 rounded-full border-2 flex items-center justify-center",
           active && "w-4 h-4",
           completed && "bg-primary border-primary",
-          !completed && !active && "bg-background",
+          !completed && !active && "bg-background-primary",
           "transition-all duration-200",
           className
         )}

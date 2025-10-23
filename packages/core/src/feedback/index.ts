@@ -253,14 +253,14 @@ export const feedbackThemeClasses = {
   // 状态颜色
   success: 'text-success bg-success/10 border-success/20',
   warning: 'text-warning bg-warning/10 border-warning/20',
-  error: 'text-destructive bg-destructive/10 border-destructive/20',
+  error: 'text-error-600 bg-error-500/10 border-error-500/20',
   info: 'text-info bg-info/10 border-info/20',
 
   // 中性颜色
-  default: 'text-foreground bg-background border-border',
-  secondary: 'text-secondary-foreground bg-secondary border-secondary',
+  default: 'text-text-primary bg-background-primary border-border-base-base',
+  secondary: 'text-secondary-600-600-foreground bg-secondary-500-500 border-secondary',
 
   // 交互状态
-  interactive: 'cursor-pointer hover:bg-accent hover:text-accent-foreground',
+  interactive: 'cursor-pointer hover:bg-accent-500-500-500 hover:text-text-on-accent',
   disabled: 'opacity-50 cursor-not-allowed',
 } as const

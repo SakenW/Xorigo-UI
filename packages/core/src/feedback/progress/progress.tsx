@@ -15,7 +15,7 @@ import { useTheme } from '../../system/theme-provider'
 
 const progressVariants = cva(
   // 基础样式 - 使用七轴主题系统的密度令牌
-  "relative w-full overflow-hidden rounded-full bg-secondary",
+  "relative w-full overflow-hidden rounded-full bg-background-secondary",
   {
     variants: {
       // 变体系统 - 使用七轴主题系统的颜色令牌
