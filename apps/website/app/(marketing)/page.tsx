@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Box, Palette, Code2, Zap } from 'lucide-react'
 
 // 导入拆分的营销组件
 import {
-  PageLoader,
   Component3DCarousel,
   ComponentCategoryGrid,
   FluidBackground
@@ -27,7 +26,6 @@ import {
  */
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const { scrollY } = useScroll()
 
   // 调整后的滚动动画配置 - 让用户在第二屏看到动画过程
@@ -40,15 +38,7 @@ export default function HomePage() {
   const shouldShowScrollIndicator = useTransform(scrollY, [50, 180], [1, 0])
   const shouldShowBackToTop = useTransform(scrollY, [200, 350], [0, 1])
 
-  // 控制加载状态，与 PageLoader 协调
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2600) // 与 PageLoader 的退出时间协调，稍微提前触发退出动画
-
-    return () => clearTimeout(timer)
-  }, [])
-
+  
   // 统计数据 - 基于实际系统特点修正
   const stats = [
     { label: '组件', value: 100, suffix: '+', icon: <Box /> },
@@ -59,41 +49,10 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 页面加载器 */}
-      <AnimatePresence>
-        {isLoading && <PageLoader key="page-loader" />}
-      </AnimatePresence>
-
-      {/* 加载遮罩层 - 在加载时显示，平滑过渡 */}
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            key="loading-overlay"
-            className="fixed inset-0 z-[9998] bg-black pointer-events-none"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{
-              opacity: 0,
-              transition: { duration: 0.8, ease: "easeInOut" }
-            }}
-          />
-        )}
-      </AnimatePresence>
-
       {/* 主页面内容 */}
       <motion.div
         key="main-content"
-        className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] relative overflow-hidden overflow-x-hidden"
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{
-          opacity: isLoading ? 0 : 1,
-          scale: isLoading ? 0.98 : 1,
-          transition: {
-            duration: 1.0,
-            ease: [0.4, 0, 0.6, 1],
-            delay: 0.1 // 减少延迟，让主内容更快出现
-          }
-        }}
+        className="min-h-screen bg-black text-white relative overflow-hidden overflow-x-hidden"
       >
         {/* 🎨 背景效果层 */}
         <FluidBackground />

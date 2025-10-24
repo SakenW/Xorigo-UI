@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { useMotionValue, useVelocity } from 'framer-motion'
 
 export interface SuperParticleSystemProps {
@@ -42,6 +42,16 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
     attractionStrength: number
   }>>([])
 
+  const [safeDimensions, setSafeDimensions] = useState(() => ({
+    width: Math.min(typeof window !== 'undefined' ? window.innerWidth : 1000,
+                  typeof document !== 'undefined' ? document.documentElement.clientWidth : 1000),
+    height: Math.min(typeof window !== 'undefined' ? window.innerHeight : 800,
+                   typeof document !== 'undefined' ? document.documentElement.clientHeight : 800)
+  }))
+
+  // 使用 useMemo 来稳定 safeDimensions 的引用
+  const stableSafeDimensions = useMemo(() => safeDimensions, [safeDimensions.width, safeDimensions.height])
+
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const mouseVelocity = useVelocity(mouseY)
@@ -57,15 +67,18 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
   useEffect(() => {
     setMounted(true)
 
-    // 🦋 初始化萤火虫粒子
+    // 🦋 初始化萤火虫粒子 - 使用更安全的边界计算
+    const safeWidth = stableSafeDimensions.width
+    const safeHeight = stableSafeDimensions.height
+
     const initFireflies = Array.from({ length: count }, (_, i) => ({
       id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: Math.random() * safeWidth,
+      y: Math.random() * safeHeight,
       vx: 0,
       vy: 0,
-      targetX: Math.random() * window.innerWidth,
-      targetY: Math.random() * window.innerHeight,
+      targetX: Math.random() * safeWidth,
+      targetY: Math.random() * safeHeight,
       size: Math.random() * 2 + 1.5,
       baseOpacity: Math.random() * 0.3 + 0.2,
       currentOpacity: Math.random() * 0.3 + 0.2,
@@ -84,7 +97,25 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
       isMouseMoving.current = true
     }
 
+    const handleResize = () => {
+      const newSafeWidth = Math.min(window.innerWidth, document.documentElement.clientWidth)
+      const newSafeHeight = Math.min(window.innerHeight, document.documentElement.clientHeight)
+      setSafeDimensions({ width: newSafeWidth, height: newSafeHeight })
+
+      // 重新定位超出边界的萤火虫
+      setFireflies(prev => prev.map(firefly => {
+        let { x, y } = firefly
+        const margin = 20
+
+        if (x > newSafeWidth - margin) x = newSafeWidth - margin
+        if (y > newSafeHeight - margin) y = newSafeHeight - margin
+
+        return { ...firefly, x, y }
+      }))
+    }
+
     window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('resize', handleResize)
 
     // 持续检测鼠标是否停止移动 - 可靠检测
     const mouseStopChecker = setInterval(() => {
@@ -96,9 +127,10 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('resize', handleResize)
       clearInterval(mouseStopChecker)
     }
-  }, [mouseX, mouseY, mouseVelocity, count])
+  }, [mouseX, mouseY, mouseVelocity, count, stableSafeDimensions])
 
   // ✨ 萤火虫飞舞动画
   useEffect(() => {
@@ -198,8 +230,8 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
 
             // 正常随机漫游
             if (Math.random() < 0.02) { // 增加改变目标的频率
-              targetX = Math.random() * window.innerWidth
-              targetY = Math.random() * window.innerHeight
+              targetX = Math.random() * stableSafeDimensions.width
+              targetY = Math.random() * stableSafeDimensions.height
             }
 
             const targetDx = targetX - x
@@ -225,22 +257,24 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
           x += vx
           y += vy
 
-          // 🌍 边界处理 - 严格约束在视窗内，防止横向滚动条
-          const margin = 10
+          // 🌍 边界处理 - 严格约束在安全边界内，防止横向滚动条
+          const { width: safeWidth, height: safeHeight } = stableSafeDimensions
+          const margin = 20 // 增加边距以确保绝对安全
+
           if (x < margin) {
             x = margin
-            vx = Math.abs(vx) * 0.5 // 反弹并减速
-          } else if (x > window.innerWidth - margin) {
-            x = window.innerWidth - margin
-            vx = -Math.abs(vx) * 0.5 // 反弹并减速
+            vx = Math.abs(vx) * 0.3 // 更强的反弹减速
+          } else if (x > safeWidth - margin) {
+            x = safeWidth - margin
+            vx = -Math.abs(vx) * 0.3 // 更强的反弹减速
           }
 
           if (y < margin) {
             y = margin
-            vy = Math.abs(vy) * 0.5 // 反弹并减速
-          } else if (y > window.innerHeight - margin) {
-            y = window.innerHeight - margin
-            vy = -Math.abs(vy) * 0.5 // 反弹并减速
+            vy = Math.abs(vy) * 0.3 // 更强的反弹减速
+          } else if (y > safeHeight - margin) {
+            y = safeHeight - margin
+            vy = -Math.abs(vy) * 0.3 // 更强的反弹减速
           }
 
           // ✨ 计算当前透明度（闪烁效果）
@@ -262,7 +296,7 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
 
     animationId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(animationId)
-  }, [mouseX, mouseY])
+  }, [mouseX, mouseY, stableSafeDimensions])
 
   if (!mounted) return null
 

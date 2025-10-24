@@ -14,17 +14,11 @@ export type { AlertProps } from './alert/alert'
 
 // Toast 组件系统
 export {
-  ToastProvider,
   Toast,
-  useToast,
-  useToastHelpers,
-  toastVariants,
-  ToastContext
+  toastVariants
 } from './toast/toast'
 export type {
-  ToastProviderProps,
-  ToastItem,
-  ToastItemProps
+  ToastProps
 } from './toast/toast'
 
 // Notification 组件
@@ -76,7 +70,7 @@ export type {
  */
 export const BaseFeedback = {
   Alert,
-  Toast: ToastProvider,
+  Toast,
   Notification,
   Progress,
 } as const
