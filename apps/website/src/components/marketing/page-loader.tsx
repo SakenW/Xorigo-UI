@@ -38,27 +38,20 @@ const createRandomizedAnimation = (baseDuration: number, variance: number = 0.2,
 }
 
 const PageLoader = () => {
-  const [isLoaded, setIsLoaded] = useState(false)
+  // 移除内部状态，完全由外部的 AnimatePresence 控制
+  // 这样可以确保进度条完整显示
   const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    // 使用预设时间让 XorigoLogoLoader 完成动画
+    // 延迟显示内容动画
     const timer = setTimeout(() => {
-      setIsLoaded(true)
-    }, 2500) // 与 XorigoLogoLoader 的默认 duration 2000ms + 缓冲时间匹配
-
-    // 延迟显示内容，避免闪烁
-    const contentTimer = setTimeout(() => {
       setShowContent(true)
-    }, 2600)
+    }, 200) // 短暂延迟后开始显示内容
 
     return () => {
       clearTimeout(timer)
-      clearTimeout(contentTimer)
     }
   }, [])
-
-  if (isLoaded) return null
 
   return (
     <motion.div
@@ -79,8 +72,12 @@ const PageLoader = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{
         opacity: 0,
-        scale: 1.05,
-        transition: { duration: 0.8, ease: [0.4, 0, 0.6, 1] }
+        scale: 1.02,
+        y: -10,
+        transition: {
+          duration: 1.0,
+          ease: [0.25, 0.46, 0.45, 0.94] // 更柔和的退出动画
+        }
       }}
       transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
     >
@@ -88,24 +85,28 @@ const PageLoader = () => {
         <XorigoLogoLoader
           variant="enhanced"
           size="xl"
-          duration={2000}
+          duration={3200}
           showProgress={true}
           className="scale-125" // 增大一些以突出品牌效果
         />
 
-        {/* 增加品牌文字 - 优化动画时机 */}
+        {/* 增加品牌文字 - 重新设计动画时序 */}
         <motion.div
           className="mt-8 text-center"
           style={createWillChange(['opacity', 'transform'])}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6, ease: [0.4, 0, 0.6, 1] }}
+          transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <motion.h2
             className="text-3xl font-bold mb-2 relative"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5, ease: [0.4, 0, 0.6, 1] }}
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              delay: 1.2,
+              duration: 0.7,
+              ease: [0.25, 0.46, 0.45, 0.94] // 更柔和的缓动
+            }}
           >
             {/* 渐变文字层 */}
             <span className="bg-gradient-to-r from-[var(--color-primary-400)] to-[var(--color-info-400)] bg-clip-text text-transparent">
@@ -118,9 +119,13 @@ const PageLoader = () => {
           </motion.h2>
           <motion.p
             className="text-[var(--color-text-secondary)] text-lg"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.5, ease: [0.4, 0, 0.6, 1] }}
+            transition={{
+              delay: 1.6,
+              duration: 0.6,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }}
           >
             下一代 React 组件库
           </motion.p>

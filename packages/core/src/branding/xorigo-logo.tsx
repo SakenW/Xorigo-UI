@@ -3,7 +3,7 @@
 import React, { useId, useMemo, useRef, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-type Mode = 'rotateGroup' | 'rotateGradient' | 'hybrid'
+export type Mode = 'rotateGroup' | 'rotateGradient' | 'hybrid'
 
 export type XorigoLogoProps = {
   className?: string

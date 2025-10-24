@@ -3,6 +3,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: #000000;
   }
 
   body {
@@ -11,5 +12,9 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
   }
 }

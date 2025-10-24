@@ -4,7 +4,8 @@
  * 包含 Xorigo 品牌Logo和相关品牌元素
  */
 
-export type { XorigoLogoProps, Mode } from './xorigo-logo'
+export type { XorigoLogoProps } from './xorigo-logo'
+export type { Mode } from './xorigo-logo'
 export { XorigoLogo } from './xorigo-logo'
 
 // 兼容性导出 - 保持向后兼容

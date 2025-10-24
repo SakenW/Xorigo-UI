@@ -44,10 +44,6 @@ export type {
 // Advanced Card 组件系列
 export {
   AdvancedCard,
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
   StatCard,
   ProductCard,
   ArticleCard,
@@ -55,9 +51,6 @@ export {
 } from './advanced-card/advanced-card'
 export type {
   CardProps,
-  CardHeaderProps,
-  CardContentProps,
-  CardFooterProps,
   StatCardProps,
   ProductCardProps,
   ArticleCardProps,

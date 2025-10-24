@@ -116,7 +116,7 @@ export const XorigoLogoLoader: React.FC<XorigoLogoLoaderProps> = ({
               aria-label="加载进度"
             >
               <motion.div
-                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-500"
+                className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 shadow-lg"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: duration / 1000, ease: "easeOut" }}
@@ -134,7 +134,7 @@ export const XorigoLogoLoader: React.FC<XorigoLogoLoaderProps> = ({
               aria-label="加载中"
             >
               <motion.div
-                className="absolute top-0 bottom-0 w-1/3 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500"
+                className="absolute top-0 bottom-0 w-1/3 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 shadow-lg"
                 initial={{ x: '-40%' }}
                 animate={{ x: '120%' }}
                 transition={{ duration: 1.1, repeat: Infinity, ease: 'linear' }}

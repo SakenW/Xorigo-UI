@@ -1,130 +1,179 @@
-# Xorigo UI 组件文档
+# Xorigo UI 组件库
 
-> Xorigo UI 组件库完整 API 文档
+> 基于 Atomic Design 原则的现代化 React 组件集合
 
-## 组件总览
+## 📋 组件分类
 
-Xorigo UI 提供 **42 个**高质量 React 组件，涵盖 UI、高级、反馈、导航和 Radix 集成等多个分类。
+### 🎨 UI 组件 (`ui/`)
+基础界面元素，构成用户界面的基本单元
 
-## 统计信息
+- **Button** - 按钮组件，支持多种变体和尺寸
+- **Input** - 输入框组件，包含多种输入类型
+- **Card** - 卡片容器组件
+- **Avatar** - 头像组件
+- **Badge** - 徽章/标签组件
+- **Skeleton** - 骨架屏加载组件
+- **Divider** - 分割线组件
+- **Spinner** - 加载指示器
+- **Checkbox** - 复选框组件
+- **Radio** - 单选框组件
+- **Select** - 选择器组件
+- **Switch** - 开关组件
+- **Textarea** - 多行文本输入
+- **Pagination** - 分页组件
+- **Breadcrumb** - 面包屑导航
+- **Tooltip** - 工具提示
+- **SearchInput** - 搜索输入框
+- **PasswordInput** - 密码输入框
+- **InputNumber** - 数字输入框
+- **ButtonGroup** - 按钮组
+- **Combobox** - 组合框
+- **Command** - 命令面板
+- **SwitchNoMotion** - 无动画开关
 
-- **组件数量**: 42 / 42
-- **Props 总数**: 241
-- **变体总数**: 4
-- **文档生成日期**: 2025/10/12
+### 💬 反馈组件 (`feedback/`)
+用于向用户提供反馈和状态信息的组件
 
-## UI 组件
+- **Alert** - 警告提示组件
+- **Toast** - 轻量级消息提示
+- **Notification** - 通知消息组件
+- **Loading** - 加载状态组件
+- **Progress** - 进度条组件
+- **Modal** - 模态框组件
+- **ThemeToggle** - 主题切换器
 
-| 组件 | Props 数量 | 变体数量 | 文档路径 |
-|------|------------|----------|----------|
-| [Avatar](./ui/Avatar.md) | 10 | 0 | `docs/components/ui/Avatar.md` |
-| [Badge](./ui/Badge.md) | 9 | 0 | `docs/components/ui/Badge.md` |
-| [Breadcrumb](./ui/Breadcrumb.md) | 5 | 0 | `docs/components/ui/Breadcrumb.md` |
-| [Button](./ui/Button.md) | 8 | 1 | `docs/components/ui/Button.md` |
-| [ButtonGroup](./ui/ButtonGroup.md) | 5 | 1 | `docs/components/ui/ButtonGroup.md` |
-| [Card](./ui/Card.md) | 8 | 1 | `docs/components/ui/Card.md` |
-| [Checkbox](./ui/Checkbox.md) | 5 | 0 | `docs/components/ui/Checkbox.md` |
-| [Combobox](./ui/Combobox.md) | 17 | 0 | `docs/components/ui/Combobox.md` |
-| [Command](./ui/Command.md) | 4 | 0 | `docs/components/ui/Command.md` |
-| [Divider](./ui/Divider.md) | 6 | 0 | `docs/components/ui/Divider.md` |
-| [Input](./ui/Input.md) | 18 | 0 | `docs/components/ui/Input.md` |
-| [InputNumber](./ui/InputNumber.md) | 6 | 0 | `docs/components/ui/InputNumber.md` |
-| [PasswordInput](./ui/PasswordInput.md) | 1 | 0 | `docs/components/ui/PasswordInput.md` |
-| [Pagination](./ui/Pagination.md) | 12 | 0 | `docs/components/ui/Pagination.md` |
-| [Radio](./ui/Radio.md) | 5 | 0 | `docs/components/ui/Radio.md` |
-| [SearchInput](./ui/SearchInput.md) | 4 | 0 | `docs/components/ui/SearchInput.md` |
-| [Select](./ui/Select.md) | 7 | 0 | `docs/components/ui/Select.md` |
-| [Skeleton](./ui/Skeleton.md) | 5 | 0 | `docs/components/ui/Skeleton.md` |
-| [Spinner](./ui/Spinner.md) | 2 | 1 | `docs/components/ui/Spinner.md` |
-| [Switch](./ui/Switch.md) | 9 | 0 | `docs/components/ui/Switch.md` |
-| [SwitchNoMotion](./ui/SwitchNoMotion.md) | 7 | 0 | `docs/components/ui/SwitchNoMotion.md` |
-| [Textarea](./ui/Textarea.md) | 9 | 0 | `docs/components/ui/Textarea.md` |
-| [Tooltip](./ui/Tooltip.md) | 11 | 0 | `docs/components/ui/Tooltip.md` |
+### 🧭 导航组件 (`navigation/`)
+用于页面导航和布局的组件
 
-## 高级组件
+- **Sidebar** - 侧边栏导航
+- **Tabs** - 标签页组件
+- **DataTable** - 数据表格
+- **ResponsiveLayout** - 响应式布局
+- **BasicHeader** - 基础页头
 
-| 组件 | Props 数量 | 变体数量 | 文档路径 |
-|------|------------|----------|----------|
-| [AdvancedCard](./advanced/AdvancedCard.md) | 0 | 0 | `docs/components/advanced/AdvancedCard.md` |
-| [AnimatedCard](./advanced/AnimatedCard.md) | 8 | 0 | `docs/components/advanced/AnimatedCard.md` |
-| [Dialog](./advanced/Dialog.md) | 0 | 0 | `docs/components/advanced/Dialog.md` |
-| [InteractionStates](./advanced/InteractionStates.md) | 0 | 0 | `docs/components/advanced/InteractionStates.md` |
-| [MicroInteractions](./advanced/MicroInteractions.md) | 0 | 0 | `docs/components/advanced/MicroInteractions.md` |
+### 🚀 高级组件 (`advanced/`)
+复杂交互和复合组件
 
-## 反馈组件
+- **Dialog** - 对话框组件
+- **AdvancedCard** - 高级卡片组件
+- **AnimatedCard** - 动画卡片组件
+- **MicroInteractions** - 微交互组件
+- **InteractionStates** - 交互状态组件
 
-| 组件 | Props 数量 | 变体数量 | 文档路径 |
-|------|------------|----------|----------|
-| [Alert](./feedback/Alert.md) | 7 | 0 | `docs/components/feedback/Alert.md` |
-| [Loading](./feedback/Loading.md) | 4 | 0 | `docs/components/feedback/Loading.md` |
-| [Modal](./feedback/Modal.md) | 13 | 0 | `docs/components/feedback/Modal.md` |
-| [Notification](./feedback/Notification.md) | 0 | 0 | `docs/components/feedback/Notification.md` |
-| [Progress](./feedback/Progress.md) | 9 | 0 | `docs/components/feedback/Progress.md` |
-| [ThemeToggle](./feedback/ThemeToggle.md) | 4 | 0 | `docs/components/feedback/ThemeToggle.md` |
-| [Toast](./feedback/Toast.md) | 0 | 0 | `docs/components/feedback/Toast.md` |
+### 🔧 Radix UI 组件 (`radix/`)
+基于 Radix UI 的无障碍组件
 
-## 导航组件
+- **Accordion** - 手风琴组件
+- **DropdownMenu** - 下拉菜单组件
 
-| 组件 | Props 数量 | 变体数量 | 文档路径 |
-|------|------------|----------|----------|
-| [Breadcrumb](./navigation/Breadcrumb.md) | 5 | 0 | `docs/components/ui/Breadcrumb.md` |
-| [BasicHeader](./navigation/BasicHeader.md) | 0 | 0 | `docs/components/navigation/BasicHeader.md` |
-| [DataTable](./navigation/DataTable.md) | 0 | 0 | `docs/components/navigation/DataTable.md` |
-| [ResponsiveLayout](./navigation/ResponsiveLayout.md) | 7 | 0 | `docs/components/navigation/ResponsiveLayout.md` |
-| [Sidebar](./navigation/Sidebar.md) | 10 | 0 | `docs/components/navigation/Sidebar.md` |
-| [Tabs](./navigation/Tabs.md) | 6 | 0 | `docs/components/navigation/Tabs.md` |
+## 🎯 组件特性
 
-## Radix 组件
+### ✨ 统一的设计系统
+- **七轴主题支持** - 所有组件完全支持七轴主题系统
+- **原子化设计** - 基于 Atomic Design 原则的组件架构
+- **响应式设计** - 移动优先的响应式布局
+- **可访问性** - 符合 WCAG 2.1 AA 标准
 
-| 组件 | Props 数量 | 变体数量 | 文档路径 |
-|------|------------|----------|----------|
-| [Accordion](./radix/Accordion.md) | 0 | 0 | `docs/components/radix/Accordion.md` |
-| [DropdownMenu](./radix/DropdownMenu.md) | 0 | 0 | `docs/components/radix/DropdownMenu.md` |
+### 🔧 开发体验
+- **TypeScript 优先** - 完整的类型定义和智能提示
+- **一致性 API** - 统一的组件接口设计
+- **组合式设计** - 高度可组合和可定制
+- **性能优化** - 基于现代 React 的最佳性能实践
 
-## 快速开始
+### 🎨 样式系统
+- **CSS 变量驱动** - 完全基于 CSS 变量的样式系统
+- **Tailwind CSS 集成** - 深度集成 Tailwind CSS 4
+- **主题切换** - 支持实时主题切换
+- **动画支持** - 基于 Framer Motion 12 的流畅动画
+
+## 📖 使用指南
 
 ### 安装
-
 ```bash
 npm install @xorigo-ui/core
 ```
 
-### 基础使用
-
-```tsx
+### 基础用法
+```typescript
 import { Button, Card, Input } from '@xorigo-ui/core'
 
-function App() {
+function MyComponent() {
   return (
-    <Card>
-      <Input placeholder="输入内容" />
+    <Card className="p-4">
+      <Input placeholder="输入内容..." className="mb-4" />
       <Button variant="primary">提交</Button>
     </Card>
   )
 }
 ```
 
-## 文档说明
+### 主题配置
+```typescript
+import { StyleRecipeProvider } from '@xorigo-ui/core'
 
-每个组件文档包含：
+function App() {
+  return (
+    <StyleRecipeProvider recipe="dark.cool-blue.vivid.bright.comfortable.medium.high">
+      <MyApp />
+    </StyleRecipeProvider>
+  )
+}
+```
 
-- **概述**: 组件用途和设计理念
-- **API 参考**: 完整的 Props 类型定义
-- **变体展示**: 所有可用的 variants 和 sizes
-- **使用示例**: 基础和高级用法代码
-- **可访问性**: ARIA 属性和键盘操作说明
-- **主题支持**: 主题系统集成方式
-- **TypeScript**: 类型定义和使用方法
+## 🎨 组件 API 标准
 
-## 资源链接
+### 基础属性
+所有组件都支持以下基础属性：
 
-- [项目主页](../../README.md)
-- [设计系统](../design-system/README.md)
-- [主题配置](../../packages/core/src/theme/README.md)
-- [示例代码](../../examples/README.md)
+```typescript
+interface ComponentProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  disabled?: boolean
+  className?: string
+  children?: React.ReactNode
+}
+```
+
+### 事件处理
+```typescript
+interface InteractiveProps {
+  onClick?: (event: Event) => void
+  onFocus?: (event: FocusEvent) => void
+  onBlur?: (event: FocusEvent) => void
+}
+```
+
+### 状态属性
+```typescript
+interface StateProps {
+  loading?: boolean
+  error?: boolean
+  required?: boolean
+}
+```
+
+## 🧪 测试覆盖
+
+所有组件都包含完整的测试覆盖：
+
+- **渲染测试** - 确保组件正确渲染
+- **Props 测试** - 验证所有 props 的正确处理
+- **事件测试** - 测试用户交互事件
+- **可访问性测试** - 验证 ARIA 属性和键盘导航
+- **主题测试** - 确保在不同主题下正常显示
+
+## 📚 相关文档
+
+- [组件 API 文档](../api/components.md) - 详细的组件 API 参考
+- [主题系统](../theming/README.md) - 七轴主题系统详解
+- [开发指南](../development/component-development.md) - 组件开发规范
+- [设计令牌](../theming/design-tokens.md) - DTCG 标准令牌系统
+
+## 🤝 贡献
+
+欢迎为组件库贡献新的组件或改进现有组件！请查看 [贡献指南](../development/contributing.md) 了解详细信息。
 
 ---
 
-**维护**: Xorigo UI Team  
-**版本**: 0.1.0  
-**技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12
+**Xorigo UI Team** · **组件库版本** v1.4.0
