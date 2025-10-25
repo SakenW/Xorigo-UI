@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 import { createThemeStyles } from '../../utils/theme-token-mapper'
 
 // === Sidebar 变体系统 ===
@@ -184,8 +184,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   collapsedWidth = "64px",
   ...props
 }) => {
-  const { theme } = useTheme()
-  const themeStyles = createThemeStyles(theme)
+  const theme = useThemeSafe()
+  const themeStyles = theme ? createThemeStyles(theme) : {}
 
   const handleToggleCollapse = () => {
     onCollapsedChange?.(!collapsed)

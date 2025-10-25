@@ -1,14 +1,24 @@
 ---
 name: "Xorigo UI 组件 API 设计约束器"
-description: "基于 Xorigo UI v1.4 SSOT 的组件 API 设计约束工具，确保所有 primitives/ 和 components/ 层组件严格遵循统一的 API 设计规范"
+description: "基于 Xorigo UI v1.4 SSOT 的组件 API 设计约束工具，确保所有 primitives/ 和 components/ 层组件严格遵循统一的 API 设计规范，包含 API 验证、接口生成和一致性检查功能"
 author: "Xorigo UI Team"
-version: "1.4.0"
-tags: ["component-api", "design-constraints", "interface-standards", "react-patterns", "typescript"]
+version: "1.4.1"
+tags: ["component-api", "design-constraints", "interface-standards", "react-patterns", "typescript", "api-validation", "consistency-check"]
 ---
 
 # Xorigo UI 组件 API 设计约束器
 
 基于 Xorigo UI v1.4 SSOT 的组件 API 设计约束工具，确保所有组件严格遵循统一的 API 设计规范和最佳实践。
+
+## 🎯 技能功能概览
+
+**🔧 核心功能**：
+- **API 设计验证器**：验证组件 API 是否符合设计标准
+- **接口生成器**：自动生成符合规范的组件接口
+- **一致性检查器**：检查多个组件间的 API 一致性
+- **迁移助手**：帮助从旧 API 迁移到新标准
+- **约束规则引擎**：强制执行 API 设计规范
+- **命名规范验证**：确保文件和组件命名符合标准
 
 ## 🎯 作用域边界
 
@@ -855,3 +865,358 @@ packages/core/src/utils/
 - **测试覆盖**：API 接口的单元测试覆盖
 
 基于 Xorigo UI v1.4 SSOT，确保所有组件 API 设计的一致性、可维护性和用户体验。
+
+---
+
+## 🔗 API 设计验证器功能
+
+### 1. API 标准验证器
+
+```typescript
+// API 标准验证器
+class APIDesignValidator {
+  validateComponentAPI(componentName: string, componentDefinition: ComponentDefinition): APIValidationResult {
+    const result: APIValidationResult = {
+      valid: true,
+      errors: [],
+      warnings: [],
+      recommendations: [],
+      score: 100
+    }
+
+    // 1. 验证基础接口继承
+    this.validateBaseInterfaces(componentDefinition, result)
+
+    // 2. 验证Props命名规范
+    this.validatePropsNaming(componentDefinition, result)
+
+    // 3. 验证事件处理器
+    this.validateEventHandlers(componentDefinition, result)
+
+    // 4. 验证可访问性
+    this.validateAccessibilityProps(componentDefinition, result)
+
+    // 5. 验证变体系统
+    this.validateVariantSystem(componentDefinition, result)
+
+    // 6. 验证TypeScript类型
+    this.validateTypeScriptTypes(componentDefinition, result)
+
+    // 计算最终得分
+    result.score = this.calculateValidationScore(result)
+
+    return result
+  }
+
+  private validatePropsNaming(definition: ComponentDefinition, result: APIValidationResult): void {
+    const props = definition.props || []
+
+    // 检查布尔值命名
+    const booleanProps = props.filter(prop => prop.type === 'boolean')
+    const namingIssues = booleanProps.filter(prop =>
+      !prop.name.startsWith('is') &&
+      !prop.name.startsWith('has') &&
+      !prop.name.startsWith('should') &&
+      prop.name !== 'disabled' &&
+      prop.name !== 'loading' &&
+      prop.name !== 'readonly'
+    )
+
+    namingIssues.forEach(issue => {
+      result.warnings.push({
+        type: 'boolean_naming',
+        message: `布尔值Prop建议使用is/has/should前缀: ${issue.name}`,
+        suggestion: this.suggestBooleanPropName(issue.name),
+        severity: 'warning'
+      })
+    })
+  }
+
+  private validateVariantSystem(definition: ComponentDefinition, result: APIValidationResult): void {
+    // 检查变体定义
+    if (definition.variants) {
+      // 验证尺寸变体
+      const validSizes = ['xs', 'sm', 'md', 'lg', 'xl']
+      const sizeVariant = definition.variants.find(v => v.name === 'size')
+      if (sizeVariant) {
+        const invalidSizes = Object.keys(sizeVariant.values).filter(size => !validSizes.includes(size))
+        if (invalidSizes.length > 0) {
+          result.errors.push({
+            type: 'invalid_size_variant',
+            message: `无效的尺寸变体: ${invalidSizes.join(', ')}`,
+            suggestion: `使用标准尺寸: ${validSizes.join(', ')}`,
+            severity: 'error'
+          })
+        }
+      }
+
+      // 验证变体类型
+      const validVariants = ['primary', 'secondary', 'success', 'warning', 'danger', 'neutral']
+      const variantType = definition.variants.find(v => v.name === 'variant')
+      if (variantType) {
+        const invalidVariants = Object.keys(variantType.values).filter(v => !validVariants.includes(v))
+        if (invalidVariants.length > 0) {
+          result.warnings.push({
+            type: 'non_standard_variant',
+            message: `非标准变体: ${invalidVariants.join(', ')}`,
+            suggestion: `考虑使用标准变体: ${validVariants.join(', ')}`,
+            severity: 'warning'
+          })
+        }
+      }
+    }
+  }
+}
+```
+
+### 2. 组件接口生成器
+
+```typescript
+// 组件接口生成器
+class ComponentInterfaceGenerator {
+  generateComponentInterface(config: ComponentConfig): GeneratedInterface {
+    const interfaceConfig = this.buildInterfaceConfig(config)
+
+    return {
+      interfaceDefinition: this.generateInterfaceCode(interfaceConfig),
+      variantDefinition: this.generateVariantCode(interfaceConfig),
+      typeDefinition: this.generateTypeCode(interfaceConfig),
+      testProps: this.generateTestProps(interfaceConfig),
+      accessibilityProps: this.generateAccessibilityProps(interfaceConfig),
+      usageExamples: this.generateUsageExamples(interfaceConfig),
+      migrationGuide: this.generateMigrationGuide(interfaceConfig)
+    }
+  }
+
+  private generateInterfaceCode(config: InterfaceConfig): string {
+    const imports = this.generateImports(config)
+    const baseInterface = this.generateBaseInterface(config)
+    const propsInterface = this.generatePropsInterface(config)
+    const componentDefinition = this.generateComponentDefinition(config)
+
+    return `${imports}
+
+${baseInterface}
+
+${propsInterface}
+
+${componentDefinition}`
+  }
+
+  private generateBaseInterface(config: InterfaceConfig): string {
+    const baseType = this.getBaseType(config.type, config.htmlElement)
+
+    return `export interface ${config.name}Props
+  extends ${baseType}${config.extends ? ', ' + config.extends : ''} {
+  // 组件特定属性
+  ${config.props.map(prop => this.generatePropDefinition(prop)).join('\n  ')}
+}`
+  }
+}
+```
+
+### 3. API 一致性检查器
+
+```typescript
+// API 一致性检查器
+class APIConsistencyChecker {
+  checkConsistency(components: ComponentDefinition[]): ConsistencyReport {
+    const report: ConsistencyReport = {
+      overallScore: 0,
+      inconsistencies: [],
+      recommendations: [],
+      componentScores: {}
+    }
+
+    // 检查尺寸系统一致性
+    const sizeConsistency = this.checkSizeConsistency(components)
+    report.inconsistencies.push(...sizeConsistency.inconsistencies)
+
+    // 检查变体系统一致性
+    const variantConsistency = this.checkVariantConsistency(components)
+    report.inconsistencies.push(...variantConsistency.inconsistencies)
+
+    // 检查事件处理器一致性
+    const eventConsistency = this.checkEventConsistency(components)
+    report.inconsistencies.push(...eventConsistency.inconsistencies)
+
+    // 检查可访问性一致性
+    const accessibilityConsistency = this.checkAccessibilityConsistency(components)
+    report.inconsistencies.push(...accessibilityConsistency.inconsistencies)
+
+    return report
+  }
+
+  private checkSizeConsistency(components: ComponentDefinition[]): ConsistencyCheck {
+    const check: ConsistencyCheck = {
+      type: 'size_consistency',
+      inconsistencies: [],
+      scores: {}
+    }
+
+    // 标准尺寸
+    const standardSizes = ['xs', 'sm', 'md', 'lg', 'xl']
+
+    components.forEach(component => {
+      let componentScore = 100
+      const componentSizes = this.getComponentSizes(component)
+
+      // 检查是否使用了标准尺寸
+      const nonStandardSizes = componentSizes.filter(size => !standardSizes.includes(size))
+      if (nonStandardSizes.length > 0) {
+        check.inconsistencies.push({
+          component: component.name,
+          type: 'non_standard_sizes',
+          message: `使用了非标准尺寸: ${nonStandardSizes.join(', ')}`,
+          severity: 'warning',
+          suggestion: `使用标准尺寸: ${standardSizes.join(', ')}`
+        })
+        componentScore -= nonStandardSizes.length * 10
+      }
+
+      check.scores[component.name] = Math.max(0, componentScore)
+    })
+
+    return check
+  }
+}
+```
+
+### 4. API 迁移助手
+
+```typescript
+// API 迁移助手
+class APIMigrationHelper {
+  generateMigrationPlan(oldAPI: ComponentDefinition, newAPI: ComponentDefinition): MigrationPlan {
+    return {
+      breakingChanges: this.identifyBreakingChanges(oldAPI, newAPI),
+      migrationSteps: this.generateMigrationSteps(oldAPI, newAPI),
+      codeMapping: this.generateCodeMapping(oldAPI, newAPI),
+      compatibilityLayer: this.generateCompatibilityLayer(oldAPI, newAPI),
+      timeline: this.estimateMigrationTimeline(oldAPI, newAPI),
+      risks: this.identifyMigrationRisks(oldAPI, newAPI)
+    }
+  }
+
+  private identifyBreakingChanges(oldAPI: ComponentDefinition, newAPI: ComponentDefinition): BreakingChange[] {
+    const changes: BreakingChange[] = []
+
+    // 检查Props变更
+    const oldProps = new Set(oldAPI.props?.map(p => p.name) || [])
+    const newProps = new Set(newAPI.props?.map(p => p.name) || [])
+
+    // 被移除的Props
+    const removedProps = [...oldProps].filter(prop => !newProps.has(prop))
+    removedProps.forEach(prop => {
+      changes.push({
+        type: 'prop_removed',
+        prop,
+        description: `属性 ${prop} 已被移除`,
+        impact: 'breaking',
+        migration: this.getPropMigration(prop, oldAPI, newAPI)
+      })
+    })
+
+    return changes
+  }
+}
+```
+
+## 🚀 增强使用方法
+
+### API 合规性检查
+
+```bash
+# 验证组件接口
+"验证 Button 组件的 API 接口是否符合设计规范"
+
+# 检查组件实现
+"检查 Card 组件的实现是否遵循标准模式"
+
+# 批量验证
+"验证 primitives/ 目录下所有组件的 API 设计合规性"
+```
+
+### 组件创建与接口生成
+
+```bash
+# 创建新组件
+"创建新的 Badge 组件，遵循完整的 API 设计规范"
+
+# 生成组件接口
+"为新的 Toast 组件生成符合标准的 API 接口"
+
+# 扩展组件
+"为 Input 组件添加密码切换功能"
+```
+
+### 一致性与迁移
+
+```bash
+# 检查一致性
+"检查所有组件的 API 一致性，识别不一致的地方"
+
+# 生成迁移计划
+"为现有组件生成从旧 API 到新标准的迁移计划"
+
+# API 迁移
+"将现有 Button 组件迁移到新的 API 标准"
+```
+
+## 📊 增强验证报告格式
+
+```
+🔧 组件 API 设计约束验证报告
+📦 组件: Button
+📅 时间: 2025-01-XX
+
+✅ 接口验证通过
+- ✅ 继承 HTMLButtonElement 属性
+- ✅ 实现 CVA 变体系统
+- ✅ 包含必需的 Props 接口
+- ✅ 文件命名遵循 kebab-case 规范
+- ✅ API 设计符合标准规范
+
+✅ 一致性检查通过
+- ✅ 尺寸系统与组件库保持一致
+- ✅ 变体命名符合标准规范
+- ✅ 事件处理器命名规范正确
+
+⚠️ 警告 (1)
+- ⚠️ 建议添加键盘导航支持
+
+❌ 错误 (0)
+
+🛠️ 改进建议:
+1. 添加 onKeyDown 事件处理
+2. 完善可访问性支持
+
+📊 合规性评分: 95/100
+🎯 API 设计质量: 优秀
+📝 文件命名规范: ✅ 符合 kebab-case 标准
+🔗 API 一致性: ✅ 与组件库保持一致
+```
+
+## 📋 API 设计标准总结
+
+### 基础Props 标准
+- **StandardSizes**: xs | sm | md | lg | xl
+- **StandardVariants**: primary | secondary | success | warning | danger | neutral
+- **StandardStates**: disabled | loading | error | required
+- **StyleExtensions**: className | style | testId | data-testid
+
+### 接口继承层次
+```
+BaseComponentProps (基础组件)
+├─ InteractiveComponentProps (交互组件)
+├─ FormComponentProps (表单组件)
+└─ CompositeComponentProps (复合组件)
+```
+
+### 命名规范
+- **布尔值**: is/has/should 前缀
+- **事件处理器**: on + 驼峰命名
+- **测试属性**: testId, data-testid
+- **可访问性**: aria-* 前缀
+
+基于 Xorigo UI v1.4 SSOT，确保所有组件 API 设计的一致性、可维护性和用户体验，同时提供完整的API验证、生成和迁移支持。

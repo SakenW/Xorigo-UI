@@ -9,7 +9,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 import { createPortal } from 'react-dom'
 
 // =============================================================================
@@ -187,7 +187,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
     const [isVisible, setIsVisible] = useState(false)
     const [isDelayedVisible, setIsDelayedVisible] = useState(false)
     const triggerRef = useRef<HTMLDivElement>(null)
@@ -197,10 +197,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--tooltip-bg': `hsl(${theme.colors.popover})`,
-      '--tooltip-border': `hsl(${theme.colors.border.primary})`,
-      '--tooltip-text': `hsl(${theme.colors.text.primary})`,
-      '--tooltip-arrow': `hsl(${theme.colors.border.primary})`,
+      '--tooltip-bg': `hsl(${theme?.colors.popover || '#ffffff'})`,
+      '--tooltip-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--tooltip-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--tooltip-arrow': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
       // 可根据七轴动态调整
     }
 

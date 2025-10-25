@@ -9,7 +9,7 @@
 import React, { useState, useMemo } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useTheme, useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -298,7 +298,7 @@ function TableInner<T = any>({
   className,
   ...props
 }: TableProps<T>) {
-  const { theme } = useTheme()
+  const theme = useThemeSafe()
   const [selectedRows, setSelectedRows] = useState<T[]>(defaultSelectedRows)
   const [sorting, setSorting] = useState<{ column: string; direction: 'asc' | 'desc' } | undefined>(
     defaultSorting

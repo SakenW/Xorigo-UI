@@ -26,8 +26,8 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@xorigo-ui/style-recipe": "file:../style-recipe",
-    "@xorigo-ui/tokens": "file:../tokens"
+    "@xorigo-ui/style-recipe": "workspace:*",
+    "@xorigo-ui/tokens": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

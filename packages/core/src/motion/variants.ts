@@ -16,7 +16,7 @@ import { animationSystem } from './animation-system'
 /**
  * 淡入淡出动画变体
  */
-export const fadeVariants: Variants = {
+const fadeVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
   exit: { opacity: 0 }
@@ -25,7 +25,7 @@ export const fadeVariants: Variants = {
 /**
  * 滑动动画变体
  */
-export const slideVariants: Variants = {
+const slideVariants: Variants = {
   hidden: (direction: 'up' | 'down' | 'left' | 'right' = 'up') => {
     const directionMap = {
       up: { y: 50 },
@@ -60,7 +60,7 @@ export const slideVariants: Variants = {
 /**
  * 缩放动画变体
  */
-export const scaleVariants: Variants = {
+const scaleVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.8
@@ -78,7 +78,7 @@ export const scaleVariants: Variants = {
 /**
  * 旋转动画变体
  */
-export const rotateVariants: Variants = {
+const rotateVariants: Variants = {
   hidden: {
     opacity: 0,
     rotate: -180
@@ -100,7 +100,7 @@ export const rotateVariants: Variants = {
 /**
  * 弹跳动画变体
  */
-export const bounceVariants: Variants = {
+const bounceVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.3,
@@ -127,7 +127,7 @@ export const bounceVariants: Variants = {
 /**
  * 弹性动画变体
  */
-export const elasticVariants: Variants = {
+const elasticVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0
@@ -151,7 +151,7 @@ export const elasticVariants: Variants = {
 /**
  * 翻转动画变体
  */
-export const flipVariants: Variants = {
+const flipVariants: Variants = {
   hidden: {
     opacity: 0,
     rotateY: -90,
@@ -176,7 +176,7 @@ export const flipVariants: Variants = {
 /**
  * 悬停状态变体
  */
-export const hoverVariants: Variants = {
+const hoverVariants: Variants = {
   rest: {
     scale: 1,
     transition: {
@@ -196,7 +196,7 @@ export const hoverVariants: Variants = {
 /**
  * 点击状态变体
  */
-export const tapVariants: Variants = {
+const tapVariants: Variants = {
   rest: {
     scale: 1,
     transition: {
@@ -216,7 +216,7 @@ export const tapVariants: Variants = {
 /**
  * 焦点状态变体
  */
-export const focusVariants: Variants = {
+const focusVariants: Variants = {
   rest: {
     scale: 1,
     transition: {
@@ -236,7 +236,7 @@ export const focusVariants: Variants = {
 /**
  * 激活状态变体
  */
-export const activeVariants: Variants = {
+const activeVariants: Variants = {
   rest: {
     scale: 1,
     transition: {
@@ -260,7 +260,7 @@ export const activeVariants: Variants = {
 /**
  * 错位动画变体
  */
-export const staggerVariants: Variants = {
+const staggerVariants: Variants = {
   container: {
     hidden: {},
     visible: {
@@ -285,7 +285,7 @@ export const staggerVariants: Variants = {
 /**
  * 波纹动画变体
  */
-export const rippleVariants: Variants = {
+const rippleVariants: Variants = {
   initial: {
     scale: 0,
     opacity: 1
@@ -299,7 +299,7 @@ export const rippleVariants: Variants = {
 /**
  * 脉冲动画变体
  */
-export const pulseVariants: Variants = {
+const pulseVariants: Variants = {
   initial: {
     scale: 1,
     opacity: 1
@@ -318,7 +318,7 @@ export const pulseVariants: Variants = {
 /**
  * 摇摆动画变体
  */
-export const swingVariants: Variants = {
+const swingVariants: Variants = {
   rest: {
     rotate: 0
   },
@@ -334,7 +334,7 @@ export const swingVariants: Variants = {
 /**
  * 浮动动画变体
  */
-export const floatVariants: Variants = {
+const floatVariants: Variants = {
   initial: {
     y: 0
   },
@@ -355,7 +355,7 @@ export const floatVariants: Variants = {
 /**
  * 列表项动画变体
  */
-export const listItemVariants: Variants = {
+const listItemVariants: Variants = {
   hidden: (i: number) => ({
     opacity: 0,
     y: 50,
@@ -378,7 +378,7 @@ export const listItemVariants: Variants = {
 /**
  * 网格项动画变体
  */
-export const gridItemVariants: Variants = {
+const gridItemVariants: Variants = {
   hidden: (i: number) => ({
     opacity: 0,
     scale: 0.8,
@@ -405,7 +405,7 @@ export const gridItemVariants: Variants = {
 /**
  * 布局重排动画变体
  */
-export const layoutVariants: Variants = {
+const layoutVariants: Variants = {
   hidden: {
     opacity: 0
   },
@@ -422,7 +422,7 @@ export const layoutVariants: Variants = {
 /**
  * 高度动画变体
  */
-export const heightVariants: Variants = {
+const heightVariants: Variants = {
   collapsed: {
     height: 0,
     opacity: 0,
@@ -444,7 +444,7 @@ export const heightVariants: Variants = {
 /**
  * 宽度动画变体
  */
-export const widthVariants: Variants = {
+const widthVariants: Variants = {
   collapsed: {
     width: 0,
     opacity: 0,
@@ -470,7 +470,7 @@ export const widthVariants: Variants = {
 /**
  * 加载状态变体
  */
-export const loadingVariants: Variants = {
+const loadingVariants: Variants = {
   initial: {
     rotate: 0
   },
@@ -487,7 +487,7 @@ export const loadingVariants: Variants = {
 /**
  * 成功状态变体
  */
-export const successVariants: Variants = {
+const successVariants: Variants = {
   initial: {
     scale: 0,
     opacity: 0
@@ -505,7 +505,7 @@ export const successVariants: Variants = {
 /**
  * 错误状态变体
  */
-export const errorVariants: Variants = {
+const errorVariants: Variants = {
   initial: {
     x: 0
   },
@@ -521,7 +521,7 @@ export const errorVariants: Variants = {
 /**
  * 警告状态变体
  */
-export const warningVariants: Variants = {
+const warningVariants: Variants = {
   initial: {
     scale: 1,
     opacity: 1
@@ -544,7 +544,7 @@ export const warningVariants: Variants = {
 /**
  * 菜单项动画变体
  */
-export const menuItemVariants: Variants = {
+const menuItemVariants: Variants = {
   initial: {
     opacity: 0,
     x: -20
@@ -570,7 +570,7 @@ export const menuItemVariants: Variants = {
 /**
  * 侧边栏动画变体
  */
-export const sidebarVariants: Variants = {
+const sidebarVariants: Variants = {
   hidden: {
     x: '-100%',
     transition: {
@@ -590,7 +590,7 @@ export const sidebarVariants: Variants = {
 /**
  * 下拉菜单动画变体
  */
-export const dropdownVariants: Variants = {
+const dropdownVariants: Variants = {
   hidden: {
     opacity: 0,
     y: -10,
@@ -618,7 +618,7 @@ export const dropdownVariants: Variants = {
 /**
  * 模态框背景动画变体
  */
-export const modalOverlayVariants: Variants = {
+const modalOverlayVariants: Variants = {
   hidden: {
     opacity: 0
   },
@@ -634,7 +634,7 @@ export const modalOverlayVariants: Variants = {
 /**
  * 模态框内容动画变体
  */
-export const modalContentVariants: Variants = {
+const modalContentVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.9,
@@ -658,7 +658,7 @@ export const modalContentVariants: Variants = {
 /**
  * 工具提示动画变体
  */
-export const tooltipVariants: Variants = {
+const tooltipVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.8,
@@ -789,35 +789,35 @@ animationSystem.registerVariants('modal', {
 // =============================================================================
 
 export {
-  fadeVariants,
-  slideVariants,
-  scaleVariants,
-  rotateVariants,
-  bounceVariants,
-  elasticVariants,
-  flipVariants,
-  hoverVariants,
-  tapVariants,
-  focusVariants,
-  activeVariants,
-  staggerVariants,
-  rippleVariants,
-  pulseVariants,
-  swingVariants,
-  floatVariants,
-  listItemVariants,
-  gridItemVariants,
-  layoutVariants,
-  heightVariants,
-  widthVariants,
-  loadingVariants,
-  successVariants,
-  errorVariants,
-  warningVariants,
-  menuItemVariants,
-  sidebarVariants,
-  dropdownVariants,
-  modalOverlayVariants,
-  modalContentVariants,
-  tooltipVariants
+  fadeVariants as motionFadeVariants,
+  slideVariants as motionSlideVariants,
+  scaleVariants as motionScaleVariants,
+  rotateVariants as motionRotateVariants,
+  bounceVariants as motionBounceVariants,
+  elasticVariants as motionElasticVariants,
+  flipVariants as motionFlipVariants,
+  hoverVariants as motionHoverVariants,
+  tapVariants as motionTapVariants,
+  focusVariants as motionFocusVariants,
+  activeVariants as motionActiveVariants,
+  staggerVariants as motionStaggerVariants,
+  rippleVariants as motionRippleVariants,
+  pulseVariants as motionPulseVariants,
+  swingVariants as motionSwingVariants,
+  floatVariants as motionFloatVariants,
+  listItemVariants as motionListItemVariants,
+  gridItemVariants as motionGridItemVariants,
+  layoutVariants as motionLayoutVariants,
+  heightVariants as motionHeightVariants,
+  widthVariants as motionWidthVariants,
+  loadingVariants as motionLoadingVariants,
+  successVariants as motionSuccessVariants,
+  errorVariants as motionErrorVariants,
+  warningVariants as motionWarningVariants,
+  menuItemVariants as motionMenuItemVariants,
+  sidebarVariants as motionSidebarVariants,
+  dropdownVariants as motionDropdownVariants,
+  modalOverlayVariants as motionModalOverlayVariants,
+  modalContentVariants as motionModalContentVariants,
+  tooltipVariants as motionTooltipVariants
 }

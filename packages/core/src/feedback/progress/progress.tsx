@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -174,7 +174,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 计算进度百分比
     const percentage = React.useMemo(() => {
@@ -193,12 +193,12 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--progress-bg': `hsl(${theme.colors.background})`,
-      '--progress-foreground': `hsl(${theme.colors.primary})`,
-      '--progress-secondary': `hsl(${theme.colors.secondary})`,
-      '--progress-success': `hsl(${theme.colors.success})`,
-      '--progress-warning': `hsl(${theme.colors.warning})`,
-      '--progress-destructive': `hsl(${theme.colors.danger})`,
+      '--progress-bg': `hsl(${theme?.colors.background || '#000000'})`,
+      '--progress-foreground': `hsl(${theme?.colors.primary || '#2196f3'})`,
+      '--progress-secondary': `hsl(${theme?.colors.secondary || '#9c27b0'})`,
+      '--progress-success': `hsl(${theme?.colors.success || '#10b981'})`,
+      '--progress-warning': `hsl(${theme?.colors.warning || '#f59e0b'})`,
+      '--progress-destructive': `hsl(${theme?.colors.danger || '#000000'})`,
       // 可根据七轴动态调整
     }
 

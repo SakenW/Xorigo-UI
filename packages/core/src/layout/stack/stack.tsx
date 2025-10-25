@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -252,7 +252,7 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
@@ -274,7 +274,7 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       }),
 
       // 主题颜色变量（用于分割线等）
-      '--stack-divider': `hsl(${theme.colors.border.primary})`,
+      '--stack-divider': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
       // 可根据七轴动态调整
     }
 
@@ -428,7 +428,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
     className,
     ...props
   }, ref) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     const dividerStyles = {
       // 颜色
@@ -436,7 +436,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       ...(color && { backgroundColor: color }),
 
       // 主题颜色
-      '--divider-color': color || `hsl(${theme.colors.border.primary})`,
+      '--divider-color': color || `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
 
       // 厚度
       ...(thickness === 'thin' && { height: orientation === 'horizontal' ? '1px' : 'auto', width: orientation === 'vertical' ? '1px' : 'auto' }),

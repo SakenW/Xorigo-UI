@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -197,7 +197,7 @@ const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成预设尺寸映射
     const sizeMap = {
@@ -267,8 +267,8 @@ const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
       ...(maxSize !== 'none' && maxSizeMap[maxSize as keyof typeof maxSizeMap]),
 
       // 主题相关样式
-      '--spacer-bg': visible ? `hsl(${theme.colors.muted})` : 'transparent',
-      '--spacer-border': visible ? `hsl(${theme.colors.border.primary})` : 'transparent',
+      '--spacer-bg': visible ? `hsl(${theme?.colors.muted || '#f5f5f5'})` : 'transparent',
+      '--spacer-border': visible ? `hsl(${theme?.colors.border.primary || '#e5e5e5'})` : 'transparent',
     }
 
     // 生成类名
@@ -399,12 +399,12 @@ export const DividerSpace = React.forwardRef<HTMLDivElement, DividerSpaceProps>(
     className,
     ...props
   }, ref) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     const dividerStyles: React.CSSProperties = {
       // 颜色
-      borderColor: `hsl(${theme.colors.border.primary})`,
-      backgroundColor: `hsl(${theme.colors.border.primary})`,
+      borderColor: `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      backgroundColor: `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
 
       // 方向控制
       ...(orientation === 'horizontal' ? {

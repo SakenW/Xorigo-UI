@@ -2,7 +2,10 @@
 """
 Xorigo UI Bash 命令验证 Hook
 
-严格禁止 npm run dev 命令，确保只能使用 Docker 热更新容器
+支持混合开发环境：
+- 本地开发模式：允许 npm run local:dev, npm run dev:core, npm run dev:website
+- Docker 开发模式：允许通过代理系统的 Docker 命令
+- 严格禁止直接运行 npm run dev，必须指定具体模式
 """
 
 import json
@@ -13,16 +16,16 @@ import os
 def is_npm_run_dev_forbidden(command):
     """检查是否为被禁止的 npm run dev 命令"""
 
-    # 定义被禁止的命令模式
+    # 定义被禁止的命令模式（模糊的 dev 命令）
     forbidden_patterns = [
-        r'npm\s+run\s+dev',
-        r'npm\s+run\s+dev:website',
-        r'yarn\s+dev',
-        r'pnpm\s+dev',
-        r'npm\s+start',
-        r'next\s+dev',
-        r'npm.*dev.*3000',
-        r'npm.*dev.*3001'
+        r'npm\s+run\s+dev$',
+        r'npm\s+run\s+dev\s*$',
+        r'yarn\s+dev$',
+        r'pnpm\s+dev$',
+        r'npm\s+start$',
+        r'next\s+dev$',
+        r'npm.*dev.*3000',  # 仍然禁止占用 3000 端口
+        r'npm.*dev.*--port\s+3000',  # 明确禁止 3000 端口
     ]
 
     command_lower = command.lower()
@@ -36,19 +39,18 @@ def is_npm_run_dev_forbidden(command):
 def check_port_usage(command):
     """检查命令是否试图使用被禁止的端口"""
 
-    # 检查是否试图使用端口 3000 或 3001
+    # 只检查是否试图使用端口 3000（为其他库保留）
     forbidden_port_patterns = [
         r'--port\s+3000',
         r'-p\s+3000',
         r':3000',
-        r'--port\s+3001',
-        r'-p\s+3001',
-        r':3001'
+        r'localhost:3000',
+        r'127\.0\.0\.1:3000'
     ]
 
     for pattern in forbidden_port_patterns:
         if re.search(pattern, command):
-            return True, f"检测到试图使用被禁止的端口: {pattern}"
+            return True, f"检测到试图使用被禁止的端口 3000: {pattern}"
 
     return False, None
 
@@ -102,7 +104,13 @@ def is_docker_allowed_command(command):
         r'\./scripts/agent-dev-server\.sh',
         r'\./scripts/dev-docker\.sh',
         r'\./scripts/test-dev-server-agent\.sh',
-        r'python3.*\.claude/hooks/validate-bash\.py'  # 允许 Hook 自身调用
+        r'python3.*\.claude/hooks/validate-bash\.py',  # 允许 Hook 自身调用
+        # 新增的本地开发命令
+        r'npm\s+run\s+local:dev',
+        r'npm\s+run\s+local:dev:all',
+        r'npm\s+run\s+dev:core',
+        r'npm\s+run\s+dev:website',
+        r'node\s+scripts/dev-env-manager\.js'
     ]
 
     # 检查是否为允许的命令
@@ -132,19 +140,17 @@ def validate_command(command):
 
     # 4. 如果不是明确允许的命令，检查是否为开发服务器相关的命令
     if not docker_allowed:
-        # 检查是否为开发服务器相关的命令
+        # 检查是否为开发服务器相关的命令（但允许明确的本地开发命令）
         dev_server_patterns = [
-            r'npm.*dev',
-            r'next.*dev',
-            r'start.*dev',
-            r'dev.*server',
+            r'npm.*dev.*--port.*3000',  # 仍然禁止占用 3000 端口
+            r'next.*dev.*--port.*3000',
             r'localhost.*3000',
-            r'localhost.*3001'
+            r'127\.0\.0\.1.*3000'
         ]
 
         for pattern in dev_server_patterns:
             if re.search(pattern, command):
-                return False, f"检测到开发服务器相关命令，请使用代理系统: {pattern}"
+                return False, f"检测到被禁止的开发服务器命令（端口 3000 为其他库保留）: {pattern}"
 
     return True, None
 
@@ -183,14 +189,15 @@ def main():
 原因: {reason}
 
 ⚠️ 重要约束:
-- ❌ 严禁使用 npm run dev 命令
+- ❌ 严禁使用模糊的 npm run dev 命令，必须指定具体模式
 - ❌ 严禁直接操作 Docker，必须通过代理系统
-- ❌ 严禁使用端口 3000/3001
-- ✅ 必须使用 Docker 热更新容器 (端口 3100)
-- ✅ 请使用代理系统: npm run agent:* 或 ./scripts/agent-dev-server.sh
+- ❌ 严禁使用端口 3000（为其他库保留）
+- ✅ 本地开发: npm run local:dev 或 npm run dev:core/website
+- ✅ Docker 开发: npm run docker:dev
+- ✅ 环境管理: node scripts/dev-env-manager.js
 
-📖 参考: docs/dev-server-agent-guide.md
-🛡️ 参考: docs/claude-hooks-protection-guide.md
+📖 参考: DEV-ENVIRONMENT.md
+🛡️ 开发环境: http://localhost:3100 (Docker) 或 http://localhost:3001 (Core)
 
 当前命令: {command}
 """

@@ -138,6 +138,12 @@ export function useTheme(): ThemeContextValue {
   return context
 }
 
+// === 安全的主题 Hook ===
+export function useThemeSafe(): ThemeContextValue | null {
+  const context = useContext(ThemeContext)
+  return context || null
+}
+
 // === 便捷 Hook ===
 export function useThemeAxes(): ThemeAxes {
   const { theme } = useTheme()

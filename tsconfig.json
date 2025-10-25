@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@xorigo-ui/core": ["./packages/core/src"],
+      "@xorigo-ui/tokens": ["./packages/tokens/src"],
+      "@xorigo-ui/system": ["./packages/system/src"],
+      "@xorigo-ui/hooks": ["./packages/hooks/src"],
+      "@xorigo-ui/i18n": ["./packages/i18n/src"],
+      "@xorigo-ui/style-recipe": ["./packages/style-recipe/src"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*",
+    "apps/*/src/**/*",
+    "scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

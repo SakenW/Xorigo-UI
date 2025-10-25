@@ -15,6 +15,7 @@ export {
 export type {
   InputProps
 } from './input/input'
+import { Input } from './input/input'
 
 // =============================================================================
 // 组件集合导出

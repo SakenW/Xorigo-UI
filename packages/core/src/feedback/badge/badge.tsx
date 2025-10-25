@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -168,7 +168,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 格式化计数
     const formattedCount = React.useMemo(() => {
@@ -188,12 +188,18 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
     }, [count, maxCount, showZero, formatter])
 
     // 生成主题相关的样式
-    const themeStyles: React.CSSProperties = {
-      '--badge-bg': `hsl(${theme.colors[variant === 'default' ? 'primary' : variant]})`,
-      '--badge-border': `hsl(${theme.colors.border.primary})`,
-      '--badge-text': `hsl(${theme.colors.text.primary})`,
-      '--badge-dot': `hsl(${theme.colors[variant === 'default' ? 'primary' : variant]})`,
+    const themeStyles: React.CSSProperties = theme ? {
+      '--badge-bg': `hsl(${theme?.colors[variant === 'default' ? 'primary' : variant]})`,
+      '--badge-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--badge-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--badge-dot': `hsl(${theme?.colors[variant === 'default' ? 'primary' : variant]})`,
       // 可根据七轴动态调整
+    } : {
+      // 默认样式，当没有主题时使用
+      '--badge-bg': 'hsl(var(--primary))',
+      '--badge-border': 'hsl(var(--border))',
+      '--badge-text': 'hsl(var(--primary-foreground))',
+      '--badge-dot': 'hsl(var(--primary))',
     }
 
     // 生成 ARIA 属性

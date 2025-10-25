@@ -13,6 +13,7 @@ export * from './form'
 export * from './typography'
 export * from './showcase'
 export * from './effects'
+export * from './motion'
 
 // 保留的旧组件（兼容性）
 export * from './data-display/table'

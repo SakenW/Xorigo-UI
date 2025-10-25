@@ -1,6 +1,8 @@
-# Xorigo UI 文档
+# 🌐 Xorigo UI 文档站点
 
-基于 Astro Starlight 构建的 Xorigo UI 技术文档站点。
+> 基于 Astro Starlight 构建的 Xorigo UI 技术文档站点
+
+**📍 重要提示**：本文档仅说明如何部署和维护文档站点。完整的 Xorigo UI 技术文档请查看 [主文档中心](../../docs/README.md)。
 
 ## 🚀 快速开始
 

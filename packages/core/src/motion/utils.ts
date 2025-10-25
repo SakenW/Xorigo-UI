@@ -206,7 +206,7 @@ export function useAnimationOrchestrator() {
 /**
  * 动画性能监控器
  */
-export class AnimationPerformanceMonitor {
+class AnimationPerformanceMonitor {
   private static instance: AnimationPerformanceMonitor
   private metrics: Map<string, PerformanceMetric> = new Map()
   private observers: Set<() => void> = new Set()

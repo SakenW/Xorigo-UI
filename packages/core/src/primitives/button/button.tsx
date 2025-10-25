@@ -7,7 +7,8 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
+import { createHSLThemeStyles } from '../../utils/theme-safe-access'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -125,7 +126,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 处理按钮状态逻辑
     const buttonState = disabled ? 'disabled' : loading ? 'loading' : state || 'default'
@@ -159,6 +160,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       )
     }
 
+    // 构建主题样式，提供安全的默认值
+    const themeStyles = {
+      // 七轴主题系统集成
+      '--button-primary': `hsl(${theme?.colors.primary || '#2196f3'})`,
+      '--button-secondary': `hsl(${theme?.colors.secondary || '#9c27b0'})`,
+      // 可根据七轴动态调整
+    } as React.CSSProperties
+
     return (
       <button
         ref={ref}
@@ -172,12 +181,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }),
           className
         )}
-        style={{
-          // 七轴主题系统集成
-          '--button-primary': `hsl(${theme.colors.primary})`,
-          '--button-secondary': `hsl(${theme.colors.secondary})`,
-          // 可根据七轴动态调整
-        } as React.CSSProperties}
+        style={themeStyles}
         {...ariaProps}
         {...props}
       >

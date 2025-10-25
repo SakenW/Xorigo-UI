@@ -2,44 +2,218 @@
 
 基于 Xorigo UI v1.4 SSOT (单一事实来源) 的专门化技能集合，为 Xorigo UI 组件库开发提供强约束和标准化支持。
 
-## 📋 Skills 总览
+## 🎯 技能重组说明
 
-### 🎯 主题系统相关 Skills
+基于冗余审查结果，对技能进行了重新分类和边界明确化，确保每个技能都有明确的职责范围。
 
-| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+---
+
+## 📋 核心技能体系 (22个)
+
+### 🎨 主题系统核心 (5个) - 完整主题开发生态
+
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
 |-----------|---------|---------|---------|
-| **xorigo-seven-axis-theme-developer** | 七轴主题系统开发器 | 七轴主题轴控制、智能约束逻辑 | 主题配置、配方创建、约束验证 |
-| **xorigo-design-tokens-manager** | 设计令牌管理器 | foundations/ 层令牌标准化 | 令牌生成、验证、CSS 变量输出 |
-| **xorigo-theme-recipe-manager** | 主题配方管理器 | recipes/ 目录配方管理 | 配方创建、注册表维护、验证 |
-| **xorigo-intelligent-constraints-system** | 智能约束系统 | A11y Guard、冲突自动解决 | 约束验证、可访问性检查、冲突解决 |
+| **xorigo-seven-axis-theme-developer** | 七轴主题系统开发 | 核心开发引擎 | 🔥 **极高** |
+| **xorigo-design-tokens-manager** | 设计令牌管理 | 标准化令牌体系 | 🔥 **极高** |
+| **xorigo-theme-recipe-manager** | 主题配方管理器 | 20+配方管理 | 🔥 **极高** |
+| **xorigo-theme-tester** | 主题测试器 | 10主题自动化测试 | 🔥 **极高** |
+| **xorigo-intelligent-constraints-system** | 智能约束系统 | 可访问性约束 + 冲突解决 | 🔥 **极高** |
 
-### 🔧 组件开发相关 Skills
+### 🔧 组件开发生态 (7个) - 完整组件开发流程
 
-| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
 |-----------|---------|---------|---------|
-| **xorigo-component-api-constraints** | 组件 API 设计约束器 | 组件接口标准化、React 模式规范 | API 设计、组件创建、接口验证 |
-| **xorigo-design-validator** | 设计系统验证器 | 设计令牌使用、主题兼容性验证 | 组件审查、设计合规检查、可访问性测试 |
+| **xorigo-component-generator** | 标准组件生成器 | 标准模板生成 | 🔥 **极高** |
+| **xorigo-component-api-constraints** | React组件API约束器 | **React专用API标准 + 验证生成** | 🔥 **极高** |
+| **xorigo-component-testing-generator** | 组件测试生成器 | 测试用例自动生成 | 🔥 **极高** |
+| **xorigo-component-variants-standard** | 组件变体标准器 | 变体规范化 | 🔥 **极高** |
+| **xorigo-accessibility-generator** | 可访问性生成器 | WCAG 2.1 AA合规 | 🔥 **极高** |
+| **xorigo-design-validator** | 设计系统验证器 | 设计令牌+主题兼容性 | 🔥 **极高** |
+| **xorigo-code-quality-guard** | 代码质量守护者 | 全方位代码质量检查 | 🔥 **极高** |
+| **xorigo-performance-optimizer** | 性能优化器 | 系统性能优化 | 🔥 **极高** |
 
-### 🚀 构建发布相关 Skills
+### 📚 文档与开发生态 (5个) - 知识管理和流程
 
-| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
 |-----------|---------|---------|---------|
-| **xorigo-build-publish-constraints** | 构建发布约束器 | 构建流程、版本控制、NPM 发布 | 构建验证、发布前检查、CI/CD 配置 |
+| **xorigo-docs-generator** | 文档生成器 | 自动化文档生成 | 🔥 **极高** |
+| **xorigo-docs-structure-helper** | 文档结构助手 | 文档规范化管理 | 🔥 **极高** |
+| **xorigo-tech-stack-docs-querier** | 技术栈文档查询器 | 技术文档检索 | ⚡ **中等** |
+| **xorigo-migration-audit-archiver** | 迁移审计归档器 | 迁移过程记录 | ⚡ **中等** |
+| **xorigo-migration-architecture-validator** | 迁移架构验证器 | 架构迁移合规性 | ⚡ **中等** |
 
-### 🔄 架构迁移相关 Skills
+### 🚀 构建与发布生态 (4个) - 自动化CI/CD
 
-| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
 |-----------|---------|---------|---------|
-| **xorigo-migration-architecture-validator** | 迁移架构验证器 | 旧版本到新架构迁移验证、Skills协调 | 架构迁移、文件重组、兼容性检查 |
+| **xorigo-build-publish-constraints** | 构建发布约束器 | 完整构建发布流程 | 🔥 **极高** |
+| **xorigo-test-automation** | 测试自动化器 | 全流程测试自动化 | 🔥 **极高** |
+| **xorigo-nextjs-architect-optimizer** | Next.js架构优化器 | 前端架构优化 | ⚡ **中等** |
+| **xorigo-docker-unified-manager** | Docker统一管理器 | 容器化环境管理 | ⚡ **中等** |
 
-### 🛠️ 现有相关 Skills
+### 🔄 主题集成系统 (1个) - 系统集成层
 
-| Skill 名称 | 功能描述 | 核心职责 | 触发场景 |
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
 |-----------|---------|---------|---------|
-| **xorigo-semantic-tokens-integrator** | 语义令牌集成器 | 七轴配方系统集成、令牌映射 | 主题切换、配方应用、令牌生成 |
-| **xorigo-accessibility-generator** | 可访问性生成器 | ARIA 属性、键盘导航、对比度检查 | 组件可访问性实现、WCAG 合规 |
-| **xorigo-performance-optimizer** | 性能优化器 | 包大小优化、渲染性能、懒加载 | 性能分析、优化建议、代码分割 |
-| **xorigo-api-design-validator** | API 设计验证器 | 接口一致性、类型安全、最佳实践 | API 审查、设计模式验证 |
+| **xorigo-semantic-tokens-integrator** | 语义令牌集成器 | 七轴配方系统集成 | 🔥 **极高** |
+
+### 📊 配方与注册 (1个) - 配方管理
+
+| 技能名称 | 主要功能 | 独特价值 | 优先级 |
+|-----------|---------|---------|---------|
+| **xorigo-recipe-registry-manager** | 配方注册管理器 | 配方注册与分发 | ⚡ **中等** |
+
+---
+
+## 🎯 技能边界明确化
+
+### 🚨 **高优先级技能边界**
+
+#### 主题系统核心技能边界
+- **xorigo-seven-axis-theme-developer**: 仅负责主题轴开发和配方创建
+- **xorigo-design-tokens-manager**: 仅负责 foundations层令牌
+- **xorigo-theme-recipe-manager**: 仅负责 recipes 目录管理
+- **xorigo-theme-tester**: 仅负责主题兼容性测试
+- **xorigo-intelligent-constraints-system**: 仅负责约束规则和冲突解决
+
+#### 组件开发生态技能边界
+- **xorigo-component-generator**: 仅负责标准组件模板生成
+- **xorigo-component-api-constraints**: **唯一**负责React组件API约束 + API验证生成
+- **xorigo-design-validator**: 集成设计令牌+主题+可访问性验证
+- **xorigo-code-quality-guard**: 仅负责代码质量检查（不包含API设计）
+
+### ⚠️ **中等优先级技能边界**
+
+#### 文档与开发生态
+- **xorigo-docs-generator**: 自动化文档生成
+- **xorigo-docs-structure-helper**: 文档结构规范化
+- **xorigo-tech-stack-docs-querier**: 技术文档检索（可考虑整合）
+
+#### 构建与发布生态
+- **xorigo-build-publish-constraints**: 构建发布流程管控
+- **xorigo-test-automation**: 测试自动化（与build-publish协调）
+- **xorigo-nextjs-architect-optimizer**: Next.js特定优化
+- **xorigo-docker-unified-manager**: Docker环境管理
+
+### 🔄 **系统边界集成层**
+
+#### 主题系统集成
+- **xorigo-semantic-tokens-integrator**: 七轴配方系统与令牌系统桥接
+
+#### 配方管理系统
+- **xorigo-recipe-registry-manager**: 配方注册和分发管理
+
+---
+
+## 🎯 去除重复功能的建议
+
+### ✅ **已完成的技能合并**
+
+#### API设计技能整合
+```
+✅ xorigo-api-design-validator (1009行)
+↓
+已整合到 xorigo-component-api-constraints v1.4.1 中
+```
+
+**完成的功能**:
+- API设计验证器功能完全合并
+- 组件接口生成器功能集成
+- API一致性检查器功能保留
+- 迁移助手功能增强
+- 版本升级至 v1.4.1
+
+### ⚠️ **功能重复但暂时保留**
+
+#### 技能重叠但领域不同
+- **API设计**: xorigo-component-api-constraints (React) vs xorigo-design-validator (通用)
+- **质量检查**: xorigo-code-quality-guard (代码) vs xorigo-design-validator (设计)
+- **性能优化**: xorigo-performance-optimizer (运行时) vs 各技能中的性能检查
+
+**保持原因**: 每个技能的检查维度和工具都不同
+
+---
+
+## 🚀 使用指南
+
+### 🎨 主题系统完整工作流
+```bash
+# 1. 创建新主题配方
+"使用 xorigo-seven-axis-theme-developer 创建七轴主题配置"
+
+# 2. 管理设计令牌
+"使用 xorigo-design-tokens-manager 标准化色彩和间距令牌"
+
+# 3. 管理主题配方
+"使用 xorigo-theme-recipe-manager 管理20+主题配方"
+
+# 4. 测试主题兼容性
+"使用 xorigo-theme-tester 自动测试10种主题"
+
+# 5. 验证约束规则
+"使用 xorigo-intelligent-constraints-system 验证七轴约束规则"
+```
+
+### 🔧 组件开发完整工作流
+```bash
+# 1. 创建标准化组件
+"使用 xorigo-component-generator 生成React组件模板"
+
+# 2. 应用API约束
+"使用 xorigo-component-api-constraints 确保API一致性"
+
+# 3. 生成测试用例
+"使用 xorigo-component-testing-generator 生成完整测试"
+
+# 4. 确保可访问性
+"使用 xorigo-accessibility-generator 实现WCAG 2.1 AA合规"
+
+# 5. 验证设计合规性
+"使用 xorigo-design-validator 检查设计令牌使用"
+
+# 6. 代码质量检查
+"使用 xorigo-code-quality-guard 检查代码规范"
+
+# 7. 性能优化
+"使用 xorigo-performance-optimizer 优化组件性能"
+```
+
+### 📚 文档自动化工作流
+```bash
+# 1. 生成API文档
+"使用 xorigo-docs-generator 自动生成组件API文档"
+
+# 2. 规范化文档结构
+"使用 xorigo-docs-structure-helper 确保文档结构一致"
+
+# 3. 技术文档查询
+"使用 xorigo-tech-stack-docs-querier 查询技术文档"
+```
+
+### 🚀 构建发布自动化工作流
+```bash
+# 1. 构建验证
+"使用 xorigo-build-publish-constraints 验证构建环境"
+
+# 2. 测试验证
+"使用 xorigo-test-automation 执行自动化测试"
+
+# 3. 发布前检查
+"使用 xorigo-build-publish-constraints 执行发布前验证"
+
+# 4. 性能优化
+"使用 xorigo-performance-optimizer 优化发布包"
+```
+
+### 🔄 系统集成工作流
+```bash
+# 主题系统集成
+"使用 xorigo-semantic-tokens-integrator 集成七轴配方系统"
+
+# 配方注册管理
+"使用 xorigo-recipe-registry-manager 管理配方注册"
+```
 
 ## 🎯 使用指南
 

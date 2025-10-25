@@ -11,12 +11,22 @@
 
 // Button - 按钮组件：尺寸/变体/状态
 export * from './button/button'
+import { Button } from './button/button'
 
 // Card - 卡片组件：信息容器/复合组件
 export * from './card/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter
+} from './card/card'
 
 // Surface - 表面容器：层级/背景/投影
 export * from './surface/surface'
+import { Surface } from './surface/surface'
 
 // =============================================================================
 // 工具函数导出
@@ -28,25 +38,26 @@ export { cn } from '../foundations/utils/cn'
 // 组件类型导出
 // =============================================================================
 
+export type { ButtonProps } from './button/button'
+
 export type {
-  ButtonProps,
   CardProps,
   CardHeaderProps,
   CardTitleProps,
   CardDescriptionProps,
   CardContentProps,
-  CardFooterProps,
-  SurfaceProps,
-  SurfaceDecorationProps,
-} from './button/button'
+  CardFooterProps
+} from './card/card'
+
+export type { SurfaceProps, SurfaceDecorationProps } from './surface/surface'
 
 // =============================================================================
-// 组件变体导出
+// 组件变体导出（避免命名冲突）
 // =============================================================================
 
 export { buttonVariants } from './button/button'
-export { cardVariants } from './card/card'
-export { surfaceVariants } from './surface/surface'
+export { cardVariants as primitiveCardVariants } from './card/card'
+export { primitiveSurfaceVariants } from './surface/surface'
 
 // =============================================================================
 // 默认导出

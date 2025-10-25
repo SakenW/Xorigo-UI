@@ -15,8 +15,9 @@ services:
       target: development
     container_name: xorigo-ui-website-dev
     ports:
-      - "${WEBSITE_PORT:-3100}:3100"
-      - "${STORYBOOK_PORT:-6006}:6006"  # Storybook 端口 (与package.json一致)
+      - "${WEBSITE_PORT:-3100}:3100"      # Website 端口 (保持3100)
+      - "${STORYBOOK_PORT:-6006}:6006"   # Storybook 端口
+      - "${RECIPES_PORT:-3101}:3101"     # 配方预览端口
     volumes:
       # Website 源码热更新
       - ./apps/website/src:/app/src:delegated
@@ -47,12 +48,13 @@ services:
       - FAST_REFRESH=true
       - PORT=3100
       - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_CORE_URL=http://localhost:3001
     command: >
       sh -c "
         echo '🔧 等待依赖安装...' &&
-        npm install --legacy-peer-deps --no-audit --no-fund &&
+        pnpm install --frozen-lockfile &&
         echo '🚀 启动 Website 开发服务器...' &&
-        npm run dev -- --port 3100 --hostname 0.0.0.0
+        pnpm dev -- --port 3100 --hostname 0.0.0.0
       "
     networks:
       - xorigo-ui-network

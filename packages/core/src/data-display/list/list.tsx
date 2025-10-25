@@ -9,7 +9,7 @@
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useTheme, useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -312,7 +312,7 @@ const List = React.forwardRef<HTMLDivElement, ListProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
     const [selectedItems, setSelectedItems] = useState<string[]>(
       Array.isArray(defaultSelected) ? defaultSelected :
       defaultSelected ? [defaultSelected] : []
@@ -504,7 +504,7 @@ const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     const handleClick = React.useCallback(() => {
       if (item && onClick) {

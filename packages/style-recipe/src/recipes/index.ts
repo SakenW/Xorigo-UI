@@ -27,6 +27,14 @@ import {
   getLegacyRecipesByCategory,
   searchLegacyRecipes,
   getRecommendedLegacyRecipes,
+  warmSunriseRecipe,
+  forestNatureRecipe,
+  dreamyRainbowRecipe,
+  royalVioletRecipe,
+  pinkRomanceRecipe,
+  deepOceanRecipe,
+  vibrantLemonRecipe,
+  carnivalCircusRecipe,
 } from './legacy-themes'
 
 // 导入配方别名映射
@@ -467,6 +475,18 @@ export function parseRecipeID(id: string): {
     motion: parts[5] as MotionAxis,
     surface: parts.slice(6).join('.') as SurfaceAxis,
   }
+}
+
+// 导出备份主题配方
+export {
+  warmSunriseRecipe,
+  forestNatureRecipe,
+  dreamyRainbowRecipe,
+  royalVioletRecipe,
+  pinkRomanceRecipe,
+  deepOceanRecipe,
+  vibrantLemonRecipe,
+  carnivalCircusRecipe,
 }
 
 // 导出配方别名工具函数

@@ -1,0 +1,32 @@
+# Xorigo UI pnpm 配置文件
+
+# 严格模式
+strict-peer-dependencies=false
+shamefully-hoist=true
+
+# Node.js 版本
+node-linker=isolated
+
+# 引擎检查
+engine-strict=true
+
+# 保存精确版本
+save-exact=false
+
+# 并发安装
+prefer-frozen-lockfile=true
+
+# 自动安装 peer dependencies
+auto-install-peers=true
+
+# 忽略开发依赖（可选）
+# ignore-dev-dependencies=false
+
+# 日志级别
+loglevel=warn
+
+# 进度条显示
+progress=false
+
+# 解决 flat 目录结构问题
+resolve-peers-from-workspace-root=true

@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -303,20 +303,20 @@ const Timeline = React.forwardRef<HTMLDivElement, TimelineProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--timeline-line': lineColor || `hsl(${theme.colors.border.primary})`,
-      '--timeline-dot': `hsl(${theme.colors.background})`,
-      '--timeline-dot-border': `hsl(${theme.colors.border.primary})`,
-      '--timeline-text': `hsl(${theme.colors.text.primary})`,
-      '--timeline-muted': `hsl(${theme.colors.text.muted})`,
+      '--timeline-line': lineColor || `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--timeline-dot': `hsl(${theme?.colors.background || '#000000'})`,
+      '--timeline-dot-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--timeline-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--timeline-muted': `hsl(${theme?.colors.text.muted || '#999999'})`,
       // 状态颜色
-      '--timeline-success': `hsl(${theme.colors.success})`,
-      '--timeline-warning': `hsl(${theme.colors.warning})`,
-      '--timeline-error': `hsl(${theme.colors.destructive})`,
-      '--timeline-info': `hsl(${theme.colors.info})`,
+      '--timeline-success': `hsl(${theme?.colors.success || '#10b981'})`,
+      '--timeline-warning': `hsl(${theme?.colors.warning || '#f59e0b'})`,
+      '--timeline-error': `hsl(${theme?.colors.destructive || '#dc2626'})`,
+      '--timeline-info': `hsl(${theme?.colors.info || '#3b82f6'})`,
       // 可根据七轴动态调整
     }
 
@@ -433,7 +433,7 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     if (!item && !children) return null
 
@@ -555,15 +555,15 @@ export interface TimelineDotProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
   ({ status, active = false, completed = false, icon, className, ...props }, ref) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     const getStatusColor = (status?: TimelineItem['status']) => {
       switch (status) {
-        case 'success': return `hsl(${theme.colors.success})`
-        case 'warning': return `hsl(${theme.colors.warning})`
-        case 'error': return `hsl(${theme.colors.destructive})`
-        case 'info': return `hsl(${theme.colors.info})`
-        default: return `hsl(${theme.colors.border.primary})`
+        case 'success': return `hsl(${theme?.colors.success || '#10b981'})`
+        case 'warning': return `hsl(${theme?.colors.warning || '#f59e0b'})`
+        case 'error': return `hsl(${theme?.colors.destructive || '#dc2626'})`
+        case 'info': return `hsl(${theme?.colors.info || '#3b82f6'})`
+        default: return `hsl(${theme?.colors.border.primary || '#e5e5e5'})`
       }
     }
 
@@ -579,9 +579,9 @@ const TimelineDot = React.forwardRef<HTMLDivElement, TimelineDotProps>(
           className
         )}
         style={{
-          backgroundColor: completed ? `hsl(${theme.colors.success})` :
-                           active ? `hsl(${theme.colors.primary})` :
-                           `hsl(${theme.colors.background})`,
+          backgroundColor: completed ? `hsl(${theme?.colors.success || '#10b981'})` :
+                           active ? `hsl(${theme?.colors.primary || '#2196f3'})` :
+                           `hsl(${theme?.colors.background || '#000000'})`,
           borderColor: getStatusColor(status),
         }}
         {...props}
@@ -607,7 +607,7 @@ export interface TimelineConnectorProps extends React.HTMLAttributes<HTMLDivElem
 
 const TimelineConnector = React.forwardRef<HTMLDivElement, TimelineConnectorProps>(
   ({ direction = 'vertical', style = 'solid', color, className, ...props }, ref) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     return (
       <div
@@ -619,7 +619,7 @@ const TimelineConnector = React.forwardRef<HTMLDivElement, TimelineConnectorProp
           className
         )}
         style={{
-          backgroundColor: color || `hsl(${theme.colors.border.primary})`,
+          backgroundColor: color || `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
           borderStyle: style,
         }}
         {...props}

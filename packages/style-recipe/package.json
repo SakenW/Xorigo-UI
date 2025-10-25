@@ -42,7 +42,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@xorigo-ui/tokens": "^0.1.0"
+    "@xorigo-ui/tokens": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",

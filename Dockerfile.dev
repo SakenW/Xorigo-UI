@@ -1,28 +1,118 @@
 # ============================================
-# Xorigo UI Monorepo 开发环境 Dockerfile
-# Node.js 22 Alpine + Hot Reload Support
+# Xorigo UI 开发环境 Dockerfile
+# 支持本地开发和容器化开发
+# Node.js 22 + pnpm + 热更新
 # ============================================
-FROM node:22-alpine
+
+FROM node:22-alpine AS base
+
+# 安装必要的系统依赖
+RUN apk add --no-cache \
+    curl \
+    git \
+    bash
+
+# 安装 pnpm
+RUN npm install -g pnpm@latest
 
 # 设置工作目录
 WORKDIR /app
 
-# 安装依赖所需的系统工具
-RUN apk add --no-cache git
+# 创建 pnpm 配置
+RUN pnpm config set store-dir /root/.pnpm-store
 
-# 复制依赖文件（Monorepo 结构）
-COPY package.json package-lock.json* ./
-COPY packages/core/package.json ./packages/core/
-COPY apps/website/package.json ./apps/website/
+# ============================================
+# 开发阶段
+# ============================================
+FROM base AS development
 
-# 安装依赖（使用 --legacy-peer-deps 解决依赖冲突）
-RUN npm install --legacy-peer-deps
+# 复制根目录的配置文件
+COPY package.json pnpm-lock.yaml ./
+COPY .pnpmrc ./
 
-# 复制源代码
+# 复制 packages 目录结构
+COPY packages/ ./packages/
+COPY apps/ ./apps/
+
+# 安装依赖（利用 Docker 层缓存）
+RUN pnpm install --frozen-lockfile
+
+# 创建开发环境检查脚本
+COPY scripts/check-dev-env.js ./scripts/check-dev-env.js
+
+# 暴露端口
+EXPOSE 3001 3002 3100 3101 6006
+
+# 设置环境变量
+ENV NODE_ENV=development
+ENV VITE_PORT=3001
+ENV VITE_HOST=0.0.0.0
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:3001 || exit 1
+
+# 默认启动开发服务器
+CMD ["pnpm", "dev"]
+
+# ============================================
+# 核心库构建阶段
+# ============================================
+FROM base AS core-build
+
+# 复制核心库源码
+COPY packages/core/ ./packages/core/
+COPY packages/shared/ ./packages/shared/
+
+# 安装核心库依赖
+WORKDIR /app/packages/core
+RUN pnpm install --frozen-lockfile
+
+# 构建核心库
+RUN pnpm build
+
+# ============================================
+# Website 构建阶段
+# ============================================
+FROM base AS website-build
+
+# 复制所有源码
 COPY . .
 
-# 暴露端口（Vite 和 Next.js）
-EXPOSE 5173 3100
+# 安装依赖
+RUN pnpm install --frozen-lockfile
 
-# 默认启动命令（可在 docker-compose 中覆盖）
-CMD ["npm", "run", "dev", "-w", "@xorigo-ui/core"]
+# 构建所有包
+RUN pnpm build:all
+
+# 构建 Website
+WORKDIR /app/apps/website
+RUN pnpm build
+
+# ============================================
+# 生产阶段
+# ============================================
+FROM node:22-alpine AS production
+
+# 安装 pnpm
+RUN npm install -g pnpm@latest
+
+WORKDIR /app
+
+# 只复制必要的文件
+COPY --from=core-build /app/packages/core/dist ./packages/core/dist
+COPY --from=core-build /app/packages/core/package.json ./packages/core/
+COPY --from=website-build /app/apps/website/.next ./apps/website/
+COPY --from=website-build /app/apps/website/public ./apps/website/public
+COPY --from=website-build /app/apps/website/package.json ./apps/website/
+COPY --from=website-build /app/apps/website/next.config.ts ./apps/website/
+
+# 安装生产依赖
+RUN pnpm install --prod --frozen-lockfile
+
+# 暴露端口
+EXPOSE 3100
+
+# 启动生产服务器
+WORKDIR /app/apps/website
+CMD ["pnpm", "start"]

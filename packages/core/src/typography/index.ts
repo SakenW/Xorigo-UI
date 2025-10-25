@@ -17,6 +17,7 @@ export type {
   Size,
   AsTag
 } from './hero-title/hero-title'
+import { HeroTitle } from './hero-title/hero-title'
 
 // =============================================================================
 // 组件集合导出

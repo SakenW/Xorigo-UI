@@ -9,7 +9,7 @@
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -172,7 +172,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       size,
     }), [currentValue, handleValueChange, variant, size])
 
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     return (
       <TabsContext.Provider value={contextValue}>
@@ -180,10 +180,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           ref={ref}
           className={cn(tabsVariants({ variant, size, orientation, justify }), className)}
           style={{
-            '--tabs-border': `hsl(${theme.colors.border.primary})`,
-            '--tabs-background': `hsl(${theme.colors.background})`,
-            '--tabs-foreground': `hsl(${theme.colors.foreground})`,
-            '--tabs-primary': `hsl(${theme.colors.primary})`,
+            '--tabs-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+            '--tabs-background': `hsl(${theme?.colors.background || '#000000'})`,
+            '--tabs-foreground': `hsl(${theme?.colors.foreground || '#000000'})`,
+            '--tabs-primary': `hsl(${theme?.colors.primary || '#2196f3'})`,
           }}
           {...props}
         >
