@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -185,7 +185,7 @@ const Notification = React.forwardRef<HTMLDivElement, NotificationProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
     const [isVisible, setIsVisible] = React.useState(true)
 
     // 处理自动关闭
@@ -230,11 +230,11 @@ const Notification = React.forwardRef<HTMLDivElement, NotificationProps>(
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--notification-bg': `hsl(${theme.colors.background})`,
-      '--notification-border': `hsl(${theme.colors.border.primary})`,
-      '--notification-text': `hsl(${theme.colors.text.primary})`,
-      '--notification-icon': `hsl(${theme.colors[variant === 'default' ? 'text' : variant]})`,
-      '--notification-accent': `hsl(${theme.colors.primary})`,
+      '--notification-bg': `hsl(${theme?.colors.background || '#000000'})`,
+      '--notification-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--notification-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--notification-icon': `hsl(${theme?.colors[variant === 'default' ? 'text' : variant]})`,
+      '--notification-accent': `hsl(${theme?.colors.primary || '#2196f3'})`,
       // 可根据七轴动态调整
     }
 

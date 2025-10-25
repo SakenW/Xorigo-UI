@@ -61,7 +61,7 @@ export type {
 export {
   SimpleCard,
   StatsCard,
-  cardVariants,
+  cardVariants as dataDisplayCardVariants,
   cardContentVariants,
   createCardData,
   filterCards

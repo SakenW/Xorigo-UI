@@ -9,7 +9,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useTheme, useThemeSafe } from '../../system/theme-provider'
 import { createThemeStyles } from '../../utils/theme-token-mapper'
 
 // === Toast 变体系统 ===
@@ -73,7 +73,7 @@ export const Toast: React.FC<ToastProps> = ({
   showIcon = false,
   ...props
 }) => {
-  const { theme } = useTheme()
+  const theme = useThemeSafe()
   const [isVisible, setIsVisible] = React.useState(true)
 
   // 自动关闭逻辑

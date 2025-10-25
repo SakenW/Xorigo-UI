@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -374,7 +374,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成自定义样式
     const customStyles: React.CSSProperties = {
@@ -389,7 +389,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       ...(rowGap && { rowGap }),
 
       // 主题变量（用于动态调整）
-      '--grid-gap-color': `hsl(${theme.colors.border.primary})`,
+      '--grid-gap-color': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
       // 可根据七轴动态调整
     }
 

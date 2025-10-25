@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -214,7 +214,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成分隔符组件
     const renderSeparator = React.useCallback(() => {
@@ -225,7 +225,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
       }
 
       const separatorStyles = {
-        color: `hsl(${theme.colors.text.muted})`,
+        color: `hsl(${theme?.colors.text.muted || '#999999'})`,
         opacity: 0.7,
       }
 
@@ -275,7 +275,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
             <span
               className="flex-shrink-0 inline-block w-1 h-1 rounded-full"
               style={{
-                backgroundColor: `hsl(${theme.colors.text.muted})`,
+                backgroundColor: `hsl(${theme?.colors.text.muted || '#999999'})`,
                 opacity: 0.7,
               }}
             />
@@ -406,9 +406,9 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
-      '--breadcrumb-text': `hsl(${theme.colors.text.muted})`,
-      '--breadcrumb-active': `hsl(${theme.colors.text.primary})`,
-      '--breadcrumb-separator': `hsl(${theme.colors.text.muted})`,
+      '--breadcrumb-text': `hsl(${theme?.colors.text.muted || '#999999'})`,
+      '--breadcrumb-active': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--breadcrumb-separator': `hsl(${theme?.colors.text.muted || '#999999'})`,
       // 可根据七轴动态调整
     }
 

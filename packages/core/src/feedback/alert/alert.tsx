@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -168,7 +168,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
     const [isVisible, setIsVisible] = React.useState(true)
 
     // 处理自动关闭
@@ -198,10 +198,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
       // 七轴主题系统集成
-      '--alert-bg': `hsl(${theme.colors.background})`,
-      '--alert-border': `hsl(${theme.colors.border.primary})`,
-      '--alert-text': `hsl(${theme.colors.text.primary})`,
-      '--alert-icon': `hsl(${theme.colors[variant === 'default' ? 'text' : variant]})`,
+      '--alert-bg': `hsl(${theme?.colors.background || '#000000'})`,
+      '--alert-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--alert-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--alert-icon': `hsl(${theme?.colors[variant === 'default' ? 'text' : variant]})`,
       // 可根据七轴动态调整
     }
 

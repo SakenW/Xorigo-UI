@@ -11,6 +11,7 @@
 // Alert 组件
 export { Alert, alertVariants } from './alert/alert'
 export type { AlertProps } from './alert/alert'
+import { Alert } from './alert/alert'
 
 // Toast 组件系统
 export {
@@ -20,18 +21,22 @@ export {
 export type {
   ToastProps
 } from './toast/toast'
+import { Toast } from './toast/toast'
 
 // Notification 组件
 export { Notification, notificationVariants } from './notification/notification'
 export type { NotificationProps } from './notification/notification'
+import { Notification } from './notification/notification'
 
 // Progress 组件
 export { Progress, progressVariants } from './progress/progress'
 export type { ProgressProps } from './progress/progress'
+import { Progress } from './progress/progress'
 
 // Loading 组件
 export { Loading, loadingVariants } from './loading/loading'
 export type { LoadingProps } from './loading/loading'
+import { Loading } from './loading/loading'
 
 // Badge 组件系列
 export {
@@ -44,6 +49,11 @@ export type {
   BadgeProps,
   StatusBadgeProps,
   NotificationBadgeProps
+} from './badge/badge'
+import {
+  Badge,
+  StatusBadge,
+  NotificationBadge
 } from './badge/badge'
 
 // Tooltip 组件系列
@@ -59,6 +69,11 @@ export type {
   TooltipProps,
   TooltipContextType,
   SimpleTooltipProps
+} from './tooltip/tooltip'
+import {
+  Tooltip,
+  TooltipProvider,
+  SimpleTooltip
 } from './tooltip/tooltip'
 
 // =============================================================================

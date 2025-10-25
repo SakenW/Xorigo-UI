@@ -9,7 +9,7 @@
 import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -175,7 +175,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
     const [internalMobileMenuOpen, setInternalMobileMenuOpen] = useState(false)
 
     // 处理移动端菜单状态（受控或非受控）
@@ -194,30 +194,30 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     // 生成主题相关的样式 - 使用七轴主题系统的统一命名
     const themeStyles: React.CSSProperties = {
       // 七轴主题令牌映射
-      '--xor-bg-primary': `hsl(${theme.colors.background.primary})`,
-      '--xor-bg-secondary-500-500': `hsl(${theme.colors.background.secondary})`,
-      '--xor-bg-tertiary': `hsl(${theme.colors.background.tertiary})`,
-      '--xor-text-primary': `hsl(${theme.colors.text.primary})`,
-      '--xor-text-secondary-600-600': `hsl(${theme.colors.text.secondary})`,
-      '--xor-text-tertiary': `hsl(${theme.colors.text.tertiary})`,
-      '--xor-border-primary': `hsl(${theme.colors.border.primary})`,
-      '--xor-primary': `hsl(${theme.colors.primary})`,
-      '--xor-secondary': `hsl(${theme.colors.secondary})`,
-      '--xor-text-on-primary': `hsl(${theme.colors.onPrimary})`,
-      '--xor-text-on-secondary': `hsl(${theme.colors.onSecondary})`,
+      '--xor-bg-primary': `hsl(${theme?.colors.background.primary || '#ffffff'})`,
+      '--xor-bg-secondary-500-500': `hsl(${theme?.colors.background.secondary || '#f5f5f5'})`,
+      '--xor-bg-tertiary': `hsl(${theme?.colors.background.tertiary || '#fafafa'})`,
+      '--xor-text-primary': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--xor-text-secondary-600-600': `hsl(${theme?.colors.text.secondary || '#666666'})`,
+      '--xor-text-tertiary': `hsl(${theme?.colors.text.tertiary || '#000000'})`,
+      '--xor-border-primary': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--xor-primary': `hsl(${theme?.colors.primary || '#2196f3'})`,
+      '--xor-secondary': `hsl(${theme?.colors.secondary || '#9c27b0'})`,
+      '--xor-text-on-primary': `hsl(${theme?.colors.onPrimary || '#000000'})`,
+      '--xor-text-on-secondary': `hsl(${theme?.colors.onSecondary || '#000000'})`,
 
       // 背景和文字颜色（兼容变体系统）
       ...(variant === 'inverse' && {
-        backgroundColor: `hsl(${theme.colors.foreground})`,
-        color: `hsl(${theme.colors.background})`,
+        backgroundColor: `hsl(${theme?.colors.foreground || '#000000'})`,
+        color: `hsl(${theme?.colors.background || '#000000'})`,
       }),
       ...(variant === 'primary' && {
-        backgroundColor: `hsl(${theme.colors.primary})`,
-        color: `hsl(${theme.colors.primaryForeground})`,
+        backgroundColor: `hsl(${theme?.colors.primary || '#2196f3'})`,
+        color: `hsl(${theme?.colors.primaryForeground || '#000000'})`,
       }),
       ...(variant === 'secondary' && {
-        backgroundColor: `hsl(${theme.colors.secondary})`,
-        color: `hsl(${theme.colors.secondaryForeground})`,
+        backgroundColor: `hsl(${theme?.colors.secondary || '#9c27b0'})`,
+        color: `hsl(${theme?.colors.secondaryForeground || '#000000'})`,
       }),
       ...(variant === 'transparent' && {
         backgroundColor: 'transparent',

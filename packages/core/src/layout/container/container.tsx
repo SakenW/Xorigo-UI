@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -209,14 +209,14 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
       // 背景颜色集成
       ...(background && background !== 'none' && {
-        backgroundColor: `var(--container-bg, hsl(${theme.colors.background}))`,
-        color: `var(--container-text, hsl(${theme.colors.text.primary}))`,
+        backgroundColor: `var(--container-bg, hsl(${theme?.colors.background || '#000000'}))`,
+        color: `var(--container-text, hsl(${theme?.colors.text.primary || '#000000'}))`,
       }),
 
       // 自定义最大宽度
@@ -232,10 +232,10 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
       ...(gap && { gap }),
 
       // 主题颜色变量
-      '--container-bg': `hsl(${theme.colors.background})`,
-      '--container-text': `hsl(${theme.colors.text.primary})`,
-      '--container-border': `hsl(${theme.colors.border.primary})`,
-      '--container-muted': `hsl(${theme.colors.muted})`,
+      '--container-bg': `hsl(${theme?.colors.background || '#000000'})`,
+      '--container-text': `hsl(${theme?.colors.text.primary || '#000000'})`,
+      '--container-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+      '--container-muted': `hsl(${theme?.colors.muted || '#f5f5f5'})`,
       // 可根据七轴动态调整
     }
 

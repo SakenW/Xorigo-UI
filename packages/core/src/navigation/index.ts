@@ -24,6 +24,13 @@ export type {
   NavbarActionsProps,
   NavbarLinkProps
 } from './navbar/navbar'
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarActions,
+  NavbarLink
+} from './navbar/navbar'
 
 // Breadcrumb 组件系列
 export {
@@ -42,6 +49,12 @@ export type {
   BreadcrumbSeparatorProps,
   BreadcrumbEllipsisProps
 } from './breadcrumb/breadcrumb'
+import {
+  Breadcrumb,
+  BreadcrumbItemComponent,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis
+} from './breadcrumb/breadcrumb'
 
 // Tabs 组件系列
 export {
@@ -58,6 +71,12 @@ export type {
   TabsListProps,
   TabsTriggerProps,
   TabsContentProps
+} from './tabs/tabs'
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
 } from './tabs/tabs'
 
 // Menu 组件系列
@@ -81,6 +100,15 @@ export type {
   MenuLabelProps,
   MenuGroupProps
 } from './menu/menu'
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
+  MenuLabel,
+  MenuGroup
+} from './menu/menu'
 
 // Sidebar 组件系列
 export {
@@ -92,6 +120,7 @@ export type {
   SidebarItem,
   SidebarItemComponentProps
 } from './sidebar/sidebar'
+import { Sidebar } from './sidebar/sidebar'
 
 // =============================================================================
 // 便捷组合导出

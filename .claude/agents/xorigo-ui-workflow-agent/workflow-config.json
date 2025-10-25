@@ -1,0 +1,76 @@
+{
+  "name": "xorigo-ui-workflow-config",
+  "version": "1.0.0",
+  "description": "Xorigo UI 组件库完整开发工作流配置",
+  "settings": {
+    "qualityGates": {
+      "testCoverage": 90,
+      "complexityThreshold": 10,
+      "duplicationThreshold": 3,
+      "maintainabilityIndex": 70
+    },
+    "phases": {
+      "analysis": {
+        "enabled": true,
+        "tools": ["tech-debt", "ai-review"],
+        "priority": 1,
+        "timeout": 300
+      },
+      "refactoring": {
+        "enabled": true,
+        "tools": ["refactor-clean", "context-restore"],
+        "priority": 2,
+        "timeout": 600
+      },
+      "testing": {
+        "enabled": true,
+        "tools": ["test-generate"],
+        "coverageThreshold": 90,
+        "priority": 3,
+        "timeout": 400
+      },
+      "documentation": {
+        "enabled": true,
+        "tools": ["doc-generate"],
+        "includeExamples": true,
+        "priority": 4,
+        "timeout": 200
+      }
+    },
+    "output": {
+      "reports": "./reports",
+      "docs": "./docs/generated",
+      "artifacts": "./workflow-artifacts"
+    },
+    "notifications": {
+      "onCompletion": true,
+      "onError": true,
+      "channels": ["console", "file"]
+    }
+  },
+  "targets": {
+    "default": "packages/core/src/components",
+    "components": [
+      "button",
+      "input",
+      "card",
+      "modal",
+      "navigation"
+    ]
+  },
+  "integration": {
+    "claudeCodePlugins": [
+      "code-review-ai",
+      "code-refactoring",
+      "unit-testing",
+      "code-documentation",
+      "full-stack-orchestration"
+    ],
+    "xorigoSkills": [
+      "xorigo-component-generator",
+      "xorigo-design-tokens-manager",
+      "xorigo-seven-axis-theme-developer",
+      "xorigo-code-quality-guard"
+    ]
+  }
+}

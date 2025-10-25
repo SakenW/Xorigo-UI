@@ -126,10 +126,10 @@ pids
 dev.log
 *.log
 
-# 锁文件
+# 锁文件 (仅生产锁文件)
 package-lock.json
-pnpm-lock.yaml
 yarn.lock
+# pnpm-lock.yaml 在开发环境中需要
 
 # 临时文件
 *.tmp

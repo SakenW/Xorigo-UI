@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -253,7 +253,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 处理交互状态
     const interactiveVariant = hoverable ? "hover" : interactive
@@ -276,10 +276,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           className
         )}
         style={{
-          // 七轴主题系统集成
-          '--card-bg': `hsl(${theme.colors.background})`,
-          '--card-border': `hsl(${theme.colors.border.primary})`,
-          '--card-shadow': theme.surface.shadow,
+          // 七轴主题系统集成 - 安全访问模式
+          '--card-bg': `hsl(${theme?.colors.background || '#ffffff'})`,
+          '--card-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
+          '--card-shadow': theme?.surface?.shadow || '0 4px 16px rgba(0, 0, 0, 0.1)',
           // 可根据七轴动态调整
         } as React.CSSProperties}
         {...ariaProps}

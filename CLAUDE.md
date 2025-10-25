@@ -11,7 +11,7 @@
 - **构建工具**: Vite (Library Mode)
 - **测试**: Vitest + Testing Library
 - **部署**: Docker (开发/生产环境)
-- **包管理**: npm
+- **包管理**: pnpm (workspace monorepo)
 
 **核心特性**：
 - ✅ 基于 Atomic Design 原则的组件体系
@@ -49,39 +49,52 @@
 
 ---
 
-## 🐳 Docker 开发环境
+## 🚀 混合开发环境
 
-### 🚫 严格禁止：禁止运行 npm run dev
+### 🎯 推荐开发模式：本地 + Docker 混合
 
-**🚨 重要规则**：**本项目使用 Docker 热更新容器进行开发，严禁在任何情况下运行 `npm run dev` 命令！**
+**✅ 支持多种开发模式**，根据需求选择最适合的方式：
 
-#### 正确的开发流程：
+#### 1. **本地开发模式**（推荐用于快速开发）
+```bash
+# 启动本地混合开发环境（核心库 + Website）
+pnpm local:dev
 
-1. **✅ 启动开发环境**：
-   ```bash
-   # 启动 Docker 热更新容器
-   npm run docker:dev
+# 或者分别启动
+pnpm dev:core    # 核心库开发 (localhost:3001)
+pnpm dev:website # Website开发 (localhost:3100)
+```
 
-   # 或者直接使用 Docker
-   docker-compose -f docker-compose.dev.monorepo.yml up
-   ```
+#### 2. **Docker 核心库模式**
+```bash
+# 在 Docker 中运行核心库，本地运行 Website
+pnpm docker:dev
+```
 
-2. **✅ 访问应用**：
-   ```
-   http://localhost:3100  # Docker 容器热更新端口
-   ```
+#### 3. **Docker 完整模式**
+```bash
+# 在 Docker 中运行完整 Monorepo 环境
+pnpm docker:dev:monorepo
+```
 
-#### 📋 开发环境检查清单：
+#### 📋 端口分配策略
+- **端口 3000**: 保留给用户其他库使用 ⚠️ **不占用**
+- **端口 3001**: 核心库开发服务器 ✅ **Vite 热更新**
+- **端口 3100**: Website 开发服务器 ✅ **Next.js 热更新**
+- **端口 6380**: Redis 开发服务器 ✅ **可选**
 
-- [ ] Docker 容器运行在端口 3100
-- [ ] 端口 3000/3001 没有其他服务
-- [ ] 代码修改能自动热更新
-- [ ] 浏览器自动刷新功能正常
-- [ ] 没有运行 `npm run dev` 进程
+#### 🔍 环境检查
+```bash
+# 检查开发环境状态
+node scripts/check-dev-env.js
 
-**记住**：**Docker 热更新容器是唯一正确的开发方式！**
+# 查看开发模式帮助
+node scripts/dev-env-manager.js help
+```
 
-> 💡 **详细Docker管理和故障排除**：使用 `xorigo-docker-unified-manager` 技能进行完整的Docker环境管理、容器监控、配置管理和故障排除。
+> 💡 **Docker管理**：使用 `xorigo-docker-unified-manager` 技能进行完整的Docker环境管理、容器监控、配置管理和故障排除。
+>
+> 💡 **故障排除**：查看 `/docs/TROUBLESHOOTING.md` 获取完整的开发环境问题诊断和解决方案。
 
 ---
 
@@ -224,43 +237,59 @@
 ### 命令规范
 
 ```bash
-# 开发环境
-npm run docker:dev       # Docker 开发环境 (端口3100)
+# 开发环境（推荐）
+pnpm local:dev           # 本地混合开发环境 (核心库+Website)
+pnpm local:dev:all       # 同时启动核心库和网站
+pnpm dev:core            # 仅启动核心库 (localhost:3001)
+pnpm dev:website         # 仅启动网站 (localhost:3100)
+
+# Docker 环境
+pnpm docker:dev          # Docker 核心库模式
+pnpm docker:dev:monorepo # Docker 完整模式
 
 # 构建
-npm run build            # 构建组件库
-npm run build:strict     # 严格模式构建 (包含类型检查)
-npm run build:types      # 仅生成类型声明
+pnpm build               # 构建组件库
+pnpm build:strict        # 严格模式构建 (包含类型检查)
+pnpm build:types         # 仅生成类型声明
+pnpm build:all           # 构建所有工作空间
 
 # 代码质量
-npm run lint             # ESLint 检查
-npm run lint:fix         # 自动修复
-npm run type-check       # TypeScript 类型检查
-npm run format           # Prettier 格式化
+pnpm lint                # ESLint 检查
+pnpm lint:fix            # 自动修复
+pnpm type-check          # TypeScript 类型检查
+pnpm format              # Prettier 格式化
 
 # 测试
-npm run test             # 运行测试
-npm run test:ui          # 测试 UI 界面
-npm run test:coverage    # 测试覆盖率
+pnpm test                # 运行测试
+pnpm test:ui             # 测试 UI 界面
+pnpm test:coverage       # 测试覆盖率
+
+# 环境管理
+node scripts/check-dev-env.js  # 检查开发环境
+node scripts/dev-env-manager.js help  # 开发模式帮助
 
 # Docker 部署
-npm run deploy           # 生产环境部署
+pnpm deploy              # 生产环境部署
 ```
 
 ### 配方系统与预览功能
 
-**Docker 热更新说明**：
-- **重要**：开发服务器运行在 Docker 容器内，通过热更新实现代码实时同步
-- **端口映射**：容器内 3100 端口映射到宿主机 3100 端口
-- **访问地址**：始终使用 `http://localhost:3100` 访问演示页面
+**本地开发模式**：
+- **核心库**: http://localhost:3001 - Vite 热更新开发服务器
+- **Website**: http://localhost:3100 - Next.js 热更新开发服务器
+- **实时同步**: 代码修改自动更新，浏览器自动刷新
 
 **配方预览功能**：
 - **页面地址**：`http://localhost:3100/recipes`
 - **功能特性**：
-  - 20个七轴DTCG配方展示，支持无限扩展
+  - 20+ 七轴DTCG配方展示，支持无限扩展
   - 实时配方切换，点击即生效
   - 多维度过滤器：模式/色调/密度/表面/类别
   - 配方预览区域：点击配方后在页面顶部展示实际效果
+
+**Docker 模式**（可选）：
+- **端口映射**：容器内服务映射到宿主机相同端口
+- **完整隔离**: Docker 容器内运行完整开发环境
 
 ### 组件命名规范
 
@@ -401,7 +430,8 @@ Xorigo UI 基于七轴DTCG标准，支持：
 
 1. **TypeScript 严格模式**：暂时禁用 (`strict: false`)
 2. **类型声明生成**：vite-plugin-dts 暂时禁用
-3. **layouts 目录为空**：导致部分工具报错
+3. **Native 依赖问题**：部分 native 绑定在 WSL2 环境下需要手动处理
+4. **导入冲突警告**：部分模块存在导出名称冲突（不影响运行）
 
 ### 开发禁令
 
@@ -417,6 +447,7 @@ Xorigo UI 基于七轴DTCG标准，支持：
 - ⚠️ 修改 Tailwind 配置（可能影响设计令牌）
 - ⚠️ 更新 Vite 配置（可能影响构建）
 - ⚠️ 修改 TypeScript 配置（可能影响类型检查）
+- ⚠️ 清理依赖缓存（可能导致 native 重新安装问题）
 
 ---
 
@@ -431,38 +462,111 @@ Xorigo UI 基于七轴DTCG标准，支持：
 * **Docker 部署标准化** → 确保开发和生产环境的一致性
 
 **核心口诀**：
-🎨 **"原子设计保证可复用，一致性保证易用性，主题保证统一性，TypeScript 保证开发体验，Context7 保证技术正确，Docker 保证环境一致。"**
+🎨 **"原子设计保证可复用，一致性保证易用性，主题保证统一性，TypeScript 保证开发体验，Context7 保证技术正确，混合开发保证效率，故障排除保证稳定。"**
 
 ---
 
-## 🚀 技能生态系统
+## 🚀 插件与技能生态系统
 
-Xorigo UI 项目拥有完整的技能生态系统，支持开发、测试、部署和文档生成的全生命周期管理：
+Xorigo UI 项目集成了完整的插件和技能生态系统，支持开发、测试、部署和文档生成的全生命周期管理：
 
-### 核心开发技能
+### 📦 已安装的 Claude Code Plugins
+
+#### Marketplace 1: claude-code-workflows (wshobson/agents)
+**来源**: 专业开发工作流集合，包含66个插件
+
+✅ **已激活插件**:
+1. **code-documentation** - 自动文档生成
+   - 命令: `doc-generate`, `code-explain`
+   - 功能: 从代码自动生成API文档、架构图、用户指南
+
+2. **unit-testing** - 单元测试自动生成
+   - 命令: `test-generate`
+   - 功能: 分析代码结构，生成全面的单元测试套件
+
+3. **code-review-ai** - AI驱动代码审查 🔥
+   - 命令: `ai-review`
+   - 功能: 集成CodeQL、SonarQube等工具，提供深度代码审查
+
+4. **code-refactoring** - 代码重构和清理 🔥
+   - 命令: `refactor-clean`, `tech-debt`, `context-restore`
+   - 功能: 代码质量改进、技术债务分析、重构建议
+
+5. **full-stack-orchestration** - 全栈开发编排 🔥
+   - 命令: `full-stack-feature`
+   - 功能: 协调后端、前端、基础设施的完整功能开发
+
+#### Marketplace 2: daymade-skills (daymade/claude-code-skills)
+**来源**: 生产级技能集合，包含8个专业技能
+
+✅ **已激活插件**:
+1. **skill-creator** - 技能创建器 (元技能)
+   - 脚本: `init_skill.py`, `quick_validate.py`, `package_skill.py`
+   - 功能: 创建、验证、打包自定义Claude Code技能
+
+### 🛠️ 内置 Xorigo UI 专用技能
+
+#### 核心开发技能
 - `xorigo-component-generator` - 组件生成器
 - `xorigo-design-tokens-manager` - 设计令牌管理
 - `xorigo-seven-axis-theme-developer` - 七轴主题开发
 - `xorigo-code-quality-guard` - 代码质量检测
 
-### 系统管理技能
+#### 系统管理技能
 - `xorigo-docker-unified-manager` - Docker环境管理
 - `xorigo-build-publish-constraints` - 构建发布约束
 - `xorigo-migration-architecture-validator` - 架构迁移验证
 
-### 质量保证技能
+#### 质量保证技能
 - `xorigo-test-automation` - 测试自动化
 - `xorigo-design-validator` - 设计验证
 - `xorigo-intelligent-constraints-system` - 智能约束系统
 
-### 文档和生成技能
+#### 文档和生成技能
 - `xorigo-docs-generator` - 文档生成
 - `xorigo-docs-structure-helper` - 文档结构辅助
 - `xorigo-performance-optimizer` - 性能优化
+
+### 🎯 插件使用指南
+
+#### 重启Claude Code后可用命令
+```bash
+# 代码质量分析
+/ai-review "审查这个组件的代码质量和安全性"
+/tech-debt "分析项目的技术债务状况"
+/refactor-clean "重构这个组件，提高可维护性"
+
+# 开发辅助
+/doc-generate "为组件生成完整的API文档"
+/test-generate "为组件生成全面的单元测试"
+/full-stack-feature "实现完整的功能开发流程"
+
+# 技能创建
+skill-creator/scripts/init_skill.py my-skill --path ~/.claude/skills/
+```
+
+#### Xorigo UI 推荐工作流
+```bash
+# 1. 基线分析
+/tech-debt "packages/core/src/components/"
+
+# 2. 质量审查
+/ai-review "审查核心组件的代码质量"
+
+# 3. 重构优化
+/refactor-clean "基于审查结果重构组件"
+
+# 4. 测试完善
+/test-generate "为重构后的组件生成测试"
+
+# 5. 文档生成
+/doc-generate "生成组件的完整API文档"
+```
 
 ---
 
 **维护**: Xorigo UI Team
 **版本**: 0.1.0
 **技术栈**: React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12
-**部署状态**: ✅ Docker 开发/生产环境就绪
+**部署状态**: ✅ 本地 + Docker 混合开发环境就绪
+**依赖状态**: ✅ Native 依赖已修复，工作空间正常运行

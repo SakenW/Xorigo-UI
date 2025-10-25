@@ -7,7 +7,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../foundations/utils/cn'
-import { useTheme } from '../../system/theme-provider'
+import { useThemeSafe } from '../../system/theme-provider'
 
 // =============================================================================
 // 组件变体系统 - CVA (Class Variance Authority)
@@ -229,10 +229,10 @@ const Surface = React.forwardRef<HTMLDivElement, SurfaceProps>(
     },
     ref
   ) => {
-    const { theme } = useTheme()
+    const theme = useThemeSafe()
 
     // 获取当前表面配置
-    const surfaceConfig = theme.surface
+    const surfaceConfig = theme?.surface
 
     // 生成动画类名
     const animationClasses = animated
@@ -247,8 +247,8 @@ const Surface = React.forwardRef<HTMLDivElement, SurfaceProps>(
     // 生成主题相关的样式
     const themeStyles: React.CSSProperties = {
       // 七轴主题系统集成
-      '--surface-bg': background || `hsl(${theme.colors.background})`,
-      '--surface-border': `hsl(${theme.colors.border.primary})`,
+      '--surface-bg': background || `hsl(${theme?.colors.background || '#000000'})`,
+      '--surface-border': `hsl(${theme?.colors.border.primary || '#e5e5e5'})`,
       '--surface-shadow': surfaceConfig.shadow,
       '--surface-blur': surfaceConfig.blur,
       '--surface-glow': surfaceConfig.glow,
@@ -330,7 +330,7 @@ Surface.displayName = 'Surface'
 // 导出
 // =============================================================================
 
-export { Surface, surfaceVariants }
+export { Surface, surfaceVariants as primitiveSurfaceVariants }
 export type { SurfaceProps }
 
 // SurfaceDecoration 组件已移动到单独文件，这里不再导出以避免冲突

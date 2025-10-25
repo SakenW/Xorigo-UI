@@ -15,6 +15,7 @@ export {
 export type {
   SuperParticleSystemProps
 } from './super-particle-system/super-particle-system'
+import { SuperParticleSystem } from './super-particle-system/super-particle-system'
 
 // =============================================================================
 // 组件集合导出

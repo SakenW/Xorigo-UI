@@ -15,6 +15,7 @@ export {
 export type {
   CodeDemoProps
 } from './code-demo/code-demo'
+import { CodeDemo } from './code-demo/code-demo'
 
 // =============================================================================
 // 组件集合导出

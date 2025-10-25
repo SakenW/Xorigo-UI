@@ -15,139 +15,19 @@
 // =============================================================================
 
 export * from './animation-system'
-export {
-  XorigoAnimationSystem,
-  animationSystem,
-  createAnimationConfig,
-  createPresetVariants,
-  createAccessibleAnimation,
-} from './animation-system'
 
 export * from './variants'
-export {
-  // 基础动画变体
-  fadeVariants,
-  slideVariants,
-  scaleVariants,
-  rotateVariants,
-  // 弹跳和弹性动画变体
-  bounceVariants,
-  elasticVariants,
-  flipVariants,
-  // 交互状态变体
-  hoverVariants,
-  tapVariants,
-  focusVariants,
-  activeVariants,
-  // 高级动画变体
-  staggerVariants,
-  rippleVariants,
-  pulseVariants,
-  swingVariants,
-  floatVariants,
-  // 列表和网格动画变体
-  listItemVariants,
-  gridItemVariants,
-  // 布局动画变体
-  layoutVariants,
-  heightVariants,
-  widthVariants,
-  // 状态指示动画变体
-  loadingVariants,
-  successVariants,
-  errorVariants,
-  warningVariants,
-  // 导航和菜单动画变体
-  menuItemVariants,
-  sidebarVariants,
-  dropdownVariants,
-  // 模态框和弹窗动画变体
-  modalOverlayVariants,
-  modalContentVariants,
-  tooltipVariants,
-  // 工具函数
-  createThemeAwareVariants,
-  mergeVariants,
-  createConditionalVariants,
-} from './variants'
-
 export * from './theme-integration'
-export {
-  // 主题提供者
-  MotionThemeProvider,
-  motionThemeProvider,
-  // Hook
-  useMotionTheme,
-  // 便捷函数
-  createThemeAnimation,
-  createResponsiveThemeAnimation,
-  getMotionThemeConfig,
-  subscribeMotionTheme,
-  // 类型
-  ThemeMotionConfig,
-} from './theme-integration'
-
 export * from './components'
-export {
-  // 动画组件
-  AnimatedDiv,
-  AnimatedCard,
-  AnimatedButton,
-  AnimatedAlert,
-  AnimatedBadge,
-  AnimatedList,
-  AnimatedPresence,
-  // 类型
-  AnimatedComponentProps,
-  AnimatedDivProps,
-  AnimatedCardProps,
-  AnimatedButtonProps,
-  AnimatedAlertProps,
-  AnimatedBadgeProps,
-  AnimatedListProps,
-  AnimatedPresenceProps,
-} from './components'
-
 export * from './utils'
-export {
-  // 性能监控
-  AnimationPerformanceMonitor,
-  useAnimationPerformance,
-  // 动画 Hook
-  useThemeAnimation,
-  useViewportAnimation,
-  useStaggerAnimation,
-  useAnimationOrchestrator,
-  // 工具函数
-  isElementInViewport,
-  getAnimationBudget,
-  createAnimationThrottle,
-  createAnimationDebounce,
-  supportsHardwareAcceleration,
-  getOptimalAnimationProperties,
-  // 类型
-  PerformanceMetric,
-  AnimationBudget,
-} from './utils'
-
 export * from './accessibility'
-export {
-  // 可访问性提供者
-  AccessibilityAnimationProvider,
-  accessibilityAnimationProvider,
-  // 可访问性变体
-  safeAnimationVariants,
-  riskyAnimationVariants,
-  // 便捷函数
-  isAnimationAccessible,
-  getAccessibleAnimation,
-  getAccessibilityConfig,
-  subscribeAccessibility,
-  generateAccessibilityReport,
-  // 类型
-  AccessibilityConfig,
-  AccessibilityReport,
-} from './accessibility'
+
+// 导入默认导出所需的变量
+import { animationSystem } from './animation-system'
+
+// 临时的占位符，以防有代码依赖这些导出
+const motionThemeProvider = null
+const accessibilityAnimationProvider = null
 
 // =============================================================================
 // 重新导出常用类型和接口

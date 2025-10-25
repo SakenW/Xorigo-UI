@@ -156,43 +156,78 @@ export class ColorTokenGenerator {
   static generateCSSVariables(): string {
     const cssVars = []
 
+    // 安全检查：确保 colorTokens 对象可用
+    if (!colorTokens || typeof colorTokens !== 'object') {
+      console.error('ColorTokenGenerator: colorTokens is not available')
+      return ':root {\n  /* Error: colorTokens not available */\n}'
+    }
+
     // 生成中性色变量
-    Object.entries(colorTokens.neutral).forEach(([step, color]) => {
-      if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
-        cssVars.push(`  --color-neutral-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+    try {
+      if (colorTokens.neutral && typeof colorTokens.neutral === 'object') {
+        Object.entries(colorTokens.neutral).forEach(([step, color]) => {
+          if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+            cssVars.push(`  --color-neutral-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+          }
+        })
       }
-    })
+    } catch (error) {
+      console.warn('Warning: Failed to process neutral colors:', error)
+    }
 
     // 生成色温变体变量
     ['warm', 'cool', 'true'].forEach(warmth => {
-      const variantKey = `neutral-${warmth}` as keyof typeof colorTokens
-      const variant = colorTokens[variantKey]
-      if (variant && typeof variant === 'object') {
-        Object.entries(variant).forEach(([step, color]) => {
-          if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
-            cssVars.push(`  --color-neutral-${warmth}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
-          }
-        })
+      try {
+        const variantKey = `neutral-${warmth}` as keyof typeof colorTokens
+        // 双重检查：确保 colorTokens 存在且 variantKey 有效
+        if (!colorTokens || !(variantKey in colorTokens)) {
+          console.warn(`Warning: Color variant ${variantKey} not found in colorTokens`)
+          return
+        }
+
+        const variant = colorTokens[variantKey]
+        if (variant && typeof variant === 'object' && variant !== null && !Array.isArray(variant)) {
+          Object.entries(variant).forEach(([step, color]) => {
+            if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+              cssVars.push(`  --color-neutral-${warmth}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+            }
+          })
+        }
+      } catch (error) {
+        // 如果某个变体处理失败，记录但不中断整个过程
+        console.warn(`Warning: Failed to process color variant ${warmth}:`, error)
       }
     })
 
     // 生成主色变量
-    Object.entries(colorTokens.primary).forEach(([step, color]) => {
-      if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
-        cssVars.push(`  --color-primary-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
-      }
-    })
-
-    // 生成语义化颜色变量
-    Object.entries(colorTokens.semantic).forEach(([semantic, colors]) => {
-      if (colors && typeof colors === 'object') {
-        Object.entries(colors).forEach(([step, color]) => {
+    try {
+      if (colorTokens.primary && typeof colorTokens.primary === 'object') {
+        Object.entries(colorTokens.primary).forEach(([step, color]) => {
           if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
-            cssVars.push(`  --color-${semantic}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+            cssVars.push(`  --color-primary-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
           }
         })
       }
-    })
+    } catch (error) {
+      console.warn('Warning: Failed to process primary colors:', error)
+    }
+
+    // 生成语义化颜色变量
+    try {
+      if (colorTokens.semantic && typeof colorTokens.semantic === 'object') {
+        Object.entries(colorTokens.semantic).forEach(([semantic, colors]) => {
+          if (colors && typeof colors === 'object') {
+            Object.entries(colors).forEach(([step, color]) => {
+              if (color && typeof color === 'object' && 'h' in color && 's' in color && 'l' in color) {
+                cssVars.push(`  --color-${semantic}-${step}: hsl(${color.h}, ${color.s}%, ${color.l}%);`)
+              }
+            })
+          }
+        })
+      }
+    } catch (error) {
+      console.warn('Warning: Failed to process semantic colors:', error)
+    }
 
     return `:root {\n${cssVars.join('\n')}\n}`
   }

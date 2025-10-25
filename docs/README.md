@@ -2,7 +2,77 @@
 
 > 基于 React 19.2.0 + TypeScript 5.9.3 + Tailwind CSS 4.1.14 + Framer Motion 12.0.0 的现代化 UI 组件库
 
-## 📖 文档导航
+## 📚 文档中心导航
+
+> 📋 **文档索引**：本页面是Xorigo UI的完整文档导航中心，所有文档都可以从这里找到入口。
+
+## 🗂️ 文档结构概览
+
+```
+docs/
+├── 📖 README.md                           # 主页文档（本页面）
+├── 🚀 guides/                             # 用户指南
+│   └── getting-started.md                # 快速开始指南
+├── 🎨 components/                         # 组件文档
+│   └── README.md                          # 组件总览
+├── 🎭 theming/                            # 主题系统
+│   └── seven-axis-system.md              # 七轴主题系统
+├── 🛠️ development/                        # 开发指南
+│   └── README.md                          # 开发环境与规范
+├── 🏗️ architecture/                       # 架构文档
+│   ├── ui-architecture-ssot-v1.4.md      # UI 架构 SSOT
+│   ├── website-architecture-v1.4.md      # Website 架构
+│   └── [archive/]                         # 历史归档
+├── 🤝 shared/                             # 共享规范
+│   ├── theme-system-ssot-v1.4.md         # 主题系统 SSOT
+│   ├── component-classification-system.md # 组件分类系统
+│   └── component-taxonomy-v1.4.yaml      # 组件分类定义（SSOT）
+└── 📊 project-info/                       # 项目信息
+    ├── OPTIMIZATION_REPORT.md            # 优化报告
+    ├── CONTENT_MIGRATION_ANALYSIS.md     # 迁移分析
+    └── LEGACY_ARCHIVE_SUMMARY.md         # 归档总结
+```
+
+## 🎯 文档优先级指南
+
+### 🔥 核心文档（必读）
+1. **[快速开始指南](./guides/getting-started.md)** - 5分钟集成 Xorigo UI
+2. **[主题系统 SSOT v1.4](./shared/theme-system-ssot-v1.4.md)** - 主题系统核心规范
+3. **[组件总览](./components/README.md)** - 所有可用组件
+
+### 🏗️ 架构文档（按优先级）
+1. **[组件分类系统](./shared/component-classification-system.md)** - 组件分类体系（优先级 1）
+2. **[UI 架构 SSOT v1.4](./architecture/ui-architecture-ssot-v1.4.md)** - UI 组件架构（优先级 2）
+3. **[Website 架构 v1.4](./architecture/website-architecture-v1.4.md)** - Website 技术架构（优先级 3）
+
+### 🎨 主题系统
+1. **[七轴主题系统](./theming/seven-axis-system.md)** - 主题使用指南
+2. **[主题系统 SSOT](./shared/theme-system-ssot-v1.4.md)** - 主题系统实现规范
+
+### 📊 项目信息
+1. **[优化报告](./OPTIMIZATION_REPORT.md)** - 文档优化工作总结
+2. **[内容迁移分析](./CONTENT_MIGRATION_ANALYSIS.md)** - 迁移内容分析
+3. **[归档总结](./LEGACY_ARCHIVE_SUMMARY.md)** - 历史文档信息
+
+## 🚀 推荐阅读路径
+
+### 新用户路径
+1. [快速开始指南](./guides/getting-started.md) → 了解如何安装和使用
+2. [组件总览](./components/README.md) → 查看所有可用组件
+3. [七轴主题系统](./theming/seven-axis-system.md) → 了解主题定制
+4. [开发指南](./development/README.md) → 搭建开发环境
+
+### 开发者路径
+1. [主题系统 SSOT](./shared/theme-system-ssot-v1.4.md) → 理解核心主题机制
+2. [组件分类系统](./shared/component-classification-system.md) → 了解组件分类
+3. [UI 架构 SSOT](./architecture/ui-architecture-ssot-v1.4.md) → 深入 UI 架构设计
+4. [开发指南](./development/README.md) → 开发规范和最佳实践
+
+### 架构师路径
+1. [所有共享规范](./shared/) → 理解跨模块规范
+2. [UI 架构文档](./architecture/ui-architecture-ssot-v1.4.md) → UI 架构设计
+3. [Website 架构文档](./architecture/website-architecture-v1.4.md) → Website 技术架构
+4. [优化报告](./OPTIMIZATION_REPORT.md) → 了解优化历程
 
 ### 🚀 快速开始
 - [安装指南](./guides/getting-started.md) - 如何安装和配置 Xorigo UI

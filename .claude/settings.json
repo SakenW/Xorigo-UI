@@ -12,6 +12,9 @@
     "XORIGO_FEISHU_ENABLED": "true",
     "CLAUDE_HOOKS_DEBUG": "false",
     "XORIGO_DOCKER_DEV_PORT": "3100",
+    "XORIGO_CORE_DEV_PORT": "3001",
+    "XORIGO_WEBSITE_DEV_PORT": "3100",
+    "XORIGO_DEV_MODE": "mixed",
     "XORIGO_PROJECT_NAME": "Xorigo UI",
     "XORIGO_TECH_STACK": "React 19 + TypeScript 5.9 + Tailwind CSS 4 + Framer Motion 12"
   },
@@ -31,6 +34,11 @@
       "Bash(npm run docker:dev:*)",
       "Bash(npm run agent:*)",
       "Bash(npm run docker:*)",
+      "Bash(npm run local:dev:*)",
+      "Bash(npm run local:dev)",
+      "Bash(npm run local:dev:all)",
+      "Bash(npm run dev:core)",
+      "Bash(npm run dev:website)",
       "Bash(npx vite:*)",
       "Bash(curl:*)",
       "Bash(xargs:*)",
@@ -74,10 +82,6 @@
       "Bash(curl * | bash)",
       "Bash(wget * | sh)",
       "Bash(eval *)",
-      "Bash(npm run dev:*)",
-      "Bash(yarn dev)",
-      "Bash(pnpm dev)",
-      "Bash(next dev)",
       "Bash(docker-compose *)",
       "Bash(docker run *)",
       "Bash(docker start *)",
@@ -92,10 +96,7 @@
       "Bash(docker system *)",
       "Bash(docker network *)",
       "Bash(docker volume *)",
-      "Bash(docker prune *)",
-      "Bash(npm run dev)",
-      "Bash(npm run dev:website)",
-      "Bash(npm run dev:core)"
+      "Bash(docker prune *)"
     ]
   },
   "hooks": [

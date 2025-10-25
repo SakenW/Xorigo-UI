@@ -1,0 +1,86 @@
+# ============================================
+# Xorigo UI 混合开发环境编排
+# 本地开发 + Docker 容器化
+# 避免占用 3000 端口，为其他库让路
+# ============================================
+
+services:
+  # 核心组件库开发服务 (Docker 内)
+  xorigo-core-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: xorigo-core-dev
+    ports:
+      - "${CORE_DEV_PORT:-3001}:3001"    # 核心库开发端口
+      - "${CORE_PREVIEW_PORT:-3002}:3002" # 预览端口
+    volumes:
+      # 核心库源码热更新
+      - ./packages/core/src:/app/src:delegated
+      - ./packages/core/public:/app/public:delegated
+      - ./packages/core/vite.config.ts:/app/vite.config.ts:delegated
+      - ./packages/core/package.json:/app/package.json:delegated
+      - ./packages/core/tsconfig.json:/app/tsconfig.json:delegated
+
+      # 依赖包热更新
+      - ./packages:/app/packages:delegated
+
+      # 清理缓存
+      - /app/dist
+      - /app/node_modules/.cache
+    environment:
+      - NODE_ENV=development
+      - VITE_PORT=3001
+      - VITE_HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: >
+      sh -c "
+        echo '🔧 检查开发环境...' &&
+        node scripts/check-dev-env.js &&
+        echo '📦 安装依赖...' &&
+        pnpm install --frozen-lockfile &&
+        echo '🚀 启动核心库开发服务器...' &&
+        pnpm dev
+      "
+    networks:
+      - xorigo-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://localhost:3001 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    labels:
+      - "com.xorigo-ui.service=core"
+      - "com.xorigo-ui.environment=development"
+      - "com.xorigo-ui.hot-reload=true"
+
+  # Redis 缓存服务 (可选，用于开发测试)
+  redis:
+    image: redis:7-alpine
+    container_name: xorigo-redis-dev
+    ports:
+      - "${REDIS_PORT:-6380}:6379"  # 避免与主 Redis 冲突
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - xorigo-dev-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-dev123}"
+    labels:
+      - "com.xorigo-ui.service=redis"
+      - "com.xorigo-ui.environment=development"
+
+volumes:
+  redis_dev_data:
+    driver: local
+
+networks:
+  xorigo-dev-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
