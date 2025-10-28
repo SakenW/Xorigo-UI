@@ -14,10 +14,13 @@ const nextConfig: NextConfig = {
 
   // 启用 App Router
   experimental: {
-    turbo: {
-      resolveAlias: {
-        '@': './src',
-      },
+    // 移除已弃用的 turbo 配置
+  },
+
+  // 新的 turbopack 配置
+  turbopack: {
+    resolveAlias: {
+      '@': './src',
     },
   },
 

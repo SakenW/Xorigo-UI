@@ -1,304 +1,283 @@
 'use client'
 
-import React, { useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { Box, Palette, Code2, Zap } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { XorigoLogo } from '@xorigo-ui/core'
+import { Button } from '@xorigo-ui/core'
+import { StatCard } from '@xorigo-ui/core'
+import { ThemeSwitcher } from '@xorigo-ui/core'
 
-// 导入拆分的营销组件
-import {
-  Component3DCarousel,
-  ComponentCategoryGrid,
-  FluidBackground
-} from '@/components/marketing'
+// 动态背景组件
+const AnimatedBackground = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
-// 导入通用组件库
-import {
-  CodeDemo,
-  StatCard,
-  HeroTitle,
-  SuperParticleSystem
-} from '@xorigo-ui/core'
-
-/**
- * Xorigo UI 首页 - 重构版本
- *
- * 组件化架构 + 设计令牌系统 + 优化滚动体验
- */
-export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const { scrollY } = useScroll()
-
-  // 调整后的滚动动画配置 - 让用户在第二屏看到动画过程
-  const heroOpacity = useTransform(scrollY, [0, 150], [1, 0])
-  const codeOpacity = useTransform(scrollY, [100, 400], [0, 1.1]) // 延迟到用户滚动到第二屏时开始
-  const gridOpacity = useTransform(scrollY, [300, 500], [0, 1])
-  const ctaOpacity = useTransform(scrollY, [450, 650], [0, 1])
-
-  // 滚动指示器 - 调整后配合新的动画时机
-  const shouldShowScrollIndicator = useTransform(scrollY, [50, 180], [1, 0])
-  const shouldShowBackToTop = useTransform(scrollY, [200, 350], [0, 1])
-
-  
-  // 统计数据 - 基于实际系统特点修正
-  const stats = [
-    { label: '组件', value: 100, suffix: '+', icon: <Box /> },
-    { label: '主题配方', value: 10, suffix: '+', icon: <Palette /> },
-    { label: '七轴系统', value: 7, suffix: '维度', icon: <Zap /> },
-    { label: 'TypeScript', value: 100, suffix: '%', icon: <Code2 /> }
-  ]
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
 
   return (
-    <>
-      {/* 主页面内容 */}
-      <motion.div
-        key="main-content"
-        className="min-h-screen bg-black text-white relative overflow-hidden overflow-x-hidden"
+    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div
+        className="absolute w-96 h-96 rounded-full opacity-10 blur-3xl"
+        style={{
+          backgroundColor: 'var(--color-primary-500)',
+          left: mousePosition.x - 192,
+          top: mousePosition.y - 192,
+          transition: 'all 0.3s ease-out'
+        }}
+      />
+      <div
+        className="absolute w-64 h-64 rounded-full opacity-10 blur-3xl"
+        style={{
+          backgroundColor: 'var(--color-accent-500)',
+          right: mousePosition.x - 128,
+          bottom: mousePosition.y - 128,
+          transition: 'all 0.3s ease-out'
+        }}
+      />
+    </div>
+  )
+}
+
+export default function HomePage() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: 'var(--color-background-primary)', color: 'var(--color-text-primary)' }}>
+      {/* 主题切换器 */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeSwitcher />
+      </div>
+
+      <AnimatedBackground />
+
+      {/* Hero Section */}
+      <motion.section
+        className="min-h-screen flex flex-col items-center justify-center relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        {/* 🎨 背景效果层 */}
-        <FluidBackground />
-        {/* 萤火虫背景效果 */}
-        <div className="fixed inset-0 pointer-events-none z-[10]" style={{ isolation: 'isolate' }}>
-          <SuperParticleSystem
-            count={50}
-            colorVar400="#fbbf24"
-            colorVar300="#fcd34d"
-            colorVar200="#fde68a"
-          />
-        </div>
-
-        {/* 📜 滚动进度指示器 */}
         <motion.div
-          className="fixed left-0 top-0 w-1 h-full bg-gradient-to-b from-[var(--color-primary-500)] to-[var(--color-accent-500)] z-[60] origin-top"
-          style={{
-            scaleY: useTransform(scrollY, [0, 1000], [0, 1])
-          }}
-        />
-
-        {/* 📜 平滑滚动指示 */}
-        <motion.div
-          className="fixed bottom-8 right-8 z-[60]"
-          style={{
-            opacity: shouldShowScrollIndicator
-          }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-8"
         >
-          <div className="flex flex-col items-center gap-2">
-            <motion.div
-              className="w-2 h-2 bg-[var(--color-primary-400)] rounded-full"
-              animate={{ scale: [1, 1.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <span className="text-xs text-[var(--color-text-secondary)]">向下滚动</span>
-          </div>
+          <XorigoLogo className="w-32 h-32" />
         </motion.div>
 
-        {/* 🚀 返回顶部按钮 */}
+        <motion.h1
+          className="text-6xl md:text-8xl font-bold text-center mb-6 bg-gradient-to-r from-[var(--color-primary-400)] via-[var(--color-accent-400)] to-[var(--color-secondary-400)] bg-clip-text text-transparent"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          Xorigo UI
+        </motion.h1>
+
+        <motion.p
+          className="text-xl md:text-2xl mb-12 text-center max-w-4xl px-4"
+          style={{ color: 'var(--color-text-secondary)' }}
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          基于 React 19 + TypeScript 5.9 + Tailwind CSS 4 构建的现代化 React UI 组件库
+        </motion.p>
+
+        <motion.div
+          className="flex gap-4 flex-wrap justify-center"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <Button size="lg">
+            开始使用
+          </Button>
+          <Button variant="outline" size="lg">
+            查看文档
+          </Button>
+        </motion.div>
+      </motion.section>
+
+      {/* Statistics Section */}
+      <motion.section
+        className="py-20 px-4"
+        style={{ backgroundColor: 'var(--color-background-secondary)' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            className="text-4xl font-bold text-center mb-16"
+            style={{ color: 'var(--color-text-primary)' }}
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            强大的功能集
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard
+              title="React 组件"
+              value="50+"
+              description="高质量的 UI 组件"
+              trend={{ value: "+5 本月", type: "increase" }}
+              variant="primary"
+              icon="⚛️"
+            />
+            <StatCard
+              title="主题配方"
+              value="20+"
+              description="七轴主题系统"
+              trend={{ value: "+3 新增", type: "increase" }}
+              variant="accent"
+              icon="🎨"
+            />
+            <StatCard
+              title="动画效果"
+              value="100+"
+              description="流畅的交互动画"
+              trend={{ value: "+10 优化", type: "increase" }}
+              variant="secondary"
+              icon="✨"
+            />
+            <StatCard
+              title="无障碍支持"
+              value="100%"
+              description="WCAG 2.1 AA 标准"
+              trend={{ value: "持续改进", type: "neutral" }}
+              variant="success"
+              icon="♿"
+            />
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Features Section */}
+      <motion.section
+        className="py-20 px-4"
+        style={{ backgroundColor: 'var(--color-background-tertiary)' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            className="text-4xl font-bold text-center mb-16"
+            style={{ color: 'var(--color-text-primary)' }}
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            为什么选择 Xorigo UI？
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: '现代化技术栈', desc: '基于最新的 React 19、TypeScript 5.9 和 Tailwind CSS 4', icon: '🚀' },
+              { title: '灵活主题系统', desc: '支持七轴主题配方，轻松定制品牌风格', icon: '🎨' },
+              { title: '流畅动画效果', desc: '集成 Framer Motion，提供丰富的交互动画', icon: '✨' },
+              { title: 'TypeScript 支持', desc: '完整的类型定义，提供优秀的开发体验', icon: '📝' },
+              { title: '无障碍友好', desc: '遵循 WCAG 标准，支持键盘导航和屏幕阅读器', icon: '♿' },
+              { title: '响应式设计', desc: '完美适配桌面端和移动端设备', icon: '📱' }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="rounded-lg p-6 transition-all duration-200"
+                style={{
+                  backgroundColor: 'var(--color-surface-primary)',
+                  border: '1px solid var(--color-border-default)'
+                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  y: -5,
+                  borderColor: 'var(--color-primary-300)',
+                  boxShadow: 'var(--shadow-lg)'
+                }}
+              >
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3
+                  className="text-xl font-semibold mb-3"
+                  style={{ color: 'var(--color-text-primary)' }}
+                >
+                  {feature.title}
+                </h3>
+                <p
+                  className="text-base leading-relaxed"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                >
+                  {feature.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Scroll Progress Indicator */}
+      <AnimatePresence>
+        {scrollY < 100 && (
+          <motion.div
+            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-6 h-10 rounded-full flex items-center justify-center cursor-pointer"
+              style={{ backgroundColor: 'var(--color-primary-500)' }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Back to Top Button */}
+      {scrollY > 300 && (
         <motion.button
-          className="fixed bottom-8 right-8 z-[60] p-3 bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white rounded-full shadow-lg transition-colors"
-          style={{
-            opacity: shouldShowBackToTop
+          className="fixed bottom-8 right-8 w-12 h-12 rounded-full flex items-center justify-center z-50"
+          style={{ backgroundColor: 'var(--color-primary-600)' }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: 'var(--color-primary-700)'
           }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
         </motion.button>
-
-        {/* 🚀 Hero Section */}
-        <motion.section
-          className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-4"
-          style={{
-            opacity: heroOpacity
-          }}
-        >
-          <div className="max-w-6xl mx-auto text-center relative z-10">
-            {/* 🎨 炫彩标题 - 使用增强的 HeroTitle 组件 */}
-            <HeroTitle
-              text="Xorigo UI"
-              size="xl"
-              className="mb-12"
-              enable3D={true}
-              shine={true}
-              glow={true}
-              gradientStops={[
-                '#a855f7', // purple-500
-                '#ec4899', // pink-500
-                '#06b6d4', // cyan-500
-                '#10b981', // emerald-500
-                '#f59e0b', // amber-500
-                '#ec4899', // pink-500 (back to pink)
-                '#a855f7', // purple-500
-                '#06b6d4', // cyan-500
-                '#a855f7', // purple-500 (cycle complete)
-              ]}
-              beamColor="rgba(255,255,255,0.5)"
-              beamSecondaryColor="rgba(139, 92, 246, 0.4)"
-              glowColor="rgba(6, 182, 212, 0.3)"
-              flowDurationSec={25}
-              beamDuration={4}
-              beamSecondaryDuration={6}
-              glowDuration={5}
-              entranceDelay={0.2}
-            />
-
-            <motion.p
-              className="text-3xl text-[var(--color-text-secondary)] mb-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              下一代 React 组件库
-            </motion.p>
-
-            <motion.p
-              className="text-xl text-[var(--color-text-tertiary)] mb-12 max-w-3xl mx-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              由 Saken 与 AI 协作打造，为现代 Web 应用提供极致的开发体验
-            </motion.p>
-
-            {/* 📊 统计数据 */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            >
-              {stats.map((stat, index) => (
-                <StatCard
-                  key={stat.label}
-                  title={stat.label}
-                  value={stat.value}
-                  change={stat.change}
-                  icon={stat.icon}
-                />
-              ))}
-            </motion.div>
-
-            </div>
-        </motion.section>
-
-        {/* 💻 代码编辑器区域 - 调整后的增强渐显效果 */}
-        <motion.section
-          className="relative -mt-20 pt-4 pb-16 px-4"
-          style={{
-            opacity: codeOpacity,
-            y: useTransform(scrollY, [100, 400], [120, 0]),
-            scale: useTransform(scrollY, [100, 400], [0.92, 1]) // 调整缩放时机
-          }}
-        >
-          <motion.div
-            className="max-w-7xl mx-auto"
-          >
-            {/* 区域标题 - 调整后的增强渐显效果 */}
-            <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-[var(--color-primary-400)] to-[var(--color-accent-400)] bg-clip-text text-transparent"
-              style={{
-                opacity: useTransform(scrollY, [100, 200], [0, 1]),
-                y: useTransform(scrollY, [100, 200], [80, 0]),
-                scale: useTransform(scrollY, [100, 200], [0.88, 1]),
-                filter: useTransform(scrollY, [100, 200], ['blur(8px)', 'blur(0px)'])
-              }}
-            >
-              实时代码演示
-            </motion.h2>
-
-            <motion.p
-              className="text-xl text-[var(--color-text-secondary)] text-center mb-16 max-w-3xl mx-auto"
-              style={{
-                opacity: useTransform(scrollY, [150, 250], [0, 1]),
-                y: useTransform(scrollY, [150, 250], [70, 0]),
-                scale: useTransform(scrollY, [150, 250], [0.9, 1]),
-                filter: useTransform(scrollY, [150, 250], ['blur(6px)', 'blur(0px)'])
-              }}
-            >
-              即时预览组件效果，感受 Xorigo UI 的开发体验
-            </motion.p>
-
-            {/* 代码编辑器 - 调整后的增强渐显效果 */}
-            <motion.div
-              style={{
-                opacity: useTransform(scrollY, [200, 350], [0, 1]),
-                y: useTransform(scrollY, [200, 350], [100, 0]),
-                scale: useTransform(scrollY, [200, 350], [0.85, 1]),
-                filter: useTransform(scrollY, [200, 350], ['blur(12px)', 'blur(0px)'])
-              }}
-            >
-              <CodeDemo />
-            </motion.div>
-          </motion.div>
-        </motion.section>
-
-        {/* 📦 组件分类网格 - 紧凑布局 */}
-        <motion.section
-          className="relative py-16 px-4"
-          style={{
-            opacity: gridOpacity
-          }}
-        >
-          <motion.div
-            className="max-w-7xl mx-auto"
-          >
-            <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-[var(--color-secondary-400)] to-[var(--color-accent-400)] bg-clip-text text-transparent"
-            >
-              组件分类
-            </motion.h2>
-
-            <ComponentCategoryGrid
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
-          </motion.div>
-        </motion.section>
-
-        {/* 🚀 CTA Section - 紧凑布局 */}
-        <motion.section
-          className="relative py-20 px-4"
-          style={{
-            opacity: ctaOpacity
-          }}
-        >
-          <motion.div
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.h2
-              className="text-4xl md:text-5xl font-bold mb-8 text-[var(--color-text-primary)]"
-            >
-              立即开始使用
-            </motion.h2>
-
-            <motion.p
-              className="text-xl text-[var(--color-text-secondary)] mb-12"
-            >
-              快速构建现代化的 React 应用
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <a
-                href="/docs"
-                className="px-8 py-4 bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white rounded-lg font-semibold transition-all transform hover:scale-105"
-              >
-                查看文档
-              </a>
-              <a
-                href="https://github.com/Xorigo/xorigo-ui"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-[var(--color-surface-dark)] hover:bg-[var(--color-surface-medium)] text-[var(--color-text-primary)] rounded-lg font-semibold border border-[var(--color-primary-500)]/30 transition-all transform hover:scale-105 hover:border-[var(--color-primary-500)]/60"
-              >
-                GitHub
-              </a>
-            </motion.div>
-          </motion.div>
-        </motion.section>
-      </motion.div>
-    </>
+      )}
+    </div>
   )
 }

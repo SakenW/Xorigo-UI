@@ -18,6 +18,7 @@ export * from './motion'
 // 保留的旧组件（兼容性）
 export * from './data-display/table'
 export * from './data-display/data-table'
-export * from './data-display/stat'
+// 注意：不导出 './data-display/stat' 因为它已经在 './data-display' 中包含，会造成 StatCard 冲突
 export * from './overlays/dialog'
 export * from './loading/xorigo-logo-loader'
+export * from './branding'

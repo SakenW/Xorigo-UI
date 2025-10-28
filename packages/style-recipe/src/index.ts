@@ -68,34 +68,37 @@ export {
   classicNeutralRecipe,
   highContrastProRecipe,
 
-  // 备份主题配方
-  warmSunriseRecipe,
-  pinkRomanceRecipe,
-  forestNatureRecipe,
-  deepOceanRecipe,
-  royalVioletRecipe,
-  vibrantLemonRecipe,
-  dreamyRainbowRecipe,
-  carnivalCircusRecipe,
-
   // 配方集合与工具
   officialRecipes,
-  allRecipes,
   recipeMap,
   recipesByCategory,
   getRecipe,
   getRecipesByCategory,
   searchRecipes,
-  searchAllRecipes,
   getRecommendedRecipes,
-  getRecommendedLegacyRecipes,
   validateRecipeID,
   parseRecipeID,
 
+  // 临时注释掉有问题的备份配方导出以解决导入错误
+  // 备份主题配方
+  // warmSunriseRecipe,
+  // pinkRomanceRecipe,
+  // forestNatureRecipe,
+  // deepOceanRecipe,
+  // royalVioletRecipe,
+  // vibrantLemonRecipe,
+  // dreamyRainbowRecipe,
+  // carnivalCircusRecipe,
+
+  // 配方集合与工具
+  // allRecipes,
+  // searchAllRecipes,
+  // getRecommendedLegacyRecipes,
+
   // 配方别名
-  RECIPE_ALIASES,
-  getRealRecipeId,
-  isRecipeAlias,
+  // RECIPE_ALIASES,
+  // getRealRecipeId,
+  // isRecipeAlias,
 } from './recipes'
 
 // ============================================================================

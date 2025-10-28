@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { useMotionValue, useVelocity } from 'framer-motion'
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
+import { useMotionValue } from 'framer-motion'
 
 export interface SuperParticleSystemProps {
   count?: number
@@ -43,26 +43,26 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
   }>>([])
 
   const [safeDimensions, setSafeDimensions] = useState(() => ({
-    width: Math.min(typeof window !== 'undefined' ? window.innerWidth : 1000,
-                  typeof document !== 'undefined' ? document.documentElement.clientWidth : 1000),
-    height: Math.min(typeof window !== 'undefined' ? window.innerHeight : 800,
-                   typeof document !== 'undefined' ? document.documentElement.clientHeight : 800)
+    width: typeof window !== 'undefined' ? Math.min(window.innerWidth, 1000) : 1000,
+    height: typeof window !== 'undefined' ? Math.min(window.innerHeight, 800) : 800
   }))
 
-  // 使用 useMemo 来稳定 safeDimensions 的引用
+  // 🚀 性能优化：使用 useMemo 缓存计算结果
   const stableSafeDimensions = useMemo(() => safeDimensions, [safeDimensions.width, safeDimensions.height])
 
+  // 🚀 性能优化：减少 Framer Motion hooks 的使用
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const mouseVelocity = useVelocity(mouseY)
   const lastMouseTime = useRef(Date.now())
   const isMouseMoving = useRef(false)
+  const animationFrameRef = useRef<number>()
+  const lastUpdateTime = useRef(0)
 
-  // 获取鼠标当前位置
-  const getCurrentMousePos = () => ({
+  // 🚀 性能优化：缓存鼠标位置计算
+  const getCurrentMousePos = useCallback(() => ({
     x: mouseX.get(),
     y: mouseY.get()
-  })
+  }), [mouseX, mouseY])
 
   useEffect(() => {
     setMounted(true)
@@ -132,176 +132,116 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
     }
   }, [mouseX, mouseY, mouseVelocity, count, stableSafeDimensions])
 
-  // ✨ 萤火虫飞舞动画
+  // 🚀 性能优化：简化高效的动画循环
   useEffect(() => {
-    let animationId: number
-    let lastTime = 0
-    const targetFPS = 30
+    if (!mounted) return
+
+    const targetFPS = count > 25 ? 15 : 25 // 🚀 进一步降低FPS
     const frameInterval = 1000 / targetFPS
+    let animationId: number
 
     const animate = (currentTime: number) => {
-      if (currentTime - lastTime >= frameInterval) {
+      if (currentTime - lastUpdateTime.current >= frameInterval) {
+        lastUpdateTime.current = currentTime
         const mousePos = getCurrentMousePos()
 
         setFireflies(prev => prev.map(firefly => {
-          let {
-            x, y, vx, vy, targetX, targetY,
-            glowPhase, wanderAngle, wanderSpeed,
-            isAttracted, attractionStrength
-          } = firefly
+          let { x, y, vx, vy, targetX, targetY, glowPhase, wanderAngle, wanderSpeed, isAttracted } = firefly
 
-          // 🌟 更新闪烁相位
-          glowPhase += 0.05
+          // 🚀 简化更新逻辑
+          glowPhase += 0.03 // 减少更新频率
 
-          // 🎯 计算与鼠标的距离
+          // 🎯 优化距离计算
           const dx = mousePos.x - x
           const dy = mousePos.y - y
-          const distance = Math.sqrt(dx * dx + dy * dy)
+          const distanceSq = dx * dx + dy * dy // 使用平方距离避免开方
+          const attractDistanceSq = 200 * 200 // 200px 的平方
 
-          // 🦋 判断是否应该被吸引 - 修复自动飞走机制
-          const shouldBeAttracted = isMouseMoving.current && distance < 300
-          const minSafeDistance = 70
-          const maxSafeDistance = 120
-          const idealDistance = 95
+          // 🚀 简化吸引逻辑
+          const shouldBeAttracted = isMouseMoving.current && distanceSq < attractDistanceSq
 
-          // 简化响应逻辑，确保状态转换可靠
           if (shouldBeAttracted && !isAttracted) {
-            // 开始吸引
             isAttracted = true
-            attractionStrength = 0
           } else if (!shouldBeAttracted && isAttracted) {
-            // 停止吸引，立即切换到漫游并飞走
             isAttracted = false
-            attractionStrength = 0
-            // 设置远离鼠标的新目标
-            const escapeAngle = Math.atan2(y - mousePos.y, x - mousePos.x)
-            const escapeDistance = 300 + Math.random() * 200
-            targetX = mousePos.x + Math.cos(escapeAngle) * escapeDistance
-            targetY = mousePos.y + Math.sin(escapeAngle) * escapeDistance
+            // 设置新的随机目标
+            targetX = Math.random() * stableSafeDimensions.width
+            targetY = Math.random() * stableSafeDimensions.height
           }
 
-          if (isAttracted) {
-            // 🧲 明显的吸引效果 - 让萤火虫真正被吸引
-            attractionStrength = Math.min(attractionStrength + 0.01, 0.8)
-
-            if (distance > maxSafeDistance) {
-              // 在安全距离外，强有力地吸引
-              const attractForce = attractionStrength * 0.1
-              vx += (dx / distance) * attractForce
-              vy += (dy / distance) * attractForce
-            } else if (distance < minSafeDistance) {
-              // 只在很近时才轻微推开
-              const repelForce = (minSafeDistance - distance) / minSafeDistance * 0.05
-              vx -= (dx / distance) * repelForce
-              vy -= (dy / distance) * repelForce
-            } else {
-              // 在理想距离范围内，轻微调整保持稳定
-              const adjustForce = (distance - idealDistance) / (maxSafeDistance - minSafeDistance) * 0.1
-              const targetAngle = Math.atan2(dy, dx) + adjustForce * 0.2
-
-              // 主要靠轨道运动控制位置
-              const orbitAngle = Math.atan2(dy, dx) + 0.01
-              const orbitRadius = idealDistance + Math.sin(currentTime * 0.001 + firefly.id) * 8
-              const orbitX = mousePos.x + Math.cos(orbitAngle) * orbitRadius
-              const orbitY = mousePos.y + Math.sin(orbitAngle) * orbitRadius
-
-              const orbitDx = orbitX - x
-              const orbitDy = orbitY - y
-              const orbitDistance = Math.sqrt(orbitDx * orbitDx + orbitDy * orbitDy)
-
-              if (orbitDistance > 3) {
-                vx += (orbitDx / orbitDistance) * 0.04
-                vy += (orbitDy / orbitDistance) * 0.04
-              }
-            }
-
-            // 🌊 极其随机的漂移 - 几乎不直接环绕鼠标
-            const randomFactor = Math.random() * 0.8 - 0.4
-            const wobble = Math.sin(currentTime * 0.001 + firefly.id) * 1.2
-            const driftAngle = Math.atan2(dy, dx) + wobble + randomFactor
-
-            // 极其微弱的向鼠标倾向
-            const weakInfluence = 0.003 + Math.random() * 0.002
-            vx += Math.cos(driftAngle) * weakInfluence
-            vy += Math.sin(driftAngle) * weakInfluence
+          if (isAttracted && distanceSq > 0) {
+            // 🚀 简化的吸引算法
+            const attractForce = 0.05
+            const distance = Math.sqrt(distanceSq)
+            vx += (dx / distance) * attractForce
+            vy += (dy / distance) * attractForce
           } else {
-            // 🎲 自然漫游 - 正常漫游，不主动逃离
-            attractionStrength = Math.max(attractionStrength - 0.008, 0)
-
-            // 正常随机漫游
-            if (Math.random() < 0.02) { // 增加改变目标的频率
+            // 🚀 简化的漫游逻辑
+            if (Math.random() < 0.02) { // 降低更新频率
               targetX = Math.random() * stableSafeDimensions.width
               targetY = Math.random() * stableSafeDimensions.height
             }
 
-            const targetDx = targetX - x
-            const targetDy = targetY - y
-            const targetDistance = Math.sqrt(targetDx * targetDx + targetDy * targetDy)
-
-            if (targetDistance > 5) {
-              vx += (targetDx / targetDistance) * wanderSpeed * 1.5 // 增强漫游速度
-              vy += (targetDy / targetDistance) * wanderSpeed * 1.5
-            }
-
-            // 添加自然的随机漂移，增强动感
-            wanderAngle += (Math.random() - 0.5) * 0.15
-            vx += Math.cos(wanderAngle) * 0.08
-            vy += Math.sin(wanderAngle) * 0.08
+            const tdx = targetX - x
+            const tdy = targetY - y
+            vx += tdx * 0.001
+            vy += tdy * 0.001
           }
 
-          // 💫 应用阻力
+          // 🚀 应用阻尼和速度限制
           vx *= 0.95
           vy *= 0.95
+          const maxSpeed = 2
+          const speed = Math.sqrt(vx * vx + vy * vy)
+          if (speed > maxSpeed) {
+            vx = (vx / speed) * maxSpeed
+            vy = (vy / speed) * maxSpeed
+          }
 
           // 更新位置
           x += vx
           y += vy
 
-          // 🌍 边界处理 - 严格约束在安全边界内，防止横向滚动条
-          const { width: safeWidth, height: safeHeight } = stableSafeDimensions
-          const margin = 20 // 增加边距以确保绝对安全
-
-          if (x < margin) {
-            x = margin
-            vx = Math.abs(vx) * 0.3 // 更强的反弹减速
-          } else if (x > safeWidth - margin) {
-            x = safeWidth - margin
-            vx = -Math.abs(vx) * 0.3 // 更强的反弹减速
+          // 🚀 简化的边界处理
+          const margin = 50
+          if (x < margin || x > stableSafeDimensions.width - margin) {
+            vx = -vx
+            x = Math.max(margin, Math.min(stableSafeDimensions.width - margin, x))
+          }
+          if (y < margin || y > stableSafeDimensions.height - margin) {
+            vy = -vy
+            y = Math.max(margin, Math.min(stableSafeDimensions.height - margin, y))
           }
 
-          if (y < margin) {
-            y = margin
-            vy = Math.abs(vy) * 0.3 // 更强的反弹减速
-          } else if (y > safeHeight - margin) {
-            y = safeHeight - margin
-            vy = -Math.abs(vy) * 0.3 // 更强的反弹减速
-          }
-
-          // ✨ 计算当前透明度（闪烁效果）
-          const glowIntensity = Math.sin(glowPhase) * 0.3 + 0.7
-          const currentOpacity = firefly.baseOpacity * glowIntensity
+          // 🚀 简化的透明度计算
+          const currentOpacity = firefly.baseOpacity + Math.sin(glowPhase) * 0.1
 
           return {
             ...firefly,
             x, y, vx, vy, targetX, targetY,
-            glowPhase, wanderAngle, wanderSpeed,
-            isAttracted, attractionStrength, currentOpacity
+            glowPhase, currentOpacity, isAttracted
           }
         }))
-
-        lastTime = currentTime
       }
+
       animationId = requestAnimationFrame(animate)
     }
 
     animationId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationId)
-  }, [mouseX, mouseY, stableSafeDimensions])
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+      }
+    }
+  }, [mounted, count, getCurrentMousePos, stableSafeDimensions])
 
   if (!mounted) return null
 
-  // ✨ 渲染萤火虫粒子
-  const renderFirefly = (firefly: typeof fireflies[0]) => {
+  // 🚀 性能优化：简化的渲染函数
+  const renderFirefly = React.useMemo(() => (firefly: typeof fireflies[0]) => {
+    const opacity = Math.max(0, Math.min(1, firefly.currentOpacity))
+
     return (
       <div
         key={firefly.id}
@@ -313,20 +253,16 @@ export const SuperParticleSystem: React.FC<SuperParticleSystemProps> = ({
           height: firefly.size * 2,
           backgroundColor: colorVar400,
           borderRadius: '50%',
-          opacity: firefly.currentOpacity,
+          opacity,
           transform: 'translate(-50%, -50%)',
-          boxShadow: `
-            0 0 ${firefly.size * 8}px ${colorVar400}${Math.floor(firefly.currentOpacity * 255).toString(16).padStart(2, '0')},
-            0 0 ${firefly.size * 4}px ${colorVar300}${Math.floor(firefly.currentOpacity * 0.6 * 255).toString(16).padStart(2, '0')},
-            0 0 ${firefly.size * 2}px ${colorVar200}${Math.floor(firefly.currentOpacity * 0.3 * 255).toString(16).padStart(2, '0')}
-          `,
+          // 🚀 简化阴影效果
+          boxShadow: `0 0 ${firefly.size * 4}px ${colorVar400}`,
           filter: 'blur(0.5px)',
-          willChange: 'transform, opacity',
           mixBlendMode: 'screen'
         }}
       />
     )
-  }
+  }, [colorVar400])
 
   return (
     <div className={`fixed inset-0 pointer-events-none ${className}`}>

@@ -1,21 +1,36 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react(), dts()],
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      outDir: 'dist',
+      compilerOptions: {
+        skipLibCheck: true,
+        noEmitOnError: false,
+      },
+    })
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'XorigoUISystem',
       formats: ['es', 'cjs'],
-      fileName: (format) => format === 'es' ? 'index.js' : 'index.cjs',
+      fileName: (format, entryName) => {
+        if (format === 'es') {
+          return `${entryName}.mjs`
+        }
+        return `${entryName}.cjs.js`
+      },
     },
     rollupOptions: {
       external: [
         'react',
         'react-dom',
+        'react/jsx-runtime',
+        'framer-motion',
         '@xorigo-ui/tokens',
         '@xorigo-ui/style-recipe',
       ],
@@ -29,6 +44,7 @@ export default defineConfig({
     sourcemap: true,
     minify: 'esbuild',
     target: 'esnext',
+    emptyOutDir: true,
   },
   resolve: {
     alias: {
