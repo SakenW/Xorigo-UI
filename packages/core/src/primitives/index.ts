@@ -61,8 +61,8 @@ export type { ThemeSwitcherProps } from './theme-switcher/theme-switcher'
 // =============================================================================
 
 export { buttonVariants } from './button/button'
-export { cardVariants as primitiveCardVariants } from './card/card'
-export { primitiveSurfaceVariants } from './surface/surface'
+// export { cardVariants as primitiveCardVariants } from './card/card'
+// export { primitiveSurfaceVariants } from './surface/surface'
 
 // =============================================================================
 // 默认导出
