@@ -4,6 +4,9 @@ import path from 'path'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
+  // 转译 @xorigo-ui 包以支持 React Hooks
+  transpilePackages: ['@xorigo-ui/core'],
+
   // 暂时禁用 ESLint 和 TypeScript 检查以解决配置冲突
   eslint: {
     ignoreDuringBuilds: true,
@@ -47,7 +50,7 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       'framer-motion': require.resolve('framer-motion'),
-      // 添加 @xorigo-ui 包的解析路径 - 使用相对路径
+      // 添加 @xorigo-ui 包的解析路径 - 回到源码路径，并添加transpilePackages
       '@xorigo-ui/core': path.resolve(__dirname, '../../packages/core/src/index.ts'),
       '@xorigo-ui/core/utils': path.resolve(__dirname, '../../packages/core/src/utils/index.ts'),
       '@xorigo-ui/core/effects': path.resolve(__dirname, '../../packages/core/src/effects/index.ts'),
