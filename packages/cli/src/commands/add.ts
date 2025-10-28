@@ -759,8 +759,203 @@ describe('${name}', () => {
     render(<${name} ref={ref}>内容</${name}>)
     expect(ref.current).toBeInstanceOf(HTMLDivElement)
   })
-})
+}`,
+
+  // 布局组件模板
+  layout: (name: string) => `import React from 'react'
+import { cn } from '../../utils/cn'
+
+export interface ${name}Props {
+  className?: string
+  children: React.ReactNode
+  /**
+   * 布局间距
+   */
+  spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  /**
+   * 布局方向
+   */
+  direction?: 'horizontal' | 'vertical'
+}
+
+export const ${name} = React.forwardRef<HTMLDivElement, ${name}Props>(
+  ({ className, children, spacing = 'md', direction = 'vertical', ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'flex',
+          {
+            'flex-col': direction === 'vertical',
+            'flex-row': direction === 'horizontal',
+            'gap-0': spacing === 'none',
+            'gap-2': spacing === 'sm',
+            'gap-4': spacing === 'md',
+            'gap-6': spacing === 'lg',
+            'gap-8': spacing === 'xl',
+          },
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+${name}.displayName = '${name}'
+
+export default ${name}
+`,
+
+  // 导航组件模板
+  navigation: (name: string) => `import React, { useState } from 'react'
+import { cn } from '../../utils/cn'
+
+export interface ${name}Item {
+  id: string
+  label: string
+  href?: string
+  active?: boolean
+  disabled?: boolean
+}
+
+export interface ${name}Props {
+  className?: string
+  items: ${name}Item[]
+  /**
+   * 导航方向
+   */
+  orientation?: 'horizontal' | 'vertical'
+  /**
+   * 点击回调
+   */
+  onItemClick?: (item: ${name}Item) => void
+}
+
+export const ${name} = React.forwardRef<HTMLDivElement, ${name}Props>(
+  ({ className, items, orientation = 'horizontal', onItemClick, ...props }, ref) => {
+    const [activeId, setActiveId] = useState<string | null>(
+      items.find(item => item.active)?.id || null
+    )
+
+    const handleClick = (item: ${name}Item) => {
+      if (item.disabled) return
+      setActiveId(item.id)
+      onItemClick?.(item)
+    }
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'flex',
+          {
+            'flex-row': orientation === 'horizontal',
+            'flex-col': orientation === 'vertical',
+          },
+          className
+        )}
+        {...props}
+      >
+        {items.map(item => (
+          <button
+            key={item.id}
+            className={cn(
+              'px-4 py-2 text-sm font-medium rounded-md transition-colors',
+              {
+                'bg-primary-100 text-primary-700': activeId === item.id,
+                'text-gray-500 hover:text-gray-700': activeId !== item.id && !item.disabled,
+                'opacity-50 cursor-not-allowed': item.disabled,
+              }
+            )}
+            onClick={() => handleClick(item)}
+            disabled={item.disabled}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+    )
+  }
+)
+
+${name}.displayName = '${name}'
+
+export default ${name}
+`,
+
+  // 覆盖层组件模板
+  overlay: (name: string) => `import React from 'react'
+import { cn } from '../../utils/cn'
+
+export interface ${name}Props {
+  className?: string
+  children: React.ReactNode
+  /**
+   * 是否显示
+   */
+  isOpen?: boolean
+  /**
+   * 背景透明度
+   */
+  backdropOpacity?: 'none' | 'light' | 'medium' | 'dark'
+  /**
+   * 点击背景关闭
+   */
+  closeOnBackdropClick?: boolean
+  /**
+   * 关闭回调
+   */
+  onClose?: () => void
+}
+
+export const ${name} = React.forwardRef<HTMLDivElement, ${name}Props>(
+  ({
+    className,
+    children,
+    isOpen = true,
+    backdropOpacity = 'medium',
+    closeOnBackdropClick = true,
+    onClose,
+    ...props
+  }, ref) => {
+    if (!isOpen) return null
+
+    const handleBackdropClick = (e: React.MouseEvent) => {
+      if (e.target === e.currentTarget && closeOnBackdropClick) {
+        onClose?.()
+      }
+    }
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'fixed inset-0 z-50 flex items-center justify-center',
+          {
+            'bg-black/0': backdropOpacity === 'none',
+            'bg-black/25': backdropOpacity === 'light',
+            'bg-black/50': backdropOpacity === 'medium',
+            'bg-black/75': backdropOpacity === 'dark',
+          },
+          className
+        )}
+        onClick={handleBackdropClick}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+${name}.displayName = '${name}'
+
+export default ${name}
 `
+}
 
 // 文档模板
 const docTemplate = (name: string) => `# ${name}
