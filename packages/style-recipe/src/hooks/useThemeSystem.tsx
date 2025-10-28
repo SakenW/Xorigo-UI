@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useCallback, useMemo } from 'react'
-import { useStyleRecipe } from '../index'
-import { allRecipes } from '../recipes'
+import { useStyleRecipe, officialRecipes } from '../index'
 import type { StyleRecipeID, ModeAxis, ToneAxis, DensityAxis, MotionAxis, SurfaceAxis } from '../types'
 
 // ============================================================================
@@ -297,19 +296,19 @@ export function useThemeSystem(options: ThemeSystemOptions = {}): UseThemeSystem
     surface: 'soft-shadow',
   })
 
-  // 预设配方列表
+  // 预设配方列表 - 使用官方配方替代
   const presetRecipes = useMemo(() => {
-    if (!allRecipes || !Array.isArray(allRecipes)) {
+    if (!officialRecipes || !Array.isArray(officialRecipes)) {
       return []
     }
-    return allRecipes.map(recipe => ({
+    return officialRecipes.map(recipe => ({
       id: recipe.id,
       name: recipe.name,
       category: recipe.category,
       description: recipe.description,
       recipeId: recipe.id
     }))
-  }, [allRecipes])
+  }, [officialRecipes])
 
   // 快速配置列表
   const quickConfigs = useMemo(() => QUICK_CONFIGS, [])

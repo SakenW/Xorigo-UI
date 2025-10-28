@@ -3,12 +3,17 @@ import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
   plugins: [
     dts({
       include: ['src'],
       exclude: ['src/engine/**'], // 暂时排除有类型错误的 engine
       rollupTypes: false,
-      insertTypesEntry: false,
+      insertTypesEntry: true,
       outDir: 'dist',
       compilerOptions: {
         skipLibCheck: true,
@@ -31,7 +36,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@xorigo-ui/tokens'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', '@xorigo-ui/tokens', 'framer-motion'],
       output: {
         globals: {
           react: 'React',

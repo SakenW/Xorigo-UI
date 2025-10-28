@@ -281,6 +281,16 @@
       "types": "./dist/interactive.d.ts",
       "import": "./dist/interactive.mjs",
       "require": "./dist/interactive.cjs.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "import": "./dist/primitives.mjs",
+      "require": "./dist/primitives.cjs.js"
+    },
+    "./data-display": {
+      "types": "./dist/data-display.d.ts",
+      "import": "./dist/data-display.mjs",
+      "require": "./dist/data-display.cjs.js"
     }
   },
   "files": [
@@ -352,7 +362,7 @@
     "@radix-ui/react-toast": "^1.2.15",
     "@xorigo-ui/hooks": "file:../hooks",
     "@xorigo-ui/i18n": "file:../i18n",
-    "@xorigo-ui/style-recipe": "file:../style-recipe",
+    "@xorigo-ui/style-recipe": "workspace:*",
     "@xorigo-ui/system": "file:../system",
     "@xorigo-ui/tokens": "workspace:*",
     "class-variance-authority": "^0.7.1",

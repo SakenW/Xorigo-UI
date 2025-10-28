@@ -129,9 +129,8 @@ export default defineConfig(async () => {
         'color-contrast-checker',
         'tailwind-merge',
         'react-router-dom',
-        '@xorigo-ui/core',
-        '@xorigo-ui/tokens',
-        '@xorigo-ui/style-recipe',
+            '@xorigo-ui/hooks',
+        '@xorigo-ui/i18n'
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -188,18 +187,21 @@ export default defineConfig(async () => {
       'react-router-dom'
     ],
     // 确保内部包可以正常解析
-    noExternal: ['@xorigo-ui/tokens', '@xorigo-ui/style-recipe', '@xorigo-ui/system', '@xorigo-ui/hooks', '@xorigo-ui/i18n']
+    noExternal: []
   },
   // 客户端优化
   optimizeDeps: {
     include: [
-      '@xorigo-ui/core',
       '@xorigo-ui/tokens',
       '@xorigo-ui/style-recipe',
       '@xorigo-ui/system',
-      'framer-motion'
+      '@xorigo-ui/hooks',
+      '@xorigo-ui/i18n',
+      'framer-motion',
+      'react',
+      'react-dom'
     ],
-    exclude: ['@xorigo-ui/hooks', '@xorigo-ui/i18n']
+    exclude: []
   }
 }
 })

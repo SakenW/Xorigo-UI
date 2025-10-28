@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Xorigo UI 动画工具函数
  *

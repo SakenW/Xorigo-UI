@@ -28,6 +28,10 @@ import {
 export * from './surface/surface'
 import { Surface } from './surface/surface'
 
+// ThemeSwitcher - 主题切换器：主题选择/状态管理
+export * from './theme-switcher/theme-switcher'
+import { ThemeSwitcher } from './theme-switcher/theme-switcher'
+
 // =============================================================================
 // 工具函数导出
 // =============================================================================
@@ -50,6 +54,7 @@ export type {
 } from './card/card'
 
 export type { SurfaceProps, SurfaceDecorationProps } from './surface/surface'
+export type { ThemeSwitcherProps } from './theme-switcher/theme-switcher'
 
 // =============================================================================
 // 组件变体导出（避免命名冲突）
@@ -77,6 +82,7 @@ export const primitives = {
   CardContent,
   CardFooter,
   Surface,
+  ThemeSwitcher,
 } as const
 
 // =============================================================================
