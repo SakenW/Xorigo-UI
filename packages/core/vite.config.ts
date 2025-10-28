@@ -13,28 +13,26 @@ const generateEntryPoints = async () => {
   const entryPoints = {
     index: resolve(rootDir, 'index.ts'),
 
-    // 分类入口点
-    ui: resolve(rootDir, 'ui/index.ts'),
-    inputs: resolve(rootDir, 'inputs/index.ts'),
-    form: resolve(rootDir, 'form/index.ts'),
-    navigation: resolve(rootDir, 'navigation/index.ts'),
-    layout: resolve(rootDir, 'layout/index.ts'),
+    // 分类入口点 - 基于实际目录结构
+    foundations: resolve(rootDir, 'foundations/index.ts'),
+    system: resolve(rootDir, 'system/index.ts'),
+    primitives: resolve(rootDir, 'primitives/index.ts'),
+    branding: resolve(rootDir, 'branding/index.ts'),
     feedback: resolve(rootDir, 'feedback/index.ts'),
-    overlays: resolve(rootDir, 'overlays/index.ts'),
-    datadisplay: resolve(rootDir, 'datadisplay/index.ts'),
-    charts: resolve(rootDir, 'charts/index.ts'),
-    utilities: resolve(rootDir, 'utilities/index.ts'),
-
-    // 特殊分类入口点
-    effects: resolve(rootDir, 'effects/index.ts'),
+    layout: resolve(rootDir, 'layout/index.ts'),
+    navigation: resolve(rootDir, 'navigation/index.ts'),
+    'data-display': resolve(rootDir, 'data-display/index.ts'),
+    form: resolve(rootDir, 'form/index.ts'),
+    typography: resolve(rootDir, 'typography/index.ts'),
     showcase: resolve(rootDir, 'showcase/index.ts'),
-    interactive: resolve(rootDir, 'interactive/index.ts'),
+    effects: resolve(rootDir, 'effects/index.ts'),
+    motion: resolve(rootDir, 'motion/index.ts'),
   }
 
   // 自动发现组件级入口点
   try {
     // 查找所有组件目录下的主要组件文件
-    const componentFilesResult = await glob('src/{ui,inputs,form,navigation,layout,feedback,overlays,datadisplay,charts,utilities}/*.{ts,tsx}', {
+    const componentFilesResult = await glob('src/{feedback,layout,navigation,data-display,form,typography,showcase,effects,motion,utils}/*.{ts,tsx}', {
       cwd: __dirname,
       ignore: ['**/index.ts', '**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx']
     })
