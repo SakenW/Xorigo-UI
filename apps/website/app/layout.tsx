@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN" className="bg-black text-white" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
-      <body className="antialiased bg-black text-white" style={{ backgroundColor: '#000000', color: '#ffffff', margin: 0, padding: 0 }}>
+    <html lang="zh-CN">
+      <body className="antialiased">
         <ClientProviders>
           {children}
         </ClientProviders>

@@ -74,7 +74,19 @@ export default function HomePage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8"
         >
-          <XorigoLogo className="w-32 h-32" />
+          <XorigoLogo
+            className="w-32 h-32"
+            containerAware={true}
+            colorOptions={{
+              vibrant: true,
+              count: 5,
+              minContrast: 4.5
+            }}
+            fallbackColors={{
+              ringStops: ['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef'],
+              centerColor: '#ffffff'
+            }}
+          />
         </motion.div>
 
         <motion.h1

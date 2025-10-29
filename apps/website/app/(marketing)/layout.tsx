@@ -13,7 +13,9 @@ import {
   BarChart3,
   Code2,
   Sparkles,
-  FileText
+  FileText,
+  Sun,
+  Moon
 } from 'lucide-react'
 
 interface MarketingLayoutProps {
@@ -36,7 +38,7 @@ const desktopQuickLinks = [
   { label: 'GitHub', href: 'https://github.com/SakenW/Xorigo-UI', external: true }
 ]
 
-/** —— 桌面端导航链接：避免重复 JSX —— */
+/** —— 桌面端导航链接：主题适配优化版本 —— */
 const DesktopLink: React.FC<{ item: { label: string; href: string; external?: boolean }, i: number }> = ({ item, i }) => {
   const isExternal = !!item.external
   const Tag: any = isExternal ? 'a' : 'a' // 桌面此处 anchor 足够；站内是锚点
@@ -45,17 +47,17 @@ const DesktopLink: React.FC<{ item: { label: string; href: string; external?: bo
       href={item.href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="relative text-gray-400 hover:text-white transition-colors group"
+      className="relative text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all duration-300 group font-medium"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: i * 0.1 }}
     >
-      <span className="relative z-10">{item.label}</span>
+      <span className="relative z-10 drop-shadow-sm">{item.label}</span>
       <motion.div
-        className="absolute -inset-x-2 -inset-y-1 bg-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute -inset-x-2 -inset-y-1 bg-white/20 dark:bg-white/10 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity border border-white/30 dark:border-white/20"
         layoutId="nav-hover"
       />
-      <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 scale-x-0 group-hover:scale-x-100 transition-transform" />
+      <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500/80 to-cyan-500/80 dark:from-purple-400/80 dark:to-cyan-400/80 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
     </motion.a>
   )
 }
@@ -76,20 +78,34 @@ const EnhancedNavbar: React.FC = () => {
   return (
     <motion.nav
       aria-label="主导航"
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
-          ? 'bg-black/90 backdrop-blur-3xl shadow-2xl shadow-purple-500/10'
-          : 'bg-transparent'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/10 dark:bg-black/30 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-lg shadow-black/10'
+          : 'bg-transparent border-b border-transparent'
+      }`}
       style={{ y: navbarY }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* 左侧：Logo + 品牌名 */}
           <motion.div className="flex items-center gap-3" whileHover={{ scale: 1.05 }}>
-            <XorigoLogo size={48} className="scale-90" />
+            <XorigoLogo
+              size={48}
+              className="scale-90"
+              containerAware={true}  // 重新启用容器感知，但优化配置
+              colorOptions={{
+                vibrant: true,
+                count: 4,
+                minContrast: 4.5  // 标准对比度，确保可访问性
+              }}
+              fallbackColors={{
+                ringStops: ['#a855f7', '#ec4899', '#06b6d4', '#0891b2'],
+                centerColor: 'hsl(220deg 50% 30%)'  // 使用HSL格式的深蓝色，适应各种主题
+              }}
+            />
             <div className="text-2xl font-bold px-1 py-1 overflow-visible">
               <motion.span
-                className="inline-block bg-gradient-to-r from-purple-500 via-cyan-400 to-pink-500 bg-clip-text text-transparent"
+                className="inline-block bg-gradient-to-r from-purple-400 via-cyan-300 to-pink-400 bg-clip-text text-transparent drop-shadow-sm"
                 animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
                 transition={{ duration: 8, ease: 'linear', repeat: Infinity }}
                 style={{ backgroundSize: '300% 100%' }}
@@ -97,6 +113,9 @@ const EnhancedNavbar: React.FC = () => {
                 Xorigo UI
               </motion.span>
             </div>
+
+            {/* 主题切换按钮 - 已移除，使用页面中的ThemeSwitcher组件 */}
+            {/* <ThemeToggleButton /> */}
           </motion.div>
 
           {/* 桌面端菜单 */}
@@ -106,17 +125,17 @@ const EnhancedNavbar: React.FC = () => {
             ))}
             <motion.a
               href="/docs/getting-started"
-              className="relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-6 py-2.5 rounded-full font-medium shadow-lg hover:shadow-purple-500/25 transition-all group"
+              className="relative overflow-hidden bg-gradient-to-r from-purple-500/90 to-cyan-500/90 backdrop-blur-sm text-white px-6 py-2.5 rounded-full font-medium shadow-lg hover:shadow-purple-500/25 hover:shadow-xl transition-all group border border-white/20"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="开始使用"
             >
-              <span className="relative z-10 inline-flex items-center">
+              <span className="relative z-10 inline-flex items-center drop-shadow-sm">
                 <Rocket className="w-4 h-4 mr-2 group-hover:rotate-45 transition-transform" />
                 开始使用
               </span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
+                className="absolute inset-0 bg-gradient-to-r from-cyan-500/90 to-purple-500/90 backdrop-blur-sm"
                 initial={{ x: '100%' }}
                 whileHover={{ x: 0 }}
                 transition={{ duration: 0.3 }}
@@ -128,12 +147,12 @@ const EnhancedNavbar: React.FC = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setMobileMenuOpen((v) => !v)}
-            className="md:hidden relative w-8 h-8 flex items-center justify-center"
+            className="md:hidden relative w-8 h-8 flex items-center justify-center p-2 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/10 transition-all"
             aria-label={mobileMenuOpen ? '关闭菜单' : '打开菜单'}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
+            {mobileMenuOpen ? <X className="w-6 h-6 text-gray-800 dark:text-gray-100 drop-shadow-sm" /> : <Menu className="w-6 h-6 text-gray-800 dark:text-gray-100 drop-shadow-sm" />}
           </motion.button>
         </div>
       </div>
@@ -146,7 +165,7 @@ const EnhancedNavbar: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-3xl border-b border-purple-500/20"
+            className="md:hidden absolute top-full left-0 right-0 bg-white/10 dark:bg-black/80 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-lg shadow-black/10"
           >
             <div className="px-6 py-4 space-y-4">
               {marketingNavigation.map(({ href, name, icon: Icon, external }) =>
@@ -157,7 +176,7 @@ const EnhancedNavbar: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
                   >
                     <Icon className="h-5 w-5" />
                     {name}
@@ -167,7 +186,7 @@ const EnhancedNavbar: React.FC = () => {
                     key={href}
                     href={href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
                   >
                     <Icon className="h-5 w-5" />
                     {name}
@@ -180,7 +199,7 @@ const EnhancedNavbar: React.FC = () => {
                   href="https://github.com/xorigo-ui/xorigo-ui"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/20 transition-all"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
                 >
                   <Github className="h-5 w-5" />
                   GitHub
@@ -205,7 +224,7 @@ const EnhancedNavbar: React.FC = () => {
 
 export default function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <EnhancedNavbar />
       <main className="flex-1">{children}</main>
 
@@ -335,5 +354,66 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         </div>
       </footer>
     </div>
+  )
+}
+
+// 主题切换按钮组件
+function ThemeToggleButton() {
+  const [mounted, setMounted] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+
+  useEffect(() => {
+    setMounted(true)
+    const savedTheme = localStorage.getItem('xorigo-ui-theme') as 'light' | 'dark' | 'system' || 'system'
+
+    if (savedTheme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      setTheme(systemTheme)
+    } else if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const root = document.documentElement
+    root.classList.remove('light', 'dark')
+    root.classList.add(theme)
+    localStorage.setItem('xorigo-ui-theme', theme)
+  }, [theme, mounted])
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+  }
+
+  if (!mounted) {
+    return (
+      <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+    )
+  }
+
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className="relative w-10 h-10 rounded-full bg-white/20 dark:bg-black/20 backdrop-blur-sm border border-white/30 dark:border-white/10 flex items-center justify-center hover:bg-white/30 dark:hover:bg-black/30 transition-all duration-300"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      aria-label={theme === 'light' ? '切换到深色模式' : '切换到浅色模式'}
+    >
+      <motion.div
+        key={theme}
+        initial={{ rotate: -180, opacity: 0 }}
+        animate={{ rotate: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      >
+        {theme === 'light' ? (
+          <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+        ) : (
+          <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+        )}
+      </motion.div>
+    </motion.button>
   )
 }
