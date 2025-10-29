@@ -35,7 +35,16 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
 
   const applyTheme = (themeId: string) => {
     const root = document.documentElement
+    // 设置 data-theme 属性（用于海洋、森林、晚霞等主题）
     root.setAttribute('data-theme', themeId)
+
+    // 特别处理深色主题：同时设置 .dark 类
+    if (themeId === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+
     localStorage.setItem('theme', themeId)
     setCurrentTheme(themeId)
     setIsOpen(false)

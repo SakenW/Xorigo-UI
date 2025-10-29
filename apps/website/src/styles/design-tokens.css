@@ -132,7 +132,7 @@
 }
 
 /* 深色主题变量 */
-[data-theme="dark"] {
+.dark {
   --color-background-primary: #0f172a;
   --color-background-secondary: #1e293b;
   --color-background-tertiary: #334155;

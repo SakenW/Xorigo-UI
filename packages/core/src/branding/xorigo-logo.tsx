@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useId, useMemo, useRef, useEffect, useState } from 'react'
+import React, { useId, useMemo, useRef, useEffect, useState, forwardRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { useContainerAwareColors, UseContainerAwareColorsOptions } from '../hooks/useContainerAwareColors'
 
 export type Mode = 'rotateGroup' | 'rotateGradient' | 'hybrid'
 
@@ -18,23 +19,62 @@ export type XorigoLogoProps = {
   glow?: boolean
   title?: string
   mode?: Mode
+
+  // 容器感知相关属性
+  containerAware?: boolean     // 是否启用容器感知模式
+  colorOptions?: UseContainerAwareColorsOptions['colorOptions']
+  fallbackColors?: {
+    ringStops?: string[]
+    centerColor?: string
+  }
 }
 
-export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
-  ({
-    className = '',
-    size = 48,
-    spinSeconds = 8,
-    gradientSeconds = 12,
-    breatheSeconds = 3,
-    paletteIntervalSeconds = 3.6,
-    crossfadeSeconds = 1.2,
-    ringStops = ['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef'],
-    centerColor = '#ffffff',
-    glow = true,
-    title,
-    mode = 'hybrid',
-  }) => {
+export const XorigoLogo = forwardRef<HTMLDivElement, XorigoLogoProps>(
+  (
+    {
+      className = '',
+      size = 48,
+      spinSeconds = 8,
+      gradientSeconds = 12,
+      breatheSeconds = 3,
+      paletteIntervalSeconds = 3.6,
+      crossfadeSeconds = 1.2,
+      ringStops = ['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef'],
+      centerColor = '#ffffff',
+      glow = true,
+      title,
+      mode = 'hybrid',
+      containerAware = false,
+      colorOptions,
+      fallbackColors,
+    },
+    ref
+  ) => {
+    // 合并 refs - 必须先合并，然后再用于容器感知
+    const mergedRef = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+      if (typeof ref === 'function') {
+        ref(mergedRef.current)
+      } else if (ref) {
+        ref.current = mergedRef.current
+      }
+    }, [ref])
+
+    // 容器感知颜色检测 - 使用合并后的ref
+    const awareColors = useContainerAwareColors(mergedRef, {
+      containerAware,
+      fallbackColors,
+      colorOptions
+    })
+
+    // 使用容器感知的颜色或回退到传入的颜色
+    // 缓存颜色值，避免频繁重新计算
+    const effectiveRingStops = containerAware && awareColors ? awareColors.ringStops : ringStops
+    const effectiveCenterColor = containerAware && awareColors ? awareColors.centerColor : centerColor
+    const effectiveHaloGradient = containerAware && awareColors ? awareColors.haloGradient : {
+      start: 'rgba(168,85,247,0.18)',
+      end: 'rgba(6,182,212,0.08)'
+    }
     // ==== 尺寸与几何 ====
     const rid = useId()
     const gidGradientA = `ringGradientA-${rid}`
@@ -60,10 +100,19 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
     const crossfadeDur = Math.min(crossfadeSeconds, Math.max(0.6, crossfadeSeconds)) // 保底 0.6s
 
     // ==== 双缓冲渐变：A / B ====
-    // 保持 SSR 确定性：初始 palette 用 props，随机仅在 CSR 中发生
-    const [paletteA, setPaletteA] = useState<string[]>(ringStops)
-    const [paletteB, setPaletteB] = useState<string[]>(ringStops)
+    // 保持 SSR 确定性：初始 palette 用有效颜色，随机仅在 CSR 中发生
+    const [paletteA, setPaletteA] = useState<string[]>(effectiveRingStops)
+    const [paletteB, setPaletteB] = useState<string[]>(effectiveRingStops)
     const [activeIdx, setActiveIdx] = useState<0 | 1>(0) // 正在显示哪一层
+
+    // 当容器感知的颜色变化时，更新调色板
+    useEffect(() => {
+      if (containerAware && awareColors) {
+        setPaletteA(awareColors.ringStops)
+        setPaletteB(awareColors.ringStops)
+        setActiveIdx(0)
+      }
+    }, [containerAware, awareColors, effectiveRingStops])
 
     // 平滑“随机”策略：在现有 HSL 基础上做小幅抖动，避免色阶跳变过大
     function jitterHsl(hexOrHsl: string) {
@@ -139,6 +188,7 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
 
     return (
       <div
+        ref={mergedRef}
         className={`relative rounded-full overflow-hidden ${className}`}
         style={{ width: size, height: size, lineHeight: 0 }}
         aria-hidden={title ? undefined : true}
@@ -182,8 +232,8 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
 
             {/* 背景光晕 */}
             <radialGradient id={gidHalo} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="rgba(168,85,247,0.18)" />
-              <stop offset="100%" stopColor="rgba(6,182,212,0.08)" />
+              <stop offset="0%" stopColor={effectiveHaloGradient.start} />
+              <stop offset="100%" stopColor={effectiveHaloGradient.end} />
             </radialGradient>
 
             {/* 轻微发光（静态滤镜，低成本） */}
@@ -267,18 +317,18 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
               </g>
             )}
 
-            {/* 中心点：与外环错相的呼吸（更“活”） */}
+            {/* 中心点：与外环错相的呼吸（更"活”） */}
             <motion.circle
               cx={center} cy={center}
               r={Math.max(centerRadius * 0.25, 1)}
-              fill={centerColor}
+              fill={effectiveCenterColor}
               animate={{
                 scale: [1, 1.45, 1],
                 opacity: [1, 0.85, 1],
                 filter: [
-                  'drop-shadow(0 0 6px rgba(255,255,255,0.85))',
-                  'drop-shadow(0 0 12px rgba(255,200,250,0.95))',
-                  'drop-shadow(0 0 8px rgba(190,255,245,0.9))',
+                  `drop-shadow(0 0 6px ${effectiveCenterColor}dd)`,
+                  `drop-shadow(0 0 12px ${effectiveCenterColor}f3)`,
+                  `drop-shadow(0 0 8px ${effectiveCenterColor}e6)`,
                 ],
               }}
               transition={{ duration: breatheDur, ease: 'easeInOut', repeat: Infinity, delay: 0.2 }}
@@ -290,5 +340,7 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = React.memo(
     )
   }
 )
+
+XorigoLogo.displayName = 'XorigoLogo'
 
 export default XorigoLogo
