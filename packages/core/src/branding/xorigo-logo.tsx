@@ -321,6 +321,7 @@ export const XorigoLogo = forwardRef<HTMLDivElement, XorigoLogoProps>(
             <motion.circle
               cx={center} cy={center}
               r={Math.max(centerRadius * 0.25, 1)}
+              className="logo-center"
               fill={effectiveCenterColor}
               animate={{
                 scale: [1, 1.45, 1],

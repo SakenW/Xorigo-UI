@@ -153,6 +153,57 @@
   --color-border-secondary: #475569;
 }
 
+/* Logo中心点颜色 - 主题感知 */
+.theme-aware-logo svg .logo-center {
+  fill: #1a202c !important; /* 深色中心点，适用于浅色主题 */
+}
+
+.dark .theme-aware-logo svg .logo-center {
+  fill: #ffffff !important; /* 白色中心点，适用于深色主题 */
+}
+
+[data-theme="ocean"] .theme-aware-logo svg .logo-center {
+  fill: #0c4a6e !important; /* 深蓝色中心点，适用于海洋主题 */
+}
+
+[data-theme="forest"] .theme-aware-logo svg .logo-center {
+  fill: #14532d !important; /* 深绿色中心点，适用于森林主题 */
+}
+
+[data-theme="sunset"] .theme-aware-logo svg .logo-center {
+  fill: #7c2d12 !important; /* 深橙色中心点，适用于晚霞主题 */
+}
+
+/* 导航栏文字颜色强制修复 - 深色主题 */
+.dark nav a,
+.dark .navigation a,
+.dark .desktop-nav a,
+.dark [aria-label="主导航"] a {
+  color: #ffffff !important; /* 强制白色文字 */
+}
+
+.dark .mobile-menu a,
+.dark [aria-controls="mobile-menu"] + div a {
+  color: #ffffff !important; /* 强制白色文字 */
+}
+
+.dark button[aria-controls="mobile-menu"] svg {
+  color: #ffffff !important; /* 菜单按钮图标强制白色 */
+}
+
+/* hover状态 */
+.dark nav a:hover,
+.dark .navigation a:hover,
+.dark .desktop-nav a:hover,
+.dark [aria-label="主导航"] a:hover {
+  color: #f3f4f6 !important; /* hover时浅灰色 */
+}
+
+.dark .mobile-menu a:hover,
+.dark [aria-controls="mobile-menu"] + div a:hover {
+  color: #f3f4f6 !important; /* hover时浅灰色 */
+}
+
 /* 海洋主题变量 */
 [data-theme="ocean"] {
   --color-primary-500: #0891b2;

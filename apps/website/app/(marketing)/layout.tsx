@@ -47,7 +47,7 @@ const DesktopLink: React.FC<{ item: { label: string; href: string; external?: bo
       href={item.href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="relative text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all duration-300 group font-medium"
+      className="relative text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-gray-100 transition-all duration-300 group font-medium"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: i * 0.1 }}
@@ -89,20 +89,20 @@ const EnhancedNavbar: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* 左侧：Logo + 品牌名 */}
           <motion.div className="flex items-center gap-3" whileHover={{ scale: 1.05 }}>
+            <div className="theme-aware-logo">
             <XorigoLogo
-              size={48}
-              className="scale-90"
-              containerAware={true}  // 重新启用容器感知，但优化配置
-              colorOptions={{
-                vibrant: true,
-                count: 4,
-                minContrast: 4.5  // 标准对比度，确保可访问性
-              }}
-              fallbackColors={{
-                ringStops: ['#a855f7', '#ec4899', '#06b6d4', '#0891b2'],
-                centerColor: 'hsl(220deg 50% 30%)'  // 使用HSL格式的深蓝色，适应各种主题
-              }}
-            />
+                  size={48}
+                  className="scale-90"
+                  containerAware={false}  // 禁用容器感知，避免延迟
+                  colorOptions={{
+                    vibrant: true,
+                    count: 4,
+                    minContrast: 4.5
+                  }}
+                  ringStops={['#a855f7', '#ec4899', '#06b6d4', '#0891b2']}
+                  centerColor="#1a202c"  // 默认深色中心点
+                />
+          </div>
             <div className="text-2xl font-bold px-1 py-1 overflow-visible">
               <motion.span
                 className="inline-block bg-gradient-to-r from-purple-400 via-cyan-300 to-pink-400 bg-clip-text text-transparent drop-shadow-sm"
@@ -152,7 +152,7 @@ const EnhancedNavbar: React.FC = () => {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6 text-gray-800 dark:text-gray-100 drop-shadow-sm" /> : <Menu className="w-6 h-6 text-gray-800 dark:text-gray-100 drop-shadow-sm" />}
+            {mobileMenuOpen ? <X className="w-6 h-6 text-gray-800 dark:text-white drop-shadow-sm" /> : <Menu className="w-6 h-6 text-gray-800 dark:text-white drop-shadow-sm" />}
           </motion.button>
         </div>
       </div>
@@ -176,7 +176,7 @@ const EnhancedNavbar: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-gray-100 hover:bg-purple-500/20 transition-all"
                   >
                     <Icon className="h-5 w-5" />
                     {name}
@@ -186,7 +186,7 @@ const EnhancedNavbar: React.FC = () => {
                     key={href}
                     href={href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-gray-100 hover:bg-purple-500/20 transition-all"
                   >
                     <Icon className="h-5 w-5" />
                     {name}
@@ -199,7 +199,7 @@ const EnhancedNavbar: React.FC = () => {
                   href="https://github.com/xorigo-ui/xorigo-ui"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/20 transition-all"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-800 dark:text-white hover:text-gray-900 dark:hover:text-gray-100 hover:bg-purple-500/20 transition-all"
                 >
                   <Github className="h-5 w-5" />
                   GitHub
