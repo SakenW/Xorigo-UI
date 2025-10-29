@@ -3,45 +3,13 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { XorigoLogo } from '@xorigo-ui/core'
+import { HeroTitle } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
 import { StatCard } from '@xorigo-ui/core'
 import { ThemeSwitcher } from '@xorigo-ui/core'
-
-// 动态背景组件
-const AnimatedBackground = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      <div
-        className="absolute w-96 h-96 rounded-full opacity-10 blur-3xl"
-        style={{
-          backgroundColor: 'var(--color-primary-500)',
-          left: mousePosition.x - 192,
-          top: mousePosition.y - 192,
-          transition: 'all 0.3s ease-out'
-        }}
-      />
-      <div
-        className="absolute w-64 h-64 rounded-full opacity-10 blur-3xl"
-        style={{
-          backgroundColor: 'var(--color-accent-500)',
-          right: mousePosition.x - 128,
-          bottom: mousePosition.y - 128,
-          transition: 'all 0.3s ease-out'
-        }}
-      />
-    </div>
-  )
-}
+import { AnimatedBackground, BreathingBackground } from '@xorigo-ui/core'
+import { SkipLink } from '@xorigo-ui/core'
+import { runAccessibilityTests } from '@xorigo-ui/core'
 
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -52,53 +20,79 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // 在开发环境中运行可访问性测试
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      // 延迟运行测试，等待页面完全加载
+      setTimeout(() => {
+        runAccessibilityTests()
+      }, 2000)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: 'var(--color-background-primary)', color: 'var(--color-text-primary)' }}>
+      {/* 跳过链接 */}
+      <SkipLink href="#main-content">
+        Skip to main content
+      </SkipLink>
+
+      {/* 跳转到统计数据 */}
+      <SkipLink href="#statistics">
+        Skip to statistics
+      </SkipLink>
       {/* 主题切换器 */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeSwitcher />
       </div>
 
-      <AnimatedBackground />
+      {/* 柔和的呼吸感背景 - 更加自然的效果 */}
+    <BreathingBackground
+      enableMouseInteraction={false}  // 关闭鼠标交互，减少诡异感
+      breathingDuration={8}           // 延长呼吸周期，更慢更自然
+      floatingDuration={40}            // 延长飘动周期
+      bubbleCount={4}                  // 大幅减少气泡数量
+      primaryColor="var(--color-primary-500)"
+      secondaryColor="var(--color-accent-500)"
+      tertiaryColor="var(--color-secondary-500)"
+      minBubbleSize={120}             // 减小最小尺寸
+      maxBubbleSize={180}             // 减小最大尺寸
+    />
 
       {/* Hero Section */}
       <motion.section
+        id="main-content"
         className="min-h-screen flex flex-col items-center justify-center relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
+        aria-labelledby="hero-heading"
+        aria-describedby="hero-description"
       >
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+        <HeroTitle
+          id="hero-heading"
+          text="Xorigo UI"
+          size="xl"
+          shine={true}
+          glow={true}
+          enable3D={true}
+          gradientStops={[
+            'var(--color-primary-400)',
+            'var(--color-accent-400)',
+            'var(--color-secondary-400)',
+            'var(--color-primary-500)',
+            'var(--color-accent-500)'
+          ]}
+          beamColor="rgba(255,255,255,0.6)"
+          beamSecondaryColor="rgba(168, 85, 247, 0.4)"
+          glowColor="rgba(6, 182, 212, 0.3)"
+          entranceDelay={0.2}
           className="mb-8"
-        >
-          <div className="theme-aware-logo">
-      <XorigoLogo
-              className="w-32 h-32"
-              containerAware={false}  // 禁用容器感知，避免延迟
-              colorOptions={{
-                vibrant: true,
-                count: 5,
-                minContrast: 6.0
-              }}
-              ringStops={['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef']}
-              centerColor="#1a202c"  // 默认深色中心点
-      />
-    </div>
-        </motion.div>
-
-        <motion.h1
-          className="text-6xl md:text-8xl font-bold text-center mb-6 bg-gradient-to-r from-[var(--color-primary-400)] via-[var(--color-accent-400)] to-[var(--color-secondary-400)] bg-clip-text text-transparent"
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          Xorigo UI
-        </motion.h1>
+          ariaLabel="Xorigo UI - 现代化 React UI 组件库"
+        />
 
         <motion.p
+          id="hero-description"
           className="text-xl md:text-2xl mb-12 text-center max-w-4xl px-4"
           style={{ color: 'var(--color-text-secondary)' }}
           initial={{ y: 30, opacity: 0 }}
@@ -113,11 +107,22 @@ export default function HomePage() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
+          role="group"
+          aria-label="主要操作按钮"
         >
-          <Button size="lg">
+          <Button
+            size="lg"
+            ariaLabel="开始使用 Xorigo UI 组件库"
+            announceStateChange
+          >
             开始使用
           </Button>
-          <Button variant="outline" size="lg">
+          
+          <Button
+            variant="outline"
+            size="lg"
+            ariaLabel="查看 Xorigo UI 文档"
+          >
             查看文档
           </Button>
         </motion.div>
@@ -125,15 +130,18 @@ export default function HomePage() {
 
       {/* Statistics Section */}
       <motion.section
+        id="statistics"
         className="py-20 px-4"
         style={{ backgroundColor: 'var(--color-background-secondary)' }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
+        aria-labelledby="statistics-heading"
       >
         <div className="max-w-6xl mx-auto">
           <motion.h2
+            id="statistics-heading"
             className="text-4xl font-bold text-center mb-16"
             style={{ color: 'var(--color-text-primary)' }}
             initial={{ y: 30, opacity: 0 }}

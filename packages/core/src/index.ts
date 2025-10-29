@@ -4,6 +4,13 @@ export * from './system'
 export * from './primitives'
 export * from './branding'
 
+// 可访问性工具导出
+export * from './utils/accessibility'
+export * from './utils/accessibility-tester'
+
+// 模态框组件导出
+export * from './components/modal'
+
 // Phase 3 组件库导出
 export * from './feedback'
 export * from './layout'

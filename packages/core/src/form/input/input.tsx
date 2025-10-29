@@ -1,9 +1,17 @@
 'use client'
 
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../../foundations/utils/cn'
 import { X, Eye, EyeOff, Check, AlertCircle, AlertTriangle } from 'lucide-react'
+import {
+  generateAriaProps,
+  generateKeyboardNavigation,
+  announceToScreenReader,
+  validateColorContrast,
+  checkWCAGCompliance,
+  type AriaAttributes
+} from '../../utils/accessibility'
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'prefix'> {
@@ -25,6 +33,13 @@ export interface InputProps
   validationState?: 'success' | 'error' | 'warning'
   showCharCount?: boolean
   onValidationChange?: (isValid: boolean) => void
+  // 可访问性增强属性
+  ariaDescribedBy?: string
+  errorMessageId?: string
+  helperTextId?: string
+  announceValidation?: boolean
+  autoComplete?: string
+  spellCheck?: boolean
 }
 
 // 浮动标签组件
@@ -97,6 +112,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onFocus,
       onBlur,
       placeholder,
+      ariaDescribedBy,
+      errorMessageId,
+      helperTextId,
+      announceValidation = false,
+      autoComplete = 'off',
+      spellCheck = false,
       ...restProps
     },
     ref
@@ -104,12 +125,44 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [isFocused, setIsFocused] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const inputId = id || `input-${React.useId()}`
+    const errorId = errorMessageId || `${inputId}-error`
+    const helperId = helperTextId || `${inputId}-helper`
 
     const hasValue = String(value).length > 0
     const shouldShowFloatingLabel = floatingLabel && label
 
     // 合并 status 和 validationState
     const effectiveStatus = status !== 'default' ? status : validationState || 'default'
+
+    // 生成 ARIA 属性
+    const ariaProps = generateAriaProps('Input', {
+      error,
+      required,
+      label,
+      type,
+      disabled
+    })
+
+    // 验证状态变化公告
+    useEffect(() => {
+      if (announceValidation && effectiveStatus !== 'default') {
+        let message = ''
+        switch (effectiveStatus) {
+          case 'success':
+            message = 'Input field is valid'
+            break
+          case 'error':
+            message = error ? `Error: ${error}` : 'Input field has an error'
+            break
+          case 'warning':
+            message = helperText || 'Input field has a warning'
+            break
+        }
+        if (message) {
+          announceToScreenReader(message)
+        }
+      }
+    }, [effectiveStatus, error, helperText, announceValidation])
 
     // 清除按钮处理
     const handleClear = () => {
@@ -138,12 +191,45 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(true)
+
+      // 焦点状态公告
+      if (announceValidation && label) {
+        announceToScreenReader(`Focused on ${label} input field`)
+      }
+
       onFocus?.(e)
     }
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(false)
       onBlur?.(e)
+    }
+
+    // 构建描述性元素ID列表
+    const describedByElements = []
+    if (error && errorId) describedByElements.push(errorId)
+    if (helperText && helperId) describedByElements.push(helperId)
+    if (ariaDescribedBy) describedByElements.push(ariaDescribedBy)
+    const finalAriaDescribedBy = describedByElements.length > 0 ? describedByElements.join(' ') : undefined
+
+    // 检查 WCAG 合规性（仅在开发环境）
+    if (process.env.NODE_ENV === 'development') {
+      const compliance = checkWCAGCompliance('input', {
+        ...restProps,
+        id: inputId,
+        label,
+        error,
+        required,
+        disabled,
+        type,
+        'aria-invalid': !!error,
+        'aria-required': required,
+        'aria-describedby': finalAriaDescribedBy
+      })
+
+      if (compliance.score < 100) {
+        console.warn('Input WCAG Compliance Issues:', compliance.issues)
+      }
     }
 
     // 尺寸类
@@ -244,12 +330,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               disabled={disabled}
               maxLength={maxLength}
               placeholder={placeholder}
+              required={required}
+              autoComplete={autoComplete}
+              spellCheck={spellCheck}
+              aria-invalid={!!error}
+              aria-required={required}
+              aria-describedby={finalAriaDescribedBy}
+              aria-label={!shouldShowFloatingLabel && label ? label : undefined}
               className={cn(
                 'w-full rounded-lg transition-all duration-200',
                 'text-gray-900 dark:text-gray-100',
                 'placeholder:text-gray-500 dark:placeholder:text-gray-400',
                 'disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed',
-                'focus:outline-hidden',
+                'focus:outline-none focus:ring-2 focus:ring-offset-2',
+                // 确保焦点指示器可见
+                'focus:ring-blue-500 focus:border-blue-500',
                 sizeClasses[inputSize],
                 variantClasses[variant],
                 leftIcon || prefix ? (leftIcon && prefix ? 'pl-20' : leftIcon ? 'pl-10' : 'pl-16') : '',
@@ -345,10 +440,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <AnimatePresence>
           {error && (
             <motion.p
+              id={errorId}
               className="mt-1 text-sm text-red-600 dark:text-red-400"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
+              role="alert"
+              aria-live="polite"
             >
               {error}
             </motion.p>
@@ -358,9 +456,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {/* 帮助信息 */}
         {!error && helperText && (
           <motion.p
+            id={helperId}
             className="mt-1 text-sm text-gray-500 dark:text-gray-400"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            role="note"
+            aria-live="polite"
           >
             {helperText}
           </motion.p>

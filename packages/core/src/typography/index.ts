@@ -1,3 +1,14 @@
+// Typography components
+export { Heading } from './heading'
+export type { HeadingProps } from './heading'
+export { Text } from './text'
+export type { TextProps } from './text'
+export { Caption } from './caption'
+export type { CaptionProps } from './caption'
+
+// Typography collection
+export { Typography } from './typography'
+
 /**
  * Typography 组件导出 - 符合七轴主题系统 v1.4 SSOT
  *
@@ -17,6 +28,7 @@ export type {
   Size,
   AsTag
 } from './hero-title/hero-title'
+
 import { HeroTitle } from './hero-title/hero-title'
 
 // =============================================================================
