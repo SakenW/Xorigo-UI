@@ -6,8 +6,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Button, Input, Select, Checkbox, Switch, Card,
-  Typography
+  Button, Input, Card
 } from '@xorigo-ui/core'
 
 interface ComponentPropertyEditorProps {

@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Card } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
 import { Input } from '@xorigo-ui/core'
-import { Typography } from '@xorigo-ui/core'
 import { cn } from '../../../lib/utils'
 import type { ComponentCategory } from '../../../data/component-classification'
 

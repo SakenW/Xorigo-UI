@@ -32,8 +32,7 @@ if (typeof window !== 'undefined') {
 }
 import { Input } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
-import { Typography } from '@xorigo-ui/core'
-import { ComponentCard, CodeBlock } from '@xorigo-ui/core'
+import { ComponentCard } from '@xorigo-ui/core'
 import { EnhancedComponentCard } from '../cards/enhanced-component-card'
 import { GradientDemonstrator } from '../gradient-demonstrator/gradient-demonstrator'
 import { getAllComponents } from '../../../data/component-classification'
@@ -548,12 +547,12 @@ export function SmartWorkbench({ className }: SmartWorkbenchProps) {
                     <ComponentPreviewRenderer component={component} />
                   }
                 usage={
-                  <CodeBlock
-                    code={generateComponentCodeExample({ componentName: component.name })}
-                    language="tsx"
-                    title={`${component.name} 组件示例`}
-                    copyable
-                  />
+                  <div className="p-4 bg-gray-100 rounded-lg">
+                    <div className="text-sm font-medium mb-2">{component.name} 组件示例</div>
+                    <pre className="text-xs bg-white p-2 rounded border overflow-x-auto">
+                      <code>{generateComponentCodeExample({ componentName: component.name })}</code>
+                    </pre>
+                  </div>
                 }
               />
             )
