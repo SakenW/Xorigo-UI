@@ -225,7 +225,6 @@ const EnhancedNavbar: React.FC = () => {
 export default function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-      <EnhancedNavbar />
       <main className="flex-1">{children}</main>
 
       <footer className="relative z-30 border-t border-purple-500/20 bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-lg">

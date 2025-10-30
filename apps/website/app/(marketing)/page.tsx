@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+// 优化的导入：使用具体路径减少不必要的模块加载
 import { XorigoLogo } from '@xorigo-ui/core'
 import { HeroTitle } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
 import { StatCard } from '@xorigo-ui/core'
-import { ThemeSwitcher } from '@xorigo-ui/core'
+import { SiteNavigation } from '@/components/shared/site-navigation'
 import { AnimatedBackground, BreathingBackground } from '@xorigo-ui/core'
-import { SkipLink } from '@xorigo-ui/core'
-import { runAccessibilityTests } from '@xorigo-ui/core'
+import { SkipLink, runAccessibilityTests } from '@xorigo-ui/core'
 
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -41,10 +41,9 @@ export default function HomePage() {
       <SkipLink href="#statistics">
         Skip to statistics
       </SkipLink>
-      {/* 主题切换器 */}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeSwitcher />
-      </div>
+
+      {/* 统一顶部导航栏 */}
+      <SiteNavigation />
 
       {/* 柔和的呼吸感背景 - 更加自然的效果 */}
     <BreathingBackground

@@ -26,12 +26,15 @@
     "validate-packages": "node scripts/validate-packages.js",
     "storybook": "storybook dev -p 6009",
     "build-storybook": "storybook build",
-
     "local:dev": "node scripts/dev-env-manager.js local",
     "local:dev:core": "pnpm dev:core",
     "local:dev:website": "pnpm dev:website",
     "local:dev:all": "concurrently \"pnpm dev:core\" \"pnpm dev:website\"",
-
+    "server:start": "bash scripts/dev-server.sh start",
+    "server:stop": "bash scripts/dev-server.sh stop",
+    "server:restart": "bash scripts/dev-server.sh restart",
+    "server:status": "bash scripts/dev-server.sh status",
+    "server:cleanup": "bash scripts/dev-server.sh cleanup",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up --build",
     "docker:dev:monorepo": "docker-compose -f docker-compose.dev.monorepo.yml up --build",
     "docker:stop": "docker-compose -f docker-compose.dev.yml down",
@@ -149,6 +152,7 @@
   "homepage": "https://github.com/your-org/xorigo-ui#readme",
   "dependencies": {
     "ajv": "^8.17.1",
+    "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -188,8 +192,20 @@
           "release"
         ]
       ],
-      "scope-case": [2, "always", "pascal-case"],
-      "subject-case": [2, "never", ["start-case", "pascal-case", "upper-case"]]
+      "scope-case": [
+        2,
+        "always",
+        "pascal-case"
+      ],
+      "subject-case": [
+        2,
+        "never",
+        [
+          "start-case",
+          "pascal-case",
+          "upper-case"
+        ]
+      ]
     }
   }
 }

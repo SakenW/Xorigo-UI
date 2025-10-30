@@ -12,6 +12,8 @@ interface WorkbenchLayoutProps {
   selectedCategory?: string
   onCategorySelect?: (categoryId: string) => void
   hideHeader?: boolean
+  breadcrumbItems?: any[]
+  onBreadcrumbSelect?: (item: any) => void
 }
 
 /**
@@ -22,7 +24,9 @@ export function WorkbenchLayout({
   className,
   selectedCategory = 'all',
   onCategorySelect,
-  hideHeader = false
+  hideHeader = false,
+  breadcrumbItems,
+  onBreadcrumbSelect
 }: WorkbenchLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
@@ -964,7 +968,7 @@ export function WorkbenchLayout({
   const navigationItems = buildComponentNavigation()
 
   return (
-    <div className={cn('flex h-screen bg-gray-50', className)}>
+    <div className={cn('flex h-full bg-gray-50', className)}>
       {/* 左侧导航 */}
       <div className="relative z-20">
         <Sidebar
@@ -995,7 +999,7 @@ export function WorkbenchLayout({
       </div>
 
       {/* 主内容区域 */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden pt-16">
         {/* 顶部信息栏 - 可隐藏 */}
         {!hideHeader && (
           <div className="h-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50 flex items-center justify-between px-6 shrink-0">

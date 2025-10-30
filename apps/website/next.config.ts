@@ -20,6 +20,9 @@ const nextConfig: NextConfig = {
     // 移除已弃用的 turbo 配置
   },
 
+  // 允许外部开发环境访问
+  allowedDevOrigins: ['192.168.50.110'],
+
   // 新的 turbopack 配置
   turbopack: {
     resolveAlias: {

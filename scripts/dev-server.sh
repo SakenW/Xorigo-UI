@@ -1,0 +1,340 @@
+#!/bin/bash
+
+# 开发服务器管理脚本
+# 解决多个开发服务器进程问题
+
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PID_FILE="$PROJECT_ROOT/.dev-server.pid"
+LOCK_FILE="$PROJECT_ROOT/.dev-server.lock"
+PORT=${PORT:-3100}
+if [ -n "${1:-}" ] && [ "$1" != "start" ] && [ "$1" != "stop" ] && [ "$1" != "restart" ] && [ "$1" != "status" ] && [ "$1" != "cleanup" ] && [ "$1" != "help" ]; then
+    PORT="$1"
+fi
+
+# 颜色定义
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# 日志函数
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# 查找开发服务器进程
+find_dev_processes() {
+    pgrep -f "next.*dev" 2>/dev/null || true
+}
+
+# 清理开发服务器进程
+cleanup_processes() {
+    log_info "🧹 正在清理开发服务器进程..."
+
+    local pids=$(find_dev_processes)
+    local count=0
+
+    if [ -n "$pids" ]; then
+        for pid in $pids; do
+            if kill -0 "$pid" 2>/dev/null; then
+                log_info "终止进程 $pid"
+                kill -TERM "$pid" 2>/dev/null || true
+                count=$((count + 1))
+            fi
+        done
+
+        # 等待进程优雅退出
+        sleep 2
+
+        # 强制终止仍在运行的进程
+        pids=$(find_dev_processes)
+        if [ -n "$pids" ]; then
+            for pid in $pids; do
+                if kill -0 "$pid" 2>/dev/null; then
+                    log_warning "强制终止进程 $pid"
+                    kill -KILL "$pid" 2>/dev/null || true
+                fi
+            done
+        fi
+
+        log_success "🎉 清理完成，处理了 $count 个进程"
+    else
+        log_info "没有发现开发服务器进程"
+    fi
+}
+
+# 检查端口占用（使用HTTP检测，更可靠）
+check_port() {
+    local port=$1
+    # 首先尝试快速HTTP检测
+    if curl -s --max-time 2 "http://localhost:$port" >/dev/null 2>&1; then
+        return 0  # HTTP服务正常响应
+    fi
+    # 备用：使用lsof检测
+    if lsof -ti:$port >/dev/null 2>&1; then
+        return 0  # 端口被占用
+    else
+        return 1  # 端口空闲
+    fi
+}
+
+# 创建锁文件
+create_lock() {
+    if [ -f "$LOCK_FILE" ]; then
+        local lock_time=$(cat "$LOCK_FILE" | cut -d',' -f2)
+        local current_time=$(date +%s)
+
+        # 检查锁文件是否过期（超过10分钟）
+        if [ $((current_time - lock_time)) -gt 600 ]; then
+            log_warning "发现过期的锁文件，正在清理..."
+            remove_lock
+        else
+            local lock_pid=$(cat "$LOCK_FILE" | cut -d',' -f1)
+            if kill -0 "$lock_pid" 2>/dev/null; then
+                log_error "开发服务器已在运行中 (PID: $lock_pid)"
+                log_info "使用 '$0 stop' 来停止服务器"
+                exit 1
+            else
+                log_warning "锁文件中的进程已退出，清理锁文件..."
+                remove_lock
+            fi
+        fi
+    fi
+
+    # 创建新锁文件
+    echo "$$,${current_time},${PORT}" > "$LOCK_FILE"
+    log_success "创建锁文件成功"
+}
+
+# 移除锁文件
+remove_lock() {
+    rm -f "$PID_FILE" "$LOCK_FILE" 2>/dev/null || true
+}
+
+# 启动开发服务器
+start_server() {
+    log_info "🚀 启动开发服务器 (端口: $PORT)..."
+
+    # 检查并清理现有进程
+    local pids=$(find_dev_processes)
+    if [ -n "$pids" ]; then
+        log_warning "发现 $(echo $pids | wc -w) 个运行中的开发服务器进程"
+        cleanup_processes
+        sleep 2
+    fi
+
+    # 检查端口占用
+    if check_port $PORT; then
+        log_warning "端口 $PORT 被占用，尝试释放..."
+        local port_pid=$(lsof -ti:$PORT 2>/dev/null | head -1)
+        if [ -n "$port_pid" ]; then
+            kill -TERM "$port_pid" 2>/dev/null || true
+            sleep 2
+        fi
+    fi
+
+    # 创建锁文件
+    create_lock
+
+    # 设置环境变量
+    export PORT=$PORT
+    export NODE_ENV=development
+
+    # 启动开发服务器
+    cd "$PROJECT_ROOT"
+    log_info "启动命令: pnpm dev:website"
+
+    # 启动服务器并保存PID
+    pnpm dev:website &
+    local server_pid=$!
+    echo $server_pid > "$PID_FILE"
+
+    log_success "✅ 开发服务器启动成功"
+    log_info "📍 进程ID: $server_pid"
+    log_info "🌐 服务地址: http://localhost:$PORT"
+    log_info "🕐 启动时间: $(date)"
+
+    # 等待服务器启动
+    local max_wait=60  # 增加等待时间，因为首次编译可能较慢
+    local wait_time=0
+
+    log_info "等待服务器启动..."
+    while [ $wait_time -lt $max_wait ]; do
+        if check_port $PORT; then
+            log_success "🎉 开发服务器已就绪"
+            break
+        fi
+        sleep 1
+        wait_time=$((wait_time + 1))
+        # 每5秒输出一次进度，减少日志噪音
+        if [ $((wait_time % 5)) -eq 0 ]; then
+            log_info "等待服务器启动... ($wait_time/$max_wait)"
+        fi
+    done
+
+    if [ $wait_time -eq $max_wait ]; then
+        log_error "服务器启动超时"
+        stop_server
+        exit 1
+    fi
+
+    # 等待服务器进程结束
+    wait $server_pid
+    remove_lock
+}
+
+# 停止开发服务器
+stop_server() {
+    log_info "🛑 正在停止开发服务器..."
+
+    local stopped_count=0
+
+    # 通过PID文件停止
+    if [ -f "$PID_FILE" ]; then
+        local pid=$(cat "$PID_FILE")
+        if kill -0 "$pid" 2>/dev/null; then
+            log_info "通过PID文件终止进程 $pid"
+            kill -TERM "$pid" 2>/dev/null || true
+            stopped_count=$((stopped_count + 1))
+        fi
+    fi
+
+    # 清理所有相关进程
+    cleanup_processes
+
+    # 移除锁文件
+    remove_lock
+
+    log_success "🎉 停止完成，共处理 $stopped_count 个进程"
+}
+
+# 检查状态
+check_status() {
+    log_info "📊 检查开发服务器状态..."
+    echo
+
+    # 检查锁文件
+    if [ -f "$LOCK_FILE" ]; then
+        local lock_data=$(cat "$LOCK_FILE")
+        local lock_pid=$(echo "$lock_data" | cut -d',' -f1)
+        local lock_time=$(echo "$lock_data" | cut -d',' -f2)
+        local lock_port=$(echo "$lock_data" | cut -d',' -f3)
+
+        log_info "🔒 锁文件状态:"
+        echo "   进程ID: $lock_pid"
+        echo "   端口: $lock_port"
+        echo "   启动时间: $(date -d @$lock_time)"
+
+        if kill -0 "$lock_pid" 2>/dev/null; then
+            log_success "   状态: 运行中"
+        else
+            log_warning "   状态: 进程已退出（需要清理锁文件）"
+            remove_lock
+        fi
+    else
+        log_info "🔓 没有活动的锁文件"
+    fi
+
+    echo
+
+    # 检查端口占用
+    if check_port $PORT; then
+        log_success "🌐 端口 $PORT: 被占用"
+    else
+        log_warning "🌐 端口 $PORT: 空闲"
+    fi
+
+    echo
+
+    # 检查开发服务器进程
+    local pids=$(find_dev_processes)
+    local count=$(echo $pids | wc -w)
+
+    log_info "📋 开发服务器进程: $count 个"
+
+    if [ -n "$pids" ]; then
+        local i=1
+        for pid in $pids; do
+            if kill -0 "$pid" 2>/dev/null; then
+                local cmd=$(ps -p $pid -o comm= 2>/dev/null || echo "unknown")
+                echo "   $i. PID: $pid | 命令: $cmd"
+                i=$((i + 1))
+            fi
+        done
+    else
+        echo "   没有发现开发服务器进程"
+    fi
+
+    echo
+    log_success "✅ 状态检查完成"
+}
+
+# 显示帮助
+show_help() {
+    echo "📖 开发服务器管理脚本使用说明:"
+    echo
+    echo "  启动服务器: $0 start [port]"
+    echo "  停止服务器: $0 stop"
+    echo "  重启服务器: $0 restart [port]"
+    echo "  检查状态:   $0 status"
+    echo "  清理进程:   $0 cleanup"
+    echo
+    echo "示例:"
+    echo "  $0 start 3100"
+    echo "  $0 status"
+    echo "  $0 stop"
+    echo
+    echo "默认端口: $PORT"
+}
+
+# 主函数
+main() {
+    case "${1:-help}" in
+        start)
+            start_server
+            ;;
+        stop)
+            stop_server
+            ;;
+        restart)
+            stop_server
+            sleep 2
+            start_server
+            ;;
+        status)
+            check_status
+            ;;
+        cleanup)
+            cleanup_processes
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            log_error "未知命令: $1"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# 信号处理
+trap 'log_warning "收到中断信号，正在清理..."; remove_lock; exit 130' INT TERM
+
+# 执行主函数
+main "$@"

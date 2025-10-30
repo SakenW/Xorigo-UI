@@ -80,7 +80,8 @@ export function useWorkbenchShortcuts({
   onNextCategory,
   onPreviousCategory,
   onToggleTheme,
-  onShowHelp
+  onShowHelp,
+  onToggleAIAssistant
 }: {
   onToggleSidebar?: () => void
   onFocusSearch?: () => void
@@ -89,6 +90,7 @@ export function useWorkbenchShortcuts({
   onPreviousCategory?: () => void
   onToggleTheme?: () => void
   onShowHelp?: () => void
+  onToggleAIAssistant?: () => void
 }) {
   const shortcuts: KeyboardShortcut[] = [
     {
@@ -134,6 +136,19 @@ export function useWorkbenchShortcuts({
       ctrlKey: true,
       description: '显示帮助',
       action: () => onShowHelp?.()
+    },
+    {
+      key: 'a',
+      ctrlKey: true,
+      description: 'AI 助手',
+      action: () => onToggleAIAssistant?.()
+    },
+    {
+      key: 'i',
+      ctrlKey: true,
+      shiftKey: true,
+      description: 'AI 助手',
+      action: () => onToggleAIAssistant?.()
     }
   ]
 

@@ -291,6 +291,11 @@
       "types": "./dist/data-display.d.ts",
       "import": "./dist/data-display.mjs",
       "require": "./dist/data-display.cjs.js"
+    },
+    "./homepage-components": {
+      "types": "./dist/homepage-components.d.ts",
+      "import": "./dist/homepage-components.mjs",
+      "require": "./dist/homepage-components.cjs.js"
     }
   },
   "files": [
