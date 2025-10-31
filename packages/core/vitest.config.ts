@@ -23,6 +23,7 @@ export default defineConfig({
       '@/theme': resolve(__dirname, './src/theme'),
       '@/utils': resolve(__dirname, './src/utils'),
       '@/types': resolve(__dirname, './src/types'),
+      '@/ai': resolve(__dirname, './src/ai'),
     },
   },
 })

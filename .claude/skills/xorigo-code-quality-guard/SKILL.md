@@ -1,13 +1,16 @@
 ---
 name: "Xorigo UI 代码质量守护者"
-description: "全方位检测 Xorigo UI 项目的代码质量，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
+description: "基于 Xorigo UI v1.5.1 架构文档的全方位代码质量检测，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
 author: "Xorigo UI Team"
-version: "1.1.0"
-tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards"]
+version: "1.5.1"
+tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards", "xorigo-ui-v1.5.1"]
 changelog:
+  - "v1.5.1: 🔄 重大架构适配 - 基于 Xorigo UI 棕地架构文档 v1.5.1 完全重构"
   - "v1.1.0: 更新文件命名规范 - 普通文件采用 kebab-case，React 组件文件保持 PascalCase"
   - "v1.0.0: 初始版本 - 完整的代码质量检测系统"
 ---
+
+**📋 v1.5.1 重大更新**: 完全基于棕地架构分析结果重构，确保检测规则与实际项目结构 100% 一致。
 
 # Xorigo UI 代码质量守护者
 
@@ -77,13 +80,16 @@ changelog:
 
 ### 📦 Packages 目录规范
 
-**组件命名规范**：
+**组件命名规范** (v1.5.1):
 - ✅ React 组件文件: PascalCase: `Button.tsx`, `DataTable.tsx`
+- ✅ 组件文件夹: PascalCase: `Button/`, `DataTable/`
 - ✅ 文件夹/其他文件: kebab-case: `color-tokens.ts`, `theme-utils.ts`, `xorigo-logo-loader.tsx`
-- ✅ 组件文件夹: PascalCase: `NavbarOriginLogo/`
+- ✅ 工具函数文件: kebab-case: `format-date.ts`, `color-helpers.ts`
+- ✅ 类型定义文件: kebab-case: `user-types.ts`, `component-types.ts`
 - ❌ 禁止版本号: `Button-v1.1.tsx`
 - ❌ 禁止下划线: `my_button.tsx`
 - ❌ 禁止 camelCase 文件名: `colorTokens.ts`, `themeUtils.ts`
+- ❌ 禁止错误的分类: `ui/button.tsx`, `forms/input.tsx` (应为 `form/`)
 
 **API 设计标准**：
 ```typescript
@@ -102,22 +108,45 @@ const Component = React.forwardRef<HTMLDivElement, ComponentProps>(...)
 Component.displayName = 'Component'
 ```
 
-**目录结构规范**：
+**📋 v1.5.1 目录结构规范** (基于棕地架构分析):
 ```
 packages/core/src/
-├── components/          # 组件目录
-│   ├── Button/
-│   │   ├── Button.tsx
-│   │   ├── Button.test.tsx
-│   │   ├── Button.stories.tsx
-│   │   └── index.ts
-│   ├── Card/
-│   └── ...
-├── hooks/              # 自定义钩子 (use-xxx.ts)
-├── utils/              # 工具函数 (kebab-case.ts)
-├── types/              # 类型定义 (kebab-case.ts)
-└── theme/              # 主题系统 (theme-xxx.ts)
+├── foundations/        # 🔹 设计令牌基础 - 颜色、字体、间距、动画等
+├── system/            # 🔹 系统级组件 - 主题系统、配方管理、主题切换器等
+├── primitives/        # 🔷 原子组件 - Button、Card、Surface、ThemeSwitcher等
+├── form/              # 📝 表单组件 - Input、Select、Checkbox、Switch等 (单数命名)
+├── overlays/          # 🎭 覆盖层组件 - Dialog、Drawer、Popover、Sheet等
+├── data-display/      # 📊 数据展示 - Table、List、数据卡片等
+├── feedback/          # 🔔 反馈组件 - Toast、Loading、Badge、状态指示器等
+├── layout/            # 📐 布局组件 - Grid、Container、Stack、分隔符等
+├── navigation/        # 🧭 导航组件 - Menu、Breadcrumb、Tabs、Pagination等
+├── typography/        # 🎨 排版组件 - Heading、Text、Code、链接等
+├── branding/          # 🏢 品牌组件 - Logo、品牌标识等
+├── showcase/          # 🎪 展示组件 - 代码演示、示例展示、文档演示等
+├── effects/           # ✨ 效果组件 - 视觉效果、过渡动画等
+├── motion/            # 🎬 动画组件 - Framer Motion集成组件等
+├── hooks/             # 🪝 自定义React Hooks
+├── utils/             # 🛠️ 工具函数
+└── types/             # 📝 TypeScript类型定义
+
+# ⚠️ 重要：Workbench 在应用层
+apps/website/src/components/workbench/  # 🖥️ 工作台应用级组件
 ```
+
+**📁 组件文件夹结构**:
+```
+packages/core/src/{category}/
+├── {ComponentName}/           # ✅ PascalCase 文件夹
+│   ├── {ComponentName}.tsx   # ✅ PascalCase 组件文件
+│   ├── {ComponentName}.test.tsx  # 测试文件
+│   └── index.ts              # 导出文件
+```
+
+**🔍 关键检测规则**:
+- ✅ **正确**: `packages/core/src/primitives/Button/Button.tsx`
+- ❌ **错误**: `packages/core/src/components/ui/button.tsx`
+- ✅ **正确**: `packages/core/src/form/Input/Input.tsx`
+- ❌ **错误**: `packages/core/src/forms/input.tsx` (forms 应为单数 form)
 
 ### 🌐 Apps 目录规范
 
@@ -136,7 +165,7 @@ import { Button, Card } from '@xorigo-ui/core'
 import { PageLoader } from '@/components/marketing'
 
 // ❌ 错误的导入方式
-import { Button } from '../../../packages/core/src/components/Button'
+import { Button } from '../../../packages/core/src/primitives/Button/Button'
 ```
 
 ## 检测功能

@@ -8,7 +8,7 @@ import type { StyleRecipeID, ModeAxis, ToneAxis, DensityAxis, MotionAxis, Surfac
 // 类型定义 (Type Definitions)
 // ============================================================================
 
-interface QuickConfig {
+export interface QuickConfig {
   id: string
   name: string
   description: string

@@ -1,12 +1,12 @@
 /**
- * Workbench 客户端组件 - 全新智能工作台 v2.0
- * 基于ComponentCard优雅设计语言的智能组件搜索、编辑和预览系统
- * 集成开发环境安全检测
+ * Workbench 客户端组件 - Phase 2 集成版本
+ * 整合实时预览、Monaco编辑器、配方编辑、开发工具和性能优化
+ * Phase 2 Workbench集成任务完成版
  */
 
 'use client'
 
-import { SmartWorkbench } from '../../src/components/workbench/smart-workbench/smart-workbench'
+import { IntegratedWorkbench } from '../../src/components/workbench/workbench-integrated'
 import { useDevelopmentInit, initializeDevelopmentEnvironment } from '@/app-init'
 
 export function WorkbenchClient() {
@@ -18,5 +18,39 @@ export function WorkbenchClient() {
     initializeDevelopmentEnvironment()
   }
 
-  return <SmartWorkbench />
+  return (
+    <div className="h-screen">
+      <IntegratedWorkbench
+        config={{
+          initialMode: 'preview',
+          autoSave: true,
+          autoSaveInterval: 30000,
+          livePreview: true,
+          enablePerformanceMonitoring: true,
+          theme: {
+            mode: 'default',
+            recipeSupport: true
+          },
+          layout: {
+            direction: 'horizontal',
+            sidebarWidth: 256,
+            showMinimap: true
+          }
+        }}
+        onStateChange={(state) => {
+          console.log('Workbench状态更新:', state)
+        }}
+        onCodeChange={(code) => {
+          console.log('代码更新，长度:', code.length)
+        }}
+        onSave={(data) => {
+          console.log('保存数据:', data)
+          // 这里可以实现实际的保存逻辑
+        }}
+        onError={(error) => {
+          console.error('Workbench错误:', error)
+        }}
+      />
+    </div>
+  )
 }

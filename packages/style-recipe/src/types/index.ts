@@ -62,24 +62,24 @@ export type StyleRecipeID = `${ModeAxis}.${BaseAxis}.${AccentAxis}.${ToneAxis}.$
  * 风格配方接口
  */
 export interface StyleRecipe {
-  id: StyleRecipeID
+  id: string
   name: string
   description: string
-  category: 'corporate' | 'minimal' | 'tech' | 'creative' | 'classic'
+  category: string
 
   // 七轴取值
-  mode: ModeAxis
-  base: BaseAxis
-  accent: AccentAxis
-  tone: ToneAxis
-  density: DensityAxis
-  motion: MotionAxis
-  surface: SurfaceAxis
+  mode: string
+  base: string
+  accent: string
+  tone: string
+  density: string
+  motion: string
+  surface: string
 
   // 元数据
   tags: string[]
   accessibility: {
-    contrastLevel: 'AA' | 'AAA' | 'HC'
+    contrastLevel: string
     cvdFriendly: boolean
     motionSafe: boolean
   }

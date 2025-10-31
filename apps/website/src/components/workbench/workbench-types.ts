@@ -165,3 +165,143 @@ export const THEME_CONFIG = {
     className: 'dark',
   },
 } as const
+
+// ============================================================================
+// Workbench Hook 实现
+// ============================================================================
+
+'use client'
+
+import { useState, useCallback } from 'react'
+
+/**
+ * Workbench 状态接口
+ */
+export interface WorkbenchState {
+  code: string
+  theme: string
+  previewMode: 'desktop' | 'mobile' | 'tablet'
+  isPanelOpen: boolean
+  activeTab: string
+  mode: ViewMode
+  selectedRecipe: Recipe | null
+  selectedExample: ComponentExample | null
+  selectedCategory: string
+  searchTerm: string
+  isLoading: boolean
+  error: string | null
+}
+
+/**
+ * Workbench Hook
+ * 提供完整的 Workbench 状态管理
+ */
+export function useWorkbench(initialState?: Partial<WorkbenchState>) {
+  const [state, setState] = useState<WorkbenchState>({
+    code: '// Welcome to Xorigo UI Workbench\nconsole.log("Hello, World!");',
+    theme: 'vs-dark',
+    previewMode: 'desktop',
+    isPanelOpen: true,
+    activeTab: 'recipes',
+    mode: 'gallery',
+    selectedRecipe: null,
+    selectedExample: null,
+    selectedCategory: '',
+    searchTerm: '',
+    isLoading: false,
+    error: null,
+    ...initialState
+  })
+
+  const updateCode = useCallback((code: string) => {
+    setState(prev => ({ ...prev, code }))
+  }, [])
+
+  const updateTheme = useCallback((theme: string) => {
+    setState(prev => ({ ...prev, theme }))
+  }, [])
+
+  const setMode = useCallback((mode: ViewMode) => {
+    setState(prev => ({ ...prev, mode }))
+  }, [])
+
+  const togglePreviewMode = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      previewMode: prev.previewMode === 'desktop'
+        ? 'mobile'
+        : prev.previewMode === 'mobile'
+        ? 'tablet'
+        : 'desktop'
+    }))
+  }, [])
+
+  const togglePanel = useCallback(() => {
+    setState(prev => ({ ...prev, isPanelOpen: !prev.isPanelOpen }))
+  }, [])
+
+  const setActiveTab = useCallback((activeTab: string) => {
+    setState(prev => ({ ...prev, activeTab }))
+  }, [])
+
+  const setSelectedRecipe = useCallback((selectedRecipe: Recipe | null) => {
+    setState(prev => ({ ...prev, selectedRecipe }))
+  }, [])
+
+  const setSelectedExample = useCallback((selectedExample: ComponentExample | null) => {
+    setState(prev => ({ ...prev, selectedExample }))
+  }, [])
+
+  const setSelectedCategory = useCallback((selectedCategory: string) => {
+    setState(prev => ({ ...prev, selectedCategory }))
+  }, [])
+
+  const setSearchTerm = useCallback((searchTerm: string) => {
+    setState(prev => ({ ...prev, searchTerm }))
+  }, [])
+
+  const setIsLoading = useCallback((isLoading: boolean) => {
+    setState(prev => ({ ...prev, isLoading }))
+  }, [])
+
+  const setError = useCallback((error: string | null) => {
+    setState(prev => ({ ...prev, error }))
+  }, [])
+
+  return {
+    // 状态
+    ...state,
+
+    // 操作方法
+    updateCode,
+    updateTheme,
+    setMode,
+    togglePreviewMode,
+    togglePanel,
+    setActiveTab,
+    setSelectedRecipe,
+    setSelectedExample,
+    setSelectedCategory,
+    setSearchTerm,
+    setIsLoading,
+    setError,
+
+    // 重置方法
+    reset: useCallback(() => {
+      setState({
+        code: '// Welcome to Xorigo UI Workbench\nconsole.log("Hello, World!");',
+        theme: 'vs-dark',
+        previewMode: 'desktop',
+        isPanelOpen: true,
+        activeTab: 'recipes',
+        mode: 'gallery',
+        selectedRecipe: null,
+        selectedExample: null,
+        selectedCategory: '',
+        searchTerm: '',
+        isLoading: false,
+        error: null
+      })
+    }, [])
+  }
+}

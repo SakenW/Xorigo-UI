@@ -25,7 +25,6 @@ import {
   getLegacyRecipe,
   getLegacyRecipesByCategory,
   searchLegacyRecipes,
-  getRecommendedLegacyRecipes,
   warmSunriseRecipe,
   forestNatureRecipe,
   dreamyRainbowRecipe,
@@ -47,8 +46,8 @@ import { RECIPE_ALIASES, getRealRecipeId, isRecipeAlias } from './recipe-aliases
  * Corporate Blue - 企业/SaaS 控制台
  * Recipe: light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow
  */
-export const corporateBlueRecipe: StyleRecipe = {
-  id: 'light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow',
+export const corporateBlueRecipe = {
+  id: 'light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow' as any,
   name: 'Corporate Blue',
   description: '专业企业级蓝色主题，适用于SaaS控制台和商业应用',
   category: 'corporate',
@@ -75,8 +74,8 @@ export const corporateBlueRecipe: StyleRecipe = {
  * Corporate Navy Dark - 深色企业后台
  * Recipe: dark.neutral-cool-high.mono(navy).standard.comfortable.standard.soft-shadow
  */
-export const corporateNavyDarkRecipe: StyleRecipe = {
-  id: 'dark.neutral-cool-high.mono(navy).standard.comfortable.standard.soft-shadow',
+export const corporateNavyDarkRecipe = {
+  id: 'dark.neutral-cool-high.mono(navy).standard.comfortable.standard.soft-shadow' as any,
   name: 'Corporate Navy Dark',
   description: '深色企业后台主题，护眼且专业',
   category: 'corporate',
@@ -103,8 +102,8 @@ export const corporateNavyDarkRecipe: StyleRecipe = {
  * Minimal White - 文档/内容主题
  * Recipe: light.neutral-true-mid.mono(gray).calm.spacious.subtle.flat
  */
-export const minimalWhiteRecipe: StyleRecipe = {
-  id: 'light.neutral-true-mid.mono(gray).calm.spacious.subtle.flat',
+export const minimalWhiteRecipe = {
+  id: 'light.neutral-true-mid.mono(gray).calm.spacious.subtle.flat' as any,
   name: 'Minimal White',
   description: '极简白色主题，适合文档和内容阅读',
   category: 'minimal',
@@ -131,8 +130,8 @@ export const minimalWhiteRecipe: StyleRecipe = {
  * Minimal Graphite Dark - 内容深色主题
  * Recipe: dark.neutral-true-high.mono(gray).calm.comfortable.subtle.flat
  */
-export const minimalGraphiteDarkRecipe: StyleRecipe = {
-  id: 'dark.neutral-true-high.mono(gray).calm.comfortable.subtle.flat',
+export const minimalGraphiteDarkRecipe = {
+  id: 'dark.neutral-true-high.mono(gray).calm.comfortable.subtle.flat' as any,
   name: 'Minimal Graphite Dark',
   description: '深色极简主题，适合长时间阅读和写作',
   category: 'minimal',
@@ -159,8 +158,8 @@ export const minimalGraphiteDarkRecipe: StyleRecipe = {
  * Tech Cyan - 开发者平台
  * Recipe: light.neutral-cool-mid.mono(cyan).standard.comfortable.standard.soft-shadow
  */
-export const techCyanRecipe: StyleRecipe = {
-  id: 'light.neutral-cool-mid.mono(cyan).standard.comfortable.standard.soft-shadow',
+export const techCyanRecipe = {
+  id: 'light.neutral-cool-mid.mono(cyan).standard.comfortable.standard.soft-shadow' as any,
   name: 'Tech Cyan',
   description: '科技感青色主题，专为开发者平台设计',
   category: 'tech',
@@ -187,8 +186,8 @@ export const techCyanRecipe: StyleRecipe = {
  * Tech Neon Dark - AI/品牌页
  * Recipe: dark.neutral-cool-high.duo(cyan,magenta).vivid.compact.expressive.glass+neon
  */
-export const techNeonDarkRecipe: StyleRecipe = {
-  id: 'dark.neutral-cool-high.duo(cyan,magenta).vivid.compact.expressive.glass+neon',
+export const techNeonDarkRecipe = {
+  id: 'dark.neutral-cool-high.duo(cyan,magenta).vivid.compact.expressive.glass+neon' as any,
   name: 'Tech Neon Dark',
   description: '赛博朋克风格霓虹主题，适合AI产品和品牌展示',
   category: 'tech',
@@ -215,8 +214,8 @@ export const techNeonDarkRecipe: StyleRecipe = {
  * Creative Purple - 设计/创意主题
  * Recipe: light.neutral-true-mid.analog(purple).standard.comfortable.soft.spring
  */
-export const creativePurpleRecipe: StyleRecipe = {
-  id: 'light.neutral-true-mid.analog(purple).standard.comfortable.soft.spring',
+export const creativePurpleRecipe = {
+  id: 'light.neutral-true-mid.analog(purple).standard.comfortable.soft.spring' as any,
   name: 'Creative Purple',
   description: '创意紫色主题，适合设计工具和创意平台',
   category: 'creative',
@@ -243,8 +242,8 @@ export const creativePurpleRecipe: StyleRecipe = {
  * Creative Aurora Dark - 品牌/展示主题
  * Recipe: dark.neutral-true-mid.analog(purple).vivid.comfortable.expressive.glass
  */
-export const creativeAuroraDarkRecipe: StyleRecipe = {
-  id: 'dark.neutral-true-mid.analog(purple).vivid.comfortable.expressive.glass',
+export const creativeAuroraDarkRecipe = {
+  id: 'dark.neutral-true-mid.analog(purple).vivid.comfortable.expressive.glass' as any,
   name: 'Creative Aurora Dark',
   description: '极光深色主题，适合品牌展示和创意作品',
   category: 'creative',
@@ -271,8 +270,8 @@ export const creativeAuroraDarkRecipe: StyleRecipe = {
  * Classic Neutral - 默认通用主题
  * Recipe: light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow
  */
-export const classicNeutralRecipe: StyleRecipe = {
-  id: 'light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow',
+export const classicNeutralRecipe = {
+  id: 'light.neutral-true-mid.mono(gray).standard.comfortable.standard.soft-shadow' as any,
   name: 'Classic Neutral',
   description: '经典中性主题，通用性强，适合大多数场景',
   category: 'classic',
@@ -299,8 +298,8 @@ export const classicNeutralRecipe: StyleRecipe = {
  * High-Contrast Pro - 无障碍/高可读主题
  * Recipe: hc.neutral-true-high.mono(blue).standard.comfortable.subtle.flat
  */
-export const highContrastProRecipe: StyleRecipe = {
-  id: 'hc.neutral-true-high.mono(blue).standard.comfortable.subtle.flat',
+export const highContrastProRecipe = {
+  id: 'hc.neutral-true-high.mono(blue).standard.comfortable.subtle.flat' as any,
   name: 'High-Contrast Pro',
   description: '高对比度专业主题，专为无障碍设计',
   category: 'classic',
@@ -330,7 +329,7 @@ export const highContrastProRecipe: StyleRecipe = {
 /**
  * 所有官方配方
  */
-export const officialRecipes: StyleRecipe[] = [
+export const officialRecipes = [
   corporateBlueRecipe,
   corporateNavyDarkRecipe,
   minimalWhiteRecipe,
@@ -341,15 +340,15 @@ export const officialRecipes: StyleRecipe[] = [
   creativeAuroraDarkRecipe,
   classicNeutralRecipe,
   highContrastProRecipe,
-] as const
+]
 
 /**
  * 所有配方（官方 + 备份主题）
  */
-export const allRecipes: StyleRecipe[] = [
+export const allRecipes = [
   ...officialRecipes,
   ...legacyThemeRecipes,
-] as const
+]
 
 /**
  * 配方映射表
@@ -366,17 +365,18 @@ export const recipeMap: Record<string, StyleRecipe> = {
  * 按类别分组的配方
  */
 export const recipesByCategory = allRecipes.reduce((groups, recipe) => {
-  if (!groups[recipe.category]) {
-    groups[recipe.category] = []
+  const category = recipe.category || 'uncategorized'
+  if (!groups[category]) {
+    groups[category] = []
   }
-  groups[recipe.category].push(recipe)
+  groups[category].push(recipe)
   return groups
 }, {} as Record<string, StyleRecipe[]>)
 
 /**
  * 获取配方
  */
-export function getRecipe(id: StyleRecipeID): StyleRecipe | undefined {
+export function getRecipe(id: string): StyleRecipe | undefined {
   // 支持别名
   const realId = isRecipeAlias(id) ? getRealRecipeId(id) : id
   return recipeMap[realId]

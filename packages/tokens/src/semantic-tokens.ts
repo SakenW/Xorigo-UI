@@ -248,7 +248,7 @@ export const semanticUtils = {
     const parts = token.split('-')
     if (parts.length < 2) return false
     const [category, name] = parts
-    return ['color', 'spacing', 'text', 'font', 'shadow', 'radius'].includes(category) && Boolean(name)
+    return typeof category === 'string' && ['color', 'spacing', 'text', 'font', 'shadow', 'radius'].includes(category) && typeof name === 'string' && name.trim().length > 0
   },
 
   /**

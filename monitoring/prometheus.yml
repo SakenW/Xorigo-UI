@@ -1,0 +1,99 @@
+# ============================================
+# Xorigo UI - Prometheus Configuration
+# Stage 3: Modern Deployment & Monitoring System
+# ============================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # ============================================
+  # Xorigo UI Monitoring Sidecar
+  # ============================================
+  - job_name: 'xorigo-ui-monitoring'
+    static_configs:
+      - targets: ['monitoring-sidecar:9090']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # ============================================
+  # Prometheus Self-Monitoring
+  # ============================================
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # ============================================
+  # Node Exporter (System Metrics)
+  # ============================================
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 30s
+
+  # ============================================
+  # Xorigo UI Core Service
+  # ============================================
+  - job_name: 'xorigo-ui-core'
+    static_configs:
+      - targets: ['xorigo-ui-core:3001']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # ============================================
+  # Xorigo UI Website Service
+  # ============================================
+  - job_name: 'xorigo-ui-website'
+    static_configs:
+      - targets: ['xorigo-ui-website:3100']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # ============================================
+  # Redis Metrics
+  # ============================================
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # ============================================
+  # Nginx Metrics
+  # ============================================
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx:80']
+    metrics_path: '/nginx_metrics'
+    scrape_interval: 30s
+
+# ============================================
+# Alerting Rules Configuration
+# ============================================
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# ============================================
+# Recording Rules Configuration
+# ============================================
+# recording_rules:
+#   - name: xorigo-ui.rules
+#     interval: 30s
+#     rules:
+#       - record: xorigo_ui:request_rate
+#         expr: rate(xorigo_ui_http_requests_total[5m])
+#       - record: xorigo_ui:error_rate
+#         expr: rate(xorigo_ui_error_rate[5m])

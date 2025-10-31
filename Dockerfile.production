@@ -1,0 +1,199 @@
+# ============================================
+# Xorigo UI - Optimized Multi-Stage Production Dockerfile
+# Stage 3: Modern Deployment & Monitoring System
+# ============================================
+
+# ==============================
+# Stage 1: Base Builder Setup
+# ==============================
+FROM node:22-alpine AS base-builder
+LABEL maintainer="Xorigo UI Team"
+LABEL version="0.1.0"
+LABEL description="Xorigo UI Multi-Stage Build - Production Ready"
+
+# Install build dependencies and security updates
+RUN apk add --no-cache \
+    libc6-compat \
+    openssl \
+    ca-certificates \
+    && apk update \
+    && apk upgrade
+
+WORKDIR /app
+
+# Enable pnpm core package manager
+RUN corepack enable
+
+# ==============================
+# Stage 2: Core Package Builder
+# ==============================
+FROM base-builder AS core-builder
+
+# Copy monorepo root files
+COPY package.json pnpm-lock.yaml ./
+COPY packages/core/package.json ./packages/core/
+COPY packages/core/pnpm-lock.yaml* ./packages/core/
+
+# Install root dependencies (frozen for production consistency)
+RUN pnpm install --frozen-lockfile --prefer-frozen-lockfile
+
+# Install core dependencies
+RUN cd packages/core && pnpm install --frozen-lockfile
+
+# Copy core source code
+COPY packages/core/src ./packages/core/src
+COPY packages/core/tsconfig.json ./packages/core/
+COPY packages/core/vite.config.ts ./packages/core/
+COPY packages/core/tailwind.config.js ./packages/core/
+COPY packages/core/postcss.config.js ./packages/core/
+
+# Build core package
+RUN cd packages/core && pnpm build
+
+# ==============================
+# Stage 3: Website Builder
+# ==============================
+FROM base-builder AS website-builder
+
+# Copy monorepo root files
+COPY package.json pnpm-lock.yaml ./
+COPY apps/website/package.json ./apps/website/
+COPY apps/website/pnpm-lock.yaml* ./apps/website/
+
+# Install root dependencies
+RUN pnpm install --frozen-lockfile --prefer-frozen-lockfile
+
+# Install website dependencies
+RUN cd apps/website && pnpm install --frozen-lockfile
+
+# Copy website source and config files
+COPY apps/website/src ./apps/website/src
+COPY apps/website/public ./apps/website/public
+COPY apps/website/next.config.mjs ./apps/website/
+COPY apps/website/tailwind.config.ts ./apps/website/
+COPY apps/website/tsconfig.json ./apps/website/
+COPY apps/website/postcss.config.js ./apps/website/
+
+# Copy built core package (from core-builder stage)
+COPY --from=core-builder /app/packages/core/dist ./packages/core/dist
+
+# Build website with optimized production settings
+RUN cd apps/website && \
+    NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    pnpm build
+
+# ==============================
+# Stage 4: Core Package Production Runtime
+# ==============================
+FROM node:22-alpine AS core-runtime
+
+# Install runtime dependencies and security tools
+RUN apk add --no-cache \
+    dumb-init \
+    curl \
+    jq \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S xorigo -u 1001
+
+WORKDIR /app
+
+# Copy built core package only
+COPY --from=core-builder --chown=xorigo:nodejs /app/packages/core/dist ./dist
+COPY --from=core-builder --chown=xorigo:nodejs /app/packages/core/package.json ./
+
+# Install only production dependencies
+RUN npm install --only=production --ignore-scripts
+
+# Switch to non-root user
+USER xorigo
+
+# Health check for core package
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3001/health || exit 1
+
+# Expose port
+EXPOSE 3001
+
+# Use dumb-init for proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "./dist/index.js"]
+
+# ==============================
+# Stage 5: Website Production Runtime
+# ==============================
+FROM node:22-alpine AS website-runtime
+
+# Install runtime dependencies and security tools
+RUN apk add --no-cache \
+    dumb-init \
+    curl \
+    jq \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S xorigo -u 1001
+
+WORKDIR /app
+
+# Copy built website only
+COPY --from=website-builder --chown=xorigo:nodejs /app/apps/website/.next/standalone ./
+COPY --from=website-builder --chown=xorigo:nodejs /app/apps/website/.next/static ./.next/static
+COPY --from=website-builder --chown=xorigo:nodejs /app/apps/website/public ./public
+
+# Switch to non-root user
+USER xorigo
+
+# Set production environment variables
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3100
+ENV HOSTNAME=0.0.0.0
+
+# Health check for website
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:3100/ || exit 1
+
+# Expose port
+EXPOSE 3100
+
+# Use dumb-init for proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "server.js"]
+
+# ==============================
+# Stage 6: Monitoring Sidecar
+# ==============================
+FROM node:22-alpine AS monitoring-sidecar
+
+RUN apk add --no-cache \
+    curl \
+    jq \
+    prometheus-node-exporter \
+    && rm -rf /var/cache/apk/*
+
+WORKDIR /monitoring
+
+# Copy monitoring scripts and configs
+COPY monitoring/ ./
+
+# Create non-root user
+RUN addgroup -g 1001 -S monitoring && \
+    adduser -S monitor -u 1001
+
+# Make scripts executable
+RUN chmod +x *.sh health-check.js metrics-collector.js
+
+USER monitor
+
+# Health check endpoint for the sidecar itself
+HEALTHCHECK --interval=60s --timeout=3s --start-period=5s --retries=2 \
+    CMD curl -f http://localhost:9090/metrics || exit 1
+
+EXPOSE 9090
+
+CMD ["node", "metrics-collector.js"]

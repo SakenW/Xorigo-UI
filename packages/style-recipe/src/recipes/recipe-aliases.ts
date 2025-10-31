@@ -8,7 +8,7 @@ import type { StyleRecipeID } from '../types'
 /**
  * 配方别名映射
  */
-export const RECIPE_ALIASES: Record<string, StyleRecipeID> = {
+export const RECIPE_ALIASES: Record<string, string> = {
   // 官方配方别名
   'corporate-blue': 'light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow',
   'corporate-navy-dark': 'dark.neutral-cool-high.mono(navy).standard.comfortable.standard.soft-shadow',
@@ -37,8 +37,8 @@ export const RECIPE_ALIASES: Record<string, StyleRecipeID> = {
  * @param alias 配方别名或完整ID
  * @returns 完整的配方ID
  */
-export function getRealRecipeId(alias: string): StyleRecipeID {
-  return RECIPE_ALIASES[alias] || (alias as StyleRecipeID)
+export function getRealRecipeId(alias: string): string {
+  return RECIPE_ALIASES[alias] || alias
 }
 
 /**

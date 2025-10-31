@@ -1,31 +1,28 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": "./src",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@xorigo-ui/tokens": ["../tokens/src"],
-      "@xorigo-ui/style-recipe": ["../style-recipe/src"]
-    },
+    "composite": true,
     "outDir": "./dist",
+    "noEmit": false,
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "noEmit": false,
-    "skipLibCheck": true,
-    "noResolve": false,
-    "composite": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
-    "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "strict": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.spec.ts", "src/motion/**/*"]
+  "exclude": ["dist", "node_modules", "**/*.test.*", "**/*.spec.*"],
+  "references": [
+    { "path": "../tokens" },
+    { "path": "../system" },
+    { "path": "../utils" },
+    { "path": "../primitives" },
+    { "path": "../forms" },
+    { "path": "../layout" },
+    { "path": "../navigation" },
+    { "path": "../overlays" },
+    { "path": "../feedback" },
+    { "path": "../i18n" },
+    { "path": "../style-recipe" },
+    { "path": "../hooks" }
+  ]
 }

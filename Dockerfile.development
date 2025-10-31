@@ -1,0 +1,117 @@
+# ============================================
+# Xorigo UI - Development Dockerfile
+# Stage 3: Modern Deployment & Monitoring System
+# ============================================
+
+# ==============================
+# Base Development Environment
+# ==============================
+FROM node:22-alpine AS base-dev
+
+# Install development dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    git \
+    curl \
+    bash \
+    && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+
+# Enable pnpm
+RUN corepack enable
+
+# ==============================
+# Core Development Environment
+# ==============================
+FROM base-dev AS core-dev
+
+# Create non-root user for development
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S xorigo -u 1001
+
+# Copy monorepo files
+COPY package.json pnpm-lock.yaml ./
+COPY packages/core/package.json ./packages/core/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy core source
+COPY packages/core ./packages/core
+
+# Switch to user
+USER xorigo
+
+# Set development environment
+ENV NODE_ENV=development
+ENV CHOKIDAR_USEPOLLING=true
+ENV FAST_REFRESH=true
+
+# Expose development port
+EXPOSE 3001
+
+# Development command with hot reload
+CMD ["pnpm", "--filter", "@xorigo-ui/core", "dev", "--host", "0.0.0.0"]
+
+# ==============================
+# Website Development Environment
+# ==============================
+FROM base-dev AS website-dev
+
+# Create non-root user for development
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S xorigo -u 1001
+
+# Copy monorepo files
+COPY package.json pnpm-lock.yaml ./
+COPY apps/website/package.json ./apps/website/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy website source
+COPY apps/website ./apps/website
+
+# Switch to user
+USER xorigo
+
+# Set development environment
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV CHOKIDAR_USEPOLLING=true
+ENV FAST_REFRESH=true
+
+# Expose development port
+EXPOSE 3100
+
+# Development command with hot reload
+CMD ["pnpm", "--filter", "website", "dev", "--port", "3100", "--hostname", "0.0.0.0"]
+
+# ==============================
+# Monitoring Development Environment
+# ==============================
+FROM base-dev AS monitoring-dev
+
+# Copy monitoring source
+COPY monitoring/ ./
+
+# Create monitoring user
+RUN addgroup -g 1001 -S monitoring && \
+    adduser -S monitor -u 1001
+
+# Make scripts executable
+RUN chmod +x *.sh *.js
+
+# Switch to user
+USER monitor
+
+# Set development environment
+ENV NODE_ENV=development
+ENV LOG_LEVEL=debug
+
+# Expose monitoring port
+EXPOSE 9090
+
+# Development monitoring command
+CMD ["node", "metrics-collector.js"]

@@ -1,0 +1,80 @@
+{
+  "title": "Xorigo UI 依赖映射关系",
+  "version": "2.0.0",
+  "lastUpdated": "2025-10-31",
+  "dependencyLayers": {
+    "layer1_infrastructure": {
+      "description": "基础设施层 - 无其他内部包依赖",
+      "packages": ["tokens", "system", "utils"],
+      "dependencies": {
+        "tokens": [],
+        "system": ["tokens"],
+        "utils": ["tokens", "system"]
+      }
+    },
+    "layer2_primitives": {
+      "description": "原子组件层 - 仅依赖基础设施层",
+      "packages": ["primitives"],
+      "dependencies": {
+        "primitives": ["tokens", "system"]
+      }
+    },
+    "layer3_components": {
+      "description": "组合组件层 - 仅依赖基础设施层和原子组件层",
+      "packages": ["forms", "layout", "feedback", "navigation", "overlays"],
+      "dependencies": {
+        "forms": ["tokens", "system", "primitives"],
+        "layout": ["tokens", "system", "primitives"],
+        "feedback": ["tokens", "system", "primitives"],
+        "navigation": ["tokens", "system", "primitives"],
+        "overlays": ["tokens", "system", "primitives"]
+      }
+    },
+    "layer4_applications": {
+      "description": "应用层 - 可依赖所有内部包",
+      "packages": ["website"],
+      "dependencies": {
+        "website": ["tokens", "system", "utils", "primitives", "forms", "layout", "feedback", "navigation", "overlays"]
+      }
+    },
+    "legacy": {
+      "description": "遗留兼容层 - 重新导出所有包",
+      "packages": ["core"],
+      "dependencies": {
+        "core": ["tokens", "system", "utils", "primitives", "forms", "layout", "feedback", "navigation", "overlays", "hooks", "i18n", "style-recipe"]
+      }
+    }
+  },
+  "externalDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "framer-motion": "^12.0.0",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  },
+  "bannedDependencies": {
+    "circular": [
+      ["core", "system"],
+      ["primitives", "forms"],
+      ["forms", "layout"],
+      ["navigation", "overlays"]
+    ],
+    "crossLayer": [
+      ["tokens", "primitives"],
+      ["system", "forms"],
+      ["utils", "overlays"]
+    ],
+    "sameLevel": [
+      ["forms", "layout"],
+      ["navigation", "feedback"],
+      ["overlays", "layout"]
+    ]
+  },
+  "migrationRules": {
+    "phase1": "建立新的包结构",
+    "phase2": "迁移组件到对应层级",
+    "phase3": "更新website使用新包",
+    "phase4": "废弃core包的直接使用"
+  }
+}

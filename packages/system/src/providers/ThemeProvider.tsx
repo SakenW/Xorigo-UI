@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from 'react'
 import { motion } from 'framer-motion'
-import { getCoreTokens, type DTCGCoreTokens } from '@xorigo-ui/tokens'
+import { colorTokens, type ColorPaletteScale } from '../internal/colors'
 import {
   colorPalettes,
   type ColorPalette,
@@ -19,7 +19,7 @@ import {
 // 主题配置接口
 export interface ThemeConfig {
   name: string
-  colors: Record<string, Record<string, string>> // 使用通用的颜色对象类型
+  colors: ColorPaletteScale // 使用正确的颜色标度类型
   gradient: string
   glow: string
   palette: ColorPalette
@@ -27,15 +27,12 @@ export interface ThemeConfig {
   mood: string[]
 }
 
-// 临时的颜色令牌，用于向后兼容
-const colorTokens = {
-  primary: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554' },
-  secondary: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7c3aed', 800: '#6b21a8', 900: '#581c87', 950: '#3b0764' },
-  warning: { 50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309', 800: '#92400e', 900: '#78350f', 950: '#451a03' },
-  success: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d', 950: '#052e16' },
-  error: { 50: '#fef2f2', 100: '#fee2e2', 200: '#fecaca', 300: '#fca5a5', 400: '#f87171', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c', 800: '#991b1b', 900: '#7f1d1d', 950: '#450a0a' },
-  info: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e', 950: '#082f49' },
-  gray: { 50: '#f9fafb', 100: '#f3f4f6', 200: '#e5e7eb', 300: '#d1d5db', 400: '#9ca3af', 500: '#6b7280', 600: '#4b5563', 700: '#374151', 800: '#1f2937', 900: '#111827', 950: '#030712' },
+// 使用从 @xorigo-ui/tokens 导入的颜色令牌，避免重复定义
+
+// 安全访问颜色调色板的辅助函数
+const getSafePalette = (index: number): ColorPalette => {
+  const fallback = colorPalettes[0] || colorPalettes[1]!
+  return colorPalettes[index] || fallback
 }
 
 // 基于配色方案的主题配置
@@ -46,7 +43,7 @@ export const themeConfigs: Record<string, ThemeConfig> = {
     colors: colorTokens.primary,
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     glow: 'rgba(14, 165, 233, 0.3)',
-    palette: colorPalettes[0],
+    palette: getSafePalette(0),
     category: 'classic',
     mood: ['清新'],
   },
@@ -55,7 +52,7 @@ export const themeConfigs: Record<string, ThemeConfig> = {
     colors: colorTokens.secondary,
     gradient: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
     glow: 'rgba(168, 85, 247, 0.4)',
-    palette: colorPalettes[0],
+    palette: getSafePalette(0),
     category: 'classic',
     mood: ['专注'],
   },
@@ -64,18 +61,18 @@ export const themeConfigs: Record<string, ThemeConfig> = {
   'cyber-blue-purple': {
     name: '赛博蓝紫',
     colors: colorTokens.primary,
-    gradient: colorPalettes[0].gradient.primary,
-    glow: colorPalettes[0].glow.primary,
-    palette: colorPalettes[0],
+    gradient: getSafePalette(0).gradient.primary,
+    glow: getSafePalette(0).glow.primary,
+    palette: getSafePalette(0),
     category: 'modern',
     mood: ['现代', '科技'],
   },
   'warm-sunrise': {
     name: '温暖晨曦',
     colors: colorTokens.warning,
-    gradient: colorPalettes[1].gradient.primary,
-    glow: colorPalettes[1].glow.primary,
-    palette: colorPalettes[1],
+    gradient: getSafePalette(1).gradient.primary,
+    glow: getSafePalette(1).glow.primary,
+    palette: getSafePalette(1),
     category: 'modern',
     mood: ['温暖', '活力'],
   },
@@ -84,9 +81,9 @@ export const themeConfigs: Record<string, ThemeConfig> = {
   'pink-romance': {
     name: '粉彩浪漫',
     colors: { ...colorTokens.secondary, 500: '#ec4899' },
-    gradient: colorPalettes[2].gradient.primary,
-    glow: colorPalettes[2].glow.primary,
-    palette: colorPalettes[2],
+    gradient: getSafePalette(2).gradient.primary,
+    glow: getSafePalette(2).glow.primary,
+    palette: getSafePalette(2),
     category: 'playful',
     mood: ['浪漫', '温柔'],
   },
@@ -95,18 +92,18 @@ export const themeConfigs: Record<string, ThemeConfig> = {
   'forest-nature': {
     name: '自然森林',
     colors: colorTokens.success,
-    gradient: colorPalettes[3].gradient.primary,
-    glow: colorPalettes[3].glow.primary,
-    palette: colorPalettes[3],
+    gradient: getSafePalette(3).gradient.primary,
+    glow: getSafePalette(3).glow.primary,
+    palette: getSafePalette(3),
     category: 'nature',
     mood: ['自然', '清新'],
   },
   'deep-ocean': {
     name: '深海秘境',
     colors: { ...colorTokens.primary, 500: '#0284c7' },
-    gradient: colorPalettes[4].gradient.primary,
-    glow: colorPalettes[4].glow.primary,
-    palette: colorPalettes[4],
+    gradient: getSafePalette(4).gradient.primary,
+    glow: getSafePalette(4).glow.primary,
+    palette: getSafePalette(4),
     category: 'nature',
     mood: ['深邃', '神秘'],
   },
@@ -115,18 +112,18 @@ export const themeConfigs: Record<string, ThemeConfig> = {
   'royal-violet': {
     name: '高贵紫罗兰',
     colors: { ...colorTokens.secondary, 500: '#7c3aed' },
-    gradient: colorPalettes[5].gradient.primary,
-    glow: colorPalettes[5].glow.primary,
-    palette: colorPalettes[5],
+    gradient: getSafePalette(5).gradient.primary,
+    glow: getSafePalette(5).glow.primary,
+    palette: getSafePalette(5),
     category: 'elegant',
     mood: ['高贵', '优雅'],
   },
   'minimal-black-white': {
     name: '极简黑白',
     colors: { ...colorTokens.gray, 500: '#6b7280' },
-    gradient: colorPalettes[6].gradient.primary,
-    glow: colorPalettes[6].glow.primary,
-    palette: colorPalettes[6],
+    gradient: getSafePalette(6).gradient.primary,
+    glow: getSafePalette(6).glow.primary,
+    palette: getSafePalette(6),
     category: 'elegant',
     mood: ['极简', '专业'],
   },
@@ -135,27 +132,27 @@ export const themeConfigs: Record<string, ThemeConfig> = {
   'vibrant-lemon': {
     name: '活力柠檬',
     colors: colorTokens.warning,
-    gradient: colorPalettes[7]?.gradient.primary || '',
-    glow: colorPalettes[7]?.glow.primary || '',
-    palette: colorPalettes[7] || colorPalettes[0]!,
+    gradient: getSafePalette(7)?.gradient.primary || '',
+    glow: getSafePalette(7)?.glow.primary || '',
+    palette: getSafePalette(7) || getSafePalette(0)!,
     category: 'playful',
     mood: ['活力', '创意'],
   },
   'dreamy-rainbow': {
     name: '梦幻彩虹',
     colors: { ...colorTokens.primary, 500: '#8b5cf6' },
-    gradient: colorPalettes[8]?.gradient.primary || '',
-    glow: colorPalettes[8]?.glow.primary || '',
-    palette: colorPalettes[8] || colorPalettes[0]!,
+    gradient: getSafePalette(8)?.gradient.primary || '',
+    glow: getSafePalette(8)?.glow.primary || '',
+    palette: getSafePalette(8) || getSafePalette(0)!,
     category: 'playful',
     mood: ['梦幻', '创意'],
   },
   'carnival-circus': {
     name: '嘉年华马戏团',
     colors: { ...colorTokens.warning, 500: '#f59e0b' },
-    gradient: colorPalettes[9]?.gradient.primary || '',
-    glow: colorPalettes[9]?.glow.primary || '',
-    palette: colorPalettes[9] || colorPalettes[0]!,
+    gradient: getSafePalette(9)?.gradient.primary || '',
+    glow: getSafePalette(9)?.glow.primary || '',
+    palette: getSafePalette(9) || getSafePalette(0)!,
     category: 'playful',
     mood: ['欢乐', '活泼'],
   },
@@ -219,8 +216,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const currentCategory = themeConfigs[currentTheme]?.category || 'modern'
 
   // 安全获取主题配置
-  const themeConfig =
-    themeConfigs[currentTheme] || themeConfigs['cyber-blue-purple']
+  const themeConfig: ThemeConfig =
+    themeConfigs[currentTheme] || themeConfigs['cyber-blue-purple'] || themeConfigs['light']!
 
   const setThemeByCategory = (category: string) => {
     const themesInCategory = Object.entries(themeConfigs)
@@ -230,14 +227,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (themesInCategory.length > 0) {
       const randomTheme =
         themesInCategory[Math.floor(Math.random() * themesInCategory.length)]
-      setTheme(randomTheme)
+      if (randomTheme) {
+        setTheme(randomTheme)
+      }
     }
   }
 
   const setRandomTheme = () => {
-    const randomTheme =
-      availableThemes[Math.floor(Math.random() * availableThemes.length)]
-    setTheme(randomTheme)
+    const randomIndex = Math.floor(Math.random() * availableThemes.length)
+    const randomTheme = availableThemes[randomIndex]
+    if (randomTheme) {
+      setTheme(randomTheme)
+    }
   }
 
   const searchThemes = (query: string): string[] => {
@@ -279,11 +280,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         className="min-h-screen"
         style={
           {
-            '--theme-primary': themeConfig.colors?.[500] || '#3b82f6',
-            '--theme-secondary': themeConfig.colors?.[600] || '#2563eb',
-            '--theme-accent': themeConfig.colors?.[400] || '#60a5fa',
-            '--theme-gradient': themeConfig.gradient || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            '--theme-glow': themeConfig.glow || 'rgba(59, 130, 246, 0.4)',
+            '--theme-primary': themeConfig.colors[500],
+            '--theme-secondary': themeConfig.colors[600],
+            '--theme-accent': themeConfig.colors[400],
+            '--theme-gradient': themeConfig.gradient,
+            '--theme-glow': themeConfig.glow,
           } as React.CSSProperties
         }
       >

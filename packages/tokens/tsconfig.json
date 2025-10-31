@@ -1,15 +1,14 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "noEmit": false,
     "declaration": true,
     "declarationMap": true,
-    "composite": true,
-    "noEmit": false,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "emitDeclarationOnly": false
   },
   "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["dist", "node_modules", "coverage"]
+  "exclude": ["dist", "node_modules", "coverage", "**/*.test.*", "**/*.spec.*"]
 }

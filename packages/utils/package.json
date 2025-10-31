@@ -1,0 +1,66 @@
+{
+  "name": "@xorigo-ui/utils",
+  "version": "0.1.0",
+  "description": "Xorigo UI Utils - Utility functions layer",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./theme-converter": {
+      "types": "./dist/theme-converter.d.ts",
+      "import": "./dist/theme-converter.mjs",
+      "require": "./dist/theme-converter.cjs.js"
+    },
+    "./accessibility": {
+      "types": "./dist/accessibility.d.ts",
+      "import": "./dist/accessibility.mjs",
+      "require": "./dist/accessibility.cjs.js"
+    },
+    "./container-aware-colors": {
+      "types": "./dist/container-aware-colors.d.ts",
+      "import": "./dist/container-aware-colors.mjs",
+      "require": "./dist/container-aware-colors.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "utils",
+    "utilities",
+    "theme",
+    "accessibility",
+    "design-system"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "dependencies": {
+    "@xorigo-ui/tokens": "workspace:*",
+    "@xorigo-ui/system": "workspace:*",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "culori": "^4.0.2",
+    "color-contrast-checker": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  },
+  "sideEffects": false
+}

@@ -1,56 +1,65 @@
 /**
- * Vitest 测试环境设置
+ * 🧪 测试环境设置
  */
 
 import '@testing-library/jest-dom'
-import { afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import { beforeAll, afterEach, afterAll } from 'vitest'
 
-// 每个测试后清理
+// 模拟performance API
+Object.defineProperty(window, 'performance', {
+  value: {
+    now: vi.fn(() => Date.now()),
+    mark: vi.fn(),
+    measure: vi.fn(),
+    getEntriesByName: vi.fn(() => []),
+    getEntriesByType: vi.fn(() => [])
+  }
+})
+
+// 模拟localStorage
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+}
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock
+})
+
+// 模拟navigator.userAgent
+Object.defineProperty(navigator, 'userAgent', {
+  value: 'Mozilla/5.0 (Test Environment)',
+  configurable: true
+})
+
+// 模拟screen对象
+Object.defineProperty(window, 'screen', {
+  value: {
+    width: 1920,
+    height: 1080,
+    colorDepth: 24,
+    pixelDepth: 24
+  }
+})
+
+// 模拟Date.now
+const mockDate = new Date('2024-01-01T00:00:00.000Z')
+vi.spyOn(Date, 'now').mockImplementation(() => mockDate.getTime())
+
+// 全局测试设置
+beforeAll(() => {
+  console.log('🧪 开始AI系统测试')
+})
+
 afterEach(() => {
-  cleanup()
+  vi.clearAllMocks()
 })
 
-// 模拟 ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-
-// 模拟 IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-
-// 模拟 matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: (query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => {},
-  }),
+afterAll(() => {
+  console.log('✅ AI系统测试完成')
 })
 
-// 模拟 scrollTo
-window.scrollTo = () => {}
-
-// 模拟 getComputedStyle
-window.getComputedStyle = () => ({
-  getPropertyValue: () => '',
-}) as CSSStyleDeclaration
-
-// 模拟 CSS 变量支持
-CSS.supports = (property: string, value?: string) => {
-  if (property.startsWith('--')) return true
-  return true
-}
+// 导出测试工具
+export * from '@testing-library/react'
+export { vi } from 'vitest'

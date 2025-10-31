@@ -15,7 +15,7 @@ import {
   type MotionAxis,
   type SurfaceAxis,
 } from '../index'
-import { cn } from '@/utils'
+import { cn } from '../utils'
 
 // ============================================================================
 // 轴配置定义 (Axis Configuration)
@@ -107,7 +107,7 @@ interface AxisValue {
 
 interface SevenAxisEditorProps {
   className?: string
-  onSave?: (recipeId: StyleRecipeID, values: AxisValue) => void
+  onSave?: (recipeId: string, values: AxisValue) => void
   defaultValues?: Partial<AxisValue>
 }
 
@@ -116,7 +116,9 @@ interface SevenAxisEditorProps {
 // ============================================================================
 
 export function SevenAxisEditor({ className, onSave, defaultValues }: SevenAxisEditorProps) {
-  const { currentRecipeID, setRecipe, availableRecipes } = useStyleRecipe()
+  const styleRecipe = useStyleRecipe() as any
+  const currentRecipeID = styleRecipe.currentRecipeID
+  const setRecipe = styleRecipe.setRecipe
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [showSaveDialog, setShowSaveDialog] = useState(false)
   const [savedName, setSavedName] = useState('')
@@ -187,7 +189,7 @@ export function SevenAxisEditor({ className, onSave, defaultValues }: SevenAxisE
   // 应用配方
   const applyRecipe = useCallback(async () => {
     setIsTransitioning(true)
-    const success = await setRecipe(recipeId as StyleRecipeID)
+    const success = await setRecipe(recipeId as any)
     setIsTransitioning(false)
 
     if (!success) {

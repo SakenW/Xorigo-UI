@@ -1,0 +1,170 @@
+# ============================================
+# Xorigo UI - Development Docker Compose Configuration
+# Stage 3: Modern Deployment & Monitoring System
+# ============================================
+
+version: '3.8'
+
+# Development network configuration
+networks:
+  xorigo-ui-dev-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+# Development volumes for live code mounting
+volumes:
+  node-modules-dev:
+    driver: local
+  pnpm-store-dev:
+    driver: local
+
+services:
+  # ============================================
+  # Development Core Service
+  # ============================================
+  xorigo-ui-core-dev:
+    container_name: xorigo-ui-core-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+      target: core-dev
+    image: xorigo-ui/core:dev
+    ports:
+      - "${DEV_CORE_PORT:-3001}:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - HOSTNAME=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+    volumes:
+      - ./packages/core:/app/packages/core
+      - ./packages/core/node_modules:/app/packages/core/node_modules
+      - node-modules-dev:/app/node_modules
+      - pnpm-store-dev:/root/.local/share/pnpm/store
+    restart: "no"
+    networks:
+      xorigo-ui-dev-network:
+        ipv4_address: 172.21.0.10
+    labels:
+      - "com.xorigo-ui.service=core-dev"
+      - "com.xorigo-ui.environment=development"
+      - "traefik.enable=true"
+      - "traefik.http.routers.xorigo-core-dev.rule=Host(`dev-core.xorigo-ui.local`)"
+      - "traefik.http.services.xorigo-core-dev.loadbalancer.server.port=3001"
+
+  # ============================================
+  # Development Website Service
+  # ============================================
+  xorigo-ui-website-dev:
+    container_name: xorigo-ui-website-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+      target: website-dev
+    image: xorigo-ui/website:dev
+    ports:
+      - "${DEV_WEBSITE_PORT:-3100}:3100"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3100
+      - HOSTNAME=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      - FAST_REFRESH=true
+      - REDIS_URL=redis://redis-dev:6379
+    volumes:
+      - ./apps/website:/app/apps/website
+      - ./apps/website/node_modules:/app/apps/website/node_modules
+      - ./apps/website/.next:/app/apps/website/.next
+      - node-modules-dev:/app/node_modules
+      - pnpm-store-dev:/root/.local/share/pnpm/store
+    depends_on:
+      - redis-dev
+    restart: "no"
+    networks:
+      xorigo-ui-dev-network:
+        ipv4_address: 172.21.0.20
+    labels:
+      - "com.xorigo-ui.service=website-dev"
+      - "com.xorigo-ui.environment=development"
+      - "traefik.enable=true"
+      - "traefik.http.routers.xorigo-website-dev.rule=Host(`dev-website.xorigo-ui.local`)"
+      - "traefik.http.services.xorigo-website-dev.loadbalancer.server.port=3100"
+
+  # ============================================
+  # Development Redis
+  # ============================================
+  redis-dev:
+    container_name: xorigo-ui-redis-dev
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "${DEV_REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-dev-data:/data
+    restart: "no"
+    networks:
+      xorigo-ui-dev-network:
+        ipv4_address: 172.21.0.30
+    labels:
+      - "com.xorigo-ui.service=redis-dev"
+      - "com.xorigo-ui.environment=development"
+
+  # ============================================
+  # Development Monitoring (Optional)
+  # ============================================
+  monitoring-dev:
+    container_name: xorigo-ui-monitoring-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+      target: monitoring-dev
+    image: xorigo-ui/monitoring:dev
+    ports:
+      - "${DEV_MONITORING_PORT:-9090}:9090"
+    environment:
+      - NODE_ENV=development
+      - PROMETHEUS_ENABLED=true
+      - METRICS_INTERVAL=60s
+      - LOG_LEVEL=debug
+    restart: "no"
+    networks:
+      xorigo-ui-dev-network:
+        ipv4_address: 172.21.0.40
+    labels:
+      - "com.xorigo-ui.service=monitoring-dev"
+      - "com.xorigo-ui.environment=development"
+
+  # ============================================
+  # Development Traefik Reverse Proxy
+  # ============================================
+  traefik-dev:
+    container_name: xorigo-ui-traefik-dev
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--global.checknewversion=false"
+      - "--global.sendanonymoususage=false"
+    ports:
+      - "${DEV_TRAEFIK_PORT:-80}:80"
+      - "${DEV_TRAEFIK_DASHBOARD_PORT:-8080}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: "no"
+    networks:
+      xorigo-ui-dev-network:
+        ipv4_address: 172.21.0.50
+    labels:
+      - "com.xorigo-ui.service=traefik-dev"
+      - "com.xorigo-ui.environment=development"
+
+volumes:
+  redis-dev-data:
+    driver: local

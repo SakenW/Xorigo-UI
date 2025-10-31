@@ -1,14 +1,16 @@
 ---
 name: "Xorigo UI 设计令牌管理器"
-description: "基于 Xorigo UI v1.4 SSOT 的设计令牌专门管理工具，确保 foundations/ 层令牌的标准化、一致性和七轴系统集成"
+description: "基于 Xorigo UI v1.5.1 架构的设计令牌专门管理工具，确保 foundations/ 层令牌的标准化、一致性和七轴主题系统集成"
 author: "Xorigo UI Team"
-version: "1.4.0"
-tags: ["design-tokens", "foundations", "color-system", "density-system", "motion-system", "surface-system"]
+version: "1.5.1"
+tags: ["design-tokens", "foundations", "color-system", "density-system", "motion-system", "surface-system", "seven-axis-theme", "xorigo-ui-v1.5.1"]
 ---
 
 # Xorigo UI 设计令牌管理器
 
-基于 Xorigo UI v1.4 SSOT 的设计令牌专门管理工具，负责 `foundations/` 层的静态令牌标准化管理。
+基于 Xorigo UI v1.5.1 棕地架构分析的设计令牌专门管理工具，负责 `packages/core/src/foundations/` 层的静态令牌标准化管理。
+
+**📋 v1.5.1 重要更新**: 完全适配七轴主题系统，支持用户自定义配方和动态令牌加载。
 
 ## 🎯 作用域与职责
 
@@ -24,16 +26,25 @@ tags: ["design-tokens", "foundations", "color-system", "density-system", "motion
 - 组件层样式
 - 网站展示内容
 
-## 🏗️ Foundations 目录结构强制
+## 🏗️ v1.5.1 Foundations 目录结构 (基于实际架构)
 
 ```
 packages/core/src/foundations/
 ├── color-tokens.ts          # 🎨 基础 HSL / LAB 色板与中性色曲线
-├── density-tokens.ts        # 📏 间距、边距、字号 系数
+├── density-tokens.ts        # 📏 间距、边距、字号 系数 (七轴密度轴支持)
 ├── motion-curves.ts         # 🎭 Easing 函数、持续时间、延迟配置
 ├── surface-tokens.ts        # 💎 阴影、透明度、模糊、发光参数
+├── utils/
+│   ├── cn.ts                # 🛠️ 样式类名合并工具
+│   └── color-helpers.ts     # 🎨 颜色转换和计算工具
 └── index.ts                 # 📦 聚合导出，供 system 与 primitives 调用
 ```
+
+**🔗 与七轴主题系统的集成**:
+- **颜色令牌** → 支持 Hue(色调轴) + Saturation(饱和度轴) + Lightness(亮度轴)
+- **密度令牌** → 支持 Density(密度轴) 动态调整
+- **表面令牌** → 支持 Roundness(圆度轴) 参数化
+- **动画令牌** → 支持动态主题切换过渡
 
 ## 🎨 颜色令牌系统 (Color Tokens)
 

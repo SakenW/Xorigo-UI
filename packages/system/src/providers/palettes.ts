@@ -739,7 +739,8 @@ export const getPalettesByMood = (mood: ColorPalette['mood']): ColorPalette[] =>
 };
 
 export const getRandomPalette = (): ColorPalette => {
-  return colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+  const randomIndex = Math.floor(Math.random() * colorPalettes.length);
+  return colorPalettes[randomIndex] || colorPalettes[0]!;
 };
 
 export const searchPalettes = (query: string): ColorPalette[] => {

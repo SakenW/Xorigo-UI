@@ -87,7 +87,7 @@ export default function HomePage() {
           glowColor="rgba(6, 182, 212, 0.3)"
           entranceDelay={0.2}
           className="mb-8"
-          ariaLabel="Xorigo UI - 现代化 React UI 组件库"
+          aria-label="Xorigo UI - 现代化 React UI 组件库"
         />
 
         <motion.p
@@ -111,8 +111,7 @@ export default function HomePage() {
         >
           <Button
             size="lg"
-            ariaLabel="开始使用 Xorigo UI 组件库"
-            announceStateChange
+            aria-label="开始使用 Xorigo UI 组件库"
           >
             开始使用
           </Button>
@@ -120,7 +119,7 @@ export default function HomePage() {
           <Button
             variant="outline"
             size="lg"
-            ariaLabel="查看 Xorigo UI 文档"
+            aria-label="查看 Xorigo UI 文档"
           >
             查看文档
           </Button>

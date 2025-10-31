@@ -1,0 +1,14 @@
+{
+  "filePath": ".spec-workflow/specs/interface-system-redesign/requirements.md",
+  "currentVersion": 1,
+  "snapshots": [
+    {
+      "version": 1,
+      "filename": "snapshot-001.json",
+      "timestamp": "2025-10-31T09:44:47.738Z",
+      "trigger": "initial",
+      "approvalId": "approval_1761903887680_quu0gnoje",
+      "approvalTitle": "Xorigo UI 界面系统重构需求规范审批"
+    }
+  ]
+}

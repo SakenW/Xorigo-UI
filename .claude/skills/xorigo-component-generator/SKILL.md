@@ -1,10 +1,12 @@
 ---
 name: "Xorigo UI 组件生成器"
-description: "根据 Xorigo UI 设计系统自动生成符合规范的 React 组件模板，包含 TypeScript 类型、Tailwind CSS 样式、Framer Motion 动画和主题系统集成"
+description: "根据 Xorigo UI 设计系统 v1.5.1 自动生成符合规范的 React 组件模板，包含 TypeScript 类型、Tailwind CSS 样式、Framer Motion 动画和主题系统集成"
 author: "Xorigo UI Team"
-version: "1.0.0"
-tags: ["react", "component", "typescript", "tailwind", "design-system"]
+version: "1.5.1"
+tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-ui-v1.5.1"]
 ---
+
+**📋 重要更新**: 已根据 Xorigo UI 棕地架构文档 v1.5.1 进行完全适配，确保生成的组件结构与实际项目完全一致。
 
 # Xorigo UI 组件生成器
 
@@ -23,56 +25,153 @@ tags: ["react", "component", "typescript", "tailwind", "design-system"]
 - ✅ **可访问性支持** - ARIA 属性和键盘导航
 - ✅ **forwardRef 支持** - 引用传递和 DOM 操作
 
-## 使用方法
+## 🤖 智能使用方法
 
-对我说：
-- "创建一个 [组件名] 组件"
-- "新建一个 [组件类型] 组件，variant 包含 primary 和 secondary"
-- "生成一个符合 Xorigo UI 规范的 [组件名]"
+**只需告诉我组件名称，我会自动推断所有细节**：
 
-## 组件类型支持
+### 简单请求
+- "DataTable"
+- "UserCard"
+- "ColorPicker"
+- "ModalDialog"
 
-### 核心组件 (Atoms)
+### 智能推断能力
+我会自动推断：
+- 🎯 **组件分类** - 基于名称智能匹配13个分类
+- 📁 **目录位置** - 自动放置在正确的 `packages/core/src/{category}/`
+- 📝 **文件命名** - PascalCase 文件和文件夹命名
+- ⚡ **功能特性** - 根据组件类型自动推断需要的功能
+- 🎨 **API设计** - 符合 Xorigo UI 标准的 Props 接口
+- 🧪 **测试文件** - 完整的单元测试和 Storybook 故事
+- 📦 **导出配置** - 自动更新分类导出文件
+
+### 示例演示
+**请求**: "DataTable"
+**自动生成**:
+```
+📁 分类: data-display
+🏷️ 名称: DataTable (data-table)
+⚡ 功能: pagination, sorting, filtering, selection, variants, accessibility, forwardRef, motion
+📂 位置: packages/core/src/data-display/DataTable/
+📄 文件: 4个 (DataTable.tsx, DataTable.test.tsx, DataTable.stories.tsx, index.ts)
+```
+
+**请求**: "ModalDialog"
+**自动生成**:
+```
+📁 分类: overlays
+🏷️ 名称: ModalDialog (modal-dialog)
+⚡ 功能: portal, focusTrap, escapeHandling, backdrop, size, closeButton, escapeKey
+📂 位置: packages/core/src/overlays/ModalDialog/
+```
+
+### 高级请求 (可选)
+如果需要特定功能，可以指定：
+- "DataTable 带虚拟滚动"
+- "ModalDialog 支持拖拽"
+- "ColorPicker 支持透明度"
+
+## 组件类型支持 (基于 v1.5.1 架构)
+
+### 🔷 Primitives (原子组件)
+**路径**: `packages/core/src/primitives/`
 - Button - 按钮组件
-- Input - 输入框组件
 - Card - 卡片组件
-- Icon - 图标组件
+- Surface - 表面容器组件
+- ThemeSwitcher - 主题切换器
+
+### 📝 Form (表单组件)
+**路径**: `packages/core/src/form/` (注意：单数命名)
+- Input - 输入框组件
+- Select - 选择器组件
+- Checkbox - 复选框组件
+- Switch - 开关组件
+
+### 🎭 Overlays (覆盖层组件)
+**路径**: `packages/core/src/overlays/`
+- Dialog - 对话框组件
+- Drawer - 抽屉组件
+- Popover - 气泡框组件
+- Sheet - 侧边面板组件
+
+### 📊 Data Display (数据展示组件)
+**路径**: `packages/core/src/data-display/`
+- Table - 表格组件
+- List - 列表组件
+- Card - 数据卡片组件
+
+### 🔔 Feedback (反馈组件)
+**路径**: `packages/core/src/feedback/`
+- Toast - 提示组件
+- Loading - 加载组件
 - Badge - 徽章组件
-- Avatar - 头像组件
 
-### 交互组件
-- Modal - 模态框组件
-- Dropdown - 下拉菜单组件
-- Tabs - 标签页组件
-- Tooltip - 提示框组件
+### 🎨 Typography (排版组件)
+**路径**: `packages/core/src/typography/`
+- Heading - 标题组件
+- Text - 文本组件
+- Code - 代码组件
 
-### 布局组件
-- Header - 页头组件
-- Sidebar - 侧边栏组件
+### 📐 Layout (布局组件)
+**路径**: `packages/core/src/layout/`
 - Grid - 网格组件
 - Container - 容器组件
+- Stack - 堆叠组件
 
-## 生成的组件结构
+### 🧭 Navigation (导航组件)
+**路径**: `packages/core/src/navigation/`
+- Menu - 菜单组件
+- Breadcrumb - 面包屑组件
+- Tabs - 标签页组件
 
-每个组件将包含：
+### 🏢 Branding (品牌组件)
+**路径**: `packages/core/src/branding/`
+- Logo - 品牌标识组件
+
+### 🎪 Showcase (展示组件)
+**路径**: `packages/core/src/showcase/`
+- CodeDemo - 代码演示组件
+
+**⚠️ 重要**: Workbench 组件位于 `apps/website/src/components/workbench/`，不在组件库中！
+
+## 生成的组件结构 (v1.5.1 规范)
+
+每个组件将按照实际项目结构生成：
 
 ```
-src/components/
-├── [component-name].tsx          # 主组件文件 (kebab-case)
-├── [component-name].test.tsx     # 单元测试 (kebab-case.test.tsx)
-├── [component-name].stories.tsx  # Storybook 故事 (kebab-case.stories.tsx)
-├── [component-name].variants.ts  # 样式变体定义 (kebab-case.variants.ts)
-├── [component-name].types.ts     # 类型定义 (kebab-case.types.ts)
-└── index.ts                      # 导出文件
+packages/core/src/{category}/
+├── [ComponentName]/               # 组件文件夹 (PascalCase)
+│   ├── [ComponentName].tsx       # 主组件文件 (PascalCase)
+│   ├── [ComponentName].test.tsx  # 单元测试文件
+│   ├── [ComponentName].stories.tsx # Storybook 故事文件
+│   └── index.ts                  # 导出文件
+
+# 示例：创建 Button 组件
+packages/core/src/primitives/
+├── Button/
+│   ├── Button.tsx               # 主组件
+│   ├── Button.test.tsx          # 测试文件
+│   ├── Button.stories.tsx       # Storybook 故事
+│   └── index.ts                 # 导出
 ```
 
-**文件命名规范说明**：
-- **使用 kebab-case** - 现代前端最佳实践，提供更好的跨平台可读性
-- **组件文件**：与组件功能对应的 kebab-case 格式 (`button.tsx`, `data-table.tsx`)
-- **类型文件**：以 `.types.ts` 结尾 (`button.types.ts`, `data-table.types.ts`)
-- **变体文件**：以 `.variants.ts` 结尾 (`button.variants.ts`, `data-table.variants.ts`)
-- **测试文件**：以 `.test.tsx` 结尾 (`button.test.tsx`, `data-table.test.tsx`)
-- **Storybook 文件**：以 `.stories.tsx` 结尾 (`button.stories.tsx`, `data-table.stories.tsx`)
+**📋 v1.5.1 文件命名规范说明**：
+
+### React 组件文件 (PascalCase)
+- **主组件文件**: `Button.tsx`, `DataTable.tsx`, `ThemeSwitcher.tsx`
+- **组件文件夹**: `Button/`, `DataTable/`, `ThemeSwitcher/`
+- **导入示例**: `import { Button } from '../../primitives/button/button'`
+
+### 其他文件规范
+- **测试文件**: `[ComponentName].test.tsx`
+- **Storybook 文件**: `[ComponentName].stories.tsx`
+- **导出文件**: `index.ts` (统一格式)
+
+### 关键原则
+1. **React 组件使用 PascalCase** - 符合 React 生态最佳实践
+2. **组件独立文件夹** - 便于组织和管理
+3. **与实际项目结构完全一致** - 基于棕地架构分析
+4. **正确的导入路径** - 确保生成的组件可以正常导入
 
 ## API 设计标准
 
@@ -91,22 +190,45 @@ interface ComponentProps {
 }
 ```
 
-## 设计令牌集成
+## 设计令牌集成 (七轴主题系统)
 
-组件将自动使用 Xorigo UI 的设计令牌：
+组件将自动使用 Xorigo UI v1.5.1 的七轴主题系统设计令牌：
 
-- 颜色：`var(--color-primary-500)`
-- 间距：`var(--spacing-sm)`
-- 圆角：`var(--radius-md)`
-- 动画：`var(--transition-fast)`
+### 令牌访问方式
+```typescript
+// ✅ 正确的令牌使用方式
+className="bg-[var(--color-primary-500)] text-[var(--color-text-primary)]"
+style={{ color: 'var(--color-primary-500)' }}
+```
 
-## 主题兼容性
+### 七轴主题支持
+组件将在所有七轴主题配方下正常工作：
+- **模式轴**: light/dark/auto 自动适配
+- **色调轴**: 支持自定义色相
+- **饱和度轴**: 可调节色彩鲜艳度
+- **亮度轴**: 动态明暗程度
+- **密度轴**: 空间紧凑度适配
+- **圆度轴**: 边角圆润度变化
+- **对比度轴**: 视觉对比度支持
 
-生成的组件在所有 10 种主题下都能正常工作：
-- Midnight (午夜黑)
-- Ocean (海洋蓝)
-- Forest (森林绿)
-- Sunset (夕阳橙)
+### 主题配方示例
+- **professional-dark**: 专业商务深色主题
+- **creative-light**: 创意设计浅色主题
+- **minimal**: 极简主义主题
+- **seasonal**: 季节性主题 (spring, autumn等)
+- **用户自定义**: 支持用户上传配方
+
+## 正确的导入方式 (v1.5.1)
+
+```typescript
+// ✅ 正确的组件导入方式
+import { Button } from '@xorigo-ui/core/primitives'
+import { Input } from '@xorigo-ui/core/form'
+import { Dialog } from '@xorigo-ui/core/overlays'
+
+// ❌ 错误的导入方式 (避免使用)
+import { Button } from '../../../packages/core/src/primitives/button/button'
+```
 - Lavender (薰衣草紫)
 - Cherry (樱花红)
 - Graphite (石墨灰)

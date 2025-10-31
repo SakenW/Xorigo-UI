@@ -1,744 +1,624 @@
 #!/usr/bin/env python3
 """
-Xorigo UI 组件生成器
-用于快速创建符合 Xorigo UI 标准的 React 组件
+Xorigo UI 组件生成器 v1.5.1
+基于棕地架构分析的智能组件生成系统
 """
 
 import os
+import re
 import sys
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 class ComponentGenerator:
     def __init__(self, base_path: str = "/home/saken/project/Xorigo-UI/packages/core/src"):
         self.base_path = Path(base_path)
-        self.components = ["select", "checkbox", "switch"]
-        self.typography_components = ["heading", "text", "caption"]
+
+        # v1.5.1 架构 - 13个组件分类
+        self.component_categories = {
+            # 原子组件
+            "primitives": {
+                "description": "🔷 原子组件 - 基础UI元素",
+                "examples": ["Button", "Card", "Surface", "ThemeSwitcher"],
+                "auto_features": ["variants", "accessibility", "forwardRef", "motion"]
+            },
+            # 表单组件 (注意：单数命名)
+            "form": {
+                "description": "📝 表单组件 - 输入和选择控件",
+                "examples": ["Input", "Select", "Checkbox", "Switch"],
+                "auto_features": ["validation", "errorStates", "labelIntegration", "variants"]
+            },
+            # 覆盖层组件
+            "overlays": {
+                "description": "🎭 覆盖层组件 - 模态框和弹出层",
+                "examples": ["Dialog", "Drawer", "Popover", "Sheet"],
+                "auto_features": ["portal", "focusTrap", "escapeHandling", "backdrop"]
+            },
+            # 数据展示组件
+            "data-display": {
+                "description": "📊 数据展示组件 - 表格和列表",
+                "examples": ["Table", "List", "DataTable", "Card"],
+                "auto_features": ["pagination", "sorting", "filtering", "selection"]
+            },
+            # 反馈组件
+            "feedback": {
+                "description": "🔔 反馈组件 - 状态和提示",
+                "examples": ["Toast", "Loading", "Badge", "Alert"],
+                "auto_features": ["autoDismiss", "variants", "positioning", "stacking"]
+            },
+            # 布局组件
+            "layout": {
+                "description": "📐 布局组件 - 网格和容器",
+                "examples": ["Grid", "Container", "Stack", "Divider"],
+                "auto_features": ["responsive", "gap", "alignment", "direction"]
+            },
+            # 导航组件
+            "navigation": {
+                "description": "🧭 导航组件 - 菜单和面包屑",
+                "examples": ["Menu", "Breadcrumb", "Tabs", "Pagination"],
+                "auto_features": ["keyboard", "routerIntegration", "activeStates", "dropdown"]
+            },
+            # 排版组件
+            "typography": {
+                "description": "🎨 排版组件 - 文本和标题",
+                "examples": ["Heading", "Text", "Code", "Link"],
+                "auto_features": ["semantic", "responsive", "truncation", "colorIntegration"]
+            },
+            # 品牌组件
+            "branding": {
+                "description": "🏢 品牌组件 - Logo和品牌元素",
+                "examples": ["Logo", "Brand", "Icon"],
+                "auto_features": ["svg", "variants", "themeAdaptation", "sizing"]
+            },
+            # 展示组件
+            "showcase": {
+                "description": "🎪 展示组件 - 代码演示和示例",
+                "examples": ["CodeDemo", "Example", "Preview"],
+                "auto_features": ["syntaxHighlighting", "copyButton", "livePreview", "tabs"]
+            },
+            # 效果组件
+            "effects": {
+                "description": "✨ 效果组件 - 视觉效果",
+                "examples": ["Skeleton", "Shimmer", "Gradient"],
+                "auto_features": ["animation", "variants", "themeIntegration", "performance"]
+            },
+            # 动画组件
+            "motion": {
+                "description": "🎬 动画组件 - Framer Motion集成",
+                "examples": ["Animate", "Transition", "LayoutGroup"],
+                "auto_features": ["framerMotion", "variants", "gestures", "physics"]
+            },
+            # 系统组件
+            "system": {
+                "description": "🔹 系统组件 - 主题和配方管理",
+                "examples": ["ThemeProvider", "RecipeLoader", "ThemeSwitcher"],
+                "auto_features": ["themeIntegration", "recipeSupport", "sevenAxis", "persistence"]
+            }
+        }
+
+        # 智能分类映射
+        self.category_keywords = {
+            "primitives": ["button", "card", "surface", "input", "badge", "avatar", "icon"],
+            "form": ["input", "select", "checkbox", "switch", "radio", "textarea", "field"],
+            "overlays": ["dialog", "drawer", "popover", "sheet", "modal", "tooltip", "dropdown"],
+            "data-display": ["table", "list", "grid", "card", "data", "item", "row"],
+            "feedback": ["toast", "alert", "loading", "spinner", "progress", "badge", "status"],
+            "layout": ["grid", "container", "stack", "flex", "divider", "space", "section"],
+            "navigation": ["menu", "nav", "breadcrumb", "tabs", "pagination", "link", "sidebar"],
+            "typography": ["heading", "title", "text", "paragraph", "label", "code", "quote"],
+            "branding": ["logo", "brand", "icon", "symbol"],
+            "showcase": ["demo", "example", "preview", "showcase", "code"],
+            "effects": ["skeleton", "shimmer", "gradient", "overlay", "effect"],
+            "motion": ["animate", "transition", "motion", "slide", "fade"],
+            "system": ["theme", "provider", "recipe", "switcher", "config"]
+        }
+
+    def infer_component_category(self, component_name: str) -> str:
+        """智能推断组件分类"""
+        name_lower = component_name.lower()
+
+        # 计算每个分类的匹配分数
+        category_scores = {}
+        for category, keywords in self.category_keywords.items():
+            score = 0
+            for keyword in keywords:
+                if keyword in name_lower:
+                    score += 1
+                # 模糊匹配
+                if self._fuzzy_match(keyword, name_lower):
+                    score += 0.5
+            category_scores[category] = score
+
+        # 返回得分最高的分类
+        best_category = max(category_scores.items(), key=lambda x: x[1])
+
+        # 如果没有明确匹配，使用默认分类
+        if best_category[1] == 0:
+            return "primitives"  # 默认分类
+
+        return best_category[0]
+
+    def _fuzzy_match(self, keyword: str, text: str) -> bool:
+        """简单的模糊匹配"""
+        # 检查是否包含部分关键词
+        for i in range(len(keyword)):
+            if keyword[:i+1] in text or keyword[i:] in text:
+                return True
+        return False
+
+    def normalize_component_name(self, component_name: str) -> Tuple[str, str, str]:
+        """标准化组件名称"""
+        # 移除常见前缀
+        name = re.sub(r'^(ui|react|component)', '', component_name, flags=re.IGNORECASE).strip()
+
+        # PascalCase 格式
+        name_pascal = ''.join(word.capitalize() for word in re.split(r'[-_\s]+', name))
+
+        # kebab-case 格式
+        name_kebab = re.sub(r'([A-Z])', r'-\1', name_pascal).lower().lstrip('-')
+
+        # camelCase 格式
+        name_camel = name_pascal[0].lower() + name_pascal[1:] if name_pascal else ''
+
+        return name_pascal, name_kebab, name_camel
+
+    def infer_component_features(self, component_name: str, category: str) -> List[str]:
+        """智能推断组件需要的功能"""
+        name_lower = component_name.lower()
+        base_features = self.component_categories[category]["auto_features"]
+
+        # 基于组件名称推断额外功能
+        additional_features = []
+
+        if "table" in name_lower or "data" in name_lower:
+            additional_features.extend(["sorting", "pagination", "filtering", "selection"])
+
+        if "dialog" in name_lower or "modal" in name_lower:
+            additional_features.extend(["size", "backdrop", "closeButton", "escapeKey"])
+
+        if "input" in name_lower or "field" in name_lower:
+            additional_features.extend(["placeholder", "disabled", "error", "label"])
+
+        if "button" in name_lower:
+            additional_features.extend(["loading", "icon", "size", "variant"])
+
+        if "menu" in name_lower or "dropdown" in name_lower:
+            additional_features.extend(["items", "trigger", "placement", "offset"])
+
+        return list(set(base_features + additional_features))
+
+    def generate_component(self, component_name: str, custom_features: Optional[List[str]] = None):
+        """智能生成组件"""
+        print(f"🚀 开始生成 Xorigo UI v1.5.1 组件: {component_name}")
+
+        # 标准化名称
+        name_pascal, name_kebab, name_camel = self.normalize_component_name(component_name)
+
+        # 智能推断分类
+        category = self.infer_component_category(component_name)
+
+        # 推断功能
+        auto_features = self.infer_component_features(component_name, category)
+        features = list(set(auto_features + (custom_features or [])))
+
+        print(f"📁 分类: {category}")
+        print(f"🏷️  名称: {name_pascal} ({name_kebab})")
+        print(f"⚡ 功能: {', '.join(features)}")
+
+        # 创建目录结构
+        component_dir = self.base_path / category / name_pascal
+        self.ensure_directory(component_dir)
+
+        # 生成文件
+        files_created = []
+
+        # 主组件文件
+        main_file = component_dir / f"{name_pascal}.tsx"
+        content = self._generate_component_content(name_pascal, name_kebab, category, features)
+        self._write_file(main_file, content)
+        files_created.append(main_file)
+
+        # 测试文件
+        test_file = component_dir / f"{name_pascal}.test.tsx"
+        test_content = self._generate_test_content(name_pascal, category, features)
+        self._write_file(test_file, test_content)
+        files_created.append(test_file)
+
+        # Storybook 文件
+        story_file = component_dir / f"{name_pascal}.stories.tsx"
+        story_content = self._generate_story_content(name_pascal, category, features)
+        self._write_file(story_file, story_content)
+        files_created.append(story_file)
+
+        # 导出文件
+        index_file = component_dir / "index.ts"
+        index_content = self._generate_index_content(name_pascal)
+        self._write_file(index_file, index_content)
+        files_created.append(index_file)
+
+        # 更新分类导出
+        self._update_category_export(category, name_pascal)
+
+        print(f"✅ 组件生成完成!")
+        print(f"📂 位置: {component_dir}")
+        print(f"📄 文件: {len(files_created)} 个")
+
+        # 生成使用示例
+        self._print_usage_example(name_pascal, category, features)
 
     def ensure_directory(self, directory: Path):
         """确保目录存在"""
         directory.mkdir(parents=True, exist_ok=True)
 
-    def create_component(self, component_name: str, component_type: str = "form"):
-        """创建单个组件"""
-        name_kebab = component_name.lower()
-        name_pascal = component_name.capitalize()
-
-        if component_type == "form":
-            component_dir = self.base_path / "form"
-            file_path = component_dir / f"{name_kebab}.tsx"
-        else:
-            component_dir = self.base_path / "typography"
-            file_path = component_dir / f"{name_kebab}.tsx"
-
-        self.ensure_directory(component_dir)
-
-        if component_type == "form":
-            content = self.get_form_component_content(name_pascal, name_kebab)
-        else:
-            content = self.get_typography_component_content(name_pascal, name_kebab)
-
+    def _write_file(self, file_path: Path, content: str):
+        """写入文件"""
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
 
-        print(f"✅ Created {component_type} component: {file_path}")
+    def _generate_component_content(self, name_pascal: str, name_kebab: str, category: str, features: List[str]) -> str:
+        """生成主组件内容"""
 
-    def get_form_component_content(self, name_pascal: str, name_kebab: str) -> str:
-        """生成表单组件内容"""
-        if name_kebab == "select":
-            return self.get_select_component_content(name_pascal)
-        elif name_kebab == "checkbox":
-            return self.get_checkbox_component_content(name_pascal)
-        elif name_kebab == "switch":
-            return self.get_switch_component_content(name_pascal)
-        else:
-            return self.get_generic_form_component_content(name_pascal, name_kebab)
+        # 基础导入
+        imports = [
+            "'use client'",
+            "import { forwardRef } from 'react'",
+            "import { cva, type VariantProps } from 'class-variance-authority'",
+            "import { motion } from 'framer-motion'",
+            "import { cn } from '../../foundations/utils/cn'",
+            "import {",
+            "  generateAriaProps,",
+            "  generateKeyboardNavigation,",
+            "  type AriaAttributes",
+            "} from '../../utils/accessibility'"
+        ]
 
-    def get_typography_component_content(self, name_pascal: str, name_kebab: str) -> str:
-        """生成排版组件内容"""
-        if name_kebab == "heading":
-            return self.get_heading_component_content(name_pascal)
-        elif name_kebab == "text":
-            return self.get_text_component_content(name_pascal)
-        elif name_kebab == "caption":
-            return self.get_caption_component_content(name_pascal)
-        else:
-            return self.get_generic_typography_component_content(name_pascal, name_kebab)
+        # 变体定义
+        variants = self._generate_variants(name_kebab, features)
 
-    def get_select_component_content(self, name_pascal: str) -> str:
-        return """'use client'
+        # Props 接口
+        props_interface = self._generate_props_interface(name_pascal, features)
 
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
+        # 组件实现
+        component_implementation = self._generate_component_implementation(name_pascal, name_kebab, features)
 
-// Select 变体定义
-export const selectVariants = cva(
-  "w-full rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary: "border-[var(--color-primary-300)] bg-[var(--color-background-primary)] text-[var(--color-text-primary)] focus:ring-[var(--color-primary-500)]",
-        secondary: "border-[var(--color-secondary-300)] bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)] focus:ring-[var(--color-secondary-500)]",
-        outline: "border-[var(--color-neutral-300)] bg-transparent text-[var(--color-text-primary)] focus:ring-[var(--color-primary-500)]",
-        ghost: "border-transparent bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-background-hover)]"
-      },
-      size: {
-        sm: "px-2 py-1 text-sm",
-        md: "px-3 py-2 text-base",
-        lg: "px-4 py-3 text-lg"
-      },
-      state: {
-        default: "",
-        error: "border-[var(--color-error-500)] focus:ring-[var(--color-error-500)]",
-        success: "border-[var(--color-success-500)] focus:ring-[var(--color-success-500)]"
-      }
-    }
-  }
-)
+        # 组装完整内容
+        content = f"""{'\\n'.join(imports)}
 
-// Select 属性接口
-export interface SelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement>,
-    VariantProps<typeof selectVariants> {
-  placeholder?: string
-  error?: boolean
-  helperText?: string
-  onValueChange?: (value: string) => void
-}
+{variants}
 
-// Select 组件
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({
-    className,
-    variant = "primary",
-    size = "md",
-    state = "default",
-    disabled = false,
-    children,
-    error,
-    helperText,
-    onValueChange,
-    onChange,
-    ...props
-  }, ref) => {
-    // 处理值变化
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      onValueChange?.(e.target.value)
-      onChange?.(e)
-    }
+{props_interface}
+
+{component_implementation}"""
+
+        return content
+
+    def _generate_variants(self, name_kebab: str, features: List[str]) -> str:
+        """生成变体定义"""
+
+        base_classes = "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
+
+        variants_config = {
+            "variant": {
+                "primary": "bg-[var(--color-primary-500)] text-white hover:bg-[var(--color-primary-600)] focus:ring-[var(--color-primary-500)] shadow-md hover:shadow-lg",
+                "secondary": "bg-[var(--color-surface-primary)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] hover:bg-[var(--color-surface-secondary)] focus:ring-[var(--color-border-default)]",
+                "outline": "bg-transparent text-[var(--color-primary-500)] border border-[var(--color-primary-500)] hover:bg-[var(--color-primary-500)] hover:text-white focus:ring-[var(--color-primary-500)]",
+                "ghost": "bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-surface-secondary)] focus:ring-[var(--color-border-default)]"
+            },
+            "size": {
+                "sm": "px-3 py-1.5 text-sm",
+                "md": "px-4 py-2 text-base",
+                "lg": "px-6 py-3 text-lg",
+                "xl": "px-8 py-4 text-xl"
+            }
+        }
+
+        # 根据功能调整变体
+        if "loading" in features:
+            variants_config["loading"] = {
+                "true": "cursor-wait opacity-75",
+                "false": ""
+            }
+
+        return f"""export const {name_kebab}Variants = cva(
+  "{base_classes}",
+  {{
+    variants: {self._format_variants_config(variants_config)},
+    defaultVariants: {{
+      variant: 'primary',
+      size: 'md'
+    }}
+  }}
+)"""
+
+    def _format_variants_config(self, config: Dict) -> str:
+        """格式化变体配置"""
+        lines = ["{"]
+        for variant_name, variant_values in config.items():
+            lines.append(f"      {variant_name}: {{")
+            for value, classes in variant_values.items():
+                lines.append(f"        {value}: \"{classes}\",")
+            lines.append("      },")
+        lines.append("    }")
+        lines.append("  }")
+        return "\\n".join(lines)
+
+    def _generate_props_interface(self, name_pascal: str, features: List[str]) -> str:
+        """生成 Props 接口"""
+
+        base_props = [
+            "variant?: 'primary' | 'secondary' | 'outline' | 'ghost'",
+            "size?: 'sm' | 'md' | 'lg' | 'xl'",
+            "className?: string",
+            "children?: React.ReactNode",
+            "disabled?: boolean",
+            "onClick?: (event: React.MouseEvent) => void"
+        ]
+
+        # 根据功能添加 props
+        if "loading" in features:
+            base_props.append("loading?: boolean")
+            base_props.append("loadingText?: string")
+
+        if "error" in features:
+            base_props.append("error?: boolean")
+            base_props.append("errorMessage?: string")
+
+        if "validation" in features:
+            base_props.append("required?: boolean")
+            base_props.append("invalid?: boolean")
+
+        props_str = "\\n".join(f"  {prop};" for prop in base_props)
+
+        return f"""export interface {name_pascal}Props extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof {name_pascal}Variants> {{
+{props_str}
+}}"""
+
+    def _generate_component_implementation(self, name_pascal: str, name_kebab: str, features: List[str]) -> str:
+        """生成组件实现"""
+
+        # 参数解构
+        params = [
+            "className",
+            "variant",
+            "size",
+            "children",
+            "disabled",
+            "onClick"
+        ]
+
+        if "loading" in features:
+            params.extend(["loading = false", "loadingText = 'Loading...'"])
+
+        if "error" in features:
+            params.extend(["error = false", "errorMessage"])
+
+        component_params = "\\n".join(f"    {param}" for param in params)
+
+        return f"""const {name_pascal} = forwardRef<HTMLButtonElement, {name_pascal}Props>(
+  ({component_params},
+  ref) => {{
+    // 生成 ARIA 属性
+    const ariaProps = generateAriaProps('{name_pascal}', {{
+      disabled,
+      // 动态属性根据功能添加
+    }})
+
+    // 生成键盘导航处理
+    const keyboardHandlers = generateKeyboardNavigation('{name_pascal}', {{
+      onClick
+    }})
 
     return (
-      <motion.select
+      <motion.{name_pascal === 'Button' ? 'button' : 'div'}
         ref={ref}
-        className={cn(selectVariants({ variant, size, state, className }))}
-        disabled={disabled}
-        aria-disabled={disabled}
-        aria-invalid={error || state === 'error'}
-        aria-describedby={helperText ? `${props.id || 'select'}-helper` : undefined}
-        {...props}
-        onChange={handleChange}
-        whileHover={{ scale: disabled ? 1 : 1.02 }}
-        whileTap={{ scale: disabled ? 1 : 0.98 }}
-        transition={{ duration: 0.15 }}
+        className={cn({name_kebab}Variants({{ variant, size, loading, error }}), className)}
+        disabled={disabled || loading}
+        {...ariaProps}
+        {...keyboardHandlers}
+        {...{{
+          whileHover: {{ scale: 1.02 }},
+          whileTap: {{ scale: 0.98 }}
+        }}}
       >
-        {children}
-      </motion.select>
-    )
-  }
-)
-
-Select.displayName = 'Select'
-"""
-
-    def get_checkbox_component_content(self, name_pascal: str) -> str:
-        return """'use client'
-
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
-
-// Checkbox 变体定义
-export const checkboxVariants = cva(
-  "relative inline-flex items-center justify-center rounded border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary: "border-[var(--color-primary-300)] bg-[var(--color-background-primary)] focus:ring-[var(--color-primary-500)]",
-        secondary: "border-[var(--color-secondary-300)] bg-[var(--color-background-secondary)] focus:ring-[var(--color-secondary-500)]",
-        success: "border-[var(--color-success-300)] bg-[var(--color-background-primary)] focus:ring-[var(--color-success-500)]",
-        warning: "border-[var(--color-warning-300)] bg-[var(--color-background-primary)] focus:ring-[var(--color-warning-500)]",
-        error: "border-[var(--color-error-300)] bg-[var(--color-background-primary)] focus:ring-[var(--color-error-500)]"
-      },
-      size: {
-        sm: "w-4 h-4",
-        md: "w-5 h-5",
-        lg: "w-6 h-6"
-      },
-      state: {
-        default: "",
-        error: "border-[var(--color-error-500)]"
-      }
-    }
-  }
-)
-
-// Checkbox 属性接口
-export interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
-    VariantProps<typeof checkboxVariants> {
-  label?: string
-  error?: boolean
-  helperText?: string
-  indeterminate?: boolean
-  onCheckedChange?: (checked: boolean) => void
-}
-
-// Checkbox 组件
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({
-    className,
-    variant = "primary",
-    size = "md",
-    state = "default",
-    disabled = false,
-    checked,
-    defaultChecked,
-    label,
-    error,
-    helperText,
-    indeterminate,
-    onCheckedChange,
-    onChange,
-    ...props
-  }, ref) => {
-    const [isChecked, setIsChecked] = React.useState(defaultChecked || false)
-    const internalRef = React.useRef<HTMLInputElement>(null)
-    const mergedRef = (ref || internalRef) as React.RefObject<HTMLInputElement>
-
-    // 处理 indeterminate 状态
-    React.useEffect(() => {
-      if (mergedRef.current && indeterminate !== undefined) {
-        mergedRef.current.indeterminate = indeterminate
-      }
-    }, [indeterminate, mergedRef])
-
-    // 处理选中状态变化
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newChecked = e.target.checked
-      setIsChecked(newChecked)
-      onCheckedChange?.(newChecked)
-      onChange?.(e)
-    }
-
-    const checkbox = (
-      <motion.input
-        type="checkbox"
-        ref={mergedRef}
-        className={cn(checkboxVariants({ variant, size, state, className }))}
-        disabled={disabled}
-        checked={checked !== undefined ? checked : isChecked}
-        aria-disabled={disabled}
-        aria-invalid={error || state === 'error'}
-        aria-describedby={helperText ? `${props.id || 'checkbox'}-helper` : undefined}
-        {...props}
-        onChange={handleChange}
-        whileHover={{ scale: disabled ? 1 : 1.1 }}
-        whileTap={{ scale: disabled ? 1 : 0.9 }}
-        transition={{ duration: 0.15 }}
-      />
-    )
-
-    if (label) {
-      return (
-        <motion.label
-          className="flex items-center gap-2 cursor-pointer"
-          whileHover={{ scale: disabled ? 1 : 1.02 }}
-          transition={{ duration: 0.15 }}
-        >
-          {checkbox}
-          <span className={cn(
-            "text-sm select-none",
-            disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-primary)]"
-          )}>
-            {label}
-          </span>
-        </motion.label>
-      )
-    }
-
-    return checkbox
-  }
-)
-
-Checkbox.displayName = 'Checkbox'
-"""
-
-    def get_switch_component_content(self, name_pascal: str) -> str:
-        return """'use client'
-
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
-
-// Switch 变体定义
-export const switchVariants = cva(
-  "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary: "bg-[var(--color-neutral-300)] focus:ring-[var(--color-primary-500)]",
-        secondary: "bg-[var(--color-neutral-300)] focus:ring-[var(--color-secondary-500)]",
-        success: "bg-[var(--color-neutral-300)] focus:ring-[var(--color-success-500)]",
-        warning: "bg-[var(--color-neutral-300)] focus:ring-[var(--color-warning-500)]",
-        error: "bg-[var(--color-neutral-300)] focus:ring-[var(--color-error-500)]"
-      },
-      size: {
-        sm: "h-4 w-7",
-        md: "h-6 w-11",
-        lg: "h-8 w-15"
-      },
-      state: {
-        default: "",
-        error: "bg-[var(--color-error-300)]"
-      }
-    }
-  }
-)
-
-// Switch Thumb 变体定义
-export const switchThumbVariants = cva(
-  "inline-block rounded-full bg-white shadow-lg transform transition-transform duration-200",
-  {
-    variants: {
-      variant: {
-        primary: "bg-white",
-        secondary: "bg-white",
-        success: "bg-white",
-        warning: "bg-white",
-        error: "bg-white"
-      },
-      size: {
-        sm: "h-3 w-3",
-        md: "h-4 w-4",
-        lg: "h-5 w-5"
-      }
-    }
-  }
-)
-
-// Switch 属性接口
-export interface SwitchProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
-    VariantProps<typeof switchVariants> {
-  label?: string
-  error?: boolean
-  helperText?: string
-  checked?: boolean
-  defaultChecked?: boolean
-  onCheckedChange?: (checked: boolean) => void
-}
-
-// Switch 组件
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({
-    className,
-    variant = "primary",
-    size = "md",
-    state = "default",
-    disabled = false,
-    checked,
-    defaultChecked = false,
-    label,
-    error,
-    helperText,
-    onCheckedChange,
-    onChange,
-    ...props
-  }, ref) => {
-    const [isChecked, setIsChecked] = React.useState(defaultChecked)
-    const internalRef = React.useRef<HTMLInputElement>(null)
-    const mergedRef = (ref || internalRef) as React.RefObject<HTMLInputElement>
-
-    // 处理选中状态变化
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newChecked = e.target.checked
-      setIsChecked(newChecked)
-      onCheckedChange?.(newChecked)
-      onChange?.(e)
-    }
-
-    const isActuallyChecked = checked !== undefined ? checked : isChecked
-
-    const switchElement = (
-      <motion.button
-        type="button"
-        role="switch"
-        ref={mergedRef}
-        className={cn(
-          switchVariants({ variant, size, state, className }),
-          isActuallyChecked && "bg-[var(--color-primary-500)]"
+        {loading ? (
+          <>
+            <motion.div
+              className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+              animate={{{ rotate: 360 }}}
+              transition={{{ duration: 1, repeat: Infinity, ease: "linear" }}}
+            />
+            {loadingText}
+          </>
+        ) : (
+          children
         )}
-        disabled={disabled}
-        aria-disabled={disabled}
-        aria-invalid={error || state === 'error'}
-        aria-checked={isActuallyChecked}
-        aria-describedby={helperText ? `${props.id || 'switch'}-helper` : undefined}
-        onClick={() => {
-          const newChecked = !isActuallyChecked
-          setIsChecked(newChecked)
-          onCheckedChange?.(newChecked)
-          if (mergedRef.current) {
-            mergedRef.current.checked = newChecked
-          }
-        }}
-        whileHover={{ scale: disabled ? 1 : 1.05 }}
-        whileTap={{ scale: disabled ? 1 : 0.95 }}
-        transition={{ duration: 0.15 }}
-      >
-        <motion.span
-          className={switchThumbVariants({ variant, size })}
-          animate={{
-            x: isActuallyChecked
-              ? (size === 'sm' ? 12 : size === 'md' ? 20 : 28)
-              : (size === 'sm' ? 1 : size === 'md' ? 2 : 3)
-          }}
-          transition={{ duration: 0.2 }}
-        />
-      </motion.button>
+      </motion.{name_pascal === 'Button' ? 'button' : 'div'}>
     )
-
-    if (label) {
-      return (
-        <motion.label
-          className="flex items-center gap-3 cursor-pointer"
-          whileHover={{ scale: disabled ? 1 : 1.02 }}
-          transition={{ duration: 0.15 }}
-        >
-          {switchElement}
-          <span className={cn(
-            "text-sm select-none",
-            disabled ? "text-[var(--color-text-disabled)]" : "text-[var(--color-text-primary)]"
-          )}>
-            {label}
-          </span>
-        </motion.label>
-      )
-    }
-
-    return switchElement
-  }
+  }}
 )
 
-Switch.displayName = 'Switch'
-"""
+{name_pascal}.displayName = '{name_pascal}'
 
-    def get_heading_component_content(self, name_pascal: str) -> str:
-        return """'use client'
+export { {name_pascal} }"""
 
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
+    def _generate_test_content(self, name_pascal: str, category: str, features: List[str]) -> str:
+        """生成测试内容"""
 
-// Heading 变体定义
-export const headingVariants = cva(
-  "font-bold tracking-tight",
-  {
-    variants: {
-      level: {
-        h1: "text-4xl md:text-5xl lg:text-6xl",
-        h2: "text-3xl md:text-4xl lg:text-5xl",
-        h3: "text-2xl md:text-3xl lg:text-4xl",
-        h4: "text-xl md:text-2xl lg:text-3xl",
-        h5: "text-lg md:text-xl lg:text-2xl",
-        h6: "text-base md:text-lg lg:text-xl"
-      },
-      variant: {
-        primary: "text-[var(--color-text-primary)]",
-        secondary: "text-[var(--color-text-secondary)]",
-        muted: "text-[var(--color-text-muted)]",
-        accent: "text-[var(--color-primary-600)]"
-      },
-      weight: {
-        light: "font-light",
-        normal: "font-normal",
-        medium: "font-medium",
-        semibold: "font-semibold",
-        bold: "font-bold",
-        extrabold: "font-extrabold"
-      },
-      align: {
-        left: "text-left",
-        center: "text-center",
-        right: "text-right",
-        justify: "text-justify"
-      }
-    }
-  }
-)
+        return f"""import {{ render, screen }} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import {{ {name_pascal} }} from './{name_pascal}'
 
-// Heading 属性接口
-export interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>,
-    VariantProps<typeof headingVariants> {
-  level?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-}
+describe('{name_pascal}', () => {{
+  it('renders correctly', () => {{
+    render(<{name_pascal}>Test {name_pascal}</{name_pascal}>)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+    expect(screen.getByText('Test {name_pascal}')).toBeInTheDocument()
+  }})
 
-// Heading 组件
-export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({
-    className,
-    level = 'h2',
-    variant = "primary",
-    weight = "bold",
-    align = "left",
-    as,
-    children,
-    ...props
-  }, ref) => {
-    const Component = as || level
+  it('handles click events', async () => {{
+    const handleClick = vi.fn()
+    const user = userEvent.setup()
 
-    return (
-      <motion(Component
-        ref={ref}
-        className={cn(headingVariants({ level, variant, weight, align, className }))}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        {...props}
-      >
-        {children}
-      </motion.Component>
-    )
-  }
-)
+    render(<{name_pascal} onClick={handleClick}>Click me</{name_pascal}>)
 
-Heading.displayName = 'Heading'
-"""
+    await user.click(screen.getByRole('button'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  }})
 
-    def get_text_component_content(self, name_pascal: str) -> str:
-        return """'use client'
+  it('applies variant styles correctly', () => {{
+    render(<{name_pascal} variant="secondary">Secondary</{name_pascal}>)
+    expect(screen.getByRole('button')).toHaveClass('bg-[var(--color-surface-primary)]')
+  }})
 
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
+  it('handles disabled state', () => {{
+    render(<{name_pascal} disabled>Disabled</{name_pascal}>)
+    expect(screen.getByRole('button')).toBeDisabled()
+  }})
 
-// Text 变体定义
-export const textVariants = cva(
-  "leading-normal",
-  {
-    variants: {
-      size: {
-        xs: "text-xs",
-        sm: "text-sm",
-        base: "text-base",
-        lg: "text-lg",
-        xl: "text-xl",
-        '2xl': "text-2xl",
-        '3xl': "text-3xl",
-        '4xl': "text-4xl"
-      },
-      variant: {
-        primary: "text-[var(--color-text-primary)]",
-        secondary: "text-[var(--color-text-secondary)]",
-        muted: "text-[var(--color-text-muted)]",
-        accent: "text-[var(--color-primary-600)]",
-        success: "text-[var(--color-success-600)]",
-        warning: "text-[var(--color-warning-600)]",
-        error: "text-[var(--color-error-600)]"
-      },
-      weight: {
-        light: "font-light",
-        normal: "font-normal",
-        medium: "font-medium",
-        semibold: "font-semibold",
-        bold: "font-bold"
-      },
-      align: {
-        left: "text-left",
-        center: "text-center",
-        right: "text-right",
-        justify: "text-justify"
-      }
-    }
-  }
-)
+  {'it('shows loading state', () => {' if 'loading' in features else ''}
+    {render(<{name_pascal} loading>Loading</{name_pascal}>)
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
+  }})
 
-// Text 属性接口
-export interface TextProps
-  extends React.HTMLAttributes<HTMLParagraphElement>,
-    VariantProps<typeof textVariants> {
-  as?: 'p' | 'span' | 'div'
-}
+  it('is accessible', () => {{
+    render(<{name_pascal} ariaLabel="Test action">Action</{name_pascal}>)
+    expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Test action')
+  }})
+}})"""
 
-// Text 组件
-export const Text = forwardRef<HTMLParagraphElement, TextProps>(
-  ({
-    className,
-    size = "base",
-    variant = "primary",
-    weight = "normal",
-    align = "left",
-    as = "p",
-    children,
-    ...props
-  }, ref) => {
-    const Component = as
+    def _generate_story_content(self, name_pascal: str, category: str, features: List[str]) -> str:
+        """生成 Storybook 内容"""
 
-    return (
-      <motion(Component
-        ref={ref}
-        className={cn(textVariants({ size, variant, weight, align, className }))}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2 }}
-        {...props}
-      >
-        {children}
-      </motion.Component>
-    )
-  }
-)
+        return f"""import type {{ Meta, StoryObj }} from '@storybook/react'
+import {{ {name_pascal} }} from './{name_pascal}'
 
-Text.displayName = 'Text'
-"""
+const meta: Meta<typeof {name_pascal}> = {{
+  title: '{category}/{name_pascal}',
+  component: {name_pascal},
+  parameters: {{
+    layout: 'centered',
+  }},
+  tags: ['autodocs'],
+}}
 
-    def get_caption_component_content(self, name_pascal: str) -> str:
-        return """'use client'
+export default meta
+type Story = StoryObj<typeof meta>
 
-import React, { forwardRef } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../foundations/utils/cn'
+export const Primary: Story = {{
+  args: {{
+    children: 'Primary {name_pascal}',
+  }},
+}}
 
-// Caption 变体定义
-export const captionVariants = cva(
-  "text-xs leading-relaxed",
-  {
-    variants: {
-      variant: {
-        primary: "text-[var(--color-text-primary)]",
-        secondary: "text-[var(--color-text-secondary)]",
-        muted: "text-[var(--color-text-muted)]",
-        accent: "text-[var(--color-primary-600)]",
-        success: "text-[var(--color-success-600)]",
-        warning: "text-[var(--color-warning-600)]",
-        error: "text-[var(--color-error-600)]"
-      },
-      weight: {
-        normal: "font-normal",
-        medium: "font-medium",
-        semibold: "font-semibold"
-      },
-      align: {
-        left: "text-left",
-        center: "text-center",
-        right: "text-right"
-      }
-    }
-  }
-)
+export const Secondary: Story = {{
+  args: {{
+    variant: 'secondary',
+    children: 'Secondary {name_pascal}',
+  }},
+}}
 
-// Caption 属性接口
-export interface CaptionProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof captionVariants> {
-  as?: 'span' | 'p' | 'div'
-}
+export const Outline: Story = {{
+  args: {{
+    variant: 'outline',
+    children: 'Outline {name_pascal}',
+  }},
+}}
 
-// Caption 组件
-export const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
-  ({
-    className,
-    variant = "secondary",
-    weight = "normal",
-    align = "left",
-    as = "span",
-    children,
-    ...props
-  }, ref) => {
-    const Component = as
+export const Ghost: Story = {{
+  args: {{
+    variant: 'ghost',
+    children: 'Ghost {name_pascal}',
+  }},
+}}
 
-    return (
-      <motion(Component
-        ref={ref}
-        className={cn(captionVariants({ variant, weight, align, className }))}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2 }}
-        {...props}
-      >
-        {children}
-      </motion.Component>
-    )
-  }
-)
+export const Loading: Story = {{
+  args: {{
+    loading: true,
+    children: 'Loading',
+  }},
+}}
 
-Caption.displayName = 'Caption'
-"""
+export const Disabled: Story = {{
+  args: {{
+    disabled: true,
+    children: 'Disabled',
+  }},
+}}
 
-    def update_index_files(self):
-        """更新 index 文件以导出新组件"""
-        # 更新 form/index.ts
-        form_index_path = self.base_path / "form" / "index.ts"
-        if form_index_path.exists():
-            with open(form_index_path, 'r', encoding='utf-8') as f:
-                content = f.read()
+export const Sizes: Story = {{
+  render: () => (
+    <div className="flex items-center gap-4">
+      <{name_pascal} size="sm">Small</{name_pascal}>
+      <{name_pascal} size="md">Medium</{name_pascal}>
+      <{name_pascal} size="lg">Large</{name_pascal}>
+      <{name_pascal} size="xl">Extra Large</{name_pascal}>
+    </div>
+  ),
+}}"""
 
-            if 'select' not in content.lower():
-                new_exports = "// Form components\nexport { Select } from './select'\nexport type { SelectProps } from './select'\nexport { Checkbox } from './checkbox'\nexport type { CheckboxProps } from './checkbox'\nexport { Switch } from './switch'\nexport type { SwitchProps } from './switch'\n\n"
-                content = new_exports + content
-                with open(form_index_path, 'w', encoding='utf-8') as f:
-                    f.write(content)
-                print(f"✅ Updated {form_index_path}")
+    def _generate_index_content(self, name_pascal: str) -> str:
+        """生成导出文件内容"""
 
-        # 更新 typography/index.ts
-        typo_index_path = self.base_path / "typography" / "index.ts"
-        if typo_index_path.exists():
-            with open(typo_index_path, 'r', encoding='utf-8') as f:
-                content = f.read()
+        return f"""export {{ {name_pascal} }} from './{name_pascal}'
+export type {{ {name_pascal}Props }} from './{name_pascal}'"""
 
-            if 'heading' not in content.lower():
-                new_exports = "// Typography components\nexport { Heading } from './heading'\nexport type { HeadingProps } from './heading'\nexport { Text } from './text'\nexport type { TextProps } from './text'\nexport { Caption } from './caption'\nexport type { CaptionProps } from './caption'\n\n"
-                content = new_exports + content
-                with open(typo_index_path, 'w', encoding='utf-8') as f:
-                    f.write(content)
-                print(f"✅ Updated {typo_index_path}")
+    def _update_category_export(self, category: str, name_pascal: str):
+        """更新分类导出文件"""
+        index_file = self.base_path / category / "index.ts"
 
-    def generate_all(self):
-        """生成所有缺失的组件"""
-        print("🚀 Starting Xorigo UI component generation...")
+        # 如果文件不存在，创建基础结构
+        if not index_file.exists():
+            self.ensure_directory(self.base_path / category)
+            self._write_file(index_file, f"// {category} 组件导出\\n\\n")
 
-        # 创建表单组件
-        for component in self.components:
-            try:
-                self.create_component(component, "form")
-            except Exception as e:
-                print(f"❌ Error creating {component}: {e}")
+        # 读取现有内容
+        with open(index_file, 'r', encoding='utf-8') as f:
+            content = f.read()
 
-        # 创建排版组件
-        for component in self.typography_components:
-            try:
-                self.create_component(component, "typography")
-            except Exception as e:
-                print(f"❌ Error creating {component}: {e}")
+        # 检查是否已导出
+        if f"export {{ {name_pascal} }}" not in content:
+            # 添加新的导出
+            content += f"export {{ {name_pascal} }} from './{name_pascal}'\\n"
 
-        # 更新 index 文件
-        try:
-            self.update_index_files()
-        except Exception as e:
-            print(f"❌ Error updating index files: {e}")
+            # 写回文件
+            self._write_file(index_file, content)
+            print(f"✅ 更新分类导出: {category}/index.ts")
 
-        print("✅ Component generation completed!")
+    def _print_usage_example(self, name_pascal: str, category: str, features: List[str]):
+        """打印使用示例"""
+
+        import_path = f"@xorigo-ui/core/{category}"
+
+        print(f"\\n📖 使用示例:")
+        print(f"```typescript")
+        print(f"// 导入组件")
+        print(f"import {{ {name_pascal} }} from '{import_path}'")
+        print(f"")
+        print(f"// 基础使用")
+        print(f"<{name_pascal}>Click me</{name_pascal}>")
+        print(f"")
+        print(f"// 完整使用")
+        usage_props = ["variant='primary'", "size='md'"]
+        if "loading" in features:
+            usage_props.append("loading={{false}}")
+        print(f"<{name_pascal} {{ ', '.join(usage_props) }}>")
+        print(f"  Click me")
+        print(f"</{name_pascal}>")
+        print(f"```")
 
 def main():
+    """主函数"""
+    if len(sys.argv) < 2:
+        print("❌ 请提供组件名称")
+        print("用法: python generator.py <组件名> [功能1,功能2,...]")
+        print("示例: python generator.py DataTable sorting,pagination,filtering")
+        sys.exit(1)
+
+    component_name = sys.argv[1]
+    features = sys.argv[2].split(',') if len(sys.argv) > 2 else None
+
     generator = ComponentGenerator()
-    generator.generate_all()
+    generator.generate_component(component_name, features)
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { I18nManager } from '../core/I18nManager'
 import type { Locale, Namespace } from '../types/core'

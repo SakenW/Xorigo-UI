@@ -1,31 +1,39 @@
-// 主导出（仅稳定 API）
-export * from './foundations'
-export * from './system'
-export * from './primitives'
-export * from './branding'
+/**
+ * Xorigo UI Core - 向后兼容聚合包
+ *
+ * 这个包重新导出所有其他子包，提供统一的入口点
+ * 符合新的架构层次设计
+ */
 
-// 可访问性工具导出
-export * from './utils/accessibility'
-export * from './utils/accessibility-tester'
+// ============================================================================
+// Layer 1: 基础设施层
+// ============================================================================
 
-// 模态框组件导出
-export * from './components/modal'
+// 设计令牌系统
+export * from '@xorigo-ui/tokens'
 
-// Phase 3 组件库导出
-export * from './feedback'
-export * from './layout'
-export * from './navigation'
-export * from './data-display'
-export * from './form'
-export * from './typography'
-export * from './showcase'
-export * from './effects'
-export * from './motion'
+// 主题系统和提供者
+export * from '@xorigo-ui/system'
 
-// 保留的旧组件（兼容性）
-export * from './data-display/table'
-export * from './data-display/data-table'
-// 注意：不导出 './data-display/stat' 因为它已经在 './data-display' 中包含，会造成 StatCard 冲突
-export * from './overlays/dialog'
-export * from './loading/xorigo-logo-loader'
-export * from './branding'
+// 工具函数
+export * from '@xorigo-ui/utils'
+
+// AI智能系统
+export * from './ai'
+
+// ============================================================================
+// Layer 2: 原子组件层
+// ============================================================================
+
+// 基础原子组件
+export * from '@xorigo-ui/primitives'
+
+// 营销页面组件（临时解决方案）
+export * from './marketing-components'
+
+// ============================================================================
+// Legacy 兼容性导出
+// ============================================================================
+
+// 为了向后兼容，保留一些旧的导出别名
+// export { default as default } from '@xorigo-ui/primitives' // 暂时注释掉，避免default导出问题

@@ -1,0 +1,268 @@
+# ============================================
+# Xorigo UI - Production Docker Compose Configuration
+# Stage 3: Modern Deployment & Monitoring System
+# ============================================
+
+version: '3.8'
+
+# Network configuration
+networks:
+  xorigo-ui-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Volume configuration for persistent data
+volumes:
+  nginx-logs:
+    driver: local
+  monitoring-data:
+    driver: local
+  redis-data:
+    driver: local
+
+services:
+  # ============================================
+  # Core Package Service
+  # ============================================
+  xorigo-ui-core:
+    container_name: xorigo-ui-core-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: core-runtime
+    image: xorigo-ui/core:${VERSION:-latest}
+    ports:
+      - "${CORE_PORT:-3001}:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - HOSTNAME=0.0.0.0
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.10
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      - "com.xorigo-ui.service=core"
+      - "com.xorigo-ui.environment=production"
+      - "com.xorigo-ui.version=${VERSION:-latest}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.xorigo-core.rule=Host(`core.xorigo-ui.local`)"
+      - "traefik.http.services.xorigo-core.loadbalancer.server.port=3001"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+
+  # ============================================
+  # Website Service
+  # ============================================
+  xorigo-ui-website:
+    container_name: xorigo-ui-website-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: website-runtime
+    image: xorigo-ui/website:${VERSION:-latest}
+    ports:
+      - "${WEBSITE_PORT:-3100}:3100"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3100
+      - HOSTNAME=0.0.0.0
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL:-postgresql://user:password@postgres:5432/xorigo_ui}
+    depends_on:
+      - redis
+      - monitoring-sidecar
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.20
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.xorigo-ui.service=website"
+      - "com.xorigo-ui.environment=production"
+      - "com.xorigo-ui.version=${VERSION:-latest}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.xorigo-website.rule=Host(`xorigo-ui.local`)"
+      - "traefik.http.services.xorigo-website.loadbalancer.server.port=3100"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+
+  # ============================================
+  # Monitoring Sidecar
+  # ============================================
+  monitoring-sidecar:
+    container_name: xorigo-ui-monitoring
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: monitoring-sidecar
+    image: xorigo-ui/monitoring:${VERSION:-latest}
+    ports:
+      - "${MONITORING_PORT:-9090}:9090"
+    environment:
+      - NODE_ENV=production
+      - PROMETHEUS_ENABLED=true
+      - METRICS_INTERVAL=30s
+      - CORE_SERVICE_URL=http://xorigo-ui-core:3001
+      - WEBSITE_SERVICE_URL=http://xorigo-ui-website:3100
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.30
+    volumes:
+      - monitoring-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/metrics"]
+      interval: 60s
+      timeout: 3s
+      retries: 2
+      start_period: 10s
+    labels:
+      - "com.xorigo-ui.service=monitoring"
+      - "com.xorigo-ui.environment=production"
+      - "com.xorigo-ui.version=${VERSION:-latest}"
+
+  # ============================================
+  # Redis Cache
+  # ============================================
+  redis:
+    container_name: xorigo-ui-redis
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-xorigo-redis-2024}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.40
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=redis"
+      - "com.xorigo-ui.environment=production"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
+
+  # ============================================
+  # Nginx Reverse Proxy
+  # ============================================
+  nginx:
+    container_name: xorigo-ui-nginx
+    image: nginx:alpine
+    ports:
+      - "${NGINX_PORT:-80}:80"
+      - "${NGINX_SSL_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - xorigo-ui-core
+      - xorigo-ui-website
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.50
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=nginx"
+      - "com.xorigo-ui.environment=production"
+
+  # ============================================
+  # Prometheus Metrics Collection
+  # ============================================
+  prometheus:
+    container_name: xorigo-ui-prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "${PROMETHEUS_PORT:-9091}:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - monitoring-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.60
+    labels:
+      - "com.xorigo-ui.service=prometheus"
+      - "com.xorigo-ui.environment=production"
+
+  # ============================================
+  # Grafana Dashboard
+  # ============================================
+  grafana:
+    container_name: xorigo-ui-grafana
+    image: grafana/grafana:latest
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-xorigo-grafana-2024}
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - monitoring-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      xorigo-ui-network:
+        ipv4_address: 172.20.0.70
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "com.xorigo-ui.service=grafana"
+      - "com.xorigo-ui.environment=production"

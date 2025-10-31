@@ -1,32 +1,67 @@
 {
   "compilerOptions": {
+    /* Type Checking - Strict Mode */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Language and Environment */
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+
+    /* Modules */
     "module": "ESNext",
-    "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Emit */
     "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+
+    /* Path Mapping - 清晰的依赖层次 */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@xorigo-ui/core": ["./packages/core/src"],
+      /* Layer 1: 基础设施层 */
       "@xorigo-ui/tokens": ["./packages/tokens/src"],
       "@xorigo-ui/system": ["./packages/system/src"],
-      "@xorigo-ui/hooks": ["./packages/hooks/src"],
-      "@xorigo-ui/i18n": ["./packages/i18n/src"],
-      "@xorigo-ui/style-recipe": ["./packages/style-recipe/src"]
+      "@xorigo-ui/utils": ["./packages/utils/src"],
+
+      /* Layer 2: 原子组件层 */
+      "@xorigo-ui/primitives": ["./packages/primitives/src"],
+
+      /* Layer 3: 组合组件层 */
+      "@xorigo-ui/forms": ["./packages/forms/src"],
+      "@xorigo-ui/layout": ["./packages/layout/src"],
+      "@xorigo-ui/feedback": ["./packages/feedback/src"],
+      "@xorigo-ui/navigation": ["./packages/navigation/src"],
+      "@xorigo-ui/overlays": ["./packages/overlays/src"],
+
+      /* Legacy Support - 逐步移除 */
+      "@xorigo-ui/core": ["./packages/primitives/src"],
+      "@xorigo-ui/hooks": ["./packages/utils/src"],
+      "@xorigo-ui/i18n": ["./packages/system/src"],
+      "@xorigo-ui/registry": ["./packages/utils/src"],
+      "@xorigo-ui/style-recipe": ["./packages/tokens/src"],
+
+      /* CLI Tools */
+      "@xorigo-cli/commands": ["./packages/cli/src"]
     }
   },
   "include": [
     "packages/*/src/**/*",
+    "packages/*/tests/**/*",
     "apps/*/src/**/*",
     "scripts/**/*"
   ],
@@ -34,8 +69,24 @@
     "node_modules",
     "dist",
     "build",
+    "coverage",
     ".next",
-    "**/*.test.*",
-    "**/*.spec.*"
+    "**/*.config.*",
+    "**/*.d.ts",
+    "packages-backup-*/**/*",
+    "backup-*/**/*"
+  ],
+  "references": [
+    { "path": "./packages/tokens" },
+    { "path": "./packages/system" },
+    { "path": "./packages/utils" },
+    { "path": "./packages/primitives" },
+    { "path": "./packages/forms" },
+    { "path": "./packages/layout" },
+    { "path": "./packages/feedback" },
+    { "path": "./packages/navigation" },
+    { "path": "./packages/overlays" },
+    { "path": "./packages/cli" },
+    { "path": "./apps/website" }
   ]
 }

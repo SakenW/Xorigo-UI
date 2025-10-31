@@ -24,6 +24,7 @@ interface AxisValues {
 interface DynamicThemeOptions {
   autoApply?: boolean
   persistChanges?: boolean
+  defaultValues?: Partial<AxisValues>
   onAxisChange?: (axis: keyof AxisValues, value: string) => void
   onRecipeChange?: (recipeId: StyleRecipeID, values: AxisValues) => void
 }
@@ -42,7 +43,7 @@ interface UseDynamicThemeReturn {
   // 重置到默认值
   reset: () => void
   // 加载保存的配置
-  loadSavedConfig: () => void
+  loadSavedConfig: (name: string) => void
   // 保存当前配置
   saveConfig: (name?: string) => void
   // 获取所有保存的配置
