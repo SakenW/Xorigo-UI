@@ -5,10 +5,10 @@
 
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect, useMemo } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
-// XorigoLogo 组件
+// 动态 XorigoLogo 组件 - 基于原始版本简化
 export interface XorigoLogoProps {
   size?: number
   className?: string
@@ -20,6 +20,10 @@ export interface XorigoLogoProps {
   }
   ringStops?: string[]
   centerColor?: string
+  mode?: 'rotateGroup' | 'rotateGradient' | 'hybrid'
+  spinSeconds?: number
+  breatheSeconds?: number
+  glow?: boolean
 }
 
 export const XorigoLogo: React.FC<XorigoLogoProps> = ({
@@ -27,29 +31,220 @@ export const XorigoLogo: React.FC<XorigoLogoProps> = ({
   className = '',
   containerAware = false,
   colorOptions = { vibrant: true, count: 4, minContrast: 4.5 },
-  ringStops = ['#a855f7', '#ec4899', '#06b6d4', '#0891b2'],
-  centerColor = '#1a202c'
+  ringStops = ['#d946ef', '#f472b6', '#22d3ee', '#06b6d4', '#d946ef'],
+  centerColor = 'var(--color-text-primary)',
+  mode = 'hybrid',
+  spinSeconds = 8,
+  breatheSeconds = 3,
+  glow = true
 }) => {
+  const [paletteA, setPaletteA] = useState<string[]>(ringStops)
+  const [paletteB, setPaletteB] = useState<string[]>(ringStops)
+  const [activeIdx, setActiveIdx] = useState<0 | 1>(0)
+  const reduced = useReducedMotion()
+
+  const goldenRatio = 1.618
+  const outerRadius = size / 2
+  const centerRadius = outerRadius / goldenRatio
+  const ringInnerRadius = centerRadius + (outerRadius - centerRadius) / goldenRatio
+  const ringThickness = Math.max(outerRadius - ringInnerRadius, 1)
+  const viewBoxSize = size
+  const center = viewBoxSize / 2
+
+  // 动效节奏
+  const spinDur = (reduced ? 2 : 1) * spinSeconds
+  const breatheDur = (reduced ? 2 : 1) * breatheSeconds
+  const paletteInterval = (reduced ? 1.5 : 1) * 3.6
+  const crossfadeDur = 1.2
+
+  // 生成随机色彩
+  function jitterHsl(hexOrHsl: string) {
+    const hue = Math.floor(Math.random() * 360)
+    const sat = 60 + Math.random() * 30
+    const light = 45 + Math.random() * 25
+    return `hsl(${hue}deg ${sat}% ${light}%)`
+  }
+
+  function nextPalette(prev: string[]) {
+    return prev.map(() => jitterHsl(''))
+  }
+
+  // 定时切换色彩
+  useEffect(() => {
+    if (reduced) return // 禁用动画时停止颜色切换
+
+    const id = setInterval(() => {
+      const target = activeIdx === 0 ? 1 : 0
+      const setter = target === 0 ? setPaletteA : setPaletteB
+      const base = target === 0 ? paletteA : paletteB
+
+      setter(nextPalette(base))
+
+      requestAnimationFrame(() => {
+        setActiveIdx(target as 0 | 1)
+      })
+    }, paletteInterval * 1000)
+
+    return () => clearInterval(id)
+  }, [activeIdx, paletteA, paletteB, paletteInterval, reduced])
+
+  const toStops = (colors: string[]) =>
+    colors.map((c, i) => ({
+      offset: `${Math.round((i / Math.max(colors.length - 1, 1)) * 100)}%`,
+      color: c,
+      key: `${i}-${c}`,
+    }))
+
+  const gradientStopsA = useMemo(() => toStops(paletteA), [paletteA])
+  const gradientStopsB = useMemo(() => toStops(paletteB), [paletteB])
+
+  const enableGroupRotate = mode === 'rotateGroup' || mode === 'hybrid'
+
   return (
-    <motion.div
-      className={`relative ${className}`}
+    <div
+      className={`relative rounded-full overflow-hidden ${className}`}
       style={{ width: size, height: size }}
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.2 }}
     >
-      <div
-        className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 shadow-lg"
-        style={{
-          background: `conic-gradient(from 0deg, ${ringStops.join(', ')})`
-        }}
-      />
-      <div
-        className="absolute inset-1 rounded-full flex items-center justify-center"
-        style={{ backgroundColor: centerColor }}
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <span className="text-white font-bold text-xs">XO</span>
-      </div>
-    </motion.div>
+        <defs>
+          <clipPath id={`circleClip-${Math.random()}`}>
+            <circle cx={center} cy={center} r={outerRadius} />
+          </clipPath>
+
+          <linearGradient
+            id={`ringGradientA-${Math.random()}`}
+            x1="0" y1="0" x2={viewBoxSize} y2={viewBoxSize}
+            gradientUnits="userSpaceOnUse"
+          >
+            {gradientStopsA.map(s => (
+              <stop key={s.key} offset={s.offset} stopColor={s.color} />
+            ))}
+          </linearGradient>
+
+          <linearGradient
+            id={`ringGradientB-${Math.random()}`}
+            x1="0" y1="0" x2={viewBoxSize} y2={viewBoxSize}
+            gradientUnits="userSpaceOnUse"
+          >
+            {gradientStopsB.map(s => (
+              <stop key={s.key} offset={s.offset} stopColor={s.color} />
+            ))}
+          </linearGradient>
+
+          <radialGradient id={`haloGradient-${Math.random()}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(168,85,247,0.18)" />
+            <stop offset="100%" stopColor="rgba(6,182,212,0.08)" />
+          </radialGradient>
+
+          {glow && (
+            <filter id={`softGlow-${Math.random()}`} x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b2" />
+              <feMerge>
+                <feMergeNode in="b2" />
+                <feMergeNode in="b1" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          )}
+        </defs>
+
+        <g clipPath={`url(#circleClip-${Math.random()})`}>
+          {/* 光晕呼吸 */}
+          <motion.circle
+            cx={center} cy={center} r={outerRadius - ringThickness / 2}
+            fill={`url(#haloGradient-${Math.random()})`}
+            initial={{ opacity: 0.35, scale: 1 }}
+            animate={{ opacity: [0.35, 0.6, 0.35], scale: [1, 1.05, 1] }}
+            transition={{ duration: breatheDur * 1.5, ease: 'easeInOut', repeat: Infinity }}
+            style={{ originX: '50%', originY: '50%' }}
+          />
+
+          {/* 外环旋转 */}
+          {enableGroupRotate ? (
+            <motion.g
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: spinDur, ease: 'linear', repeat: Infinity }}
+              style={{ originX: '50%', originY: '50%' }}
+              filter={glow ? `url(#softGlow-${Math.random()})` : undefined}
+            >
+              <motion.circle
+                cx={center} cy={center}
+                r={outerRadius - ringThickness / 2}
+                fill="none"
+                stroke={`url(#ringGradientA-${Math.random()})`}
+                strokeWidth={ringThickness}
+                strokeLinecap="round"
+                initial={{ opacity: activeIdx === 0 ? 1 : 0 }}
+                animate={{ opacity: activeIdx === 0 ? 1 : 0 }}
+                transition={{ duration: crossfadeDur, ease: 'easeInOut' }}
+              />
+              <motion.circle
+                cx={center} cy={center}
+                r={outerRadius - ringThickness / 2}
+                fill="none"
+                stroke={`url(#ringGradientB-${Math.random()})`}
+                strokeWidth={ringThickness}
+                strokeLinecap="round"
+                initial={{ opacity: activeIdx === 1 ? 1 : 0 }}
+                animate={{ opacity: activeIdx === 1 ? 1 : 0 }}
+                transition={{ duration: crossfadeDur, ease: 'easeInOut' }}
+              />
+            </motion.g>
+          ) : (
+            <g filter={glow ? `url(#softGlow-${Math.random()})` : undefined}>
+              <motion.circle
+                cx={center} cy={center}
+                r={outerRadius - ringThickness / 2}
+                fill="none"
+                stroke={`url(#ringGradientA-${Math.random()})`}
+                strokeWidth={ringThickness}
+                strokeLinecap="round"
+                initial={{ opacity: activeIdx === 0 ? 1 : 0 }}
+                animate={{ opacity: activeIdx === 0 ? 1 : 0 }}
+                transition={{ duration: crossfadeDur, ease: 'easeInOut' }}
+              />
+              <motion.circle
+                cx={center} cy={center}
+                r={outerRadius - ringThickness / 2}
+                fill="none"
+                stroke={`url(#ringGradientB-${Math.random()})`}
+                strokeWidth={ringThickness}
+                strokeLinecap="round"
+                initial={{ opacity: activeIdx === 1 ? 1 : 0 }}
+                animate={{ opacity: activeIdx === 1 ? 1 : 0 }}
+                transition={{ duration: crossfadeDur, ease: 'easeInOut' }}
+              />
+            </g>
+          )}
+
+          {/* 中心点呼吸 */}
+          <motion.circle
+            cx={center} cy={center}
+            r={Math.max(centerRadius * 0.25, 1)}
+            fill={centerColor}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{
+              scale: [1, 1.45, 1],
+              opacity: [1, 0.85, 1],
+              filter: [
+                `drop-shadow(0 0 6px ${centerColor}dd)`,
+                `drop-shadow(0 0 12px ${centerColor}f3)`,
+                `drop-shadow(0 0 8px ${centerColor}e6)`,
+              ],
+            }}
+            transition={{ duration: breatheDur, ease: 'easeInOut', repeat: Infinity, delay: 0.2 }}
+            style={{ originX: '50%', originY: '50%' }}
+          />
+        </g>
+      </svg>
+    </div>
   )
 }
 

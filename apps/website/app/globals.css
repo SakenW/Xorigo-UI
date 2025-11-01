@@ -3,7 +3,6 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     background-color: var(--color-background-primary);
   }
 

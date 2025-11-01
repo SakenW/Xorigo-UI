@@ -112,14 +112,16 @@ export default function HomePage() {
           <Button
             size="lg"
             aria-label="开始使用 Xorigo UI 组件库"
+            onClick={() => window.location.href = '/workbench'}
           >
             开始使用
           </Button>
-          
+
           <Button
             variant="outline"
             size="lg"
             aria-label="查看 Xorigo UI 文档"
+            onClick={() => window.location.href = '/docs'}
           >
             查看文档
           </Button>

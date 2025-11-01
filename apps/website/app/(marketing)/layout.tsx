@@ -99,8 +99,8 @@ const EnhancedNavbar: React.FC = () => {
                     count: 4,
                     minContrast: 4.5
                   }}
-                  ringStops={['#a855f7', '#ec4899', '#06b6d4', '#0891b2']}
-                  centerColor="#1a202c"  // 默认深色中心点
+                  ringStops={['#ff006e', '#fb5607', '#ffbe0b', '#8338ec']}
+                  centerColor="#ffffff"  // 使用更鲜艳的品牌颜色
                 />
           </div>
             <div className="text-2xl font-bold px-1 py-1 overflow-visible">

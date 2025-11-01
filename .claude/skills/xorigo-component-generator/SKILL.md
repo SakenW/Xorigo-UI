@@ -6,7 +6,12 @@ version: "1.5.1"
 tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-ui-v1.5.1"]
 ---
 
-**📋 重要更新**: 已根据 Xorigo UI 棕地架构文档 v1.5.1 进行完全适配，确保生成的组件结构与实际项目完全一致。
+**📋 重要更新**: 已根据 Xorigo UI 棕地架构 v1.5.1 进行完全适配，确保生成的组件结构与官方架构文档完全一致。
+
+**🎯 当前迁移状态**: Phase 1 已完成，已成功迁移 32 个核心组件（按照棕地架构 v1.5.1）：
+- ✅ **Form** (18个): input, button-group, select, checkbox, switch, radio, slider, textarea, combobox, command, input-number, search-input, password-input, form, fieldset, form-field, validation-message, input-group
+- ✅ **Overlays** (8个): modal, dialog, drawer, sheet, popover, hover-card, lightbox, overlay-trigger
+- ✅ **Feedback** (6个): alert, toast, notification, progress, loading, theme-toggle
 
 # Xorigo UI 组件生成器
 
@@ -81,11 +86,25 @@ tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-
 - ThemeSwitcher - 主题切换器
 
 ### 📝 Form (表单组件)
-**路径**: `packages/core/src/form/` (注意：单数命名)
-- Input - 输入框组件
+**路径**: `packages/core/src/form/` (注意：单数命名，符合棕地架构 v1.5.1)
+- Input - 基础输入框组件
+- Textarea - 文本域组件
 - Select - 选择器组件
-- Checkbox - 复选框组件
 - Switch - 开关组件
+- Checkbox - 复选框组件
+- Radio - 单选框组件
+- Slider - 滑块组件
+- Combobox - 组合框组件
+- InputNumber - 数字输入框
+- ButtonGroup - 按钮组组件
+- SearchInput - 搜索输入框
+- PasswordInput - 密码输入框
+- Command - 命令输入框
+- Form - 表单容器组件
+- Fieldset - 字段集组件
+- FormField - 表单字段组件
+- ValidationMessage - 验证消息组件
+- InputGroup - 输入组组件
 
 ### 🎭 Overlays (覆盖层组件)
 **路径**: `packages/core/src/overlays/`
@@ -102,9 +121,12 @@ tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-
 
 ### 🔔 Feedback (反馈组件)
 **路径**: `packages/core/src/feedback/`
-- Toast - 提示组件
-- Loading - 加载组件
-- Badge - 徽章组件
+- Alert - 警告提示组件
+- Toast - 消息提示组件
+- Notification - 通知组件
+- Progress - 进度条组件
+- Loading - 加载指示器组件
+- ThemeToggle - 主题切换组件
 
 ### 🎨 Typography (排版组件)
 **路径**: `packages/core/src/typography/`
@@ -134,44 +156,65 @@ tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-
 
 **⚠️ 重要**: Workbench 组件位于 `apps/website/src/components/workbench/`，不在组件库中！
 
-## 生成的组件结构 (v1.5.1 规范)
+## 生成的组件结构 (棕地架构 v1.5.1 规范)
 
-每个组件将按照实际项目结构生成：
+每个组件将按照官方棕地架构文档生成：
 
 ```
 packages/core/src/{category}/
-├── [ComponentName]/               # 组件文件夹 (PascalCase)
-│   ├── [ComponentName].tsx       # 主组件文件 (PascalCase)
-│   ├── [ComponentName].test.tsx  # 单元测试文件
-│   ├── [ComponentName].stories.tsx # Storybook 故事文件
-│   └── index.ts                  # 导出文件
+├── kebab-case-file.tsx         # 主组件文件 (kebab-case)
+├── kebab-case-file.test.tsx    # 单元测试文件 (可选)
+├── kebab-case-file.stories.tsx # Storybook 故事文件 (可选)
+└── index.ts                    # 分类导出文件
 
-# 示例：创建 Button 组件
-packages/core/src/primitives/
-├── Button/
-│   ├── Button.tsx               # 主组件
-│   ├── Button.test.tsx          # 测试文件
-│   ├── Button.stories.tsx       # Storybook 故事
-│   └── index.ts                 # 导出
+# 示例：已迁移的 form 分类 (包含所有表单相关组件)
+packages/core/src/form/
+├── input.tsx                   # 基础输入框
+├── button-group.tsx            # 按钮组组件
+├── search-input.tsx            # 搜索输入框
+├── select.tsx                  # 选择器
+├── checkbox.tsx                # 复选框
+├── switch.tsx                  # 开关
+├── slider.tsx                  # 滑块
+├── input-number.tsx            # 数字输入
+├── textarea.tsx                # 文本域
+├── combobox.tsx                # 组合框
+├── command.tsx                 # 命令输入
+├── password-input.tsx          # 密码输入
+├── radio.tsx                   # 单选框
+├── form.tsx                    # 表单容器
+├── fieldset.tsx                # 字段集
+├── form-field.tsx              # 表单字段
+├── validation-message.tsx      # 验证消息
+├── input-group.tsx             # 输入组
+└── index.ts                    # 分类导出
 ```
 
-**📋 v1.5.1 文件命名规范说明**：
+**🏗️ 棕地架构关键特点**:
+- **扁平化结构**: 组件直接在 `src/` 分类目录下，无需 `components/` 中间层
+- **单数命名**: 使用 `form` 而非 `forms`，保持命名规范统一
+- **功能分组**: 相关组件归类到同一分类 (如inputs归类到form)
+- **无额外嵌套**: 避免过深的目录层次结构
 
-### React 组件文件 (PascalCase)
-- **主组件文件**: `Button.tsx`, `DataTable.tsx`, `ThemeSwitcher.tsx`
-- **组件文件夹**: `Button/`, `DataTable/`, `ThemeSwitcher/`
-- **导入示例**: `import { Button } from '../../primitives/button/button'`
+**📋 棕地架构 v1.5.1 文件命名规范说明**：
+
+### React 组件文件 (kebab-case)
+- **主组件文件**: `input.tsx`, `button-group.tsx`, `search-input.tsx`
+- **组件名**: `Input`, `ButtonGroup`, `SearchInput` (PascalCase)
+- **导入示例**: `import { Input } from '@xorigo-ui/core/form'`
 
 ### 其他文件规范
-- **测试文件**: `[ComponentName].test.tsx`
-- **Storybook 文件**: `[ComponentName].stories.tsx`
-- **导出文件**: `index.ts` (统一格式)
+- **测试文件**: `kebab-case-name.test.tsx`
+- **Storybook 文件**: `kebab-case-name.stories.tsx`
+- **导出文件**: `index.ts` (分类统一导出)
 
 ### 关键原则
-1. **React 组件使用 PascalCase** - 符合 React 生态最佳实践
-2. **组件独立文件夹** - 便于组织和管理
-3. **与实际项目结构完全一致** - 基于棕地架构分析
-4. **正确的导入路径** - 确保生成的组件可以正常导入
+1. **文件名使用 kebab-case** - 现代前端标准，跨平台兼容
+2. **组件名使用 PascalCase** - React 生态最佳实践
+3. **扁平化结构**: 直接在 `src/` 分类目录下，无 `components/` 中间层
+4. **单数命名**: 使用 `form` 而非 `forms`，符合官方架构规范
+5. **功能分组**: 相关组件归类到同一分类 (如inputs归类到form)
+6. **与棕地架构完全一致** - 严格按照官方文档执行
 
 ## API 设计标准
 
@@ -218,16 +261,42 @@ style={{ color: 'var(--color-primary-500)' }}
 - **seasonal**: 季节性主题 (spring, autumn等)
 - **用户自定义**: 支持用户上传配方
 
-## 正确的导入方式 (v1.5.1)
+## 正确的导入方式 (v1.4 架构)
 
 ```typescript
-// ✅ 正确的组件导入方式
-import { Button } from '@xorigo-ui/core/primitives'
-import { Input } from '@xorigo-ui/core/form'
-import { Dialog } from '@xorigo-ui/core/overlays'
+// ✅ 正确的组件导入方式 (通过分类导入)
+import { Input, Button, Select } from '@xorigo-ui/core/inputs'
+import { Form, Fieldset, ValidationMessage } from '@xorigo-ui/core/forms'
+import { Modal, Dialog, Popover } from '@xorigo-ui/core/overlays'
+import { Alert, Toast, Loading } from '@xorigo-ui/core/feedback'
 
-// ❌ 错误的导入方式 (避免使用)
-import { Button } from '../../../packages/core/src/primitives/button/button'
+// ✅ 也可以通过主导出导入
+import { Input, Form, Modal, Alert } from '@xorigo-ui/core'
+
+// ✅ 单独导入类型
+import type { InputProps, FormProps } from '@xorigo-ui/core'
+
+// ❌ 错误的导入方式 (避免使用深层路径)
+import { Button } from '../../../packages/core/src/components/inputs/button'
+```
+
+### 新架构导出层级
+
+```typescript
+// packages/core/src/index.ts (主导出)
+export * from './components'
+
+// packages/core/src/components/index.ts (分类导出)
+export * from './inputs'
+export * from './forms'
+export * from './overlays'
+export * from './feedback'
+
+// packages/core/src/components/inputs/index.ts (分类内导出)
+export { Input } from './input'
+export type { InputProps } from './input'
+export { ButtonGroup } from './button-group'
+// ... 其他inputs组件
 ```
 - Lavender (薰衣草紫)
 - Cherry (樱花红)

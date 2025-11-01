@@ -61,18 +61,17 @@ export function SiteNavigation({
             >
               <Link href="/" className="flex items-center gap-3">
                 <div className="theme-aware-logo">
-                  <XorigoLogo
-                    size={48}
-                    className="scale-90"
-                    containerAware={false}
-                    colorOptions={{
-                      vibrant: true,
-                      count: 4,
-                      minContrast: 4.5
+                  {/* 临时简化LOGO - 调试用 */}
+                  <div
+                    className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center"
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      background: 'conic-gradient(from 0deg, #a855f7, #ec4899, #06b6d4, #0891b2, #a855f7)'
                     }}
-                    ringStops={['#a855f7', '#ec4899', '#06b6d4', '#0891b2']}
-                    centerColor="#1a202c"
-                  />
+                  >
+                    <div className="w-2 h-2 rounded-full bg-white"></div>
+                  </div>
                 </div>
                 <div className="text-xl font-bold px-1 py-1 overflow-visible">
                   <motion.span

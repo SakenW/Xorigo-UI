@@ -1,0 +1,14 @@
+{
+  "name": "xorigo-component-migrator",
+  "version": "1.0.0",
+  "description": "Xorigo UI 组件迁移器 - 专门用于将归档组件迁移到新架构的智能工具",
+  "author": "Xorigo UI Team",
+  "tags": ["migration", "architecture", "components", "xorigo-ui"],
+  "category": "development",
+  "type": "skill",
+  "main": "index.js",
+  "dependencies": {
+    "fs": "builtin",
+    "path": "builtin"
+  }
+}
