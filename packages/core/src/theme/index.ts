@@ -155,26 +155,20 @@ export {
 } from './recipe-registry'
 
 // ========================================================================
-// React组件
+// React组件 - 完整实现版本
 // ========================================================================
 
 export {
   SevenAxisThemeProvider,
   useSevenAxisTheme,
-  useThemeValues,
-  useThemeRecipe,
   useThemeMode,
+  useThemeColors,
   useThemeStatus,
-  ThemeTransition,
-  ThemeLoadingIndicator,
-  ThemeErrorDisplay,
-  ThemeContext,
-  themeAnimationVariants,
-  ThemeContextState,
-  ThemeContextActions,
-  SevenAxisThemeProviderProps,
-  AnimationConfig
-} from './seven-axis-theme-provider'
+  useThemeRecommendations,
+  ThemeToggle,
+  ThemeStatusIndicator,
+  themeTransitionStyles
+} from './use-theme'
 
 // ========================================================================
 // 类型重导出
@@ -205,10 +199,12 @@ export type {
   SearchResult as ThemeSearchResult,
   RecipeRecommendation as ThemeRecommendation,
 
-  // React相关类型
-  ThemeContextState as UseThemeState,
-  ThemeContextActions as UseThemeActions
-} from './seven-axis-recipe-engine'
+  // React相关类型（新的完整实现）
+  SevenAxisTheme,
+  SevenAxisThemeContextValue,
+  SevenAxisThemeProviderProps,
+  ThemeToggleProps
+} from './use-theme'
 
 // ========================================================================
 // 便捷函数和常量
@@ -565,9 +561,15 @@ export const THEME_SYSTEM_FEATURES = [
 // ========================================================================
 
 export default {
-  // 核心组件
+  // 核心组件（完整实现）
   SevenAxisThemeProvider,
   useSevenAxisTheme,
+  useThemeMode,
+  useThemeColors,
+  useThemeStatus,
+  useThemeRecommendations,
+  ThemeToggle,
+  ThemeStatusIndicator,
 
   // 工具函数
   themeUtils,

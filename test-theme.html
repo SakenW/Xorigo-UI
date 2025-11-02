@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主题系统测试</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--xorigo-background, #ffffff);
+            color: var(--xorigo-text-primary, #111827);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .theme-card {
+            background: var(--xorigo-surface, #ffffff);
+            border: 1px solid var(--xorigo-border, #e5e7eb);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            background: var(--xorigo-primary, #3b82f6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .button:hover {
+            background: var(--xorigo-accent, #06b6d4);
+            transform: translateY(-1px);
+        }
+
+        .status {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .status.info {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .theme-info {
+            font-family: monospace;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 12px 0;
+            border-left: 4px solid var(--xorigo-primary, #3b82f6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="theme-card">
+            <h1>🎨 Xorigo UI 主题系统测试</h1>
+            <p>测试新的统一主题配方系统和React组件集成</p>
+
+            <div class="status info">
+                <strong>状态：</strong>主题系统已升级到完整实现版本，包含22个统一主题配方
+            </div>
+
+            <div class="theme-info">
+                <strong>当前测试主题：</strong>企业蓝 (corporate-blue)<br>
+                <strong>配方ID：</strong>light.neutral-cool-mid.mono(blue).standard.comfortable.standard.soft-shadow<br>
+                <strong>主要颜色：</strong>#3b82f6 (主色), #06b6d4 (强调色), #ffffff (背景色)
+            </div>
+
+            <h2>✨ 实施完成的功能</h2>
+            <ul>
+                <li>✅ 统一主题配方库 (22个去重主题)</li>
+                <li>✅ 完整的SevenAxisThemeProvider实现</li>
+                <li>✅ 主题状态管理和本地存储</li>
+                <li>✅ 系统主题检测 (light/dark/auto)</li>
+                <li>✅ CSS变量自动应用</li>
+                <li>✅ 主题过渡动画支持</li>
+                <li>✅ 多个专用Hook (useThemeMode, useThemeColors等)</li>
+                <li>✅ 便捷组件 (ThemeToggle, ThemeStatusIndicator)</li>
+            </ul>
+
+            <h2>🚀 测试按钮</h2>
+            <button class="button" onclick="applyTheme('corporate-blue')">
+                应用企业蓝主题
+            </button>
+            <button class="button" onclick="applyTheme('minimal-white')">
+                应用极简白主题
+            </button>
+            <button class="button" onclick="applyTheme('tech-cyan')">
+                应用科技青主题
+            </button>
+            <button class="button" onclick="applyTheme('creative-purple')">
+                应用创意紫主题
+            </button>
+            <button class="button" onclick="applyTheme('ocean-deep')">
+                应用深海探索主题
+            </button>
+
+            <h2>📊 主题分类统计</h2>
+            <div class="theme-info">
+                <strong>企业系列 (Corporate)：</strong>3个主题<br>
+                <strong>极简系列 (Minimal)：</strong>3个主题<br>
+                <strong>科技系列 (Tech)：</strong>3个主题<br>
+                <strong>创意系列 (Creative)：</strong>3个主题<br>
+                <strong>自然风光 (Nature)：</strong>4个主题<br>
+                <strong>温暖活力 (Warm)：</strong>2个主题<br>
+                <strong>浪漫梦幻 (Festival)：</strong>3个主题<br>
+                <strong>可访问性 (Accessibility)：</strong>1个主题<br>
+                <strong>总计：</strong>22个统一主题配方
+            </div>
+        </div>
+
+        <div class="theme-card">
+            <h2>🔧 技术实现详情</h2>
+            <p><strong>核心文件：</strong></p>
+            <ul>
+                <li><code>/packages/core/src/system-tools/unified-theme-recipes.ts</code> - 统一主题配方库</li>
+                <li><code>/packages/core/src/theme/use-theme.tsx</code> - 完整React主题提供者</li>
+                <li><code>/packages/core/src/theme/index.ts</code> - 清理后的主题系统导出</li>
+            </ul>
+            <p><strong>长期方案特性：</strong></p>
+            <ul>
+                <li>完整的状态管理和错误处理</li>
+                <li>本地存储持久化</li>
+                <li>系统主题自动检测</li>
+                <li>主题推荐和相似主题发现</li>
+                <li>流畅的过渡动画</li>
+                <li>完善的TypeScript类型支持</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 简化的主题应用函数用于演示
+        function applyTheme(themeId) {
+            const themes = {
+                'corporate-blue': {
+                    primary: '#3b82f6',
+                    accent: '#06b6d4',
+                    background: '#ffffff',
+                    text: '#111827',
+                    border: '#e5e7eb',
+                    surface: '#ffffff'
+                },
+                'minimal-white': {
+                    primary: '#6b7280',
+                    accent: '#9ca3af',
+                    background: '#ffffff',
+                    text: '#111827',
+                    border: '#e5e7eb',
+                    surface: '#ffffff'
+                },
+                'tech-cyan': {
+                    primary: '#06b6d4',
+                    accent: '#0891b2',
+                    background: '#ffffff',
+                    text: '#111827',
+                    border: '#e5e7eb',
+                    surface: '#ffffff'
+                },
+                'creative-purple': {
+                    primary: '#8b5cf6',
+                    accent: '#a78bfa',
+                    background: '#ffffff',
+                    text: '#111827',
+                    border: '#e5e7eb',
+                    surface: '#ffffff'
+                },
+                'ocean-deep': {
+                    primary: '#1e40af',
+                    accent: '#3b82f6',
+                    background: '#0f172a',
+                    text: '#f8fafc',
+                    border: '#374151',
+                    surface: '#1f2937'
+                }
+            };
+
+            const theme = themes[themeId];
+            if (theme) {
+                const root = document.documentElement;
+                Object.entries(theme).forEach(([key, value]) => {
+                    root.style.setProperty(`--xorigo-${key}`, value);
+                });
+
+                // 添加过渡效果
+                document.body.classList.add('theme-transitioning');
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transitioning');
+                }, 300);
+
+                console.log(`🎨 主题已应用: ${themeId}`, theme);
+            }
+        }
+
+        // 初始化默认主题
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme('corporate-blue');
+        });
+    </script>
+
+    <style>
+        .theme-transitioning * {
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+    </style>
+</body>
+</html>

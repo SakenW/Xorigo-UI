@@ -123,6 +123,17 @@ export function SiteNavigation({
                   文档
                 </Link>
                 <Link
+                  href="/themes"
+                  className={cn(
+                    'text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400',
+                    pathname?.startsWith('/themes')
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-600 dark:text-gray-300'
+                  )}
+                >
+                  主题管理
+                </Link>
+                <Link
                   href="/recipes"
                   className={cn(
                     'text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400',

@@ -5,9 +5,17 @@
  * 支持用户行为分析、设计原则应用和个性化推荐
  */
 
-import type { StyleRecipe, RecipeFilterOptions } from '@xorigo-ui/style-recipe'
-// 临时导入 - TODO: 修复 @xorigo-ui/style-recipe 包的导出
-import { unifiedRecipes } from '../temp-recipes'
+// 使用完整的主题配方
+import { COMPLETE_THEME_RECIPES, type CompleteThemeRecipe } from '../system-tools/complete-theme-recipes'
+
+// 临时类型定义
+export interface RecipeFilterOptions {
+  mode?: string[]
+  tone?: string[]
+  density?: string[]
+  category?: string[]
+  tags?: string[]
+}
 
 // ============================================================================
 // 核心类型定义 (Core Type Definitions)
@@ -92,7 +100,7 @@ export interface AIRecommendationResult {
  * 推荐配方
  */
 export interface RecommendedRecipe {
-  recipe: StyleRecipe
+  recipe: CompleteThemeRecipe
   score: number // 0-100
   confidence: number // 0-1
   reasoning: {
@@ -190,7 +198,7 @@ export class AIRecipeRecommendationEngine {
    * 初始化配方嵌入向量
    */
   private async initializeRecipeEmbeddings(): Promise<void> {
-    for (const recipe of unifiedRecipes) {
+    for (const recipe of COMPLETE_THEME_RECIPES) {
       const embedding = await this.generateRecipeEmbedding(recipe)
       this.recipeEmbeddings.set(recipe.id, embedding)
     }
@@ -199,7 +207,7 @@ export class AIRecipeRecommendationEngine {
   /**
    * 生成配方嵌入向量
    */
-  private async generateRecipeEmbedding(recipe: StyleRecipe): Promise<number[]> {
+  private async generateRecipeEmbedding(recipe: CompleteThemeRecipe): Promise<number[]> {
     // 基于七轴参数生成特征向量
     const features = [
       // Mode轴编码
@@ -251,6 +259,7 @@ export class AIRecipeRecommendationEngine {
 
   private encodeAccentAxis(accent: string): number {
     // 简化的Accent轴编码
+    if (!accent) return 0.5
     if (accent.includes('mono')) return 0.25
     if (accent.includes('analog')) return 0.5
     if (accent.includes('duo')) return 0.75
