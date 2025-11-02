@@ -8,7 +8,7 @@ import { HeroTitle } from '@xorigo-ui/core'
 import { Button } from '@xorigo-ui/core'
 import { StatCard } from '@xorigo-ui/core'
 import { SiteNavigation } from '@/components/shared/site-navigation'
-import { AnimatedBackground, BreathingBackground } from '@xorigo-ui/core'
+import { AnimatedBackground, BreathingBackground, FluidBackground } from '@xorigo-ui/core'
 import { SkipLink, runAccessibilityTests } from '@xorigo-ui/core'
 
 export default function HomePage() {
@@ -45,18 +45,8 @@ export default function HomePage() {
       {/* 统一顶部导航栏 */}
       <SiteNavigation />
 
-      {/* 柔和的呼吸感背景 - 更加自然的效果 */}
-    <BreathingBackground
-      enableMouseInteraction={false}  // 关闭鼠标交互，减少诡异感
-      breathingDuration={8}           // 延长呼吸周期，更慢更自然
-      floatingDuration={40}            // 延长飘动周期
-      bubbleCount={4}                  // 大幅减少气泡数量
-      primaryColor="var(--color-primary-500)"
-      secondaryColor="var(--color-accent-500)"
-      tertiaryColor="var(--color-secondary-500)"
-      minBubbleSize={120}             // 减小最小尺寸
-      maxBubbleSize={180}             // 减小最大尺寸
-    />
+      {/* 现代化流动背景 - 科技感视觉效果 */}
+      <FluidBackground />
 
       {/* Hero Section */}
       <motion.section

@@ -315,17 +315,17 @@ export const SevenAxisThemeProvider: React.FC<SevenAxisThemeProviderProps> = ({
     await applyRecipe(defaultRecipe.id)
   }, [defaultRecipeId, applyRecipe])
 
+  // 设置主题模式
+  const setMode = useCallback(async (mode: 'light' | 'dark' | 'auto'): Promise<void> => {
+    setTheme({ mode })
+  }, [setTheme])
+
   // 切换主题模式
   const toggleMode = useCallback(async (): Promise<void> => {
     const newMode = theme.mode === 'auto' ? 'light' :
                    theme.mode === 'light' ? 'dark' : 'auto'
     await setMode(newMode)
   }, [theme.mode, setMode])
-
-  // 设置主题模式
-  const setMode = useCallback(async (mode: 'light' | 'dark' | 'auto'): Promise<void> => {
-    setTheme({ mode })
-  }, [setTheme])
 
   // 创建上下文值
   const contextValue: SevenAxisThemeContextValue = {

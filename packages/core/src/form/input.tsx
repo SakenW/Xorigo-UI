@@ -403,9 +403,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 transition: { duration: 0.2 },
               }}
               {...ariaProps}
-              // 过滤掉与Framer Motion冲突的属性
+              // 过滤掉与Framer Motion冲突的属性和自定义组件props
               {...Object.keys(restProps).reduce((acc, key) => {
-                if (!['onDrag', 'onDragStart', 'onDragEnd'].includes(key)) {
+                const excludedProps = [
+                  'onDrag', 'onDragStart', 'onDragEnd',
+                  'leftIcon', 'rightIcon', 'prefix', 'suffix',
+                  'clearable', 'onClear', 'floatingLabel',
+                  'showPasswordToggle', 'loading', 'validationState',
+                  'showCharCount', 'onValidationChange'
+                ]
+                if (!excludedProps.includes(key)) {
                   acc[key] = restProps[key as keyof typeof restProps]
                 }
                 return acc

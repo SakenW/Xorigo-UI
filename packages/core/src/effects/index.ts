@@ -5,22 +5,11 @@
  * 用于增强用户体验和视觉效果
  */
 
-// 临时导出空对象，避免依赖问题
-// TODO: 修复组件依赖问题后重新导出
-
-export const EffectsComponents = {
-  FluidBackground: null,
-  HeroTitle: null,
-  SuperParticleSystem: null,
-  SuperParticleSystemSimple: null,
-  AnimatedBackground: null,
-  BreathingBackground: null
-} as any
+// 导出所有特效组件
+export { FluidBackground } from './FluidBackground'
+export { HeroTitle } from './HeroTitle'
+export { SuperParticleSystem } from './SuperParticleSystem'
+export { SuperParticleSystemSimple } from './SuperParticleSystemSimple'
 
 // 类型导出
-export interface FluidBackgroundProps {}
-export interface HeroTitleProps {}
-export interface SuperParticleSystemProps {}
-export interface SuperParticleSystemSimpleProps {}
-export interface AnimatedBackgroundProps {}
-export interface BreathingBackgroundProps {}
+export type { SuperParticleSystemProps } from './SuperParticleSystem'

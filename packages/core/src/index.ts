@@ -54,7 +54,7 @@ export * from './primitives'
 // export * from './navigation' // 暂时注释，避免依赖问题
 
 // 特效组件 (动画和视觉效果)
-// export * from './effects' // 暂时注释，避免依赖问题
+export * from './effects'
 
 // 动画组件 (Framer Motion集成)
 export * from './motion'
@@ -83,6 +83,9 @@ export * from '@xorigo-ui/primitives'
 
 // 营销页面组件（临时解决方案）
 export * from './marketing-components'
+
+// 品牌组件
+export * from './branding/NavbarOriginLogo'
 
 // ============================================================================
 // Legacy 兼容性导出

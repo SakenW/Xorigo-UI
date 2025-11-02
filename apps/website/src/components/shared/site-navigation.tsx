@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button, ThemeSwitcher, XorigoLogo } from '@xorigo-ui/core'
+import { Button, ThemeSwitcher, XorigoLogo, NavbarOriginLogo } from '@xorigo-ui/core'
 import { cn } from '@/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -60,18 +60,17 @@ export function SiteNavigation({
               whileHover={{ scale: 1.05 }}
             >
               <Link href="/" className="flex items-center gap-3">
-                <div className="theme-aware-logo">
-                  {/* 临时简化LOGO - 调试用 */}
-                  <div
-                    className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 flex items-center justify-center"
-                    style={{
-                      width: '48px',
-                      height: '48px',
-                      background: 'conic-gradient(from 0deg, #a855f7, #ec4899, #06b6d4, #0891b2, #a855f7)'
-                    }}
-                  >
-                    <div className="w-2 h-2 rounded-full bg-white"></div>
-                  </div>
+                <div className="flex-shrink-0">
+                  <NavbarOriginLogo
+                    size={48}
+                    className="transition-transform duration-300 group-hover:scale-110"
+                    mode="hybrid"
+                    glow={true}
+                    spinSeconds={8}
+                    breatheSeconds={3}
+                    bleed={2}
+                    title="Xorigo UI"
+                  />
                 </div>
                 <div className="text-xl font-bold px-1 py-1 overflow-visible">
                   <motion.span

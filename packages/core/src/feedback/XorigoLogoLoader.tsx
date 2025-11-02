@@ -8,7 +8,7 @@ import { cn } from '../utils/cn'
 //   并且本组件文件位于 packages/core/src/loading/XorigoLogoLoader.tsx，
 //   则相对路径应该由你的打包器别名/输出结构决定。
 //   此处按你上条信息的相对写法：../components/ui/NavbarOriginLogo
-import NavbarOriginLogo from '../components/ui/NavbarOriginLogo'
+import NavbarOriginLogo from '../branding/NavbarOriginLogo'
 
 export type LoaderSize = 'sm' | 'md' | 'lg' | 'xl'
 
