@@ -31,5 +31,5 @@ export { Lightbox } from './lightbox'
 export type { LightboxProps } from './lightbox'
 
 // 触发器组件
-export { OverlayTrigger } from './overlay-trigger'
-export type { OverlayTriggerProps } from './overlay-trigger'
+export { OverlayTrigger } from './OverlayTrigger'
+export type { OverlayTriggerProps } from './OverlayTrigger'

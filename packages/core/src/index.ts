@@ -59,10 +59,20 @@ export * from './effects'
 // 动画组件 (Framer Motion集成)
 export * from './motion'
 
-// 主题组件 (主题相关) - 简化导出避免冲突
-export { useTheme } from './theme/use-theme'
+// 主题组件 (主题相关) - 重构后使用新的主题映射模块
+export { useTheme } from './theme/UseTheme'
 export { AdvancedThemeSwitcher } from './feedback/advanced-theme-switcher'
-export { mapRecipeToSystem, getAvailableRecipes } from './theme/theme-bridge'
+export {
+  mapRecipeToSystem,
+  getAvailableRecipes,
+  ThemeBridge,
+  useThemeBridge,
+  ThemeToggleButton,
+  ThemeSelector,
+  // 向后兼容
+  THEME_RECIPE_MAPPING,
+  SYSTEM_TO_RECIPE_MAPPING
+} from './theme'
 
 // 交互组件 (高级交互)
 // export * from './interactive' // 暂时注释，避免依赖问题
@@ -84,7 +94,7 @@ export * from './utils'
 export * from '@xorigo-ui/primitives'
 
 // 营销页面组件（临时解决方案）
-export * from './marketing-components'
+export * from './MarketingComponents'
 
 // 品牌组件
 export * from './branding/NavbarOriginLogo'

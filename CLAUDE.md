@@ -319,31 +319,112 @@ pnpm deploy              # 生产环境部署
 
 ---
 
-## 📝 文档命名规范
+## 📝 文件与文档命名规范
 
 > 📚 **文档管理**：使用 `xorigo-docs-structure-helper` 技能进行文档命名规范、目录结构组织和索引管理。
+>
+> 📘 **完整指南**：参考 `docs/guidelines/naming-guidelines.md` 获取详细的命名规范说明。
 
-### 核心原则
+### 🎯 总体原则
 
-**组件库开发导向系统**：
-- **项目阶段线**：`ph{N}` (Phase 1-3 组件库开发阶段)
-- **组件开发线**：`comp-{category}` (Component Development)
-- **系统构建线**：`sys-{area}` (System Infrastructure)
-- **质量保证线**：`qa-{type}` (Quality Assurance)
+| 原则     | 说明                                         |
+| ------ | ------------------------------------------ |
+| 一致性优先  | 同类型文件命名风格统一，避免混用                           |
+| 可读性优先  | 文件名应能直观表达用途                                |
+| 生态对齐   | 遵循 React / Node / ESLint / Storybook 等主流规范 |
+| 可扩展    | 支持生成物、环境差异、阶段演进等多维扩展                       |
+| 最小心智负担 | 一眼能分辨：组件 / 工具 / 文档 / 阶段报告 / 临时稿            |
 
-**命名格式**：`{序号}-{scope}-{task}[-{stage}]-{描述}.md`
+### 🧩 源代码命名规范
 
-### 文档组织结构
+#### React 组件
+- **格式**: `PascalCase.tsx`
+- **规则**: 组件名 = 文件名
+
+✅ 示例: `Button.tsx`, `ThemeBridge.tsx`, `DataTable.tsx`
+
+#### 自定义 Hook
+- **格式**: `use-xxx.ts`
+- **理由**: 与 React 社区惯例保持一致
+
+✅ 示例: `use-theme.ts`, `use-local-storage.ts`, `use-debounce.ts`
+
+#### 工具与通用逻辑
+- **格式**: `kebab-case.ts`
+- **用途**: utils / helpers / lib / services / store
+
+✅ 示例: `component-helpers.ts`, `theme-utils.ts`, `color-contrast.ts`
+
+#### 类型定义与常量
+- **类型文件**: `kebab-case.types.ts`
+- **常量文件**: `kebab-case.constants.ts`
+
+✅ 示例: `theme.types.ts`, `api.types.ts`, `validation.constants.ts`
+
+### 🧾 文档命名规范
+
+#### 文档分类主线
+| 线别    | 前缀                | 含义               |
+| ----- | ----------------- | ---------------- |
+| 项目阶段线 | `ph{N}`           | Phase 1–3 项目阶段文件 |
+| 组件开发线 | `comp-{category}` | 组件库开发与优化         |
+| 系统构建线 | `sys-{area}`      | 系统/工具/构建相关文档     |
+| 质量保证线 | `qa-{type}`       | 测试、审查、评估报告       |
+
+#### 命名格式
+```
+{序号}-{scope}-{task}[-{stage}]-{描述}.md
+```
+
+✅ 示例:
+- `comp-01-ThemeBridge组件重构-架构优化.md`
+- `sys-01-构建系统优化-性能提升.md`
+- `qa-02-代码质量审查-阶段一.md`
+- `ph3-01-项目封版-打包流程说明.md`
+
+#### 特殊文档命名例外（保持大写）
+```
+README.md
+LICENSE
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
+```
+
+其他所有文档：一律使用 **kebab-case.md**
+
+✅ 示例: `getting-started.md`, `migration-guide.md`, `api-reference.md`
+
+### 🧱 目录结构组织
 
 ```
-docs/reports/
-├── 00-TIMELINE-INDEX.md          # 总时间线索引
-├── phases/                       # Phase 文档
-├── components/                   # 组件开发文档
-├── design-system/                # 设计系统文档
-├── build/                        # 构建系统文档
-└── deployment/                   # 部署文档
+docs/
+├── 00-TIMELINE-INDEX.md          # 全局时间线索引
+├── guidelines/                   # 命名/开发规范类
+│   └── naming-guidelines.md      # 完整命名指南
+├── reports/                      # 阶段/任务报告
+│   ├── phases/                   # Phase 文档
+│   ├── components/               # 组件开发线
+│   ├── design-system/            # 设计系统线
+│   ├── build/                    # 构建系统线
+│   └── deployment/               # 部署线
+└── temp/                         # 临时文档（自动清理区）
 ```
+
+### ⚙️ 配置与测试文件
+
+#### 配置文件
+- **格式**: `kebab-case.config.{ts|mjs|js}`
+
+✅ 示例: `vite.config.ts`, `eslint.config.mjs`, `tailwind.config.ts`
+
+#### 测试文件
+- **单元测试**: `{filename}.test.{ts|tsx}`
+- **端到端测试**: `kebab-case.spec.{ts|js}`
+- **Storybook**: `{Component}.stories.tsx`
+
+✅ 示例: `Button.test.tsx`, `user-authentication.spec.ts`, `DataTable.stories.tsx`
 
 ---
 

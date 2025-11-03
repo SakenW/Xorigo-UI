@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@xorigo-ui/system'
-import { getAvailableRecipes, mapRecipeToSystem, type CompleteThemeRecipe } from '../theme/theme-bridge'
+import { getAvailableRecipes, mapRecipeToSystem, COMPLETE_THEME_RECIPES, type CompleteThemeRecipe } from '../theme'
 import { cn } from '../utils/cn'
 
 export interface AdvancedThemeSwitcherProps {

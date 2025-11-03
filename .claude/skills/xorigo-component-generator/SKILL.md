@@ -305,11 +305,13 @@ export { ButtonGroup } from './button-group'
 - Golden (金秋黄)
 - Crystal (水晶青)
 
-## 📝 现代文件命名最佳实践
+## 📝 统一文件命名最佳实践
 
-### 为什么选择 kebab-case 文件名
+> 📘 **参考规范**: `docs/guidelines/naming-guidelines.md` - Xorigo UI 统一命名规范
 
-**✅ 推荐的命名方式** (kebab-case 为现代前端标准):
+### React 组件命名标准
+
+**✅ 推荐的命名方式** (基于 Xorigo UI v1.5.1 统一规范):
 
 ```typescript
 // 组件文件 - 使用 kebab-case
@@ -348,13 +350,15 @@ DataTable.tsx              // ❌ 应该是 data-table.tsx
 ColorPicker.tsx            // ❌ 应该是 color-picker.tsx
 ```
 
-### 命名规范优势
+### 统一命名规范优势
 
-- **跨平台兼容性**：kebab-case 在所有操作系统和网络环境下都能正常工作
-- **可读性更好**：连字符比驼峰更易读，特别是长文件名
-- **URL 友好**：文件名与 URL 路径、路由保持一致风格
-- **SEO 优化**：搜索引擎更容易解析 kebab-case 格式的 URL
-- **现代标准**：Next.js、Vite、Tailwind CSS 等现代工具都推荐 kebab-case
+- **一致性优先**：整个项目采用统一的命名标准，降低心智负担
+- **生态对齐**：遵循 React / Node / ESLint / Storybook 等主流规范
+- **可扩展性**：支持生成物、环境差异、阶段演进等多维扩展
+- **最小心智负担**：一眼能分辨：组件 / 工具 / 文档 / 阶段报告 / 临时稿
+
+> 💡 **详细规范**：完整的命名规范请参考 `docs/guidelines/naming-guidelines.md`
+
 - **团队协作**：减少命名歧义，提高代码维护效率
 
 ## 质量保证

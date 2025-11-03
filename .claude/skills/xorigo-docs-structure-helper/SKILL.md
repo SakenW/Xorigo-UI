@@ -22,66 +22,40 @@ tags: ["documentation", "naming", "structure", "organization", "indexing"]
 根据项目阶段和任务类型生成标准化的文档名称：
 
 ```typescript
-// 文档命名规则
+// 文档命名规则（基于新的统一规范）
 interface DocumentNamingConfig {
-  scope: 'ph' | 'comp' | 'ds' | 'build' | 'test' | 'doc' | 'deploy'
+  scope: 'ph' | 'comp' | 'sys' | 'qa'
   sequence: number
-  subSequence?: number
-  stage?: 'r1' | 'r2' | 'r3' | 'legacy' | 'planning' | 'research'
-  description: string
+  task: string
+  stage?: string
+  description?: string
 }
 
 function generateDocumentName(config: DocumentNamingConfig): string {
-  const { scope, sequence, subSequence, stage, description } = config
+  const { scope, sequence, task, stage, description } = config
 
-  // 基础格式: {序号}-{scope}-{task}[-{stage}]-{描述}.md
-  let name = `${sequence.toString().padStart(3, '0')}-${scope}`
+  // 新格式: {序号}-{scope}-{task}[-{stage}]-{描述}.md
+  let name = `${sequence.toString().padStart(2, '0')}-${scope}-${task}`
 
-  // 添加子序号
-  if (subSequence) {
-    name += `.${subSequence}`
-  }
-
-  // 根据作用域添加任务标识
-  switch (scope) {
-    case 'ph':
-      name += '-project'
-      break
-    case 'comp':
-      name += '-core'
-      break
-    case 'ds':
-      name += '-design'
-      break
-    case 'build':
-      name += '-build'
-      break
-    case 'test':
-      name += '-test'
-      break
-    case 'doc':
-      name += '-docs'
-      break
-    case 'deploy':
-      name += '-deploy'
-      break
-  }
-
-  // 添加阶段标记
+  // 添加阶段标记（可选）
   if (stage) {
     name += `-${stage}`
   }
 
-  // 添加描述
-  name += `-${description.toLowerCase().replace(/\s+/g, '-')}`
-
-  // 移除冗余词
-  const redundantWords = ['-report', '-summary', '-completion', '-refactoring', '-document', '-analysis', '-implementation', '-development']
-  redundantWords.forEach(word => {
-    name = name.replace(word, '')
-  })
+  // 添加描述（可选）
+  if (description) {
+    name += `-${description.toLowerCase().replace(/\s+/g, '-')}`
+  }
 
   return `${name}.md`
+}
+
+// 文档分类主线映射
+const scopeCategories = {
+  'ph': '项目阶段线 (Phase 1–3 项目阶段文件)',
+  'comp': '组件开发线 (组件库开发与优化)',
+  'sys': '系统构建线 (系统/工具/构建相关文档)',
+  'qa': '质量保证线 (测试、审查、评估报告)'
 }
 ```
 
@@ -89,16 +63,13 @@ function generateDocumentName(config: DocumentNamingConfig): string {
 自动分配和管理文档序号：
 
 ```typescript
-// 序号管理
+// 序号管理（基于新的四线分类）
 class DocumentSequenceManager {
   private scopeRanges = {
-    'ph': { min: 1, max: 30 },      // Phase 1-3
-    'comp': { min: 31, max: 150 },  // Component Development
-    'ds': { min: 151, max: 200 },   // Design System
-    'build': { min: 201, max: 250 }, // Build System
-    'test': { min: 251, max: 300 },  // Testing
-    'doc': { min: 301, max: 350 },   // Documentation
-    'deploy': { min: 351, max: 400 } // Deployment
+    'ph': { min: 1, max: 99 },        // Phase 1-3 项目阶段
+    'comp': { min: 1, max: 99 },      // 组件开发（每个分类独立编号）
+    'sys': { min: 1, max: 99 },       // 系统构建（每个分类独立编号）
+    'qa': { min: 1, max: 99 }         // 质量保证（每个分类独立编号）
   }
 
   async getNextSequence(scope: string): Promise<number> {
@@ -124,10 +95,12 @@ class DocumentSequenceManager {
 
   private async getExistingDocuments(scope: string): Promise<Array<{ sequence: number, filename: string }>> {
     // 实现获取现有文档的逻辑
-    // 这里简化为模拟数据
+    // 这里简化为模拟数据（使用新的命名格式）
     return [
-      { sequence: 32, filename: '032-comp-core-button.md' },
-      { sequence: 45, filename: '045-comp-advanced-datatable.md' }
+      { sequence: 1, filename: '01-comp-ThemeBridge组件重构.md' },
+      { sequence: 2, filename: '02-comp-Button组件优化.md' },
+      { sequence: 1, filename: '01-sys-构建系统优化.md' },
+      { sequence: 1, filename: '01-qa-代码质量审查.md' }
     ]
   }
 }
@@ -137,7 +110,7 @@ class DocumentSequenceManager {
 验证文档分类和命名的一致性：
 
 ```typescript
-// 文档分类验证
+// 文档分类验证（基于新的统一规范）
 function validateDocumentClassification(filename: string): {
   valid: boolean
   scope?: string
@@ -148,31 +121,29 @@ function validateDocumentClassification(filename: string): {
   const errors: string[] = []
   const suggestions: string[] = []
 
-  // 解析文件名
-  const match = filename.match(/^(\d+)-([a-z]+)(?:\.(\d+))?(?:-(.+?))?-(.+)\.md$/)
+  // 解析文件名（新格式: {序号}-{scope}-{task}[-{stage}]-{描述}.md）
+  const match = filename.match(/^(\d+)-([a-z]+)-(.+?)(?:-(.+?))?(?:-(.+))\.md$/)
   if (!match) {
-    errors.push('文件名格式不正确，应为: {序号}-{scope}[.{sub}][-{stage}]-{描述}.md')
+    errors.push('文件名格式不正确，应为: {序号}-{scope}-{task}[-{stage}]-{描述}.md')
     return { valid: false, errors, suggestions }
   }
 
-  const [, sequenceStr, scope, subSequence, stage, description] = match
+  const [, sequenceStr, scope, task, stage, description] = match
   const sequence = parseInt(sequenceStr)
 
-  // 验证作用域
-  const validScopes = ['ph', 'comp', 'ds', 'build', 'test', 'doc', 'deploy']
+  // 验证作用域（新的四线分类）
+  const validScopes = ['ph', 'comp', 'sys', 'qa']
   if (!validScopes.includes(scope)) {
     errors.push(`无效的作用域: ${scope}，有效的作用域: ${validScopes.join(', ')}`)
+    suggestions.push('项目阶段线: ph, 组件开发线: comp, 系统构建线: sys, 质量保证线: qa')
   }
 
-  // 验证序号范围
+  // 验证序号范围（新的简化范围）
   const scopeRanges = {
-    'ph': [1, 30],
-    'comp': [31, 150],
-    'ds': [151, 200],
-    'build': [201, 250],
-    'test': [251, 300],
-    'doc': [301, 350],
-    'deploy': [351, 400]
+    'ph': [1, 99],
+    'comp': [1, 99],
+    'sys': [1, 99],
+    'qa': [1, 99]
   }
 
   const range = scopeRanges[scope as keyof typeof scopeRanges]
@@ -180,32 +151,48 @@ function validateDocumentClassification(filename: string): {
     errors.push(`序号 ${sequence} 超出作用域 ${scope} 的范围 ${range[0]}-${range[1]}`)
   }
 
-  // 验证阶段标记
-  if (stage) {
-    const validStages = ['r1', 'r2', 'r3', 'legacy', 'planning', 'research']
-    if (!validStages.includes(stage)) {
-      suggestions.push(`建议使用标准阶段标记: ${validStages.join(', ')}`)
-    }
+  // 验证任务描述
+  if (task.length > 30) {
+    suggestions.push('任务部分过长，建议使用简洁的任务描述')
   }
 
-  // 验证描述
-  if (description.length > 50) {
+  // 验证阶段标记（可选）
+  if (stage && stage.length > 20) {
+    suggestions.push('阶段标记过长，建议使用简洁的阶段标识')
+  }
+
+  // 验证描述（可选）
+  if (description && description.length > 50) {
     suggestions.push('描述部分过长，建议使用简洁的描述')
   }
 
   const valid = errors.length === 0
-  return { valid, scope, category: this.getCategory(scope, description), errors, suggestions }
+  return { valid, scope, category: this.getCategory(scope, task), errors, suggestions }
 }
 
-private getCategory(scope: string, description: string): string {
+private getCategory(scope: string, task: string): string {
   switch (scope) {
     case 'comp':
-      if (description.includes('button') || description.includes('input')) return 'core'
-      if (description.includes('table') || description.includes('chart')) return 'advanced'
-      if (description.includes('header') || description.includes('sidebar')) return 'layout'
-      return 'unknown'
+      // 组件开发线的细分分类
+      if (task.includes('Button') || task.includes('Input') || task.includes('基础')) return '核心组件'
+      if (task.includes('Table') || task.includes('Chart') || task.includes('高级')) return '高级组件'
+      if (task.includes('Header') || task.includes('Sidebar') || task.includes('布局')) return '布局组件'
+      if (task.includes('Form') || task.includes('表单')) return '表单组件'
+      return '组件开发'
     case 'ph':
-      return 'phase'
+      return '项目阶段'
+    case 'sys':
+      // 系统构建线的细分分类
+      if (task.includes('构建') || task.includes('build')) return '构建系统'
+      if (task.includes('部署') || task.includes('deploy')) return '部署系统'
+      if (task.includes('工具') || task.includes('tool')) return '工具链'
+      return '系统构建'
+    case 'qa':
+      // 质量保证线的细分分类
+      if (task.includes('测试') || task.includes('test')) return '测试'
+      if (task.includes('审查') || task.includes('review')) return '代码审查'
+      if (task.includes('质量') || task.includes('quality')) return '质量保证'
+      return '质量保证'
     default:
       return scope
   }
@@ -216,7 +203,7 @@ private getCategory(scope: string, description: string): string {
 生成和组织文档目录结构：
 
 ```typescript
-// 文档结构组织
+// 文档结构组织（基于新的统一规范）
 function organizeDocumentStructure(): {
   structure: Record<string, string[]>
   indexFiles: string[]
@@ -226,40 +213,40 @@ function organizeDocumentStructure(): {
     structure: {
       'docs/reports/phases/': [
         'README.md',
-        '001-ph1-project-init.md',
-        '005-ph2-design-tokens.md',
-        '012-ph3-component-migration.md'
+        '01-ph1-项目初始化.md',
+        '05-ph2-设计令牌系统.md',
+        '12-ph3-组件迁移完成.md'
       ],
-      'docs/reports/components/core/': [
+      'docs/reports/components/': [
         'README.md',
-        '032-comp-core-button.md',
-        '038-comp-core-input.md',
-        '045-comp-core-card.md'
+        '01-comp-ThemeBridge组件重构.md',
+        '02-comp-Button组件优化.md',
+        '03-comp-数据表格组件开发.md'
       ],
-      'docs/reports/components/advanced/': [
+      'docs/reports/system/': [
         'README.md',
-        '058-comp-advanced-datatable.md',
-        '067-comp-advanced-carousel.md'
+        '01-sys-构建系统优化.md',
+        '02-sys-Docker环境配置.md',
+        '03-sys-工具链集成.md'
       ],
-      'docs/reports/design-system/tokens/': [
+      'docs/reports/quality/': [
         'README.md',
-        '152-ds-tokens-colors.md',
-        '158-ds-tokens-typography.md'
-      ],
-      'docs/reports/build/vite/': [
-        'README.md',
-        '202-build-vite-config.md',
-        '210-build-vite-optimization.md'
+        '01-qa-代码质量审查.md',
+        '02-qa-单元测试覆盖率.md',
+        '03-qa-可访问性测试.md'
       ]
     },
     indexFiles: [
-      'docs/reports/00-TIMELINE-INDEX.md',
+      'docs/00-TIMELINE-INDEX.md',
       'docs/reports/phases/README.md',
-      'docs/reports/components/README.md'
+      'docs/reports/components/README.md',
+      'docs/reports/system/README.md',
+      'docs/reports/quality/README.md'
     ],
     missingDocs: [
-      'docs/reports/components/README.md',
-      'docs/reports/design-system/README.md'
+      'docs/guidelines/naming-guidelines.md',
+      'docs/reports/system/README.md',
+      'docs/reports/quality/README.md'
     ]
   }
 }
@@ -399,14 +386,18 @@ interface {ComponentName}Props {
 ## 使用示例
 
 ```bash
-# 创建新文档
-"创建 Button 组件开发文档，分类为核心组件，优先级高"
+# 创建新文档（使用新的命名格式）
+"创建 ThemeBridge 组件重构文档，分类为组件开发线"
+"生成项目阶段文档：ph3-项目封版说明"
+"创建系统构建文档：构建系统优化-性能提升"
 
-# 验证文档命名
-"验证文件 032-comp-core-button.md 的命名是否符合规范"
+# 验证文档命名（新格式）
+"验证文件 comp-01-ThemeBridge组件重构.md 的命名是否符合规范"
+"检查文档 qa-02-代码质量审查-阶段一.md 的分类是否正确"
 
 # 生成索引
-"生成项目文档时间线索引，包含所有已完成和进行中的文档"
+"生成项目文档时间线索引，包含所有四线文档"
+"组织文档结构，创建标准目录和索引文件"
 ```
 
 ## 输出格式
@@ -418,11 +409,12 @@ interface {ComponentName}Props {
 
 ## 技术依据
 
-基于 Xorigo UI 项目的文档管理规范：
+基于 Xorigo UI v1.5.1 统一文件命名规范：
 
-- **序号系统**: 按作用域分配的序号范围
-- **命名规范**: 统一的文件命名格式
-- **分类体系**: 清晰的文档分类和组织结构
+- **四线分类系统**: 项目阶段线(ph)、组件开发线(comp)、系统构建线(sys)、质量保证线(qa)
+- **简化命名格式**: {序号}-{scope}-{task}[-{stage}]-{描述}.md
+- **统一序号范围**: 各线独立编号 01-99，避免复杂的序号分配
+- **兼容性扩展**: 支持源代码、配置、测试等全类型文件命名规范
 - **版本管理**: 通过 Git 管理文档版本，文件名不含版本号
 
-确保文档系统的一致性、可维护性和易用性。
+确保文档系统的一致性、可维护性和易用性，与整个项目的文件命名规范保持统一。
