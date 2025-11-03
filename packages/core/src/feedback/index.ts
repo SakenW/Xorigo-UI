@@ -12,8 +12,11 @@ export type { AlertProps } from './alert'
 export { Toast } from './toast'
 export type { ToastProps } from './toast'
 
-export { Notification } from './notification'
-export type { NotificationProps } from './notification'
+// Notification组件在notification.tsx中不存在，暂时注释
+// export { Notification } from './notification'
+// export type { NotificationProps } from './notification'
+export { NotificationProgress, ToastProvider, useToast } from './notification'
+export type { NotificationProgressProps } from './notification'
 
 // 进度指示组件
 export { Progress } from './progress'
@@ -25,3 +28,6 @@ export type { LoadingProps } from './loading'
 // 主题控制组件
 export { ThemeToggle } from './theme-toggle'
 export type { ThemeToggleProps } from './theme-toggle'
+
+export { AdvancedThemeSwitcher, ThemeSwitcher } from './advanced-theme-switcher'
+export type { AdvancedThemeSwitcherProps as ThemeSwitcherProps } from './advanced-theme-switcher'

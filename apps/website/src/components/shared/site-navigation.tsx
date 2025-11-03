@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button, ThemeSwitcher, XorigoLogo, NavbarOriginLogo } from '@xorigo-ui/core'
+import { Button, AdvancedThemeSwitcher, XorigoLogo, NavbarOriginLogo } from '@xorigo-ui/core'
 import { cn } from '@/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -171,8 +171,14 @@ export function SiteNavigation({
 
           {/* 右侧操作区 */}
           <div className="flex items-center gap-3">
-            {/* 主题切换器 */}
-            <ThemeSwitcher />
+            {/* 高级主题切换器 */}
+            <AdvancedThemeSwitcher
+              size="sm"
+              variant="popover"
+              showLabel={false}
+              enableCategories={true}
+              showPreview={true}
+            />
 
             {/* 移动端菜单按钮 */}
             <Button

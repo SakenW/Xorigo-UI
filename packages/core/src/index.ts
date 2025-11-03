@@ -15,15 +15,15 @@ export * from '@xorigo-ui/tokens'
 // 主题系统和提供者
 export * from '@xorigo-ui/system'
 
-// 工具函数
-export * from '@xorigo-ui/utils'
+// 工具函数 - 注意：与下面的 ./utils 有冲突，暂时注释
+// export * from '@xorigo-ui/utils'
 
 // AI智能系统
 export * from './ai'
 
-// 系统工具和配方库
-export * from './system-tools/unified-theme-recipes'  // 统一主题配方（推荐使用）
-export * from './system-tools/theme-utils'
+// 系统工具和配方库 - 暂时注释避免冲突
+// export * from './system-tools/unified-theme-recipes'
+// export * from './system-tools/theme-utils'
 // 旧版本配方库，保留兼容性但标记为废弃
 // export * from './system-tools/complete-theme-recipes'
 // export * from './system-tools/workbench-recipes'
@@ -41,8 +41,8 @@ export * from './overlays'
 // 反馈组件
 export * from './feedback'
 
-// 原子组件 (基础UI组件)
-export * from './primitives'
+// 原子组件 (基础UI组件) - 注意：与下面的 @xorigo-ui/primitives 有冲突
+// export * from './primitives'
 
 // 数据展示组件 (包含图表和可视化)
 // export * from './data-display' // 暂时注释，避免依赖问题
@@ -59,8 +59,10 @@ export * from './effects'
 // 动画组件 (Framer Motion集成)
 export * from './motion'
 
-// 主题组件 (主题相关)
-export * from './theme'
+// 主题组件 (主题相关) - 简化导出避免冲突
+export { useTheme } from './theme/use-theme'
+export { AdvancedThemeSwitcher } from './feedback/advanced-theme-switcher'
+export { mapRecipeToSystem, getAvailableRecipes } from './theme/theme-bridge'
 
 // 交互组件 (高级交互)
 // export * from './interactive' // 暂时注释，避免依赖问题
