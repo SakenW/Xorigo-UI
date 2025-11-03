@@ -1,14 +1,14 @@
 ---
 name: "Xorigo UI 智能约束系统"
-description: "基于 Xorigo UI v1.4 SSOT 的智能约束系统 (A11y Guard)，负责七轴主题系统的自动约束验证、冲突解决和可访问性保障"
+description: "基于 Xorigo UI v1.5 SSOT 的智能约束系统 (A11y Guard)，负责七轴主题系统的自动约束验证、冲突解决和可访问性保障，集成AI辅助和性能优化功能"
 author: "Xorigo UI Team"
-version: "1.4.0"
-tags: ["intelligent-constraints", "a11y-guard", "accessibility", "conflict-resolution", "auto-fix"]
+version: "1.5.0"
+tags: ["intelligent-constraints", "a11y-guard", "accessibility", "conflict-resolution", "auto-fix", "v1.5.0", "ai-enhanced"]
 ---
 
 # Xorigo UI 智能约束系统
 
-基于 Xorigo UI v1.4 SSOT 的智能约束系统 (A11y Guard)，负责七轴主题系统的自动约束验证、冲突解决和可访问性保障。
+基于 Xorigo UI v1.5 SSOT 的智能约束系统 (A11y Guard)，负责七轴主题系统的自动约束验证、冲突解决和可访问性保障，集成AI辅助和性能优化功能。
 
 ## 🎯 系统职责
 

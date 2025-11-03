@@ -35,10 +35,12 @@
    - TypeScript 类型安全
 
 4. **组件分类系统检测**
-   - 9 大组件分类规范
+   - 11 大组件分类规范（v1.5）
+   - 三层架构合规性（System/Component/Composition）
    - 目录位置正确性
    - 命名一致性
    - API 设计标准
+   - Labs 双重含义理解
 
 ## 🏗️ Agent 架构
 

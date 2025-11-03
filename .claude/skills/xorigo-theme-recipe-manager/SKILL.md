@@ -1,21 +1,24 @@
 ---
 name: "Xorigo UI 主题配方管理器"
-description: "基于 Xorigo UI v1.4 SSOT 的主题配方专门管理工具，负责 system/recipes/ 目录下所有主题配方的创建、验证、注册和维护"
+description: "基于 Xorigo UI v1.5 SSOT 的主题配方专门管理工具，负责 recipe-*.ts 系列文件的管理，包含AI辅助生成、性能优化缓存和动态导入导出功能"
 author: "Xorigo UI Team"
-version: "1.4.0"
-tags: ["theme-recipes", "seven-axis-system", "build-time-constants", "recipe-registry", "theme-presets"]
+version: "1.5.0"
+tags: ["theme-recipes", "seven-axis-system", "ai-enhanced", "performance-optimized", "recipe-registry", "v1.5.0"]
 ---
 
 # Xorigo UI 主题配方管理器
 
-基于 Xorigo UI v1.4 SSOT 的主题配方专门管理工具，负责 `system/recipes/` 目录下所有主题配方的标准化管理。
+基于 Xorigo UI v1.5 SSOT 的主题配方专门管理工具，负责 `recipe-*.ts` 系列文件的全面管理，包含AI辅助生成、性能优化缓存和动态导入导出功能。
 
 ## 🎯 作用域与职责
 
 **✅ 核心职责**：
-- `system/recipes/` 目录配方标准化管理
+- `recipe-*.ts` 系列文件标准化管理
 - 七轴配方结构验证与生成
 - 配方注册表维护与更新
+- AI辅助配方生成与优化
+- 配方缓存管理与性能优化
+- 动态配方导入导出功能
 - Build-time 常量优化
 
 **❌ 排除范围**：
@@ -23,11 +26,17 @@ tags: ["theme-recipes", "seven-axis-system", "build-time-constants", "recipe-reg
 - 用户自定义主题创建
 - 网站层配方展示
 
-## 🏗️ Recipes 目录结构强制
+## 🏗️ v1.5 配方文件结构规范
 
 ```
-packages/core/src/system/recipes/
-├── corporateBlueRecipe.ts     # ✅ 企业蓝调配方
+packages/core/src/theme/
+├── recipe-registry.ts          # ✅ 配方注册表
+├── recipe-validator.ts         # ✅ 配方验证器
+├── recipe-cache-manager.ts     # ✅ 缓存管理器
+├── recipe-storage-manager.ts   # ✅ 存储管理器
+├── recipe-import-export.ts     # ✅ 导入导出管理器
+└── [内置配方示例]
+    ├── corporateBlueRecipe.ts  # ✅ 企业蓝调配方
 ├── creativePurpleRecipe.ts    # ✅ 创意紫配方
 ├── techCyanRecipe.ts          # ✅ 科技青配方
 ├── index.ts                   # ✅ 全部导出 + 注册表
@@ -728,4 +737,166 @@ export class RecipeValidator {
 - **文档生成**：自动生成配方使用文档
 - **版本控制**：配方变更的版本追踪
 
-基于 Xorigo UI v1.4 SSOT，确保所有主题配方的标准化、一致性和可维护性。
+---
+
+## 🚀 v1.5 新增功能模块
+
+### AI辅助配方生成系统
+
+```typescript
+// AI配方生成器 - 主题配方管理器的AI增强功能
+export class AIRecipeGenerator {
+  async generateFromPrompt(prompt: string): Promise<ThemeRecipe> {
+    // 基于自然语言描述生成主题配方
+    // 支持："创建一个科技感的深色主题"等自然语言输入
+  }
+
+  async optimizeForAccessibility(recipe: ThemeRecipe): Promise<ThemeRecipe> {
+    // 自动优化配方可访问性
+    // 确保WCAG 2.1 AA标准合规
+  }
+
+  async suggestVariations(baseRecipe: ThemeRecipe): Promise<ThemeRecipe[]> {
+    // 基于现有配方生成变体
+    // 支持颜色、密度、动效等维度的变化
+  }
+}
+```
+
+### 性能优化缓存系统
+
+```typescript
+// 配方缓存管理 - v1.5性能优化核心
+export class RecipeCacheManager {
+  private recipeCache = new Map<string, ThemeRecipe>()
+  private tokenCache = new Map<string, any>()
+
+  // 智能缓存策略
+  getCachedRecipe(id: string): ThemeRecipe | null {
+    // 支持LRU缓存策略
+    // 自动缓存热点配方
+  }
+
+  // 性能监控集成
+  measureCachePerformance(): {
+    hitRate: number
+    averageLoadTime: number
+    memoryUsage: number
+  }
+}
+```
+
+### 动态导入导出系统
+
+```typescript
+// 配方导入导出管理器 - 跨项目配方分享
+export class RecipeImportExport {
+  // 支持多种格式导出
+  exportToJSON(recipes: ThemeRecipe[]): string
+  exportToCSS(recipe: ThemeRecipe): string
+  exportToTailwindConfig(recipe: ThemeRecipe): object
+
+  // 批量操作支持
+  async exportRecipePackage(recipes: ThemeRecipe[]): Promise<Blob>
+  async importRecipePackage(packageData: Blob): Promise<ThemeRecipe[]>
+}
+```
+
+### 实时配方验证系统
+
+```typescript
+// 增强的配方验证器 - v1.5实时验证
+export class EnhancedRecipeValidator {
+  // 实时验证
+  validateInRealTime(recipe: ThemeRecipe): {
+    isValid: boolean
+    issues: ValidationIssue[]
+    suggestions: string[]
+    autoFixes: AutoFix[]
+  }
+
+  // 批量验证
+  validateBatch(recipes: ThemeRecipe[]): BatchValidationResult
+}
+```
+
+### 与组件分类系统集成
+
+```typescript
+// 组件分类主题映射 - v1.5新特性
+export interface ComponentCategoryRecipeMapping {
+  category: ComponentCategory  // 来自v1.5分类系统
+  recipe: ThemeRecipe
+  overrides: RecipeOverrides
+}
+
+// 按分类应用配方
+export function applyRecipeToCategory(
+  category: ComponentCategory,
+  recipe: ThemeRecipe
+): CategoryThemeApplication {
+  // 为特定分类的所有组件应用主题配方
+}
+```
+
+### 配方市场与分享
+
+```typescript
+// 配方市场支持 - 未来扩展功能
+export interface RecipeMarketplace {
+  publishRecipe(recipe: ThemeRecipe): Promise<string>
+  searchRecipes(query: string): Promise<ThemeRecipe[]>
+  downloadRecipe(id: string): Promise<ThemeRecipe>
+  rateRecipe(id: string, rating: number): Promise<void>
+}
+```
+
+---
+
+## 🎯 v1.5 使用示例
+
+### AI生成配方示例
+
+```typescript
+const aiGenerator = new AIRecipeGenerator()
+
+// 自然语言生成
+const techTheme = await aiGenerator.generateFromPrompt(
+  "创建一个适合编程IDE的深色主题，蓝色主色调，高对比度"
+)
+
+// 可访问性优化
+const accessibleTheme = await aiGenerator.optimizeForAccessibility(techTheme)
+
+// 生成变体
+const variations = await aiGenerator.suggestVariations(techTheme)
+```
+
+### 性能优化示例
+
+```typescript
+const cacheManager = new RecipeCacheManager()
+
+// 缓存配方
+cacheManager.cacheRecipe(techTheme)
+
+// 性能监控
+const performance = cacheManager.measureCachePerformance()
+console.log(`缓存命中率: ${performance.hitRate}%`)
+```
+
+### 分类集成示例
+
+```typescript
+// 为inputs分类应用主题
+const inputsTheme = applyRecipeToCategory('inputs', techTheme)
+
+// 为feedback分类应用主题
+const feedbackTheme = applyRecipeToCategory('feedback', techTheme)
+```
+
+---
+
+*Xorigo UI Theme Recipe Manager v1.5 - 智能化、高性能、全功能的主题配方管理系统*
+
+基于 Xorigo UI v1.5 SSOT，确保所有主题配方的标准化、一致性和可维护性。

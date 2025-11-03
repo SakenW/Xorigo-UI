@@ -1,6 +1,7 @@
 /**
  * 组件分类系统检测模块
- * 基于 COMPONENT-CLASSIFICATION-SYSTEM.md 的组件分类规则
+ * 基于 component-classification-system-v1.5.md 的组件分类规则
+ * 支持 三层结构 + 十一类组件 + 稳定性标签 的新架构
  */
 
 import type { DetectionModule, DetectionContext, DetectionResult } from '../../core/detection-core'

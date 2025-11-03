@@ -1,14 +1,14 @@
 ---
 name: "Xorigo UI 七轴主题系统开发器"
-description: "基于 Xorigo UI v1.4 SSOT 的七轴主题系统专门开发工具，确保所有组件严格遵循七轴约束逻辑和智能校验系统"
+description: "基于 Xorigo UI v1.5 SSOT 的七轴主题系统专门开发工具，确保所有组件严格遵循七轴约束逻辑和智能校验系统，集成新的AI辅助功能和性能优化"
 author: "Xorigo UI Team"
-version: "1.4.0"
-tags: ["theme-system", "seven-axis", "design-tokens", "constraints", "ssot"]
+version: "1.5.0"
+tags: ["theme-system", "seven-axis", "design-tokens", "constraints", "ssot", "v1.5.0", "ai-enhanced"]
 ---
 
 # Xorigo UI 七轴主题系统开发器
 
-基于 Xorigo UI v1.4 SSOT (单一事实来源) 的七轴主题系统专门开发工具，严格遵循 `packages/core` 层的规范要求。
+基于 Xorigo UI v1.5 SSOT (单一事实来源) 的七轴主题系统专门开发工具，严格遵循 `packages/core` 层的规范要求，集成AI辅助配方生成和性能优化功能。
 
 ## 🎯 作用域边界
 
@@ -191,6 +191,118 @@ export function validateCoreDirectoryStructure(): {
     missing,
     invalid,
     warnings
+  }
+}
+```
+
+## 🚀 v1.5 新增功能集成
+
+### AI辅助主题配方生成
+
+基于新的AI模块，支持智能主题配方生成：
+
+```typescript
+// AI配方生成器接口
+interface AIRecipeGenerator {
+  generateFromPrompt(prompt: string): Promise<ThemeRecipe>
+  suggestVariations(baseRecipe: ThemeRecipe): Promise<ThemeRecipe[]>
+  optimizeForAccessibility(recipe: ThemeRecipe): Promise<ThemeRecipe>
+}
+
+// 使用示例
+const aiGenerator = new AIRecipeGenerator()
+const techRecipe = await aiGenerator.generateFromPrompt(
+  "创建一个科技感的深色主题，适合开发工具使用"
+)
+```
+
+### 性能优化与缓存管理
+
+v1.5引入了全面的性能优化系统：
+
+```typescript
+// 配方缓存管理器
+export class RecipeCacheManager {
+  private cache = new Map<string, ThemeRecipe>()
+
+  getCachedRecipe(id: string): ThemeRecipe | null
+  cacheRecipe(recipe: ThemeRecipe): void
+  invalidateCache(): void
+
+  // 性能监控
+  measurePerformance<T>(fn: () => T): { result: T; duration: number }
+}
+
+// 主题性能测试
+export function runThemePerformanceTests(): {
+  renderPerformance: number
+  cacheHitRate: number
+  memoryUsage: number
+} {
+  // 性能基准测试逻辑
+}
+```
+
+### 动态配方导入导出
+
+支持配方的序列化和跨项目分享：
+
+```typescript
+// 配方导入导出管理器
+export class RecipeImportExport {
+  exportToJSON(recipe: ThemeRecipe): string
+  importFromJSON(json: string): ThemeRecipe
+
+  exportToFile(recipe: ThemeRecipe, filePath: string): Promise<void>
+  importFromFile(filePath: string): Promise<ThemeRecipe>
+
+  // 批量操作
+  exportMultiple(recipes: ThemeRecipe[]): string
+  importMultiple(json: string): ThemeRecipe[]
+}
+```
+
+### 可访问性增强
+
+新增WCAG合规性自动验证：
+
+```typescript
+// 可访问性验证器
+export function validateThemeAccessibility(recipe: ThemeRecipe): {
+  compliant: boolean
+  issues: AccessibilityIssue[]
+  suggestions: string[]
+} {
+  // WCAG 2.1 AA 标准验证
+  // 对比度检查
+  // 色盲友好性验证
+  // 动效安全性检查
+}
+```
+
+### 与v1.5组件分类系统集成
+
+支持按组件分类应用主题定制：
+
+```typescript
+// 组件分类主题配置
+interface ComponentCategoryTheme {
+  category: ComponentCategory // 来自v1.5分类系统
+  themeOverrides: Partial<ThemeTokens>
+  componentSpecific: Record<string, ThemeTokens>
+}
+
+// 为inputs分类定制主题
+const inputsTheme: ComponentCategoryTheme = {
+  category: 'inputs',
+  themeOverrides: {
+    backgroundColor: 'var(--input-bg)',
+    borderColor: 'var(--input-border)',
+    focusColor: 'var(--input-focus)'
+  },
+  componentSpecific: {
+    'button': { borderRadius: 'var(--button-radius)' },
+    'input': { padding: 'var(--input-padding)' }
   }
 }
 ```
