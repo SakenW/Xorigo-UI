@@ -1,0 +1,201 @@
+# Axis Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "Axis"
+displayName: "Axis"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  坐标轴组件，为图表提供 X 轴和 Y 轴支持。
+  这是图表组件库的核心组件，与 ChartContainer 配合使用。
+
+  支持标签、刻度、网格线、自定义颜色和样式等特性。
+
+tags:
+  - charts
+  - axis
+  - x-axis
+  - y-axis
+  - grid
+  - ticks
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "type"
+    type: "'x' | 'y'"
+    required: true
+    default: "x"
+    description: "坐标轴类型"
+
+  - name: "position"
+    type: "'top' | 'bottom' | 'left' | 'right'"
+    required: false
+    default: "bottom (x轴) / left (y轴)"
+    description: "坐标轴的位置"
+
+  - name: "label"
+    type: "string"
+    required: false
+    default: ""
+    description: "坐标轴的标签"
+
+  - name: "ticks"
+    type: "Array<{ value: number | string, label?: string, position?: number }>"
+    required: false
+    default: "[]"
+    description: "坐标轴的刻度值"
+
+  - name: "showGrid"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示网格线"
+
+  - name: "showTickLabels"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示刻度标签"
+
+  - name: "tickLabelRotation"
+    type: "number"
+    required: false
+    default: 0
+    description: "刻度标签的旋转角度"
+
+  - name: "gridColor"
+    type: "string"
+    required: false
+    default: "var(--color-border)"
+    description: "网格线的颜色"
+
+  - name: "axisColor"
+    type: "string"
+    required: false
+    default: "var(--color-text-primary)"
+    description: "坐标轴的颜色"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "坐标轴的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+features:
+  - "X 轴和 Y 轴支持"
+  - "可配置的位置和样式"
+  - "刻度值和标签支持"
+  - "网格线显示"
+  - "自定义颜色和样式"
+  - "主题系统集成"
+  - "动画支持"
+
+accessibility:
+  role: "graphics-document"
+  ariaLabel: "图表坐标轴"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-text-primary)"
+    - "var(--color-border)"
+    - "var(--color-text-secondary)"
+
+examples:
+  basic_x: |
+    <Axis
+      type="x"
+      label="月份"
+      ticks={[
+        { value: 0, label: '1月' },
+        { value: 1, label: '2月' },
+        { value: 2, label: '3月' }
+      ]}
+      showGrid={true}
+    />
+
+  basic_y: |
+    <Axis
+      type="y"
+      label="销售额 (万元)"
+      ticks={[
+        { value: 0, label: '0' },
+        { value: 20, label: '20' },
+        { value: 40, label: '40' }
+      ]}
+      showGrid={true}
+    />
+
+  with_rotation: |
+    <Axis
+      type="x"
+      label="日期"
+      ticks={[
+        { value: 0, label: '2024-01-01' },
+        { value: 1, label: '2024-01-02' }
+      ]}
+      tickLabelRotation={45}
+    />
+
+testing:
+  unit_test: "axis.test.tsx"
+  storybook: "axis.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "minimal"
+  render_time: "<16ms"
+  memory_usage: "low"
+
+related_components:
+  - "ChartContainer"
+  - "LineChart"
+  - "BarChart"
+  - "AreaChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持 X 轴和 Y 轴"
+      - "集成网格线和刻度标签"
+      - "添加自定义颜色支持"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/axis"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

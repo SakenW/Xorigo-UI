@@ -1,0 +1,479 @@
+# MiniChart 组件元数据
+# 版本: 1.0.0
+# 稳定性: stable
+# 分类: Charts
+
+metadata:
+  name: mini-chart
+  displayName: MiniChart
+  description: 多类型迷你数据可视化组件，支持线图、柱状图、饼图等多种图表
+  category: Charts
+  subcategory: Data Visualization
+  level: component
+  stability: stable
+  version: 1.0.0
+  author: Xorigo UI Team
+  license: MIT
+
+# 技术规格
+technical:
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  dependencies:
+    - react
+    - react-dom
+    - framer-motion
+  peerDependencies:
+    - react: '>=18.0.0'
+    - framer-motion: '>=12.0.0'
+
+# 组件属性
+props:
+  type:
+    type: 'line' | 'area' | 'bar' | 'pie' | 'donut'
+    required: false
+    description: 图表类型
+    default: 'line'
+    options:
+      - line: 线图，使用直线连接数据点
+      - area: 面积图，填充曲线下方的区域
+      - bar: 柱状图，使用柱状条展示数据
+      - pie: 饼图，扇形展示占比关系
+      - donut: 环形图，中心空心的饼图
+    example: 'area'
+
+  data:
+    type: MiniChartDataPoint[]
+    required: true
+    description: 数据点数组
+    default: []
+    example: |
+      [
+        { value: 10, label: 'A' },
+        { value: 20, label: 'B' },
+        { value: 15, label: 'C' }
+      ]
+
+  width:
+    type: number
+    required: false
+    description: 图表宽度
+    default: 120
+    example: 120
+
+  height:
+    type: number
+    required: false
+    description: 图表高度
+    default: 60
+    example: 60
+
+  compact:
+    type: boolean
+    required: false
+    description: 紧凑模式（减少内边距）
+    default: false
+    example: true
+
+  showTrend:
+    type: boolean
+    required: false
+    description: 是否显示趋势指示
+    default: false
+    example: true
+
+  showChange:
+    type: boolean
+    required: false
+    description: 是否显示百分比变化
+    default: false
+    example: true
+
+  trendMode:
+    type: 'auto' | 'up' | 'down' | 'neutral'
+    required: false
+    description: 趋势模式（仅线图和面积图有效）
+    default: 'auto'
+    options:
+      - auto: 自动检测趋势方向
+      - up: 强制显示上升趋势
+      - down: 强制显示下降趋势
+      - neutral: 强制显示持平趋势
+    example: 'auto'
+
+  colorVariant:
+    type: 'primary' | 'success' | 'danger' | 'warning' | 'neutral'
+    required: false
+    description: 颜色变体
+    default: 'primary'
+    options:
+      - primary: 蓝色主题
+      - success: 绿色主题（正增长）
+      - danger: 红色主题（负增长）
+      - warning: 黄色主题（警告）
+      - neutral: 灰色主题（中性）
+    example: 'success'
+
+  animated:
+    type: boolean
+    required: false
+    description: 是否启用动画
+    default: true
+    example: true
+
+  className:
+    type: string
+    required: false
+    description: 自定义类名
+    default: ''
+    example: 'my-custom-chart'
+
+  onHover:
+    type: (point: MiniChartDataPoint | null) => void
+    required: false
+    description: 鼠标悬停回调
+    default: undefined
+    example: (point) => console.log(point)
+
+  onClick:
+    type: (point: MiniChartDataPoint | null) => void
+    required: false
+    description: 点击回调
+    default: undefined
+    example: (point) => setSelected(point)
+
+  renderTooltip:
+    type: (point: MiniChartDataPoint) => React.ReactNode
+    required: false
+    description: 工具提示自定义渲染
+    default: undefined
+    example: (point) => <div>{point.value}</div>
+
+  innerRadiusRatio:
+    type: number
+    required: false
+    description: 内半径比例（仅 donut 图表有效）
+    default: 0.6
+    example: 0.5
+
+  pointSize:
+    type: number
+    required: false
+    description: 数据点大小（仅 line 和 area 图表有效）
+    default: 3
+    example: 4
+
+# 接口定义
+interfaces:
+  MiniChartDataPoint:
+    description: 数据点接口
+    properties:
+      value:
+        type: number
+        description: 数值
+        required: true
+      label:
+        type: string
+        description: 标签
+        required: false
+      color:
+        type: string
+        description: 自定义颜色（饼图/环形图）
+        required: false
+
+  MiniChartTrend:
+    description: 趋势信息接口
+    properties:
+      direction:
+        type: 'up' | 'down' | 'neutral'
+        description: 趋势方向
+        required: true
+      percentage:
+        type: number
+        description: 百分比变化
+        required: true
+
+  MiniChartProps:
+    description: 组件属性接口
+    extends: React.SVGProps<SVGSVGElement>
+    properties: 参见 props 配置
+
+# 功能特性
+features:
+  - name: 多种图表类型
+    description: 支持线图、面积图、柱状图、饼图和环形图五种类型
+    enabled: true
+
+  - name: 紧凑布局
+    description: 支持紧凑模式，适应数据密集型场景
+    enabled: true
+
+  - name: 趋势指示
+    description: 自动或手动显示趋势方向（上升/下降/持平）
+    enabled: true
+
+  - name: 百分比变化
+    description: 显示起始值和结束值的百分比变化
+    enabled: true
+
+  - name: 颜色编码
+    description: 支持多种颜色变体，直观表达数据含义
+    enabled: true
+
+  - name: 交互效果
+    description: 支持鼠标悬停和点击交互
+    enabled: true
+
+  - name: 工具提示
+    description: 支持自定义工具提示内容
+    enabled: true
+
+  - name: 动画效果
+    description: 使用 Framer Motion 实现流畅动画
+    enabled: true
+
+  - name: 主题系统集成
+    description: 完全集成七轴主题系统
+    enabled: true
+
+  - name: TypeScript 类型安全
+    description: 提供完整的类型定义
+    enabled: true
+
+  - name: forwardRef 支持
+    description: 支持 ref 转发
+    enabled: true
+
+  - name: 可访问性
+    description: 遵循可访问性标准
+    enabled: true
+
+# 使用场景
+useCases:
+  - scenario: 数据密集型表格
+    description: 在表格中嵌入迷你图表展示数据趋势
+    example: |
+      <MiniChart
+        data={salesData}
+        type="line"
+        compact={true}
+        width={100}
+        height={40}
+      />
+
+  - scenario: 仪表盘 KPI
+    description: 在仪表盘中展示关键指标的趋势
+    example: |
+      <MiniChart
+        data={kpiData}
+        type="area"
+        showTrend={true}
+        colorVariant="success"
+      />
+
+  - scenario: 卡片趋势展示
+    description: 在卡片中展示数据的趋势和变化
+    example: |
+      <MiniChart
+        data={trendData}
+        type="bar"
+        showChange={true}
+        compact={true}
+      />
+
+  - scenario: 市场份额可视化
+    description: 展示各部分的占比关系
+    example: |
+      <MiniChart
+        data={marketData}
+        type="donut"
+        innerRadiusRatio={0.6}
+      />
+
+  - scenario: 列表项数据摘要
+    description: 在列表项中嵌入迷你图表
+    example: |
+      <MiniChart
+        data={listData}
+        width={80}
+        height={30}
+        compact={true}
+      />
+
+  - scenario: 性能指标监控
+    description: 展示系统或应用性能指标
+    example: |
+      <MiniChart
+        data={performanceData}
+        type="line"
+        colorVariant="warning"
+        showTrend={true}
+      />
+
+# 最佳实践
+bestPractices:
+  - title: 选择合适的图表类型
+    description: |
+      - 线图：适合展示连续趋势和变化
+      - 面积图：适合展示累积变化或总量
+      - 柱状图：适合比较不同类别的值
+      - 饼图/环形图：适合展示占比关系
+      - 数据点少（≤5个）：优先使用柱状图
+      - 数据点多（>5个）：优先使用线图
+
+  - title: 合理设置尺寸
+    description: |
+      - 表格中使用：宽度 80-100，高度 30-40
+      - 仪表盘中使用：宽度 120-150，高度 60-80
+      - 列表项中使用：宽度 60-80，高度 24-30
+      - 紧凑模式：减少内边距，节省空间
+
+  - title: 颜色选择指南
+    description: |
+      - primary：一般趋势展示
+      - success：正增长、良好状态
+      - danger：负增长、警示状态、风险数据
+      - warning：需要注意的状态、性能指标
+      - neutral：次要或中性数据
+
+  - title: 趋势指示使用
+    description: |
+      - showTrend：显示趋势方向和百分比
+      - showChange：显示百分比变化
+      - trendMode='auto'：自动检测趋势
+      - trendMode='up/down/neutral'：手动设置趋势
+
+  - title: 动画优化
+    description: |
+      - 大量数据点时建议关闭动画以提升性能
+      - 实时更新数据时启用动画
+      - 首次渲染时建议启用动画
+      - 紧凑模式中可适当减少动画延迟
+
+# 相关组件
+relatedComponents:
+  - name: Sparkline
+    relationship: sibling
+    description: 迷你线图组件，mini-chart 的线图类型的基础
+
+  - name: ChartContainer
+    relationship: parent
+    description: 图表容器组件，可包含多个 mini-chart
+
+  - name: Stat
+    relationship: sibling
+    description: 统计卡片，可组合使用展示完整信息
+
+  - name: Table
+    relationship: parent
+    description: 表格组件，mini-chart 常用于表格单元格中
+
+  - name: Card
+    relationship: parent
+    description: 卡片组件，mini-chart 可作为卡片的一部分
+
+  - name: List
+    relationship: parent
+    description: 列表组件，mini-chart 可作为列表项的一部分
+
+# 性能优化
+performance:
+  memoization:
+    - calculateTrend
+    - calculateLinePath
+    - calculateBarPath
+    - calculatePiePath
+
+  optimizations:
+    - 使用 useMemo 缓存计算结果
+    - 虚拟化支持大量数据点（未来版本）
+    - requestAnimationFrame 优化动画
+
+# 测试覆盖
+testing:
+  unitTests:
+    - 基础渲染测试
+    - 图表类型测试
+    - 紧凑模式测试
+    - 趋势指示测试
+    - 百分比变化测试
+    - 趋势模式测试
+    - 颜色变体测试
+    - 交互功能测试
+    - 自定义工具提示测试
+    - 特殊属性测试
+    - 边缘情况测试
+    - 可访问性测试
+    - 动画测试
+
+  coverage:
+    statements: 95%
+    branches: 90%
+    functions: 95%
+    lines: 95%
+
+# 变更日志
+changelog:
+  - version: 1.0.0
+    date: 2025-11-04
+    changes:
+      - 初始版本发布
+      - 支持五种图表类型（线图、面积图、柱状图、饼图、环形图）
+      - 支持紧凑布局和最小尺寸设计
+      - 支持趋势指示（上升/下降/持平）
+      - 支持百分比变化显示
+      - 支持多种颜色变体
+      - 支持工具提示和交互
+      - 支持动画效果
+      - 集成主题系统
+      - 完整的 TypeScript 类型定义
+      - 95% 测试覆盖率
+
+# 路线图
+roadmap:
+  - version: 1.1.0
+    planned: Q1 2026
+    features:
+      - 虚拟化支持大量数据点
+      - 更多图表类型（散点、雷达）
+      - 缩放和平移功能
+      - 数据导出功能
+
+  - version: 1.2.0
+    planned: Q2 2026
+    features:
+      - 多数据系列支持
+      - 图例显示
+      - 更多动画效果
+      - 自定义坐标系支持
+
+  - version: 2.0.0
+    planned: Q3 2026
+    features:
+      - Canvas 渲染支持
+      - WebGL 加速（大数据集）
+      - 3D 图表支持
+      - 交互式数据探索
+
+# 贡献指南
+contributing:
+  development:
+    - 克隆仓库：git clone https://github.com/xorigo-ui/core.git
+    - 安装依赖：pnpm install
+    - 启动开发服务器：pnpm dev:core
+    - 运行测试：pnpm test
+    - 构建组件：pnpm build
+
+  guidelines:
+    - 遵循组件设计原则
+    - 保持 API 一致性
+    - 编写完整的测试
+    - 更新文档和故事
+    - 遵循 TypeScript 类型规范
+
+# 许可证
+license:
+  type: MIT
+  copyright: 2025 Xorigo UI Team

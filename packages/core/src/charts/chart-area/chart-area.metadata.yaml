@@ -1,0 +1,421 @@
+# ChartArea Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "ChartArea"
+displayName: "Chart Area"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  图表区域容器组件，为图表提供面积图可视化区域。
+  这是图表组件库的核心容器组件，基于 ChartContainer 构建。
+
+  支持多种面积图类型（默认、堆叠、百分比、流向）、渐变填充、
+  数据点标记、阈值线显示、完整的动画和交互支持、
+  主题系统深度集成等特性。
+
+tags:
+  - charts
+  - chart-area
+  - area-chart
+  - visualization
+  - time-series
+  - multi-series
+  - core-component
+  - container
+  - gradient
+  - markers
+  - thresholds
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+  - "charts/chart-container"
+  - "charts/axis"
+  - "charts/legend"
+  - "charts/chart-tooltip"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "AreaSeries[]"
+    required: true
+    default: "[]"
+    description: "图表数据系列"
+
+  - name: "type"
+    type: "'default' | 'stacked' | 'percent' | 'stream'"
+    required: false
+    default: "default"
+    description: "面积图的类型"
+
+  - name: "showGrid"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示网格线"
+
+  - name: "showLegend"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示图例"
+
+  - name: "showAxis"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示坐标轴"
+
+  - name: "showTooltip"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示工具提示"
+
+  - name: "tooltipFormatter"
+    type: "(data: AreaDataPoint, series: AreaSeries) => React.ReactNode"
+    required: false
+    default: ""
+    description: "工具提示的自定义渲染函数"
+
+  - name: "xAxisLabel"
+    type: "string"
+    required: false
+    default: ""
+    description: "X 轴的标签"
+
+  - name: "yAxisLabel"
+    type: "string"
+    required: false
+    default: ""
+    description: "Y 轴的标签"
+
+  - name: "fillOpacity"
+    type: "number"
+    required: false
+    default: 0.6
+    description: "填充透明度"
+
+  - name: "showStroke"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示面积边界线"
+
+  - name: "strokeWidth"
+    type: "number"
+    required: false
+    default: 2
+    description: "边界线宽度"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "面积图的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 300
+    description: "图表的高度"
+
+  - name: "width"
+    type: "number | string"
+    required: false
+    default: "100%"
+    description: "图表的宽度"
+
+  - name: "thresholdLines"
+    type: "ThresholdLine[]"
+    required: false
+    default: "[]"
+    description: "阈值线配置"
+
+  - name: "showMarkers"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否显示数据点标记"
+
+  - name: "markerSize"
+    type: "number"
+    required: false
+    default: 4
+    description: "数据点标记的大小"
+
+  - name: "fillType"
+    type: "'solid' | 'gradient' | 'pattern'"
+    required: false
+    default: "gradient"
+    description: "区域填充类型"
+
+  - name: "animationDuration"
+    type: "number"
+    required: false
+    default: 800
+    description: "动画持续时间（毫秒）"
+
+  - name: "xAxisConfig"
+    type: "object"
+    required: false
+    default: "{}"
+    description: "X 轴的配置"
+
+  - name: "yAxisConfig"
+    type: "object"
+    required: false
+    default: "{}"
+    description: "Y 轴的配置"
+
+AreaSeries:
+  - name: "name"
+    type: "string"
+    required: true
+    description: "系列名称"
+
+  - name: "data"
+    type: "AreaDataPoint[]"
+    required: true
+    description: "系列数据点"
+
+  - name: "color"
+    type: "string"
+    required: true
+    description: "系列主色"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否可见"
+
+  - name: "fillGradient"
+    type: "object"
+    required: false
+    default: ""
+    description: "填充渐变色（可选）"
+
+  - name: "markerStyle"
+    type: "object"
+    required: false
+    default: ""
+    description: "数据点标记样式"
+
+AreaDataPoint:
+  - name: "x"
+    type: "number | string"
+    required: true
+    description: "X 轴值"
+
+  - name: "y"
+    type: "number"
+    required: true
+    description: "Y 轴值"
+
+  - name: "category"
+    type: "string"
+    required: false
+    default: ""
+    description: "分类（用于堆叠面积图）"
+
+  - name: "metadata"
+    type: "Record<string, any>"
+    required: false
+    default: ""
+    description: "自定义元数据"
+
+ThresholdLine:
+  - name: "y"
+    type: "number"
+    required: true
+    description: "Y 轴阈值"
+
+  - name: "color"
+    type: "string"
+    required: true
+    description: "阈值线颜色"
+
+  - name: "label"
+    type: "string"
+    required: false
+    default: ""
+    description: "阈值线标签"
+
+  - name: "showLabel"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否显示标签"
+
+features:
+  - "多种面积图类型（默认、堆叠、百分比、流向）"
+  - "支持渐变填充和数据点标记"
+  - "阈值线显示和自定义样式"
+  - "完整的动画和交互支持"
+  - "主题系统深度集成"
+  - "响应式设计"
+  - "自定义标记样式"
+  - "灵活的填充类型"
+  - "可配置的动画持续时间"
+
+accessibility:
+  role: "img"
+  ariaLabel: "图表区域"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--radius-md)"
+
+examples:
+  basic: |
+    const data: AreaSeries[] = [
+      {
+        name: 'Series 1',
+        color: '#3b82f6',
+        data: [
+          { x: 1, y: 10 },
+          { x: 2, y: 20 },
+          { x: 3, y: 30 }
+        ]
+      }
+    ]
+
+    <ChartArea data={data} />
+
+  gradient_fill: |
+    <ChartArea
+      data={[
+        {
+          name: 'Revenue',
+          color: '#3b82f6',
+          fillGradient: {
+            from: '#3b82f6',
+            to: '#8b5cf6'
+          },
+          data: [...]
+        }
+      ]}
+      fillType="gradient"
+    />
+
+  with_markers: |
+    <ChartArea
+      data={[
+        {
+          name: 'Temperature',
+          color: '#f59e0b',
+          markerStyle: {
+            size: 6,
+            color: '#ffffff',
+            borderColor: '#f59e0b',
+            borderWidth: 2
+          },
+          data: [...]
+        }
+      ]}
+      showMarkers={true}
+    />
+
+  with_thresholds: |
+    <ChartArea
+      data={data}
+      thresholdLines={[
+        {
+          y: 15,
+          color: '#ef4444',
+          label: 'Target',
+          showLabel: true
+        }
+      ]}
+    />
+
+  stacked: |
+    <ChartArea
+      data={data}
+      type="stacked"
+      xAxisLabel="月份"
+      yAxisLabel="用户数"
+      showLegend={true}
+    />
+
+  custom_tooltip: |
+    <ChartArea
+      data={data}
+      tooltipFormatter={(data, series) => (
+        <div>
+          <p>{series.name}</p>
+          <p>值: {data.y}</p>
+        </div>
+      )}
+    />
+
+testing:
+  unit_test: "chart-area.test.tsx"
+  storybook: "chart-area.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "small"
+  render_time: "<16ms"
+  memory_usage: "medium"
+
+related_components:
+  - "ChartContainer"
+  - "LineChart"
+  - "BarChart"
+  - "AreaChart"
+  - "ChartTooltip"
+  - "Legend"
+  - "Axis"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持多种面积图类型"
+      - "集成渐变填充功能"
+      - "添加数据点标记支持"
+      - "实现阈值线显示"
+      - "支持自定义动画持续时间"
+      - "集成工具提示和图例"
+      - "支持灵活的配置选项"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/chart-area"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

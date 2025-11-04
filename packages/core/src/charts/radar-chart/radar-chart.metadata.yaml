@@ -1,0 +1,280 @@
+# RadarChart 组件元数据
+# 符合 Xorigo UI v2025.11.03 组件分类系统
+
+# 基本信息
+name: RadarChart
+displayName: 雷达图
+version: 1.0.0
+category: Charts
+layer: Component
+stability: stable
+description: 用于多维度数据对比分析的雷达图组件，支持多个系列对比、面积填充、网格线等特性
+
+# 分类信息
+classification:
+  # 三层架构
+  layer: Component
+  # 十一类分类
+  category: Charts
+  # 子类别
+  subcategory: DataVisualization
+  # 组件类型
+  type: Visualization
+  # 稳定性标签
+  stability: stable
+
+# 技术栈信息
+techStack:
+  react: ^19.0.0
+  typescript: ^5.9.0
+  framerMotion: ^12.0.0
+  tailwindCss: ^4.0.0
+
+# 功能特性
+features:
+  - 多维度数据展示
+  - 多系列数据对比
+  - 可配置网格线和刻度
+  - 支持面积填充和透明度
+  - 支持数据点标记
+  - 鼠标交互和工具提示
+  - 图例显示
+  - 主题系统集成
+  - Framer Motion 动画支持
+  - TypeScript 类型安全
+  - 可访问性支持
+
+# API 属性
+props:
+  # 必选属性
+  required:
+    - name: data
+      type: RadarSeries[]
+      description: 雷达图数据系列
+      required: true
+
+  # 可选属性
+  optional:
+    - name: showGrid
+      type: boolean
+      default: true
+      description: 是否显示网格线
+
+    - name: showGridLabels
+      type: boolean
+      default: true
+      description: 是否显示网格标签
+
+    - name: showLegend
+      type: boolean
+      default: true
+      description: 是否显示图例
+
+    - name: showTooltip
+      type: boolean
+      default: true
+      description: 是否显示工具提示
+
+    - name: tooltipFormatter
+      type: (data: RadarDataPoint, series: RadarSeries) => React.ReactNode
+      description: 工具提示的自定义渲染函数
+
+    - name: radius
+      type: number
+      default: 120
+      description: 雷达图的半径
+
+    - name: startAngle
+      type: number
+      default: -90
+      description: 雷达图的起始角度（度数）
+
+    - name: className
+      type: string
+      description: 自定义样式类名
+
+    - name: style
+      type: React.CSSProperties
+      description: 自定义样式对象
+
+    - name: height
+      type: number | string
+      default: 400
+      description: 图表高度
+
+    - name: width
+      type: number | string
+      default: '100%'
+      description: 图表宽度
+
+    - name: showCenterPoint
+      type: boolean
+      default: true
+      description: 是否显示中心点
+
+    - name: centerPointSize
+      type: number
+      default: 4
+      description: 中心点大小
+
+    - name: gridLevels
+      type: number
+      default: 5
+      description: 网格线数量
+
+    - name: fillArea
+      type: boolean
+      default: true
+      description: 是否填充区域
+
+    - name: interactive
+      type: boolean
+      default: true
+      description: 是否启用交互
+
+    - name: gridLineStyle
+      type: 'circle' | 'polygon'
+      default: 'circle'
+      description: 网格线样式
+
+    - name: gridLineColor
+      type: string
+      description: 网格线颜色
+
+    - name: labelFontSize
+      type: number
+      default: 12
+      description: 维度标签字体大小
+
+    - name: labelColor
+      type: string
+      description: 维度标签颜色
+
+# 数据结构
+dataStructures:
+  RadarSeries:
+    name: string
+    color: string
+    visible?: boolean
+    fillOpacity?: number
+    showStroke?: boolean
+    data: RadarDataPoint[]
+
+  RadarDataPoint:
+    dimension: string
+    value: number
+    [key: string]: any
+
+# 主题系统
+theming:
+  supported: true
+  system: SevenAxisTheme
+  tokens:
+    - color-surface
+    - color-border
+    - color-text-primary
+    - color-text-secondary
+    - radius-md
+    - radius-sm
+
+# 无障碍支持
+accessibility:
+  role: img
+  ariaLabel: 可自定义
+  keyboard: 支持
+  screenReader: 支持
+
+# 性能指标
+performance:
+  renderTime: < 16ms
+  bundleSize: ~15KB
+  memoryUsage: 低
+  animationDuration: 0.8s
+
+# 浏览器兼容性
+browsers:
+  - Chrome >= 90
+  - Firefox >= 88
+  - Safari >= 14
+  - Edge >= 90
+
+# 测试覆盖
+testing:
+  unitTests: true
+  integrationTests: true
+  visualTests: true
+  accessibilityTests: true
+  coverage: > 90%
+
+# 文档链接
+documentation:
+  usage: /docs/charts/radar-chart
+  api: /docs/api/radar-chart
+  examples: /docs/examples/radar-chart
+  storybook: /storybook/?path=/docs-charts-radarchart
+
+# 相关组件
+related:
+  - ChartContainer
+  - Legend
+  - ChartTooltip
+  - AreaChart
+  - DonutChart
+
+# 更新日志
+changelog:
+  - version: 1.0.0
+    date: '2025-11-04'
+    changes:
+      - 初始版本发布
+      - 实现基本雷达图功能
+      - 支持多系列数据对比
+      - 集成主题系统
+      - 添加动画效果
+      - 支持工具提示和图例
+      - 完成单元测试和文档
+
+# 维护者
+maintainers:
+  - Xorigo UI Team
+
+# 许可证
+license: MIT
+
+# 标签
+tags:
+  - chart
+  - radar
+  - visualization
+  - data
+  - comparison
+  - metrics
+  - analytics
+
+# 优先级
+priority: high
+
+# 使用场景
+useCases:
+  - 产品性能对比
+  - 技能雷达图
+  - 多维度评估分析
+  - KPI 仪表盘
+  - 竞品分析
+  - 团队能力评估
+  - 绩效评价
+
+# 最佳实践
+bestPractices:
+  - 建议维度数量控制在 3-10 个之间
+  - 使用对比明显的颜色区分不同系列
+  - 合理设置透明度以便观察重叠区域
+  - 根据数据范围调整网格线数量
+  - 提供清晰的数据标签和说明
+
+# 注意事项
+notes:
+  - 大数据集可能影响性能，建议优化数据点数量
+  - 移动设备上交互体验可能受限
+  - 负值处理需要特殊考虑
+  - 不同长度的数据系列会自动对齐

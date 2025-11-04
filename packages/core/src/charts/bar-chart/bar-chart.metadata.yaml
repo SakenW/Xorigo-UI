@@ -1,0 +1,370 @@
+# BarChart Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "BarChart"
+displayName: "Bar Chart"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  柱状图组件，为数据可视化提供强大的柱状图展示功能，支持多种图表类型和配置选项。
+  这是图表组件库的核心组件，基于现代 React 和 SVG 技术构建。
+
+  支持垂直和水平柱状图、分组、堆叠、百分比堆叠等多种图表类型，
+  内置网格线、坐标轴、图例和工具提示，流畅的动画过渡效果，
+  完整的 TypeScript 类型支持、主题系统集成等特性。
+
+tags:
+  - charts
+  - bar-chart
+  - column-chart
+  - visualization
+  - categorical-data
+  - multi-series
+  - data-visualization
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cva-standalone"
+  - "charts/chart-container"
+  - "charts/axis"
+  - "charts/legend"
+  - "charts/chart-tooltip"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "DataSeries[]"
+    required: true
+    default: "[]"
+    description: "图表数据系列"
+
+  - name: "direction"
+    type: "'vertical' | 'horizontal'"
+    required: false
+    default: "vertical"
+    description: "柱状图方向"
+
+  - name: "variant"
+    type: "'default' | 'grouped' | 'stacked' | 'percentage'"
+    required: false
+    default: "default"
+    description: "图表变体类型"
+
+  - name: "width"
+    type: "number"
+    required: false
+    default: 800
+    description: "图表宽度"
+
+  - name: "height"
+    type: "number"
+    required: false
+    default: 400
+    description: "图表高度"
+
+  - name: "margin"
+    type: "object"
+    required: false
+    default: "{ top: 20, right: 30, bottom: 40, left: 50 }"
+    description: "图表边距"
+
+  - name: "grid"
+    type: "GridConfig"
+    required: false
+    default: "{ enabled: true }"
+    description: "网格线配置"
+
+  - name: "axis"
+    type: "AxisConfig"
+    required: false
+    default: "{ x: { enabled: true, tickCount: 5 }, y: { enabled: true, tickCount: 5 } }"
+    description: "坐标轴配置"
+
+  - name: "legend"
+    type: "LegendConfig"
+    required: false
+    default: "{ enabled: true, position: 'top', align: 'center' }"
+    description: "图例配置"
+
+  - name: "tooltip"
+    type: "TooltipConfig"
+    required: false
+    default: "{ enabled: true, followCursor: false }"
+    description: "工具提示配置"
+
+  - name: "animate"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否启用动画"
+
+  - name: "animationDuration"
+    type: "number"
+    required: false
+    default: 1000
+    description: "动画持续时间（毫秒）"
+
+  - name: "colors"
+    type: "string[]"
+    required: false
+    default: "DEFAULT_COLORS"
+    description: "自定义颜色调色板"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "自定义 CSS 类名"
+
+  - name: "showValues"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否显示数值标签"
+
+  - name: "barGap"
+    type: "number"
+    required: false
+    default: 4
+    description: "条形之间的间距"
+
+  - name: "barCategoryGap"
+    type: "number"
+    required: false
+    default: 20
+    description: "条形分类之间的间距"
+
+  - name: "onBarClick"
+    type: "(data: DataPoint & { seriesId: string }) => void"
+    required: false
+    default: ""
+    description: "条形点击事件回调"
+
+  - name: "onBarHover"
+    type: "(data: DataPoint & { seriesId: string } | null) => void"
+    required: false
+    default: ""
+    description: "条形悬停事件回调"
+
+DataSeries:
+  - name: "id"
+    type: "string"
+    required: true
+    description: "系列唯一标识"
+
+  - name: "name"
+    type: "string"
+    required: true
+    description: "系列名称"
+
+  - name: "data"
+    type: "DataPoint[]"
+    required: true
+    description: "系列数据点"
+
+  - name: "color"
+    type: "string"
+    required: false
+    default: ""
+    description: "系列颜色"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: true
+    description: "系列是否可见"
+
+DataPoint:
+  - name: "x"
+    type: "number | string"
+    required: true
+    description: "X 轴值（分类）"
+
+  - name: "y"
+    type: "number"
+    required: true
+    description: "Y 轴值"
+
+  - name: "label"
+    type: "string"
+    required: false
+    default: ""
+    description: "数据点标签"
+
+  - name: "metadata"
+    type: "Record<string, any>"
+    required: false
+    default: "{}"
+    description: "自定义数据"
+
+features:
+  - "垂直和水平柱状图"
+  - "多种图表变体（默认、分组、堆叠、百分比堆叠）"
+  - "支持多个数据系列"
+  - "可配置的条形宽度和间距"
+  - "网格线、坐标轴、图例、工具提示"
+  - "流畅的动画过渡效果"
+  - "数值标签显示"
+  - "主题系统集成"
+  - "响应式设计"
+  - "交互式事件处理"
+  - "完整的 TypeScript 类型支持"
+
+accessibility:
+  role: "img"
+  ariaLabel: "柱状图"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--chart-1)"
+    - "var(--chart-2)"
+    - "var(--chart-3)"
+    - "var(--chart-4)"
+    - "var(--chart-5)"
+
+examples:
+  basic: |
+    const data: DataSeries[] = [
+      {
+        id: 'series-1',
+        name: 'Revenue',
+        color: '#3b82f6',
+        data: [
+          { x: 'Jan', y: 4000 },
+          { x: 'Feb', y: 3000 },
+          { x: 'Mar', y: 5000 }
+        ]
+      }
+    ]
+
+    <BarChart data={data} />
+
+  horizontal: |
+    const data: DataSeries[] = [
+      {
+        id: 'series-1',
+        name: 'Sales',
+        color: '#10b981',
+        data: [
+          { x: 'Product A', y: 400 },
+          { x: 'Product B', y: 300 },
+          { x: 'Product C', y: 500 }
+        ]
+      }
+    ]
+
+    <BarChart data={data} direction="horizontal" />
+
+  grouped: |
+    const data: DataSeries[] = [
+      {
+        id: 'desktop',
+        name: 'Desktop',
+        color: '#3b82f6',
+        data: [
+          { x: 'Q1', y: 400 },
+          { x: 'Q2', y: 300 }
+        ]
+      },
+      {
+        id: 'mobile',
+        name: 'Mobile',
+        color: '#ef4444',
+        data: [
+          { x: 'Q1', y: 200 },
+          { x: 'Q2', y: 300 }
+        ]
+      }
+    ]
+
+    <BarChart data={data} variant="grouped" showLegend={true} />
+
+  stacked: |
+    <BarChart
+      data={data}
+      variant="stacked"
+      showLegend={true}
+      showValues={true}
+    />
+
+  with_labels: |
+    <BarChart
+      data={data}
+      axis={{
+        x: { enabled: true, label: 'Month' },
+        y: { enabled: true, label: 'Revenue ($)' }
+      }}
+      showValues={true}
+    />
+
+  animated: |
+    <BarChart
+      data={data}
+      animate={true}
+      animationDuration={1500}
+      variant="grouped"
+    />
+
+testing:
+  unit_test: "bar-chart.test.tsx"
+  storybook: "bar-chart.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "small"
+  render_time: "<16ms"
+  memory_usage: "medium"
+
+related_components:
+  - "ChartContainer"
+  - "ColumnChart"
+  - "LineChart"
+  - "AreaChart"
+  - "PieChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持垂直和水平柱状图"
+      - "支持多种图表变体（默认、分组、堆叠、百分比堆叠）"
+      - "集成工具提示、图例和坐标轴"
+      - "添加动画过渡效果"
+      - "支持数值标签显示"
+      - "支持交互式事件处理"
+      - "完整的 TypeScript 类型支持"
+      - "主题系统集成"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/bar-chart"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

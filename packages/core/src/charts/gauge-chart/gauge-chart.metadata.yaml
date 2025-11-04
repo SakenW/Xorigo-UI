@@ -1,0 +1,291 @@
+# GaugeChart 组件元数据
+# 生成时间: 2025-11-04
+# 版本: 1.0.0
+
+component:
+  name: GaugeChart
+  displayName: 仪表图
+  version: 1.0.0
+  status: stable
+
+category: Charts
+layer: component
+subcategory: Data Visualization
+
+description:
+  short: 用于显示单个数值在指定范围内的进度和状态的仪表图组件
+  long: |
+    GaugeChart 是一个高性能的仪表图组件，支持半圆形和满圆形显示。
+    适用于显示系统负载、CPU使用率、电池电量、性能评分等需要直观展示进度和状态的场景。
+
+features:
+  - 支持半圆形和满圆形仪表
+  - 支持指针显示和动画效果
+  - 支持自定义数值范围（支持负数）
+  - 支持阈值线标记和颜色区分
+  - 支持多种尺寸（sm/md/lg/xl）
+  - 支持自定义小数位精度
+  - 支持自定义颜色和变体
+  - 完整的主题系统集成
+  - 优秀的 TypeScript 类型支持
+  - Framer Motion 12 动画支持
+  - 良好的可访问性支持
+
+technologies:
+  - React: ^19.2.0
+  - TypeScript: ~5.9.3
+  - Tailwind CSS: ^3.4.18
+  - Framer Motion: ^12.23.5
+  - Class Variance Authority: ^0.7.x
+
+props:
+  - name: value
+    type: number
+    required: true
+    description: 当前数值
+    default: 0
+
+  - name: min
+    type: number
+    required: false
+    description: 最小值
+    default: 0
+
+  - name: max
+    type: number
+    required: false
+    description: 最大值
+    default: 100
+
+  - name: thresholds
+    type: GaugeThresholds
+    required: false
+    description: |
+      阈值配置对象：
+      - warning: number - 警告阈值
+      - danger: number - 危险阈值
+    default: undefined
+
+  - name: label
+    type: string
+    required: false
+    description: 仪表盘标签
+    default: undefined
+
+  - name: unit
+    type: string
+    required: false
+    description: 显示单位
+    default: '%'
+
+  - name: decimals
+    type: number
+    required: false
+    description: 小数位数
+    default: 0
+
+  - name: showPointer
+    type: boolean
+    required: false
+    description: 是否显示指针
+    default: true
+
+  - name: showThresholds
+    type: boolean
+    required: false
+    description: 是否显示阈值线
+    default: true
+
+  - name: animated
+    type: boolean
+    required: false
+    description: 是否显示动画
+    default: true
+
+  - name: color
+    type: string
+    required: false
+    description: 自定义颜色
+    default: 'var(--color-primary-500)'
+
+  - name: startAngle
+    type: number
+    required: false
+    description: 起始角度（度）
+    default: 180
+
+  - name: endAngle
+    type: number
+    required: false
+    description: 结束角度（度）
+    default: 0
+
+  - name: variant
+    type: 'solid' | 'gradient'
+    required: false
+    description: 变体样式
+    default: 'solid'
+
+  - name: size
+    type: 'sm' | 'md' | 'lg' | 'xl'
+    required: false
+    description: 组件尺寸
+    default: 'md'
+
+  - name: shape
+    type: 'semi' | 'full'
+    required: false
+    description: 仪表盘形状
+    default: 'semi'
+
+  - name: className
+    type: string
+    required: false
+    description: 自定义类名
+    default: undefined
+
+  - name: children
+    type: React.ReactNode
+    required: false
+    description: 子组件
+    default: undefined
+
+slots:
+  - name: default
+    description: 自定义内容插槽，可放置在仪表图底部
+
+events:
+  - name: onClick
+    type: (event: React.MouseEvent<SVGSVGElement>) => void
+    description: 点击事件处理器
+
+accessibility:
+  role: img
+  ariaLabel: "仪表图: {value}{unit}"
+  title: 组件会生成 <title> 元素用于屏幕阅读器
+  description: 组件会生成 <desc> 元素提供详细描述
+
+keyboardNavigation:
+  supported: true
+  focusable: true
+
+dependencies:
+  - react
+  - framer-motion
+  - class-variance-authority
+  - @/utils/cn
+
+devDependencies:
+  - vitest
+  - @testing-library/react
+  - @storybook/react
+
+examples:
+  basic:
+    description: 基础使用示例
+    code: |
+      <GaugeChart
+        value={75}
+        label="使用率"
+        unit="%"
+      />
+
+  withThresholds:
+    description: 带阈值的仪表图
+    code: |
+      <GaugeChart
+        value={85}
+        label="系统负载"
+        unit="%"
+        thresholds={{
+          warning: 60,
+          danger: 80,
+        }}
+      />
+
+  semiCircle:
+    description: 半圆形仪表图
+    code: |
+      <GaugeChart
+        value={68}
+        shape="semi"
+        label="CPU"
+        unit="%"
+      />
+
+  negativeRange:
+    description: 负数范围
+    code: |
+      <GaugeChart
+        value={-5}
+        min={-10}
+        max={10}
+        label="温度"
+        unit="°C"
+      />
+
+testing:
+  unit: true
+  integration: true
+  e2e: false
+  coverage: true
+
+  testCases:
+    - 基础渲染测试
+    - 属性传递测试
+    - 事件处理测试
+    - 可访问性测试
+    - 数值范围测试
+    - 阈值功能测试
+    - 样式变体测试
+    - 动画效果测试
+
+performance:
+  renders: 1
+  memoized: true
+  reRenders: 5
+  virtualization: false
+
+compatibility:
+  browsers:
+    - Chrome >= 90
+    - Firefox >= 88
+    - Safari >= 14
+    - Edge >= 90
+
+  react:
+    version: '>=18.0.0'
+
+  typescript:
+    version: '>=5.0.0'
+
+changelog:
+  - version: 1.0.0
+    date: '2025-11-04'
+    changes:
+      - 初始版本发布
+      - 支持半圆形和满圆形仪表
+      - 支持阈值线和颜色区分
+      - 支持多种尺寸和变体
+      - 完整的主题系统集成
+      - TypeScript 类型支持
+      - Framer Motion 动画支持
+      - 可访问性支持
+
+license: MIT
+
+maintainers:
+  - Xorigo UI Team
+
+repository:
+  type: git
+  url: 'https://github.com/xorigo-ui/xorigo-ui'
+
+tags:
+  - charts
+  - gauge
+  - progress
+  - visualization
+  - data-display
+  - component
+  - stable

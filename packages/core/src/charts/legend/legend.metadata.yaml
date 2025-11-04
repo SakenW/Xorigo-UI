@@ -1,0 +1,268 @@
+# Legend Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "Legend"
+displayName: "Legend"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  图例组件，为图表提供图例显示，支持多种布局方式、颜色、符号等。
+  这是图表组件库的重要组件，与 ChartContainer 配合使用。
+
+  支持多种布局方式、可配置的对齐方式和间距、自定义颜色和符号、
+  交互式选择和点击等特性。
+
+tags:
+  - charts
+  - legend
+  - labels
+  - symbols
+  - interactive
+  - layout
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "items"
+    type: "LegendItem[]"
+    required: true
+    default: "[]"
+    description: "图例项列表"
+
+  - name: "orientation"
+    type: "'horizontal' | 'vertical'"
+    required: false
+    default: "horizontal"
+    description: "图例的方向"
+
+  - name: "align"
+    type: "'start' | 'center' | 'end'"
+    required: false
+    default: "start"
+    description: "图例的对齐方式"
+
+  - name: "gap"
+    type: "number"
+    required: false
+    default: 16
+    description: "图例项之间的间距"
+
+  - name: "itemSize"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "图例项的大小"
+
+  - name: "title"
+    type: "string"
+    required: false
+    default: ""
+    description: "图例的标题"
+
+  - name: "onItemClick"
+    type: "(item: LegendItem, index: number) => void"
+    required: false
+    default: ""
+    description: "图例项的点击处理函数"
+
+  - name: "onItemCheck"
+    type: "(item: LegendItem, index: number, checked: boolean) => void"
+    required: false
+    default: ""
+    description: "图例项的选中处理函数"
+
+  - name: "showCheck"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否显示选中状态"
+
+  - name: "interactive"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否可交互"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "图例的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+LegendItem:
+  - name: "id"
+    type: "string"
+    required: true
+    description: "图例项的唯一标识"
+
+  - name: "label"
+    type: "string"
+    required: true
+    description: "图例项的标签"
+
+  - name: "color"
+    type: "string"
+    required: true
+    description: "图例项的颜色"
+
+  - name: "symbol"
+    type: "'circle' | 'square' | 'triangle' | 'diamond' | 'line'"
+    required: false
+    default: "circle"
+    description: "图例项的符号类型"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: true
+    description: "图例项是否可见"
+
+  - name: "checked"
+    type: "boolean"
+    required: false
+    default: false
+    description: "图例项的选中状态"
+
+  - name: "customSymbol"
+    type: "React.ReactNode"
+    required: false
+    default: ""
+    description: "自定义符号"
+
+features:
+  - "多种布局方式（水平/垂直）"
+  - "可配置的对齐方式和间距"
+  - "自定义颜色和符号"
+  - "交互式选择和点击"
+  - "主题系统集成"
+  - "动画支持"
+
+accessibility:
+  role: "group"
+  ariaLabel: "图表图例"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-surface-elevated)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--radius-md)"
+    - "var(--radius-sm)"
+    - "var(--color-primary-500)"
+
+examples:
+  basic: |
+    <Legend
+      items={[
+        { id: '1', label: 'Series 1', color: '#3b82f6' },
+        { id: '2', label: 'Series 2', color: '#ef4444' },
+        { id: '3', label: 'Series 3', color: '#10b981' }
+      ]}
+      orientation="horizontal"
+    />
+
+  with_title: |
+    <Legend
+      title="设备类型"
+      items={[
+        { id: '1', label: 'Desktop', color: '#3b82f6' },
+        { id: '2', label: 'Mobile', color: '#ef4444' },
+        { id: '3', label: 'Tablet', color: '#10b981' }
+      ]}
+      orientation="vertical"
+    />
+
+  with_checkboxes: |
+    <Legend
+      items={[
+        { id: '1', label: 'Series 1', color: '#3b82f6', checked: true },
+        { id: '2', label: 'Series 2', color: '#ef4444', checked: false }
+      ]}
+      showCheck={true}
+      onItemCheck={(item, index, checked) => console.log(item, checked)}
+    />
+
+  custom_symbols: |
+    <Legend
+      items={[
+        {
+          id: '1',
+          label: 'Star',
+          color: '#3b82f6',
+          symbol: 'diamond'
+        },
+        {
+          id: '2',
+          label: 'Heart',
+          color: '#ef4444',
+          customSymbol: <HeartIcon />
+        }
+      ]}
+    />
+
+testing:
+  unit_test: "legend.test.tsx"
+  storybook: "legend.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "minimal"
+  render_time: "<16ms"
+  memory_usage: "low"
+
+related_components:
+  - "ChartContainer"
+  - "LineChart"
+  - "BarChart"
+  - "PieChart"
+  - "AreaChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持水平/垂直布局"
+      - "集成多种符号类型"
+      - "添加交互式选择功能"
+      - "支持自定义符号"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/legend"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

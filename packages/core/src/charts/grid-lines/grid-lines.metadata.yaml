@@ -1,0 +1,393 @@
+# GridLines 组件元数据
+# 版本: 1.0.0
+# 最后更新: 2025-11-04
+
+component:
+  name: GridLines
+  displayName: 图表网格线
+  category: Charts
+  layer: component
+  stability: stable
+  version: 1.0.0
+  description: 用于在图表中显示网格线和坐标轴的可复用组件，支持水平和垂直方向配置
+
+attributes:
+  # 基础属性
+  direction:
+    type: 'horizontal | vertical | both'
+    default: 'both'
+    description: '网格线显示方向'
+    required: false
+
+  width:
+    type: 'number'
+    description: '图表区域宽度（像素）'
+    required: true
+
+  height:
+    type: 'number'
+    description: '图表区域高度（像素）'
+    required: true
+
+  margin:
+    type: 'ChartMargin'
+    description: '图表边距配置'
+    required: false
+
+  theme:
+    type: 'light | dark'
+    default: 'light'
+    description: '图表主题'
+    required: false
+
+  # 网格线配置
+  horizontal:
+    type: 'GridLineConfig'
+    description: '水平网格线配置'
+    properties:
+      count:
+        type: 'number'
+        default: 5
+        description: '网格线数量'
+      color:
+        type: 'string'
+        default: 'currentColor'
+        description: '网格线颜色'
+      variant:
+        type: 'default | dashed | dotted | bold'
+        default: 'default'
+        description: '网格线样式变体'
+      opacity:
+        type: 'subtle | medium | strong'
+        default: 'subtle'
+        description: '网格线透明度'
+      showLabels:
+        type: 'boolean'
+        default: true
+        description: '是否显示标签'
+      formatLabel:
+        type: '(index: number, value: number | string) => string'
+        description: '标签格式化函数'
+      spacing:
+        type: 'number'
+        description: '网格线间距（像素）'
+
+  vertical:
+    type: 'GridLineConfig'
+    description: '垂直网格线配置'
+    properties:
+      count:
+        type: 'number'
+        default: 6
+        description: '网格线数量'
+      color:
+        type: 'string'
+        default: 'currentColor'
+        description: '网格线颜色'
+      variant:
+        type: 'default | dashed | dotted | bold'
+        default: 'default'
+        description: '网格线样式变体'
+      opacity:
+        type: 'subtle | medium | strong'
+        default: 'subtle'
+        description: '网格线透明度'
+      showLabels:
+        type: 'boolean'
+        default: true
+        description: '是否显示标签'
+      formatLabel:
+        type: '(index: number, value: number | string) => string'
+        description: '标签格式化函数'
+      spacing:
+        type: 'number'
+        description: '网格线间距（像素）'
+
+  # 坐标轴配置
+  showAxes:
+    type: 'boolean'
+    default: true
+    description: '是否显示坐标轴'
+    required: false
+
+  axisColor:
+    type: 'string'
+    default: 'currentColor'
+    description: '坐标轴颜色'
+    required: false
+
+  axisStyle:
+    type: 'default | bold | none'
+    default: 'default'
+    description: '坐标轴样式'
+    required: false
+
+  # 动画配置
+  animated:
+    type: 'boolean'
+    default: true
+    description: '是否启用动画'
+    required: false
+
+  animationDuration:
+    type: 'number'
+    default: 0.8
+    description: '动画持续时间（秒）'
+    required: false
+
+  animationDelay:
+    type: 'number'
+    default: 0
+    description: '动画延迟（秒）'
+    required: false
+
+  # 数据相关
+  dataRange:
+    type: '{ min: number, max: number, labels?: string[] }'
+    description: '数据范围，用于计算标签值'
+    required: false
+
+  labelClassName:
+    type: 'string'
+    description: '自定义标签类名'
+    required: false
+
+design_system:
+  # 主题系统集成
+  theme_support:
+    - 七轴主题系统
+    - DTCG 设计令牌
+    - 语义化颜色
+    - 自动暗色模式适配
+
+  # 可访问性
+  accessibility:
+    - ARIA 标签支持
+    - 键盘导航
+    - 屏幕阅读器友好
+    - 高对比度支持
+
+  # 响应式
+  responsive: true
+  breakpoints:
+    - sm (640px)
+    - md (768px)
+    - lg (1024px)
+    - xl (1280px)
+    - 2xl (1536px)
+
+implementation:
+  # 技术栈
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+
+  # 特性
+  features:
+    - forwardRef 支持
+    - TypeScript 类型安全
+    - Framer Motion 动画
+    - 主题系统集成
+    - 可配置网格线
+    - 可配置坐标轴
+    - 可配置标签
+    - 动画可配置
+    - 可访问性支持
+    - 响应式设计
+
+  # 依赖
+  dependencies:
+    - react
+    - framer-motion
+    - @xorigo-ui/system
+    - @xorigo-ui/tokens
+    - class-variance-authority
+    - tailwindcss
+
+  # Peer Dependencies
+  peerDependencies:
+    - react: ^18.0.0 || ^19.0.0
+    - framer-motion: ^12.0.0
+
+usage:
+  # 基本用法
+  basic_example: |
+    ```tsx
+    import { GridLines } from '@xorigo-ui/core'
+
+    function Chart() {
+      return (
+        <GridLines
+          width={500}
+          height={300}
+          dataRange={{
+            min: 0,
+            max: 100,
+            labels: ['Q1', 'Q2', 'Q3', 'Q4']
+          }}
+        />
+      )
+    }
+    ```
+
+  # 高级用法
+  advanced_example: |
+    ```tsx
+    import { GridLines } from '@xorigo-ui/core'
+
+    function AdvancedChart() {
+      return (
+        <GridLines
+          width={600}
+          height={400}
+          direction="both"
+          horizontal={{
+            count: 10,
+            variant: 'dashed',
+            opacity: 'medium',
+            showLabels: true,
+            formatLabel: (index, value) => `${value}%`
+          }}
+          vertical={{
+            count: 12,
+            variant: 'dotted',
+            opacity: 'strong'
+          }}
+          showAxes={true}
+          axisStyle="bold"
+          animated={true}
+          animationDuration={1.0}
+          dataRange={{
+            min: 0,
+            max: 100,
+            labels: ['2020', '2021', '2022', '2023', '2024']
+          }}
+        />
+      )
+    }
+    ```
+
+performance:
+  # 性能优化
+  optimizations:
+    - useMemo 缓存计算结果
+    - 动画 GPU 加速
+    - 虚拟化支持（大数据集）
+    - 响应式尺寸计算
+
+  # 基准测试
+  benchmarks:
+    - 初始渲染: < 16ms
+    - 更新渲染: < 8ms
+    - 动画帧率: 60fps
+    - 内存使用: < 5MB
+
+testing:
+  # 测试覆盖
+  coverage:
+    unit_tests: true
+    integration_tests: true
+    accessibility_tests: true
+    visual_regression: true
+    performance_tests: true
+
+  # 测试工具
+  tools:
+    - Vitest
+    - Testing Library
+    - @testing-library/react
+    - @testing-library/jest-dom
+    - @vitest/coverage-v8
+
+  # 测试用例
+  test_cases:
+    - 渲染测试
+    - Props 传递测试
+    - 事件处理测试
+    - 可访问性测试
+    - 主题适配测试
+    - 动画测试
+    - 响应式测试
+
+compatibility:
+  # 浏览器支持
+  browsers:
+    - Chrome >= 90
+    - Firefox >= 88
+    - Safari >= 14
+    - Edge >= 90
+
+  # Node 版本
+  node_versions:
+    - >= 18.0.0
+    - >= 20.0.0 (推荐)
+
+  # 包管理器
+  package_managers:
+    - pnpm (推荐)
+    - npm
+    - yarn
+
+changelog:
+  # 版本历史
+  versions:
+    - version: 1.0.0
+      date: '2025-11-04'
+      changes:
+        - 初始版本发布
+        - 支持水平/垂直网格线
+        - 支持多种网格线样式
+        - 支持坐标轴配置
+        - 支持动画效果
+        - 完整的 TypeScript 类型支持
+        - 集成七轴主题系统
+        - 可访问性支持
+        - 响应式设计
+
+maintenance:
+  # 维护信息
+  owner: Xorigo UI Team
+  contributors:
+    - Xorigo UI Team
+
+  # 更新频率
+  update_frequency: '季度更新'
+
+  # 支持周期
+  support:
+    bug_fixes: 12个月
+    security_updates: 24个月
+
+related_components:
+  # 相关组件
+  - LineChart
+  - BarChart
+  - Chart
+  - ChartContainer
+  - ChartTooltip
+  - ChartLegend
+
+  # 相关包
+  - @xorigo-ui/core
+  - @xorigo-ui/system
+  - @xorigo-ui/tokens
+
+references:
+  # 外部文档
+  - url: 'https://www.framer.com/motion/'
+    title: 'Framer Motion 官方文档'
+  - url: 'https://tailwindcss.com/'
+    title: 'Tailwind CSS 官方文档'
+  - url: 'https://www.typescriptlang.org/'
+    title: 'TypeScript 官方文档'
+
+  # 设计资源
+  - title: 'DTCG 设计令牌规范'
+    url: 'https://design-tokens.github.io/community-group/format/'
+  - title: '七轴主题系统'
+    description: 'Xorigo UI 专有的主题系统架构'
+
+license:
+  type: 'MIT'
+  copyright: '2025 Xorigo UI Team'

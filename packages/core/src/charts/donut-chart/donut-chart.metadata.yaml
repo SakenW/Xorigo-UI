@@ -1,0 +1,294 @@
+# DonutChart Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "DonutChart"
+displayName: "Donut Chart"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  环形图组件，为图表提供环形图显示，支持中心文本、多层环形、百分比显示等特性。
+  这是图表组件库的核心组件，基于 ChartContainer 构建。
+
+  支持可配置的内部半径和厚度、中心文本和副标题支持、百分比显示、
+  图例和工具提示支持、交互式选择、主题系统集成等特性。
+
+tags:
+  - charts
+  - donut-chart
+  - pie-chart
+  - visualization
+  - categorical-data
+  - proportion
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+  - "charts/chart-container"
+  - "charts/legend"
+  - "charts/chart-tooltip"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "DonutDataPoint[]"
+    required: true
+    default: "[]"
+    description: "图表数据"
+
+  - name: "innerRadius"
+    type: "number"
+    required: false
+    default: 0.6
+    description: "环形图的内部半径比例（0-1）"
+
+  - name: "showCenterText"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示中心文本"
+
+  - name: "centerText"
+    type: "string"
+    required: false
+    default: ""
+    description: "中心文本的内容"
+
+  - name: "centerSubtitle"
+    type: "string"
+    required: false
+    default: ""
+    description: "中心文本的副标题"
+
+  - name: "showPercentage"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示百分比"
+
+  - name: "showLegend"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示图例"
+
+  - name: "showTooltip"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示工具提示"
+
+  - name: "tooltipFormatter"
+    type: "(data: DonutDataPoint) => React.ReactNode"
+    required: false
+    default: ""
+    description: "工具提示的自定义渲染函数"
+
+  - name: "showLabels"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否显示连接线"
+
+  - name: "labelPosition"
+    type: "'inside' | 'outside'"
+    required: false
+    default: "outside"
+    description: "标签的位置"
+
+  - name: "startAngle"
+    type: "number"
+    required: false
+    default: -90
+    description: "饼图的起始角度（度数）"
+
+  - name: "thickness"
+    type: "number"
+    required: false
+    default: 20
+    description: "环形图的厚度"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "环形图的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 300
+    description: "图表的高度"
+
+  - name: "width"
+    type: "number | string"
+    required: false
+    default: "100%"
+    description: "图表的宽度"
+
+  - name: "interactive"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否启用选择模式"
+
+  - name: "selectedIndex"
+    type: "number | null"
+    required: false
+    default: null
+    description: "选中数据点的索引"
+
+DonutDataPoint:
+  - name: "id"
+    type: "string | number"
+    required: true
+    description: "数据点的唯一标识"
+
+  - name: "label"
+    type: "string"
+    required: true
+    description: "数据点的标签"
+
+  - name: "value"
+    type: "number"
+    required: true
+    description: "数据点的值"
+
+  - name: "color"
+    type: "string"
+    required: true
+    description: "数据点的颜色"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: true
+    description: "数据点是否可见"
+
+features:
+  - "可配置的内部半径和厚度"
+  - "中心文本和副标题支持"
+  - "百分比显示"
+  - "图例和工具提示支持"
+  - "交互式选择"
+  - "主题系统集成"
+  - "动画过渡效果"
+  - "响应式设计"
+
+accessibility:
+  role: "img"
+  ariaLabel: "环形图"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+
+examples:
+  basic: |
+    const data: DonutDataPoint[] = [
+      { id: '1', label: 'Desktop', value: 400, color: '#3b82f6' },
+      { id: '2', label: 'Mobile', value: 300, color: '#ef4444' },
+      { id: '3', label: 'Tablet', value: 200, color: '#10b981' }
+    ]
+
+    <DonutChart data={data} />
+
+  with_center_text: |
+    <DonutChart
+      data={data}
+      showCenterText={true}
+      centerText="1,000"
+      centerSubtitle="Total Users"
+      showLegend={true}
+    />
+
+  custom_radius: |
+    <DonutChart
+      data={data}
+      innerRadius={0.8}
+      thickness={30}
+      showCenterText={true}
+      centerText="Sales"
+    />
+
+  with_labels: |
+    <DonutChart
+      data={data}
+      showLabels={true}
+      labelPosition="outside"
+      showLegend={true}
+    />
+
+  custom_tooltip: |
+    <DonutChart
+      data={data}
+      tooltipFormatter={(data) => (
+        <div>
+          <p>{data.label}</p>
+          <p>值: {data.value}</p>
+        </div>
+      )}
+    />
+
+testing:
+  unit_test: "donut-chart.test.tsx"
+  storybook: "donut-chart.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "small"
+  render_time: "<16ms"
+  memory_usage: "medium"
+
+related_components:
+  - "ChartContainer"
+  - "PieChart"
+  - "Legend"
+  - "ChartTooltip"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持可配置的内部半径"
+      - "集成中心文本和副标题"
+      - "添加标签和工具提示支持"
+      - "支持交互式选择"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/donut-chart"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

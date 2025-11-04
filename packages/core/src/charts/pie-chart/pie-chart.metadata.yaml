@@ -1,0 +1,440 @@
+# PieChart 组件元数据配置
+# 版本: 1.0.0
+# 更新时间: 2025-11-04
+
+# ============================================================================
+# 基本信息
+# ============================================================================
+
+name: PieChart
+displayName: 饼图组件
+description: 功能完整的数据可视化饼图组件，支持多种变体和交互功能
+version: 1.0.0
+stability: stable
+category: charts
+layer: component
+
+# ============================================================================
+# 技术栈信息
+# ============================================================================
+
+techStack:
+  framework: React 19+
+  language: TypeScript 5.9+
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  rendering: SVG
+
+# ============================================================================
+# 组件特性
+# ============================================================================
+
+features:
+  - 多种饼图变体（标准、环形、爆炸式、同心）
+  - 百分比显示和数据标签
+  - 可配置图例（支持4个位置）
+  - 鼠标悬停交互和工具提示
+  - 基于 Framer Motion 的流畅动画
+  - 完整的主题系统集成
+  - 响应式设计支持
+  - 可访问性支持（ARIA标签）
+  - TypeScript 类型安全
+  - forwardRef 支持
+
+# ============================================================================
+# 组件API
+# ============================================================================
+
+props:
+  # 必需属性
+  - name: data
+    type: PieChartDataItem[]
+    required: true
+    description: 饼图数据源
+    default: null
+
+  # 可选属性
+  - name: variant
+    type: 'standard' | 'donut' | 'exploded' | 'nested'
+    required: false
+    description: 饼图变体类型
+    default: 'standard'
+
+  - name: size
+    type: 'sm' | 'md' | 'lg' | 'xl'
+    required: false
+    description: 组件尺寸
+    default: 'md'
+
+  - name: radius
+    type: number
+    required: false
+    description: 饼图半径（像素）
+    default: null
+
+  - name: innerRadius
+    type: number
+    required: false
+    description: 饼图内径（环形图专用，像素）
+    default: null
+
+  - name: centerText
+    type: React.ReactNode
+    required: false
+    description: 中心文本内容
+    default: null
+
+  - name: showPercentage
+    type: boolean
+    required: false
+    description: 是否显示百分比
+    default: true
+
+  - name: showLabels
+    type: boolean
+    required: false
+    description: 是否显示数据标签
+    default: true
+
+  - name: showLegend
+    type: boolean
+    required: false
+    description: 是否显示图例
+    default: true
+
+  - name: legendPosition
+    type: 'right' | 'bottom' | 'left' | 'top'
+    required: false
+    description: 图例位置
+    default: 'right'
+
+  - name: explodeOffset
+    type: number
+    required: false
+    description: 爆炸式分离距离
+    default: 8
+
+  - name: showTooltip
+    type: boolean
+    required: false
+    description: 是否显示工具提示
+    default: true
+
+  - name: animationDuration
+    type: number
+    required: false
+    description: 动画持续时间
+    default: 0.5
+
+  - name: colorTheme
+    type: string[]
+    required: false
+    description: 自定义颜色主题
+    default: null
+
+  - name: minAngle
+    type: number
+    required: false
+    description: 最小扇形角度（小于此角度的扇形将合并为"其他"）
+    default: 0
+
+  - name: emptyText
+    type: string
+    required: false
+    description: 无数据时显示的文本
+    default: '暂无数据'
+
+  - name: className
+    type: string
+    required: false
+    description: 自定义样式类名
+    default: null
+
+  - name: children
+    type: React.ReactNode
+    required: false
+    description: 子组件
+    default: null
+
+  - name: disabled
+    type: boolean
+    required: false
+    description: 禁用状态
+    default: false
+
+# ============================================================================
+# 数据结构
+# ============================================================================
+
+dataStructure:
+  PieChartDataItem:
+    - name: label
+      type: string
+      required: true
+      description: 数据标签
+
+    - name: value
+      type: number
+      required: true
+      description: 数据值
+
+    - name: color
+      type: string
+      required: false
+      description: 自定义颜色
+
+    - name: highlighted
+      type: boolean
+      required: false
+      description: 是否突出显示
+
+    - name: className
+      type: string
+      required: false
+      description: 自定义样式类名
+
+# ============================================================================
+# 变体定义
+# ============================================================================
+
+variants:
+  standard:
+    name: 标准饼图
+    description: 传统的完整饼图
+    useCase: 市场份额、资源分布
+
+  donut:
+    name: 环形饼图
+    description: 中心空心的饼图，支持中心文本
+    useCase: 总计展示、中心标识
+
+  exploded:
+    name: 爆炸式饼图
+    description: 扇形之间有间隙，突出重要数据
+    useCase: 突出重点、强调分析
+
+  nested:
+    name: 同心饼图
+    description: 多层嵌套的饼图
+    useCase: 多维度数据对比
+
+# ============================================================================
+# 尺寸定义
+# ============================================================================
+
+sizes:
+  sm:
+    name: 小
+    radius: 80
+    description: 适合小容器或密集布局
+
+  md:
+    name: 中
+    radius: 100
+    description: 默认尺寸，适合大多数场景
+
+  lg:
+    name: 大
+    radius: 120
+    description: 适合重要数据展示
+
+  xl:
+    name: 超大
+    radius: 150
+    description: 适合全屏展示或重点分析
+
+# ============================================================================
+# 使用场景
+# ============================================================================
+
+useCases:
+  - 市场份额分析
+  - 销售数据分布
+  - 用户群体分析
+  - 资源占用统计
+  - 投票结果展示
+  - 产品类别占比
+  - 时间分配分析
+  - 成本结构分析
+
+# ============================================================================
+# 交互行为
+# ============================================================================
+
+interactions:
+  - 鼠标悬停高亮扇形
+  - 工具提示显示详细信息
+  - 爆炸式突出显示重要数据
+  - 响应式图例布局
+  - 流畅的动画过渡
+
+# ============================================================================
+# 无障碍性
+# ============================================================================
+
+accessibility:
+  ariaRole: img
+  ariaLabel: true
+  keyboardNavigation: false
+  screenReaderSupport: true
+  colorContrast: 符合 WCAG 2.1 AA 标准
+
+# ============================================================================
+# 性能特征
+# ============================================================================
+
+performance:
+  renderingMode: SVG
+  virtualization: false
+  lazyLoad: false
+  memoization: useMemo for data processing
+  animationFrame: 60fps
+  maxDataPoints: 无限制（建议不超过50个数据点以保证性能）
+
+# ============================================================================
+# 主题集成
+# ============================================================================
+
+themeIntegration:
+  system: 七轴主题系统
+  tokens:
+    - color.primary
+    - color.secondary
+    - color.accent
+    - color.muted-foreground
+    - color.destructive
+    - color.warning
+    - color.success
+    - color.info
+  customThemes: true
+  darkMode: true
+  highContrast: true
+
+# ============================================================================
+# 依赖关系
+# ============================================================================
+
+dependencies:
+  - react: '>=19.0.0'
+  - framer-motion: '>=12.0.0'
+  - tailwindcss: '>=4.0.0'
+
+peerDependencies:
+  - react: '>=19.0.0'
+  - react-dom: '>=19.0.0'
+
+devDependencies:
+  - vitest: '>=2.0.0'
+  - @testing-library/react: '>=16.0.0'
+
+# ============================================================================
+# 测试覆盖
+# ============================================================================
+
+testing:
+  unit: true
+  integration: true
+  accessibility: true
+  visual: false
+  e2e: false
+  snapshot: true
+  coverage: >80%
+
+# ============================================================================
+# 文档链接
+# ============================================================================
+
+documentation:
+  usage: /docs/components/pie-chart/usage.md
+  api: /docs/components/pie-chart/api.md
+  examples: /docs/components/pie-chart/examples.md
+  storybook: /storybook/?path=/docs/charts-piechart--default
+
+# ============================================================================
+# 更新日志
+# ============================================================================
+
+changelog:
+  - version: 1.0.0
+    date: 2025-11-04
+    changes:
+      - 初始版本发布
+      - 支持4种饼图变体
+      - 完整的TypeScript类型支持
+      - Framer Motion动画集成
+      - 七轴主题系统集成
+      - 完整的测试套件
+      - Storybook故事文件
+
+# ============================================================================
+# 作者信息
+# ============================================================================
+
+authors:
+  - name: Xorigo UI Team
+    email: team@xorigo-ui.com
+    role: 组件维护者
+
+# ============================================================================
+# 许可证
+# ============================================================================
+
+license: MIT
+
+# ============================================================================
+# 贡献指南
+# ============================================================================
+
+contributing:
+  guideline: /CONTRIBUTING.md
+  codeStyle: /docs/guidelines/code-style.md
+  commitMessage: /docs/guidelines/commit-message.md
+  pullRequest: /docs/development/pull-request.md
+
+# ============================================================================
+# 发布信息
+# ============================================================================
+
+release:
+  npmPackage: '@xorigo-ui/core'
+  distPath: /packages/core/dist
+  typesPath: /packages/core/dist/types
+  sourcePath: /packages/core/src/charts/pie-chart
+
+# ============================================================================
+# 兼容性
+# ============================================================================
+
+compatibility:
+  node: '>=18.0.0'
+  browsers:
+    - Chrome >= 90
+    - Firefox >= 90
+    - Safari >= 14
+    - Edge >= 90
+  react: '>=19.0.0'
+  typescript: '>=5.9.0'
+
+# ============================================================================
+# 已知问题
+# ============================================================================
+
+knownIssues: []
+
+# ============================================================================
+# 路线图
+# ============================================================================
+
+roadmap:
+  - version: 1.1.0
+    features:
+      - 支持极坐标图
+      - 增加更多动画效果
+  - version: 1.2.0
+    features:
+      - 支持渐变填充
+      - 支持图片填充
+  - version: 2.0.0
+    features:
+      - 3D饼图支持
+      - 交互式数据筛选

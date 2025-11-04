@@ -1,0 +1,245 @@
+# ChartTooltip Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "ChartTooltip"
+displayName: "Chart Tooltip"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  图表提示组件，为图表提供统一的提示信息显示，支持多种格式和样式。
+  这是图表组件库的重要组件，与 ChartContainer 配合使用。
+
+  支持多种显示位置和样式、可配置的内容格式、动画过渡效果、
+  主题系统集成、无障碍访问支持等特性。
+
+tags:
+  - charts
+  - tooltip
+  - popover
+  - hint
+  - interactive
+  - overlay
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "TooltipData"
+    required: false
+    default: "undefined"
+    description: "提示数据"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: false
+    description: "提示的显示状态"
+
+  - name: "position"
+    type: "'top' | 'bottom' | 'left' | 'right' | 'center'"
+    required: false
+    default: "top"
+    description: "提示的位置"
+
+  - name: "showArrow"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示箭头"
+
+  - name: "variant"
+    type: "'default' | 'card' | 'minimal'"
+    required: false
+    default: "default"
+    description: "提示的变体"
+
+  - name: "maxWidth"
+    type: "number | string"
+    required: false
+    default: 250
+    description: "提示的最大宽度"
+
+  - name: "offset"
+    type: "number"
+    required: false
+    default: 8
+    description: "提示的偏移量"
+
+  - name: "delay"
+    type: "number"
+    required: false
+    default: 0
+    description: "提示的延迟显示时间（毫秒）"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "提示的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+TooltipData:
+  - name: "id"
+    type: "string"
+    required: true
+    description: "提示的唯一标识"
+
+  - name: "title"
+    type: "string"
+    required: false
+    default: ""
+    description: "提示的标题"
+
+  - name: "content"
+    type: "string | React.ReactNode"
+    required: true
+    description: "提示的内容"
+
+  - name: "x"
+    type: "number"
+    required: true
+    description: "提示的位置坐标"
+
+  - name: "y"
+    type: "number"
+    required: true
+    description: "提示的位置坐标"
+
+  - name: "value"
+    type: "number | string"
+    required: false
+    default: ""
+    description: "提示的值（用于排序和格式化）"
+
+  - name: "color"
+    type: "string"
+    required: false
+    default: ""
+    description: "提示的颜色"
+
+features:
+  - "多种显示位置和样式"
+  - "可配置的内容格式"
+  - "动画过渡效果"
+  - "主题系统集成"
+  - "无障碍访问支持"
+  - "自定义偏移和延迟"
+  - "多种变体支持"
+
+accessibility:
+  role: "tooltip"
+  ariaLabel: "可自定义"
+  keyboardNavigation: false
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-surface-elevated)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--radius-md)"
+    - "var(--radius-lg)"
+    - "var(--radius-sm)"
+
+examples:
+  basic: |
+    const data = {
+      id: '1',
+      title: 'Tooltip Title',
+      content: 'Tooltip Content',
+      x: 100,
+      y: 100
+    }
+
+    <ChartTooltip data={data} visible={true} position="top" />
+
+  custom_content: |
+    <ChartTooltip
+      data={{
+        id: '1',
+        title: 'Custom Content',
+        content: (
+          <div>
+            <p>Custom React Content</p>
+            <ul>
+              <li>Item 1</li>
+              <li>Item 2</li>
+            </ul>
+          </div>
+        ),
+        x: 100,
+        y: 100
+      }}
+      visible={true}
+    />
+
+  different_variants: |
+    <ChartTooltip
+      data={{ id: '1', content: 'Content', x: 100, y: 100 }}
+      visible={true}
+      variant="card"
+      showArrow={false}
+    />
+
+testing:
+  unit_test: "chart-tooltip.test.tsx"
+  storybook: "chart-tooltip.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "minimal"
+  render_time: "<16ms"
+  memory_usage: "low"
+
+related_components:
+  - "ChartContainer"
+  - "LineChart"
+  - "BarChart"
+  - "PieChart"
+  - "AreaChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持多种位置和变体"
+      - "集成动画过渡效果"
+      - "添加无障碍访问支持"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/chart-tooltip"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

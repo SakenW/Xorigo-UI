@@ -1,0 +1,584 @@
+# ============================================================================
+# Heatmap Component Metadata
+# ============================================================================
+# 热力图组件元数据配置文件
+# 定义组件的分类、版本、依赖关系等信息
+#
+# 此文件是组件文档系统的核心，用于：
+# 1. 组件分类和组织
+# 2. API 文档自动生成
+# 3. Storybook 文档增强
+# 4. 组件库索引
+# 5. 自动化工具集成
+#
+# @author Xorigo UI Team
+# @version 1.0.0
+# @since 2025-11-04
+
+# ============================================================================
+# 基础信息
+# ============================================================================
+
+component:
+  # 组件名称（技术名称）
+  name: Heatmap
+
+  # 显示名称（用户友好名称）
+  displayName: 热力图
+
+  # 组件分类（主分类）
+  category: Charts
+
+  # 子分类
+  subcategory: Data Visualization
+
+  # 组件描述
+  description: |
+    热力图组件用于数据可视化，以颜色深浅表示数值大小。
+    支持矩阵数据展示、颜色映射、悬停交互、图例显示等功能。
+    适用于展示二维数据的分布和关联关系。
+
+  # 关键词标签（用于搜索和索引）
+  keywords:
+    - heatmap
+    - chart
+    - data visualization
+    - matrix
+    - color scale
+    - 图表
+    - 热力图
+    - 数据可视化
+
+# ============================================================================
+# 组件分类信息
+# ============================================================================
+
+classification:
+  # 组件类型
+  type: component
+
+  # 组件层级
+  layer: component
+
+  # 稳定性状态
+  stability: stable
+
+  # 版本号
+  version: "1.0.0"
+
+  # 成熟度等级
+  maturity: production-ready
+
+  # 组件层级定义
+  hierarchy:
+    # 层级名称
+    level: component
+
+    # 父组件
+    parent: ChartContainer
+
+    # 子组件列表
+    children: []
+
+  # 功能标签
+  tags:
+    - data-viz          # 数据可视化
+    - interactive       # 交互功能
+    - responsive        # 响应式
+    - animated          # 动画支持
+    - accessible        # 可访问性
+
+# ============================================================================
+# 技术栈信息
+# ============================================================================
+
+techStack:
+  # React 版本要求
+  react: "^19.0.0"
+
+  # TypeScript 版本要求
+  typescript: "~5.9.0"
+
+  # Framer Motion 版本要求
+  framerMotion: "^12.0.0"
+
+  # Tailwind CSS 版本要求
+  tailwindCss: "^4.0.0"
+
+# ============================================================================
+# 依赖关系
+# ============================================================================
+
+dependencies:
+  # 对等依赖（需要用户安装的包）
+  peer:
+    - react
+    - react-dom
+
+  # 内部依赖（同一项目内的模块）
+  internal:
+    - ChartContainer
+    - cn
+
+  # 外部依赖（第三方库）
+  external:
+    - framer-motion
+
+# ============================================================================
+# 文件信息
+# ============================================================================
+
+files:
+  # 主组件文件
+  main: "./heatmap.tsx"
+
+  # 测试文件
+  test: "./heatmap.test.tsx"
+
+  # Storybook 故事文件
+  stories: "./heatmap.stories.tsx"
+
+  # 元数据文件
+  metadata: "./heatmap.metadata.yaml"
+
+  # 导出文件
+  index: "./index.ts"
+
+# ============================================================================
+# API 文档
+# ============================================================================
+
+props:
+  # 必需属性
+  required:
+    - data: HeatmapSeries[]
+      description: 热力图数据
+      type: HeatmapSeries[]
+      default: []
+
+  # 可选属性
+  optional:
+    # 最小值配置
+    - minValue:
+        description: 最小值（用于颜色映射）
+        type: number
+        default: undefined
+        usage: 当需要自定义颜色映射范围时设置
+
+    # 最大值配置
+    - maxValue:
+        description: 最大值（用于颜色映射）
+        type: number
+        default: undefined
+        usage: 与 minValue 配合使用自定义颜色范围
+
+    # 显示数值标签
+    - showValues:
+        description: 是否显示数值标签
+        type: boolean
+        default: false
+        usage: 在单元格中显示具体数值
+
+    # 显示工具提示
+    - showTooltip:
+        description: 是否显示工具提示
+        type: boolean
+        default: true
+        usage: 鼠标悬停时显示详细信息
+
+    # 显示图例
+    - showLegend:
+        description: 是否显示图例
+        type: boolean
+        default: true
+        usage: 在底部显示颜色映射图例
+
+    # 显示网格线
+    - showGrid:
+        description: 是否显示网格线
+        type: boolean
+        default: true
+        usage: 在单元格之间显示辅助网格线
+
+    # 单元格间距
+    - cellGap:
+        description: 单元格之间的间距
+        type: number
+        default: 2
+        usage: 调整单元格的可视间距
+
+    # 单元格圆角
+    - cellRadius:
+        description: 单元格的圆角
+        type: number
+        default: 4
+        usage: 控制单元格的圆角大小
+
+    # 颜色调色板
+    - colorScale:
+        description: 颜色调色板
+        type: string[]
+        default: "['#3b82f6', '#06b6d4', '#10b981', '#84cc16', '#eab308', '#f59e0b', '#ef4444']"
+        usage: 自定义颜色映射方案
+
+    # 工具提示格式化函数
+    - tooltipFormatter:
+        description: 自定义工具提示渲染函数
+        type: (data: HeatmapDataPoint, series: HeatmapSeries) => React.ReactNode
+        default: undefined
+        usage: 自定义工具提示的内容和样式
+
+    # 数值格式化函数
+    - formatValue:
+        description: 格式化数值的函数
+        type: (value: number) => string
+        default: undefined
+        usage: 自定义数值显示格式（如货币、百分比等）
+
+    # 动画持续时间
+    - animationDuration:
+        description: 动画持续时间（秒）
+        type: number
+        default: 1.2
+        usage: 控制组件加载动画的时长
+
+    # 单元格点击事件
+    - onCellClick:
+        description: 单元格点击事件
+        type: (data: HeatmapDataPoint, series: HeatmapSeries) => void
+        default: undefined
+        usage: 处理单元格被点击时的逻辑
+
+    # 单元格悬停事件
+    - onCellHover:
+        description: 单元格悬停事件
+        type: (data: HeatmapDataPoint | null, series: HeatmapSeries | null) => void
+        default: undefined
+        usage: 跟踪用户的悬停状态
+
+    # 图表宽度
+    - width:
+        description: 图表的宽度
+        type: number | string
+        default: "100%"
+        usage: 设置图表宽度，支持数值或百分比
+
+    # 图表高度
+    - height:
+        description: 图表的高度
+        type: number | string
+        default: 400
+        usage: 设置图表高度，支持数值或百分比
+
+    # 容器内边距
+    - padding:
+        description: 容器的内边距
+        type: number
+        default: 60
+        usage: 控制图表内容与容器的距离
+
+    # 自定义样式类名
+    - className:
+        description: 自定义样式类名
+        type: string
+        default: undefined
+        usage: 添加额外的 CSS 类名
+
+    # 自定义样式对象
+    - style:
+        description: 自定义样式
+        type: React.CSSProperties
+        default: undefined
+        usage: 内联样式配置
+
+# ============================================================================
+# 事件
+# ============================================================================
+
+events:
+  # 单元格点击事件
+  onCellClick:
+    description: 单元格被点击时触发
+    signature: |
+      onCellClick: (data: HeatmapDataPoint, series: HeatmapSeries) => void
+    payload:
+      - name: data
+        type: HeatmapDataPoint
+        description: 单元格数据（包含 x、y、value 等属性）
+      - name: series
+        type: HeatmapSeries
+        description: 数据系列信息
+
+  # 单元格悬停事件
+  onCellHover:
+    description: 单元格悬停时触发
+    signature: |
+      onCellHover: (data: HeatmapDataPoint | null, series: HeatmapSeries | null) => void
+    payload:
+      - name: data
+        type: HeatmapDataPoint | null
+        description: 单元格数据（悬停时），离开时为 null
+      - name: series
+        type: HeatmapSeries | null
+        description: 数据系列（悬停时），离开时为 null
+
+# ============================================================================
+# 类型定义
+# ============================================================================
+
+types:
+  # 热力图数据点
+  HeatmapDataPoint:
+    description: 热力图中的单个数据点
+    properties:
+      # X 轴标签（列标识）
+      x:
+        type: string
+        description: X 轴标签（列）
+        required: true
+
+      # Y 轴标签（行标识）
+      y:
+        type: string
+        description: Y 轴标签（行）
+        required: true
+
+      # 数值（用于颜色映射）
+      value:
+        type: number
+        description: 数值（用于颜色映射）
+        required: true
+
+      # 扩展属性
+      [key: string]:
+        type: any
+        description: 自定义数据（可扩展）
+
+  # 热力图数据系列
+  HeatmapSeries:
+    description: 热力图的数据系列
+    properties:
+      # 系列名称
+      name:
+        type: string
+        description: 系列名称
+        required: true
+
+      # 系列数据
+      data:
+        type: HeatmapDataPoint[]
+        description: 系列数据点数组
+        required: true
+
+      # 是否可见
+      visible:
+        type: boolean
+        description: 系列是否可见
+        default: true
+        required: false
+
+# ============================================================================
+# 使用示例
+# ============================================================================
+
+examples:
+  # 基础用法
+  basic:
+    description: 基础用法
+    code: |
+      const data = [
+        {
+          name: '产品销售',
+          data: [
+            { x: '北京', y: '1月', value: 120 },
+            { x: '北京', y: '2月', value: 180 },
+            { x: '北京', y: '3月', value: 220 }
+          ]
+        }
+      ]
+
+      <Heatmap data={data} />
+
+  # 显示数值标签
+  withValues:
+    description: 显示数值标签
+    code: |
+      <Heatmap
+        data={data}
+        showValues={true}
+        formatValue={(value) => `${value}万`}
+      />
+
+  # 自定义样式
+  customStyle:
+    description: 自定义样式
+    code: |
+      <Heatmap
+        data={data}
+        cellGap={8}
+        cellRadius={0}
+        colorScale={['#f0f9ff', '#0ea5e9', '#0369a1']}
+      />
+
+  # 交互功能
+  interactive:
+    description: 交互功能
+    code: |
+      <Heatmap
+        data={data}
+        onCellClick={(data, series) => console.log('点击', data)}
+        onCellHover={(data, series) => console.log('悬停', data)}
+        showTooltip={true}
+      />
+
+# ============================================================================
+# 主题系统
+# ============================================================================
+
+theme:
+  # 是否集成主题系统
+  integration: true
+
+  # 使用的 CSS 变量
+  variables:
+    - --color-surface      # 表面颜色
+    - --color-border      # 边框颜色
+    - --color-text-primary # 主要文字颜色
+    - --color-text-secondary # 次要文字颜色
+
+  # 主题支持说明
+  notes: |
+    - 支持深色/浅色主题自动切换
+    - 使用 CSS 自定义属性确保一致性
+    - 文字颜色根据背景自动调整
+
+# ============================================================================
+# 性能信息
+# ============================================================================
+
+performance:
+  # 打包后大小（估算）
+  bundleSize: "~15KB"
+
+  # 渲染复杂度
+  renderComplexity: O(n*m)
+
+  # 动画开销
+  animationCost: medium
+
+  # GPU 加速
+  gpuAccelerated: true
+
+  # 性能优化建议
+  optimizationTips:
+    - 大数据集建议关闭数值标签
+    - 合理设置动画持续时间
+    - 使用工具提示代替密集的数值显示
+
+# ============================================================================
+# 兼容性
+# ============================================================================
+
+compatibility:
+  # 浏览器支持
+  browsers:
+    - Chrome >= 88
+    - Firefox >= 85
+    - Safari >= 14
+    - Edge >= 88
+
+  # 屏幕阅读器支持
+  screenReaders:
+    - NVDA
+    - JAWS
+    - VoiceOver
+    - TalkBack
+
+# ============================================================================
+# 无障碍性
+# ============================================================================
+
+accessibility:
+  # ARIA 角色
+  ariaRole: img
+
+  # aria-label 支持
+  ariaLabel: configurable
+
+  # 键盘导航
+  keyboardNavigation: true
+
+  # 色盲支持
+  colorBlindSupport: partial
+
+  # 高对比度模式
+  highContrastMode: supported
+
+  # 无障碍性说明
+  notes: |
+    - 提供可配置的 aria-label
+    - 支持键盘导航
+    - 数值标签在不同背景下自动调整颜色
+    - 支持屏幕阅读器
+
+# ============================================================================
+# 测试覆盖
+# ============================================================================
+
+testing:
+  # 单元测试
+  unitTest: true
+
+  # 集成测试
+  integrationTest: true
+
+  # 视觉测试
+  visualTest: true
+
+  # 可访问性测试
+  a11yTest: true
+
+  # 覆盖率要求
+  coverage: "> 85%"
+
+  # 测试说明
+  notes: |
+    - 包含完整的单元测试套件
+    - 覆盖渲染、交互、格式化等场景
+    - 包含边界情况和异常处理测试
+
+# ============================================================================
+# 维护信息
+# ============================================================================
+
+maintenance:
+  # 维护团队
+  owner: Xorigo UI Team
+
+  # 最后更新时间
+  lastUpdated: "2025-11-04"
+
+  # 变更日志
+  changelog: ./CHANGELOG.md
+
+  # 问题跟踪
+  issues: ./ISSUES.md
+
+  # 贡献指南
+  contributing: ./CONTRIBUTING.md
+
+# ============================================================================
+# 许可证
+# ============================================================================
+
+license:
+  # 许可证类型
+  type: MIT
+
+  # 版权信息
+  copyright: "2025 Xorigo UI Team"
+
+  # 许可证说明
+  notes: |
+    使用 MIT 许可证，允许自由使用、修改和分发
+    需要保留原始版权声明

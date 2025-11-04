@@ -1,0 +1,420 @@
+# Sparkline 组件元数据
+# 版本: 1.0.0
+# 稳定性: stable
+# 分类: Charts
+
+metadata:
+  name: sparkline
+  displayName: Sparkline
+  description: 轻量级迷你线图组件，用于展示小型趋势数据和变化
+  category: Charts
+  subcategory: Data Visualization
+  level: component
+  stability: stable
+  version: 1.0.0
+  author: Xorigo UI Team
+  license: MIT
+
+# 技术规格
+technical:
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  dependencies:
+    - react
+    - react-dom
+    - framer-motion
+  peerDependencies:
+    - react: '>=18.0.0'
+    - framer-motion: '>=12.0.0'
+
+# 组件属性
+props:
+  data:
+    type: SparklinePoint[]
+    required: true
+    description: 数据点数组
+    default: []
+    example: |
+      [
+        { value: 10, label: '1月' },
+        { value: 20, label: '2月' },
+        { value: 15, label: '3月' }
+      ]
+
+  width:
+    type: number
+    required: false
+    description: 图表宽度
+    default: 120
+    example: 120
+
+  height:
+    type: number
+    required: false
+    description: 图表高度
+    default: 40
+    example: 40
+
+  variant:
+    type: 'linear' | 'curve' | 'area'
+    required: false
+    description: 线型样式
+    default: 'linear'
+    options:
+      - linear: 直线连接数据点
+      - curve: 贝塞尔曲线平滑连接
+      - area: 填充曲线下方的区域
+    example: 'curve'
+
+  showPoints:
+    type: boolean
+    required: false
+    description: 是否显示数据点
+    default: true
+    example: true
+
+  showExtremes:
+    type: boolean
+    required: false
+    description: 是否显示最高/最低点标记
+    default: false
+    example: true
+
+  showThreshold:
+    type: boolean
+    required: false
+    description: 是否显示阈值线
+    default: false
+    example: true
+
+  thresholdValue:
+    type: number
+    required: false
+    description: 阈值线数值
+    default: undefined
+    example: 20
+
+  showChange:
+    type: boolean
+    required: false
+    description: 是否显示百分比变化
+    default: false
+    example: true
+
+  colorVariant:
+    type: 'primary' | 'secondary' | 'success' | 'danger' | 'warning'
+    required: false
+    description: 颜色变体
+    default: 'primary'
+    options:
+      - primary: 蓝色主题
+      - secondary: 灰色主题
+      - success: 绿色主题（正增长）
+      - danger: 红色主题（负增长）
+      - warning: 黄色主题（警告）
+    example: 'success'
+
+  animated:
+    type: boolean
+    required: false
+    description: 是否启用动画
+    default: true
+    example: true
+
+  className:
+    type: string
+    required: false
+    description: 自定义类名
+    default: ''
+    example: 'my-custom-sparkline'
+
+  onHover:
+    type: (point: SparklinePoint | null) => void
+    required: false
+    description: 鼠标悬停回调
+    default: undefined
+    example: (point) => console.log(point)
+
+  onClick:
+    type: (point: SparklinePoint | null) => void
+    required: false
+    description: 点击回调
+    default: undefined
+    example: (point) => setSelected(point)
+
+  renderTooltip:
+    type: (point: SparklinePoint) => React.ReactNode
+    required: false
+    description: 工具提示自定义渲染
+    default: undefined
+    example: (point) => <div>{point.value}</div>
+
+  regions:
+    type: Array<{ start: number; end: number; color?: string; opacity?: number }>
+    required: false
+    description: 区域标记配置
+    default: undefined
+    example: |
+      [
+        { start: 0, end: 30, color: 'blue', opacity: 0.2 },
+        { start: 70, end: 100, color: 'green', opacity: 0.1 }
+      ]
+
+# 接口定义
+interfaces:
+  SparklinePoint:
+    description: 数据点接口
+    properties:
+      value:
+        type: number
+        description: 数值
+        required: true
+      label:
+        type: string
+        description: 标签
+        required: false
+      timestamp:
+        type: number
+        description: 时间戳
+        required: false
+
+  SparklineProps:
+    description: 组件属性接口
+    extends: React.SVGProps<SVGSVGElement>
+    properties: 参见 props 配置
+
+# 功能特性
+features:
+  - name: 多种线型支持
+    description: 支持直线、曲线和面积三种线型
+    enabled: true
+
+  - name: 数据点标记
+    description: 可选的圆点标记显示每个数据点
+    enabled: true
+
+  - name: 极值点标记
+    description: 自动标记最高点和最低点
+    enabled: true
+
+  - name: 阈值线
+    description: 在指定数值处显示虚线用于对比
+    enabled: true
+
+  - name: 区域标记
+    description: 支持自定义区域高亮显示
+    enabled: true
+
+  - name: 百分比变化
+    description: 显示起始值和结束值的百分比变化
+    enabled: true
+
+  - name: 动画效果
+    description: 使用 Framer Motion 实现流畅动画
+    enabled: true
+
+  - name: 交互效果
+    description: 支持鼠标悬停和点击交互
+    enabled: true
+
+  - name: 工具提示
+    description: 支持自定义工具提示内容
+    enabled: true
+
+  - name: 主题系统集成
+    description: 完全集成七轴主题系统
+    enabled: true
+
+  - name: TypeScript 类型安全
+    description: 提供完整的类型定义
+    enabled: true
+
+  - name: forwardRef 支持
+    description: 支持 ref 转发
+    enabled: true
+
+  - name: 可访问性
+    description: 遵循可访问性标准
+    enabled: true
+
+# 使用场景
+useCases:
+  - scenario: 表格数据摘要
+    description: 在表格中展示数据的趋势摘要
+    example: |
+      <Sparkline data={salesData} width={100} height={30} />
+
+  - scenario: 仪表盘 KPI
+    description: 在仪表盘中展示关键指标的趋势
+    example: |
+      <Sparkline
+        data={kpiData}
+        showChange={true}
+        colorVariant="success"
+      />
+
+  - scenario: 列表项迷你图
+    description: 在列表项中嵌入迷你图表
+    example: |
+      <Sparkline
+        data={trendData}
+        width={80}
+        height={24}
+        variant="linear"
+      />
+
+  - scenario: 实时数据监控
+    description: 展示实时数据的趋势变化
+    example: |
+      <Sparkline
+        data={realtimeData}
+        animated={true}
+        onHover={handleHover}
+      />
+
+  - scenario: 性能指标展示
+    description: 展示系统或应用性能指标
+    example: |
+      <Sparkline
+        data={performanceData}
+        showThreshold={true}
+        thresholdValue={threshold}
+        regions={alertRegions}
+      />
+
+# 最佳实践
+bestPractices:
+  - title: 选择合适的线型
+    description: |
+      - 线性：适合简洁展示，数据点少
+      - 曲线：适合展示趋势，数据点较多
+      - 面积：适合展示累积变化或占比
+
+  - title: 合理设置尺寸
+    description: |
+      - 表格中使用：宽度 80-100，高度 24-30
+      - 仪表盘中使用：宽度 120-200，高度 40-60
+      - 列表项中使用：宽度 60-80，高度 20-24
+
+  - title: 颜色选择指南
+    description: |
+      - primary：一般趋势展示
+      - success：正增长、良好状态
+      - danger：负增长、警示状态
+      - warning：需要注意的状态
+      - secondary：次要或中性数据
+
+  - title: 动画优化
+    description: |
+      - 大量数据点时建议关闭动画以提升性能
+      - 实时更新数据时启用动画
+      - 首次渲染时建议启用动画
+
+# 相关组件
+relatedComponents:
+  - name: Chart
+    relationship: parent
+    description: 完整的图表组件，可包含多个 sparkline
+
+  - name: Stat
+    relationship: sibling
+    description: 统计卡片，可组合使用展示完整信息
+
+  - name: Table
+    relationship: parent
+    description: 表格组件，sparkline 常用于表格单元格中
+
+  - name: List
+    relationship: parent
+    description: 列表组件，sparkline 可作为列表项的一部分
+
+# 性能优化
+performance:
+  memoization:
+    - calculatePath
+    - findExtremes
+    - change calculation
+
+  optimizations:
+    - 使用 useMemo 缓存计算结果
+    - 虚拟化支持大量数据点（未来版本）
+    - requestAnimationFrame 优化动画
+
+# 测试覆盖
+testing:
+  unitTests:
+    - 基础渲染测试
+    - 属性传递测试
+    - 线型变体测试
+    - 显示选项测试
+    - 交互功能测试
+    - 边缘情况测试
+    - 可访问性测试
+    - 动画测试
+
+  coverage:
+    statements: 95%
+    branches: 90%
+    functions: 95%
+    lines: 95%
+
+# 变更日志
+changelog:
+  - version: 1.0.0
+    date: 2025-11-04
+    changes:
+      - 初始版本发布
+      - 支持三种线型（线性、曲线、面积）
+      - 支持数据点标记和极值点标记
+      - 支持阈值线和区域标记
+      - 支持动画和交互效果
+      - 支持工具提示自定义
+      - 集成主题系统
+      - 完整的 TypeScript 类型定义
+      - 95% 测试覆盖率
+
+# 路线图
+roadmap:
+  - version: 1.1.0
+    planned: Q1 2026
+    features:
+      - 虚拟化支持大量数据点
+      - 更多图表类型（柱状、散点）
+      - 缩放和平移功能
+
+  - version: 1.2.0
+    planned: Q2 2026
+    features:
+      - 数据导出功能
+      - 更多动画效果
+      - 自定义坐标系支持
+
+  - version: 2.0.0
+    planned: Q3 2026
+    features:
+      - Canvas 渲染支持
+      - WebGL 加速（大数据集）
+      - 3D 图表支持
+
+# 贡献指南
+contributing:
+  development:
+    - 克隆仓库：git clone https://github.com/xorigo-ui/core.git
+    - 安装依赖：pnpm install
+    - 启动开发服务器：pnpm dev:core
+    - 运行测试：pnpm test
+    - 构建组件：pnpm build
+
+  guidelines:
+    - 遵循组件设计原则
+    - 保持 API 一致性
+    - 编写完整的测试
+    - 更新文档和故事
+    - 遵循 TypeScript 类型规范
+
+# 许可证
+license:
+  type: MIT
+  copyright: 2025 Xorigo UI Team

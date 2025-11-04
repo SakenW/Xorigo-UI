@@ -1,0 +1,314 @@
+# ColumnChart Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "ColumnChart"
+displayName: "Column Chart"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  条形图组件，为图表提供条形图显示，支持垂直条形图、分组、堆叠等特性。
+  这是图表组件库的核心组件，基于 ChartContainer 构建。
+
+  支持多种条形图类型（默认、分组、堆叠）、支持多个数据系列、
+  可配置的条形宽度和间距、网格线、图例、工具提示支持、
+  主题系统集成等特性。
+
+tags:
+  - charts
+  - column-chart
+  - bar-chart
+  - visualization
+  - categorical-data
+  - multi-series
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+  - "charts/chart-container"
+  - "charts/axis"
+  - "charts/legend"
+  - "charts/chart-tooltip"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "ColumnSeries[]"
+    required: true
+    default: "[]"
+    description: "图表数据系列"
+
+  - name: "type"
+    type: "'default' | 'grouped' | 'stacked'"
+    required: false
+    default: "default"
+    description: "条形图的类型"
+
+  - name: "barWidth"
+    type: "number"
+    required: false
+    default: 40
+    description: "条形的宽度"
+
+  - name: "barGap"
+    type: "number"
+    required: false
+    default: 2
+    description: "条形之间的间距"
+
+  - name: "showGrid"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示网格线"
+
+  - name: "showLegend"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示图例"
+
+  - name: "showAxis"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示坐标轴"
+
+  - name: "showTooltip"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示工具提示"
+
+  - name: "tooltipFormatter"
+    type: "(data: ColumnDataPoint, series: ColumnSeries) => React.ReactNode"
+    required: false
+    default: ""
+    description: "工具提示的自定义渲染函数"
+
+  - name: "xAxisLabel"
+    type: "string"
+    required: false
+    default: ""
+    description: "X 轴的标签"
+
+  - name: "yAxisLabel"
+    type: "string"
+    required: false
+    default: ""
+    description: "Y 轴的标签"
+
+  - name: "showBorder"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示边框"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "条形图的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 300
+    description: "图表的高度"
+
+  - name: "width"
+    type: "number | string"
+    required: false
+    default: "100%"
+    description: "图表的宽度"
+
+  - name: "xAxisConfig"
+    type: "object"
+    required: false
+    default: "{}"
+    description: "X 轴的配置"
+
+  - name: "yAxisConfig"
+    type: "object"
+    required: false
+    default: "{}"
+    description: "Y 轴的配置"
+
+ColumnSeries:
+  - name: "name"
+    type: "string"
+    required: true
+    description: "系列名称"
+
+  - name: "data"
+    type: "ColumnDataPoint[]"
+    required: true
+    description: "系列数据"
+
+  - name: "color"
+    type: "string"
+    required: true
+    description: "系列颜色"
+
+  - name: "visible"
+    type: "boolean"
+    required: false
+    default: true
+    description: "系列是否可见"
+
+ColumnDataPoint:
+  - name: "x"
+    type: "number | string"
+    required: true
+    description: "X 轴值（分类）"
+
+  - name: "y"
+    type: "number"
+    required: true
+    description: "Y 轴值"
+
+  - name: "category"
+    type: "string"
+    required: false
+    default: ""
+    description: "系列名称"
+
+features:
+  - "多种条形图类型（默认、分组、堆叠）"
+  - "支持多个数据系列"
+  - "可配置的条形宽度和间距"
+  - "网格线、图例、工具提示支持"
+  - "主题系统集成"
+  - "动画过渡效果"
+  - "响应式设计"
+
+accessibility:
+  role: "img"
+  ariaLabel: "条形图"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+
+examples:
+  basic: |
+    const data: ColumnSeries[] = [
+      {
+        name: 'Series 1',
+        color: '#3b82f6',
+        data: [
+          { x: 1, y: 10 },
+          { x: 2, y: 20 },
+          { x: 3, y: 30 }
+        ]
+      }
+    ]
+
+    <ColumnChart data={data} />
+
+  multiple_series: |
+    const data: ColumnSeries[] = [
+      {
+        name: 'Desktop',
+        color: '#3b82f6',
+        data: [
+          { x: 1, y: 400 },
+          { x: 2, y: 300 },
+          { x: 3, y: 200 }
+        ]
+      },
+      {
+        name: 'Mobile',
+        color: '#ef4444',
+        data: [
+          { x: 1, y: 200 },
+          { x: 2, y: 300 },
+          { x: 3, y: 250 }
+        ]
+      }
+    ]
+
+    <ColumnChart data={data} showLegend={true} />
+
+  grouped: |
+    <ColumnChart
+      data={data}
+      type="grouped"
+      xAxisLabel="月份"
+      yAxisLabel="用户数"
+      showLegend={true}
+    />
+
+  custom_tooltip: |
+    <ColumnChart
+      data={data}
+      tooltipFormatter={(data, series) => (
+        <div>
+          <p>{series.name}</p>
+          <p>值: {data.y}</p>
+        </div>
+      )}
+    />
+
+testing:
+  unit_test: "column-chart.test.tsx"
+  storybook: "column-chart.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "small"
+  render_time: "<16ms"
+  memory_usage: "medium"
+
+related_components:
+  - "ChartContainer"
+  - "BarChart"
+  - "LineChart"
+  - "AreaChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持多种条形图类型"
+      - "集成工具提示和图例"
+      - "添加动画过渡效果"
+      - "支持自定义格式化函数"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/column-chart"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

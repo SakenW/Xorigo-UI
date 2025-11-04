@@ -1,0 +1,366 @@
+# FunnelChart Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "FunnelChart"
+displayName: "Funnel Chart"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  漏斗图组件，为图表提供漏斗图显示，支持转化漏斗、销售漏斗等多种场景。
+  基于 ChartContainer 构建，集成七轴主题系统和 Framer Motion 动画。
+
+  支持转化漏斗、销售漏斗、招聘漏斗等场景，支持百分比、数值和标签显示，
+  支持图例和工具提示，支持多种样式变体和响应式设计。
+
+tags:
+  - charts
+  - funnel-chart
+  - visualization
+  - conversion-funnel
+  - sales-funnel
+  - customer-journey
+  - multi-stage
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+  - "charts/chart-container"
+  - "charts/legend"
+  - "charts/chart-tooltip"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "data"
+    type: "FunnelDataPoint[]"
+    required: true
+    default: "[]"
+    description: "漏斗图数据"
+
+  - name: "direction"
+    type: "'top-to-bottom' | 'bottom-to-top'"
+    required: false
+    default: "top-to-bottom"
+    description: "漏斗图的方向"
+
+  - name: "showPercentage"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示百分比"
+
+  - name: "showValue"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示数值"
+
+  - name: "showLabel"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示标签"
+
+  - name: "showLegend"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示图例"
+
+  - name: "showTooltip"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示工具提示"
+
+  - name: "tooltipFormatter"
+    type: "(data: FunnelDataPoint, index: number) => React.ReactNode"
+    required: false
+    default: ""
+    description: "工具提示的自定义渲染函数"
+
+  - name: "onStageClick"
+    type: "(data: FunnelDataPoint, index: number) => void"
+    required: false
+    default: ""
+    description: "阶段点击回调"
+
+  - name: "stageHeight"
+    type: "number"
+    required: false
+    default: 60
+    description: "阶段高度"
+
+  - name: "stageGap"
+    type: "number"
+    required: false
+    default: 8
+    description: "阶段之间的间距"
+
+  - name: "animationDuration"
+    type: "number"
+    required: false
+    default: 0.8
+    description: "动画持续时间（秒）"
+
+  - name: "variant"
+    type: "'default' | 'gradient' | 'solid'"
+    required: false
+    default: "default"
+    description: "漏斗图的样式变体"
+
+  - name: "showStroke"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示描边"
+
+  - name: "formatPercentage"
+    type: "(percentage: number) => string"
+    required: false
+    default: ""
+    description: "自定义百分比格式化函数"
+
+  - name: "formatValue"
+    type: "(value: number) => string"
+    required: false
+    default: ""
+    description: "自定义数值格式化函数"
+
+  - name: "legendPosition"
+    type: "'top' | 'right' | 'bottom' | 'left'"
+    required: false
+    default: "bottom"
+    description: "图例位置"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 400
+    description: "图表的高度"
+
+  - name: "width"
+    type: "number | string"
+    required: false
+    default: "100%"
+    description: "图表的宽度"
+
+  - name: "maxWidth"
+    type: "number | string"
+    required: false
+    default: "100%"
+    description: "最大宽度（漏斗图顶部宽度）"
+
+  - name: "minWidth"
+    type: "number | string"
+    required: false
+    default: 100
+    description: "最小宽度（漏斗图底部宽度）"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "漏斗图的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+FunnelDataPoint:
+  - name: "label"
+    type: "string"
+    required: true
+    description: "阶段名称"
+
+  - name: "value"
+    type: "number"
+    required: true
+    description: "阶段数值"
+
+  - name: "color"
+    type: "string"
+    required: false
+    default: ""
+    description: "阶段颜色"
+
+  - name: "description"
+    type: "string"
+    required: false
+    default: ""
+    description: "阶段描述"
+
+  - name: "index"
+    type: "number"
+    required: false
+    description: "阶段索引（内部使用）"
+
+  - name: "percentage"
+    type: "number"
+    required: false
+    description: "阶段百分比（内部计算）"
+
+features:
+  - "支持转化漏斗、销售漏斗等多种场景"
+  - "可配置百分比、数值和标签显示"
+  - "支持图例和工具提示"
+  - "集成主题系统和动画效果"
+  - "支持多种样式变体（默认、渐变、实心）"
+  - "支持顶部到底部和底部到顶部两种方向"
+  - "支持响应式设计"
+  - "支持自定义颜色和格式化函数"
+  - "支持阶段点击事件"
+  - "可配置图例位置"
+
+accessibility:
+  role: "img"
+  ariaLabel: "漏斗图"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-primary)"
+    - "var(--color-accent)"
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+
+examples:
+  basic: |
+    const data: FunnelDataPoint[] = [
+      { label: '访问', value: 1000 },
+      { label: '注册', value: 800 },
+      { label: '激活', value: 600 },
+      { label: '付费', value: 400 }
+    ]
+
+    <FunnelChart data={data} />
+
+  sales_funnel: |
+    const data: FunnelDataPoint[] = [
+      { label: '访问', value: 10000, description: '网站访问量' },
+      { label: '注册', value: 8000, description: '用户注册' },
+      { label: '试用', value: 6000, description: '开始试用' },
+      { label: '付费', value: 4000, description: '完成付费' },
+      { label: '留存', value: 2000, description: '持续使用' }
+    ]
+
+    <FunnelChart
+      data={data}
+      showPercentage={true}
+      showValue={true}
+      showLegend={true}
+      variant="gradient"
+    />
+
+  conversion_funnel: |
+    const data: FunnelDataPoint[] = [
+      { label: '首页访问', value: 5000 },
+      { label: '产品页', value: 3500 },
+      { label: '购物车', value: 2100 },
+      { label: '结算', value: 1050 },
+      { label: '完成购买', value: 630 }
+    ]
+
+    <FunnelChart
+      data={data}
+      showPercentage={true}
+      showValue={true}
+      variant="solid"
+      legendPosition="right"
+    />
+
+  custom_colors: |
+    const data: FunnelDataPoint[] = [
+      { label: '阶段 1', value: 100, color: '#ff6b6b' },
+      { label: '阶段 2', value: 80, color: '#4ecdc4' },
+      { label: '阶段 3', value: 60, color: '#45b7d1' },
+      { label: '阶段 4', value: 40, color: '#f9ca24' }
+    ]
+
+    <FunnelChart data={data} variant="solid" />
+
+  custom_formatting: |
+    const data: FunnelDataPoint[] = [
+      { label: '访问', value: 10000 },
+      { label: '注册', value: 8000 }
+    ]
+
+    <FunnelChart
+      data={data}
+      formatValue={(v) => `¥${v.toLocaleString()}`}
+      formatPercentage={(p) => `${p.toFixed(1)}%`}
+    />
+
+  with_click_handler: |
+    const data: FunnelDataPoint[] = [
+      { label: '阶段 1', value: 100 },
+      { label: '阶段 2', value: 80 }
+    ]
+
+    <FunnelChart
+      data={data}
+      onStageClick={(data, index) => {
+        console.log(`点击了阶段 ${index}: ${data.label}`)
+      }}
+    />
+
+testing:
+  unit_test: "funnel-chart.test.tsx"
+  storybook: "funnel-chart.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "small"
+  render_time: "<16ms"
+  memory_usage: "medium"
+
+related_components:
+  - "ChartContainer"
+  - "BarChart"
+  - "LineChart"
+  - "AreaChart"
+  - "DonutChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持转化漏斗和销售漏斗"
+      - "集成百分比、数值和标签显示"
+      - "支持图例和工具提示"
+      - "添加多种样式变体"
+      - "支持动画过渡效果"
+      - "支持自定义格式化函数"
+      - "支持阶段点击事件"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/funnel-chart"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

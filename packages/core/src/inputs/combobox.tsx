@@ -4,7 +4,7 @@ import React, { forwardRef, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../utils/cn'
 import { Check, ChevronsUpDown, X } from 'lucide-react'
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from './command'
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '../interactive/command'
 
 // ========== 类型定义 ==========
 

@@ -1,0 +1,191 @@
+# ChartContainer Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "ChartContainer"
+displayName: "Chart Container"
+category: "charts"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  图表容器组件，为各种图表提供统一的容器和布局。
+  这是图表组件库的基础组件，其他图表都会基于它来构建。
+
+  支持响应式设计、可配置的内边距和外边距、宽高比控制、
+  图例位置配置、网格线显示控制等特性。
+
+tags:
+  - charts
+  - container
+  - layout
+  - responsive
+  - base-component
+  - foundation
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "charts"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 3
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "title"
+    type: "string"
+    required: false
+    default: ""
+    description: "图表的标题或描述"
+
+  - name: "ariaLabel"
+    type: "string"
+    required: false
+    default: ""
+    description: "图表的描述性文本（用于无障碍访问）"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 300
+    description: "图表的高度"
+
+  - name: "aspectRatio"
+    type: "number | string"
+    required: false
+    default: ""
+    description: "图表的宽高比（仅在未设置高度时生效）"
+
+  - name: "padding"
+    type: "number | string"
+    required: false
+    default: 20
+    description: "容器的内边距"
+
+  - name: "margin"
+    type: "number | string"
+    required: false
+    default: ""
+    description: "容器的外边距"
+
+  - name: "legendPosition"
+    type: "'top' | 'bottom' | 'left' | 'right' | 'none'"
+    required: false
+    default: "top"
+    description: "图例的位置"
+
+  - name: "showGrid"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示网格线"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "容器的样式类名"
+
+  - name: "style"
+    type: "React.CSSProperties"
+    required: false
+    default: "{}"
+    description: "自定义样式"
+
+  - name: "children"
+    type: "React.ReactNode"
+    required: true
+    default: ""
+    description: "图表内容"
+
+features:
+  - "响应式布局支持"
+  - "可配置的内边距和外边距"
+  - "宽高比控制"
+  - "图例位置配置"
+  - "网格线显示控制"
+  - "无障碍访问支持"
+  - "主题系统集成"
+  - "动画支持"
+
+accessibility:
+  role: "img"
+  ariaLabel: "可自定义"
+  keyboardNavigation: true
+  screenReaderSupport: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-surface)"
+    - "var(--color-border)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--radius-md)"
+
+examples:
+  basic: |
+    <ChartContainer title="销售数据" height={300}>
+      <LineChart data={salesData} />
+    </ChartContainer>
+
+  with_legend: |
+    <ChartContainer
+      title="用户增长"
+      legendPosition="right"
+      showGrid={true}
+    >
+      <BarChart data={userGrowthData} />
+    </ChartContainer>
+
+  custom_styling: |
+    <ChartContainer
+      className="custom-chart"
+      style={{ border: '2px solid blue' }}
+    >
+      <PieChart data={distributionData} />
+    </ChartContainer>
+
+testing:
+  unit_test: "chart-container.test.tsx"
+  storybook: "chart-container.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "minimal"
+  render_time: "<16ms"
+  memory_usage: "low"
+
+related_components:
+  - "LineChart"
+  - "BarChart"
+  - "PieChart"
+  - "AreaChart"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持基础的图表容器功能"
+      - "集成主题系统和响应式设计"
+      - "添加无障碍访问支持"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Charts Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/charts/chart-container"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"
