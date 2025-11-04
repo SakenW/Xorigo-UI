@@ -39,9 +39,9 @@
     "framer-motion": "^12.0.0"
   },
   "dependencies": {
-    "@xorigo-ui/primitives": "workspace:*",
-    "@xorigo-ui/tokens": "workspace:*",
-    "@xorigo-ui/system": "workspace:*",
+    "@xorigo-ui/primitives": "file:../tokens",
+    "@xorigo-ui/tokens": "file:../tokens",
+    "@xorigo-ui/system": "file:../tokens",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.1"
   },

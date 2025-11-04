@@ -15,15 +15,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // 启用 App Router
-  experimental: {
-    // 移除已弃用的 turbo 配置
-  },
-
   // 允许外部开发环境访问
   allowedDevOrigins: ['192.168.50.110'],
 
-  // 新的 turbopack 配置
+  // turbopack 配置 (Next.js 16 优化)
   turbopack: {
     resolveAlias: {
       '@': './src',

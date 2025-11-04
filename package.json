@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Xorigo UI Monorepo - Modern UI component library with Next.js 15 website",
+  "description": "Xorigo UI Monorepo - Modern UI component library with Next.js 16 website",
   "workspaces": [
     "packages/*",
     "apps/*"

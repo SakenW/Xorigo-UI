@@ -42,7 +42,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@xorigo-ui/tokens": "workspace:*",
+    "@xorigo-ui/tokens": "file:../tokens",
     "framer-motion": "^12.23.5",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0"

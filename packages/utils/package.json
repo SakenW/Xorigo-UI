@@ -49,8 +49,8 @@
   "author": "Xorigo UI Team",
   "license": "MIT",
   "dependencies": {
-    "@xorigo-ui/tokens": "workspace:*",
-    "@xorigo-ui/system": "workspace:*",
+    "@xorigo-ui/tokens": "file:../tokens",
+    "@xorigo-ui/system": "file:../tokens",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.1",
     "culori": "^4.0.2",
