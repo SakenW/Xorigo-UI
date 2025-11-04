@@ -2,7 +2,7 @@
 
 import React, { forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { cn } from '../utils'
 import { AlertCircle, CheckCircle, AlertTriangle, Info, X } from 'lucide-react'
 

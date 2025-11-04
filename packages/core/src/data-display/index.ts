@@ -1,37 +1,46 @@
 /**
- * Data Display Components - 数据展示组件集合
+ * 📊 Data Display · 数据展示 - v2025.11.03
  *
- * 提供数据展示、图表、表格等可视化组件
- * 用于展示复杂的数据关系和信息
+ * 数据展示、表格、列表等可视化组件
+ * 不改变数据，只负责展示当前状态
+ *
+ * @version 2025.11.03
+ * @category Data Display
+ * @layer component
  */
 
-// 临时导出空对象，避免依赖问题
-// TODO: 修复组件依赖问题后重新导出
+// 表格组件
+export { Table } from './table'
+export { TableHeader } from './table-header'
+export { TableBody } from './table-body'
+export { TableRow } from './table-row'
+export { TableCell } from './table-cell'
 
-export const DataDisplayComponents = {
-  // 基础数据展示组件
-  Table: null,
-  List: null,
-  Accordion: null,
-  Carousel: null,
+// 列表组件
+export { List } from './list'
 
-  // 图表组件
-  Chart: null,
-  BarChart: null,
-  LineChart: null,
-  PieChart: null,
-  Gauge: null,
-  Stat: null
-} as any
+// 手风琴组件
+export { Accordion } from './accordion'
+export { AccordionItem } from './accordion-item'
+export { AccordionHeader } from './accordion-header'
+export { AccordionContent } from './accordion-content'
 
-// 类型导出
-export interface TableProps {}
-export interface ListProps {}
-export interface AccordionProps {}
-export interface CarouselProps {}
-export interface ChartProps {}
-export interface BarChartProps {}
-export interface LineChartProps {}
-export interface PieChartProps {}
-export interface GaugeProps {}
-export interface StatProps {}
+// 轮播组件
+export { Carousel } from './carousel'
+export { CarouselItem } from './carousel-item'
+export { CarouselControl } from './carousel-control'
+
+// 卡片组件
+export { AdvancedCard } from './advanced-card'
+export { ComponentCard } from './component-card'
+
+// 代码展示
+export { CodeBlock } from './code-block'
+
+// 统计组件
+export { Stat } from './stat'
+
+// 图表基础
+export { Chart } from './chart'
+
+// 重新导出所有类型（从各自的组件文件中）

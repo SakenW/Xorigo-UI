@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { cn } from '../utils/cn'
 
 // Spinner 变体配置

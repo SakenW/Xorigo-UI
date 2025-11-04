@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '../utils'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 
 // 线性进度条变体
 const progressVariants = cva(

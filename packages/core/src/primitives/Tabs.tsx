@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { useTheme } from '@xorigo-ui/system'
 import { cn } from '../utils'
 import { ChevronLeft, ChevronRight, X, Plus } from 'lucide-react'

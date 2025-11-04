@@ -1,6 +1,6 @@
 import React from 'react'
 import { SSRMotionDiv, SSRAnimatePresence } from '../motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { cn } from '../utils'
 import { semanticColors } from '@xorigo-ui/tokens'
 

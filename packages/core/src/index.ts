@@ -1,66 +1,96 @@
 /**
- * Xorigo UI Core - 向后兼容聚合包
+ * Xorigo UI Core - v2025.11.03 架构统一导出
  *
- * 这个包重新导出所有其他子包，提供统一的入口点
- * 符合新的架构层次设计
+ * Three-Layer + Eleven-Category + Stability Labels 架构
+ * 符合 v2025.11.03 架构规范的统一入口点
+ *
+ * @version 2025.11.03
+ * @category System
+ * @layer system
  */
 
 // ============================================================================
-// Layer 1: 基础设施层
+// Layer 1: 基础设施层 (Infrastructure Layer)
 // ============================================================================
 
-// 设计令牌系统
-export * from '@xorigo-ui/tokens'
+// 设计基础 (Foundations · 设计基础)
+export * from './foundations'
 
-// 主题系统和提供者
-export * from '@xorigo-ui/system'
-
-// 工具函数 - 注意：与下面的 ./utils 有冲突，暂时注释
-// export * from '@xorigo-ui/utils'
+// 系统能力 (System · 系统能力)
+export * from './system'
 
 // AI智能系统
 export * from './ai'
 
-// 系统工具和配方库 - 暂时注释避免冲突
-// export * from './system-tools/unified-theme-recipes'
-// export * from './system-tools/theme-utils'
-// 旧版本配方库，保留兼容性但标记为废弃
-// export * from './system-tools/complete-theme-recipes'
-// export * from './system-tools/workbench-recipes'
-
 // ============================================================================
-// Layer 2: 组件层 (Components Layer) - 棕地架构 v1.5.1
+// Layer 2: 组件层 (Component Layer) - 十一类分类
 // ============================================================================
 
-// 表单组件 (包含所有输入控件)
+// 1. Layout · 布局
+export * from './layout'
+
+// 2. Navigation · 导航
+export * from './navigation'
+
+// 3. Inputs & Controls · 输入与控制
+export * from './inputs'
+
+// 4. Forms · 表单结构与校验
 export * from './form'
 
-// 覆盖层组件
-export * from './overlays'
+// 5. Data Display · 数据展示
+export * from './data-display'
 
-// 反馈组件
+// 6. Typography & Media · 文本与媒体
+export * from './typography-media'
+
+// 7. Charts · 图表（可视化）
+export * from './charts'
+
+// 8. Feedback & Status · 反馈与状态
 export * from './feedback'
 
-// 原子组件 (基础UI组件) - 注意：与下面的 @xorigo-ui/primitives 有冲突
-// export * from './primitives'
+// 9. Overlays · 浮层
+export * from './overlays'
 
-// 数据展示组件 (包含图表和可视化)
-// export * from './data-display' // 暂时注释，避免依赖问题
+// 10. Interactive · 高阶交互
+export * from './interactive'
 
-// 布局组件 (容器和结构)
-// export * from './layout' // 暂时注释，避免依赖问题
+// 11. Utilities · 工具性组件
+export * from './utilities'
 
-// 导航组件 (菜单和导航)
-// export * from './navigation' // 暂时注释，避免依赖问题
+// ============================================================================
+// Layer 3: 原子级组件 (Primitives Layer)
+// ============================================================================
 
-// 特效组件 (动画和视觉效果)
-export * from './effects'
+// 原子级组件 (Primitives · 原子级组件)
+export * from './primitives'
 
-// 动画组件 (Framer Motion集成)
+// ============================================================================
+// 特殊功能层 (Special Features)
+// ============================================================================
+
+// 动画系统 (Motion · 动画效果)
 export * from './motion'
 
-// 主题组件 (主题相关) - 重构后使用新的主题映射模块
-export { useTheme } from './theme/UseTheme'
+// 特效组件 (Effects · 视觉特效)
+export * from './effects'
+
+// 展示组件 (Showcase · 演示组件)
+export * from './showcase'
+
+// 工具函数 (Utils · 工具函数)
+export * from './utils'
+
+// ============================================================================
+// Legacy 兼容性导出 (Legacy Compatibility)
+// ============================================================================
+
+// 向后兼容的品牌组件
+export * from './branding/navbar-origin-logo'
+
+// 向后兼容的主题组件
+export { useSevenAxisTheme as useTheme } from './theme/use-theme'
 export { AdvancedThemeSwitcher } from './feedback/advanced-theme-switcher'
 export {
   mapRecipeToSystem,
@@ -74,34 +104,5 @@ export {
   SYSTEM_TO_RECIPE_MAPPING
 } from './theme'
 
-// 交互组件 (高级交互)
-// export * from './interactive' // 暂时注释，避免依赖问题
-
-// 加载组件 (加载指示器)
-// export * from './loading' // 暂时注释，避免依赖问题
-
-// 工具和实用程序
-// export * from './utilities' // 暂时注释，避免依赖问题
-export * from './utils'
-
-// 展示组件 (演示和示例)
-// export * from './showcase' // 暂时注释，避免依赖问题
-
-// 服务端渲染组件
-// export * from './ssr' // 暂时注释，避免依赖问题
-
-// 基础原子组件 (Legacy - 逐步迁移)
-export * from '@xorigo-ui/primitives'
-
-// 营销页面组件（临时解决方案）
+// 向后兼容的营销组件
 export * from './MarketingComponents'
-
-// 品牌组件
-export * from './branding/NavbarOriginLogo'
-
-// ============================================================================
-// Legacy 兼容性导出
-// ============================================================================
-
-// 为了向后兼容，保留一些旧的导出别名
-// export { default as default } from '@xorigo-ui/primitives' // 暂时注释掉，避免default导出问题

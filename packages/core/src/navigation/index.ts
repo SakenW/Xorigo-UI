@@ -1,34 +1,46 @@
 /**
- * Navigation Components - 导航组件集合
+ * 🧭 Navigation · 导航 - v2025.11.03
  *
- * 提供导航菜单、面包屑、分页等导航组件
- * 用于页面和应用的导航功能
+ * 页面导航和路由相关组件
+ * 包含菜单、面包屑、分页等导航元素
+ *
+ * @version 2025.11.03
+ * @category Navigation
+ * @layer component
  */
 
-// 临时导出空对象，避免依赖问题
-// TODO: 修复组件依赖问题后重新导出
+// 基础导航组件
+export { BasicHeader } from './basic-header'
+export { Navbar } from './navbar'
+export { Sidebar } from './sidebar'
+export { Menu } from './menu'
 
-export const NavigationComponents = {
-  BasicHeader: null,
-  Breadcrumb: null,
-  ComponentNav: null,
-  DataTable: null,
-  Menu: null,
-  Navbar: null,
-  Pagination: null,
-  ResponsiveLayout: null,
-  Sidebar: null,
-  Tabs: null
-} as any
+// 面包屑导航
+export { Breadcrumb } from './breadcrumb'
 
-// 类型导出
-export interface BasicHeaderProps {}
-export interface BreadcrumbProps {}
-export interface ComponentNavProps {}
-export interface DataTableProps {}
-export interface MenuProps {}
-export interface NavbarProps {}
-export interface PaginationProps {}
-export interface ResponsiveLayoutProps {}
-export interface SidebarProps {}
-export interface TabsProps {}
+// 分页组件
+export { Pagination } from './pagination'
+
+// 标签页
+export { Tabs } from './tabs'
+
+// 布局组件
+export { ResponsiveLayout } from './responsive-layout'
+
+// 数据表格（也在 data-display 中）
+export { DataTable } from './data-table'
+
+// 组件导航
+export { ComponentNav } from './component-nav'
+
+// 类型导出（从各自的组件文件中导出）
+export type { BasicHeaderProps } from './basic-header'
+export type { NavbarProps } from './navbar'
+export type { SidebarProps } from './sidebar'
+export type { MenuProps } from './menu'
+export type { BreadcrumbProps } from './breadcrumb'
+export type { PaginationProps } from './pagination'
+export type { TabsProps } from './tabs'
+export type { ResponsiveLayoutProps } from './responsive-layout'
+export type { DataTableProps } from './data-table'
+export type { ComponentNavProps } from './component-nav'

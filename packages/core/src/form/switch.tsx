@@ -2,108 +2,122 @@
 
 import React, { forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { useTheme } from '@xorigo-ui/system'
 import { cn } from '../utils'
 
-// Switch变体配置
+/**
+ * Switch Component - 开关切换组件
+ *
+ * 基于 Xorigo UI 七轴主题系统的开关组件，支持多种样式、大小和状态
+ *
+ * 特性：
+ * - 7种主题配方支持
+ * - 4种变体样式 (default, primary, success, danger)
+ * - 3种尺寸规格 (sm, md, lg)
+ * - 加载状态支持
+ * - 可访问性支持 (ARIA)
+ * - Framer Motion 12 动画效果
+ * - TypeScript 类型安全
+ */
+
+// Switch变体配置 - 使用七轴主题系统设计令牌
 const switchVariants = cva(
-  // 基础样式
-  'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-colors duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+  // 基础样式 - 使用设计令牌
+  'relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
-        // 默认样式 - 灰色主题
+        // 默认样式 - 使用设计令牌
         default:
-          'bg-gray-200 dark:bg-gray-700 checked:bg-gray-600 dark:checked:bg-gray-300 focus:ring-gray-500/20',
+          'bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-neutral-600)] dark:checked:bg-[var(--color-neutral-400)] focus:ring-[var(--color-neutral-500)]/20',
 
-        // 主要样式 - 蓝色主题
+        // 主要样式 - 使用主色调令牌
         primary:
-          'bg-gray-200 dark:bg-gray-700 checked:bg-blue-600 dark:checked:bg-blue-500 focus:ring-blue-500/20',
+          'bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20',
 
-        // 成功样式 - 绿色主题
+        // 成功样式 - 使用成功色调令牌
         success:
-          'bg-gray-200 dark:bg-gray-700 checked:bg-green-600 dark:checked:bg-green-500 focus:ring-green-500/20',
+          'bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-success-600)] dark:checked:bg-[var(--color-success-500)] focus:ring-[var(--color-success-500)]/20',
 
-        // 危险样式 - 红色主题
+        // 危险样式 - 使用危险色调令牌
         danger:
-          'bg-gray-200 dark:bg-gray-700 checked:bg-red-600 dark:checked:bg-red-500 focus:ring-red-500/20',
+          'bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-danger-600)] dark:checked:bg-[var(--color-danger-500)] focus:ring-[var(--color-danger-500)]/20',
 
-        // 霓虹样式 - 赛博朋克风格
-        neon:
-          'bg-black/50 border-cyan-400 checked:bg-cyan-600 checked:border-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.3)] focus:ring-cyan-400/20',
+        // 外观样式 - 边框样式
+        outline:
+          'bg-transparent border-[var(--color-border-300)] dark:border-[var(--color-border-600)] checked:border-[var(--color-primary-600)] dark:checked:border-[var(--color-primary-500)] checked:bg-[var(--color-primary-600)]/10 dark:checked:bg-[var(--color-primary-500)]/10',
       },
       size: {
-        sm: 'h-5 w-9',
-        md: 'h-6 w-11',
-        lg: 'h-7 w-14',
+        sm: 'h-[var(--spacing-5)] w-[var(--spacing-9)]', // 20px x 36px
+        md: 'h-[var(--spacing-6)] w-[var(--spacing-11)]', // 24px x 44px
+        lg: 'h-[var(--spacing-7)] w-[var(--spacing-14)]', // 28px x 56px
       },
       status: {
         default: '',
-        error: 'checked:border-red-500 focus:ring-red-500/20',
-        success: 'checked:border-green-500 focus:ring-green-500/20',
-        warning: 'checked:border-yellow-500 focus:ring-yellow-500/20',
+        error: 'checked:border-[var(--color-danger-500)] focus:ring-[var(--color-danger-500)]/20',
+        success: 'checked:border-[var(--color-success-500)] focus:ring-[var(--color-success-500)]/20',
+        warning: 'checked:border-[var(--color-warning-500)] focus:ring-[var(--color-warning-500)]/20',
       },
       loading: {
         true: '',
       },
     },
     compoundVariants: [
-      // variant + status 组合
+      // variant + status 组合 - 使用设计令牌
       {
         variant: 'default',
         status: 'error',
-        className: 'checked:bg-red-600 dark:checked:bg-red-500',
+        className: 'checked:bg-[var(--color-danger-600)] dark:checked:bg-[var(--color-danger-500)]',
       },
       {
         variant: 'default',
         status: 'success',
-        className: 'checked:bg-green-600 dark:checked:bg-green-500',
+        className: 'checked:bg-[var(--color-success-600)] dark:checked:bg-[var(--color-success-500)]',
       },
       {
         variant: 'default',
         status: 'warning',
-        className: 'checked:bg-yellow-600 dark:checked:bg-yellow-500',
+        className: 'checked:bg-[var(--color-warning-600)] dark:checked:bg-[var(--color-warning-500)]',
       },
       {
         variant: 'primary',
         status: 'error',
-        className: 'checked:bg-red-600 dark:checked:bg-red-500',
+        className: 'checked:bg-[var(--color-danger-600)] dark:checked:bg-[var(--color-danger-500)]',
       },
       {
         variant: 'primary',
         status: 'success',
-        className: 'checked:bg-green-600 dark:checked:bg-green-500',
+        className: 'checked:bg-[var(--color-success-600)] dark:checked:bg-[var(--color-success-500)]',
       },
       {
         variant: 'primary',
         status: 'warning',
-        className: 'checked:bg-yellow-600 dark:checked:bg-yellow-500',
+        className: 'checked:bg-[var(--color-warning-600)] dark:checked:bg-[var(--color-warning-500)]',
       },
       {
         variant: 'success',
         status: 'error',
-        className: 'checked:bg-red-600 dark:checked:bg-red-500',
+        className: 'checked:bg-[var(--color-danger-600)] dark:checked:bg-[var(--color-danger-500)]',
       },
       {
         variant: 'success',
         status: 'warning',
-        className: 'checked:bg-yellow-600 dark:checked:bg-yellow-500',
+        className: 'checked:bg-[var(--color-warning-600)] dark:checked:bg-[var(--color-warning-500)]',
       },
       {
         variant: 'danger',
         status: 'success',
-        className: 'checked:bg-green-600 dark:checked:bg-green-500',
+        className: 'checked:bg-[var(--color-success-600)] dark:checked:bg-[var(--color-success-500)]',
       },
       {
         variant: 'danger',
         status: 'warning',
-        className: 'checked:bg-yellow-600 dark:checked:bg-yellow-500',
+        className: 'checked:bg-[var(--color-warning-600)] dark:checked:bg-[var(--color-warning-500)]',
       },
       // loading + variant
       {
         loading: true,
-        variant: 'neon',
         className: 'cursor-wait',
       },
     ],
@@ -116,26 +130,26 @@ const switchVariants = cva(
   }
 )
 
-// Thumb变体配置
+// Thumb变体配置 - 使用七轴主题系统设计令牌
 const thumbVariants = cva(
-  // 基础样式
-  'inline-block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 pointer-events-none',
+  // 基础样式 - 使用设计令牌
+  'inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none',
   {
     variants: {
       size: {
-        sm: 'h-4 w-4',
-        md: 'h-5 w-5',
-        lg: 'h-6 w-6',
+        sm: 'h-[var(--spacing-4)] w-[var(--spacing-4)]', // 16px x 16px
+        md: 'h-[var(--spacing-5)] w-[var(--spacing-5)]', // 20px x 20px
+        lg: 'h-[var(--spacing-6)] w-[var(--spacing-6)]', // 24px x 24px
       },
       checked: {
-        true: 'translate-x-5',
+        true: '',
       },
       variant: {
-        default: 'ring-gray-700/5',
-        primary: 'ring-blue-600/5',
-        success: 'ring-green-600/5',
-        danger: 'ring-red-600/5',
-        neon: 'ring-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.5)]',
+        default: 'ring-[var(--color-neutral-600)]/5',
+        primary: 'ring-[var(--color-primary-600)]/5',
+        success: 'ring-[var(--color-success-600)]/5',
+        danger: 'ring-[var(--color-danger-600)]/5',
+        outline: 'ring-[var(--color-primary-600)]/10',
       },
       loading: {
         true: 'scale-75',
@@ -150,23 +164,68 @@ const thumbVariants = cva(
   }
 )
 
+/**
+ * Switch组件属性接口
+ */
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'>,
     VariantProps<typeof switchVariants> {
+  /**
+   * 开关标签文本
+   */
   label?: string
+
+  /**
+   * 开关描述文本
+   */
   description?: string
+
+  /**
+   * 加载状态
+   * @default false
+   */
   loading?: boolean
+
+  /**
+   * 标签位置
+   * @default 'right'
+   */
   labelPosition?: 'right' | 'left'
+
+  /**
+   * thumb图标
+   */
   thumbIcon?: React.ReactNode
+
+  /**
+   * 开关状态变化回调
+   */
   onCheckedChange?: (checked: boolean) => void
+
+  /**
+   * 自定义thumb样式类名
+   */
+  thumbClassName?: string
+
+  /**
+   * 自定义标签样式类名
+   */
+  labelClassName?: string
+
+  /**
+   * 自定义描述文本样式类名
+   */
+  descriptionClassName?: string
 }
 
-// Loading Spinner Component
+/**
+ * 加载指示器组件 - 使用设计令牌
+ */
 const LoadingSpinner: React.FC<{ size: 'sm' | 'md' | 'lg' }> = ({ size }) => {
   const sizeMap = {
-    sm: 'h-2.5 w-2.5 border-2 border-gray-300 border-t-transparent',
-    md: 'h-3 w-3 border-2 border-gray-300 border-t-transparent',
-    lg: 'h-3.5 w-3.5 border-2 border-gray-300 border-t-transparent',
+    sm: 'h-[var(--spacing-2.5)] w-[var(--spacing-2.5)] border-[2px] border-[var(--color-border-300)] border-t-transparent',
+    md: 'h-[var(--spacing-3)] w-[var(--spacing-3)] border-[2px] border-[var(--color-border-300)] border-t-transparent',
+    lg: 'h-[var(--spacing-3.5)] w-[var(--spacing-3.5)] border-[2px] border-[var(--color-border-300)] border-t-transparent',
   }
 
   return (
@@ -174,7 +233,9 @@ const LoadingSpinner: React.FC<{ size: 'sm' | 'md' | 'lg' }> = ({ size }) => {
   )
 }
 
-// Switch Component
+/**
+ * Switch组件主实现 - 基于七轴主题系统
+ */
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
@@ -193,6 +254,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       status,
       labelPosition = 'right',
       thumbIcon,
+      thumbClassName,
+      labelClassName,
+      descriptionClassName,
       ...props
     },
     ref
@@ -211,24 +275,14 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       onCheckedChange?.(newChecked)
     }
 
-    // 获取主题样式
-    const getSwitchThemeStyle = (): React.CSSProperties => {
-      if (effectiveVariant === 'neon') {
-        return {
-          boxShadow: `0 0 5px ${themeConfig.glow}`,
-        }
+    // 计算thumb位移 - 使用设计令牌间距
+    const getThumbTranslateX = (): number => {
+      const spacingMap = {
+        sm: 20, // var(--spacing-5) - thumbSize
+        md: 24, // var(--spacing-6) - thumbSize
+        lg: 28, // var(--spacing-7) - thumbSize
       }
-      return {}
-    }
-
-    // 获取thumb主题样式
-    const getThumbThemeStyle = (): React.CSSProperties => {
-      if (effectiveVariant === 'neon') {
-        return {
-          boxShadow: `0 0 10px ${themeConfig.glow}`,
-        }
-      }
-      return {}
+      return spacingMap[size || 'md']
     }
 
     // 渲染thumb内容
@@ -238,7 +292,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       }
       if (thumbIcon) {
         return (
-          <div className="flex items-center justify-center h-full w-full">
+          <div className="flex items-center justify-center h-full w-full text-[var(--color-text-secondary)]">
             {thumbIcon}
           </div>
         )
@@ -247,15 +301,22 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     }
 
     return (
-      <div className={cn('flex items-start gap-3', className)}>
+      <div
+        className={cn('flex items-center gap-[var(--spacing-3)]', className)}
+        role="group"
+        aria-labelledby={label ? `${switchId}-label` : undefined}
+        aria-describedby={description ? `${switchId}-description` : undefined}
+      >
         {/* 根据labelPosition调整顺序 */}
         {labelPosition === 'left' && (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--spacing-1)]">
             {label && (
               <span
+                id={`${switchId}-label`}
                 className={cn(
-                  'text-sm font-medium text-gray-900 dark:text-gray-100',
-                  disabled && 'opacity-50'
+                  'text-sm font-medium text-[var(--color-text-primary)]',
+                  disabled && 'opacity-50',
+                  labelClassName
                 )}
               >
                 {label}
@@ -263,9 +324,11 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             )}
             {description && (
               <span
+                id={`${switchId}-description`}
                 className={cn(
-                  'text-sm text-gray-500 dark:text-gray-400',
-                  disabled && 'opacity-50'
+                  'text-sm text-[var(--color-text-secondary)]',
+                  disabled && 'opacity-50',
+                  descriptionClassName
                 )}
               >
                 {description}
@@ -284,16 +347,16 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
                 size,
                 status: effectiveStatus as any,
                 loading,
-              }),
-              // 额外的样式处理
-              variant === 'neon' && 'text-cyan-400'
+              })
             )}
-            style={getSwitchThemeStyle()}
             whileHover={!disabled && !loading ? { scale: 1.02 } : undefined}
             whileTap={!disabled && !loading ? { scale: 0.98 } : undefined}
-            transition={{ duration: 0.2 }}
+            transition={{
+              duration: 0.2,
+              ease: [0.4, 0, 0.2, 1] // Framer Motion 12 缓动函数
+            }}
           >
-            {/* 隐藏的原生input */}
+            {/* 隐藏的原生input - 保持可访问性 */}
             <input
               ref={ref}
               id={switchId}
@@ -303,11 +366,16 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
               onChange={handleChange}
               disabled={disabled || loading}
               className="sr-only peer"
+              aria-checked={checked}
+              aria-busy={loading}
               {...props}
             />
 
             {/* Switch轨道 */}
-            <div className="absolute inset-0 rounded-full" />
+            <div
+              className="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+              aria-hidden="true"
+            />
 
             {/* Switch thumb */}
             <motion.div
@@ -318,17 +386,17 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
                   checked,
                   loading,
                 }),
-                variant === 'neon' && 'bg-black text-cyan-400 border border-cyan-400'
+                thumbClassName
               )}
-              style={getThumbThemeStyle()}
               animate={{
-                x: checked ? (size === 'sm' ? 20 : size === 'md' ? 24 : 28) : 0,
+                x: checked ? getThumbTranslateX() : 0,
               }}
               transition={{
                 type: 'spring',
                 stiffness: 700,
                 damping: 30,
               }}
+              aria-hidden="true"
             >
               {renderThumbContent()}
             </motion.div>
@@ -337,12 +405,14 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
         {/* 标签和描述 */}
         {labelPosition === 'right' && (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--spacing-1)]">
             {label && (
               <span
+                id={`${switchId}-label`}
                 className={cn(
-                  'text-sm font-medium text-gray-900 dark:text-gray-100',
-                  disabled && 'opacity-50'
+                  'text-sm font-medium text-[var(--color-text-primary)]',
+                  disabled && 'opacity-50',
+                  labelClassName
                 )}
               >
                 {label}
@@ -350,9 +420,11 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             )}
             {description && (
               <span
+                id={`${switchId}-description`}
                 className={cn(
-                  'text-sm text-gray-500 dark:text-gray-400',
-                  disabled && 'opacity-50'
+                  'text-sm text-[var(--color-text-secondary)]',
+                  disabled && 'opacity-50',
+                  descriptionClassName
                 )}
               >
                 {description}

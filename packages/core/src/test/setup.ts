@@ -3,7 +3,7 @@
  */
 
 import '@testing-library/jest-dom'
-import { beforeAll, afterEach, afterAll } from 'vitest'
+import { beforeAll, afterEach, afterAll, vi } from 'vitest'
 
 // 模拟performance API
 Object.defineProperty(window, 'performance', {

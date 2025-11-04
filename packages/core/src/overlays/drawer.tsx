@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useRef, useState, useCallb
 import { motion, AnimatePresence, PanInfo } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { cn } from '../utils'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { X } from 'lucide-react'
 
 // Drawer Context

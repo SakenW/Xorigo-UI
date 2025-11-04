@@ -1,9 +1,9 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { useTheme } from '@xorigo-ui/system'
 import { cn } from '../utils'
-import { ChevronDown, X, Search } from 'lucide-react'
+import { ChevronDown, X, Search, Check } from 'lucide-react'
 
 export interface SelectOption {
   value: string | number
@@ -105,10 +105,19 @@ export interface SelectProps
   loading?: boolean
   maxVisibleItems?: number
   groupBy?: string
-  renderOption?: (option: SelectOption, index: number) => React.ReactNode
+  renderOption?: (option: SelectOption, index: number, isSelected: boolean) => React.ReactNode
   renderGroupHeader?: (group: string) => React.ReactNode
+  renderValue?: (selectedOptions: SelectOption[]) => React.ReactNode
+  renderEmpty?: (query: string) => React.ReactNode
+  renderLoading?: () => React.ReactNode
   onSearch?: (query: string) => void
   onClear?: () => void
+  onOpen?: () => void
+  onClose?: () => void
+  dropdownPosition?: 'bottom' | 'top' | 'auto'
+  closeOnSelect?: boolean
+  virtualScrolling?: boolean
+  filterOption?: (option: SelectOption, query: string) => boolean
 }
 
 // 多选标签组件
@@ -143,7 +152,175 @@ const MultiSelectTags: React.FC<{
   )
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+// 自定义下拉选项组件
+const DropdownOption: React.FC<{
+  option: SelectOption
+  isSelected: boolean
+  isHighlighted: boolean
+  onClick: () => void
+  renderOption?: (option: SelectOption, index: number, isSelected: boolean) => React.ReactNode
+}> = ({ option, isSelected, isHighlighted, onClick, renderOption }) => {
+  return (
+    <motion.div
+      className={cn(
+        'px-3 py-2 cursor-pointer transition-colors flex items-center justify-between',
+        'hover:bg-gray-100 dark:hover:bg-gray-700',
+        isHighlighted && 'bg-gray-100 dark:bg-gray-700',
+        isSelected && 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
+        option.disabled && 'opacity-50 cursor-not-allowed'
+      )}
+      onClick={() => !option.disabled && onClick()}
+      whileTap={{ scale: 0.98 }}
+    >
+      {renderOption ? (
+        renderOption(option, 0, isSelected)
+      ) : (
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          {option.icon && <span className="flex-shrink-0">{option.icon}</span>}
+          <div className="flex-1 min-w-0">
+            <div className="truncate">{option.label}</div>
+            {option.description && (
+              <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                {option.description}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {isSelected && <Check className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+    </motion.div>
+  )
+}
+
+// 自定义下拉组件
+const CustomDropdown: React.FC<{
+  isOpen: boolean
+  options: SelectOption[]
+  groupedOptions: Record<string, SelectOption[]>
+  selectedValue: string | number | (string | number)[]
+  onSelect: (value: string | number) => void
+  onClose: () => void
+  renderOption?: (option: SelectOption, index: number, isSelected: boolean) => React.ReactNode
+  renderGroupHeader?: (group: string) => React.ReactNode
+  renderEmpty?: (query: string) => React.ReactNode
+  renderLoading?: () => React.ReactNode
+  loading?: boolean
+  searchQuery?: string
+  multiple?: boolean
+  maxVisibleItems?: number
+  dropdownRef?: React.RefObject<HTMLDivElement>
+}> = ({
+  isOpen,
+  options,
+  groupedOptions,
+  selectedValue,
+  onSelect,
+  onClose,
+  renderOption,
+  renderGroupHeader,
+  renderEmpty,
+  renderLoading,
+  loading,
+  searchQuery,
+  multiple,
+  maxVisibleItems = 8,
+  dropdownRef
+}) => {
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+
+  const isSelected = useCallback((value: string | number) => {
+    if (multiple && Array.isArray(selectedValue)) {
+      return selectedValue.includes(value)
+    }
+    return selectedValue === value
+  }, [selectedValue, multiple])
+
+  const handleSelect = useCallback((value: string | number) => {
+    onSelect(value)
+  }, [onSelect])
+
+  // 键盘导航
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault()
+          setHighlightedIndex(prev => Math.min(prev + 1, options.length - 1))
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          setHighlightedIndex(prev => Math.max(prev - 1, 0))
+          break
+        case 'Enter':
+          e.preventDefault()
+          if (highlightedIndex >= 0 && options[highlightedIndex]) {
+            handleSelect(options[highlightedIndex].value)
+          }
+          break
+        case 'Escape':
+          e.preventDefault()
+          onClose()
+          break
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, highlightedIndex, options, handleSelect, onClose])
+
+  if (!isOpen) return null
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        ref={dropdownRef}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className={cn(
+          'absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto',
+          'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+        )}
+      >
+        {loading ? (
+          <div className="px-3 py-8 text-center text-gray-500 dark:text-gray-400">
+            {renderLoading ? renderLoading() : '加载中...'}
+          </div>
+        ) : options.length === 0 ? (
+          <div className="px-3 py-8 text-center text-gray-500 dark:text-gray-400">
+            {renderEmpty ? renderEmpty(searchQuery || '') : '没有找到选项'}
+          </div>
+        ) : (
+          <div>
+            {Object.entries(groupedOptions).map(([group, groupOptions]) => (
+              <div key={group}>
+                {Object.keys(groupedOptions).length > 1 && (
+                  <div className="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/50 sticky top-0 z-10">
+                    {renderGroupHeader ? renderGroupHeader(group) : group}
+                  </div>
+                )}
+                {groupOptions.slice(0, maxVisibleItems).map((option, index) => (
+                  <DropdownOption
+                    key={option.value}
+                    option={option}
+                    isSelected={isSelected(option.value)}
+                    isHighlighted={highlightedIndex === options.indexOf(option)}
+                    onClick={() => handleSelect(option.value)}
+                    renderOption={renderOption}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+export const Select = forwardRef<HTMLDivElement, SelectProps>(
   (
     {
       className,
@@ -165,8 +342,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       groupBy,
       renderOption,
       renderGroupHeader,
+      renderValue,
+      renderEmpty,
+      renderLoading,
       onSearch,
       onClear,
+      onOpen,
+      onClose,
+      dropdownPosition = 'bottom',
+      closeOnSelect = true,
+      virtualScrolling = false,
+      filterOption,
       value,
       onChange,
       multiple = false,
@@ -175,7 +361,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref
   ) => {
     const { themeConfig } = useTheme()
+    const [isOpen, setIsOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
+    const [dropdownPositionState, setDropdownPositionState] = useState<'bottom' | 'top'>('bottom')
+    const selectRef = useRef<HTMLDivElement>(null)
+    const dropdownRef = useRef<HTMLDivElement>(null)
+    const searchInputRef = useRef<HTMLInputElement>(null)
     const selectId = id || `select-${React.useId()}`
 
     // 处理状态
@@ -185,8 +376,21 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       ? Array.isArray(currentValue) && currentValue.length > 0
       : currentValue !== ''
 
-    // 过滤选项
+    // 获取选中的选项
+    const getSelectedOptions = useCallback(() => {
+      if (multiple && Array.isArray(currentValue)) {
+        return options.filter(opt => currentValue.includes(opt.value))
+      } else if (currentValue) {
+        return options.filter(opt => opt.value === currentValue)
+      }
+      return []
+    }, [currentValue, multiple, options])
+
+    // 自定义过滤
     const filteredOptions = options.filter(option => {
+      if (filterOption) {
+        return filterOption(option, searchQuery)
+      }
       if (searchQuery && !option.label.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false
       }
@@ -202,6 +406,30 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           return acc
         }, {} as Record<string, SelectOption[]>)
       : { '默认': filteredOptions }
+
+    // 计算下拉框位置
+    useEffect(() => {
+      if (isOpen && selectRef.current && dropdownPosition === 'auto') {
+        const rect = selectRef.current.getBoundingClientRect()
+        const spaceBelow = window.innerHeight - rect.bottom
+        const spaceAbove = rect.top
+        setDropdownPositionState(spaceBelow >= 200 || spaceBelow > spaceAbove ? 'bottom' : 'top')
+      }
+    }, [isOpen, dropdownPosition])
+
+    // 点击外部关闭
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+          setIsOpen(false)
+        }
+      }
+
+      if (isOpen) {
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [isOpen])
 
     // 处理清除
     const handleClear = () => {
@@ -222,6 +450,49 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       onSearch?.(query)
     }
 
+    // 处理选择
+    const handleSelect = (selectedValue: string | number) => {
+      if (onChange) {
+        let newValue: string | number | (string | number)[]
+
+        if (multiple) {
+          const currentValues = Array.isArray(currentValue) ? currentValue : []
+          if (currentValues.includes(selectedValue)) {
+            newValue = currentValues.filter(v => v !== selectedValue)
+          } else {
+            newValue = [...currentValues, selectedValue]
+          }
+        } else {
+          newValue = selectedValue
+        }
+
+        const event = {
+          target: { value: newValue },
+        } as React.ChangeEvent<HTMLSelectElement>
+        onChange(event)
+      }
+
+      if (closeOnSelect && !multiple) {
+        setIsOpen(false)
+      }
+    }
+
+    // 处理打开/关闭
+    const handleToggle = () => {
+      if (disabled) return
+
+      if (isOpen) {
+        setIsOpen(false)
+        onClose?.()
+      } else {
+        setIsOpen(true)
+        onOpen?.()
+        if (searchable && searchInputRef.current) {
+          searchInputRef.current.focus()
+        }
+      }
+    }
+
     // 获取主题样式
     const getSelectThemeStyle = (): React.CSSProperties => {
       if (variant === 'neon') {
@@ -233,18 +504,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       return {}
     }
 
-    // 自定义下拉箭头
-    const dropdownIcon = (
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-        <ChevronDown className={cn(
-          'w-4 h-4 transition-transform duration-200',
-          disabled ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
-        )} />
-      </div>
-    )
+    const selectedOptions = getSelectedOptions()
 
     return (
-      <div className={cn('w-full', className)}>
+      <div className={cn('w-full', className)} ref={selectRef}>
         {/* 标签 */}
         {label && (
           <motion.label
@@ -260,95 +523,119 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
         <div className="relative">
           {/* 主选择框 */}
-          <div className="relative">
+          <div
+            ref={ref}
+            className={cn(
+              selectVariants({
+                variant,
+                size,
+                status: effectiveStatus as any,
+                searchable,
+                multiple,
+              }),
+              // 主题相关的额外样式
+              'text-gray-900 dark:text-gray-100 cursor-pointer',
+              variant === 'neon' && 'text-cyan-400',
+              // 可搜索时的额外样式
+              searchable && 'pl-10'
+            )}
+            style={getSelectThemeStyle()}
+            onClick={handleToggle}
+            {...props}
+          >
             {/* 搜索输入框（可搜索模式） */}
-            {searchable && (
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
-                <Search className="w-4 h-4 text-gray-400" />
+            {searchable && isOpen && (
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-transparent outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                placeholder="搜索..."
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
+
+            {!searchable && (
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            )}
+
+            {/* 显示选中的值 */}
+            <div className="flex items-center justify-between min-w-0">
+              <div className="flex-1 min-w-0">
+                {renderValue && hasValue ? (
+                  renderValue(selectedOptions)
+                ) : multiple && hasValue ? (
+                  <MultiSelectTags
+                    values={currentValue as (string | number)[]}
+                    options={options}
+                    onRemove={(val) => {
+                      const newValues = (currentValue as (string | number)[]).filter(v => v !== val)
+                      const event = {
+                        target: { value: newValues },
+                      } as unknown as React.ChangeEvent<HTMLSelectElement>
+                      onChange?.(event)
+                    }}
+                    disabled={disabled}
+                  />
+                ) : !multiple && hasValue ? (
+                  <div className="truncate">
+                    {selectedOptions[0]?.label}
+                  </div>
+                ) : (
+                  <div className="text-gray-500 dark:text-gray-400 truncate">
+                    {placeholder || '请选择...'}
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* 原生select元素（用于保持可访问性和表单功能） */}
-            <select
-              ref={ref}
-              id={selectId}
-              value={currentValue}
-              onChange={onChange}
-              disabled={disabled}
-              multiple={multiple || false}
-              className={cn(
-                selectVariants({
-                  variant,
-                  size,
-                  status: effectiveStatus as any,
-                  searchable,
-                  multiple,
-                }),
-                // 主题相关的额外样式
-                'text-gray-900 dark:text-gray-100',
-                variant === 'neon' && 'text-cyan-400',
-                // 可搜索时的额外样式
-                searchable && 'pl-10',
-                // 多选时不显示原生选项
-                multiple && 'opacity-0 absolute inset-0 z-20 cursor-pointer'
-              )}
-              style={getSelectThemeStyle()}
-              {...props}
-            >
-              {placeholder && !multiple && (
-                <option value="" disabled>
-                  {placeholder}
-                </option>
-              )}
-              {options.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  disabled={option.disabled}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
+              <div className="flex items-center gap-1">
+                {/* 清除按钮 */}
+                {clearable && hasValue && !disabled && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleClear()
+                    }}
+                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
 
-            {/* 多选标签显示 */}
-            {multiple && hasValue && (
-              <div className="absolute inset-0 flex items-center px-3 pointer-events-none">
-                <MultiSelectTags
-                  values={currentValue as (string | number)[]}
-                  options={options}
-                  onRemove={(val) => {
-                    const newValues = (currentValue as (string | number)[]).filter(v => v !== val)
-                    const event = {
-                      target: { value: newValues },
-                    } as unknown as React.ChangeEvent<HTMLSelectElement>
-                    onChange?.(event)
-                  }}
-                  disabled={disabled}
-                />
+                {/* 下拉箭头 */}
+                <ChevronDown className={cn(
+                  'w-4 h-4 transition-transform duration-200',
+                  isOpen && 'rotate-180',
+                  disabled ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400'
+                )} />
               </div>
-            )}
+            </div>
+          </div>
 
-            {/* 单选占位符显示 */}
-            {!multiple && !hasValue && placeholder && (
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 dark:text-gray-400">
-                {placeholder}
-              </div>
-            )}
-
-            {/* 清除按钮 */}
-            {clearable && hasValue && !disabled && (
-              <button
-                type="button"
-                onClick={handleClear}
-                className="absolute right-8 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors z-10"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-
-            {/* 下拉箭头 */}
-            {dropdownIcon}
+          {/* 自定义下拉框 */}
+          <div className={cn(
+            'relative z-50',
+            dropdownPositionState === 'top' && 'bottom-full mb-1'
+          )}>
+            <CustomDropdown
+              isOpen={isOpen}
+              options={filteredOptions}
+              groupedOptions={groupedOptions}
+              selectedValue={currentValue}
+              onSelect={handleSelect}
+              onClose={() => setIsOpen(false)}
+              renderOption={renderOption}
+              renderGroupHeader={renderGroupHeader}
+              renderEmpty={renderEmpty}
+              renderLoading={renderLoading}
+              loading={loading}
+              searchQuery={searchQuery}
+              multiple={multiple}
+              maxVisibleItems={maxVisibleItems}
+              dropdownRef={dropdownRef}
+            />
           </div>
         </div>
 

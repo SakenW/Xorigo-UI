@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { semanticColors } from '@xorigo-ui/tokens'
-import { cn } from '@/utils'
+import { cn } from '../utils'
 
 export interface SkeletonProps {
   variant?: 'text' | 'circular' | 'rectangular' | 'rounded'

@@ -5,32 +5,32 @@
  * 用于构建页面和组件布局
  */
 
-export { Box } from './Box'
-export type { BoxProps } from './Box'
+export { Box } from './box'
+export type { BoxProps } from './box'
 
-export { Container } from './Container'
-export type { ContainerProps } from './Container'
+export { Container } from './container'
+export type { ContainerProps } from './container'
 
-export { Flex } from './Flex'
-export type { FlexProps } from './Flex'
+export { Flex } from './flex'
+export type { FlexProps } from './flex'
 
-export { Grid } from './Grid'
-export type { GridProps } from './Grid'
+export { Grid } from './grid'
+export type { GridProps } from './grid'
 
-export { GridItem } from './GridItem'
-export type { GridItemProps } from './GridItem'
+export { GridItem } from './grid-item'
+export type { GridItemProps } from './grid-item'
 
-export { Panel } from './Panel'
-export type { PanelProps } from './Panel'
+export { Panel } from './panel'
+export type { PanelProps } from './panel'
 
-export { PanelContent } from './PanelContent'
-export type { PanelContentProps } from './PanelContent'
+export { PanelContent } from './panel-content'
+export type { PanelContentProps } from './panel-content'
 
-export { PanelFooter } from './PanelFooter'
-export type { PanelFooterProps } from './PanelFooter'
+export { PanelFooter } from './panel-footer'
+export type { PanelFooterProps } from './panel-footer'
 
-export { PanelHeader } from './PanelHeader'
-export type { PanelHeaderProps } from './PanelHeader'
+export { PanelHeader } from './panel-header'
+export type { PanelHeaderProps } from './panel-header'
 
-export { Spacer } from './Spacer'
-export type { SpacerProps } from './Spacer'
+export { Spacer } from './spacer'
+export type { SpacerProps } from './spacer'

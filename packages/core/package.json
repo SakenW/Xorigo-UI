@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/core",
-  "version": "0.1.0",
+  "version": "2025.11.03",
   "description": "Xorigo UI Core - Legacy compatibility layer (will be deprecated)",
   "type": "module",
   "main": "./dist/index.cjs.js",

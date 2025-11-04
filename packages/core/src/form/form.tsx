@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, forwardRef, useCallback } from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { cn } from '../utils'
 
 // ==============================

@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '@xorigo-ui/system'
-import { cn } from '@/utils'
+import { cn } from '../utils'
 
 export interface ThemeToggleProps {
   className?: string

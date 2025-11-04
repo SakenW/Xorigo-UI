@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '@/utils'
+import { cn } from '../utils'
 
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {

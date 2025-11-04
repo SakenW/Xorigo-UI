@@ -1,5 +1,5 @@
 import React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils/cn'
 

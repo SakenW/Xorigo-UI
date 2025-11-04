@@ -69,7 +69,7 @@ Composition Layer (3类) - 组合应用层
 ### ✅ 新增文件
 
 #### 核心分类系统
-- **`docs/shared/component-taxonomy-v1.5.yaml`** - 新的分类定义SSOT
+- **`docs/shared/component-taxonomy-v2025.11.03.yaml`** - 新的分类定义SSOT
 - **`docs/shared/component-classification-system-v1.5.md`** - 分类系统说明文档
 
 #### 组件元数据系统

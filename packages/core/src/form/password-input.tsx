@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { Input, type InputProps } from './Input'
+import { Input, type InputProps } from './input'
 import { Lock } from 'lucide-react'
 
 export interface PasswordInputProps extends Omit<InputProps, 'type' | 'showPasswordToggle'> {

@@ -1,0 +1,556 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同变体的快照 > switch-danger 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1a_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-danger-600)] dark:checked:bg-[var(--color-danger-500)] focus:ring-[var(--color-danger-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_1a_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1a_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-danger-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1a_-label"
+      >
+        Switch danger
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同变体的快照 > switch-default 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_17_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-neutral-600)] dark:checked:bg-[var(--color-neutral-400)] focus:ring-[var(--color-neutral-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_17_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_17_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-neutral-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_17_-label"
+      >
+        Switch default
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同变体的快照 > switch-outline 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1b_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-[var(--color-border-300)] dark:border-[var(--color-border-600)] checked:border-[var(--color-primary-600)] dark:checked:border-[var(--color-primary-500)] checked:bg-[var(--color-primary-600)]/10 dark:checked:bg-[var(--color-primary-500)]/10 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_1b_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1b_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/10"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1b_-label"
+      >
+        Switch outline
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同变体的快照 > switch-primary 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_18_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_18_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_18_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_18_-label"
+      >
+        Switch primary
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同变体的快照 > switch-success 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_19_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-success-600)] dark:checked:bg-[var(--color-success-500)] focus:ring-[var(--color-success-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_19_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_19_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-success-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_19_-label"
+      >
+        Switch success
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同尺寸的快照 > switch-size-lg 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1e_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-7)] w-[var(--spacing-14)]"
+        for="switch-_r_1e_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1e_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-6)] w-[var(--spacing-6)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1e_-label"
+      >
+        Switch lg
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同尺寸的快照 > switch-size-md 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1d_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_1d_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1d_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1d_-label"
+      >
+        Switch md
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配不同尺寸的快照 > switch-size-sm 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1c_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-5)] w-[var(--spacing-9)]"
+        for="switch-_r_1c_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1c_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-4)] w-[var(--spacing-4)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1c_-label"
+      >
+        Switch sm
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配加载状态的快照 > switch-loading 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_1f_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_1f_"
+        transition="[object Object]"
+      >
+        <input
+          aria-busy="true"
+          aria-checked="false"
+          class="sr-only peer"
+          disabled=""
+          id="switch-_r_1f_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/5 scale-75"
+          transition="[object Object]"
+        >
+          <div
+            class="animate-spin rounded-full h-[var(--spacing-3)] w-[var(--spacing-3)] border-[2px] border-[var(--color-border-300)] border-t-transparent"
+          />
+        </div>
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_1f_-label"
+      >
+        Loading Switch
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配带图标的快照 > switch-with-icon 1`] = `
+<div>
+  <div
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_1g_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_1g_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        >
+          <div
+            class="flex items-center justify-center h-full w-full text-[var(--color-text-secondary)]"
+          >
+            <div
+              data-testid="icon"
+            >
+              🔥
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    />
+  </div>
+</div>
+`;
+
+exports[`Switch组件 > 快照测试 > 应该匹配默认快照 1`] = `
+<div>
+  <div
+    aria-labelledby="switch-_r_16_-label"
+    class="flex items-center gap-[var(--spacing-3)]"
+    role="group"
+  >
+    <div
+      class="relative"
+    >
+      <label
+        class="relative inline-flex flex-shrink-0 cursor-pointer border-2 border-transparent rounded-full transition-all duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--color-surface-200)] dark:bg-[var(--color-surface-700)] checked:bg-[var(--color-primary-600)] dark:checked:bg-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]/20 h-[var(--spacing-6)] w-[var(--spacing-11)]"
+        for="switch-_r_16_"
+        transition="[object Object]"
+        whilehover="[object Object]"
+        whiletap="[object Object]"
+      >
+        <input
+          aria-busy="false"
+          aria-checked="false"
+          class="sr-only peer"
+          id="switch-_r_16_"
+          type="checkbox"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 rounded-full bg-inherit pointer-events-none"
+        />
+        <div
+          animate="[object Object]"
+          aria-hidden="true"
+          class="inline-block rounded-full bg-[var(--color-surface-0)] shadow-[var(--shadow-sm)] ring-0 transition-transform duration-200 ease-in-out pointer-events-none h-[var(--spacing-5)] w-[var(--spacing-5)] ring-[var(--color-primary-600)]/5"
+          transition="[object Object]"
+        />
+      </label>
+    </div>
+    <div
+      class="flex flex-col gap-[var(--spacing-1)]"
+    >
+      <span
+        class="text-sm font-medium text-[var(--color-text-primary)]"
+        id="switch-_r_16_-label"
+      >
+        Test Switch
+      </span>
+    </div>
+  </div>
+</div>
+`;

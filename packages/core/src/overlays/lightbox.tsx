@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { createPortal } from 'react-dom'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 import { cn } from '../utils'
 
 // Lightbox变体配置

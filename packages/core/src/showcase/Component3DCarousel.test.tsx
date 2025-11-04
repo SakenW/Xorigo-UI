@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react'
 import Component3DCarousel from './Component3DCarousel'
 
 // Mock framer-motion
-jest.mock('framer-motion', () => ({
+vi.mock('framer-motion', () => ({
   motion: {
     div: 'div',
   },

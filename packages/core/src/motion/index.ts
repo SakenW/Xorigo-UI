@@ -8,20 +8,20 @@ export {
   MotionProvider,
   useMotion,
   useSSRSafeAnimation
-} from './MotionProvider'
+} from './motion-provider'
 
 export {
   SSRMotionDiv
-} from './SSRMotionDiv'
+} from './ssr-motion-div'
 
 export {
   SSRAnimatePresence
-} from './SSRAnimatePresence'
+} from './ssr-animate-presence'
 
 export {
   LazyMotion,
   createLazyMotionComponent
-} from './LazyMotion'
+} from './lazy-motion'
 
 // 重新导出Framer Motion的类型和常用工具（可选）
 export type { MotionProps } from 'framer-motion'

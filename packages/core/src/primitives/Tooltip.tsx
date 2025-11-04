@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { semanticColors } from '@xorigo-ui/tokens'
 import { cn } from '../utils'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, type VariantProps } from '../utils/cva-standalone'
 
 // Tooltip 变体配置
 const tooltipVariants = cva(

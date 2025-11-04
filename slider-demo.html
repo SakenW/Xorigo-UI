@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xorigo UI Slider 组件演示</title>
+    <style>
+        :root {
+            --color-primary-200: #dbeafe;
+            --color-primary-500: #3b82f6;
+            --color-primary-600: #2563eb;
+            --color-primary-700: #1d4ed8;
+            --color-text-primary: #111827;
+            --color-text-secondary: #6b7280;
+            --color-surface: #ffffff;
+            --color-border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9fafb;
+        }
+
+        .demo-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #111827;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #374151;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            background: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .feature-list h3 {
+            color: #1f2937;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.25rem 0;
+            color: #4b5563;
+        }
+
+        .feature-list li::before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+
+        .code-block {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .highlight h3 {
+            color: #92400e;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .accessibility-section {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .accessibility-section h3 {
+            color: #064e3b;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-section {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .theme-section h3 {
+            color: #0c4a6e;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-link {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .demo-link:hover {
+            background: #2563eb;
+        }
+
+        .demo-link.secondary {
+            background: #6b7280;
+        }
+
+        .demo-link.secondary:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Xorigo UI Slider 组件</h1>
+
+        <p class="description">
+            基于 React 19 + TypeScript 5.9 + Framer Motion 12 + Tailwind CSS 4 构建的现代化滑块组件。
+            提供完整的表单输入解决方案，支持单值和范围选择、垂直和水平方向、自定义标记点等功能。
+        </p>
+
+        <div class="highlight">
+            <h3>🎉 组件已成功生成！</h3>
+            <p>Slider 组件已按照 Xorigo UI v1.5.1 架构规范完成开发，包含完整的 TypeScript 类型定义、测试文件和 Storybook 故事。</p>
+        </div>
+
+        <h2>主要特性</h2>
+        <div class="feature-list">
+            <ul>
+                <li><strong>单值和范围选择</strong>：支持单个数值或数值范围选择</li>
+                <li><strong>双向操作</strong>：支持垂直和水平方向</li>
+                <li><strong>标记点支持</strong>：可在滑块上显示自定义标记点</li>
+                <li><strong>实时数值显示</strong>：可选的数值标签和输入框</li>
+                <li><strong>主题集成</strong>：完整支持 Xorigo UI 七轴主题系统</li>
+                <li><strong>动画效果</strong>：三种动画变体（default、smooth、bounce）</li>
+                <li><strong>可访问性</strong>：完整的键盘导航和屏幕阅读器支持</li>
+                <li><strong>TypeScript</strong>：完整的类型定义和类型安全</li>
+            </ul>
+        </div>
+
+        <h2>基础用法示例</h2>
+        <div class="code-block">
+// 单值滑块
+&lt;Slider
+  value={50}
+  min={0}
+  max={100}
+  label="音量控制"
+  helperText="拖动滑块调整音量大小"
+/&gt;
+
+// 范围滑块
+&lt;Slider
+  value={[25, 75]}
+  min={0}
+  max={100}
+  label="价格范围"
+  helperText="选择价格区间"
+  showInput
+  formatValue={(val) => \`¥${val}\`}
+/&gt;
+
+// 带标记点的垂直滑块
+&lt;Slider
+  value={60}
+  orientation="vertical"
+  showMarks
+  marks={[
+    { value: 0, label: '最小' },
+    { value: 50, label: '中间' },
+    { value: 100, label: '最大' }
+  ]}
+  label="进度设置"
+/&gt;
+        </div>
+
+        <h2>API 属性</h2>
+        <div class="feature-list">
+            <ul>
+                <li><strong>value</strong>：滑块值（单值或范围值）</li>
+                <li><strong>defaultValue</strong>：非受控模式的默认值</li>
+                <li><strong>onValueChange</strong>：值变化回调函数</li>
+                <li><strong>min / max</strong>：最小值和最大值</li>
+                <li><strong>step</strong>：步长</li>
+                <li><strong>orientation</strong>：方向（horizontal | vertical）</li>
+                <li><strong>showMarks</strong>：是否显示标记点</li>
+                <li><strong>showLabel</strong>：是否显示数值标签</li>
+                <li><strong>showInput</strong>：是否显示输入框</li>
+                <li><strong>variant</strong>：动画变体（default | smooth | bounce）</li>
+                <li><strong>size</strong>：尺寸（sm | md | lg）</li>
+                <li><strong>color</strong>：颜色主题（primary | secondary | success | warning | error）</li>
+                <li><strong>formatValue</strong>：数值格式化函数</li>
+                <li><strong>disabled</strong>：是否禁用</li>
+            </ul>
+        </div>
+
+        <div class="theme-section">
+            <h3>🎨 主题系统集成</h3>
+            <p>Slider 组件完全集成 Xorigo UI 的七轴主题系统，支持：</p>
+            <ul>
+                <li>模式轴（Mode）：light/dark/auto 自动适配</li>
+                <li>色调轴（Hue）：支持自定义色相</li>
+                <li>饱和度轴（Saturation）：可调节色彩鲜艳度</li>
+                <li>亮度轴（Lightness）：动态明暗程度</li>
+                <li>密度轴（Density）：空间紧凑度适配</li>
+                <li>圆度轴（Roundness）：边角圆润度变化</li>
+                <li>对比度轴（Contrast）：视觉对比度支持</li>
+            </ul>
+        </div>
+
+        <div class="accessibility-section">
+            <h3>♿ 可访问性支持</h3>
+            <p>Slider 组件遵循 WCAG 2.1 标准，提供：</p>
+            <ul>
+                <li>完整的键盘导航支持（Tab、方向键、Home、End）</li>
+                <li>屏幕阅读器友好的 ARIA 标签</li>
+                <li>高对比度模式支持</li>
+                <li>焦点管理和焦点环显示</li>
+                <li>触摸设备优化</li>
+            </ul>
+        </div>
+
+        <h2>测试覆盖</h2>
+        <p class="description">
+            Slider 组件包含全面的测试套件，覆盖以下测试场景：
+        </p>
+        <div class="feature-list">
+            <ul>
+                <li>基础渲染测试</li>
+                <li>交互行为测试（拖拽、点击、输入）</li>
+                <li>Props 传递测试</li>
+                <li>可访问性测试</li>
+                <li>主题适配测试</li>
+                <li>边界情况测试</li>
+                <li>自定义样式测试</li>
+            </ul>
+        </div>
+
+        <h2>文件结构</h2>
+        <div class="code-block">
+packages/core/src/form/
+├── slider.tsx              # 主组件文件
+├── slider.test.tsx         # 单元测试文件
+├── slider.stories.tsx      # Storybook 故事文件
+└── index.ts                # 分类导出文件
+        </div>
+
+        <h2>开发服务器状态</h2>
+        <p class="description">
+            ✅ 本地开发环境已启动，可以在以下地址查看和测试组件：
+        </p>
+        <div style="margin: 1rem 0;">
+            <a href="http://localhost:3001" class="demo-link" target="_blank">核心库开发服务器</a>
+            <a href="http://localhost:3100" class="demo-link secondary" target="_blank">Website 开发服务器</a>
+        </div>
+
+        <div class="highlight">
+            <h3>📋 下一步</h3>
+            <ol>
+                <li>在 Website 应用中创建 Slider 组件演示页面</li>
+                <li>测试不同主题下的组件表现</li>
+                <li>验证可访问性功能</li>
+                <li>优化性能和用户体验</li>
+                <li>编写完整的 API 文档</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

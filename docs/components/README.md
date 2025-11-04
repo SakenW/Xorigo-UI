@@ -36,7 +36,7 @@ Composition Layer (3类) - 组合应用层
 
 完整的组件分类定义请参考 **单一事实源**：
 
-👉 **[组件分类系统 SSOT v1.5.0](../shared/component-taxonomy-v1.5.yaml)**
+👉 **[组件分类系统 SSOT v1.5.0](../shared/component-taxonomy-v2025.11.03.yaml)**
 
 该文件包含：
 - ✅ **17个完整分类**的详细定义
@@ -111,7 +111,7 @@ function MyComponent() {
 ## 📚 相关文档
 
 ### 🎯 核心规范
-- **[组件分类系统 SSOT](../shared/component-taxonomy-v1.5.yaml)** - 完整分类定义（唯一事实源）
+- **[组件分类系统 SSOT](../shared/component-taxonomy-v2025.11.03.yaml)** - 完整分类定义（唯一事实源）
 - **[组件分类系统说明](../shared/component-classification-system-v1.5.md)** - 分类设计理念和使用指南
 
 ### 🎨 主题系统
@@ -150,7 +150,7 @@ const betaComponents = getComponentsByStability('beta')
 
 ### 目录结构导航
 ```bash
-# 基于 component-taxonomy-v1.5.yaml 自动生成的目录结构
+# 基于 component-taxonomy-v2025.11.03.yaml 自动生成的目录结构
 packages/ui/src/
 ├── foundations/        # System Layer
 ├── system/            # System Layer
@@ -175,7 +175,7 @@ packages/ui/src/
 ## 🤝 贡献指南
 
 ### 组件开发流程
-1. **查看分类定义** - 参考 `component-taxonomy-v1.5.yaml` 确定组件归属
+1. **查看分类定义** - 参考 `component-taxonomy-v2025.11.03.yaml` 确定组件归属
 2. **检查现有组件** - 避免重复开发
 3. **遵循稳定性规范** - 合理设置组件稳定性标签
 4. **编写完整元数据** - 包含分类、层级、稳定性等信息
