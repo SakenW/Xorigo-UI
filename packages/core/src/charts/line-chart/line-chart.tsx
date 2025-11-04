@@ -13,7 +13,7 @@ import React, {
   useEffect,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../../utils/cva-standalone';
+import { cn } from '../../utils/cn';
 
 // ============================================================================
 // Types
@@ -923,7 +923,8 @@ LineChart.defaultProps = {
 // Export
 // ============================================================================
 
-export default LineChart;
+export default LineChart
+export { LineChart };
 
 export type {
   LineChartProps,

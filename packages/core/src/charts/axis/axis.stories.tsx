@@ -90,6 +90,7 @@ Axis 是图表组件库的核心组件，为图表提供 X 轴和 Y 轴支持。
 }
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // ============================================================================

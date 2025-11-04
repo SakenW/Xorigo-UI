@@ -1,16 +1,17 @@
 ---
 name: "Xorigo UI 代码质量守护者"
-description: "基于 Xorigo UI v1.5.1 架构文档的全方位代码质量检测，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
+description: "基于 Xorigo UI v2025.11.03 架构文档的全方位代码质量检测，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
 author: "Xorigo UI Team"
-version: "1.5.1"
-tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards", "xorigo-ui-v1.5.1"]
+version: "2025.11.03"
+tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards", "xorigo-ui-v2025.11.03"]
 changelog:
-  - "v1.5.1: 🔄 重大架构适配 - 基于 Xorigo UI 棕地架构文档 v1.5.1 完全重构"
+  - "v2025.11.03: 🔄 三层架构重构 - 基于 Xorigo UI 三层架构+17分类系统完全重构，支持 180+ 组件"
+  - "v1.5.1: 重大架构适配 - 基于 Xorigo UI 棕地架构文档 v1.5.1 完全重构"
   - "v1.1.0: 更新文件命名规范 - 普通文件采用 kebab-case，React 组件文件保持 PascalCase"
   - "v1.0.0: 初始版本 - 完整的代码质量检测系统"
 ---
 
-**📋 v1.5.1 重大更新**: 完全基于棕地架构分析结果重构，确保检测规则与实际项目结构 100% 一致。
+**📋 v2025.11.03 重大更新**: 基于三层架构+17分类系统完全重构，支持 180+ 组件的完整质量检测体系。
 
 # Xorigo UI 代码质量守护者
 
@@ -40,10 +41,11 @@ changelog:
 - **向后兼容** - API 变更兼容性检查
 
 ### 📚 组件分类检测
-- **9 大分类** - 组件分类归属检查
+- **17 分类系统** - 组件分类归属检查（System Layer 3类 + Component Layer 11类 + Composition Layer 3类）
 - **API 标准** - 分类对应的 API 设计标准
 - **目录位置** - 组件文件位置规范
 - **命名一致性** - 组件命名与分类一致性
+- **180+ 组件** - 全量组件覆盖检查
 
 ## 使用方法
 
@@ -80,7 +82,7 @@ changelog:
 
 ### 📦 Packages 目录规范
 
-**组件命名规范** (v1.5.1):
+**组件命名规范** (v2025.11.03):
 - ✅ React 组件文件: PascalCase: `Button.tsx`, `DataTable.tsx`
 - ✅ 组件文件夹: PascalCase: `Button/`, `DataTable/`
 - ✅ 文件夹/其他文件: kebab-case: `color-tokens.ts`, `theme-utils.ts`, `xorigo-logo-loader.tsx`
@@ -90,6 +92,7 @@ changelog:
 - ❌ 禁止下划线: `my_button.tsx`
 - ❌ 禁止 camelCase 文件名: `colorTokens.ts`, `themeUtils.ts`
 - ❌ 禁止错误的分类: `ui/button.tsx`, `forms/input.tsx` (应为 `form/`)
+- ✅ 十七分类体系: foundations/system/primitives (System Layer) + layout/navigation/inputs/form/data-display/typography-media/charts/feedback/overlays/interactive/utilities (Component Layer) + blocks/templates/labs (Composition Layer)
 
 **API 设计标准**：
 ```typescript
@@ -108,29 +111,35 @@ const Component = React.forwardRef<HTMLDivElement, ComponentProps>(...)
 Component.displayName = 'Component'
 ```
 
-**📋 v1.5.1 目录结构规范** (基于棕地架构分析):
+**📋 v2025.11.03 目录结构规范** (基于三层架构+17分类系统):
 ```
 packages/core/src/
-├── foundations/        # 🔹 设计令牌基础 - 颜色、字体、间距、动画等
-├── system/            # 🔹 系统级组件 - 主题系统、配方管理、主题切换器等
-├── primitives/        # 🔷 原子组件 - Button、Card、Surface、ThemeSwitcher等
-├── form/              # 📝 表单组件 - Input、Select、Checkbox、Switch等 (单数命名)
-├── overlays/          # 🎭 覆盖层组件 - Dialog、Drawer、Popover、Sheet等
-├── data-display/      # 📊 数据展示 - Table、List、数据卡片等
-├── feedback/          # 🔔 反馈组件 - Toast、Loading、Badge、状态指示器等
-├── layout/            # 📐 布局组件 - Grid、Container、Stack、分隔符等
-├── navigation/        # 🧭 导航组件 - Menu、Breadcrumb、Tabs、Pagination等
-├── typography/        # 🎨 排版组件 - Heading、Text、Code、链接等
-├── branding/          # 🏢 品牌组件 - Logo、品牌标识等
-├── showcase/          # 🎪 展示组件 - 代码演示、示例展示、文档演示等
-├── effects/           # ✨ 效果组件 - 视觉效果、过渡动画等
-├── motion/            # 🎬 动画组件 - Framer Motion集成组件等
+├── foundations/        # 🔹 System Layer - 设计令牌基础（颜色、字体、间距、动画等）
+├── system/            # 🔹 System Layer - 系统级组件（主题系统、配方管理、主题切换器等）
+├── primitives/        # 🔹 System Layer - 原子组件（Button、Card、Surface、ThemeSwitcher等）
+│
+├── layout/            # 🔷 Component Layer - 布局组件（Container、Box、Grid、Panel等）
+├── navigation/        # 🔷 Component Layer - 导航组件（Navbar、Sidebar、Menu、Breadcrumb等）
+├── inputs/            # 🔷 Component Layer - 输入控件（Button、Input、Select、Switch等）
+├── form/              # 🔷 Component Layer - 表单组件（FormProvider、Field等）
+├── data-display/      # 🔷 Component Layer - 数据展示（Table、List、Card等）
+├── typography-media/  # 🔷 Component Layer - 排版媒体（Text、Heading、Image等）
+├── charts/            # 🔷 Component Layer - 图表组件（LineChart、PieChart等）
+├── feedback/          # 🔷 Component Layer - 反馈组件（Alert、Toast、Loading等）
+├── overlays/          # 🔷 Component Layer - 覆盖层（Modal、Drawer、Popover等）
+├── interactive/       # 🔷 Component Layer - 交互组件（DragDrop、Carousel等）
+├── utilities/         # 🔷 Component Layer - 工具组件（Transition、Fade等）
+│
+├── blocks/            # 🔶 Composition Layer - 区块组件（Hero、Feature、Pricing等）
+├── templates/         # 🔶 Composition Layer - 页面模板（Auth、Landing等）
+├── labs/              # 🔶 Composition Layer - 实验组件（NewFeature、Tour等）
+│
 ├── hooks/             # 🪝 自定义React Hooks
 ├── utils/             # 🛠️ 工具函数
 └── types/             # 📝 TypeScript类型定义
 
-# ⚠️ 重要：Workbench 在应用层
-apps/website/src/components/workbench/  # 🖥️ 工作台应用级组件
+# ⚠️ 应用层组件
+apps/website/src/components/  # 🖥️ 应用级组件
 ```
 
 **📁 组件文件夹结构**:

@@ -46,15 +46,17 @@ export { MiniChart } from './mini-chart/mini-chart'
 export type { MiniChartProps, MiniChartDataPoint, MiniChartTrend } from './mini-chart/mini-chart'
 
 // PieChart 组件导出 (v1.0.0)
-export { PieChart } from './pie-chart'
-export type { PieChartProps, PieChartDataItem } from './pie-chart'
+export { PieChart } from './pie-chart/pie-chart'
+export type { PieChartProps, PieChartDataItem } from './pie-chart/pie-chart'
 
-// TODO: 修复 shared 依赖后重新启用这些组件
-// export { BarChart } from './bar-chart'
-// export type { BarChartProps } from './bar-chart'
+// 条形图组件
+export { BarChart } from './bar-chart/bar-chart'
+export type { BarChartProps } from './bar-chart/bar-chart'
 
-// export { LineChart } from './line-chart'
-// export type { LineChartProps } from './line-chart'
+// 折线图组件
+export { LineChart } from './line-chart/line-chart'
+export type { LineChartProps } from './line-chart/line-chart'
 
-// export { Gauge } from './gauge'
-// export type { GaugeProps } from './gauge'
+// 仪表盘组件
+export { GaugeChart } from './gauge-chart/gauge-chart'
+export type { GaugeChartProps } from './gauge-chart/gauge-chart'

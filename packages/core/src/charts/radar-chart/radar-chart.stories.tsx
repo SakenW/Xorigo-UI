@@ -110,6 +110,7 @@ const meta = {
 } satisfies Meta<typeof RadarChart>
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // ============================================================================

@@ -5,19 +5,19 @@
 import React, { forwardRef } from 'react'
 import { cn } from '../../utils/cn'
 
-export interface ComponentProps {
+export interface ChipProps {
   className?: string
 }
 
-export const Component = forwardRef<HTMLDivElement, ComponentProps>(
+export const Chip = forwardRef<HTMLDivElement, ChipProps>(
   ({ className }, ref) => {
     return (
       <div ref={ref} className={cn('p-4', className)}>
-        Component Placeholder
+        Chip Placeholder
       </div>
     )
   }
 )
 
-Component.displayName = 'Component'
-export type { ComponentProps }
+Chip.displayName = 'Chip'
+export type { ChipProps }

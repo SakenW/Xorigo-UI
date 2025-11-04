@@ -100,6 +100,7 @@ Sparkline 是一个轻量级的迷你线图组件，用于展示小型趋势数�
 } satisfies Meta<typeof Sparkline>
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // =============================================================================

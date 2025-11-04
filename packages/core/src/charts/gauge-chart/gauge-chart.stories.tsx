@@ -82,6 +82,7 @@ const meta = {
 } satisfies Meta<typeof GaugeChart>
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // =============================================================================

@@ -488,7 +488,7 @@ export const StatisticCard = forwardRef<HTMLDivElement, StatisticCardProps>(
         data-state="normal"
         data-trend={trend.direction}
         whileHover={{ y: -2 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }
+        transition={{ duration: 0.2, ease: 'easeOut' }}
         {...props}
       >
         {/* 图标 */}

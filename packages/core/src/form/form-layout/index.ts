@@ -8,6 +8,7 @@ export { FormLayout } from './form-layout'
 export { FormSection } from './form-layout'
 export { FormGroup } from './form-layout'
 export { FormSectionHeader } from './form-layout'
+export { useFormLayout } from './form-layout'
 
 // ==============================
 // Variant Exports

@@ -83,6 +83,7 @@ const meta = {
 } satisfies Meta<typeof PieChart>
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // ============================================================================

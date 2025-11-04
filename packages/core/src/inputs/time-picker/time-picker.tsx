@@ -5,11 +5,11 @@
 import React, { forwardRef } from 'react'
 import { cn } from '../../utils/cn'
 
-export interface ComponentProps {
+export interface TimePickerProps {
   className?: string
 }
 
-export const Component = forwardRef<HTMLDivElement, ComponentProps>(
+export const TimePicker = forwardRef<HTMLDivElement, ComponentProps>(
   ({ className }, ref) => {
     return (
       <div ref={ref} className={cn('p-4', className)}>
@@ -19,5 +19,5 @@ export const Component = forwardRef<HTMLDivElement, ComponentProps>(
   }
 )
 
-Component.displayName = 'Component'
-export type { ComponentProps }
+TimePicker.displayName = 'TimePicker'
+export type { TimePickerProps }

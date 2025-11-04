@@ -52,6 +52,10 @@ export default defineConfig({
         '@radix-ui/react-tabs',
         '@radix-ui/react-accordion',
         '@radix-ui/react-command',
+        // 表单库依赖（外部化）
+        'formik',
+        'yup',
+        'zod',
         // 内部包应该被外部化
         '@xorigo-ui/tokens',
         '@xorigo-ui/system',

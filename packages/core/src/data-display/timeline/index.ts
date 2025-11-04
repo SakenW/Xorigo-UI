@@ -53,6 +53,4 @@ export type {
 } from './timeline'
 
 // 重新导出便捷访问方法
-export const TimelineFromData = Timeline.fromData
-export const TimelineSkeleton = Timeline.skeleton
-export const TimelineEmpty = Timeline.empty
+// 注意：这些组件已经在上面从 './timeline' 导出

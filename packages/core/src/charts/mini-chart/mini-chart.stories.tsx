@@ -101,6 +101,7 @@ MiniChart 是一个多类型的迷你数据可视化组件，支持线图、面�
 } satisfies Meta<typeof MiniChart>
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // =============================================================================

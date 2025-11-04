@@ -241,5 +241,6 @@ SimpleBarChart.displayName = 'SimpleBarChart'
 // ============================================================================
 
 export default SimpleBarChart
+export { SimpleBarChart }
 
 export type { SimpleBarChartProps }

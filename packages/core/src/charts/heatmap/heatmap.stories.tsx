@@ -239,6 +239,7 @@ const meta = {
 
 // 导出元数据
 export default meta
+export { meta }
 
 /**
  * 故事对象类型

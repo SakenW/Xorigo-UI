@@ -13,7 +13,7 @@ import React, {
   useEffect,
 } from 'react'
 import { motion, AnimatePresence, MotionProps } from 'framer-motion'
-import { cn } from '../../utils/cva-standalone'
+import { cn } from '../../utils/cn'
 
 // ============================================================================
 // Types
@@ -838,6 +838,7 @@ BarChart.defaultProps = {
 // ============================================================================
 
 export default BarChart
+export { BarChart }
 
 export type {
   BarChartProps,

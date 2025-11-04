@@ -127,9 +127,9 @@ export type { ColorPickerProps } from './color-picker'
 export { DatePicker } from './date-picker'
 export type { DatePickerProps } from './date-picker'
 
-// DateTimePicker - 日期时间选择器
-export { DateTimePicker } from './datetime-picker'
-export type { DateTimePickerProps } from './datetime-picker'
+// DatetimePicker - 日期时间选择器
+export { DatetimePicker } from './datetime-picker'
+export type { DatetimePickerProps } from './datetime-picker'
 
 // FileUpload - 文件上传
 export { FileUpload } from './file-upload'

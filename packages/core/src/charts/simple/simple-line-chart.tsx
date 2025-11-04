@@ -248,5 +248,6 @@ SimpleLineChart.displayName = 'SimpleLineChart'
 // ============================================================================
 
 export default SimpleLineChart
+export { SimpleLineChart }
 
 export type { SimpleLineChartProps }

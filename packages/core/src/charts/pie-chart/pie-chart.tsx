@@ -500,6 +500,7 @@ const PieChart = forwardRef<SVGSVGElement, PieChartProps>(({
 PieChart.displayName = 'PieChart'
 
 export default PieChart
+export { PieChart }
 
 // ============================================================================
 // 导出类型

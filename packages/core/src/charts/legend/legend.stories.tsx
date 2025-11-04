@@ -85,6 +85,7 @@ Legend 是图表组件库的重要组件，为图表提供图例显示。
 }
 
 export default meta
+export { meta }
 type Story = StoryObj<typeof meta>
 
 // ============================================================================

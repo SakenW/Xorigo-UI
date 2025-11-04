@@ -128,7 +128,8 @@ const data = [
   },
 } satisfies Meta<typeof LineChart>;
 
-export default meta;
+export default meta
+export { meta };
 type Story = StoryObj<typeof meta>;
 
 // ============================================================================

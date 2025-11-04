@@ -39,8 +39,3 @@ export {
 
 // Metadata
 export { zodAdapterMetadata } from './metadata'
-
-// Re-export from metadata file
-import { zodAdapterMetadata } from './metadata'
-
-export { zodAdapterMetadata }

@@ -78,6 +78,7 @@ BarChart 组件是一个功能强大的柱状图可视化组件，支持多种�
 } satisfies Meta<typeof BarChart>
 
 export default meta
+export { meta }
 
 type Story = StoryObj<typeof meta>
 

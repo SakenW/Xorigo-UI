@@ -195,5 +195,6 @@ SimplePieChart.displayName = 'SimplePieChart'
 // ============================================================================
 
 export default SimplePieChart
+export { SimplePieChart }
 
 export type { SimplePieChartProps }
