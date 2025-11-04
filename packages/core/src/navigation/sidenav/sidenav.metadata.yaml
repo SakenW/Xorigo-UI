@@ -1,0 +1,62 @@
+# Sidenav Component Metadata
+
+name: "Sidenav"
+displayName: "Side Navigation"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  侧边导航组件，提供应用侧边的导航菜单，支持折叠、展开等交互。
+
+tags:
+  - navigation
+  - sidebar
+  - menu
+  - collapsible
+
+props:
+  - name: "items"
+    type: "SidenavItem[]"
+    required: true
+    description: "导航项列表"
+
+  - name: "collapsed"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否折叠"
+
+  - name: "width"
+    type: "number | string"
+    required: false
+    default: 256
+    description: "侧边栏宽度"
+
+  - name: "collapsedWidth"
+    type: "number | string"
+    required: false
+    default: 64
+    description: "折叠时宽度"
+
+  - name: "position"
+    type: "'left' | 'right'"
+    required: false
+    default: "left"
+    description: "侧边栏位置"
+
+  - name: "variant"
+    type: "'default' | 'bordered' | 'filled'"
+    required: false
+    default: "default"
+    description: "侧边栏变体"
+
+features:
+  - "折叠/展开支持"
+  - "多级菜单"
+  - "灵活宽度配置"
+  - "多种变体"
+  - "动画过渡"

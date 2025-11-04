@@ -1,0 +1,555 @@
+name: FormLayout
+category: Forms
+subcategory: Layout & Structure
+classification: component
+stability: stable
+version: 1.0.0
+
+description: >
+  A flexible and comprehensive form layout component that provides multiple layout patterns
+  including single column, double column, triple column, and grid layouts. It supports
+  responsive design, customizable spacing, label positioning, section management, and
+  form grouping with advanced features like collapsible sections and error handling.
+
+authors:
+  - Xorigo UI Team
+
+tags:
+  - form
+  - layout
+  - structure
+  - grid
+  - responsive
+  - accessibility
+
+since: 0.1.0
+
+keywords:
+  - form-layout
+  - form-section
+  - form-group
+  - form-structure
+  - responsive-grid
+  - form-sections
+
+# Component Hierarchy
+hierarchy:
+  type: compound
+  components:
+    - FormLayout
+    - FormSection
+    - FormGroup
+    - FormSectionHeader
+
+# Props Documentation
+props:
+  FormLayout:
+    description: Main form layout container component
+    props:
+      layout:
+        type: "'single' | 'double' | 'triple' | 'grid' | 'custom'"
+        required: false
+        default: single
+        description: "Layout mode for the form"
+
+      columns:
+        type: "1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12"
+        required: false
+        default: undefined
+        description: "Number of columns for grid layout"
+
+      gap:
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: md
+        description: "Gap size between form elements"
+
+      labelWidth:
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: md
+        description: "Width of labels in left/right position"
+
+      labelPosition:
+        type: "'top' | 'left' | 'right' | 'floating'"
+        required: false
+        default: top
+        description: "Position of labels relative to controls"
+
+      align:
+        type: "'start' | 'center' | 'end' | 'stretch'"
+        required: false
+        default: stretch
+        description: "Alignment of form elements"
+
+      sectionSpacing:
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: md
+        description: "Spacing between form sections"
+
+      responsive:
+        type: boolean
+        required: false
+        default: true
+        description: "Enable responsive behavior"
+
+      breakpoints:
+        type: "FormLayoutBreakpointConfig[]"
+        required: false
+        default: undefined
+        description: "Responsive breakpoint configuration"
+
+      disabled:
+        type: boolean
+        required: false
+        default: false
+        description: "Disable all form elements"
+
+  FormSection:
+    description: Form section component for grouping related fields
+    props:
+      title:
+        type: string
+        required: false
+        default: undefined
+        description: "Section title"
+
+      description:
+        type: string
+        required: false
+        default: undefined
+        description: "Section description"
+
+      icon:
+        type: ReactNode
+        required: false
+        default: undefined
+        description: "Section icon"
+
+      collapsible:
+        type: boolean
+        required: false
+        default: false
+        description: "Enable collapsible behavior"
+
+      defaultCollapsed:
+        type: boolean
+        required: false
+        default: false
+        description: "Initial collapsed state"
+
+      variant:
+        type: "'default' | 'grouped' | 'card' | 'plain'"
+        required: false
+        default: default
+        description: "Section visual variant"
+
+      spacing:
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: md
+        description: "Section internal spacing"
+
+  FormGroup:
+    description: Form group component for organizing form fields
+    props:
+      label:
+        type: string
+        required: false
+        default: undefined
+        description: "Field label"
+
+      description:
+        type: string
+        required: false
+        default: undefined
+        description: "Field description"
+
+      required:
+        type: boolean
+        required: false
+        default: false
+        description: "Mark field as required"
+
+      optional:
+        type: boolean
+        required: false
+        default: false
+        description: "Mark field as optional"
+
+      error:
+        type: string
+        required: false
+        default: undefined
+        description: "Error message"
+
+      columns:
+        type: "1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 'full'"
+        required: false
+        default: 1
+        description: "Column span within grid layout"
+
+      labelPosition:
+        type: "'top' | 'left' | 'right' | 'floating'"
+        required: false
+        default: top
+        description: "Label position (overrides FormLayout)"
+
+      labelWidth:
+        type: "'sm' | 'md' | 'lg' | 'xl' | 'auto'"
+        required: false
+        default: auto
+        description: "Label width (overrides FormLayout)"
+
+  FormSectionHeader:
+    description: Section header component for organizing section content
+    props:
+      size:
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: md
+        description: "Header text size"
+
+      weight:
+        type: "'normal' | 'medium' | 'semibold' | 'bold'"
+        required: false
+        default: medium
+        description: "Header font weight"
+
+      spaced:
+        type: boolean
+        required: false
+        default: true
+        description: "Add bottom margin"
+
+# Context API
+context:
+  FormLayoutContext:
+    description: "Provides form layout configuration to child components"
+    properties:
+      - name: layout
+        type: string
+        description: "Current layout mode"
+      - name: columns
+        type: number | undefined
+        description: "Number of columns"
+      - name: gap
+        type: string
+        description: "Gap size"
+      - name: labelWidth
+        type: string
+        description: "Label width"
+      - name: align
+        type: string
+        description: "Alignment mode"
+      - name: sectionSpacing
+        type: string
+        description: "Section spacing"
+      - name: disabled
+        type: boolean
+        description: "Disabled state"
+
+# Features
+features:
+  - Multiple layout modes (single, double, triple, grid, custom)
+  - Responsive design with customizable breakpoints
+  - Configurable label positioning (top, left, right, floating)
+  - Customizable gaps and spacing
+  - Form section management with collapsible sections
+  - Support for form groups with column spans
+  - Error message support and display
+  - Section variants (default, grouped, card, plain)
+  - Custom icons for sections
+  - Accessible by default with ARIA support
+  - TypeScript support with full type safety
+  - Forward ref support
+  - Theme system integration
+
+# Layout Modes
+layoutModes:
+  single:
+    description: "Single column layout, suitable for long forms"
+    useCase: "Registration forms, detailed forms with many fields"
+
+  double:
+    description: "Two column layout for balanced forms"
+    useCase: "Contact forms, profile forms, moderate complexity"
+
+  triple:
+    description: "Three column layout for compact forms"
+    useCase: "Search forms, filter forms, simple data entry"
+
+  grid:
+    description: "Customizable grid layout with column configuration"
+    useCase: "Complex forms with varying field widths"
+
+  custom:
+    description: "Fully customizable layout for special cases"
+    useCase: "Advanced layouts, custom designs"
+
+# Label Positions
+labelPositions:
+  top:
+    description: "Labels positioned above form controls"
+    bestFor: "Mobile-first design, accessibility, complex forms"
+
+  left:
+    description: "Labels positioned to the left of controls"
+    bestFor: "Desktop forms, space efficiency, quick data entry"
+
+  right:
+    description: "Labels positioned to the right of controls"
+    bestFor: "Right-to-left languages, specific layouts"
+
+  floating:
+    description: "Labels that float above controls when focused/active"
+    bestFor: "Modern UIs, minimalist design, input-focused forms"
+
+# Section Variants
+sectionVariants:
+  default:
+    description: "Default section with border separator"
+    appearance: "Bordered with spacing"
+
+  grouped:
+    description: "Grouped section with background"
+    appearance: "Gray background with padding"
+
+  card:
+    description: "Card-like section with border and shadow"
+    appearance: "White background with border"
+
+  plain:
+    description: "Plain section without special styling"
+    appearance: "No background or border"
+
+# Accessibility
+accessibility:
+  level: AA
+  features:
+    - Proper label association with form controls
+    - ARIA attributes for error messages
+    - Keyboard navigation support
+    - Screen reader friendly
+    - aria-expanded for collapsible sections
+    - Proper heading hierarchy
+    - Focus management for interactive elements
+    - High contrast support
+    - Semantic HTML structure
+
+# Responsive Behavior
+responsive:
+  breakpoints:
+    sm: "640px"
+    md: "768px"
+    lg: "1024px"
+    xl: "1280px"
+
+  strategies:
+    - Column stacking on mobile
+    - Flexible grid system
+    - Breakpoint-specific configurations
+    - Touch-friendly spacing
+
+# Theme Integration
+theming:
+  supported: true
+  system: "Seven-axis theme system"
+
+  customizableProperties:
+    - Colors for borders, backgrounds, text
+    - Spacing and gaps
+    - Typography (sizes, weights)
+    - Border radius
+    - Shadow effects
+
+  darkMode: supported
+
+# Usage Examples
+examples:
+  basic:
+    description: "Basic single column layout"
+    code: |
+      <FormLayout>
+        <FormGroup label="Name" required>
+          <input type="text" />
+        </FormGroup>
+        <FormGroup label="Email" required>
+          <input type="email" />
+        </FormGroup>
+      </FormLayout>
+
+  twoColumn:
+    description: "Two column layout with gaps"
+    code: |
+      <FormLayout layout="double" gap="md">
+        <FormGroup label="First Name" required>
+          <input type="text" />
+        </FormGroup>
+        <FormGroup label="Last Name" required>
+          <input type="text" />
+        </FormGroup>
+      </FormLayout>
+
+  withSections:
+    description: "Form with collapsible sections"
+    code: |
+      <FormLayout>
+        <FormSection title="Personal Info" collapsible>
+          <FormGroup label="Name">
+            <input type="text" />
+          </FormGroup>
+        </FormSection>
+      </FormLayout>
+
+  gridLayout:
+    description: "Custom grid layout"
+    code: |
+      <FormLayout layout="grid" columns={3}>
+        <FormGroup columns={2} label="Full Width">
+          <input type="text" />
+        </FormGroup>
+        <FormGroup label="Half Width">
+          <input type="text" />
+        </FormGroup>
+      </FormLayout>
+
+# Best Practices
+bestPractices:
+  - Use appropriate layout mode based on form complexity
+  - Keep label text concise and clear
+  - Use sections to group related fields
+  - Mark required fields consistently
+  - Provide helpful descriptions for complex fields
+  - Use error messages to guide users
+  - Consider mobile-first responsive design
+  - Test accessibility with screen readers
+  - Use consistent spacing and alignment
+  - Group related fields in sections
+
+# Common Use Cases
+useCases:
+  - User registration forms
+  - Contact forms
+  - Profile editing forms
+  - Survey forms
+  - Search and filter forms
+  - Settings and preferences forms
+  - Data entry forms
+  - Checkout forms
+  - Application forms
+
+# Related Components
+related:
+  - Form
+  - FormField
+  - FormField
+  - Fieldset
+
+# Performance Considerations
+performance:
+  - Minimal re-renders through context optimization
+  - CSS-based layouts for better performance
+  - Lazy rendering for collapsible sections
+  - Efficient breakpoint handling
+  - Optimized for large forms
+
+# Browser Support
+browserSupport:
+  - Chrome (last 2 versions)
+  - Firefox (last 2 versions)
+  - Safari (last 2 versions)
+  - Edge (last 2 versions)
+
+# Testing
+testing:
+  unitTests: true
+  integrationTests: true
+  accessibilityTests: true
+  visualTests: true
+  responsiveTests: true
+
+  coverage: > 90%
+
+# Documentation
+documentation:
+  storybook: true
+  apiReference: true
+  usageGuide: true
+  examples: 10+
+  codeOfConduct: true
+
+# Maintenance
+maintenance:
+  type: actively-maintained
+  updateFrequency: monthly
+  deprecationPolicy: 2 minor versions notice
+  backwardCompatibility: true
+
+# License
+license: MIT
+
+# Repository
+repository:
+  type: git
+  url: https://github.com/xorigo-ui/xorigo-ui
+
+# Issues
+issues:
+  bugReports: true
+  featureRequests: true
+  questions: true
+
+# Changelog
+changelog:
+  enabled: true
+  format: "Keep a Changelog"
+
+# Dependencies
+dependencies:
+  react: ">=18.0.0"
+  typescript: ">=4.5.0"
+
+peerDependencies:
+  framer-motion: ">=12.0.0"
+
+# Export Information
+exports:
+  named:
+    - FormLayout
+    - FormSection
+    - FormGroup
+    - FormSectionHeader
+    - formLayoutVariants
+    - formSectionVariants
+    - formGroupVariants
+    - sectionHeaderVariants
+
+# File Structure
+fileStructure:
+  source: "packages/core/src/form/form-layout/form-layout.tsx"
+  test: "packages/core/src/form/form-layout/form-layout.test.tsx"
+  story: "packages/core/src/form/form-layout/form-layout.stories.tsx"
+  metadata: "packages/core/src/form/form-layout/form-layout.metadata.yaml"
+  index: "packages/core/src/form/form-layout/index.ts"
+
+# Design Tokens
+designTokens:
+  spacing:
+    sm: "0.5rem"
+    md: "1rem"
+    lg: "1.5rem"
+    xl: "2rem"
+
+  labelWidth:
+    sm: "100px"
+    md: "120px"
+    lg: "150px"
+    xl: "180px"
+
+# Migration Guide
+migration:
+  from: null
+  to: "1.0.0"
+  notes: "Initial release"

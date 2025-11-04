@@ -1,0 +1,77 @@
+# AppShell Component Metadata
+
+name: "AppShell"
+displayName: "App Shell"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  应用壳层组件，提供应用的整体布局结构，包含顶部导航、侧边栏、主内容区等。
+
+tags:
+  - navigation
+  - layout
+  - shell
+  - application
+
+props:
+  - name: "header"
+    type: "React.ReactNode"
+    required: false
+    description: "顶部导航组件"
+
+  - name: "sidebar"
+    type: "React.ReactNode"
+    required: false
+    description: "侧边导航组件"
+
+  - name: "children"
+    type: "React.ReactNode"
+    required: true
+    description: "主内容区"
+
+  - name: "layout"
+    type: "'sidebar' | 'topbar' | 'both' | 'none'"
+    required: false
+    default: "sidebar"
+    description: "布局类型"
+
+  - name: "sidebarPosition"
+    type: "'left' | 'right'"
+    required: false
+    default: "left"
+    description: "侧边栏位置"
+
+  - name: "sidebarWidth"
+    type: "number | string"
+    required: false
+    default: 256
+    description: "侧边栏宽度"
+
+  - name: "headerHeight"
+    type: "number | string"
+    required: false
+    default: 64
+    description: "头部高度"
+
+  - name: "fixedHeader"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否固定头部"
+
+  - name: "fixedSidebar"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否固定侧边栏"
+
+features:
+  - "多种布局模式"
+  - "固定定位支持"
+  - "灵活配置"
+  - "动画过渡"

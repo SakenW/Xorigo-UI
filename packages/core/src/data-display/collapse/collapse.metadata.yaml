@@ -1,0 +1,515 @@
+# Collapse 组件元数据配置文件
+# 版本: 2025.11.04
+
+name: Collapse
+category: Data Display
+layer: component
+stability: stable
+version: "1.0.0"
+since: "2025.11.04"
+
+description:
+  zh: |
+    Collapse 折叠面板组件是一个单一面板的展开/折叠组件，支持控制/非控制模式、流畅的动画过渡效果、
+    键盘导航和完整的可访问性支持。适用于 FAQ 问答、详情信息展开、设置项分组等场景。
+    基于七轴主题系统设计，确保在不同主题下的一致性和可扩展性。
+
+  en: |
+    Collapse component is a single-panel expand/collapse component that supports controlled/uncontrolled modes,
+    smooth animation transitions, keyboard navigation, and complete accessibility support. Suitable for FAQ,
+    detailed information expansion, settings grouping and other scenarios. Built on the seven-axis theme system,
+    it ensures consistency and scalability across different themes.
+
+keywords:
+  - collapse
+  - accordion
+  - expand
+  - fold
+  - panel
+  - toggle
+  - disclosure
+  - data-display
+  - faq
+  - settings
+
+classifications:
+  - Data Display
+  - User Interface
+  - Disclosure Components
+  - Content Management
+
+technical_specs:
+  framework:
+    - React: ">=19.0.0"
+    - TypeScript: ">=5.9.0"
+
+  dependencies:
+    - react: "^19.2.0"
+    - framer-motion: "^12.23.5"
+    - clsx: "^2.0.0"
+    - tailwind-merge: "^2.0.0"
+
+  devDependencies:
+    - vitest: "^1.0.0"
+    - @testing-library/react: "^13.0.0"
+
+props:
+  - name: variant
+    type: "'default' | 'bordered' | 'ghost'"
+    default: "default"
+    required: false
+    description: "折叠面板变体样式"
+    examples:
+      - value: "default"
+        description: "默认变体（带边框和背景色）"
+      - value: "bordered"
+        description: "边框变体（仅边框，无背景色）"
+      - value: "ghost"
+        description: "透明变体（无边框和背景色）"
+
+  - name: size
+    type: "'sm' | 'md' | 'lg'"
+    default: "md"
+    required: false
+    description: "尺寸大小"
+    examples:
+      - value: "sm"
+        description: "小号（smaller padding 和 font size）"
+      - value: "md"
+        description: "中等（默认 padding 和 font size）"
+      - value: "lg"
+        description: "大号（larger padding 和 font size）"
+
+  - name: defaultOpen
+    type: "boolean"
+    default: false
+    required: false
+    description: "默认展开状态（非控制模式）"
+    examples:
+      - value: true
+        description: "默认展开"
+      - value: false
+        description: "默认折叠"
+
+  - name: open
+    type: "boolean"
+    default: undefined
+    required: false
+    description: "当前展开状态（控制模式）"
+    examples:
+      - value: true
+        description: "受控展开状态"
+      - value: false
+        description: "受控折叠状态"
+
+  - name: onOpenChange
+    type: "(open: boolean) => void"
+    default: ""
+    required: false
+    description: "展开状态变化回调（控制模式）"
+    examples:
+      - value: "(open) => setIsOpen(open)"
+        description: "状态变化回调"
+
+  - name: children
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "折叠面板内容（当未提供 content 时使用）"
+    examples:
+      - value: "<div>内容</div>"
+        description: "内容区域"
+
+  - name: trigger
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "自定义触发器（点击区域）"
+    examples:
+      - value: "<button>自定义触发器</button>"
+        description: "完全自定义触发器"
+
+  - name: content
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "自定义内容区域（优先级高于 children）"
+    examples:
+      - value: "<div>自定义内容</div>"
+        description: "自定义内容"
+
+  - name: disabled
+    type: "boolean"
+    default: false
+    required: false
+    description: "是否禁用交互"
+    examples:
+      - value: true
+        description: "禁用状态，无法交互"
+      - value: false
+        description: "正常可交互"
+
+  - name: lazy
+    type: "boolean"
+    default: false
+    required: false
+    description: "懒加载模式（只在展开时渲染内容）"
+    examples:
+      - value: true
+        description: "懒加载，优化性能"
+      - value: false
+        description: "始终渲染内容"
+
+  - name: keepMounted
+    type: "boolean"
+    default: true
+    required: false
+    description: "是否保持内容在 DOM 中（懒加载模式下无效）"
+    examples:
+      - value: true
+        description: "保持内容在 DOM 中"
+      - value: false
+        description: "折叠时移除内容"
+
+  - name: onClick
+    type: "(event: React.MouseEvent<HTMLButtonElement>) => void"
+    default: ""
+    required: false
+    description: "点击事件处理器"
+    examples:
+      - value: "() => alert('clicked')"
+        description: "点击事件"
+
+  - name: onKeyDown
+    type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void"
+    default: ""
+    required: false
+    description: "键盘事件处理器"
+    examples:
+      - value: "(e) => console.log(e.key)"
+        description: "键盘事件"
+
+  - name: expandIcon
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "自定义展开图标（折叠状态下显示）"
+    examples:
+      - value: "<PlusIcon />"
+        description: "展开图标"
+
+  - name: collapseIcon
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "自定义折叠图标（展开状态下显示）"
+    examples:
+      - value: "<MinusIcon />"
+        description: "折叠图标"
+
+  - name: aria-label
+    type: "string"
+    default: ""
+    required: false
+    description: "ARIA 标签（可访问性）"
+    examples:
+      - value: "折叠面板"
+        description: "可访问性标签"
+
+  - name: aria-labelledby
+    type: "string"
+    default: ""
+    required: false
+    description: "ARIA 关联标签 ID（可访问性）"
+    examples:
+      - value: "title-id"
+        description: "标题元素 ID"
+
+  - name: data-testid
+    type: "string"
+    default: ""
+    required: false
+    description: "测试 ID（用于测试）"
+    examples:
+      - value: "collapse-test-id"
+        description: "自定义测试 ID"
+
+  - name: className
+    type: "string"
+    default: ""
+    required: false
+    description: "自定义 CSS 类名"
+    examples:
+      - value: "custom-collapse"
+        description: "自定义样式"
+
+variants:
+  variant:
+    - default
+    - bordered
+    - ghost
+
+  size:
+    - sm
+    - md
+    - lg
+
+accessibility:
+  role: "region"
+  aria_support: true
+  keyboard_navigation: true
+  screen_reader_support: true
+  description: |
+    - 组件具有 role="region" 属性
+    - 头部按钮支持 aria-expanded 属性
+    - 头部按钮支持 aria-controls 属性
+    - 支持 aria-label 和 aria-labelledby 属性
+    - 支持键盘导航：Enter 和 Space 键
+    - 屏幕阅读器友好的标签和说明
+
+testing:
+  unit_tests: true
+  test_file: "collapse.test.tsx"
+  coverage_requirements:
+    - component rendering
+    - props handling
+    - open/close toggle
+    - controlled/uncontrolled mode
+    - keyboard navigation
+    - accessibility
+    - lazy loading
+    - disabled state
+    - custom trigger
+    - custom content
+    - nested usage
+    - event handling
+    - forwardRef
+
+  test_cases:
+    - "基础渲染测试"
+    - "变体样式测试"
+    - "尺寸变体测试"
+    - "控制/非控制模式测试"
+    - "展开/折叠功能测试"
+    - "键盘导航测试"
+    - "自定义触发器测试"
+    - "自定义内容测试"
+    - "自定义图标测试"
+    - "懒加载模式测试"
+    - "禁用状态测试"
+    - "可访问性测试"
+    - "事件处理测试"
+    - "自定义样式测试"
+    - "测试ID测试"
+    - "嵌套使用测试"
+    - "forwardRef 测试"
+    - "边缘情况测试"
+
+theming:
+  theme_system: "seven-axis"
+  custom_properties:
+    - "--bg-primary"
+    - "--bg-secondary"
+    - "--bg-tertiary"
+    - "--bg-surface"
+    - "--text-primary"
+    - "--text-secondary"
+    - "--text-inverse"
+    - "--border-primary"
+    - "--bg-primary-action"
+
+  design_tokens:
+    - spacing.padding.sm
+    - spacing.padding.md
+    - spacing.padding.lg
+    - font.size.sm
+    - font.size.md
+    - font.size.lg
+    - border.radius.sm
+    - border.radius.md
+    - border.radius.lg
+
+  color_schemes:
+    - light
+    - dark
+    - auto
+
+examples:
+  basic:
+    code: |
+      <Collapse>
+        <div>这是折叠面板的内容</div>
+      </Collapse>
+
+    description: "基础用法"
+
+  default_open:
+    code: |
+      <Collapse defaultOpen>
+        <div>这个面板默认是展开的</div>
+      </Collapse>
+
+    description: "默认展开"
+
+  controlled:
+    code: |
+      const [open, setOpen] = useState(false)
+
+      <Collapse open={open} onOpenChange={setOpen}>
+        <div>受控组件</div>
+      </Collapse>
+
+    description: "控制模式"
+
+  custom_trigger:
+    code: |
+      <Collapse trigger={<div>点击查看详情</div>}>
+        <div>自定义触发器内容</div>
+      </Collapse>
+
+    description: "自定义触发器"
+
+  custom_icon:
+    code: |
+      <Collapse
+        expandIcon={<Plus />}
+        collapseIcon={<Minus />}
+      >
+        <div>自定义图标</div>
+      </Collapse>
+
+    description: "自定义图标"
+
+  lazy_loading:
+    code: |
+      <Collapse lazy>
+        <div>懒加载内容（只在展开时渲染）</div>
+      </Collapse>
+
+    description: "懒加载模式"
+
+  nested:
+    code: |
+      <Collapse>
+        <div>外层内容</div>
+        <Collapse>
+          <div>嵌套内容</div>
+        </Collapse>
+      </Collapse>
+
+    description: "嵌套使用"
+
+  faq:
+    code: |
+      <Collapse trigger={<div>常见问题？</div>}>
+        <div>这里是答案内容...</div>
+      </Collapse>
+
+    description: "FAQ 场景"
+
+  settings:
+    code: |
+      <Collapse
+        trigger={
+          <div className="flex items-center gap-2">
+            <SettingsIcon />
+            <span>显示设置</span>
+          </div>
+        }
+      >
+        <div>
+          <label><input type="checkbox" /> 暗色模式</label>
+          <label><input type="checkbox" /> 动画效果</label>
+        </div>
+      </Collapse>
+
+    description: "设置面板场景"
+
+performance:
+  rendering: "optimized"
+  lazy_loading: true
+  memoization: false
+  re_renders: "minimal"
+  animation: "framer-motion"
+
+seo:
+  structure_data: false
+  metadata_support: true
+
+browser_support:
+  - chrome: ">=90"
+  - firefox: ">=88"
+  - safari: ">=14"
+  - edge: ">=90"
+
+migration:
+  from_v1:
+    breaking_changes: []
+    new_features:
+      - "新增支持控制/非控制模式"
+      - "新增支持懒加载模式"
+      - "新增支持自定义触发器"
+      - "新增支持自定义图标"
+      - "新增支持嵌套使用"
+      - "新增支持键盘导航"
+      - "新增完整的可访问性支持"
+      - "新增完整的测试套件"
+      - "新增完整的 Storybook 文档"
+
+  to_future:
+    planned_features:
+      - "支持动画持续时间配置"
+      - "支持折叠方向（上/下/左/右）"
+      - "支持多个面板同时展开"
+      - "支持手势滑动展开"
+      - "支持过渡动画自定义"
+
+related_components:
+  - Accordion
+  - Card
+  - Panel
+  - Modal
+  - Popover
+
+contributing:
+  guidelines: "https://github.com/xorigo-ui/contributing"
+  code_style: "standard"
+  commit_convention: "conventional-commits"
+
+license: MIT
+maintainers:
+  - name: "Xorigo UI Team"
+    email: "team@xorigo-ui.com"
+    github: "@xorigo-ui"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持单一面板的展开/折叠"
+      - "支持控制/非控制模式"
+      - "支持 3 种变体和 3 种尺寸"
+      - "支持自定义触发器和内容"
+      - "支持自定义图标"
+      - "支持懒加载模式"
+      - "支持键盘导航"
+      - "支持完整的可访问性"
+      - "支持嵌套使用"
+      - "支持 forwardRef"
+      - "完整的 TypeScript 类型支持"
+      - "完整的测试套件"
+      - "完整的 Storybook 文档"
+
+links:
+  github: "https://github.com/xorigo-ui/core/tree/main/src/data-display/collapse"
+  documentation: "https://xorigo-ui.com/docs/components/collapse"
+  examples: "https://xorigo-ui.com/examples/collapse"
+  figma: "https://figma.com/file/example/collapse"
+
+status:
+  development: "complete"
+  testing: "complete"
+  documentation: "complete"
+  reviewed: false
+  production_ready: true

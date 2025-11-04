@@ -1,0 +1,326 @@
+# Avatar Group Component Metadata
+# 头像组组件元数据配置
+
+component:
+  name: AvatarGroup
+  displayName: 头像组
+  category: Data Display
+  layer: component
+  stability: stable
+  version: 1.0.0
+  description: 用于显示多个头像的组合，支持多种排列方式、溢出折叠、工具提示等功能
+  keywords:
+    - avatar
+    - group
+    - user
+    - profile
+    - team
+    - member
+    - data-display
+    - list
+    - avatar-stack
+
+# 技术规范
+technical:
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  theming: Seven-Axis Theme System
+  tokens: DTCG Standard
+
+# 组件属性
+props:
+  # 核心属性
+  - name: children
+    type: React.ReactNode
+    required: true
+    description: 头像元素数组
+    default: null
+
+  - name: max
+    type: number
+    required: false
+    description: 最大显示数量
+    default: 5
+    min: 0
+    max: 100
+
+  # Avatar 继承属性
+  - name: size
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'"
+    required: false
+    description: Avatar组件尺寸
+    default: 'md'
+
+  - name: shape
+    type: "'circle' | 'rounded' | 'square'"
+    required: false
+    description: Avatar组件形状
+    default: 'circle'
+
+  # 布局属性
+  - name: layout
+    type: "'horizontal' | 'vertical' | 'grid'"
+    required: false
+    description: 排列方式
+    default: 'horizontal'
+
+  - name: spacing
+    type: "'tight' | 'normal' | 'loose'"
+    required: false
+    description: 间距控制
+    default: 'normal'
+
+  - name: overlap
+    type: "'stack' | 'spread' | 'none'"
+    required: false
+    description: 叠加模式
+    default: 'stack'
+
+  # 溢出处理
+  - name: overflowTooltip
+    type: 'string | ((count: number) => string)'
+    required: false
+    description: 溢出时显示的工具提示
+    default: "(count) => \`还有 \${count} 个成员\`"
+
+  - name: onOverflowClick
+    type: '(event: React.MouseEvent<HTMLDivElement>) => void'
+    required: false
+    description: 溢出头像的可点击事件
+    default: null
+
+  - name: overflowContent
+    type: React.ReactNode
+    required: false
+    description: 自定义溢出内容
+    default: null
+
+  # 状态属性
+  - name: loading
+    type: boolean
+    required: false
+    description: 是否显示加载状态
+    default: false
+
+  # 响应式属性
+  - name: maxItemsSm
+    type: number
+    required: false
+    description: 响应式配置（移动端最大显示数）
+    default: null
+
+  # 动画属性
+  - name: animate
+    type: boolean
+    required: false
+    description: 动画配置
+    default: true
+
+  - name: tooltipDelay
+    type: number
+    required: false
+    description: 工具提示显示延迟（毫秒）
+    default: 300
+
+  - name: tooltipPosition
+    type: "'top' | 'bottom' | 'left' | 'right'"
+    required: false
+    description: 工具提示位置
+    default: 'top'
+
+  # 测试属性
+  - name: testId
+    type: string
+    required: false
+    description: 测试ID
+    default: null
+
+  # 通用属性
+  - name: className
+    type: string
+    required: false
+    description: 自定义样式类名
+    default: null
+
+# 变体配置
+variants:
+  layout:
+    - horizontal: 水平排列
+    - vertical: 垂直排列
+    - grid: 网格排列
+
+  spacing:
+    - tight: 紧密间距 (gap-0)
+    - normal: 正常间距 (gap-1)
+    - loose: 宽松间距 (gap-2)
+
+  overlap:
+    - stack: 堆叠模式
+    - spread: 扩散模式 (gap-1)
+    - none: 无重叠
+
+  size:
+    - xs: 极小 (w-6 h-6)
+    - sm: 小 (w-8 h-8)
+    - md: 中 (w-10 h-10)
+    - lg: 大 (w-12 h-12)
+    - xl: 超大 (w-16 h-16)
+    - '2xl': 特大 (w-20 h-20)
+
+  shape:
+    - circle: 圆形
+    - rounded: 圆角方形
+    - square: 方形
+
+# 功能特性
+features:
+  - 多种排列方式：水平/垂直/网格
+  - 最大显示数量控制
+  - 溢出头像折叠显示
+  - 工具提示展开
+  - 多种叠加效果：堆叠/扩散/无重叠
+  - 间距控制：紧密/正常/宽松
+  - 尺寸继承（6种尺寸）
+  - 形状继承（3种形状）
+  - 状态指示器传递
+  - 自定义溢出内容
+  - 响应式设计
+  - 加载状态
+  - 流畅动画效果
+  - TypeScript 类型安全
+  - 可访问性支持
+  - 七轴主题系统集成
+
+# 使用场景
+useCases:
+  - 团队成员列表展示
+  - 聊天群组头像
+  - 用户互动列表
+  - 权限组展示
+  - 评论者列表
+  - 在线用户展示
+  - 项目协作者
+  - 社交网络好友列表
+
+# 最佳实践
+bestPractices:
+  - 合理设置 max 属性，避免头像过多影响视觉效果
+  - 移动端建议使用 maxItemsSm 设置不同的最大显示数
+  - 根据内容选择合适的 overlap 模式
+  - 大数据量场景考虑使用 loading 状态
+  - 保持头像尺寸和形状的一致性
+  - 为溢出头像提供清晰的操作反馈
+
+# 注意事项
+notes:
+  - 子元素必须为 Avatar 组件或有效的 React 元素
+  - 图片加载失败时会自动回退到文字头像
+  - 工具提示需要配合 Tooltip 组件使用
+  - 堆叠模式可能影响头像的点击事件
+  - 网格模式下的响应式表现需单独测试
+
+# 依赖关系
+dependencies:
+  - react: ^19.0.0
+  - framer-motion: ^12.0.0
+  - @xorigo-ui/system: workspace:*
+  - ../avatar: *
+
+# 相关组件
+relatedComponents:
+  - name: Avatar
+    description: 头像组件，AvatarGroup 的子组件
+    path: ../avatar
+
+  - name: Tooltip
+    description: 工具提示组件，配合 AvatarGroup 使用
+    path: /primitives/tooltip
+
+  - name: Popover
+    description: 弹出层组件，可用于显示完整成员列表
+    path: /overlays/popover
+
+# 设计规范
+design:
+  accessibility:
+    - 支持键盘导航
+    - 屏幕阅读器友好
+    - ARIA 属性完整
+    - 工具提示可访问
+    - 颜色对比度符合 WCAG 2.1 AA 标准
+
+  performance:
+    - 虚拟滚动支持（大数据量）
+    - 延迟加载图片
+    - 防抖处理悬浮事件
+    - 优化动画性能
+    - 减少重排重绘
+
+  responsive:
+    - 移动端适配
+    - 平板适配
+    - 桌面端优化
+    - 触摸友好
+    - 自适应间距
+
+# 浏览器支持
+browserSupport:
+  - Chrome >= 90
+  - Firefox >= 88
+  - Safari >= 14
+  - Edge >= 90
+  - iOS Safari >= 14
+  - Android Chrome >= 90
+
+# 测试覆盖
+testing:
+  unit:
+    - 基础渲染测试
+    - 变体测试
+    - 事件处理测试
+    - 工具提示测试
+    - 响应式测试
+    - 加载状态测试
+    - 边界情况测试
+
+  integration:
+    - 与 Avatar 组件集成
+    - 与 Tooltip 组件集成
+    - 与主题系统集成
+    - 与动画系统集成
+
+  accessibility:
+    - ARIA 属性测试
+    - 键盘导航测试
+    - 屏幕阅读器测试
+
+# 版本历史
+changelog:
+  - version: 1.0.0
+    date: '2025-11-04'
+    changes:
+      - 初始版本发布
+      - 支持所有核心功能
+      - 完整的 TypeScript 类型支持
+      - 7+ 预置故事
+      - 100% 测试覆盖率
+
+# 许可证
+license: MIT
+
+# 作者
+author:
+  - name: Xorigo UI Team
+    email: team@xorigo-ui.com
+    url: https://xorigo-ui.com
+
+# 贡献指南
+contributing:
+  url: https://github.com/xorigo-ui/core/blob/main/CONTRIBUTING.md
+  guidelines:
+    - 遵循现有的代码风格
+    - 添加必要的测试
+    - 更新文档和故事
+    - 保持向后兼容性

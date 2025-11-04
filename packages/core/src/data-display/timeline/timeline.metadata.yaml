@@ -1,0 +1,279 @@
+# Timeline 组件元数据配置
+# 组件分类、版本信息和功能特性
+
+component:
+  name: "Timeline"
+  displayName: "时间线"
+  category: "Data Display"
+  layer: "component"
+  stability: "stable"
+  version: "1.0.0"
+  created: "2025-11-04"
+  updated: "2025-11-04"
+
+  description:
+    zh-CN: "时间线组件用于按时间顺序展示事件、流程或活动，支持垂直和水平方向，多种样式变体和完整的可访问性支持。"
+    en-US: "Timeline component displays events, processes or activities in chronological order, supporting vertical and horizontal orientations with various style variants and full accessibility support."
+
+  keywords:
+    - timeline
+    - 时间线
+    - 事件流
+    - 流程
+    - 进度
+    - data-display
+    - 展示
+
+  icon: "📅"
+
+classification:
+  atomic_level: "molecule"
+  design_pattern: "list"
+  data_flow: "display-only"
+  interaction: "interactive"
+
+capabilities:
+  orientation:
+    - "vertical"
+    - "horizontal"
+
+  variant:
+    - "default"
+    - "simple"
+    - "filled"
+    - "bordered"
+
+  density:
+    - "compact"
+    - "normal"
+    - "loose"
+
+  alignment:
+    - "start"
+    - "center"
+    - "end"
+    - "alternate"
+
+  marker_size:
+    - "sm"
+    - "md"
+    - "lg"
+
+  marker_variant:
+    - "default"
+    - "primary"
+    - "success"
+    - "warning"
+    - "error"
+    - "info"
+    - "neutral"
+
+features:
+  core:
+    - "时间顺序展示"
+    - "垂直/水平方向"
+    - "多种样式变体"
+    - "可配置密度"
+    - "交替显示"
+    - "自定义标记"
+    - "图标支持"
+    - "响应式设计"
+
+  advanced:
+    - "数据驱动渲染"
+    - "折叠展开"
+    - "加载骨架屏"
+    - "空状态"
+    - "TypeScript 类型安全"
+    - "主题系统集成"
+
+  accessibility:
+    - "键盘导航"
+    - "ARIA 标签"
+    - "屏幕阅读器支持"
+    - "语义化 HTML"
+    - "焦点管理"
+
+compatibility:
+  react: ">=18.0.0"
+  typescript: ">=5.0.0"
+
+peer_dependencies:
+  - "react"
+  - "react-dom"
+
+dev_dependencies:
+  - "@testing-library/react"
+  - "@testing-library/jest-dom"
+  - "vitest"
+  - "@storybook/react"
+  - "storybook"
+
+theme_integration:
+  system: "seven-axis"
+  tokens:
+    - "color.border"
+    - "color.primary"
+    - "color.success"
+    - "color.warning"
+    - "color.error"
+    - "color.info"
+    - "color.neutral"
+    - "color.muted"
+    - "color.muted-foreground"
+    - "color.foreground"
+    - "background"
+    - "border.radius"
+    - "spacing"
+
+performance:
+  bundle_size: "~2.5KB (gzipped)"
+  render_complexity: "O(n)"
+  virtualization: false
+  memoization: "useMemo for variants"
+
+testing:
+  unit_test: true
+  integration_test: true
+  visual_test: true
+  accessibility_test: true
+  coverage_target: "90%"
+
+usage_examples:
+  basic: |
+    import { Timeline, TimelineItem, TimelineMarker, TimelineContent } from '@xorigo-ui/core'
+
+    function Example() {
+      return (
+        <Timeline>
+          <TimelineItem>
+            <TimelineMarker variant="primary">1</TimelineMarker>
+            <TimelineContent>
+              <div className="font-semibold">步骤 1</div>
+              <div className="text-sm text-muted-foreground">描述信息</div>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+      )
+    }
+
+  fromData: |
+    import { Timeline } from '@xorigo-ui/core'
+
+    const data = [
+      {
+        id: 1,
+        date: '2024-01-15',
+        title: '项目启动',
+        description: '项目开始',
+        variant: 'primary'
+      }
+    ]
+
+    function Example() {
+      return <Timeline.fromData items={data} />
+    }
+
+  horizontal: |
+    import { Timeline } from '@xorigo-ui/core'
+
+    function Example() {
+      return (
+        <Timeline orientation="horizontal">
+          <TimelineItem>
+            <TimelineMarker>1</TimelineMarker>
+            <TimelineContent>步骤 1</TimelineContent>
+          </TimelineItem>
+        </Timeline>
+      )
+    }
+
+api_reference:
+  props:
+    Timeline:
+      - name: "orientation"
+        type: "'vertical' | 'horizontal'"
+        default: "vertical"
+        description: "时间线方向"
+
+      - name: "variant"
+        type: "'default' | 'simple' | 'filled' | 'bordered'"
+        default: "default"
+        description: "样式变体"
+
+      - name: "density"
+        type: "'compact' | 'normal' | 'loose'"
+        default: "normal"
+        description: "内容密度"
+
+      - name: "className"
+        type: "string"
+        description: "自定义类名"
+
+    TimelineItem:
+      - name: "align"
+        type: "'start' | 'center' | 'end' | 'alternate'"
+        default: "start"
+        description: "内容对齐方式"
+
+      - name: "isLast"
+        type: "boolean"
+        description: "是否为最后一项（隐藏连接线）"
+
+    TimelineMarker:
+      - name: "size"
+        type: "'sm' | 'md' | 'lg'"
+        default: "md"
+        description: "标记尺寸"
+
+      - name: "variant"
+        type: "MarkerVariant"
+        default: "default"
+        description: "标记颜色变体"
+
+      - name: "dot"
+        type: "boolean"
+        default: false
+        description: "是否显示为圆点"
+
+      - name: "icon"
+        type: "React.ReactNode"
+        description: "自定义图标"
+
+    TimelineFromData:
+      - name: "items"
+        type: "TimelineItemData[]"
+        required: true
+        description: "时间线数据列表"
+
+      - name: "renderItem"
+        type: "(item: TimelineItemData, index: number) => React.ReactNode"
+        description: "自定义渲染函数"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    type: "initial"
+    changes:
+      - "初始版本发布"
+      - "支持垂直和水平时间线"
+      - "多种样式变体和密度选项"
+      - "数据驱动渲染"
+      - "完整的可访问性支持"
+      - "集成七轴主题系统"
+      - "包含单元测试和 Storybook 文档"
+
+maintenance:
+  owner: "Xorigo UI Team"
+  status: "active"
+  last_review: "2025-11-04"
+  review_frequency: "quarterly"
+
+related_components:
+  - "List"
+  - "Card"
+  - "Badge"
+  - "Progress"
+  - "Stepper"
+
+  note: "Timeline 组件通常与列表、卡片和徽章组件结合使用，以提供更丰富的展示效果。"

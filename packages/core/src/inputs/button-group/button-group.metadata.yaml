@@ -1,0 +1,65 @@
+# ButtonGroup Component Metadata
+
+name: "ButtonGroup"
+displayName: "ButtonGroup"
+category: "inputs"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  按钮组组件，将多个按钮组合在一起提供统一的交互体验
+
+tags:
+  - inputs
+  - button
+  - group
+  - select
+
+props:
+  - name: "options"
+    type: "ButtonGroupOption[]"
+    required: true
+    description: "选项列表"
+  - name: "value"
+    type: "string | string[]"
+    required: false
+    description: "当前值（受控）"
+  - name: "onValueChange"
+    type: "(value: string | string[]) => void"
+    required: false
+    description: "值变化回调"
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "\"md\""
+    description: "尺寸"
+  - name: "variant"
+    type: "'default' | 'outline' | 'solid' | 'ghost'"
+    required: false
+    default: "\"default\""
+    description: "变体"
+  - name: "shape"
+    type: "'rounded' | 'pill' | 'square'"
+    required: false
+    default: "\"rounded\""
+    description: "形状"
+  - name: "multiple"
+    type: "boolean"
+    required: false
+    default: "false"
+    description: "是否多选"
+
+features:
+  - 单选和多选模式
+  - 多种变体和形状
+  - 尺寸支持
+  - 禁用状态
+  - 动画效果
+
+accessibility:
+  - 键盘导航支持
+  - Focus 管理
+  - ARIA attributes

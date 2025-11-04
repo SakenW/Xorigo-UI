@@ -1,0 +1,596 @@
+# =============================================================================
+# DataGrid 组件元数据
+# =============================================================================
+# 描述 DataGrid 高级数据表格组件的分类、稳定性、依赖关系等信息
+#
+# @author Xorigo UI Team
+# @version 1.0.0
+# @since 2025-11-04
+# =============================================================================
+
+# 组件基本信息
+component:
+  name: DataGrid
+  displayName: 高级数据表格
+  category: Data Display
+  layer: Component
+  type: Data Display Component
+  description: 功能完整的高级数据表格组件，支持排序、过滤、分页、选择、编辑等企业级功能
+
+# 分类信息
+classification:
+  domain: UI Components
+  layer: Component Layer
+  stability: Stable
+  maturity: Production Ready
+  version: 1.0.0
+  lastUpdated: "2025-11-04"
+
+# 组件层次和依赖
+hierarchy:
+  atomicLevel: Organism
+  composedOf:
+    - TableHeader
+    - TableBody
+    - TableRow
+    - TableCell
+    - Checkbox
+    - Input
+    - Button
+  dependsOn:
+    primitives:
+      - Button
+      - Checkbox
+      - Input
+    utils:
+      - cva-standalone
+      - cn
+    system:
+      - @xorigo-ui/system (useTheme)
+    motion:
+      - framer-motion
+    data:
+      - React 19 hooks (useState, useMemo, useCallback)
+
+# 功能特性
+features:
+  - 列定义和配置系统（DataGridColumn）
+  - 多列排序功能（升序/降序/多级排序）
+  - 高级过滤功能（多种操作符：equals、contains、greaterThan等）
+  - 分页功能（可配置页大小、页码）
+  - 行选择（单选/多选模式）
+  - 固定列支持（左/右固定）
+  - 虚拟滚动（大数据量性能优化）
+  - 行内编辑（双击编辑）
+  - 单元格渲染自定义（render函数）
+  - 工具提示支持（文本截断时显示完整内容）
+  - 导出功能（CSV/Excel/JSON格式）
+  - 多种变体（default、striped、bordered、minimal）
+  - 尺寸系统（sm、md、lg）
+  - 密度控制（compact、normal、comfortable）
+  - 加载状态显示
+  - 空数据状态处理
+  - 响应式设计
+  - 可访问性支持
+  - 七轴主题系统集成
+  - TypeScript 类型安全
+  - forwardRef 支持
+
+# 技术规范
+technical:
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  theming: Seven-Axis Theme System
+  tokens: DTCG Design Tokens
+  ref: forwardRef
+  accessibility: WCAG 2.1 AA Compliant
+  performance: 虚拟滚动支持，O(n)复杂度优化
+
+# Props 规范
+props:
+  # 核心属性
+  - name: data
+    type: T[]
+    required: true
+    description: 表格数据数组
+
+  - name: columns
+    type: DataGridColumn<T>[]
+    required: true
+    description: 列定义数组
+
+  # 功能开关
+  - name: sortable
+    type: boolean
+    required: false
+    default: true
+    description: 是否启用排序功能
+
+  - name: filterable
+    type: boolean
+    required: false
+    default: false
+    description: 是否启用过滤功能
+
+  - name: selectable
+    type: SelectionConfig | false
+    required: false
+    default: { mode: 'multiple' }
+    description: 行选择配置（单选/多选）
+
+  - name: pagination
+    type: PaginationConfig | boolean
+    required: false
+    default: false
+    description: 分页配置
+
+  - name: virtualized
+    type: VirtualizationConfig | boolean
+    required: false
+    default: false
+    description: 虚拟滚动配置
+
+  - name: editable
+    type: boolean
+    required: false
+    default: false
+    description: 是否启用行内编辑
+
+  - name: exportable
+    type: boolean
+    required: false
+    default: false
+    description: 是否启用导出功能
+
+  # 回调函数
+  - name: onSort
+    type: (config: SortConfig[]) => void
+    required: false
+    description: 排序变化回调
+
+  - name: onFilter
+    type: (filters: FilterConfig[]) => void
+    required: false
+    description: 过滤条件变化回调
+
+  - name: onSelectionChange
+    type: (selectedRows: T[], selectedKeys: (string | number)[]) => void
+    required: false
+    description: 选择变化回调
+
+  - name: onPageChange
+    type: (pageIndex: number, pageSize: number) => void
+    required: false
+    description: 页码变化回调
+
+  - name: onCellEdit
+    type: (row: T, column: DataGridColumn<T>, value: any) => void
+    required: false
+    description: 单元格编辑回调
+
+  - name: onExport
+    type: (format: 'csv' | 'xlsx' | 'json') => void
+    required: false
+    description: 导出数据回调
+
+  # 状态属性
+  - name: loading
+    type: boolean
+    required: false
+    default: false
+    description: 加载状态
+
+  - name: emptyText
+    type: string
+    required: false
+    default: "暂无数据"
+    description: 空数据时显示的文本
+
+  - name: emptyComponent
+    type: React.ReactNode
+    required: false
+    description: 自定义空数据组件
+
+  - name: selectedRowKeys
+    type: (string | number)[]
+    required: false
+    default: []
+    description: 预选中的行键
+
+  # 固定列配置
+  - name: stickyHeader
+    type: boolean
+    required: false
+    default: true
+    description: 是否固定表头
+
+  - name: stickyFirstColumn
+    type: boolean
+    required: false
+    default: false
+    description: 是否固定第一列
+
+  - name: stickyLastColumn
+    type: boolean
+    required: false
+    default: false
+    description: 是否固定最后一列
+
+  # 自定义渲染
+  - name: rowClassName
+    type: string | ((row: T, index: number) => string)
+    required: false
+    description: 行样式类名或获取函数
+
+  - name: rowKey
+    type: string | ((row: T, index: number) => string | number)
+    required: false
+    description: 行键字段名或获取函数
+
+  - name: showTooltip
+    type: boolean
+    required: false
+    default: true
+    description: 是否显示工具提示
+
+  # 变体属性
+  - name: variant
+    type: '"default" | "striped" | "bordered" | "minimal"'
+    required: false
+    default: "default"
+    description: 表格视觉变体
+
+  - name: size
+    type: '"sm" | "md" | "lg"'
+    required: false
+    default: "md"
+    description: 表格尺寸
+
+  - name: density
+    type: '"compact" | "normal" | "comfortable"'
+    required: false
+    default: "normal"
+    description: 表格密度
+
+  # 其他属性
+  - name: className
+    type: string
+    required: false
+    description: 自定义样式类
+
+  - name: testId
+    type: string
+    required: false
+    description: 测试ID
+
+# DataGridColumn 类型
+columnConfig:
+  - name: key
+    type: string
+    required: true
+    description: 列的唯一键
+
+  - name: title
+    type: string
+    required: true
+    description: 列标题
+
+  - name: width
+    type: string | number
+    required: false
+    description: 列宽度
+
+  - name: minWidth
+    type: string | number
+    required: false
+    description: 列最小宽度
+
+  - name: maxWidth
+    type: string | number
+    required: false
+    description: 列最大宽度
+
+  - name: sortable
+    type: boolean
+    required: false
+    default: true
+    description: 是否可排序
+
+  - name: filterable
+    type: boolean
+    required: false
+    default: false
+    description: 是否可过滤
+
+  - name: resizable
+    type: boolean
+    required: false
+    default: false
+    description: 是否可调整宽度
+
+  - name: fixed
+    type: '"left" | "right" | false'
+    required: false
+    default: false
+    description: 固定列位置
+
+  - name: align
+    type: '"left" | "center" | "right"'
+    required: false
+    default: "left"
+    description: 文本对齐方式
+
+  - name: ellipsis
+    type: boolean
+    required: false
+    default: false
+    description: 是否文本截断
+
+  - name: render
+    type: (value: any, row: T, index: number) => React.ReactNode
+    required: false
+    description: 自定义渲染函数
+
+  - name: editor
+    type: React.ReactNode
+    required: false
+    description: 自定义编辑器
+
+  - name: className
+    type: string
+    required: false
+    description: 单元格样式类
+
+  - name: headerClassName
+    type: string
+    required: false
+    description: 表头单元格样式类
+
+# 变体说明
+variants:
+  - name: default
+    description: 默认样式，带有基础边框
+    useCase: 通用数据展示
+
+  - name: striped
+    description: 斑马纹样式，奇偶行背景色不同
+    useCase: 提高长表格的可读性
+
+  - name: bordered
+    description: 强调边框样式，2px边框
+    useCase: 需要明确边界的情况
+
+  - name: minimal
+    description: 极简样式，无边框无阴影
+    useCase: 嵌入在卡片或其他容器中
+
+# 使用场景
+useCases:
+  - 数据报表展示
+  - 管理系统数据列表
+  - 用户管理界面
+  - 订单管理列表
+  - 产品目录展示
+  - 财务报表表格
+  - 监控系统数据
+  - 内容管理列表
+  - 报告和分析界面
+  - 任何需要展示和操作结构化数据的场景
+
+# 性能考虑
+performance:
+  bundleSize: ~8.5KB (gzipped)
+  renderPerformance: 虚拟滚动优化，支持大数据量（1000+行）
+  memoization: 使用 useMemo 和 useCallback 优化
+  virtualization: 虚拟滚动减少 DOM 节点
+  columnWidth: 固定列布局优化
+
+# 可访问性
+accessibility:
+  wcagLevel: AA
+  keyboardNavigation: 支持 Tab 键导航
+  screenReaderSupport: 完整的 ARIA 标签
+  ariaRoles:
+    - role="table"
+    - role="rowgroup"
+    - role="row"
+    - role="columnheader" (表头)
+    - role="gridcell" (单元格)
+  ariaAttributes:
+    - aria-sort (排序状态)
+    - aria-label (列标签)
+    - aria-selected (选中状态)
+  focusManagement: 支持键盘导航和焦点管理
+  colorContrast: 符合 WCAG AA 标准
+
+# 浏览器支持
+browserSupport:
+  - Chrome >= 88
+  - Firefox >= 85
+  - Safari >= 14
+  - Edge >= 88
+  - iOS Safari >= 14
+  - Android Chrome >= 88
+
+# 测试覆盖
+testing:
+  unitTests: 完整覆盖（基础渲染、排序、过滤、分页、选择、编辑等）
+  integrationTests: 已实现
+  e2eTests: 建议添加
+  a11yTests: 已实现
+  visualTests: Storybook 已实现
+  performanceTests: 虚拟滚动性能测试
+
+# 示例代码
+examples:
+  basic: |
+    <DataGrid
+      data={users}
+      columns={[
+        { key: 'name', title: '姓名', sortable: true },
+        { key: 'email', title: '邮箱' },
+      ]}
+    />
+
+  sortable: |
+    <DataGrid
+      data={users}
+      columns={[
+        { key: 'name', title: '姓名', sortable: true },
+        { key: 'age', title: '年龄', sortable: true },
+      ]}
+      onSort={(config) => console.log(config)}
+    />
+
+  filterable: |
+    <DataGrid
+      data={users}
+      columns={[
+        { key: 'name', title: '姓名', filterable: true },
+        { key: 'department', title: '部门', filterable: true },
+      ]}
+      filterable
+      onFilter={(filters) => console.log(filters)}
+    />
+
+  selectable: |
+    <DataGrid
+      data={users}
+      columns={columns}
+      selectable={{ mode: 'multiple' }}
+      onSelectionChange={(rows, keys) => console.log(rows, keys)}
+    />
+
+  pagination: |
+    <DataGrid
+      data={users}
+      columns={columns}
+      pagination={{ enabled: true, pageSize: 10, total: users.length }}
+      onPageChange={(page, size) => console.log(page, size)}
+    />
+
+  editable: |
+    <DataGrid
+      data={users}
+      columns={columns}
+      editable
+      onCellEdit={(row, col, value) => console.log(row, col, value)}
+    />
+
+  customRender: |
+    <DataGrid
+      data={users}
+      columns={[
+        {
+          key: 'status',
+          title: '状态',
+          render: (value) => (
+            <span className="px-2 py-1 rounded bg-green-100 text-green-800">
+              {value}
+            </span>
+          ),
+        },
+      ]}
+    />
+
+  stickyColumns: |
+    <DataGrid
+      data={users}
+      columns={[
+        { key: 'id', title: 'ID', fixed: 'left' },
+        { key: 'name', title: '姓名' },
+        { key: 'action', title: '操作', fixed: 'right' },
+      ]}
+      stickyFirstColumn
+      stickyLastColumn
+    />
+
+  virtualized: |
+    <DataGrid
+      data={largeDataSet}
+      columns={columns}
+      virtualized={{ enabled: true, rowHeight: 50 }}
+    />
+
+  export: |
+    <DataGrid
+      data={users}
+      columns={columns}
+      exportable
+      onExport={(format) => {
+        // 实现导出逻辑
+        console.log('Export to', format)
+      }}
+    />
+
+# 相关组件
+relatedComponents:
+  - Table: 基础表格组件
+  - DataTable: 数据表格组件
+  - List: 列表组件
+  - Pagination: 分页组件
+  - Filter: 过滤组件
+  - Sorter: 排序组件
+
+# 设计令牌
+designTokens:
+  used:
+    - --bg-primary
+    - --bg-secondary
+    - --bg-tertiary
+    - --text-primary
+    - --text-secondary
+    - --text-inverse
+    - --border-primary
+    - --border-secondary
+    - --ring-primary-action
+    - --bg-primary-action
+    - --bg-secondary-action
+    - --bg-success
+    - --bg-warning
+    - --bg-error
+    - --bg-info
+
+# 主题适配
+theming:
+  sevenAxis: true
+  lightMode: 完全支持
+  darkMode: 完全支持
+  customThemes: 完全支持
+  recipeSystem: 支持所有配方
+
+# 版本历史
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - 初始版本发布
+      - 实现所有核心功能（排序、过滤、分页、选择、编辑）
+      - 支持虚拟滚动和固定列
+      - 完整的测试覆盖
+      - Storybook 文档
+      - TypeScript 类型定义
+      - 七轴主题系统集成
+
+# 维护信息
+maintenance:
+  owner: Xorigo UI Team
+  status: Active
+  lastReview: "2025-11-04"
+  nextReview: "2026-05-04"
+  deprecated: false
+  replacement: N/A
+
+# 许可证
+license:
+  type: MIT
+  url: https://opensource.org/licenses/MIT
+
+# 贡献指南
+contribution:
+  guidelines: https://github.com/xorigo-ui/xorigo-ui/blob/main/CONTRIBUTING.md
+  codeStyle: ESLint + Prettier
+  commitMessage: Conventional Commits
+  pullRequest: 欢迎贡献代码

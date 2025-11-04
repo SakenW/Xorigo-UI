@@ -46,8 +46,8 @@ export { MiniChart } from './mini-chart/mini-chart'
 export type { MiniChartProps, MiniChartDataPoint, MiniChartTrend } from './mini-chart/mini-chart'
 
 // PieChart 组件导出 (v1.0.0)
-export { PieChart } from './pie-chart/pie-chart'
-export type { PieChartProps, PieChartDataItem } from './pie-chart/pie-chart'
+export { PieChart } from './pie-chart'
+export type { PieChartProps, PieChartDataItem } from './pie-chart'
 
 // TODO: 修复 shared 依赖后重新启用这些组件
 // export { BarChart } from './bar-chart'

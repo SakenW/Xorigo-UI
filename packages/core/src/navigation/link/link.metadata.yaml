@@ -1,0 +1,49 @@
+# Link Component Metadata
+
+name: "Link"
+displayName: "Link"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  基础链接组件，提供统一的链接样式和行为，支持不同变体和状态。
+
+tags:
+  - navigation
+  - link
+  - anchor
+  - external
+
+props:
+  - name: "href"
+    type: "string"
+    required: true
+    description: "链接地址"
+  - name: "children"
+    type: "React.ReactNode"
+    required: true
+    description: "链接内容"
+  - name: "variant"
+    type: "'default' | 'primary' | 'secondary' | 'muted'"
+    required: false
+    default: "default"
+    description: "变体"
+  - name: "underline"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示下划线"
+  - name: "external"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否在新窗口打开"
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "尺寸"

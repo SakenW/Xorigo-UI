@@ -1,0 +1,517 @@
+# @fileoverview Description List Component Metadata
+# @description 描述列表组件的元数据配置文件
+# @author Xorigo UI Team
+# @version 1.0.0
+
+# ============================================================================
+# 组件基本信息
+# ============================================================================
+
+name: DescriptionList
+displayName: 描述列表
+description: 用于展示术语和定义对应关系的列表组件，支持多种布局模式、分组显示和交互功能
+
+# 分类信息
+category: Data Display
+subcategory: Lists
+layer: component
+status: stable
+
+# 版本信息
+version: 1.0.0
+since: 0.1.0
+
+# 维护信息
+maintainer:
+  name: Xorigo UI Team
+  email: team@xorigo-ui.com
+  website: https://xorigo-ui.com
+
+# ============================================================================
+# 组件特性
+# ============================================================================
+
+features:
+  - id: multiple-layouts
+    name: 多种布局模式
+    description: 支持垂直、水平和自动布局，适应不同场景需求
+
+  - id: grouping
+    name: 分组显示
+    description: 支持将项目分组展示，方便信息组织
+
+  - id: collapsible
+    name: 折叠展开
+    description: 支持分组的折叠和展开控制，节省空间
+
+  - id: icons
+    name: 图标支持
+    description: 支持在术语和分组中显示图标，增强视觉效果
+
+  - id: copyable
+    name: 一键复制
+    description: 支持复制术语或描述内容到剪贴板
+
+  - id: custom-rendering
+    name: 自定义渲染
+    description: 支持完全自定义项目渲染器，实现个性化展示
+
+  - id: responsive
+    name: 响应式设计
+    description: 完全响应式，在各种屏幕尺寸下都能良好显示
+
+  - id: accessibility
+    name: 可访问性
+    description: 符合 WCAG 标准，支持键盘导航和屏幕阅读器
+
+# ============================================================================
+# 技术规格
+# ============================================================================
+
+technical:
+  # 依赖
+  dependencies:
+    react: ^19.0.0
+    typescript: ^5.0.0
+    framer-motion: ^12.0.0
+    class-variance-authority: ^0.7.0
+    lucide-react: latest
+
+  # peerDependencies
+  peerDependencies:
+    react: '>=18.0.0'
+    react-dom: '>=18.0.0'
+
+  # 开发依赖
+  devDependencies:
+    vitest: latest
+    testing-library: latest
+    '@testing-library/react': latest
+    '@testing-library/jest-dom': latest
+
+  # 文件大小 (gzip)
+  size:
+    minified: '~8kb'
+    gzipped: '~3.2kb'
+
+  # 性能指标
+  performance:
+    first-contentful-paint: '< 100ms'
+    time-to-interactive: '< 200ms'
+    cumulative-layout-shift: '< 0.1'
+
+  # 浏览器支持
+  browser-support:
+    - Chrome >= 90
+    - Firefox >= 88
+    - Safari >= 14
+    - Edge >= 90
+    - iOS >= 14
+    - Android >= 90
+
+# ============================================================================
+# 组件 API
+# ============================================================================
+
+api:
+  # Props
+  props:
+    - name: items
+      type: 'DescriptionListItem[]'
+      required: true
+      description: 描述列表项目数组
+      default: '[]'
+
+    - name: groups
+      type: 'DescriptionListGroup[]'
+      required: false
+      description: 分组数组，用于分组展示
+      default: 'undefined'
+
+    - name: variant
+      type: "'vertical' | 'horizontal' | 'auto'"
+      required: false
+      description: 布局变体
+      default: 'auto'
+
+    - name: size
+      type: "'sm' | 'md' | 'lg'"
+      required: false
+      description: 组件尺寸
+      default: 'md'
+
+    - name: density
+      type: "'compact' | 'normal' | 'comfortable'"
+      required: false
+      description: 间距密度
+      default: 'normal'
+
+    - name: label
+      type: 'ReactNode'
+      required: false
+      description: 列表标题
+      default: 'undefined'
+
+    - name: showIcons
+      type: 'boolean'
+      required: false
+      description: 是否显示图标
+      default: 'false'
+
+    - name: showDividers
+      type: 'boolean'
+      required: false
+      description: 是否显示分隔线
+      default: 'false'
+
+    - name: copyable
+      type: 'boolean'
+      required: false
+      description: 是否启用复制功能
+      default: 'false'
+
+    - name: collapsible
+      type: 'boolean'
+      required: false
+      description: 是否支持折叠（对分组生效）
+      default: 'false'
+
+    - name: defaultCollapsed
+      type: 'boolean'
+      required: false
+      description: 默认是否折叠
+      default: 'false'
+
+    - name: onItemCopy
+      type: '(item: DescriptionListItem) => void'
+      required: false
+      description: 项目复制时的回调函数
+      default: 'undefined'
+
+    - name: renderCustomItem
+      type: '(item: DescriptionListItem, index: number) => ReactNode'
+      required: false
+      description: 自定义项目渲染器
+      default: 'undefined'
+
+    - name: ariaLabel
+      type: 'string'
+      required: false
+      description: aria-label 属性
+      default: 'undefined'
+
+    - name: className
+      type: 'string'
+      required: false
+      description: 自定义 CSS 类名
+      default: 'undefined'
+
+  # 子组件
+  children:
+    - name: Term
+      description: 术语组件
+      required: false
+
+    - name: Description
+      description: 描述组件
+      required: false
+
+  # 类型定义
+  types:
+    DescriptionListItem:
+      properties:
+        - name: term
+          type: 'ReactNode'
+          required: true
+          description: 术语内容
+
+        - name: description
+          type: 'ReactNode'
+          required: true
+          description: 描述内容
+
+        - name: icon
+          type: 'ReactNode'
+          required: false
+          description: 图标
+
+        - name: id
+          type: 'string'
+          required: false
+          description: 唯一标识符
+
+        - name: className
+          type: 'string'
+          required: false
+          description: 自定义类名
+
+        - name: termClassName
+          type: 'string'
+          required: false
+          description: 术语自定义类名
+
+        - name: descriptionClassName
+          type: 'string'
+          required: false
+          description: 描述自定义类名
+
+        - name: copyable
+          type: 'boolean'
+          required: false
+          description: 是否可复制
+
+        - name: onCopy
+          type: '(value: string) => void'
+          required: false
+          description: 复制回调
+
+        - name: value
+          type: 'string'
+          required: false
+          description: 复制值（默认使用 term 文本）
+
+    DescriptionListGroup:
+      properties:
+        - name: title
+          type: 'ReactNode'
+          required: false
+          description: 分组标题
+
+        - name: items
+          type: 'DescriptionListItem[]'
+          required: true
+          description: 分组项目数组
+
+        - name: className
+          type: 'string'
+          required: false
+          description: 分组自定义类名
+
+        - name: collapsible
+          type: 'boolean'
+          required: false
+          description: 是否可折叠
+
+        - name: defaultCollapsed
+          type: 'boolean'
+          required: false
+          description: 默认是否折叠
+
+        - name: icon
+          type: 'ReactNode'
+          required: false
+          description: 分组图标
+
+# ============================================================================
+# 设计系统集成
+# ============================================================================
+
+designSystem:
+  # 主题系统
+  theme:
+    sevenAxisSupported: true
+    tokens:
+      - color.foreground
+      - color.foreground-muted
+      - color.background
+      - color.background-secondary
+      - color.background-tertiary
+      - color.border
+      - color.ring
+      - font.size
+      - font.weight
+      - space.gap
+      - radius
+
+  # 变体系统
+  variants:
+    layout:
+      - vertical: 垂直布局
+      - horizontal: 水平布局
+      - auto: 自动布局（响应式）
+
+    size:
+      - sm: 小尺寸
+      - md: 中等尺寸（默认）
+      - lg: 大尺寸
+
+    density:
+      - compact: 紧密间距
+      - normal: 正常间距（默认）
+      - comfortable: 舒适间距
+
+# ============================================================================
+# 使用场景
+# ============================================================================
+
+useCases:
+  - id: documentation
+    name: 文档页面
+    description: 用于解释术语和概念，如 API 文档、用户手册等
+    examples:
+      - API 参数说明
+      - 技术术语解释
+      - 配置项文档
+
+  - id: features
+    name: 功能特性展示
+    description: 用于展示产品或服务的功能特性
+    examples:
+      - 产品功能列表
+      - 服务特性说明
+      - 技术优势展示
+
+  - id: configuration
+    name: 配置说明
+    description: 用于展示配置选项和说明
+    examples:
+      - 主题配置指南
+      - 插件配置说明
+      - 初始化参数说明
+
+# ============================================================================
+# 示例代码
+# ============================================================================
+
+examples:
+  basic:
+    description: 基础用法
+    code: |
+      import { DescriptionList } from '@xorigo-ui/core';
+
+      const items = [
+        {
+          term: 'React',
+          description: '用于构建用户界面的 JavaScript 库',
+        },
+        {
+          term: 'TypeScript',
+          description: '带类型检查的 JavaScript 超集',
+        },
+      ];
+
+      <DescriptionList items={items} />
+
+  withIcons:
+    description: 带图标用法
+    code: |
+      import { DescriptionList } from '@xorigo-ui/core';
+      import { React } from 'lucide-react';
+
+      <DescriptionList
+        items={[
+          {
+            term: 'React',
+            description: '用于构建用户界面的 JavaScript 库',
+            icon: <React size={18} />,
+          },
+        ]}
+        showIcons={true}
+      />
+
+  withGroups:
+    description: 分组用法
+    code: |
+      import { DescriptionList } from '@xorigo-ui/core';
+
+      <DescriptionList
+        groups={[
+          {
+            title: '前端框架',
+            items: [
+              {
+                term: 'React',
+                description: '用于构建用户界面的 JavaScript 库',
+              },
+            ],
+          },
+        ]}
+      />
+
+  copyable:
+    description: 复制功能
+    code: |
+      import { DescriptionList } from '@xorigo-ui/core';
+
+      <DescriptionList
+        items={[
+          {
+            term: 'API Key',
+            description: '用于身份验证的 API 密钥',
+            value: 'your-api-key-here',
+          },
+        ]}
+        copyable={true}
+      />
+
+# ============================================================================
+# 相关组件
+# ============================================================================
+
+related:
+  - name: List
+    type: sibling
+    description: 基础列表组件
+
+  - name: Table
+    type: sibling
+    description: 表格组件，用于展示结构化数据
+
+  - name: Card
+    type: related
+    description: 卡片组件，常用于包装内容
+
+# ============================================================================
+# 更新日志
+# ============================================================================
+
+changelog:
+  - version: 1.0.0
+    date: '2025-11-04'
+    type: major
+    changes:
+      - 初始版本发布
+      - 支持多种布局模式（垂直/水平/自动）
+      - 支持分组和可折叠功能
+      - 支持图标显示
+      - 支持一键复制功能
+      - 支持自定义渲染器
+      - 完全响应式设计
+      - 符合 WCAG 标准的可访问性
+      - 集成七轴主题系统
+      - 完整的单元测试覆盖
+      - Storybook 故事文件
+
+# ============================================================================
+# 许可证和版权
+# ============================================================================
+
+license: MIT
+copyright: '© 2025 Xorigo UI Team. All rights reserved.'
+repository:
+  type: git
+  url: 'https://github.com/xorigo-ui/xorigo-ui'
+
+# ============================================================================
+# 质量指标
+# ============================================================================
+
+quality:
+  # 测试覆盖率
+  testCoverage:
+    statements: '>= 95%'
+    branches: '>= 90%'
+    functions: '>= 95%'
+    lines: '>= 95%'
+
+  # 代码质量
+  codeQuality:
+    eslint: strict
+    typescript: strict
+    accessibility: 'WCAG 2.1 AA'
+
+  # 性能
+  performance:
+    bundleSize: '< 5kb gzipped'
+    renderTime: '< 16ms'
+    interactionDelay: '< 100ms'

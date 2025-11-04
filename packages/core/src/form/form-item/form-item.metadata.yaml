@@ -1,0 +1,413 @@
+# FormItem 组件元数据
+# 符合 v2025.11.03 SSOT 规范
+
+metadata:
+  # 基本信息
+  name: FormItem
+  displayName: Form Item
+  category: forms
+  subcategory: 表单结构与校验
+  layer: component
+  version: 1.0.0
+  stability: stable
+
+  # 分类信息
+  classification:
+    category: forms
+    layer: component
+    type: container
+    purpose: 表单项容器组件，包装单个字段及其相关元素
+
+  # 功能特性
+  features:
+    - 表单项容器组件
+    - 包装单个字段及其相关元素
+    - 支持标签、输入框、帮助文本、错误消息
+    - 支持字段布局和对齐（5种变体）
+    - 支持必填标记显示
+    - 支持字段组和嵌套
+    - 支持响应式设计
+    - 支持自定义样式
+    - 支持禁用状态
+    - 支持只读状态
+    - 支持描述性文本
+    - 支持状态消息（错误/警告/信息/成功）
+    - 支持状态指示器
+    - TypeScript 类型安全
+    - React Context 集成
+    - 可访问性支持
+    - 动画效果（淡入/淡出）
+
+  # 技术特性
+  technical:
+    react: ^19.0.0
+    typescript: ^5.0.0
+    dependencies:
+      - react
+      - react-dom
+      - @xorigo-ui/core
+      - framer-motion
+    peerDependencies: []
+    builtWith:
+      - React.forwardRef
+      - React Context API
+      - React Hooks (useState, useCallback, useContext)
+      - CVA (Class Variance Authority)
+      - Framer Motion (动画效果)
+      - TypeScript Generics
+
+  # API 设计
+  api:
+    props:
+      - name: label
+        type: string
+        required: false
+        default: ''
+        description: 表单字段标签文本
+        notes: 用于标识字段用途
+
+      - name: description
+        type: string
+        required: false
+        default: ''
+        description: 字段描述文本
+        notes: 显示在输入框下方，用于进一步说明
+
+      - name: helpText
+        type: string
+        required: false
+        default: ''
+        description: 帮助文本
+        notes: 显示在输入框下方，带动画效果
+
+      - name: error
+        type: string | string[] | null
+        required: false
+        default: null
+        description: 错误消息
+        notes: 支持单条或多条错误信息
+
+      - name: warning
+        type: string | null
+        required: false
+        default: null
+        description: 警告消息
+        notes: 显示黄色警告提示
+
+      - name: info
+        type: string | null
+        required: false
+        default: null
+        description: 信息消息
+        notes: 显示蓝色信息提示
+
+      - name: success
+        type: string | null
+        required: false
+        default: null
+        description: 成功消息
+        notes: 显示绿色成功提示
+
+      - name: required
+        type: boolean
+        required: false
+        default: false
+        description: 是否为必填项
+        notes: 控制必填指示器和aria-required属性
+
+      - name: optional
+        type: boolean
+        required: false
+        default: false
+        description: 是否为可选项
+        notes: 用于显示可选指示器
+
+      - name: disabled
+        type: boolean
+        required: false
+        default: false
+        description: 是否禁用
+        notes: 禁用整个表单项，包括子元素
+
+      - name: readonly
+        type: boolean
+        required: false
+        default: false
+        description: 是否只读
+        notes: 设置子元素为只读状态
+
+      - name: variant
+        type: '"default" | "stacked" | "inline" | "horizontal" | "vertical"'
+        required: false
+        default: 'default'
+        description: 布局变体
+        notes: 控制标签和内容的排列方式
+
+      - name: size
+        type: '"sm" | "md" | "lg" | "xl"'
+        required: false
+        default: 'md'
+        description: 尺寸规格
+        notes: 控制字体大小和间距
+
+      - name: children
+        type: React.ReactNode
+        required: true
+        description: 子元素
+        notes: 通常是表单输入控件
+
+      - name: showRequiredIndicator
+        type: boolean
+        required: false
+        default: true
+        description: 是否显示必填指示器
+        notes: 在标签旁显示红色星号
+
+      - name: showOptionalIndicator
+        type: boolean
+        required: false
+        default: false
+        description: 是否显示可选指示器
+        notes: 在标签旁显示"（可选）"文本
+
+      - name: showStatusIndicator
+        type: boolean
+        required: false
+        default: false
+        description: 是否显示状态指示器
+        notes: 在输入框右侧显示状态图标
+
+      - name: id
+        type: string
+        required: false
+        description: 自定义ID
+        notes: 用于关联标签和输入框
+
+      - name: aria-describedby
+        type: string
+        required: false
+        description: 自定义描述ID
+        notes: 扩展aria-describedby属性
+
+      - name: aria-labelledby
+        type: string
+        required: false
+        description: 自定义标签ID
+        notes: 覆盖默认的标签关联
+
+    context:
+      - name: useFormItem
+        type: '() => FormItemContextValue'
+        description: 获取FormItem上下文
+        notes: 必须在FormItem内部使用
+
+    methods:
+      - name: 无直接方法
+        description: 通过props控制行为
+        notes: 使用React props API
+
+  # 变体系统
+  variants:
+    variant:
+      default: 垂直布局，标签在顶部，内容在下
+      stacked: 紧凑垂直布局，标签和内容间距较小
+      inline: 水平布局，标签和内容在同一行
+      horizontal: 网格布局，标签和内容分别在两列
+      vertical: 简洁垂直布局
+
+    size:
+      sm: 小尺寸，字体12px
+      md: 中等尺寸，字体14px
+      lg: 大尺寸，字体16px
+      xl: 特大尺寸，字体18px
+
+  # 状态
+  state:
+    hasError: 是否显示错误
+    hasWarning: 是否显示警告
+    hasSuccess: 是否显示成功
+    hasInfo: 是否显示信息
+    hasDescription: 是否有描述文本
+    hasHelpText: 是否有帮助文本
+    isDisabled: 是否禁用
+    isReadonly: 是否只读
+    isRequired: 是否必填
+
+  # 使用场景
+  useCases:
+    - 包装单个表单输入控件
+    - 创建带标签的表单字段
+    - 显示字段验证错误信息
+    - 提供字段帮助和说明
+    - 创建多种布局的表单
+    - 构建响应式表单界面
+    - 管理表单字段状态
+    - 统一表单样式和交互
+
+  # 最佳实践
+  bestPractices:
+    - 为每个输入控件使用FormItem包装
+    - 使用description提供字段说明
+    - 使用helpText提供实时帮助
+    - 通过error显示验证结果
+    - 根据表单需求选择合适的variant
+    - 使用horizontal variant节省垂直空间
+    - 合理使用required和optional标识
+    - 利用showStatusIndicator提升用户体验
+
+  # 注意事项
+  注意事项:
+    - 必须作为容器组件使用，包含表单控件作为children
+    - variant="horizontal"时，不会自动设置label的for属性
+    - children中的第一个输入控件会自动获得关联的ID
+    - 错误消息、警告信息等带有淡入动画效果
+    - 禁用状态下，子元素也会被禁用
+    - 只读状态下，子元素设置为只读
+    - aria-describedby会自动包含所有描述元素的ID
+    - 必须在FormItem内部使用useFormItem Hook
+
+  # 示例代码
+  examples:
+    basic:
+      description: 基本用法
+      code: |
+        <FormItem label="Username">
+          <input type="text" />
+        </FormItem>
+
+    withError:
+      description: 带错误消息
+      code: |
+        <FormItem label="Email" error="Invalid email">
+          <input type="email" />
+        </FormItem>
+
+    horizontalLayout:
+      description: 水平布局
+      code: |
+        <FormItem variant="horizontal" label="Name" required>
+          <input type="text" />
+        </FormItem>
+
+    withDescription:
+      description: 带描述和帮助
+      code: |
+        <FormItem
+          label="Password"
+          description="Must be at least 8 characters"
+          helpText="Use a strong password"
+          required
+        >
+          <input type="password" />
+        </FormItem>
+
+    disabledState:
+      description: 禁用状态
+      code: |
+        <FormItem label="Disabled Field" disabled>
+          <input type="text" disabled />
+        </FormItem>
+
+  # 相关组件
+  relatedComponents:
+    - FormProvider: 表单上下文提供者
+    - Form: 表单容器组件
+    - FormField: 字段容器组件
+    - Fieldset: 字段集组件
+    - ValidationMessage: 验证消息组件
+    - InputGroup: 输入组组件
+    - ButtonGroup: 按钮组组件
+
+  # 设计原则
+  designPrinciples:
+    - 原子化设计：作为表单字段的最小容器单元
+    - 可组合性：可以与其他表单组件灵活组合
+    - 灵活性：支持多种布局变体
+    - 一致性：统一的API设计和样式风格
+    - 可访问性：完整的无障碍访问支持
+    - 类型安全：完整的TypeScript类型定义
+
+  # 架构对齐
+  architecture:
+    ssotVersion: v2025.11.03
+    taxonomyCategory: forms
+    layer: Component Layer
+    dependencyLevel: 3
+    dependencies:
+      - primitives
+      - system
+      - foundations
+      - motion
+    providesTo:
+      - inputs
+      - form
+      - validation
+
+  # 性能
+  performance:
+    memoization: 使用React.memo和useCallback优化渲染
+    reRenderStrategy: 局部状态更新，最小化重渲染
+    animationOptimization: 使用Framer Motion优化动画性能
+
+  # 可访问性
+  accessibility:
+    role: group
+    keyboardNavigation: 支持
+    screenReader: 语义化属性和aria标签
+    ariaSupport: 完整支持，包括aria-invalid、aria-required等
+    labelAssociation: 自动关联标签和输入框
+    errorAnnouncement: 错误消息自动通知屏幕阅读器
+
+  # 测试
+  testing:
+    unitTests: form-item.test.tsx
+    integrationTests: 集成测试覆盖
+    e2eTests: 端到端测试
+    coverage: >90%
+    testCases:
+      - 基本功能测试
+      - 变体支持测试
+      - 尺寸支持测试
+      - 状态消息测试
+      - 必填/可选指示器测试
+      - 禁用/只读状态测试
+      - 可访问性测试
+      - 动画效果测试
+      - 错误边界测试
+      - Context测试
+
+  # 文档
+  documentation:
+    readme: form-item.md
+    api: form-item.api.md
+    stories: form-item.stories.tsx
+    examples: examples/
+
+  # 版本历史
+  changelog:
+    - version: 1.0.0
+      date: 2025-11-04
+      changes:
+        - 初始版本
+        - 实现FormItem表单项容器组件
+        - 支持5种布局变体（default/stacked/inline/horizontal/vertical）
+        - 支持4种尺寸（sm/md/lg/xl）
+        - 支持状态消息（错误/警告/信息/成功）
+        - 支持必填和可选指示器
+        - 支持描述和帮助文本
+        - 支持禁用和只读状态
+        - 支持状态指示器
+        - 完整的TypeScript类型支持
+        - 全面的单元测试覆盖
+        - 丰富的Storybook故事
+
+  # 维护信息
+  maintenance:
+    owner: Xorigo UI Team
+    reviewers:
+      - Component Team
+    updateFrequency: 根据需要
+    breakingChanges: 遵循语义化版本
+
+  # 许可
+  license: MIT

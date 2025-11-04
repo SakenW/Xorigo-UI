@@ -1,0 +1,65 @@
+# SegmentedControl Component Metadata
+
+name: "SegmentedControl"
+displayName: "Segmented Control"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  分段控制器组件，提供多个选项的单选控件，类似于 iOS 的 UISegmentedControl。
+
+tags:
+  - navigation
+  - control
+  - selector
+  - toggle
+
+props:
+  - name: "options"
+    type: "SegmentedOption[]"
+    required: true
+    description: "选项列表"
+
+  - name: "value"
+    type: "string"
+    required: false
+    description: "当前选中的值"
+
+  - name: "defaultValue"
+    type: "string"
+    required: false
+    description: "默认值"
+
+  - name: "onValueChange"
+    type: "(value: string) => void"
+    required: false
+    description: "值改变时的回调"
+
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "控制器大小"
+
+  - name: "variant"
+    type: "'default' | 'pilled' | 'bordered'"
+    required: false
+    default: "default"
+    description: "变体"
+
+  - name: "fullWidth"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否充满宽度"
+
+features:
+  - "单选模式"
+  - "多种尺寸"
+  - "图标支持"
+  - "禁用状态"
+  - "动画效果"

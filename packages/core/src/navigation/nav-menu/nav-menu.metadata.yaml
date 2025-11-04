@@ -1,0 +1,57 @@
+# NavMenu Component Metadata
+
+name: "NavMenu"
+displayName: "Navigation Menu"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  导航菜单组件，提供应用的导航菜单，支持多级菜单、图标、分组等功能。
+
+tags:
+  - navigation
+  - menu
+  - navigation-bar
+  - links
+
+props:
+  - name: "items"
+    type: "NavMenuItem[]"
+    required: true
+    description: "菜单项列表"
+
+  - name: "orientation"
+    type: "'horizontal' | 'vertical'"
+    required: false
+    default: "horizontal"
+    description: "菜单方向"
+
+  - name: "variant"
+    type: "'default' | 'bordered' | 'pilled'"
+    required: false
+    default: "default"
+    description: "菜单变体"
+
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "菜单大小"
+
+  - name: "collapsible"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否可折叠（垂直模式）"
+
+features:
+  - "多级菜单支持"
+  - "图标和徽章"
+  - "激活状态"
+  - "禁用状态"
+  - "动画过渡"
+  - "响应式设计"

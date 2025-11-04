@@ -1,0 +1,62 @@
+# CheckboxGroup Component Metadata
+
+name: "CheckboxGroup"
+displayName: "CheckboxGroup"
+category: "inputs"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  复选框组组件，提供多个复选选项的组合，支持全选/取消全选功能
+
+tags:
+  - inputs
+  - checkbox
+  - group
+  - multi-select
+
+props:
+  - name: "options"
+    type: "CheckboxGroupOption[]"
+    required: true
+    description: "选项列表"
+  - name: "value"
+    type: "string[]"
+    required: false
+    description: "当前值（受控）"
+  - name: "onValueChange"
+    type: "(value: string[]) => void"
+    required: false
+    description: "值变化回调"
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "\"md\""
+    description: "尺寸"
+  - name: "direction"
+    type: "'horizontal' | 'vertical'"
+    required: false
+    default: "\"vertical\""
+    description: "方向"
+  - name: "showSelectAll"
+    type: "boolean"
+    required: false
+    default: "false"
+    description: "是否显示全选"
+
+features:
+  - 多选支持
+  - 全选/取消全选
+  - 水平/垂直布局
+  - 尺寸支持
+  - 禁用状态
+  - 动画效果
+
+accessibility:
+  - ARIA role="group"
+  - 键盘导航支持
+  - Focus 管理
+  - 状态指示

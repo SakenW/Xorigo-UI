@@ -1,0 +1,36 @@
+# ContextualMenu Component Metadata
+
+name: "ContextualMenu"
+displayName: "Contextual Menu"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  上下文菜单组件，提供鼠标右键或点击触发的上下文菜单。
+
+tags:
+  - navigation
+  - context-menu
+  - right-click
+
+props:
+  - name: "items"
+    type: "ContextualMenuItem[]"
+    required: true
+    description: "菜单项列表"
+  - name: "position"
+    type: "{ x: number; y: number }"
+    required: true
+    description: "菜单位置"
+  - name: "visible"
+    type: "boolean"
+    required: true
+    description: "是否显示"
+  - name: "onHide"
+    type: "() => void"
+    required: true
+    description: "隐藏菜单的回调"

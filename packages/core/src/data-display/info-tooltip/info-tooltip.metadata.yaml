@@ -1,0 +1,222 @@
+# InfoTooltip Component Metadata
+# Xorigo UI v2025.11.03 - 组件分类系统 SSOT 对齐
+
+name: "InfoTooltip"
+displayName: "Info Tooltip"
+category: "data-display"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  信息提示组件，为用户提供上下文相关的信息提示，帮助理解界面元素或功能。
+  支持多种触发方式、位置调整和自定义样式。
+
+  支持 hover、click、focus 三种触发方式，可配置四个方向的显示位置，
+  支持延迟显示、箭头显示、变体和尺寸自定义等功能。
+
+tags:
+  - data-display
+  - tooltip
+  - info
+  - help
+  - contextual
+  - core-component
+
+architecture:
+  ssot_version: "v2025.11.03"
+  taxonomy_category: "data-display"
+  layer: "Component Layer"
+  level: "component"
+  dependency_level: 2
+
+dependencies:
+  - "primitives"
+  - "system/theme"
+  - "utils/cn"
+  - "motion"
+
+peer_dependencies:
+  - "react"
+  - "framer-motion"
+
+props:
+  - name: "children"
+    type: "React.ReactNode"
+    required: true
+    description: "触发提示的元素"
+
+  - name: "content"
+    type: "React.ReactNode"
+    required: true
+    description: "提示内容"
+
+  - name: "position"
+    type: "'top' | 'bottom' | 'left' | 'right'"
+    required: false
+    default: "top"
+    description: "提示内容的位置"
+
+  - name: "trigger"
+    type: "'hover' | 'click' | 'focus'"
+    required: false
+    default: "hover"
+    description: "触发方式"
+
+  - name: "showArrow"
+    type: "boolean"
+    required: false
+    default: true
+    description: "是否显示箭头"
+
+  - name: "delay"
+    type: "number"
+    required: false
+    default: 200
+    description: "延迟显示时间（毫秒）"
+
+  - name: "className"
+    type: "string"
+    required: false
+    default: ""
+    description: "自定义类名"
+
+  - name: "disabled"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否禁用"
+
+  - name: "variant"
+    type: "'default' | 'inverted'"
+    required: false
+    default: "default"
+    description: "提示框的变体"
+
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "提示框的大小"
+
+  - name: "forceShow"
+    type: "boolean"
+    required: false
+    default: false
+    description: "强制显示（用于演示或特殊场景）"
+
+features:
+  - "多种触发方式（hover、click、focus）"
+  - "四个方向的显示位置"
+  - "可配置延迟显示"
+  - "可显示/隐藏箭头"
+  - "支持不同变体和尺寸"
+  - "支持强制显示模式"
+  - "流畅的动画过渡"
+  - "主题系统集成"
+  - "完全可访问性支持"
+  - "React.forwardRef 支持"
+
+accessibility:
+  role: "tooltip"
+  keyboardNavigation: true
+  screenReaderSupport: true
+  ariaAttributes:
+    - "role='tooltip'"
+    - "aria-hidden"
+  focusManagement: true
+  hoverBehavior: true
+
+theming:
+  supports_seven_axis: true
+  theme_tokens:
+    - "var(--color-tooltip-bg)"
+    - "var(--color-tooltip-text)"
+    - "var(--color-tooltip-border)"
+    - "var(--color-surface)"
+    - "var(--color-text-primary)"
+    - "var(--color-text-secondary)"
+    - "var(--color-border)"
+
+examples:
+  basic: |
+    <InfoTooltip content="这是一个信息提示">
+      <button>悬停查看</button>
+    </InfoTooltip>
+
+  positions: |
+    <InfoTooltip content="顶部提示" position="top">
+      <button>上</button>
+    </InfoTooltip>
+
+    <InfoTooltip content="右侧提示" position="right">
+      <button>右</button>
+    </InfoTooltip>
+
+  click_trigger: |
+    <InfoTooltip content="点击触发的提示" trigger="click">
+      <button>点击查看</button>
+    </InfoTooltip>
+
+  custom_delay: |
+    <InfoTooltip content="延迟500ms显示" delay={500}>
+      <button>延迟提示</button>
+    </InfoTooltip>
+
+  complex_content: |
+    <InfoTooltip
+      content={
+        <div>
+          <div className="font-semibold mb-1">详细说明</div>
+          <div className="text-sm">这里是更详细的信息内容</div>
+        </div>
+      }
+    >
+      <button>复杂内容</button>
+    </InfoTooltip>
+
+  form_field_help: |
+    <div className="flex items-center gap-2">
+      <label>密码</label>
+      <InfoTooltip content="密码长度至少8位，包含大小写字母和数字">
+        <button>?</button>
+      </InfoTooltip>
+      <input type="password" />
+    </div>
+
+testing:
+  unit_test: "info-tooltip.test.tsx"
+  storybook: "info-tooltip.stories.tsx"
+  coverage_target: "95%"
+
+performance:
+  bundle_size_impact: "minimal"
+  render_time: "<8ms"
+  memory_usage: "low"
+
+related_components:
+  - "Tooltip"
+  - "Popover"
+  - "Badge"
+  - "HelperText"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持多种触发方式"
+      - "支持四个方向的显示位置"
+      - "集成动画过渡效果"
+      - "完全可访问性支持"
+
+maintainers:
+  - "Xorigo UI Team"
+  - "Data Display Team"
+
+license: "MIT"
+repository: "https://github.com/xorigo-ui/core/tree/main/packages/core/src/data-display/info-tooltip"
+issues: "https://github.com/xorigo-ui/core/issues"
+discussions: "https://github.com/xorigo-ui/core/discussions"

@@ -1,0 +1,393 @@
+# Badge 组件元数据
+# 组件分类系统 v2025.11.03
+
+# 基本信息
+name: "Badge"
+displayName: "徽章"
+description: "用于显示状态、标签、通知等小型信息的可定制徽章组件"
+category: "Data Display"
+layer: "component"
+stability: "stable"
+version: "1.0.0"
+
+# 组件分类
+classification:
+  - category: "Data Display"
+  - subcategory: "Indicators"
+  - type: "Component"
+  - atomicity: "atom"
+  - layer: "component"
+  - status: "stable"
+
+# 技术规范
+technical:
+  react: "^19.0.0"
+  typescript: "^5.9.0"
+  framework: "React 19"
+  styling: "Tailwind CSS 4"
+  animation: "Framer Motion 12"
+  theme: "七轴主题系统"
+  a11y: "WCAG 2.1 AA"
+
+# 功能特性
+features:
+  primary:
+    - "多种颜色主题（8种）"
+    - "多种尺寸（5种）"
+    - "多种变体（6种）"
+    - "多种形状（3种）"
+    - "点形徽章"
+    - "数字徽章"
+    - "可关闭徽章"
+    - "自定义图标"
+    - "悬浮提示"
+    - "动画支持"
+    - "阴影效果"
+    - "状态指示"
+
+  accessibility:
+    - "ARIA标签支持"
+    - "键盘导航"
+    - "屏幕阅读器优化"
+    - "语义化HTML"
+    - "可访问性属性"
+
+  responsive:
+    - "自适应尺寸"
+    - "移动端优化"
+    - "跨设备兼容"
+
+# API 接口
+api:
+  props:
+    - name: "variant"
+      type: "'solid' | 'outline' | 'soft' | 'ghost' | 'gradient' | 'glow'"
+      default: "'solid'"
+      required: false
+      description: "徽章的变体样式"
+
+    - name: "color"
+      type: "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'gray' | 'neon'"
+      default: "'primary'"
+      required: false
+      description: "徽章的颜色主题"
+
+    - name: "size"
+      type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+      default: "'md'"
+      required: false
+      description: "徽章的尺寸"
+
+    - name: "shape"
+      type: "'rounded' | 'pill' | 'square'"
+      default: "'rounded'"
+      required: false
+      description: "徽章的形状"
+
+    - name: "dot"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否显示为点形徽章"
+
+    - name: "count"
+      type: "number"
+      default: "undefined"
+      required: false
+      description: "显示的数字"
+
+    - name: "max"
+      type: "number"
+      default: "99"
+      required: false
+      description: "数字徽章的最大显示值"
+
+    - name: "closable"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否可关闭"
+
+    - name: "onClose"
+      type: "() => void"
+      default: "undefined"
+      required: false
+      description: "关闭回调函数"
+
+    - name: "title"
+      type: "string"
+      default: "undefined"
+      required: false
+      description: "悬浮提示文本"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: "undefined"
+      required: false
+      description: "自定义图标"
+
+    - name: "hidden"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "隐藏徽章"
+
+    - name: "pulse"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否显示脉冲动画"
+
+    - name: "status"
+      type: "'success' | 'warning' | 'error' | 'info' | 'neutral'"
+      default: "undefined"
+      required: false
+      description: "徽章状态（用于无障碍访问）"
+
+    - name: "elevated"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否显示阴影"
+
+    - name: "testId"
+      type: "string"
+      default: "undefined"
+      required: false
+      description: "测试ID"
+
+    - name: "children"
+      type: "React.ReactNode"
+      default: "undefined"
+      required: false
+      description: "徽章内容"
+
+    - name: "className"
+      type: "string"
+      default: "undefined"
+      required: false
+      description: "自定义CSS类名"
+
+# 变体系统
+variants:
+  colors:
+    - "primary"
+    - "secondary"
+    - "success"
+    - "warning"
+    - "error"
+    - "info"
+    - "gray"
+    - "neon"
+
+  sizes:
+    - "xs"
+    - "sm"
+    - "md"
+    - "lg"
+    - "xl"
+
+  styles:
+    - "solid"
+    - "outline"
+    - "soft"
+    - "ghost"
+    - "gradient"
+    - "glow"
+
+  shapes:
+    - "rounded"
+    - "pill"
+    - "square"
+
+# 主题系统
+theme:
+  designTokens:
+    - "--bg-primary-action"
+    - "--bg-secondary-action"
+    - "--bg-success"
+    - "--bg-warning"
+    - "--bg-error"
+    - "--bg-info"
+    - "--text-inverse"
+    - "--text-primary"
+    - "--text-secondary"
+    - "--border-primary-action"
+    - "--border-secondary"
+    - "--border-success"
+    - "--border-warning"
+    - "--border-error"
+    - "--border-info"
+
+  sevenAxis:
+    mode: "支持"
+    hue: "支持"
+    saturation: "支持"
+    lightness: "支持"
+    density: "支持"
+    roundness: "支持"
+    contrast: "支持"
+
+# 测试覆盖
+testing:
+  unitTests: true
+  integrationTests: true
+  visualTests: true
+  a11yTests: true
+  coverage: "≥ 90%"
+  testFiles:
+    - "badge.test.tsx"
+
+  testScenarios:
+    - "基础渲染"
+    - "尺寸变体"
+    - "颜色变体"
+    - "样式变体"
+    - "形状变体"
+    - "点形徽章"
+    - "数字徽章"
+    - "可关闭徽章"
+    - "图标支持"
+    - "悬浮提示"
+    - "状态徽章"
+    - "动画"
+    - "阴影"
+    - "可访问性"
+    - "组合使用"
+    - "边界情况"
+
+# 性能指标
+performance:
+  bundleSize: "< 2KB (gzipped)"
+  renderTime: "< 16ms"
+  memoryUsage: "minimal"
+  animations: "GPU加速"
+  ref: "forwardRef支持"
+
+# 浏览器支持
+browsers:
+  chrome: "≥ 90"
+  firefox: "≥ 88"
+  safari: "≥ 14"
+  edge: "≥ 90"
+  mobileSafari: "≥ 14"
+  chromeAndroid: "≥ 90"
+
+# 可访问性
+accessibility:
+  wcag: "2.1 AA"
+  aria: "完整支持"
+  keyboard: "支持"
+  screenReader: "优化"
+  colorContrast: "符合标准"
+
+  ariaRoles:
+    - "button" (closable徽章)
+    - "presentation" (dot徽章)
+
+  ariaLabels:
+    - "状态指示器"
+    - "通知数量: {count}"
+    - "状态: {status}"
+    - "可关闭的徽章"
+
+# 文档链接
+documentation:
+  stories: "badge.stories.tsx"
+  api: "badge.tsx"
+  testing: "badge.test.tsx"
+  examples:
+    - "基本使用"
+    - "颜色变体"
+    - "尺寸变体"
+    - "样式变体"
+    - "数字徽章"
+    - "点形徽章"
+    - "可关闭徽章"
+    - "图标徽章"
+    - "状态徽章"
+    - "动画徽章"
+    - "组合使用"
+
+# 依赖关系
+dependencies:
+  - "react"
+  - "framer-motion"
+  - "class-variance-authority (cva-standalone)"
+  - "@xorigo-ui/system"
+  - "@xorigo-ui/tokens"
+
+# 相关组件
+related:
+  - "Tag"
+  - "Chip"
+  - "Label"
+  - "Status"
+  - "Notification"
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持8种颜色主题"
+      - "支持5种尺寸"
+      - "支持6种变体"
+      - "支持3种形状"
+      - "支持点形徽章"
+      - "支持数字徽章"
+      - "支持可关闭功能"
+      - "支持自定义图标"
+      - "支持动画效果"
+      - "完整测试覆盖"
+      - "无障碍访问优化"
+
+# 设计规范
+design:
+  spacing: "基于4px网格系统"
+  borderRadius: "继承shape属性"
+  typography: "根据size属性自动调整"
+  colors: "基于语义化设计令牌"
+  shadows: "elevated属性控制"
+  animations: "Framer Motion驱动"
+
+  usageGuidelines:
+    - "用于标记状态、分类、通知等信息"
+    - "避免在单个界面使用过多徽章"
+    - "选择合适的颜色表达语义"
+    - "点形徽章用于状态指示"
+    - "数字徽章用于通知计数"
+    - "可关闭徽章用于临时信息"
+
+# 常见用例
+useCases:
+  - "通知数量显示"
+  - "状态指示器"
+  - "标签分类"
+  - "评分展示"
+  - "在线状态"
+  - "系统消息"
+  - "任务提醒"
+  - "审批通知"
+  - "验证状态"
+  - "推荐标识"
+
+# 最佳实践
+bestPractices:
+  - "使用语义化颜色表达状态"
+  - "选择合适的尺寸匹配上下文"
+  - "合理使用动画吸引注意"
+  - "为所有可访问用户提供替代文本"
+  - "避免过度使用点形徽章"
+  - "保持视觉层次清晰"
+  - "确保颜色对比度符合标准"
+
+# 反模式
+antiPatterns:
+  - "不要在单行显示过多徽章"
+  - "不要使用易混淆的颜色"
+  - "不要为纯装饰性内容添加徽章"
+  - "不要在移动端使用过小的徽章"
+  - "不要在阅读密集区域使用动画"
+  - "不要忽略可访问性要求"

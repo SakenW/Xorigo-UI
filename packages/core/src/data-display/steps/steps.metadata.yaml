@@ -1,0 +1,397 @@
+# Steps 组件元数据
+# 版本: v2025.11.03
+# 分类: Data Display · 数据展示
+# 层级: Component · 组件层
+# 稳定性: Stable · 稳定版本
+
+metadata:
+  name: Steps
+  displayName: 步骤指示器
+  category: Data Display
+  subcategory: Progress Indicators
+  layer: Component
+  stability: stable
+  version: 1.0.0
+  versionDate: '2025-11-04'
+  description: 用于展示多步骤流程进度的指示器组件，支持多种状态、方向、交互和可访问性
+  since: v0.1.0
+  updated: v0.1.0
+
+classification:
+  atomicDesign:
+    level: molecule
+    description: 由多个步骤项组成的多步骤流程指示器
+
+designTokens:
+  colors:
+    - primary
+    - secondary
+    - muted
+    - success
+    - error
+    - warning
+    - foreground
+    - background
+    - border
+
+  spacing:
+    - gap-2
+    - gap-3
+    - gap-4
+
+  typography:
+    - text-xs
+    - text-sm
+    - text-base
+    - font-medium
+
+  borderRadius:
+    - rounded-full
+
+  transitions:
+    - duration-200
+    - duration-300
+
+props:
+  required:
+    - name: items
+      type: 'StepItem[]'
+      description: 步骤项数组，包含所有步骤的信息
+      required: true
+
+  optional:
+    - name: orientation
+      type: "'horizontal' | 'vertical'"
+      default: horizontal
+      description: 步骤排列方向
+
+  - name: size
+      type: "'sm' | 'md' | 'lg'"
+      default: md
+      description: 步骤指示器尺寸
+
+  - name: currentStep
+      type: number
+      default: 0
+      description: 当前激活的步骤索引
+
+  - name: onStepClick
+      type: '(index: number, step: StepItem) => void'
+      description: 步骤点击事件回调
+
+  - name: allowClickNavigation
+      type: boolean
+      default: false
+      description: 是否允许通过点击步骤进行导航
+
+  - name: collapsible
+      type: boolean
+      default: false
+      description: 是否支持步骤内容可折叠
+
+  - name: defaultExpanded
+      type: boolean[]
+      description: 默认展开状态数组
+
+  - name: expanded
+      type: boolean[]
+      description: 受控的展开状态数组
+
+  - name: onExpandedChange
+      type: '(expanded: boolean[]) => void'
+      description: 展开状态变化回调
+
+  - name: showProgressBar
+      type: boolean
+      default: false
+      description: 是否显示进度条
+
+  - name: progressPercentage
+      type: number
+      description: 自定义进度百分比
+
+  - name: onProgressUpdate
+      type: '(percentage: number) => void'
+      description: 进度更新回调
+
+  - name: responsive
+      type: boolean
+      default: true
+      description: 是否支持响应式布局
+
+  - name: testId
+      type: string
+      description: 自定义测试ID
+
+StepItem:
+  properties:
+    - name: id
+      type: 'string | number'
+      required: true
+      description: 步骤唯一标识符
+
+    - name: title
+      type: string
+      required: true
+      description: 步骤标题
+
+    - name: description
+      type: string
+      required: false
+      description: 步骤描述文本
+
+    - name: icon
+      type: React.ReactNode
+      required: false
+      description: 自定义图标
+
+    - name: status
+      type: "'pending' | 'inProgress' | 'completed' | 'error' | 'skipped'"
+      required: false
+      description: 步骤状态
+
+    - name: disabled
+      type: boolean
+      required: false
+      description: 是否禁用
+
+    - name: isClickable
+      type: boolean
+      required: false
+      description: 是否可点击
+
+    - name: onClick
+      type: '() => void'
+      required: false
+      description: 步骤点击事件
+
+    - name: isCollapsible
+      type: boolean
+      required: false
+      description: 是否可折叠
+
+    - name: customContent
+      type: React.ReactNode
+      required: false
+      description: 自定义内容
+
+variants:
+  orientation:
+    - horizontal: 水平排列
+    - vertical: 垂直排列
+
+  size:
+    - sm: 小尺寸
+    - md: 中等尺寸（默认）
+    - lg: 大尺寸
+
+  status:
+    - pending: 待处理
+    - inProgress: 进行中
+    - completed: 已完成
+    - error: 错误
+    - skipped: 已跳过
+
+features:
+  - 支持水平/垂直方向布局
+  - 支持多种状态显示（pending/inProgress/completed/error/skipped）
+  - 支持点击导航功能
+  - 支持自定义图标
+  - 支持描述文本显示
+  - 支持可折叠步骤内容
+  - 支持响应式设计
+  - 支持动画过渡效果
+  - 支持进度百分比显示
+  - 支持自定义内容
+  - 完整的键盘导航支持
+  - 完整的可访问性支持
+  - TypeScript 类型安全
+  - 集成七轴主题系统
+  - 集成设计令牌系统
+
+accessibility:
+  roles:
+    - role: navigation
+      label: Steps navigation
+      description: 步骤导航区域
+
+  aria:
+    - aria-label: 步骤导航描述
+    - aria-current: 当前步骤标识
+    - aria-expanded: 折叠状态
+    - aria-disabled: 禁用状态
+    - role: progressbar: 进度条角色
+    - aria-valuenow: 当前进度值
+    - aria-valuemin: 最小进度值
+    - aria-valuemax: 最大进度值
+
+  keyboard:
+    - ArrowRight: 水平方向下一项
+    - ArrowLeft: 水平方向上一项
+    - ArrowDown: 垂直方向下一项
+    - ArrowUp: 垂直方向上一项
+    - Home: 跳转到第一项
+    - End: 跳转到最后一项
+    - Enter: 激活当前项
+    - Space: 激活当前项
+
+dependencies:
+  peer:
+    - react: '>=18.0.0'
+    - react-dom: '>=18.0.0'
+
+  internal:
+    - ../utils/cn
+    - ../utils/cva-standalone
+    - ../primitives/Icon
+
+  external:
+    - clsx
+    - tailwind-merge
+
+testing:
+  unit:
+    - 基础渲染测试
+    - 方向变体测试
+    - 尺寸变体测试
+    - 状态管理测试
+    - 自定义图标测试
+    - 点击导航测试
+    - 可折叠功能测试
+    - 进度条测试
+    - 键盘导航测试
+    - 可访问性测试
+    - 自定义内容测试
+    - 响应式设计测试
+    - 测试ID测试
+    - forwardRef测试
+    - 禁用状态测试
+    - 空状态测试
+    - 边界情况测试
+
+  coverage:
+    - statements: 95%
+    - branches: 90%
+    - functions: 95%
+    - lines: 95%
+
+theming:
+  supports:
+    - 七轴主题系统
+    - 设计令牌系统
+    - DTCG 标准
+
+  variants:
+    - 模式轴: light/dark/auto
+    - 色调轴: 色相选择
+    - 饱和度轴: 色彩鲜艳度
+    - 亮度轴: 明暗程度
+    - 密度轴: 空间紧凑度
+    - 圆度轴: 边角圆润度
+    - 对比度轴: 视觉对比度
+
+examples:
+  basic:
+    name: 基础使用
+    description: 简单的步骤指示器
+
+  withNavigation:
+    name: 点击导航
+    description: 启用点击导航的步骤指示器
+
+  withCollapsible:
+    name: 可折叠内容
+    description: 支持可折叠内容的步骤指示器
+
+  withProgress:
+    name: 进度条
+    description: 显示进度条的步骤指示器
+
+  withCustomIcons:
+    name: 自定义图标
+    description: 使用自定义图标的步骤指示器
+
+  complex:
+    name: 复杂示例
+    description: 多种功能组合的步骤指示器
+
+performance:
+  optimizations:
+    - 使用 React.memo 优化渲染
+    - 使用 useCallback 缓存事件处理函数
+    - 避免不必要的重渲染
+    - 懒加载大型内容
+
+  bundleSize:
+    - gzip: ~8KB
+    - minified: ~15KB
+
+changelog:
+  - version: 1.0.0
+    date: '2025-11-04'
+    changes:
+      - 初始版本发布
+      - 支持基础步骤指示器功能
+      - 支持水平/垂直方向
+      - 支持多种状态
+      - 支持点击导航
+      - 支持可折叠内容
+      - 支持进度条
+      - 完整的可访问性支持
+      - 完整的测试覆盖
+
+migration:
+  from: {}
+  to: {}
+
+relatedComponents:
+  - Accordion
+  - Tabs
+  - Progress
+  - Timeline
+
+alternatives:
+  - Breadcrumb: 用于显示当前位置
+  - Navbar: 用于主导航
+  - Pagination: 用于分页导航
+
+antiPatterns:
+  - 不要在单步流程中使用
+  - 不要跳过太多步骤
+  - 不要让步骤标题过长
+  - 不要在移动端使用过多水平步骤
+
+bestPractices:
+  - 保持步骤标题简洁明了
+  - 使用描述性状态
+  - 提供清晰的视觉反馈
+  - 确保键盘可访问性
+  - 考虑移动端体验
+  - 避免超过7个步骤
+  - 使用一致的命名约定
+
+technicalDebt:
+  - 无已知技术债务
+
+roadmap:
+  - 虚拟化支持（处理大量步骤）
+  - 步骤分组功能
+  - 步骤依赖关系
+  - 并行步骤支持
+  - 步骤验证状态
+
+support:
+  browserSupport:
+    - Chrome >= 90
+    - Firefox >= 88
+    - Safari >= 14
+    - Edge >= 90
+
+  deviceSupport:
+    - Desktop
+    - Tablet
+    - Mobile
+
+license: MIT
+maintainers:
+  - Xorigo UI Team

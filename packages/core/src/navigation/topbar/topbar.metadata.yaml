@@ -1,0 +1,55 @@
+# Topbar Component Metadata
+
+name: "Topbar"
+displayName: "Topbar"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  顶部工具栏组件，提供应用顶部的工具栏，支持搜索、用户菜单、通知等功能。
+
+tags:
+  - navigation
+  - toolbar
+  - header
+  - layout
+
+props:
+  - name: "children"
+    type: "React.ReactNode"
+    required: false
+    description: "工具栏内容"
+
+  - name: "height"
+    type: "number | string"
+    required: false
+    default: 64
+    description: "工具栏高度"
+
+  - name: "fixed"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否固定在顶部"
+
+  - name: "variant"
+    type: "'default' | 'bordered' | 'elevated'"
+    required: false
+    default: "default"
+    description: "工具栏变体"
+
+  - name: "align"
+    type: "'left' | 'center' | 'right'"
+    required: false
+    default: "left"
+    description: "工具栏对齐方式"
+
+features:
+  - "固定定位支持"
+  - "多种变体"
+  - "灵活对齐方式"
+  - "动画过渡"

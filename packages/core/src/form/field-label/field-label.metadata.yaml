@@ -1,0 +1,286 @@
+# FieldLabel 组件元数据
+# 基于 Xorigo UI 组件分类系统 v2025.11.03
+
+# 基本信息
+name: FieldLabel
+displayName: Field Label
+category: Forms
+level: component
+stability: stable
+version: 1.0.0
+description: 表单字段标签组件，提供完整的表单字段标签功能，支持必填标记、描述文本、图标集成和可访问性支持
+
+# 技术栈
+techStack:
+  - React: "^19.2.0"
+  - TypeScript: "~5.9.3"
+  - Tailwind CSS: "^4.0.0"
+  - Framer Motion: "^12.23.5"
+
+# 组件分类
+classification:
+  category: "Forms" # Forms, Data Display, Navigation, Layout, Feedback, etc.
+  subcategory: "Form Structure & Validation" # 表单结构与校验
+  level: "component" # foundation, component, composite
+  atomic: true # 是否符合原子化设计原则
+
+# 设计令牌
+designTokens:
+  - foreground
+  - muted-foreground
+  - ring
+  - destructive
+  - border
+  - card
+
+# 主题系统
+theme:
+  system: "Seven-Axis" # 七轴主题系统
+  axes:
+    - mode: "light|dark|auto"
+    - hue: "色相选择"
+    - saturation: "色彩鲜艳度"
+    - lightness: "明暗程度"
+    - density: "空间紧凑度"
+    - roundness: "边角圆润度"
+    - contrast: "视觉对比度"
+
+  customProperties:
+    - "--foreground"
+    - "--muted-foreground"
+    - "--ring"
+    - "--destructive"
+    - "--border"
+    - "--card"
+
+# API 设计
+api:
+  # Props 接口
+  props:
+    - name: "variant"
+      type: "'default' | 'secondary'"
+      default: "default"
+      required: false
+      description: "标签变体"
+
+    - name: "size"
+      type: "'sm' | 'md' | 'lg'"
+      default: "md"
+      required: false
+      description: "标签尺寸"
+
+    - name: "isRequired"
+      type: "boolean"
+      default: false
+      required: false
+      description: "是否为必填字段"
+
+    - name: "isHidden"
+      type: "boolean"
+      default: false
+      required: false
+      description: "是否隐藏标签（屏幕阅读器可见）"
+
+    - name: "htmlFor"
+      type: "string"
+      default: undefined
+      required: false
+      description: "关联的输入框ID"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: undefined
+      required: false
+      description: "标签图标"
+
+    - name: "description"
+      type: "string"
+      default: undefined
+      required: false
+      description: "标签描述文本"
+
+    - name: "isDisabled"
+      type: "boolean"
+      default: false
+      required: false
+      description: "是否禁用状态"
+
+    - name: "iconClassName"
+      type: "string"
+      default: undefined
+      required: false
+      description: "自定义图标类名"
+
+    - name: "descriptionClassName"
+      type: "string"
+      default: undefined
+      required: false
+      description: "描述文本的类名"
+
+    - name: "onClick"
+      type: "(event: React.MouseEvent<HTMLLabelElement>) => void"
+      default: undefined
+      required: false
+      description: "点击时触发的函数"
+
+  # 类名变体
+  cva:
+    variants:
+      - variant: ["default", "secondary"]
+      - size: ["sm", "md", "lg"]
+      - required: [true, false]
+      - disabled: [true, false]
+
+# 功能特性
+features:
+  - name: "Required Indicator"
+    description: "支持必填字段标记显示"
+    implementation: "after伪元素自动添加"
+    a11y: true
+
+  - name: "Hidden Label"
+    description: "支持sr-only隐藏标签，屏幕阅读器可见"
+    implementation: "aria-hidden + sr-only类"
+    a11y: true
+
+  - name: "Icon Integration"
+    description: "支持图标集成"
+    implementation: "icon prop + 自定义样式"
+    a11y: true
+
+  - name: "Focus Management"
+    description: "点击标签自动聚焦关联输入框"
+    implementation: "document.getElementById + focus()"
+    a11y: true
+
+  - name: "Description Text"
+    description: "支持描述文本显示"
+    implementation: "独立描述组件"
+    a11y: true
+
+  - name: "Disabled State"
+    description: "支持禁用状态"
+    implementation: "aria-disabled + 样式控制"
+    a11y: true
+
+  - name: "Custom Styling"
+    description: "支持自定义样式类名"
+    implementation: "className prop合并"
+    a11y: false
+
+# 可访问性
+accessibility:
+  standard: "WCAG 2.1 Level AA"
+  features:
+    - name: "Semantic HTML"
+      level: "AA"
+      description: "使用语义化label标签"
+
+    - name: "ARIA Attributes"
+      level: "AA"
+      description: "支持aria-hidden、aria-disabled等属性"
+
+    - name: "Focus Management"
+      level: "AA"
+      description: "点击标签聚焦关联输入框"
+
+    - name: "Screen Reader Support"
+      level: "AAA"
+      description: "支持屏幕阅读器，包括隐藏标签场景"
+
+  keyboardNavigation: true
+  screenReaderSupport: true
+  colorContrast: AA
+
+# 测试覆盖
+testing:
+  unitTests:
+    - "基础渲染测试"
+    - "必填标记测试"
+    - "隐藏标签测试"
+    - "图标支持测试"
+    - "禁用状态测试"
+    - "点击聚焦测试"
+    - "变体和尺寸测试"
+    - "描述文本测试"
+    - "可访问性测试"
+
+  stories:
+    - "基础使用示例"
+    - "必填字段示例"
+    - "带描述的字段标签"
+    - "带图标的字段标签"
+    - "次要标签示例"
+    - "不同尺寸示例"
+    - "隐藏标签示例"
+    - "禁用状态示例"
+    - "完整表单示例"
+    - "独立描述组件示例"
+
+  coverage:
+    statements: ">90%"
+    branches: ">85%"
+    functions: ">90%"
+    lines: ">90%"
+
+# 依赖关系
+dependencies:
+  - name: "react"
+    version: "^19.2.0"
+    required: true
+
+  - name: "class-variance-authority"
+    version: "^latest"
+    required: true
+    purpose: "组件变体样式管理"
+
+  - name: "@/utils/cn"
+    version: "internal"
+    required: true
+    purpose: "类名合并工具"
+
+# 相关组件
+relatedComponents:
+  - name: "Input"
+    relationship: "parent"
+    description: "关联的输入框组件"
+
+  - name: "FieldGroup"
+    relationship: "sibling"
+    description: "字段分组组件"
+
+  - name: "FormField"
+    relationship: "parent"
+    description: "表单字段容器组件"
+
+# 使用场景
+useCases:
+  - "表单输入框的标签"
+  - "表单字段的必填标记"
+  - "字段描述文本显示"
+  - "无障碍表单标签"
+  - "带图标的字段标识"
+
+# 性能优化
+performance:
+  memoization: true
+  renderOptimization: true
+  bundleSize: "< 2KB (minified + gzipped)"
+
+# 浏览器支持
+browserSupport:
+  - "Chrome >= 90"
+  - "Firefox >= 90"
+  - "Safari >= 14"
+  - "Edge >= 90"
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持必填标记、描述文本、图标集成"
+      - "完整可访问性支持"
+      - "TypeScript类型安全"
+      - "七轴主题系统集成"

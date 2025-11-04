@@ -1,0 +1,456 @@
+# Tag 组件元数据
+# 组件分类系统 v2025.11.03
+
+# 基本信息
+name: "Tag"
+displayName: "标签"
+description: "用于显示分类、状态、属性等信息的可定制标签组件，支持多种颜色、尺寸、变体、可删除和可选择功能"
+category: "Data Display"
+layer: "component"
+stability: "stable"
+version: "1.0.0"
+
+# 组件分类
+classification:
+  - category: "Data Display"
+  - subcategory: "Tags & Labels"
+  - type: "Component"
+  - atomicity: "atom"
+  - layer: "component"
+  - status: "stable"
+
+# 技术规范
+technical:
+  react: "^19.0.0"
+  typescript: "^5.9.0"
+  framework: "React 19"
+  styling: "Tailwind CSS 4"
+  animation: "Framer Motion 12"
+  theme: "七轴主题系统"
+  a11y: "WCAG 2.1 AA"
+
+# 功能特性
+features:
+  primary:
+    - "多种颜色主题（7种）"
+    - "多种尺寸（5种）"
+    - "多种变体（6种）"
+    - "多种形状（3种）"
+    - "可删除标签"
+    - "可选择标签"
+    - "自定义图标"
+    - "悬浮状态"
+    - "选中状态"
+    - "禁用状态"
+    - "动画支持"
+    - "组合使用"
+    - "响应式设计"
+    - "标签组管理"
+    - "溢出处理"
+    - "单选/多选模式"
+
+  accessibility:
+    - "ARIA标签支持"
+    - "键盘导航"
+    - "屏幕阅读器优化"
+    - "语义化HTML"
+    - "可访问性属性"
+    - "aria-pressed支持"
+    - "可选择状态支持"
+
+  responsive:
+    - "自适应尺寸"
+    - "移动端优化"
+    - "跨设备兼容"
+    - "灵活布局"
+
+# API 接口
+api:
+  props:
+    - name: "variant"
+      type: "'solid' | 'outline' | 'soft' | 'ghost' | 'gradient' | 'neon'"
+      default: "'soft'"
+      required: false
+      description: "标签的变体样式"
+
+    - name: "color"
+      type: "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'gray'"
+      default: "'primary'"
+      required: false
+      description: "标签的颜色主题"
+
+    - name: "size"
+      type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+      default: "'md'"
+      required: false
+      description: "标签的尺寸"
+
+    - name: "shape"
+      type: "'rounded' | 'pill' | 'square'"
+      default: "'rounded'"
+      required: false
+      description: "标签的形状"
+
+    - name: "removable"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否可删除"
+
+    - name: "onRemove"
+      type: "() => void"
+      default: "undefined"
+      required: false
+      description: "删除回调函数"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: "undefined"
+      required: false
+      description: "自定义图标"
+
+    - name: "selectable"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否可选择"
+
+    - name: "selected"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否已选中"
+
+    - name: "onSelect"
+      type: "(selected: boolean) => void"
+      default: "undefined"
+      required: false
+      description: "选择状态变化回调"
+
+    - name: "animated"
+      type: "boolean"
+      default: "true"
+      required: false
+      description: "是否显示动画"
+
+    - name: "disabled"
+      type: "boolean"
+      default: "false"
+      required: false
+      description: "是否禁用"
+
+    - name: "testId"
+      type: "string"
+      default: "undefined"
+      required: false
+      description: "测试ID"
+
+    - name: "children"
+      type: "React.ReactNode"
+      default: "undefined"
+      required: false
+      description: "标签内容"
+
+    - name: "className"
+      type: "string"
+      default: "undefined"
+      required: false
+      description: "自定义CSS类名"
+
+# TagGroup API
+tagGroup:
+  api:
+    - name: "max"
+      type: "number"
+      default: "undefined"
+      required: false
+      description: "最大显示数量"
+
+    - name: "overflowType"
+      type: "'ellipsis' | 'dropdown' | 'hidden'"
+      default: "'ellipsis'"
+      required: false
+      description: "溢出处理方式"
+
+    - name: "spacing"
+      type: "'tight' | 'normal' | 'loose'"
+      default: "'normal'"
+      required: false
+      description: "标签间距"
+
+    - name: "selectionMode"
+      type: "'none' | 'single' | 'multiple'"
+      default: "'none'"
+      required: false
+      description: "选择模式"
+
+    - name: "selectedValues"
+      type: "(string | number)[]"
+      default: "[]"
+      required: false
+      description: "选中的标签值"
+
+    - name: "onSelectionChange"
+      type: "(selected: (string | number)[]) => void"
+      default: "undefined"
+      required: false
+      description: "选择变化回调"
+
+# 变体系统
+variants:
+  colors:
+    - "primary"
+    - "secondary"
+    - "success"
+    - "warning"
+    - "error"
+    - "info"
+    - "gray"
+
+  sizes:
+    - "xs"
+    - "sm"
+    - "md"
+    - "lg"
+    - "xl"
+
+  styles:
+    - "solid"
+    - "outline"
+    - "soft"
+    - "ghost"
+    - "gradient"
+    - "neon"
+
+  shapes:
+    - "rounded"
+    - "pill"
+    - "square"
+
+  spacing:
+    - "tight"
+    - "normal"
+    - "loose"
+
+  overflowTypes:
+    - "ellipsis"
+    - "dropdown"
+    - "hidden"
+
+  selectionModes:
+    - "none"
+    - "single"
+    - "multiple"
+
+# 主题系统
+theme:
+  designTokens:
+    - "--bg-primary-action"
+    - "--bg-secondary-action"
+    - "--bg-secondary"
+    - "--bg-tertiary"
+    - "--bg-contrast-high"
+    - "--text-primary"
+    - "--text-secondary"
+    - "--text-tertiary"
+    - "--text-inverse"
+    - "--text-primary-action"
+    - "--text-success"
+    - "--text-warning"
+    - "--text-error"
+    - "--text-info"
+    - "--border-primary"
+    - "--border-primary-action"
+    - "--border-secondary"
+    - "--border-info"
+
+  sevenAxis:
+    mode: "支持"
+    hue: "支持"
+    saturation: "支持"
+    lightness: "支持"
+    density: "支持"
+    roundness: "支持"
+    contrast: "支持"
+
+# 测试覆盖
+testing:
+  unitTests: true
+  integrationTests: true
+  visualTests: true
+  a11yTests: true
+  coverage: "≥ 90%"
+  testFiles:
+    - "tag.test.tsx"
+
+  testScenarios:
+    - "基础渲染"
+    - "尺寸变体"
+    - "颜色变体"
+    - "样式变体"
+    - "形状变体"
+    - "可删除标签"
+    - "可选择标签"
+    - "图标支持"
+    - "悬浮状态"
+    - "选中状态"
+    - "禁用状态"
+    - "动画效果"
+    - "响应式设计"
+    - "可访问性"
+    - "TagGroup基本功能"
+    - "TagGroup溢出处理"
+    - "TagGroup选择模式"
+    - "组合使用"
+    - "边界情况"
+
+# 性能指标
+performance:
+  bundleSize: "< 3KB (gzipped)"
+  renderTime: "< 16ms"
+  memoryUsage: "minimal"
+  animations: "GPU加速"
+  ref: "forwardRef支持"
+
+# 浏览器支持
+browsers:
+  chrome: "≥ 90"
+  firefox: "≥ 88"
+  safari: "≥ 14"
+  edge: "≥ 90"
+  mobileSafari: "≥ 14"
+  chromeAndroid: "≥ 90"
+
+# 可访问性
+accessibility:
+  wcag: "2.1 AA"
+  aria: "完整支持"
+  keyboard: "支持"
+  screenReader: "优化"
+  colorContrast: "符合标准"
+
+  ariaRoles:
+    - "button" (所有标签)
+    - "group" (TagGroup)
+
+  ariaLabels:
+    - "标签"
+    - "可移除的标签"
+    - "已选择"
+    - "未选择"
+
+  ariaProperties:
+    - "aria-pressed" (可选择标签)
+    - "aria-label" (可删除标签)
+
+# 文档链接
+documentation:
+  stories: "tag.stories.tsx"
+  api: "tag.tsx"
+  testing: "tag.test.tsx"
+  examples:
+    - "基本使用"
+    - "颜色变体"
+    - "尺寸变体"
+    - "样式变体"
+    - "可删除标签"
+    - "可选择标签"
+    - "图标标签"
+    - "禁用状态"
+    - "动画标签"
+    - "标签组合"
+    - "TagGroup基本用法"
+    - "TagGroup溢出处理"
+    - "TagGroup单选模式"
+    - "TagGroup多选模式"
+    - "响应式示例"
+
+# 依赖关系
+dependencies:
+  - "react"
+  - "framer-motion"
+  - "class-variance-authority (cva-standalone)"
+  - "@xorigo-ui/system"
+  - "@xorigo-ui/tokens"
+  - "lucide-react"
+
+# 相关组件
+related:
+  - "Badge"
+  - "Chip"
+  - "Label"
+  - "Status"
+  - "Avatar"
+  - "Button"
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持7种颜色主题"
+      - "支持5种尺寸"
+      - "支持6种变体"
+      - "支持3种形状"
+      - "支持可删除功能"
+      - "支持可选择功能"
+      - "支持自定义图标"
+      - "支持动画效果"
+      - "支持TagGroup管理"
+      - "支持溢出处理"
+      - "支持单选/多选模式"
+      - "完整测试覆盖"
+      - "无障碍访问优化"
+
+# 设计规范
+design:
+  spacing: "基于4px网格系统"
+  borderRadius: "继承shape属性"
+  typography: "根据size属性自动调整"
+  colors: "基于语义化设计令牌"
+  animations: "Framer Motion驱动"
+  shadows: "选中状态应用ring样式"
+
+  usageGuidelines:
+    - "用于标记分类、状态、属性等信息"
+    - "可选择标签用于筛选和选择场景"
+    - "可删除标签用于临时添加的标记"
+    - "TagGroup用于管理多个标签的布局"
+    - "选择合适的尺寸匹配上下文"
+    - "使用语义化颜色表达状态"
+
+# 常见用例
+useCases:
+  - "分类标签显示"
+  - "状态标记"
+  - "属性展示"
+  - "筛选条件标签"
+  - "选择器组件"
+  - "技能标签云"
+  - "技术栈展示"
+  - "项目标签"
+  - "内容分类"
+  - "过滤结果展示"
+  - "多选标签组"
+  - "临时标记"
+
+# 最佳实践
+bestPractices:
+  - "使用语义化颜色表达含义"
+  - "合理控制标签数量，避免界面混乱"
+  - "为可选择标签提供明确的状态反馈"
+  - "使用TagGroup管理多个标签的布局"
+  - "为图标和文字提供适当的间距"
+  - "确保在不同主题下都有良好的对比度"
+  - "为屏幕阅读器用户提供适当的ARIA标签"
+
+# 反模式
+antiPatterns:
+  - "不要在单个界面使用过多标签"
+  - "不要使用易混淆的颜色组合"
+  - "不要为纯装饰性内容添加可选择标签"
+  - "不要在移动端使用过小的标签"
+  - "不要忽略悬浮和选中状态的视觉反馈"
+  - "不要在阅读密集区域使用动画效果"
+  - "不要为不可交互的标签添加点击效果"

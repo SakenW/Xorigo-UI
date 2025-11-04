@@ -1,0 +1,49 @@
+# NavLink Component Metadata
+
+name: "NavLink"
+displayName: "Navigation Link"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  导航链接组件，提供带状态的导航链接组件，支持激活状态、下划线样式等。
+
+tags:
+  - navigation
+  - link
+  - active
+  - state
+
+props:
+  - name: "href"
+    type: "string"
+    required: true
+    description: "链接地址"
+  - name: "children"
+    type: "React.ReactNode"
+    required: true
+    description: "链接内容"
+  - name: "active"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否激活"
+  - name: "variant"
+    type: "'default' | 'underline' | 'filled' | 'pilled'"
+    required: false
+    default: "default"
+    description: "变体"
+  - name: "size"
+    type: "'sm' | 'md' | 'lg'"
+    required: false
+    default: "md"
+    description: "尺寸"
+  - name: "disabled"
+    type: "boolean"
+    required: false
+    default: false
+    description: "是否禁用"

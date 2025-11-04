@@ -1,0 +1,423 @@
+# HelperText 组件元数据
+# 符合 v2025.11.03 SSOT 规范和组件分类系统
+
+meta:
+  name: HelperText
+  displayName: Helper Text
+  category: forms
+  subcategory: 表单结构与校验
+  layer: component
+  stability: stable
+  version: 1.0.0
+  since: v1.0.0
+
+  # 组件描述
+  description: >
+    HelperText 组件用于在表单字段中显示帮助文本、说明信息、警告和错误提示。
+    支持多种状态类型、图标显示、链接支持、文本截断和完全的无障碍访问。
+
+  # 标签
+  tags:
+    - forms
+    - helper
+    - text
+    - validation
+    - accessible
+    - status
+    - message
+
+# 分类信息
+classification:
+  taxonomyCategory: forms
+  subCategory: 表单结构与校验
+  atomicDesignLevel: molecule
+  complexity: simple
+
+  # 与 SSOT 对齐
+  ssotVersion: v2025.11.03
+  taxonomyVersion: v2025.11.03
+
+# 属性定义
+properties:
+  # 核心属性
+  content:
+    type: string | React.ReactNode
+    required: false
+    description: 帮助文本内容，可通过 content 或 children 提供
+    default: null
+
+  children:
+    type: React.ReactNode
+    required: false
+    description: React 子元素，用于自定义内容渲染
+    default: null
+
+  # 状态属性
+  status:
+    type: enum
+    required: false
+    values: [default, info, warning, error, success]
+    description: 帮助文本的状态类型，决定颜色和语义
+    default: default
+
+  variant:
+    type: enum
+    required: false
+    values: [default, info, warning, error, success]
+    description: 状态变体（与 status 类似，用于兼容）
+    default: null
+
+  # 样式属性
+  size:
+    type: enum
+    required: false
+    values: [sm, md, lg]
+    description: 文本尺寸
+    default: md
+
+  showIcon:
+    type: boolean
+    required: false
+    description: 是否显示状态图标
+    default: false
+
+  icon:
+    type: React.ReactNode
+    required: false
+    description: 自定义图标，替换默认图标
+    default: null
+
+  # 内容控制
+  truncation:
+    type: enum
+    required: false
+    values: [none, single, multi]
+    description: 文本截断模式
+    default: none
+
+  maxLines:
+    type: number
+    required: false
+    description: 最大行数限制（0表示不限制）
+    default: 0
+
+  # 链接支持
+  links:
+    type: array
+    required: false
+    description: >
+      链接配置数组，支持在文本中使用 {1} 格式插入链接
+      每个链接包含：text（显示文本）、href（地址）、external（外部链接）、onClick（点击事件）
+    default: []
+
+  # 状态控制
+  isHidden:
+    type: boolean
+    required: false
+    description: 隐藏文本（对屏幕阅读器可见）
+    default: false
+
+  disabled:
+    type: boolean
+    required: false
+    description: 禁用状态
+    default: false
+
+  # 标准 HTML 属性
+  id:
+    type: string
+    required: false
+    description: HTML id 属性
+    default: null
+
+  className:
+    type: string
+    required: false
+    description: 自定义 CSS 类名
+    default: null
+
+# 变体系统
+variants:
+  status:
+    default:
+      description: 默认状态，通常为灰色，用于一般帮助信息
+      useCase: 一般说明、帮助文字
+    info:
+      description: 信息状态，蓝色，用于提示和说明
+      useCase: 信息提示、使用说明
+    warning:
+      description: 警告状态，黄色，用于注意事项
+      useCase: 密码要求、格式提醒
+    error:
+      description: 错误状态，红色，用于错误消息
+      useCase: 校验错误、失败提示
+    success:
+      description: 成功状态，绿色，用于成功反馈
+      useCase: 成功消息、验证通过
+
+  size:
+    sm:
+      description: 小尺寸，适合紧凑布局
+      fontSize: text-xs
+      iconSize: w-3 h-3
+    md:
+      description: 中等尺寸（默认）
+      fontSize: text-xs
+      iconSize: w-3.5 h-3.5
+    lg:
+      description: 大尺寸，更易阅读
+      fontSize: text-sm
+      iconSize: w-4 h-4
+
+  truncation:
+    none:
+      description: 不截断，显示完整文本
+    single:
+      description: 单行截断，超出部分显示省略号
+    multi:
+      description: 多行文本，允许换行
+
+# 样式系统
+styles:
+  # 设计令牌映射
+  tokens:
+    default:
+      color: gray.600 / gray.400
+      iconColor: gray.400 / gray.500
+    info:
+      color: blue.600 / blue.400
+      iconColor: blue.500 / blue.400
+    warning:
+      color: yellow.600 / yellow.400
+      iconColor: yellow.500 / yellow.400
+    error:
+      color: red.600 / red.400
+      iconColor: red.500 / red.400
+    success:
+      color: green.600 / green.400
+      iconColor: green.500 / green.400
+
+  # 主题适配
+  theme:
+    darkMode: true
+    highContrast: true
+    sevenAxis: true
+
+  # 响应式设计
+  responsive:
+    breakpoints: [sm, md, lg, xl]
+    behavior: inherit
+
+# 依赖关系
+dependencies:
+  # 内部依赖
+  internal:
+    - utils/cva-standalone
+    - utils/cn
+    - theme
+    - motion (framer-motion)
+
+  # 外部依赖
+  external:
+    - react
+    - react-dom
+    - lucide-react (图标)
+
+  # 依赖的组件
+  components: []
+
+  # 依赖的类型
+  types:
+    - React.HTMLAttributes
+    - VariantProps
+    - React.ReactNode
+
+# 使用场景
+useCases:
+  - label: 表单字段说明
+    description: 在输入框下方显示字段说明和使用提示
+    example: |
+      <FormField label="密码">
+        <Input type="password" />
+        <HelperText content="密码至少需要8个字符" />
+      </FormField>
+
+  - label: 错误提示
+    description: 显示字段校验错误信息
+    example: |
+      <FormField label="邮箱">
+        <Input type="email" />
+        <HelperText status="error" content="请输入有效的邮箱地址" />
+      </FormField>
+
+  - label: 成功反馈
+    description: 显示操作成功的确认信息
+    example: |
+      <HelperText status="success" content="验证成功" showIcon={true} />
+
+  - label: 带链接的提示
+    description: 在帮助文本中插入链接
+    example: |
+      <HelperText
+        content="点击 {1} 查看更多信息"
+        links={[{ text: '这里', href: '/help' }]}
+      />
+
+  - label: 文本截断
+    description: 控制长文本的显示方式
+    example: |
+      <HelperText
+        truncation="single"
+        content="很长的帮助文本..."
+      />
+
+# 可访问性
+accessibility:
+  # ARIA 属性
+  aria:
+    role:
+      default: "status"
+      error: "alert"
+    ariaLive:
+      default: "polite"
+      error: "assertive"
+    ariaHidden: isHidden
+
+  # 键盘导航
+  keyboard:
+    enabled: true
+    tabIndex: null
+
+  # 屏幕阅读器
+  screenReader:
+    support: full
+    description: 完整支持屏幕阅读器，错误状态使用 assertive 提示
+
+  # 颜色对比
+  contrast:
+    aa: true
+    aaa: true
+
+# 动画
+animations:
+  enter:
+    enabled: true
+    properties: [opacity, y]
+    duration: 0.2s
+    easing: easeInOut
+
+  exit:
+    enabled: true
+    properties: [opacity, y]
+    duration: 0.2s
+    easing: easeInOut
+
+  transitions:
+    - property: opacity
+    - property: color
+    - property: transform
+
+# 测试覆盖
+testing:
+  # 单元测试
+  unit:
+    testFile: helper-text.test.tsx
+    coverage: 95
+    scenarios:
+      - 基础渲染
+      - 状态变体
+      - 图标显示
+      - 尺寸变体
+      - 文本截断
+      - 链接功能
+      - 状态控制
+      - 无障碍功能
+      - forwardRef
+      - 动画效果
+
+  # 集成测试
+  integration:
+    testFile: null
+    scenarios:
+      - 与 FormField 集成
+      - 与 Form 集成
+      - 主题切换测试
+      - 多语言测试
+
+  # 视觉回归测试
+  visual:
+    enabled: true
+    testFile: null
+    scenarios:
+      - 不同状态外观
+      - 深色模式
+      - 高对比度模式
+      - 各种尺寸
+
+# 示例代码
+examples:
+  basic: |
+    <HelperText content="这是帮助文本" />
+
+  withStatus: |
+    <HelperText status="info" content="信息提示" showIcon={true} />
+
+  withLinks: |
+    <HelperText
+      content="点击 {1} 了解详情"
+      links={[{ text: '链接', href: '/docs' }]}
+    />
+
+  formIntegration: |
+    <FormField label="密码">
+      <Input type="password" />
+      <HelperText status="warning" content="密码至少需要8个字符" showIcon={true} />
+    </FormField>
+
+  list: |
+    <HelperTextList
+      items={[
+        { content: '第一项', status: 'info' },
+        { content: '第二项', status: 'error' }
+      ]}
+    />
+
+# 注意事项
+notes:
+  - HelperText 可独立使用，也可作为 FormField 的子组件
+  - 错误状态使用 aria-live="assertive" 确保即时通知
+  - 支持通过 {1}、{2} 格式在文本中插入链接
+  - 链接支持外部链接标识和点击事件
+  - 与七轴主题系统完全集成
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - 初始版本发布
+      - 支持5种状态类型
+      - 支持图标显示
+      - 支持链接功能
+      - 支持文本截断
+      - 完整的无障碍访问
+      - HelperTextList 组件
+      - 与七轴主题系统集成
+
+# 相关组件
+relatedComponents:
+  - name: ValidationMessage
+    description: 专门用于显示校验错误消息
+    relationship: sibling
+
+  - name: FormField
+    description: 表单字段容器，HelperText 可作为其子组件
+    relationship: parent
+
+  - name: Input
+    description: 输入控件，通常与 HelperText 配合使用
+    relationship: sibling
+
+  - name: FieldLabel
+    description: 字段标签，与 HelperText 配合提供完整字段信息
+    relationship: sibling

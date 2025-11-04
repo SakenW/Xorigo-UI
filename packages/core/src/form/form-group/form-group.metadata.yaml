@@ -1,0 +1,579 @@
+# ============================================================================
+# FormGroup 组件元数据
+# ============================================================================
+# @description FormGroup 组件的完整元数据配置，包括分类、稳定性、版本等信息
+# @version 1.0.0
+# @author Xorigo UI Team
+# @category forms
+# @layer component
+# @stability stable
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# 基础元数据
+# ----------------------------------------------------------------------------
+component:
+  name: "FormGroup"
+  displayName: "FormGroup"
+  description: |
+    表单字段组容器组件，支持多个相关字段的逻辑分组
+
+    核心功能：
+    - 表单字段组容器组件
+    - 支持多个相关字段的逻辑分组
+    - 支持组标题和描述
+    - 支持组级别验证
+    - 支持必填组标记
+    - 支持禁用整个组
+    - 支持折叠展开
+    - 支持网格布局
+    - 支持响应式设计
+    - 支持嵌套组
+    - 支持错误汇总显示
+    - 支持自定义间距
+    - TypeScript 类型安全
+    - React Context 集成
+    - 可访问性支持
+
+  version: "1.0.0"
+  category: "forms"
+  layer: "component"
+  stability: "stable"
+  since: "v1.0.0"
+  created: "2025-11-04"
+  updated: "2025-11-04"
+
+# ----------------------------------------------------------------------------
+# 分类信息
+# ----------------------------------------------------------------------------
+classification:
+  taxonomyCategory: "forms"
+  componentLevel: "Component Layer"
+  dependencyLevel: 4
+  parentCategory: "forms"
+
+  # 与其他组件的关系
+  relatedComponents:
+    - name: "Fieldset"
+      relationship: "similar"
+      description: "字段集，FormGroup 的基础版本"
+    - name: "FormLayout"
+      relationship: "complementary"
+      description: "表单布局，FormGroup 提供分组功能"
+    - name: "FormField"
+      relationship: "complementary"
+      description: "字段容器，FormGroup 提供容器功能"
+    - name: "FormItem"
+      relationship: "complementary"
+      description: "表单项，FormGroup 提供分组功能"
+
+# ----------------------------------------------------------------------------
+# 技术栈信息
+# ----------------------------------------------------------------------------
+techStack:
+  react: "^19.2.0"
+  typescript: "~5.9.3"
+  tailwindCss: "^3.4.18"
+  framerMotion: "^12.23.5"
+  cva: "^2.0.0"
+
+# ----------------------------------------------------------------------------
+# 文件结构
+# ----------------------------------------------------------------------------
+files:
+  main: "form-group.tsx"
+  test: "form-group.test.tsx"
+  storybook: "form-group.stories.tsx"
+  metadata: "form-group.metadata.yaml"
+  index: "index.ts"
+
+# ----------------------------------------------------------------------------
+# Props 和类型
+# ----------------------------------------------------------------------------
+props:
+  # 基础属性
+  - name: "variant"
+    type: "'default' | 'bordered' | 'ghost' | 'filled'"
+    default: "default"
+    description: "样式变体"
+    required: false
+
+  - name: "size"
+    type: "'sm' | 'md' | 'lg' | 'xl'"
+    default: "md"
+    description: "尺寸"
+    required: false
+
+  - name: "layout"
+    type: "'single' | 'grid' | 'double' | 'triple'"
+    default: "single"
+    description: "内容布局"
+    required: false
+
+  - name: "title"
+    type: "string"
+    default: "undefined"
+    description: "组标题"
+    required: false
+
+  - name: "description"
+    type: "string"
+    default: "undefined"
+    description: "组描述"
+    required: false
+
+  - name: "helpText"
+    type: "string"
+    default: "undefined"
+    description: "帮助文本"
+    required: false
+
+  # 状态属性
+  - name: "required"
+    type: "boolean"
+    default: "false"
+    description: "是否为必填组"
+    required: false
+
+  - name: "optional"
+    type: "boolean"
+    default: "false"
+    description: "是否为可选组"
+    required: false
+
+  - name: "disabled"
+    type: "boolean"
+    default: "false"
+    description: "是否禁用"
+    required: false
+
+  - name: "showRequiredIndicator"
+    type: "boolean"
+    default: "true"
+    description: "是否显示必填指示器"
+    required: false
+
+  - name: "showOptionalIndicator"
+    type: "boolean"
+    default: "false"
+    description: "是否显示可选指示器"
+    required: false
+
+  # 折叠功能
+  - name: "collapsible"
+    type: "boolean"
+    default: "false"
+    description: "是否可折叠"
+    required: false
+
+  - name: "defaultCollapsed"
+    type: "boolean"
+    default: "false"
+    description: "默认折叠状态"
+    required: false
+
+  - name: "collapsed"
+    type: "boolean"
+    default: "undefined"
+    description: "controlled 折叠状态"
+    required: false
+
+  - name: "onCollapseChange"
+    type: "(collapsed: boolean) => void"
+    default: "undefined"
+    description: "折叠状态变化回调"
+    required: false
+
+  # 验证相关
+  - name: "error"
+    type: "string | string[]"
+    default: "undefined"
+    description: "错误消息"
+    required: false
+
+  - name: "warning"
+    type: "string"
+    default: "undefined"
+    description: "警告消息"
+    required: false
+
+  - name: "info"
+    type: "string"
+    default: "undefined"
+    description: "信息消息"
+    required: false
+
+  - name: "errors"
+    type: "Array<{ field: string; message: string }>"
+    default: "undefined"
+    description: "错误汇总列表"
+    required: false
+
+  # 内容
+  - name: "children"
+    type: "React.ReactNode"
+    default: "undefined"
+    description: "子组件"
+    required: true
+
+  # 自定义样式
+  - name: "className"
+    type: "string"
+    default: "undefined"
+    description: "自定义样式类"
+    required: false
+
+  - name: "headerClassName"
+    type: "string"
+    default: "undefined"
+    description: "头部自定义样式类"
+    required: false
+
+  - name: "contentClassName"
+    type: "string"
+    default: "undefined"
+    description: "内容自定义样式类"
+    required: false
+
+  - name: "legendClassName"
+    type: "string"
+    default: "undefined"
+    description: "标题自定义样式类"
+    required: false
+
+  - name: "descriptionClassName"
+    type: "string"
+    default: "undefined"
+    description: "描述自定义样式类"
+    required: false
+
+  # ID
+  - name: "id"
+    type: "string"
+    default: "undefined"
+    description: "组件ID"
+    required: false
+
+  - name: "aria-describedby"
+    type: "string"
+    default: "undefined"
+    description: "aria-describedby 属性"
+    required: false
+
+  - name: "aria-labelledby"
+    type: "string"
+    default: "undefined"
+    description: "aria-labelledby 属性"
+    required: false
+
+# ----------------------------------------------------------------------------
+# Variants 变体
+# ----------------------------------------------------------------------------
+variants:
+  variant:
+    - value: "default"
+      description: "默认样式，带有浅色边框和背景"
+    - value: "bordered"
+      description: "更粗的边框和深色背景"
+    - value: "ghost"
+      description: "透明背景，无边框"
+    - value: "filled"
+      description: "填充背景色"
+
+  size:
+    - value: "sm"
+      description: "小尺寸，紧凑布局"
+    - value: "md"
+      description: "中等尺寸，默认大小"
+    - value: "lg"
+      description: "大尺寸，更大间距"
+    - value: "xl"
+      description: "超大尺寸，最大间距"
+
+  layout:
+    - value: "single"
+      description: "单列布局，垂直排列"
+    - value: "grid"
+      description: "网格布局，自动排列"
+    - value: "double"
+      description: "双列布局，响应式"
+    - value: "triple"
+      description: "三列布局，响应式"
+
+# ----------------------------------------------------------------------------
+# 功能特性
+# ----------------------------------------------------------------------------
+features:
+  core:
+    - name: "表单字段分组"
+      description: "支持将相关表单字段进行逻辑分组"
+      status: "stable"
+    - name: "组标题和描述"
+      description: "支持显示组标题和描述文本"
+      status: "stable"
+    - name: "组级别验证"
+      description: "支持组级别的错误、警告和信息显示"
+      status: "stable"
+    - name: "必填组标记"
+      description: "支持必填组的标识和提示"
+      status: "stable"
+    - name: "禁用状态"
+      description: "支持禁用整个组"
+      status: "stable"
+    - name: "折叠展开"
+      description: "支持可折叠的组"
+      status: "stable"
+    - name: "网格布局"
+      description: "支持单列、双列、三列和网格布局"
+      status: "stable"
+    - name: "响应式设计"
+      description: "支持响应式布局"
+      status: "stable"
+    - name: "嵌套组"
+      description: "支持嵌套的表单组"
+      status: "stable"
+    - name: "错误汇总"
+      description: "支持错误汇总显示"
+      status: "stable"
+    - name: "自定义间距"
+      description: "支持自定义间距配置"
+      status: "stable"
+    - name: "TypeScript 类型安全"
+      description: "完整的 TypeScript 类型支持"
+      status: "stable"
+    - name: "React Context 集成"
+      description: "支持 React Context"
+      status: "stable"
+    - name: "可访问性支持"
+      description: "完整的 ARIA 支持"
+      status: "stable"
+
+# ----------------------------------------------------------------------------
+# 使用场景
+# ----------------------------------------------------------------------------
+useCases:
+  - title: "用户信息分组"
+    description: "将用户基本信息、联系方式等分组显示"
+    example: |
+      <FormGroup title="基本信息" required>
+        <Input placeholder="姓名" />
+        <Input placeholder="邮箱" />
+      </FormGroup>
+
+  - title: "地址信息分组"
+    description: "将地址的各个部分分组显示"
+    example: |
+      <FormGroup title="地址信息" layout="grid">
+        <Input placeholder="街道" />
+        <Input placeholder="城市" />
+        <Input placeholder="邮编" />
+      </FormGroup>
+
+  - title: "支付信息分组"
+    description: "将支付相关字段分组"
+    example: |
+      <FormGroup title="支付信息" required>
+        <Input placeholder="卡号" />
+        <Input placeholder="有效期" />
+        <Input placeholder="CVV" />
+      </FormGroup>
+
+  - title: "多步骤表单"
+    description: "将复杂表单按步骤分组"
+    example: |
+      <FormGroup title="步骤 1：基本信息">
+        <Input placeholder="姓名" />
+        <Input placeholder="邮箱" />
+      </FormGroup>
+
+  - title: "高级设置"
+    description: "将高级设置放在可折叠组中"
+    example: |
+      <FormGroup title="高级设置" collapsible defaultCollapsed>
+        <Input placeholder="API 密钥" />
+        <Input placeholder="超时时间" />
+      </FormGroup>
+
+# ----------------------------------------------------------------------------
+# 最佳实践
+# ----------------------------------------------------------------------------
+bestPractices:
+  - title: "合理的分组"
+    description: "将相关字段分组，避免单个组包含过多字段"
+  - title: "清晰的标题"
+    description: "使用清晰、简洁的标题描述组内容"
+  - title: "适当的描述"
+    description: "为复杂的组提供描述文本"
+  - title: "必填标记"
+    description: "明确标记必填的组"
+  - title: "折叠使用"
+    description: "对于可选或高级设置，使用折叠功能"
+  - title: "错误处理"
+    description: "使用错误汇总显示组级别错误"
+  - title: "响应式布局"
+    description: "根据内容选择合适的布局模式"
+  - title: "嵌套层次"
+    description: "避免过深的嵌套，一般不超过3层"
+  - title: "可访问性"
+    description: "确保所有组都有关联的标题"
+  - title: "一致的风格"
+    description: "在同一表单中使用一致的变体和尺寸"
+
+# ----------------------------------------------------------------------------
+# 设计原则
+# ----------------------------------------------------------------------------
+designPrinciples:
+  - "Atomic Design: 确保组件的原子性和可组合性"
+  - "单一职责: 每个 FormGroup 专注于一个特定的功能分组"
+  - "一致性: API 设计遵循组件库的统一规范"
+  - "可扩展性: 支持多种变体和布局模式"
+  - "可访问性: 完整的 ARIA 支持和键盘导航"
+  - "主题集成: 与七轴主题系统完美集成"
+  - "类型安全: 完整的 TypeScript 类型支持"
+
+# ----------------------------------------------------------------------------
+# 依赖关系
+# ----------------------------------------------------------------------------
+dependencies:
+  required:
+    - name: "react"
+      reason: "React 组件基础"
+    - name: "react-dom"
+      reason: "React DOM 渲染"
+    - name: "framer-motion"
+      reason: "动画效果"
+    - name: "lucide-react"
+      reason: "图标组件"
+    - name: "cva"
+      reason: "样式变体管理"
+    - name: "clsx"
+      reason: "样式类名合并"
+
+  optional:
+    - name: "class-variance-authority"
+      reason: "样式变体管理（可选）"
+
+  peer:
+    - name: "@xorigo-ui/core"
+      reason: "核心组件库"
+
+# ----------------------------------------------------------------------------
+# 样式系统
+# ----------------------------------------------------------------------------
+styling:
+  approach: "Tailwind CSS + CVA"
+
+  tokens:
+    - category: "spacing"
+      description: "使用设计令牌控制间距"
+    - category: "border-radius"
+      description: "使用设计令牌控制圆角"
+    - category: "color"
+      description: "使用设计令牌控制颜色"
+    - category: "typography"
+      description: "使用设计令牌控制字体"
+
+  customization:
+    - "支持 CSS 变量覆盖"
+    - "支持 Tailwind 配置扩展"
+    - "支持主题映射"
+
+# ----------------------------------------------------------------------------
+# 测试信息
+# ----------------------------------------------------------------------------
+testing:
+  unitTest: true
+  integrationTest: true
+  accessibilityTest: true
+  visualRegressionTest: false
+
+  coverage:
+    - "基础渲染测试"
+    - "标题和描述测试"
+    - "折叠功能测试"
+    - "布局测试"
+    - "错误和验证测试"
+    - "状态管理测试"
+    - "可访问性测试"
+    - "嵌套组件测试"
+    - "动画测试"
+    - "交互测试"
+    - "样式变体测试"
+    - "边界情况测试"
+    - "Context 功能测试"
+
+# ----------------------------------------------------------------------------
+# 性能优化
+# ----------------------------------------------------------------------------
+performance:
+  optimizations:
+    - "使用 React.memo 防止不必要的重渲染"
+    - "使用 useCallback 优化事件处理"
+    - "使用 useId 生成唯一 ID"
+    - "使用 AnimatePresence 实现流畅动画"
+    - "使用 CSS 变量优化样式计算"
+
+  bundleSize:
+    - "gzipped: ~8KB"
+    - "minified: ~25KB"
+
+# ----------------------------------------------------------------------------
+# 浏览器支持
+# ----------------------------------------------------------------------------
+browserSupport:
+  chrome: ">=90"
+  firefox: ">=88"
+  safari: ">=14"
+  edge: ">=90"
+  mobile:
+    - "iOS Safari >=14"
+    - "Chrome Mobile >=90"
+
+# ----------------------------------------------------------------------------
+# 文档链接
+# ----------------------------------------------------------------------------
+documentation:
+  api: "/docs/api/form-group"
+  examples: "/docs/examples/form-group"
+  guide: "/docs/guide/form-group"
+  storybook: "/storybook/?path=/docs-form-formgroup"
+
+# ----------------------------------------------------------------------------
+# 变更日志
+# ----------------------------------------------------------------------------
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持基础表单分组功能"
+      - "支持多种变体和布局"
+      - "支持折叠和错误汇总"
+      - "支持嵌套表单组"
+      - "完整的 TypeScript 支持"
+      - "完整的可访问性支持"
+      - "完整的测试覆盖"
+
+# ----------------------------------------------------------------------------
+# 贡献指南
+# ----------------------------------------------------------------------------
+contribution:
+  guidelines:
+    - "遵循组件库的设计规范"
+    - "保持 API 的一致性"
+    - "添加相应的测试用例"
+    - "更新相关文档"
+    - "确保无障碍访问"
+
+  review:
+    - "代码审查"
+    - "设计审查"
+    - "测试审查"
+    - "文档审查"
+
+# ----------------------------------------------------------------------------
+# 许可证
+# ----------------------------------------------------------------------------
+license:
+  type: "MIT"
+  copyright: "Copyright (c) 2025 Xorigo UI Team"

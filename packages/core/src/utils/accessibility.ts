@@ -187,6 +187,60 @@ export const getModalAriaProps = (props: {
 }
 
 /**
+ * 为头像组件生成可访问性属性
+ */
+export const getAvatarAriaProps = (props: {
+  label?: string
+  describedBy?: string
+}) => {
+  const ariaProps: Record<string, any> = {
+    role: 'img'
+  }
+
+  if (props.label) {
+    ariaProps['aria-label'] = props.label
+  }
+
+  if (props.describedBy) {
+    ariaProps['aria-describedby'] = props.describedBy
+  }
+
+  return ariaProps
+}
+
+/**
+ * 为芯片组件生成可访问性属性
+ */
+export const getChipAriaProps = (props: {
+  label?: string
+  isSelected?: boolean
+  isDisabled?: boolean
+  describedBy?: string
+}) => {
+  const ariaProps: Record<string, any> = {
+    role: 'img'
+  }
+
+  if (props.label) {
+    ariaProps['aria-label'] = props.label
+  }
+
+  if (props.describedBy) {
+    ariaProps['aria-describedby'] = props.describedBy
+  }
+
+  if (props.isSelected !== undefined) {
+    ariaProps['aria-selected'] = props.isSelected
+  }
+
+  if (props.isDisabled) {
+    ariaProps['aria-disabled'] = true
+  }
+
+  return ariaProps
+}
+
+/**
  * 键盘导航常量
  */
 export const KEYS = {

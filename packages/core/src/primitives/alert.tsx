@@ -44,7 +44,7 @@ const alertVariants = cva(
         md: 'p-4 text-base',
         lg: 'p-5 text-lg',
       },
-      variant: {
+      style: {
         // 默认样式
         default: 'border',
 
@@ -64,6 +64,7 @@ const alertVariants = cva(
     },
     defaultVariants: {
       variant: 'info',
+      style: 'default',
       size: 'md',
       closable: false,
     },
@@ -83,6 +84,7 @@ const iconMap = {
 export interface AlertProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof alertVariants> {
+  style?: 'default' | 'solid' | 'outline' | 'accent'
   /** 标题 */
   title?: React.ReactNode
   /** 描述内容 */
@@ -125,7 +127,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(({
   position = 'top',
   variant = 'info',
   size = 'md',
-  variant: styleVariant = 'default',
+  style: styleVariant = 'default',
   children,
   ...props
 }, ref) => {

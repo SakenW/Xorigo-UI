@@ -1,0 +1,366 @@
+# ChipDisplay 组件元数据
+# 组件分类系统 v2025.11.03
+
+metadataVersion: "2025.11.03"
+componentName: "chip-display"
+componentType: "component"
+layer: "component"
+category: "Data Display"
+subcategory: "Status & Indicators"
+
+# 基本信息
+name: "ChipDisplay"
+displayName: "ChipDisplay - 展示型芯片组件"
+description: "用于显示标签、状态、信息等内容的展示型芯片组件，支持多种颜色、变体和尺寸"
+stability: "stable"
+version: "1.0.0"
+
+# 分类信息
+classification:
+  atomicLevel: "component"
+  designSystem: "xorigo-ui"
+  usage: "display-only"
+  interaction: "passive"
+
+# 主题系统
+themeSystem:
+  standard: "seven-axis"
+  supportedAxes:
+    - mode: ["light", "dark", "auto"]
+    - hue: ["primary", "secondary", "success", "warning", "error", "info"]
+    - saturation: ["low", "medium", "high"]
+    - lightness: ["light", "medium", "dark"]
+    - density: ["compact", "comfortable", "spacious"]
+    - roundness: ["sharp", "rounded", "pill"]
+    - contrast: ["low", "medium", "high"]
+
+# 设计令牌
+designTokens:
+  - token: "color.primary"
+    description: "主色调"
+    type: "color"
+    required: true
+
+  - token: "color.secondary"
+    description: "次要色调"
+    type: "color"
+    required: true
+
+  - token: "color.success"
+    description: "成功状态色"
+    type: "color"
+    required: true
+
+  - token: "color.warning"
+    description: "警告状态色"
+    type: "color"
+    required: true
+
+  - token: "color.error"
+    description: "错误状态色"
+    type: "color"
+    required: true
+
+  - token: "color.info"
+    description: "信息状态色"
+    type: "color"
+    required: true
+
+  - token: "spacing.xs"
+    description: "极小间距"
+    type: "spacing"
+    required: false
+
+  - token: "spacing.sm"
+    description: "小间距"
+    type: "spacing"
+    required: false
+
+  - token: "spacing.md"
+    description: "中等间距"
+    type: "spacing"
+    required: false
+
+  - token: "spacing.lg"
+    description: "大间距"
+    type: "spacing"
+    required: false
+
+# 技术栈
+techStack:
+  react: "^19.0.0"
+  typescript: "^5.9.0"
+  tailwindcss: "^4.0.0"
+  framerMotion: "^12.0.0"
+
+# 变体配置
+variants:
+  color:
+    type: "enum"
+    values:
+      - primary
+      - secondary
+      - success
+      - warning
+      - error
+      - info
+    default: "primary"
+    required: true
+
+  variant:
+    type: "enum"
+    values:
+      - solid
+      - soft
+      - outline
+      - ghost
+    default: "solid"
+    required: true
+
+  size:
+    type: "enum"
+    values:
+      - xs
+      - sm
+      - md
+      - lg
+    default: "md"
+    required: true
+
+  state:
+    type: "enum"
+    values:
+      - default
+      - selected
+      - disabled
+    default: "default"
+    required: true
+
+# 属性接口
+props:
+  required:
+    - name: "label"
+      type: "string"
+      description: "芯片文本内容"
+
+  optional:
+    - name: "color"
+      type: "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'"
+      default: "primary"
+      description: "芯片颜色"
+
+    - name: "variant"
+      type: "'solid' | 'soft' | 'outline' | 'ghost'"
+      default: "solid"
+      description: "变体类型"
+
+    - name: "size"
+      type: "'xs' | 'sm' | 'md' | 'lg'"
+      default: "md"
+      description: "芯片尺寸"
+
+    - name: "leftIcon"
+      type: "React.ReactNode"
+      default: "undefined"
+      description: "左侧图标"
+
+    - name: "rightIcon"
+      type: "React.ReactNode"
+      default: "undefined"
+      description: "右侧图标"
+
+    - name: "avatar"
+      type: "string"
+      default: "undefined"
+      description: "头像图片地址"
+
+    - name: "isSelected"
+      type: "boolean"
+      default: "false"
+      description: "是否选中状态"
+
+    - name: "isDisabled"
+      type: "boolean"
+      default: "false"
+      description: "是否禁用状态"
+
+    - name: "isClosable"
+      type: "boolean"
+      default: "false"
+      description: "是否可关闭"
+
+    - name: "onClose"
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void"
+      default: "undefined"
+      description: "关闭事件处理器"
+
+    - name: "status"
+      type: "'online' | 'offline' | 'busy' | 'away'"
+      default: "undefined"
+      description: "状态指示器"
+
+    - name: "maxWidth"
+      type: "number"
+      default: "undefined"
+      description: "最大宽度（像素）"
+
+    - name: "showTooltip"
+      type: "boolean"
+      default: "true"
+      description: "是否显示工具提示"
+
+    - name: "clickable"
+      type: "boolean"
+      default: "false"
+      description: "是否可点击（带动画）"
+
+    - name: "labelText"
+      type: "string"
+      default: "undefined"
+      description: "自定义aria-label文本"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: "undefined"
+      description: "自定义图标组件（优先级高于leftIcon）"
+
+    - name: "testId"
+      type: "string"
+      default: "undefined"
+      description: "测试ID"
+
+    - name: "onClick"
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void"
+      default: "undefined"
+      description: "点击事件处理器"
+
+# 无障碍性
+accessibility:
+  role: "img"
+  keyboardNavigation: false
+  screenReaderSupport: true
+  ariaAttributes:
+    - name: "aria-label"
+      description: "芯片的可访问标签"
+      required: false
+
+    - name: "aria-selected"
+      description: "标识芯片是否被选中"
+      required: false
+
+    - name: "aria-disabled"
+      description: "标识芯片是否被禁用"
+      required: false
+
+# 测试
+testing:
+  unitTests: true
+  integrationTests: true
+  visualTests: true
+  a11yTests: true
+  testFile: "chip-display.test.tsx"
+  storyFile: "chip-display.stories.tsx"
+  testCoverage: "95%"
+
+# 性能
+performance:
+  lazyLoad: false
+  memoization: true
+  virtualization: false
+  bundleSizeImpact: "minimal"
+
+# 相关组件
+relatedComponents:
+  - name: "Badge"
+    description: "徽章组件，用于显示数量或状态"
+    relationship: "sibling"
+
+  - name: "Tag"
+    description: "标签组件，用于分类和筛选"
+    relationship: "sibling"
+
+  - name: "Label"
+    description: "标签组件，用于表单字段"
+    relationship: "sibling"
+
+# 使用场景
+useCases:
+  - "显示用户状态"
+  - "展示分类标签"
+  - "表示状态信息"
+  - "显示筛选条件"
+  - "展示元数据"
+  - "表示选中项"
+
+# 示例
+examples:
+  basic: |
+    <ChipDisplay label="Default" />
+
+  withColor: |
+    <ChipDisplay label="Success" color="success" />
+
+  withVariant: |
+    <ChipDisplay label="Outline" variant="outline" />
+
+  withIcon: |
+    <ChipDisplay
+      label="With Icon"
+      leftIcon={<Icon />}
+    />
+
+  withAvatar: |
+    <ChipDisplay
+      label="John Doe"
+      avatar="https://example.com/avatar.jpg"
+    />
+
+  closable: |
+    <ChipDisplay
+      label="Removable"
+      isClosable={true}
+      onClose={(e) => console.log('Closed')}
+    />
+
+  selected: |
+    <ChipDisplay
+      label="Selected"
+      isSelected={true}
+    />
+
+  disabled: |
+    <ChipDisplay
+      label="Disabled"
+      isDisabled={true}
+    />
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持 6 种颜色"
+      - "支持 4 种变体"
+      - "支持 4 种尺寸"
+      - "支持图标和头像"
+      - "支持状态指示器"
+      - "支持文本截断"
+      - "支持可关闭模式"
+      - "完整的 TypeScript 类型"
+      - "可访问性支持"
+
+# 作者信息
+author:
+  name: "Xorigo UI Team"
+  email: "team@xorigo-ui.com"
+  github: "https://github.com/xorigo-ui"
+
+# 许可证
+license:
+  type: "MIT"
+  year: "2025"
+
+# 更新信息
+lastUpdated: "2025-11-04"
+maintenanceStatus: "active"

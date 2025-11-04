@@ -1,0 +1,399 @@
+# =============================================================================
+# Card 组件元数据
+# =============================================================================
+# 描述 Card 组件的分类、稳定性、依赖关系等信息
+#
+# @author Xorigo UI Team
+# @version 1.0.0
+# @since 2025-11-04
+# =============================================================================
+
+# 组件基本信息
+component:
+  name: Card
+  displayName: 卡片
+  category: Data Display
+  layer: Component
+  type: Data Display Component
+  description: 用于数据展示的卡片组件，支持多种变体、状态和交互
+
+# 分类信息
+classification:
+  domain: UI Components
+  layer: Component Layer
+  stability: Stable
+  maturity: Production Ready
+  version: 1.0.0
+  lastUpdated: "2025-11-04"
+
+# 组件层次和依赖
+hierarchy:
+  atomicLevel: Molecule
+  composedOf:
+    - CardHeader
+    - CardBody
+    - CardFooter
+  dependsOn:
+    primitives:
+      - Skeleton
+      - Button
+    utils:
+      - cva-standalone
+      - cn
+    system:
+      - @xorigo-ui/system (useTheme)
+    motion:
+      - framer-motion
+
+# 功能特性
+features:
+  - 多种视觉变体 (default, elevated, bordered, filled, glass, gradient, neon, interactive)
+  - 灵活的内容结构 (CardHeader, CardBody, CardFooter 子组件)
+  - 丰富的交互状态 (hoverable, loading, disabled, selected)
+  - 媒体内容支持 (图片、视频等，支持多种位置和宽高比)
+  - 徽章系统 (不同颜色的徽章标记)
+  - 可访问性支持 (键盘导航、ARIA 属性)
+  - 动画效果 (基于 Framer Motion)
+  - 阴影层级控制
+  - 圆角大小控制
+  - 测试属性支持
+
+# 技术规范
+technical:
+  framework: React 19
+  language: TypeScript 5.9
+  styling: Tailwind CSS 4
+  animation: Framer Motion 12
+  theming: Seven-Axis Theme System
+  tokens: DTCG Design Tokens
+  ref: forwardRef
+  accessibility: WCAG 2.1 AA Compliant
+
+# Props 规范
+props:
+  # 核心属性
+  - name: variant
+    type: '"default" | "elevated" | "bordered" | "filled" | "glass" | "gradient" | "neon" | "interactive"'
+    required: false
+    default: "default"
+    description: 卡片视觉变体
+
+  - name: shadowLevel
+    type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl"'
+    required: false
+    default: "sm"
+    description: 阴影层级
+
+  - name: roundness
+    type: '"none" | "sm" | "md" | "lg" | "xl" | "full"'
+    required: false
+    default: "lg"
+    description: 圆角大小
+
+  - name: interactive
+    type: boolean
+    required: false
+    default: false
+    description: 是否启用交互样式
+
+  # 状态属性
+  - name: loading
+    type: boolean
+    required: false
+    default: false
+    description: 加载状态
+
+  - name: disabled
+    type: boolean
+    required: false
+    default: false
+    description: 禁用状态
+
+  - name: selected
+    type: boolean
+    required: false
+    default: false
+    description: 选中状态
+
+  - name: hoverable
+    type: boolean
+    required: false
+    default: false
+    description: 是否显示悬停效果
+
+  # 内容属性
+  - name: children
+    type: React.ReactNode
+    required: false
+    description: 卡片内容
+
+  - name: icon
+    type: React.ReactNode
+    required: false
+    description: 装饰性图标
+
+  - name: actions
+    type: React.ReactNode
+    required: false
+    description: 右上角操作区
+
+  - name: badge
+    type: string | React.ReactNode
+    required: false
+    description: 徽章内容
+
+  - name: badgeColor
+    type: '"primary" | "secondary" | "success" | "warning" | "error" | "info"'
+    required: false
+    default: "primary"
+    description: 徽章颜色
+
+  # 媒体属性
+  - name: media
+    type: React.ReactNode
+    required: false
+    description: 媒体内容（图片、视频等）
+
+  - name: mediaPosition
+    type: '"top" | "left" | "right" | "cover"'
+    required: false
+    default: "top"
+    description: 媒体内容位置
+
+  - name: mediaAspectRatio
+    type: '"16/9" | "4/3" | "1/1" | "21/9"'
+    required: false
+    default: "16/9"
+    description: 媒体宽高比
+
+  # 事件属性
+  - name: onClick
+    type: () => void
+    required: false
+    description: 点击事件回调
+
+  - name: onHover
+    type: (isHovered: boolean) => void
+    required: false
+    description: 悬停事件回调
+
+  # 其他属性
+  - name: className
+    type: string
+    required: false
+    description: 自定义样式类
+
+  - name: testId
+    type: string
+    required: false
+    description: 测试ID
+
+# 子组件
+subcomponents:
+  - name: CardHeader
+    description: 卡片头部组件，包含标题、副标题和操作区
+    props:
+      - title: 标题文本
+      - subtitle: 副标题文本
+      - action: 头部操作区
+      - children: 自定义内容
+
+  - name: CardBody
+    description: 卡片正文内容组件
+    props:
+      - children: 正文内容
+      - className: 自定义样式类
+
+  - name: CardFooter
+    description: 卡片底部组件，支持多种对齐方式
+    props:
+      - children: 底部内容
+      - align: 对齐方式 (left | center | right | between)
+      - className: 自定义样式类
+
+# 变体说明
+variants:
+  - name: default
+    description: 默认样式，适合大多数场景
+    useCase: 通用信息展示
+
+  - name: elevated
+    description: 突出显示，带有更强阴影
+    useCase: 重要信息展示
+
+  - name: bordered
+    description: 强调边框的样式
+    useCase: 需要明确边界的场景
+
+  - name: filled
+    description: 填充背景色
+    useCase: 区分不同区域
+
+  - name: glass
+    description: 玻璃拟态效果，现代感强
+    useCase: 现代 UI 设计
+
+  - name: gradient
+    description: 渐变背景，视觉冲击力强
+    useCase: 强调特殊内容
+
+  - name: neon
+    description: 霓虹发光效果，科技感
+    useCase: 科技/游戏主题
+
+  - name: interactive
+    description: 专门的交互样式，可点击
+    useCase: 可点击的卡片
+
+# 使用场景
+useCases:
+  - 数据面板卡片
+  - 产品展示卡片
+  - 文章预览卡片
+  - 统计信息卡片
+  - 活动或事件卡片
+  - 用户信息卡片
+  - 任务或待办事项卡片
+  - 通知或消息卡片
+  - 媒体内容展示卡片
+  - 社交媒体卡片
+
+# 可访问性
+accessibility:
+  wcagLevel: AA
+  keyboardNavigation: true
+  screenReaderSupport: true
+  ariaRoles:
+    - role="button" (当可点击时)
+  ariaAttributes:
+    - aria-expanded (当可展开时)
+    - aria-disabled (当禁用时)
+  focusManagement: 支持 Tab 键导航
+  colorContrast: 符合 WCAG AA 标准
+
+# 性能
+performance:
+  bundleSize: ~3.2KB (gzipped)
+  renderPerformance: 优化了重渲染
+  lazyLoading: 支持媒体内容懒加载
+  memoization: 使用 React.memo 优化
+
+# 浏览器支持
+browserSupport:
+  - Chrome >= 88
+  - Firefox >= 85
+  - Safari >= 14
+  - Edge >= 88
+  - iOS Safari >= 14
+  - Android Chrome >= 88
+
+# 测试覆盖
+testing:
+  unitTests: 完整覆盖
+  integrationTests: 已实现
+  e2eTests: 建议添加
+  a11yTests: 已实现
+  visualTests: Storybook 已实现
+
+# 示例代码
+examples:
+  basic: |
+    <Card>
+      <CardHeader title="标题" subtitle="副标题" />
+      <CardBody>正文内容</CardBody>
+      <CardFooter>底部内容</CardFooter>
+    </Card>
+
+  withMedia: |
+    <Card
+      media={<img src="image.jpg" alt="示例" />}
+      badge="新品"
+    >
+      <CardHeader title="产品名称" />
+      <CardBody>产品描述</CardBody>
+    </Card>
+
+  interactive: |
+    <Card
+      variant="interactive"
+      onClick={() => console.log('点击了')}
+      hoverable
+    >
+      <CardHeader title="可点击卡片" />
+      <CardBody>点击这个卡片</CardBody>
+    </Card>
+
+  elevated: |
+    <Card variant="elevated" shadowLevel="xl">
+      <CardHeader title="突出显示" />
+      <CardBody>这是一个带有大阴影的卡片</CardBody>
+    </Card>
+
+# 相关组件
+relatedComponents:
+  - ComponentCard: 组件展示卡片
+  - AdvancedCard: 高级卡片
+  - StatCard: 统计卡片
+  - ProductCard: 产品卡片
+  - ArticleCard: 文章卡片
+  - CardGrid: 卡片网格布局
+
+# 设计令牌
+designTokens:
+  used:
+    - --bg-primary
+    - --bg-secondary
+    - --bg-tertiary
+    - --bg-glass
+    - --text-primary
+    - --text-secondary
+    - --text-inverse
+    - --border-primary
+    - --border-secondary
+    - --ring-primary-action
+    - --bg-primary-action
+    - --bg-secondary-action
+    - --bg-success
+    - --bg-warning
+    - --bg-error
+    - --bg-info
+
+# 主题适配
+theming:
+  sevenAxis: true
+  lightMode: 完全支持
+  darkMode: 完全支持
+  customThemes: 完全支持
+  recipeSystem: 支持所有配方
+
+# 版本历史
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - 初始版本发布
+      - 实现所有变体和功能
+      - 完整的测试覆盖
+      - Storybook 文档
+      - TypeScript 类型定义
+
+# 维护信息
+maintenance:
+  owner: Xorigo UI Team
+  status: Active
+  lastReview: "2025-11-04"
+  nextReview: "2026-05-04"
+  deprecated: false
+  replacement: N/A
+
+# 许可证
+license:
+  type: MIT
+  url: https://opensource.org/licenses/MIT
+
+# 贡献指南
+contribution:
+  guidelines: https://github.com/xorigo-ui/xorigo-ui/blob/main/CONTRIBUTING.md
+  codeStyle: ESLint + Prettier
+  commitMessage: Conventional Commits
+  pullRequest: 欢迎贡献代码

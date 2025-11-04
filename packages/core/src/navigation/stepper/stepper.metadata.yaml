@@ -1,0 +1,30 @@
+# Stepper Component Metadata
+
+name: "Stepper"
+displayName: "Stepper"
+category: "navigation"
+layer: "Component Layer"
+level: "component"
+stability: "stable"
+version: "1.0.0"
+since: "v1.5.0"
+
+description: |
+  流程步骤导航组件，显示多步骤流程的进度和当前状态。
+
+tags:
+  - navigation
+  - stepper
+  - steps
+  - progress
+
+props:
+  - name: "steps"
+    type: "Step[]"
+    required: true
+    description: "步骤列表"
+  - name: "currentStep"
+    type: "number"
+    required: false
+    default: 0
+    description: "当前步骤索引"

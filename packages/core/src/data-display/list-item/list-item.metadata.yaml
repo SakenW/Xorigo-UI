@@ -1,0 +1,397 @@
+# ListItem Component Metadata
+# 组件元数据定义文件
+
+component:
+  name: ListItem
+  displayName: 列表项
+  category: Data Display
+  layer: component
+  stability: stable
+  version: 1.0.0
+  description: 灵活的数据展示列表项组件，支持头像、图标、徽章、多行内容和交互状态
+  since: 0.1.0
+
+# 组件分类信息
+classification:
+  type: data-display
+  atomic_level: molecule
+  design_system: xorigo-ui
+  theme_support: full
+
+# 技术规格
+technical:
+  framework: React
+  react_version: ">=18.0.0"
+  typescript: true
+  supported_versions:
+    - "18.x"
+    - "19.x"
+
+# 样式系统
+styling:
+  css_framework: Tailwind CSS
+  tailwind_version: ">=3.4.0"
+  design_tokens: true
+  theming: seven-axis
+  css_variables: true
+
+# 动画系统
+animation:
+  library: Framer Motion
+  version: ">=12.0.0"
+  features:
+    - enter-exit
+    - hover-effects
+    - transitions
+    - layout-animations
+
+# 属性定义
+props:
+  # 基础属性
+  - name: density
+    type: "'compact' | 'regular' | 'spacious'"
+    required: false
+    default: regular
+    description: 控制列表项的密度和间距
+    examples:
+      - compact: "紧凑布局"
+      - regular: "常规布局"
+      - spacious: "宽松布局"
+
+  - name: interactive
+    type: "'static' | 'hoverable' | 'clickable'"
+    required: false
+    default: static
+    description: 控制交互行为模式
+    examples:
+      - static: "无交互"
+      - hoverable: "悬停交互"
+      - clickable: "点击交互"
+
+  - name: selected
+    type: boolean
+    required: false
+    default: false
+    description: 控制选中状态
+
+  - name: disabled
+    type: boolean
+    required: false
+    default: false
+    description: 控制禁用状态
+
+  # 头像/图标属性
+  - name: avatar
+    type: React.ReactNode
+    required: false
+    default: null
+    description: 头像内容
+
+  - name: avatarSize
+    type: "'sm' | 'md' | 'lg' | 'xl'"
+    required: false
+    default: md
+    description: 头像尺寸
+    examples:
+      - sm: "24px"
+      - md: "32px"
+      - lg: "40px"
+      - xl: "48px"
+
+  - name: icon
+    type: React.ReactNode
+    required: false
+    default: null
+    description: 图标内容（与avatar互斥）
+
+  - name: iconSize
+    type: "'sm' | 'md' | 'lg' | 'xl'"
+    required: false
+    default: md
+    description: 图标尺寸
+
+  # 徽章属性
+  - name: badge
+    type: React.ReactNode
+    required: false
+    default: null
+    description: 徽章内容
+
+  - name: badgeVariant
+    type: "'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'"
+    required: false
+    default: default
+    description: 徽章样式变体
+
+  - name: badgeSize
+    type: "'sm' | 'md' | 'lg' | 'xl'"
+    required: false
+    default: md
+    description: 徽章尺寸
+
+  # 内容属性
+  - name: title
+    type: React.ReactNode
+    required: true
+    description: 列表项标题
+
+  - name: description
+    type: React.ReactNode
+    required: false
+    description: 描述文本
+
+  - name: multiline
+    type: boolean
+    required: false
+    default: false
+    description: 启用多行内容布局
+
+  - name: caption
+    type: React.ReactNode
+    required: false
+    description: 辅助文本
+
+  - name: children
+    type: React.ReactNode
+    required: false
+    description: 多行内容子元素
+
+  # 交互属性
+  - name: onClick
+    type: () => void
+    required: false
+    description: 点击事件处理器
+
+  - name: onDoubleClick
+    type: () => void
+    required: false
+    description: 双击事件处理器
+
+  # 选择相关
+  - name: selectable
+    type: boolean
+    required: false
+    default: false
+    description: 是否显示选择框
+
+  - name: onSelectionChange
+    type: (selected: boolean) => void
+    required: false
+    description: 选择状态变化回调
+
+  # 拖拽相关
+  - name: draggable
+    type: boolean
+    required: false
+    default: false
+    description: 是否可拖拽
+
+  - name: onDragStart
+    type: React.DragEventHandler<HTMLDivElement>
+    required: false
+    description: 拖拽开始事件
+
+  - name: onDragEnd
+    type: React.DragEventHandler<HTMLDivElement>
+    required: false
+    description: 拖拽结束事件
+
+  - name: onDragOver
+    type: React.DragEventHandler<HTMLDivElement>
+    required: false
+    description: 拖拽悬停事件
+
+  - name: onDrop
+    type: React.DragEventHandler<HTMLDivElement>
+    required: false
+    description: 放下事件
+
+  # 其他
+  - name: actions
+    type: React.ReactNode
+    required: false
+    description: 操作按钮区域
+
+  - name: indicator
+    type: React.ReactNode
+    required: false
+    description: 状态指示器
+
+  - name: hoverContent
+    type: React.ReactNode
+    required: false
+    description: 悬停时显示的内容
+
+  - name: showHoverContent
+    type: boolean
+    required: false
+    default: false
+    description: 是否显示悬停内容
+
+  - name: className
+    type: string
+    required: false
+    description: 自定义CSS类名
+
+# 变体定义
+variants:
+  density:
+    - compact
+    - regular
+    - spacious
+
+  interactive:
+    - static
+    - hoverable
+    - clickable
+
+  avatarSize:
+    - sm
+    - md
+    - lg
+    - xl
+
+  iconSize:
+    - sm
+    - md
+    - lg
+    - xl
+
+  badgeVariant:
+    - default
+    - secondary
+    - outline
+    - destructive
+    - success
+    - warning
+
+  badgeSize:
+    - sm
+    - md
+    - lg
+    - xl
+
+# 可访问性
+accessibility:
+  role: listitem
+  keyboard_navigation: true
+  screen_reader: true
+  aria_attributes:
+    - aria-selected
+    - aria-disabled
+    - aria-label
+
+  focus_management:
+    - focusable
+    - tabindex
+
+# 使用场景
+use_cases:
+  - "导航菜单项"
+  - "列表/表格行"
+  - "联系人列表"
+  - "消息列表"
+  - "文件浏览器"
+  - "选择列表"
+  - "拖拽排序列表"
+  - "通知列表"
+
+# 设计规范
+design_guidelines:
+  spacing:
+    compact: "px-3 py-2"
+    regular: "px-4 py-3"
+    spacious: "px-6 py-4"
+
+  typography:
+    title: "font-medium"
+    description: "text-muted-foreground text-xs"
+    caption: "text-xs text-muted-foreground"
+
+  colors:
+    selected: "bg-accent text-accent-foreground"
+    disabled: "opacity-50 cursor-not-allowed pointer-events-none"
+    hover: "hover:bg-accent/50"
+
+# 性能
+performance:
+  memoization: true
+  virtualization_ready: true
+  large_lists_optimized: true
+
+# 测试覆盖
+testing:
+  unit_tests: true
+  integration_tests: true
+  a11y_tests: true
+  visual_regression: true
+  storybook: true
+
+# 示例
+examples:
+  basic:
+    title: "基础用法"
+    code: |
+      <ListItem title="Item 1" />
+
+  with_description:
+    title: "带描述"
+    code: |
+      <ListItem
+        title="Item 1"
+        description="Item description"
+      />
+
+  with_avatar:
+    title: "带头像"
+    code: |
+      <ListItem
+        title="John Doe"
+        description="john@example.com"
+        avatar={<Avatar src="..." />}
+      />
+
+  with_badge:
+    title: "带徽章"
+    code: |
+      <ListItem
+        title="Notifications"
+        badge="5"
+        badgeVariant="destructive"
+      />
+
+  interactive:
+    title: "可交互"
+    code: |
+      <ListItem
+        title="Clickable Item"
+        onClick={() => {}}
+        interactive="hoverable"
+      />
+
+# 相关组件
+related_components:
+  - List
+  - ListItem
+  - ListHeader
+  - ListFooter
+  - ListSeparator
+  - SimpleList
+  - CardList
+  - TableRow
+  - TableCell
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持头像、图标、徽章"
+      - "支持多种交互状态"
+      - "支持拖拽排序"
+      - "支持多行内容"
+      - "完整的TypeScript类型支持"
+      - "七轴主题系统集成"
+      - "可访问性支持"
+      - "单元测试和故事文档"

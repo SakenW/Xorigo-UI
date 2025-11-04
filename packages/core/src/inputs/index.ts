@@ -96,7 +96,71 @@ export { Combobox } from './combobox'
 export type { ComboboxProps, ComboboxOption, ComboboxFilter } from './combobox'
 
 // ============================================================================
-// 6. 类型重导出 (Type Re-exports)
+// 6. 扩展输入控件 (Extended Input Controls)
+// ============================================================================
+
+// IconButton - 图标按钮
+export { IconButton } from './icon-button'
+export type { IconButtonProps } from './icon-button'
+
+// Autocomplete - 自动完成
+export { Autocomplete } from './autocomplete'
+export type { AutocompleteProps, AutocompleteOption } from './autocomplete'
+
+// ButtonGroup - 按钮组
+export { ButtonGroup } from './button-group'
+export type { ButtonGroupProps, ButtonGroupOption } from './button-group'
+
+// CheckboxGroup - 复选框组
+export { CheckboxGroup } from './checkbox-group'
+export type { CheckboxGroupProps, CheckboxGroupOption } from './checkbox-group'
+
+// Chip - 标签/标记
+export { Chip } from './chip'
+export type { ChipProps } from './chip'
+
+// ColorPicker - 颜色选择器
+export { ColorPicker } from './color-picker'
+export type { ColorPickerProps } from './color-picker'
+
+// DatePicker - 日期选择器
+export { DatePicker } from './date-picker'
+export type { DatePickerProps } from './date-picker'
+
+// DateTimePicker - 日期时间选择器
+export { DateTimePicker } from './datetime-picker'
+export type { DateTimePickerProps } from './datetime-picker'
+
+// FileUpload - 文件上传
+export { FileUpload } from './file-upload'
+export type { FileUploadProps } from './file-upload'
+
+// RadioGroup - 单选框组
+export { RadioGroup } from './radio-group'
+export type { RadioGroupProps, RadioGroupOption } from './radio-group'
+
+// RangeSlider - 范围滑块
+export { RangeSlider } from './range-slider'
+export type { RangeSliderProps } from './range-slider'
+
+// Rating - 评分
+export { Rating } from './rating'
+export type { RatingProps } from './rating'
+
+// TimePicker - 时间选择器
+export { TimePicker } from './time-picker'
+export type { TimePickerProps } from './time-picker'
+
+// Toggle - 切换开关
+export { Toggle } from './toggle'
+export type { ToggleProps } from './toggle'
+
+// UploadButton - 上传按钮
+export { UploadButton } from './upload-button'
+export type { UploadButtonProps } from './upload-button'
+
+// ============================================================================
+// 7. 类型重导出 (Type Re-exports)
 // ============================================================================
 
 // 通用类型定义
@@ -139,7 +203,7 @@ export const inputsCategoryMetadata = {
   category: 'inputs',
   title: '输入控件',
   description: '提供完整的数据录入解决方案，涵盖文本、选择、数值等各类输入场景',
-  componentCount: 12,
+  componentCount: 27,
   stability: 'stable' as const,
 
   // 组件列表
@@ -215,6 +279,96 @@ export const inputsCategoryMetadata = {
       description: '搜索输入框，支持建议和清除',
       stability: 'stable' as const,
       since: 'v1.0.0'
+    },
+    {
+      name: 'IconButton',
+      description: '图标按钮组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'Autocomplete',
+      description: '自动完成组件，支持智能搜索',
+      stability: 'beta' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'ButtonGroup',
+      description: '按钮组组件，支持单选和多选',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'CheckboxGroup',
+      description: '复选框组，支持全选功能',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'Chip',
+      description: '标签/标记组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'ColorPicker',
+      description: '颜色选择器组件',
+      stability: 'beta' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'DatePicker',
+      description: '日期选择器组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'DateTimePicker',
+      description: '日期时间选择器组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'FileUpload',
+      description: '文件上传组件',
+      stability: 'beta' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'RadioGroup',
+      description: '单选框组组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'RangeSlider',
+      description: '范围滑块组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'Rating',
+      description: '评分组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'TimePicker',
+      description: '时间选择器组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'Toggle',
+      description: '切换开关组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
+    },
+    {
+      name: 'UploadButton',
+      description: '上传按钮组件',
+      stability: 'stable' as const,
+      since: 'v1.5.0'
     }
   ],
 

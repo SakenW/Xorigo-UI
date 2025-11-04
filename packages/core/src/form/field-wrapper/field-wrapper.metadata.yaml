@@ -1,0 +1,623 @@
+# @fileoverview Field Wrapper 组件元数据配置文件
+# @module components/form/field-wrapper/metadata
+
+# 组件基本信息
+component:
+  name: "Field Wrapper"
+  displayName: "字段包装器"
+  category: "Forms"
+  layer: "component"
+  stability: "stable"
+  version: "1.0.0"
+  description: "统一的表单字段包装器，管理字段状态、布局和交互"
+  keywords:
+    - "form"
+    - "field"
+    - "input"
+    - "wrapper"
+    - "validation"
+    - "label"
+
+# 技术栈信息
+techStack:
+  react: "^19.2.0"
+  typescript: "~5.9.3"
+  tailwind: "^3.4.18"
+  framerMotion: "^12.23.5"
+  cva: "^2.0.0"
+
+# 分类系统信息
+classification:
+  primaryAxis: "form-structure"
+  secondaryAxis: "validation"
+  atomicLevel: "component"
+  componentType: "container"
+  designRole: "layout-helper"
+
+# 组件接口
+api:
+  props:
+    # 核心属性
+    - name: "id"
+      type: "string"
+      required: false
+      description: "组件唯一标识符"
+      defaultValue: "自动生成"
+
+    - name: "label"
+      type: "string"
+      required: false
+      description: "字段标签文本"
+      defaultValue: "undefined"
+
+    - name: "isRequired"
+      type: "boolean"
+      required: false
+      description: "是否显示必填标识"
+      defaultValue: "false"
+
+    # 消息文本
+    - name: "helpText"
+      type: "string"
+      required: false
+      description: "帮助文本，提供额外说明"
+      defaultValue: "undefined"
+
+    - name: "errorMessage"
+      type: "string"
+      required: false
+      description: "错误消息文本"
+      defaultValue: "undefined"
+
+    - name: "successMessage"
+      type: "string"
+      required: false
+      description: "成功消息文本"
+      defaultValue: "undefined"
+
+    - name: "warningMessage"
+      type: "string"
+      required: false
+      description: "警告消息文本"
+      defaultValue: "undefined"
+
+    # 装饰器
+    - name: "prefix"
+      type: "React.ReactNode"
+      required: false
+      description: "前缀内容"
+      defaultValue: "undefined"
+
+    - name: "suffix"
+      type: "React.ReactNode"
+      required: false
+      description: "后缀内容"
+      defaultValue: "undefined"
+
+    - name: "showClearButton"
+      type: "boolean"
+      required: false
+      description: "是否显示清除按钮"
+      defaultValue: "false"
+
+    - name: "onClear"
+      type: "() => void"
+      required: false
+      description: "清除按钮点击回调"
+      defaultValue: "undefined"
+
+    # 状态
+    - name: "isLoading"
+      type: "boolean"
+      required: false
+      description: "是否显示加载指示器"
+      defaultValue: "false"
+
+    - name: "isDisabled"
+      type: "boolean"
+      required: false
+      description: "是否禁用"
+      defaultValue: "false"
+
+    - name: "isReadOnly"
+      type: "boolean"
+      required: false
+      description: "是否只读"
+      defaultValue: "false"
+
+    - name: "autoFocus"
+      type: "boolean"
+      required: false
+      description: "是否自动聚焦"
+      defaultValue: "false"
+
+    # 样式变体
+    - name: "variant"
+      type: "'outline-solid' | 'outline-dashed' | 'filled' | 'ghost'"
+      required: false
+      description: "字段样式变体"
+      defaultValue: "outline-solid"
+
+    - name: "size"
+      type: "'sm' | 'md' | 'lg'"
+      required: false
+      description: "字段尺寸"
+      defaultValue: "md"
+
+    - name: "density"
+      type: "'compact' | 'comfortable' | 'spacious'"
+      required: false
+      description: "字段密度"
+      defaultValue: "comfortable"
+
+    # 事件回调
+    - name: "onFocus"
+      type: "(event: React.FocusEvent) => void"
+      required: false
+      description: "获得焦点时的回调"
+      defaultValue: "undefined"
+
+    - name: "onBlur"
+      type: "(event: React.FocusEvent) => void"
+      required: false
+      description: "失去焦点时的回调"
+      defaultValue: "undefined"
+
+    # 其他
+    - name: "className"
+      type: "string"
+      required: false
+      description: "自定义类名"
+      defaultValue: "undefined"
+
+    - name: "children"
+      type: "React.ReactNode"
+      required: false
+      description: "子组件，即输入控件"
+      defaultValue: "undefined"
+
+# 变体配置
+variants:
+  size:
+    - value: "sm"
+      label: "小尺寸"
+      description: "紧凑的尺寸，适合密集布局"
+      styles:
+        - "text-tokens-font-size-sm"
+        - "py-tokens-space-2"
+        - "px-tokens-space-2"
+
+    - value: "md"
+      label: "中等尺寸"
+      description: "默认尺寸，平衡可读性和空间效率"
+      styles:
+        - "text-tokens-font-size-md"
+        - "py-tokens-space-3"
+        - "px-tokens-space-3"
+
+    - value: "lg"
+      label: "大尺寸"
+      description: "较大的尺寸，提升可读性"
+      styles:
+        - "text-tokens-font-size-lg"
+        - "py-tokens-space-4"
+        - "px-tokens-space-4"
+
+  variant:
+    - value: "outline-solid"
+      label: "实线边框"
+      description: "标准的实线边框样式"
+      styles:
+        - "border border-tokens-border-primary"
+        - "rounded-tokens-radius-md"
+
+    - value: "outline-dashed"
+      label: "虚线边框"
+      description: "虚线边框样式，视觉上更轻量"
+      styles:
+        - "border-2 border-dashed border-tokens-border-primary"
+        - "rounded-tokens-radius-md"
+
+    - value: "filled"
+      label: "填充样式"
+      description: "背景填充的样式"
+      styles:
+        - "bg-tokens-surface-secondary"
+        - "border-0"
+        - "rounded-tokens-radius-md"
+
+    - value: "ghost"
+      label: "透明样式"
+      description: "无边框的透明样式"
+      styles:
+        - "border-0"
+        - "rounded-tokens-radius-md"
+
+  density:
+    - value: "compact"
+      label: "紧凑"
+      description: "元素间距较小"
+      styles:
+        - "space-y-1"
+
+    - value: "comfortable"
+      label: "舒适"
+      description: "默认间距，平衡美观和效率"
+      styles:
+        - "space-y-2"
+
+    - value: "spacious"
+      label: "宽松"
+      description: "元素间距较大，留白更多"
+      styles:
+        - "space-y-4"
+
+  state:
+    - value: "default"
+      label: "默认"
+      description: "正常状态"
+
+    - value: "focus"
+      label: "聚焦"
+      description: "输入框获得焦点时的状态"
+
+    - value: "error"
+      label: "错误"
+      description: "验证失败时的状态"
+
+    - value: "success"
+      label: "成功"
+      description: "验证成功时的状态"
+
+    - value: "warning"
+      label: "警告"
+      description: "警告信息显示时的状态"
+
+    - value: "disabled"
+      label: "禁用"
+      description: "字段被禁用时的状态"
+
+    - value: "loading"
+      label: "加载"
+      description: "加载数据时的状态"
+
+# 状态优先级（从高到低）
+statePriority:
+  - "disabled"
+  - "loading"
+  - "error"
+  - "success"
+  - "warning"
+  - "focus"
+  - "default"
+
+# 上下文信息
+context:
+  - name: "FieldWrapperContext"
+    type: "FieldWrapperContextValue"
+    description: "字段包装器上下文，提供状态信息给子组件"
+    properties:
+      - name: "state"
+        type: "FieldWrapperContextValue['state']"
+        description: "当前字段状态"
+
+      - name: "size"
+        type: "FieldWrapperContextValue['size']"
+        description: "当前字段尺寸"
+
+      - name: "isDisabled"
+        type: "boolean"
+        description: "是否禁用"
+
+      - name: "isReadOnly"
+        type: "boolean"
+        description: "是否只读"
+
+      - name: "isLoading"
+        type: "boolean"
+        description: "是否加载中"
+
+      - name: "fieldId"
+        type: "string"
+        description: "自动生成的字段 ID"
+
+# Hooks
+hooks:
+  - name: "useFieldWrapper"
+    description: "获取字段包装器上下文"
+    returns: "FieldWrapperContextValue"
+    throws: "Error - 当在 FieldWrapper 外使用时"
+
+# 可访问性 (A11y)
+accessibility:
+  roles:
+    - role: "group"
+      description: "字段容器作为分组"
+      required: false
+
+  ariaAttributes:
+    - name: "aria-required"
+      description: "标识字段是否为必填"
+      applies: "当 isRequired 为 true 时"
+
+    - name: "aria-invalid"
+      description: "标识字段验证状态"
+      applies: "当 errorMessage 存在时"
+
+    - name: "aria-describedby"
+      description: "关联描述信息元素"
+      applies: "当有消息文本时"
+
+    - name: "aria-live"
+      description: "消息区域使用 aria-live=polite"
+      applies: "始终应用于消息区域"
+
+    - name: "aria-label"
+      description: "清除按钮和加载指示器的标签"
+      applies: "清除按钮和加载指示器"
+
+  keyboardNavigation:
+    - key: "Tab"
+      description: "在字段间导航"
+      behavior: "默认浏览器行为"
+
+    - key: "Enter"
+      description: "触发清除按钮"
+      applies: "清除按钮获得焦点时"
+
+  screenReader:
+    support: true
+    description: "完整支持屏幕阅读器，提供语义化标签和状态信息"
+
+# 主题系统集成
+themeIntegration:
+  tokens:
+    - "tokens.border.primary"
+    - "tokens.border.secondary"
+    - "tokens.surface.primary"
+    - "tokens.surface.secondary"
+    - "tokens.surface.disabled"
+    - "tokens.surface.hover"
+    - "tokens.text.primary"
+    - "tokens.text.secondary"
+    - "tokens.text.tertiary"
+    - "tokens.text.disabled"
+    - "tokens.semantic.error.base"
+    - "tokens.semantic.success.base"
+    - "tokens.semantic.warning.base"
+    - "tokens.focus.ring"
+    - "tokens.space.2"
+    - "tokens.space.3"
+    - "tokens.space.4"
+    - "tokens.font.size.sm"
+    - "tokens.font.size.md"
+    - "tokens.font.size.lg"
+    - "tokens.font.size.xl"
+    - "tokens.radius.md"
+    - "tokens.shadow.sm"
+    - "tokens.brand.primary"
+    - "tokens.brand.hover"
+    - "tokens.duration.150"
+
+  sevenAxisSupport:
+    - axis: "Mode"
+      support: true
+      description: "支持 light/dark 模式"
+
+    - axis: "Hue"
+      support: true
+      description: "支持色调调整"
+
+    - axis: "Saturation"
+      support: true
+      description: "支持饱和度调整"
+
+    - axis: "Lightness"
+      support: true
+      description: "支持亮度调整"
+
+    - axis: "Density"
+      support: true
+      description: "通过 density 属性控制"
+
+    - axis: "Roundness"
+      support: true
+      description: "通过 variant.radius 控制"
+
+    - axis: "Contrast"
+      support: true
+      description: "支持对比度调整"
+
+# 使用示例
+examples:
+  basic:
+    code: |
+      <FieldWrapper label="用户名" helpText="请输入用户名">
+        <Input placeholder="请输入用户名" />
+      </FieldWrapper>
+    description: "基础用法"
+
+  withError:
+    code: |
+      <FieldWrapper
+        label="邮箱"
+        errorMessage="请输入有效的邮箱地址"
+      >
+        <Input type="email" placeholder="请输入邮箱" />
+      </FieldWrapper>
+    description: "带错误消息"
+
+  withPrefix:
+    code: |
+      <FieldWrapper
+        label="搜索"
+        prefix={<SearchIcon />}
+      >
+        <Input placeholder="搜索..." />
+      </FieldWrapper>
+    description: "带前缀"
+
+  withSuffix:
+    code: |
+      <FieldWrapper
+        label="价格"
+        suffix={<span>元</span>}
+      >
+        <Input placeholder="0" />
+      </FieldWrapper>
+    description: "带后缀"
+
+  withClearButton:
+    code: |
+      <FieldWrapper
+        label="搜索"
+        showClearButton
+        onClear={() => setValue('')}
+      >
+        <Input value={value} onChange={handleChange} />
+      </FieldWrapper>
+    description: "带清除按钮"
+
+  withLoading:
+    code: |
+      <FieldWrapper
+        label="加载中"
+        isLoading
+        helpText="正在加载..."
+      >
+        <Input disabled />
+      </FieldWrapper>
+    description: "加载状态"
+
+  complete:
+    code: |
+      <FieldWrapper
+        label="价格"
+        isRequired
+        prefix={<span>¥</span>}
+        suffix={<span>元</span>}
+        showClearButton
+        onClear={() => setPrice('')}
+        errorMessage={priceError}
+      >
+        <Input
+          type="number"
+          value={price}
+          onChange={handlePriceChange}
+        />
+      </FieldWrapper>
+    description: "完整功能示例"
+
+# 最佳实践
+bestPractices:
+  - "始终为字段提供 label 提升可访问性"
+  - "使用 isRequired 标识必填字段而非在 label 中添加 *"
+  - "使用 helpText 提供有价值的提示信息"
+  - "错误消息应该清晰明确，告诉用户如何修正"
+  - "保持前后缀内容简短，避免占用过多空间"
+  - "清除按钮适用于用户可能频繁清空内容的字段"
+  - "在加载状态下禁用输入框，防止用户重复提交"
+  - "优先使用语义化的状态消息（error/success/warning）而非自定义样式"
+
+# 相关组件
+relatedComponents:
+  - name: "Input"
+    relationship: "composition"
+    description: "常与 Input 组件组合使用"
+
+  - name: "Textarea"
+    relationship: "composition"
+    description: "支持 Textarea 组件作为子元素"
+
+  - name: "Select"
+    relationship: "composition"
+    description: "支持 Select 组件作为子元素"
+
+  - name: "InputGroup"
+    relationship: "complementary"
+    description: "与 InputGroup 互补使用"
+
+  - name: "Checkbox"
+    relationship: "alternative"
+    description: "Checkbox 不需要 FieldWrapper"
+
+  - name: "RadioGroup"
+    relationship: "alternative"
+    description: "RadioGroup 有自己的包装逻辑"
+
+# 测试覆盖
+testing:
+  unitTests: true
+  integrationTests: true
+  accessibilityTests: true
+  visualRegressionTests: true
+  testCoverage:
+    - "渲染测试"
+    - "Props 传递测试"
+    - "事件处理测试"
+    - "状态管理测试"
+    - "可访问性测试"
+    - "上下文测试"
+    - "变体测试"
+    - "错误处理测试"
+
+# 性能考虑
+performance:
+  memoizedProps:
+    - "className"
+    - "children"
+    - "variant"
+    - "size"
+    - "density"
+
+  optimizations:
+    - "使用 React.memo 缓存子组件"
+    - "使用 useId 生成唯一 ID"
+    - "使用 useRef 管理子组件引用"
+    - "AnimatePresence 进行动画优化"
+
+# 迁移指南
+migration:
+  from: ""
+  to: "1.0.0"
+  breakingChanges: []
+  compatibility:
+    react: ">=18.0.0"
+    typescript: ">=4.5.0"
+
+# 更新日志
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持基础字段包装功能"
+      - "支持多种变体和尺寸"
+      - "支持前后缀显示"
+      - "支持清除按钮"
+      - "支持加载状态"
+      - "完整可访问性支持"
+      - "TypeScript 类型安全"
+
+# 贡献指南
+contributing:
+  guidelines: "请遵循 Xorigo UI 组件开发规范"
+  codingStandards:
+    - "使用 TypeScript 严格模式"
+    - "遵循 React 19 最佳实践"
+    - "使用 Tailwind CSS 进行样式设计"
+    - "使用 Framer Motion 进行动画"
+    - "遵循组件分类系统规范"
+
+# 许可证
+license:
+  type: "MIT"
+  year: 2025
+  owner: "Xorigo UI Team"
+
+# 维护信息
+maintenance:
+  owner: "Xorigo UI Team"
+  status: "active"
+  lastUpdated: "2025-11-04"
+  support: "community-driven"

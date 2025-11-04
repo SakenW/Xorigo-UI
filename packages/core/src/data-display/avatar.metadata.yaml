@@ -1,0 +1,411 @@
+# Avatar 组件元数据配置文件
+# 版本: 2025.11.04
+
+name: Avatar
+category: Data Display
+layer: component
+stability: stable
+version: "1.0.0"
+since: "2025.11.04"
+
+description:
+  zh: |
+    Avatar 头像组件是一个通用的用户头像展示组件，支持图片、文字、图标三种显示形式。
+    集成了状态指示器、悬浮提示、加载状态等功能，提供完整的可访问性支持。
+    基于七轴主题系统设计，确保在不同主题下的一致性和可扩展性。
+
+  en: |
+    Avatar component is a versatile user avatar display component that supports three display formats:
+    image, text, and icon. It integrates status indicators, hover tooltips, loading states, and provides
+    complete accessibility support. Built on the seven-axis theme system, it ensures consistency and
+    scalability across different themes.
+
+keywords:
+  - avatar
+  - user
+  - profile
+  - picture
+  - image
+  - icon
+  - display
+  - data-display
+
+classifications:
+  - Data Display
+  - User Interface
+  - Profile Components
+
+technical_specs:
+  framework:
+    - React: ">=19.0.0"
+    - TypeScript: ">=5.9.0"
+
+  dependencies:
+    - react: "^19.2.0"
+    - framer-motion: "^12.23.5"
+    - clsx: "^2.0.0"
+    - tailwind-merge: "^2.0.0"
+
+  devDependencies:
+    - vitest: "^1.0.0"
+    - @testing-library/react: "^13.0.0"
+
+props:
+  - name: size
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'"
+    default: "md"
+    required: false
+    description: "头像尺寸大小"
+    examples:
+      - value: "xs"
+        description: "最小尺寸 (w-6 h-6)"
+      - value: "sm"
+        description: "小尺寸 (w-8 h-8)"
+      - value: "md"
+        description: "中等尺寸 (w-10 h-10)"
+      - value: "lg"
+        description: "大尺寸 (w-12 h-12)"
+      - value: "xl"
+        description: "超大尺寸 (w-16 h-16)"
+      - value: "2xl"
+        description: "超大尺寸 (w-20 h-20)"
+
+  - name: shape
+    type: "'circle' | 'rounded' | 'square'"
+    default: "circle"
+    required: false
+    description: "头像形状"
+    examples:
+      - value: "circle"
+        description: "圆形头像"
+      - value: "rounded"
+        description: "圆角方形头像"
+      - value: "square"
+        description: "方形头像"
+
+  - name: src
+    type: "string"
+    default: ""
+    required: false
+    description: "头像图片源地址"
+    examples:
+      - value: "https://example.com/avatar.jpg"
+        description: "外部图片URL"
+      - value: "/images/avatar.png"
+        description: "本地图片路径"
+
+  - name: name
+    type: "string"
+    default: ""
+    required: false
+    description: "姓名（用于文字头像，显示姓名首字母）"
+    examples:
+      - value: "John Doe"
+        description: "显示 'JD'"
+      - value: "Jane"
+        description: "显示 'J'"
+
+  - name: icon
+    type: "React.ReactNode"
+    default: ""
+    required: false
+    description: "自定义图标（优先级最高）"
+    examples:
+      - value: "<UserIcon />"
+        description: "自定义图标组件"
+
+  - name: status
+    type: "'online' | 'offline' | 'busy' | 'away' | 'none'"
+    default: "none"
+    required: false
+    description: "状态指示器"
+    examples:
+      - value: "online"
+        description: "在线状态（绿色）"
+      - value: "offline"
+        description: "离线状态（灰色）"
+      - value: "busy"
+        description: "忙碌状态（红色）"
+      - value: "away"
+        description: "离开状态（黄色）"
+      - value: "none"
+        description: "不显示状态指示器"
+
+  - name: color
+    type: "string"
+    default: ""
+    required: false
+    description: "自定义背景色"
+    examples:
+      - value: "#FF6B6B"
+        description: "自定义颜色"
+      - value: "var(--bg-primary-action)"
+        description: "使用主题变量"
+
+  - name: label
+    type: "string"
+    default: ""
+    required: false
+    description: "悬浮提示文本（用于可访问性）"
+    examples:
+      - value: "用户头像"
+        description: "可访问性标签"
+
+  - name: loading
+    type: "boolean"
+    default: false
+    required: false
+    description: "加载状态"
+    examples:
+      - value: true
+        description: "显示加载指示器"
+      - value: false
+        description: "正常显示"
+
+  - name: clickable
+    type: "boolean"
+    default: false
+    required: false
+    description: "是否可点击（显示悬浮效果）"
+    examples:
+      - value: true
+        description: "可点击，带有hover效果"
+      - value: false
+        description: "不可点击"
+
+  - name: onClick
+    type: "(event: React.MouseEvent<HTMLDivElement>) => void"
+    default: ""
+    required: false
+    description: "点击事件处理器"
+    examples:
+      - value: "() => alert('clicked')"
+        description: "点击事件"
+
+  - name: onDoubleClick
+    type: "(event: React.MouseEvent<HTMLDivElement>) => void"
+    default: ""
+    required: false
+    description: "双击事件处理器"
+    examples:
+      - value: "() => alert('double clicked')"
+        description: "双击事件"
+
+  - name: testId
+    type: "string"
+    default: ""
+    required: false
+    description: "测试ID（用于测试）"
+    examples:
+      - value: "avatar-test-id"
+        description: "自定义测试ID"
+
+  - name: className
+    type: "string"
+    default: ""
+    required: false
+    description: "自定义CSS类名"
+    examples:
+      - value: "custom-avatar"
+        description: "自定义样式"
+
+variants:
+  size:
+    - xs
+    - sm
+    - md
+    - lg
+    - xl
+    - 2xl
+
+  shape:
+    - circle
+    - rounded
+    - square
+
+  status:
+    - online
+    - offline
+    - busy
+    - away
+    - none
+
+accessibility:
+  role: "img"
+  aria_support: true
+  keyboard_navigation: false
+  screen_reader_support: true
+  description: |
+    - 组件具有 role="img" 属性
+    - 支持 aria-label 属性（使用 label 或 name 属性）
+    - 支持 aria-labelledby 属性
+    - 提供屏幕阅读器友好的标签
+
+testing:
+  unit_tests: true
+  test_file: "avatar.test.tsx"
+  coverage_requirements:
+    - component rendering
+    - props handling
+    - event handling
+    - accessibility
+    - error handling
+
+  test_cases:
+    - "基础渲染测试"
+    - "尺寸变体测试"
+    - "形状变体测试"
+    - "图片头像测试"
+    - "文字头像测试"
+    - "图标头像测试"
+    - "状态指示器测试"
+    - "加载状态测试"
+    - "自定义样式测试"
+    - "交互功能测试"
+    - "可访问性测试"
+    - "forwardRef 测试"
+
+theming:
+  theme_system: "seven-axis"
+  custom_properties:
+    - "--bg-primary"
+    - "--bg-secondary"
+    - "--text-inverse"
+    - "--text-primary"
+    - "--text-secondary"
+    - "--bg-success"
+    - "--bg-error"
+    - "--bg-warning"
+
+  design_tokens:
+    - size.scale.xs
+    - size.scale.sm
+    - size.scale.md
+    - size.scale.lg
+    - size.scale.xl
+    - size.scale.2xl
+    - color.state.online
+    - color.state.offline
+    - color.state.busy
+    - color.state.away
+
+  color_schemes:
+    - light
+    - dark
+    - auto
+
+examples:
+  basic:
+    code: |
+      <Avatar name="John Doe" />
+
+    description: "基础文字头像"
+
+  image:
+    code: |
+      <Avatar
+        src="https://example.com/avatar.jpg"
+        name="John Doe"
+        status="online"
+      />
+
+    description: "图片头像带状态指示器"
+
+  with_status:
+    code: |
+      <div className="flex items-center gap-3">
+        <Avatar name="John Doe" status="online" />
+        <div>
+          <div>John Doe</div>
+          <div className="text-sm text-gray-500">在线</div>
+        </div>
+      </div>
+
+    description: "用户列表展示"
+
+  custom_size:
+    code: |
+      <Avatar name="Jane Smith" size="lg" shape="rounded" />
+
+    description: "大尺寸圆角头像"
+
+  loading:
+    code: |
+      <Avatar loading name="Bob Johnson" />
+
+    description: "加载状态头像"
+
+performance:
+  rendering: "optimized"
+  lazy_loading: true
+  memoization: false
+  re_renders: "minimal"
+
+seo:
+  structure_data: false
+  metadata_support: true
+
+browser_support:
+  - chrome: ">=90"
+  - firefox: ">=88"
+  - safari: ">=14"
+  - edge: ">=90"
+
+migration:
+  from_v1:
+    breaking_changes: []
+    new_features:
+      - "新增支持自定义颜色"
+      - "新增支持点击事件"
+      - "新增支持双击事件"
+      - "新增支持可点击模式"
+      - "新增完整的测试套件"
+
+  to_future:
+    planned_features:
+      - "支持组合格式（图片+图标）"
+      - "支持自定义状态指示器"
+      - "支持头像懒加载"
+      - "支持多种占位符样式"
+
+related_components:
+  - Badge
+  - Card
+  - List
+  - Stat
+
+contributing:
+  guidelines: "https://github.com/xorigo-ui/contributing"
+  code_style: "standard"
+  commit_convention: "conventional-commits"
+
+license: MIT
+maintainers:
+  - name: "Xorigo UI Team"
+    email: "team@xorigo-ui.com"
+    github: "@xorigo-ui"
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持图片、文字、图标三种头像形式"
+      - "支持 6 种尺寸和 3 种形状"
+      - "支持 4 种状态指示器"
+      - "完整的 TypeScript 类型支持"
+      - "完整的测试套件"
+      - "完整的 Storybook 文档"
+
+links:
+  github: "https://github.com/xorigo-ui/core/tree/main/src/data-display/avatar"
+  documentation: "https://xorigo-ui.com/docs/components/avatar"
+  examples: "https://xorigo-ui.com/examples/avatar"
+  figma: "https://figma.com/file/example/avatar"
+
+status:
+  development: "complete"
+  testing: "complete"
+  documentation: "complete"
+  reviewed: false
+  production_ready: true

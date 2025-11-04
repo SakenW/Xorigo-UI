@@ -1,0 +1,429 @@
+# KeyValueList 组件元数据
+# v2025.11.04
+
+metadata:
+  name: "key-value-list"
+  displayName: "Key Value List"
+  chineseName: "键值列表"
+  category: "Data Display"
+  layer: "component"
+  stability: "stable"
+  version: "2025.11.04"
+  description: "用于展示键值对信息的组件，支持多种布局和交互功能"
+
+  # 技术栈
+  techStack:
+    - React: "^18.0.0 || ^19.0.0"
+    - TypeScript: "~5.9.3"
+    - Tailwind CSS: "^3.4.0"
+    - Framer Motion: "^12.0.0"
+
+  # 文件路径
+  files:
+    - "src/data-display/key-value-list/key-value-list.tsx"
+    - "src/data-display/key-value-list/key-value-list.test.tsx"
+    - "src/data-display/key-value-list/key-value-list.stories.tsx"
+    - "src/data-display/key-value-list/key-value-list.metadata.yaml"
+    - "src/data-display/key-value-list/index.ts"
+
+  # 依赖
+  dependencies:
+    - "@xorigo-ui/utils"
+    - "@xorigo-ui/system"
+    - "framer-motion"
+    - "react"
+    - "react-dom"
+
+  # 导出
+  exports:
+    - "KeyValueList"
+    - "KeyValueItem"
+    - "KeyValueGroup"
+    - "KeyValueListHeader"
+    - "KeyValueListFooter"
+    - "SimpleKeyValueList"
+    - "CardKeyValueList"
+    - "BorderedKeyValueList"
+    - "FilledKeyValueList"
+    - "keyValueListVariants"
+    - "keyVariants"
+    - "valueVariants"
+    - "groupVariants"
+    - "KeyValueListProps"
+    - "KeyValueItemProps"
+    - "KeyValueGroupProps"
+    - "KeyValueItem"
+    - "KeyValueGroup"
+
+# Props 定义
+props:
+  # KeyValueList 主组件
+  KeyValueList:
+    - name: "items"
+      type: "KeyValueItem[]"
+      required: false
+      default: "[]"
+      description: "键值项数组"
+
+    - name: "groups"
+      type: "KeyValueGroup[]"
+      required: false
+      default: "[]"
+      description: "分组数组"
+
+    - name: "variant"
+      type: '"default" | "outline" | "ghost" | "bordered" | "filled"'
+      required: false
+      default: '"default"'
+      description: "视觉变体"
+
+    - name: "layout"
+      type: '"vertical" | "horizontal" | "twoColumn" | "auto"'
+      required: false
+      default: '"vertical"'
+      description: "布局方式"
+
+    - name: "size"
+      type: '"sm" | "md" | "lg"'
+      required: false
+      default: '"md"'
+      description: "尺寸大小"
+
+    - name: "density"
+      type: '"compact" | "normal" | "spacious"'
+      required: false
+      default: '"normal"'
+      description: "密度控制"
+
+    - name: "alignItems"
+      type: '"flex-start" | "center" | "flex-end"'
+      required: false
+      default: '"center"'
+      description: "项目对齐方式"
+
+    - name: "keyAlign"
+      type: '"left" | "center" | "right"'
+      required: false
+      default: '"left"'
+      description: "键对齐方式"
+
+    - name: "valueAlign"
+      type: '"left" | "center" | "right"'
+      required: false
+      default: '"left"'
+      description: "值对齐方式"
+
+    - name: "copyable"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否启用复制功能（全局）"
+
+    - name: "copyAnimation"
+      type: "boolean"
+      required: false
+      default: "true"
+      description: "是否显示复制动画"
+
+    - name: "editable"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否启用编辑功能（全局）"
+
+    - name: "collapsibleGroups"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否启用分组折叠"
+
+    - name: "emptyText"
+      type: "string"
+      required: false
+      default: '"暂无数据"'
+      description: "空状态文本"
+
+    - name: "loading"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否显示加载状态"
+
+    - name: "showDivider"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否显示分隔线"
+
+    - name: "onItemEdit"
+      type: "(item: KeyValueItem, value: string | number) => void"
+      required: false
+      default: "-"
+      description: "项编辑回调函数"
+
+    - name: "onItemCopy"
+      type: "(item: KeyValueItem) => void"
+      required: false
+      default: "-"
+      description: "项复制回调函数"
+
+  # KeyValueItem 单项组件
+  KeyValueItem:
+    - name: "key"
+      type: "string"
+      required: true
+      default: "-"
+      description: "项的唯一标识符"
+
+    - name: "label"
+      type: "string"
+      required: false
+      default: "-"
+      description: "项的显示标签（如果未提供则使用 key）"
+
+    - name: "value"
+      type: "string | number | React.ReactNode"
+      required: true
+      default: "-"
+      description: "项的值（支持 React 组件）"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      required: false
+      default: "-"
+      description: "项的图标"
+
+    - name: "copyable"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否可复制"
+
+    - name: "editable"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否可编辑"
+
+    - name: "disabled"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否禁用"
+
+    - name: "color"
+      type: '"default" | "muted" | "primary" | "success" | "warning" | "error"'
+      required: false
+      default: '"default"'
+      description: "值的颜色变体"
+
+    - name: "hideWhenEmpty"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否在值为空时隐藏该项"
+
+    - name: "size"
+      type: '"sm" | "md" | "lg"'
+      required: false
+      default: '"md"'
+      description: "项的尺寸"
+
+    - name: "keyAlign"
+      type: '"left" | "center" | "right"'
+      required: false
+      default: '"left"'
+      description: "键的对齐方式"
+
+    - name: "valueAlign"
+      type: '"left" | "center" | "right"'
+      required: false
+      default: '"left"'
+      description: "值的对齐方式"
+
+    - name: "alignItems"
+      type: '"flex-start" | "center" | "flex-end"'
+      required: false
+      default: '"center"'
+      description: "项的对齐方式"
+
+    - name: "layout"
+      type: '"vertical" | "horizontal" | "twoColumn" | "auto"'
+      required: false
+      default: '"vertical"'
+      description: "项的布局方式"
+
+    - name: "density"
+      type: '"compact" | "normal" | "spacious"'
+      required: false
+      default: '"normal"'
+      description: "项的密度"
+
+    - name: "onEdit"
+      type: "(value: string | number) => void"
+      required: false
+      default: "-"
+      description: "编辑回调"
+
+    - name: "onCopy"
+      type: "(value: string | number) => void"
+      required: false
+      default: "-"
+      description: "复制回调"
+
+  # KeyValueGroup 分组组件
+  KeyValueGroup:
+    - name: "title"
+      type: "string"
+      required: false
+      default: "-"
+      description: "分组标题"
+
+    - name: "items"
+      type: "KeyValueItem[]"
+      required: true
+      default: "[]"
+      description: "分组项数组"
+
+    - name: "collapsible"
+      type: "boolean"
+      required: false
+      default: "false"
+      description: "是否可折叠"
+
+    - name: "defaultExpanded"
+      type: "boolean"
+      required: false
+      default: "true"
+      description: "默认是否展开"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      required: false
+      default: "-"
+      description: "分组图标"
+
+# 变体系统
+variants:
+  KeyValueList:
+    - name: "variant"
+      options: ["default", "outline", "ghost", "bordered", "filled"]
+      default: "default"
+      description: "控制组件的视觉样式"
+
+    - name: "layout"
+      options: ["vertical", "horizontal", "twoColumn", "auto"]
+      default: "vertical"
+      description: "控制项的排列方式"
+
+    - name: "size"
+      options: ["sm", "md", "lg"]
+      default: "md"
+      description: "控制组件的尺寸"
+
+    - name: "density"
+      options: ["compact", "normal", "spacious"]
+      default: "normal"
+      description: "控制组件的紧凑程度"
+
+  KeyValueItem:
+    - name: "color"
+      options: ["default", "muted", "primary", "success", "warning", "error"]
+      default: "default"
+      description: "控制值的颜色"
+
+# 功能特性
+features:
+  - name: "多种布局"
+    description: "支持垂直、水平、两列等多种布局方式"
+
+  - name: "复制功能"
+    description: "支持一键复制值到剪贴板，带动画反馈"
+
+  - name: "编辑功能"
+    description: "支持实时编辑值，保存后触发回调"
+
+  - name: "分组显示"
+    description: "支持将项分组展示，便于信息分类"
+
+  - name: "可折叠分组"
+    description: "支持折叠/展开分组，优化空间使用"
+
+  - name: "隐藏空值"
+    description: "可设置隐藏空值项，保持界面整洁"
+
+  - name: "自定义对齐"
+    description: "支持自定义键、值和对齐方式"
+
+  - name: "React 组件值"
+    description: "支持将 React 组件作为值显示"
+
+  - name: "响应式设计"
+    description: "自适应不同屏幕尺寸"
+
+  - name: "可访问性"
+    description: "完整的 ARIA 属性和键盘导航支持"
+
+# 使用场景
+useCases:
+  - "用户资料信息展示"
+  - "产品配置参数显示"
+  - "API 响应数据展示"
+  - "设置页面选项"
+  - "仪表板指标展示"
+  - "表单数据预览"
+  - "详情页面信息"
+  - "系统状态信息"
+
+# 示例代码
+examples:
+  basic: |
+    import { KeyValueList } from '@xorigo-ui/core'
+
+    const items = [
+      { key: 'name', label: '姓名', value: '张三' },
+      { key: 'age', label: '年龄', value: 25 },
+    ]
+
+    <KeyValueList items={items} />
+
+  withCopy: |
+    import { KeyValueList } from '@xorigo-ui/core'
+
+    const items = [
+      {
+        key: 'email',
+        label: '邮箱',
+        value: 'zhangsan@example.com',
+        copyable: true,
+      },
+    ]
+
+    <KeyValueList items={items} copyable />
+
+  withGroups: |
+    import { KeyValueList } from '@xorigo-ui/core'
+
+    const groups = [
+      {
+        title: '基本信息',
+        items: [
+          { key: 'name', label: '姓名', value: '张三' },
+        ],
+      },
+    ]
+
+    <KeyValueList groups={groups} />
+
+# 更新日志
+changelog:
+  - version: "2025.11.04"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "支持多种布局方式"
+      - "实现复制功能"
+      - "实现编辑功能"
+      - "支持分组和折叠"
+      - "完整测试覆盖"
+      - "Storybook 文档"

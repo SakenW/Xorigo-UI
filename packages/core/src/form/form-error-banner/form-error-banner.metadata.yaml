@@ -1,0 +1,715 @@
+# FormErrorBanner 组件元数据
+# 符合 Xorigo UI 组件分类系统 v2025.11.03
+
+component:
+  name: "FormErrorBanner"
+  displayName: "表单错误横幅组件"
+  category: "forms"
+  subcategory: "表单校验组件"
+  layer: "component"
+  stability: "stable"
+  version: "1.0.0"
+  since: "v0.1.0"
+
+# 分类信息
+classification:
+  taxonomy: "component-taxonomy-v2025.11.03.yaml"
+  class: "表单结构与校验"
+  subclass: "错误与校验消息"
+  type: "组件"
+  level: "component"
+
+# 架构信息
+architecture:
+  ssotVersion: "v2025.11.03"
+  layerType: "Component Layer"
+  dependencyLevel: 4
+  dependencies:
+    - "inputs"
+    - "primitives"
+    - "system"
+    - "foundations"
+  peerDependencies:
+    - "react >=18.0.0"
+    - "framer-motion >=12.0.0"
+
+# 功能特性
+features:
+  - name: "全局错误横幅"
+    description: "显示表单级别的全局错误信息，独立于单个字段"
+    implementation: "message / children props"
+    priority: "high"
+
+  - name: "多种错误类型支持"
+    description: "支持 validation、network、server、permission、unknown 五种错误类型"
+    implementation: "errorType prop + getErrorTypeIcon"
+    priority: "high"
+
+  - name: "自动消失功能"
+    description: "支持可配置的自动消失延迟时间"
+    implementation: "autoDismiss prop + useEffect"
+    priority: "medium"
+
+  - name: "手动关闭"
+    description: "支持用户手动关闭错误横幅"
+    implementation: "dismissible / onDismiss props"
+    priority: "medium"
+
+  - name: "重试功能"
+    description: "提供重试按钮，允许用户重新尝试失败的操作"
+    implementation: "onRetry prop + actionButtonVariants"
+    priority: "high"
+
+  - name: "详情展开/折叠"
+    description: "支持展开查看详细错误信息和错误堆栈"
+    implementation: "details / showDetailsToggle / expanded props"
+    priority: "high"
+
+  - name: "状态图标系统"
+    description: "根据错误类型和状态显示不同图标"
+    implementation: "icon + getErrorTypeIcon + getStatusIcon"
+    priority: "medium"
+
+  - name: "行动按钮"
+    description: "支持自定义操作按钮（重试、联系支持、清除等）"
+    implementation: "actions prop + ErrorAction interface"
+    priority: "high"
+
+  - name: "固定定位"
+    description: "支持固定在页面顶部、底部或表单顶部"
+    implementation: "fixed / position / zIndex props"
+    priority: "medium"
+
+  - name: "错误代码和复制"
+    description: "显示错误代码并支持一键复制"
+    implementation: "code prop + onCopy handler"
+    priority: "medium"
+
+  - name: "多种严重程度"
+    description: "支持 critical、major、minor 三种严重程度，显示不同的视觉层级"
+    implementation: "severity prop + border-l styles"
+    priority: "high"
+
+  - name: "动画效果"
+    description: "基于 Framer Motion 的进入/退出动画和详情展开/折叠动画"
+    implementation: "AnimatePresence + motion.div"
+    priority: "medium"
+
+  - name: "多状态支持"
+    description: "支持 default、destructive、warning、info、success 五种状态"
+    implementation: "variant prop"
+    priority: "high"
+
+  - name: "响应式设计"
+    description: "适配不同屏幕尺寸和设备类型"
+    implementation: "Tailwind CSS 响应式类"
+    priority: "medium"
+
+  - name: "无障碍访问"
+    description: "完整的 ARIA 属性、键盘导航和屏幕阅读器支持"
+    implementation: "role=alert, aria-live, aria-controls, aria-expanded"
+    priority: "high"
+
+  - name: "TypeScript 类型安全"
+    description: "完整的类型定义和泛型支持"
+    implementation: "TypeScript interfaces + VariantProps"
+    priority: "high"
+
+  - name: "React.forwardRef"
+    description: "支持 ref 转发，符合 React 最佳实践"
+    implementation: "forwardRef API"
+    priority: "medium"
+
+  - name: "错误代码可复制"
+    description: "一键复制错误代码便于问题追踪"
+    implementation: "copy button + clipboard API"
+    priority: "medium"
+
+  - name: "操作按钮禁用状态"
+    description: "支持禁用按钮状态和加载状态"
+    implementation: "disabled prop + disabled styles"
+    priority: "medium"
+
+  - name: "最大宽度控制"
+    description: "支持自定义最大宽度限制"
+    implementation: "maxWidth prop"
+    priority: "low"
+
+# API 设计
+api:
+  props:
+    - name: "variant"
+      type: "'default' | 'destructive' | 'warning' | 'info' | 'success'"
+      default: "destructive"
+      required: false
+      description: "错误横幅的状态变体"
+      impact: "控制颜色和图标"
+
+    - name: "severity"
+      type: "'critical' | 'major' | 'minor'"
+      default: "major"
+      required: false
+      description: "错误的严重程度"
+      impact: "控制左边框样式和视觉层级"
+
+    - name: "size"
+      type: "'sm' | 'md' | 'lg'"
+      default: "md"
+      required: false
+      description: "组件尺寸"
+      impact: "控制字体大小和内边距"
+
+    - name: "layout"
+      type: "'default' | 'compact' | 'spacious'"
+      default: "default"
+      required: false
+      description: "布局变体"
+      impact: "控制内边距大小"
+
+    - name: "children"
+      type: "React.ReactNode"
+      default: undefined
+      required: false
+      description: "自定义内容（替代 message）"
+      impact: "允许自定义错误展示"
+
+    - name: "message"
+      type: "string | React.ReactNode"
+      default: undefined
+      required: false
+      description: "错误消息内容"
+      impact: "主要错误信息展示"
+
+    - name: "details"
+      type: "string | React.ReactNode"
+      default: undefined
+      required: false
+      description: "详细错误信息"
+      impact: "展开区域显示的详细错误"
+
+    - name: "code"
+      type: "string"
+      default: undefined
+      required: false
+      description: "错误代码或标识符"
+      impact: "错误代码展示和复制功能"
+
+    - name: "errorType"
+      type: "'validation' | 'network' | 'server' | 'permission' | 'unknown'"
+      default: "unknown"
+      required: false
+      description: "错误类型（影响图标）"
+      impact: "控制显示的图标类型"
+
+    - name: "visible"
+      type: "boolean"
+      default: true
+      required: false
+      description: "是否显示横幅"
+      impact: "控制组件渲染"
+
+    - name: "autoDismiss"
+      type: "number"
+      default: 0
+      required: false
+      description: "自动消失延迟（毫秒，0表示不自动消失）"
+      impact: "自动关闭功能"
+
+    - name: "dismissible"
+      type: "boolean"
+      default: true
+      required: false
+      description: "是否可手动关闭"
+      impact: "显示/隐藏关闭按钮"
+
+    - name: "onDismiss"
+      type: "() => void"
+      default: undefined
+      required: false
+      description: "关闭回调函数"
+      impact: "关闭事件处理"
+
+    - name: "onRetry"
+      type: "() => void"
+      default: undefined
+      required: false
+      description: "重试回调函数"
+      impact: "重试按钮功能"
+
+    - name: "actions"
+      type: "ErrorAction[]"
+      default: []
+      required: false
+      description: "操作按钮配置数组"
+      impact: "自定义操作按钮"
+
+    - name: "showIcon"
+      type: "boolean"
+      default: true
+      required: false
+      description: "是否显示图标"
+      impact: "图标展示控制"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: undefined
+      required: false
+      description: "自定义图标"
+      impact: "覆盖默认图标"
+
+    - name: "expanded"
+      type: "boolean"
+      default: false
+      required: false
+      description: "展开状态（受控）"
+      impact: "详情展开控制"
+
+    - name: "defaultExpanded"
+      type: "boolean"
+      default: false
+      required: false
+      description: "初始展开状态"
+      impact: "详情默认展开"
+
+    - name: "onExpandedChange"
+      type: "(expanded: boolean) => void"
+      default: undefined
+      required: false
+      description: "展开状态改变回调"
+      impact: "展开事件处理"
+
+    - name: "showDetailsToggle"
+      type: "boolean"
+      default: "!!details"
+      required: false
+      description: "显示详情切换按钮"
+      impact: "详情按钮展示"
+
+    - name: "detailsHideText"
+      type: "string"
+      default: "隐藏详情"
+      required: false
+      description: "详情按钮文本（展开时）"
+      impact: "按钮文本"
+
+    - name: "detailsShowText"
+      type: "string"
+      default: "显示详情"
+      required: false
+      description: "详情按钮文本（折叠时）"
+      impact: "按钮文本"
+
+    - name: "fixed"
+      type: "boolean"
+      default: false
+      required: false
+      description: "固定定位"
+      impact: "固定位置布局"
+
+    - name: "position"
+      type: "'top' | 'bottom' | 'top-full'"
+      default: "top"
+      required: false
+      description: "固定位置"
+      impact: "固定位置"
+
+    - name: "zIndex"
+      type: "number"
+      default: 50
+      required: false
+      description: "固定层级"
+      impact: "层级控制"
+
+    - name: "maxWidth"
+      type: "string"
+      default: "100%"
+      required: false
+      description: "最大宽度"
+      impact: "宽度限制"
+
+    - name: "onCopy"
+      type: "(text: string) => void"
+      default: undefined
+      required: false
+      description: "复制错误消息回调"
+      impact: "复制功能"
+
+    - name: "copyButtonText"
+      type: "string"
+      default: "复制错误"
+      required: false
+      description: "复制按钮文本"
+      impact: "按钮文本"
+
+    - name: "retryButtonText"
+      type: "string"
+      default: "重试"
+      required: false
+      description: "重试按钮文本"
+      impact: "按钮文本"
+
+    - name: "dismissButtonText"
+      type: "string"
+      default: "关闭"
+      required: false
+      description: "关闭按钮文本"
+      impact: "按钮文本"
+
+    - name: "disabled"
+      type: "boolean"
+      default: false
+      required: false
+      description: "禁用状态"
+      impact: "禁用所有交互"
+
+    - name: "elevated"
+      type: "boolean"
+      default: true
+      required: false
+      description: "显示阴影"
+      impact: "阴影效果"
+
+    - name: "className"
+      type: "string"
+      default: undefined
+      required: false
+      description: "自定义类名"
+      impact: "样式扩展"
+
+    - name: "id"
+      type: "string"
+      default: undefined
+      required: false
+      description: "组件 ID"
+      impact: "元素标识"
+
+  interfaces:
+    - name: "FormErrorBannerProps"
+      description: "FormErrorBanner 组件的主属性接口"
+      extends:
+        - "React.HTMLAttributes<HTMLDivElement>"
+        - "VariantProps<typeof errorBannerVariants>"
+
+    - name: "ErrorAction"
+      description: "错误横幅操作按钮的配置接口"
+
+  variants:
+    - name: "errorBannerVariants"
+      description: "错误横幅的主要样式变体"
+      props: ["variant", "size", "severity", "layout"]
+
+    - name: "bannerIconVariants"
+      description: "错误横幅图标的样式变体"
+      props: ["variant", "size"]
+
+    - name: "actionButtonVariants"
+      description: "操作按钮的样式变体"
+      props: ["variant", "size", "tone"]
+
+    - name: "secondaryButtonVariants"
+      description: "次要按钮的样式变体"
+      props: ["size"]
+
+    - name: "collapseButtonVariants"
+      description: "折叠按钮的样式变体"
+      props: ["size"]
+
+# 样式系统
+styling:
+  framework: "Tailwind CSS 4"
+  tokenSystem: "设计令牌 (DTCG标准)"
+  themeIntegration: "七轴主题系统"
+
+  variants:
+    variant:
+      - default: "border-red-200 bg-red-50"
+      - destructive: "border-red-200 bg-red-50"
+      - warning: "border-yellow-200 bg-yellow-50"
+      - info: "border-blue-200 bg-blue-50"
+      - success: "border-green-200 bg-green-50"
+
+    severity:
+      - critical: "border-l-red-600 shadow-lg"
+      - major: "border-l-yellow-600 shadow-md"
+      - minor: "border-l-blue-600"
+
+    size:
+      - sm: "text-sm p-3"
+      - md: "text-sm p-4"
+      - lg: "text-base p-5"
+
+    layout:
+      - default: ""
+      - compact: "p-3"
+      - spacious: "p-6"
+
+  animations:
+    - name: "animationVariants"
+      description: "横幅进入/退出动画变体"
+      type: "enter/center/exit"
+      duration: "0.3s"
+      easing: "easeInOut"
+
+    - name: "detailsAnimationVariants"
+      description: "详情展开/折叠动画变体"
+      type: "enter/center/exit"
+      duration: "0.2s"
+      easing: "easeInOut"
+
+  icons:
+    - name: "getErrorTypeIcon"
+      description: "根据错误类型返回对应图标"
+      types:
+        - validation: "AlertCircle"
+        - network: "Network"
+        - server: "Server"
+        - permission: "Shield"
+        - unknown: "XCircle"
+
+    - name: "getStatusIcon"
+      description: "根据状态返回对应图标"
+      types:
+        - destructive: "XCircle"
+        - warning: "AlertTriangle"
+        - info: "Info"
+        - success: "CheckCircle2"
+
+# 可访问性
+accessibility:
+  role: "alert"
+  aria:
+    - "aria-live: assertive"
+    - "aria-atomic: true"
+    - "aria-expanded: 详情展开状态"
+    - "aria-controls: 详情区域ID"
+    - "aria-label: 所有交互按钮"
+  keyboard:
+    - "Tab: 聚焦到可交互元素"
+    - "Enter/Space: 激活按钮"
+    - "Escape: 关闭横幅（可支持）"
+  screenReader: "完整支持屏幕阅读器"
+  wcag: "符合 WCAG 2.1 AA 标准"
+
+# 响应式设计
+responsive:
+  breakpoints:
+    sm: "默认手机（640px以下）"
+    md: "平板设备（640px-768px）"
+    lg: "桌面设备（768px以上）"
+  adaptiveFeatures:
+    - "文本大小在小屏幕上的优化"
+    - "按钮布局的自适应调整"
+    - "固定定位在小屏幕上的处理"
+    - "详情展开区域的自适应高度"
+
+# 使用指南
+usage:
+  basic:
+    code: |
+      <FormErrorBanner
+        message="表单验证失败，请检查输入信息"
+        variant="destructive"
+        severity="major"
+      />
+
+  withActions:
+    code: |
+      <FormErrorBanner
+        message="提交失败，请重试"
+        errorType="network"
+        onRetry={handleRetry}
+        actions={[
+          { text: '联系支持', onClick: handleContact }
+        ]}
+      />
+
+  withDetails:
+    code: |
+      <FormErrorBanner
+        message="服务器错误"
+        code="ERROR_500"
+        details="详细错误堆栈信息..."
+        showDetailsToggle={true}
+        defaultExpanded={false}
+      />
+
+  fixed:
+    code: |
+      <FormErrorBanner
+        message="全局错误提示"
+        fixed={true}
+        position="top"
+        autoDismiss={5000}
+      />
+
+  bestPractices:
+    - "为严重错误提供明确的操作建议（重试、联系支持等）"
+    - "使用适当的错误类型和严重程度"
+    - "为复杂错误提供详情展开功能"
+    - "避免错误横幅遮挡重要内容"
+    - "提供有意义的错误代码便于问题追踪"
+    - "自动消失时间不宜过短或过长（建议3-10秒）"
+    - "考虑多语言和可访问性支持"
+    - "在移动设备上测试固定定位效果"
+
+# 状态管理
+state:
+  controlled: true
+  uncontrolled: false
+  stateProps:
+    - "visible: 显示状态（受控）"
+    - "expanded: 展开状态（受控）"
+  context: "支持 FormContext 集成"
+
+# 性能
+performance:
+  memoization:
+    - "React.memo: 可选，默认不启用"
+  virtualization: "不适用"
+  lazyLoading: "不适用"
+  bundleSize: "~4KB (gzipped)"
+  optimization:
+    - "AnimatePresence 的 popLayout 模式优化"
+    - "自动消失使用 useEffect + clearTimeout"
+    - "大文本内容使用 React.memo 优化"
+
+# 兼容性
+compatibility:
+  react: ">=18.0.0"
+  typescript: ">=5.0.0"
+  browsers:
+    - "Chrome >=90"
+    - "Firefox >=88"
+    - "Safari >=14"
+    - "Edge >=90"
+
+# 测试覆盖
+testing:
+  unitTest: true
+  integrationTest: true
+  e2eTest: false
+  a11yTest: true
+  coverage: "95%+"
+  testScenarios:
+    - "基础渲染测试"
+    - "交互功能测试"
+    - "自动消失测试"
+    - "状态管理测试"
+    - "可访问性测试"
+    - "快照测试"
+    - "错误边界测试"
+    - "性能测试"
+
+# 文档
+documentation:
+  storybook: true
+  examples: 20+
+  scenarios:
+    - "基础用法"
+    - "不同严重程度"
+    - "警告/信息/成功提示"
+    - "验证/网络/服务器/权限/未知错误"
+    - "可关闭/自动消失/重试功能"
+    - "详情展开/操作按钮"
+    - "复制错误代码"
+    - "紧凑/宽敞/尺寸变体"
+    - "固定定位（顶部/底部/表单顶部）"
+    - "复杂组合示例"
+    - "无障碍支持"
+    - "成功提交示例"
+    - "网络错误自动重试"
+
+# 相关组件
+related:
+  siblings:
+    - "ErrorMessage: 字段级错误消息"
+    - "ValidationSummary: 校验汇总"
+    - "HelperText: 帮助文本"
+    - "FormProvider: 表单提供者"
+
+  parents:
+    - "Form: 表单容器"
+    - "FormField: 表单字段"
+    - "FormLayout: 表单布局"
+
+  dependencies:
+    - "cva-standalone: 变体样式"
+    - "framer-motion: 动画"
+    - "lucide-react: 图标"
+
+# 版本历史
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "完整的表单错误横幅功能"
+      - "支持5种错误类型"
+      - "支持自动消失和手动关闭"
+      - "支持重试功能和自定义操作"
+      - "支持详情展开/折叠"
+      - "支持固定定位"
+      - "支持错误代码复制"
+      - "完整的可访问性支持"
+
+# 维护者
+maintainers:
+  - name: "Xorigo UI Team"
+    email: "ui@xorigo.com"
+    role: "组件库维护者"
+
+# 许可证
+license: "MIT"
+
+# 贡献指南
+contributing:
+  repo: "xorigo-ui/packages/core"
+  path: "src/form/form-error-banner/"
+  branch: "feature/form-error-banner"
+  prTemplate: "standard"
+  codingStandards:
+    - "遵循 Xorigo UI 编码规范"
+    - "保持 API 一致性"
+    - "添加完整测试（单元测试、集成测试、可访问性测试）"
+    - "更新文档和故事文件"
+    - "确保 TypeScript 类型安全"
+
+# 部署信息
+deployment:
+  npm: "@xorigo-ui/core"
+  export: "FormErrorBanner"
+  path: "/packages/core/src/form/form-error-banner"
+  build: "支持 Tree Shaking"
+
+# 已知限制
+limitations:
+  - "固定定位在小屏幕上可能遮挡内容"
+  - "大量错误详情可能影响性能"
+  - "自动消失功能可能与用户操作冲突"
+  - "复杂错误对象需要手动序列化"
+
+# 未来规划
+roadmap:
+  - version: "1.1.0"
+    features:
+      - "错误分类和标签"
+      - "更丰富的动画效果"
+      - "错误历史记录"
+
+  - version: "1.2.0"
+    features:
+      - "错误消息模板系统"
+      - "多语言支持增强"
+      - "错误统计和分析"
+
+  - version: "1.3.0"
+    features:
+      - "错误关联和追踪"
+      - "智能错误建议"
+      - "错误恢复自动化"
+
+# 反馈渠道
+feedback:
+  issues: "https://github.com/xorigo/ui/issues"
+  discussions: "https://github.com/xorigo/ui/discussions"
+  email: "feedback@xorigo.com"

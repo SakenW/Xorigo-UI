@@ -1,0 +1,581 @@
+# ============================================================================
+# ValidationSummary 组件元数据
+# 符合 Xorigo UI 组件分类系统 v2025.11.03 规范
+# ============================================================================
+
+# 基本信息
+metadata:
+  name: ValidationSummary
+  displayName: 校验汇总
+  version: 0.1.0
+  status: stable
+  category: forms
+  layer: component
+  createdAt: '2025-11-04'
+  updatedAt: '2025-11-04'
+  author: Xorigo UI Team
+  description: 表单校验结果汇总组件，支持多字段错误展示、分组显示、导航跳转等功能
+
+# 分类信息
+classification:
+  category: forms
+  subcategory: validation
+  layer: component
+  level: 4
+  stability: stable
+  since: v1.0.0
+
+# 技术规范
+technical:
+  framework:
+    name: React
+    version: '>=18.0.0'
+    hooks:
+      - useState
+      - useEffect
+      - useId
+      - useCallback
+      - forwardRef
+
+  language: TypeScript
+  typescript: '>=5.0.0'
+
+  styling:
+    system: Tailwind CSS
+    version: '>=4.0.0'
+    approach: Utility-first
+
+  animation:
+    library: Framer Motion
+    version: '>=12.0.0'
+    features:
+      - Animation Variants
+      - AnimatePresence
+      - Layout Transitions
+
+  theming:
+    system: Seven-Axis Theme System
+    version: v2025.11.03
+    tokens: DTCG Compliant
+
+# 功能特性
+features:
+  core:
+    - name: 多字段错误展示
+      description: 支持同时显示多个表单字段的校验错误
+      required: true
+
+    - name: 分组显示
+      description: 按字段分组展示错误信息
+      required: false
+
+    - name: 错误级别分类
+      description: 支持 critical、major、minor 三个严重程度
+      required: true
+
+    - name: 错误计数显示
+      description: 显示错误总数，支持自定义计数模板
+      required: false
+
+    - name: 自动滚动定位
+      description: 点击错误项自动滚动到对应字段
+      required: false
+
+  navigation:
+    - name: 跳转到错误字段
+      description: 支持点击跳转到表单中的错误字段
+      required: false
+
+    - name: 焦点管理
+      description: 自动聚焦到错误字段并滚动到视野中心
+      required: false
+
+  interaction:
+    - name: 可关闭状态
+      description: 支持用户手动关闭错误汇总
+      required: false
+
+    - name: 复制错误摘要
+      description: 一键复制所有错误信息到剪贴板
+      required: false
+
+    - name: 分组折叠/展开
+      description: 支持折叠和展开错误分组
+      required: false
+
+  rendering:
+    - name: 自定义错误渲染
+      description: 支持自定义错误消息的渲染方式
+      required: false
+
+    - name: 图标显示
+      description: 支持状态图标和自定义图标
+      required: false
+
+    - name: 响应式设计
+      description: 适配不同屏幕尺寸
+      required: true
+
+  accessibility:
+    - name: ARIA 角色支持
+      description: 具有正确的 ARIA 角色 (role="alert")
+      required: true
+
+    - name: aria-live 属性
+      description: 使用 aria-live="polite" 通知屏幕阅读器
+      required: true
+
+    - name: 键盘导航
+      description: 完全支持键盘导航
+      required: true
+
+    - name: 屏幕阅读器友好
+      description: 为屏幕阅读器提供完整的信息
+      required: true
+
+# Props 接口
+props:
+  required:
+    - name: items
+      type: ValidationSummaryItem[]
+      description: 校验结果项目列表
+      default: []
+
+  optional:
+    - name: variant
+      type: "'default' | 'destructive' | 'warning' | 'info' | 'success'"
+      description: 组件变体样式
+      default: 'destructive'
+
+    - name: size
+      type: "'sm' | 'md' | 'lg'"
+      description: 组件尺寸
+      default: 'md'
+
+    - name: severity
+      type: "'critical' | 'major' | 'minor'"
+      description: 严重程度级别
+      default: 'major'
+
+    - name: layout
+      type: "'list' | 'grouped' | 'compact'"
+      description: 布局模式
+      default: 'list'
+
+    - name: visible
+      type: boolean
+      description: 是否显示组件
+      default: true
+
+    - name: title
+      type: string
+      description: 汇总标题
+      default: '校验错误'
+
+    - name: showIcon
+      type: boolean
+      description: 是否显示图标
+      default: true
+
+    - name: countTemplate
+      type: string
+      description: 错误计数文本模板
+      default: '{count} 个错误'
+
+    - name: dismissible
+      type: boolean
+      description: 是否可关闭
+      default: false
+
+    - name: grouped
+      type: boolean
+      description: 是否启用分组模式
+      default: false
+
+    - name: hideWhenEmpty
+      type: boolean
+      description: 是否在无错误时隐藏
+      default: true
+
+    - name: hideCount
+      type: boolean
+      description: 是否隐藏错误计数
+      default: false
+
+    - name: disableNavigation
+      type: boolean
+      description: 禁用跳转功能
+      default: false
+
+    - name: autoScroll
+      type: boolean
+      description: 是否自动滚动到组件
+      default: false
+
+    - name: scrollOffset
+      type: number
+      description: 滚动偏移量
+      default: 0
+
+    - name: className
+      type: string
+      description: 自定义样式类名
+      default: undefined
+
+# 事件处理
+events:
+  onDismiss:
+    description: 关闭回调
+    type: () => void
+    required: false
+
+  onNavigateToField:
+    description: 跳转到字段回调
+    type: (item: ValidationSummaryItem) => void
+    required: false
+
+  onCopyErrors:
+    description: 复制错误摘要回调
+    type: (text: string) => void
+    required: false
+
+  onExpandedGroupsChange:
+    description: 展开状态改变回调
+    type: (groups: string[]) => void
+    required: false
+
+  onShowMore:
+    description: 显示更多回调
+    type: () => void
+    required: false
+
+# 依赖关系
+dependencies:
+  internal:
+    - '@xorigo-ui/core/utils/cva-standalone'
+    - '@xorigo-ui/core/utils'
+    - 'framer-motion'
+    - 'lucide-react'
+
+  external:
+    - react
+    - react-dom
+
+  peerDependencies:
+    - react: '>=18.0.0'
+    - react-dom: '>=18.0.0'
+
+  devDependencies:
+    - vitest
+    - @testing-library/react
+    - @storybook/react
+
+# 变体配置
+variants:
+  variant:
+    options:
+      - value: default
+        description: 默认样式，红色主题
+        preview: 'border-red-200 bg-red-50'
+
+      - value: destructive
+        description: 危险样式，红色主题，用于错误
+        preview: 'border-red-200 bg-red-50'
+
+      - value: warning
+        description: 警告样式，黄色主题
+        preview: 'border-yellow-200 bg-yellow-50'
+
+      - value: info
+        description: 信息样式，蓝色主题
+        preview: 'border-blue-200 bg-blue-50'
+
+      - value: success
+        description: 成功样式，绿色主题
+        preview: 'border-green-200 bg-green-50'
+
+    default: 'destructive'
+
+  size:
+    options:
+      - value: sm
+        description: 小尺寸
+        preview: 'text-sm p-3'
+
+      - value: md
+        description: 中等尺寸
+        preview: 'text-sm p-4'
+
+      - value: lg
+        description: 大尺寸
+        preview: 'text-base p-5'
+
+    default: 'md'
+
+  severity:
+    options:
+      - value: critical
+        description: 严重错误，左侧红色边框
+        preview: 'border-l-4 border-l-red-600'
+
+      - value: major
+        description: 主要错误，左侧黄色边框
+        preview: 'border-l-4 border-l-yellow-600'
+
+      - value: minor
+        description: 轻微错误，左侧蓝色边框
+        preview: 'border-l-4 border-l-blue-600'
+
+    default: 'major'
+
+  layout:
+    options:
+      - value: list
+        description: 列表布局，标准间距
+        preview: 'space-y-2'
+
+      - value: grouped
+        description: 分组布局，支持折叠展开
+        preview: 'space-y-4'
+
+      - value: compact
+        description: 紧凑布局，最小间距
+        preview: 'space-y-1'
+
+    default: 'list'
+
+# 使用示例
+examples:
+  basic:
+    title: 基础用法
+    description: 显示表单校验错误列表
+    code: |
+      const errors = [
+        {
+          id: 'email-error',
+          name: 'email',
+          label: '邮箱地址',
+          message: '请输入有效的邮箱地址',
+          status: 'error',
+          severity: 'major'
+        }
+      ]
+
+      <ValidationSummary items={errors} />
+
+  grouped:
+    title: 分组显示
+    description: 按字段分组显示错误
+    code: |
+      const errors = [
+        {
+          id: 'email-error',
+          label: '邮箱',
+          message: '无效的邮箱',
+          group: '基本信息'
+        },
+        {
+          id: 'phone-error',
+          label: '手机号',
+          message: '无效的手机号',
+          group: '联系信息'
+        }
+      ]
+
+      <ValidationSummary items={errors} grouped={true} />
+
+  withNavigation:
+    title: 带导航功能
+    description: 跳转到错误字段
+    code: |
+      <ValidationSummary
+        items={errors}
+        onNavigateToField={(item) => {
+          const element = document.getElementById(item.fieldId)
+          if (element) {
+            element.focus()
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+        }}
+      />
+
+  dismissible:
+    title: 可关闭
+    description: 支持用户关闭
+    code: |
+      <ValidationSummary
+        items={errors}
+        dismissible={true}
+        onDismiss={() => {
+          // 处理关闭逻辑
+        }}
+      />
+
+  withCopy:
+    title: 带复制功能
+    description: 一键复制错误摘要
+    code: |
+      <ValidationSummary
+        items={errors}
+        onCopyErrors={(text) => {
+          console.log('Copied errors:', text)
+        }}
+      />
+
+# 最佳实践
+bestPractices:
+  - title: 错误分组
+    description: |
+      对于复杂表单，建议使用分组功能将错误按逻辑分组显示，
+      例如"基本信息"、"联系信息"等，提高可读性。
+
+  - title: 导航功能
+    description: |
+      启用导航功能帮助用户快速定位和修复错误，
+      配合 autoScroll 属性提供更好的用户体验。
+
+  - title: 严重程度
+    description: |
+      根据错误的重要程度选择合适的 severity 级别：
+      - critical: 影响表单提交的错误
+      - major: 重要的数据校验错误
+      - minor: 格式或建议类错误
+
+  - title: 空状态处理
+    description: |
+      当表单无错误时，默认会隐藏组件。如果需要在无错误时
+      显示成功状态，可以设置 hideWhenEmpty={false} 并使用
+      variant="success"。
+
+  - title: 性能优化
+    description: |
+      对于大量错误的情况，使用 maxItems 属性限制初始显示数量，
+      并提供"显示更多"功能，避免一次性渲染过多内容。
+
+# 相关组件
+relatedComponents:
+  - name: ErrorMessage
+    description: 单个错误消息显示组件
+    relationship: complementary
+
+  - name: ValidationMessage
+    description: 通用校验消息组件
+    relationship: sibling
+
+  - name: HelperText
+    description: 帮助文本显示组件
+    relationship: sibling
+
+  - name: FormField
+    description: 表单字段容器组件
+    relationship: dependent
+
+  - name: FormItem
+    description: 表单项容器组件
+    relationship: dependent
+
+# 设计原则
+designPrinciples:
+  - name: 可见性原则
+    description: 错误信息应该清晰可见，易于识别
+
+  - name: 反馈原则
+    description: 及时提供操作结果反馈
+
+  - name: 一致性原则
+    description: 与整个设计系统保持一致
+
+  - name: 效率原则
+    description: 帮助用户快速定位和修复错误
+
+  - name: 可访问性原则
+    description: 支持所有用户，包括使用辅助技术的用户
+
+# 测试覆盖
+testing:
+  unitTests:
+    - 基础渲染测试
+    - 错误项目显示测试
+    - 分组功能测试
+    - 导航功能测试
+    - 关闭功能测试
+    - 复制功能测试
+    - 自动滚动测试
+    - 变体和尺寸测试
+    - 可访问性测试
+    - 自定义样式测试
+    - 边界情况测试
+
+  integrationTests:
+    - 表单集成测试
+    - 导航交互测试
+    - 动画效果测试
+    - 主题系统测试
+
+  accessibilityTests:
+    - ARIA 角色验证
+    - 键盘导航测试
+    - 屏幕阅读器测试
+    - 焦点管理测试
+
+  visualTests:
+    - 深色模式测试
+    - 响应式布局测试
+    - 变体样式测试
+    - 图标显示测试
+
+# 性能指标
+performance:
+  bundleSize:
+    minified: '~8KB'
+    gzipped: '~3KB'
+
+  renderTime:
+    firstRender: '< 16ms'
+    updateRender: '< 8ms'
+
+  memoryUsage:
+    base: '~2MB'
+    perItem: '~0.5KB'
+
+# 浏览器支持
+browserSupport:
+  chrome: '>=90'
+  firefox: '>=88'
+  safari: '>=14'
+  edge: '>=90'
+  ios_safari: '>=14'
+  android_chrome: '>=90'
+
+# 更新日志
+changelog:
+  - version: 0.1.0
+    date: '2025-11-04'
+    changes:
+      - Initial release
+      - Support for multiple error display
+      - Grouped error display
+      - Error level classification
+      - Navigation to error fields
+      - Auto-scroll functionality
+      - Dismissible state
+      - Copy errors to clipboard
+      - Custom icons support
+      - Accessibility support
+      - Seven-axis theme system integration
+
+# 许可证
+license: MIT
+
+# 贡献指南
+contribution:
+  guidelines: |
+    1. 遵循 Xorigo UI 的代码规范
+    2. 确保所有测试通过
+    3. 更新相关文档
+    4. 保持向后兼容性
+  testing: |
+    1. 编写单元测试
+    2. 进行可访问性测试
+    3. 测试不同主题
+    4. 验证响应式设计

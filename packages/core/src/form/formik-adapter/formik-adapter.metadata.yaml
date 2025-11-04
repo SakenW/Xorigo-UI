@@ -1,0 +1,433 @@
+# FormikAdapter 组件元数据
+# 符合 v2025.11.03 SSOT 规范
+
+metadata:
+  # 基本信息
+  name: FormikAdapter
+  displayName: Formik Adapter
+  category: forms
+  subcategory: 表单结构与校验
+  layer: component
+  version: 1.0.0
+  stability: stable
+
+  # 分类信息
+  classification:
+    category: forms
+    layer: component
+    type: adapter
+    purpose: Formik 表单库适配器，提供表单状态管理与 Xorigo UI 组件集成
+
+  # 功能特性
+  features:
+    - Formik 表单库深度集成
+    - 表单验证和错误处理
+    - 支持异步验证
+    - 支持字段级验证
+    - 支持提交状态管理
+    - 支持重置功能
+    - 支持默认值设置
+    - 支持表单禁用状态
+    - 支持实时验证
+    - 支持错误消息映射
+    - 支持自定义验证规则
+    - TypeScript 类型安全
+    - Formik 深度集成
+    - 可访问性支持
+    - 3种视觉变体（default、minimal、bordered）
+    - 4种尺寸规格（sm、md、lg、xl）
+    - 3个自定义 Hook（useFormikField、useFormikForm、useFormikSubmit、useFormikReset）
+
+  # 技术特性
+  technical:
+    react: ^19.0.0
+    typescript: ^5.0.0
+    formik: ^2.0.0
+    dependencies:
+      - react
+      - react-dom
+      - formik
+      - @xorigo-ui/core
+    peerDependencies:
+      - formik
+    builtWith:
+      - React Hooks (useState, useCallback, useMemo, useContext)
+      - React Context API
+      - CVA (Class Variance Authority)
+      - TypeScript Generics
+      - Formik 表单库
+
+  # API 设计
+  api:
+    props:
+      - name: initialValues
+        type: FormikValues
+        required: true
+        description: 表单初始值对象
+        notes: 必须提供初始值对象
+
+      - name: children
+        type: 'React.ReactNode | ((props: FormikProps<TValues>) => React.ReactNode)'
+        required: true
+        description: 表单内容
+        notes: 支持函数子组件或普通节点
+
+      - name: onSubmit
+        type: '(values: TValues, formikBag: FormikProps<TValues>) => void | Promise<void>'
+        required: false
+        description: 表单提交回调函数
+        notes: 支持异步提交
+
+      - name: variant
+        type: "'default' | 'minimal' | 'bordered'"
+        required: false
+        default: 'default'
+        description: 视觉变体样式
+        notes:
+          - default: 标准背景样式
+          - minimal: 透明背景样式
+          - bordered: 带边框样式
+
+      - name: size
+        type: "'sm' | 'md' | 'lg' | 'xl'"
+        required: false
+        default: 'md'
+        description: 表单尺寸规格
+        notes:
+          - sm: 小尺寸（text-sm）
+          - md: 中等尺寸（text-base）
+          - lg: 大尺寸（text-lg）
+          - xl: 超大尺寸（text-xl）
+
+      - name: disabled
+        type: boolean
+        required: false
+        default: false
+        description: 禁用表单
+        notes: 禁用时会禁用所有字段和按钮
+
+      - name: adapterReadonly
+        type: boolean
+        required: false
+        default: false
+        description: 只读模式
+        notes: 只读模式下表单不可编辑
+
+      - name: showSubmitButton
+        type: boolean
+        required: false
+        default: true
+        description: 是否显示提交按钮
+        notes: 可隐藏自动生成的提交按钮
+
+      - name: showResetButton
+        type: boolean
+        required: false
+        default: false
+        description: 是否显示重置按钮
+        notes: 显示表单重置功能按钮
+
+      - name: submitButtonLabel
+        type: string
+        required: false
+        default: '提交'
+        description: 提交按钮文本
+        notes: 自定义提交按钮显示文本
+
+      - name: resetButtonLabel
+        type: string
+        required: false
+        default: '重置'
+        description: 重置按钮文本
+        notes: 自定义重置按钮显示文本
+
+      - name: showSubmittingState
+        type: boolean
+        required: false
+        default: true
+        description: 是否显示提交中状态
+        notes: 提交时显示加载动画
+
+      - name: showValidationErrors
+        type: boolean
+        required: false
+        default: true
+        description: 是否显示验证错误
+        notes: 控制是否展示表单级错误信息
+
+      - name: enableReinitialize
+        type: boolean
+        required: false
+        default: true
+        description: 是否允许重新初始化
+        notes: 初始值变化时自动重新初始化表单
+
+      - name: enableUntouch
+        type: boolean
+        required: false
+        default: true
+        description: 是否允许取消触摸状态
+        notes: 控制字段的触摸状态管理
+
+      - name: enableResetForm
+        type: boolean
+        required: false
+        default: true
+        description: 是否允许重置表单
+        notes: 控制表单重置功能
+
+    context:
+      - name: useFormikAdapter
+        type: '() => FormikAdapterContextValue'
+        description: 获取 FormikAdapter 上下文
+        notes: 必须在 FormikAdapter 内使用
+
+    hooks:
+      - name: useFormikField
+        signature: '<TValues extends FormikValues = FormikValues>(name: string) => FieldProps'
+        description: 获取 Formik 字段属性
+        notes: 返回字段的值、错误、触摸状态和辅助方法
+
+      - name: useFormikForm
+        signature: '<TValues extends FormikValues = FormikValues>() => FormikProps<TValues>'
+        description: 获取 Formik 表单状态
+        notes: 返回完整的表单状态和方法
+
+      - name: useFormikSubmit
+        signature: '<TValues extends FormikValues = FormikValues>() => FormikHelpers<TValues>["handleSubmit"]'
+        description: 获取表单提交处理函数
+        notes: 用于手动触发表单提交
+
+      - name: useFormikReset
+        signature: '<TValues extends FormikValues = FormikValues>() => FormikHelpers<TValues>["resetForm"]'
+        description: 获取表单重置处理函数
+        notes: 用于重置表单到初始状态
+
+  # 状态
+  state:
+    values: 表单值对象
+    errors: 表单错误对象
+    touched: 字段触摸状态
+    isSubmitting: 提交状态
+    isValidating: 验证状态
+    isValid: 表单有效性
+    dirty: 表单脏状态
+    adapterDisabled: 适配器禁用状态
+    adapterReadonly: 适配器只读状态
+    adapterVariant: 适配器变体
+    adapterSize: 适配器尺寸
+
+  # 使用场景
+  useCases:
+    - 表单状态管理和验证
+    - 用户注册和登录表单
+    - 数据录入和编辑表单
+    - 多步骤表单向导
+    - 复杂表单逻辑
+    - 与第三方表单库集成
+    - 表单数据同步
+    - 动态表单字段
+
+  # 最佳实践
+  bestPractices:
+    - 使用 children 函数获取完整的 Formik props
+    - 使用 useFormikField 简化字段绑定
+    - 使用 useFormikForm 获取表单状态
+    - 通过 validate 函数定义验证逻辑
+    - 使用 enableReinitialize 处理动态初始值
+    - 利用 variant 和 size 控制表单样式
+    - 合理使用 disabled 和 adapterReadonly 状态
+    - 为复杂表单使用嵌套组件结构
+
+  # 注意事项
+  注意事项:
+    - 必须在 FormikAdapter 内使用 useFormikAdapter hooks
+    - 建议使用 children 函数形式以获得完整的 Formik 功能
+    - 嵌套对象使用点号路径（如 'user.name'）
+    - 验证函数应返回错误对象或 Promise
+    - 提交处理会自动标记所有字段为已触摸
+    - 禁用状态下无法提交表单
+    - 需要安装 formik 作为 peerDependency
+
+  # 示例代码
+  examples:
+    basic:
+      description: 基本用法
+      code: |
+        <FormikAdapter
+          initialValues={{ email: '', password: '' }}
+          onSubmit={(values) => console.log(values)}
+        >
+          {(formik) => (
+            <div className="space-y-4">
+              <Input {...formik.getFieldProps('email')} />
+              <Input type="password" {...formik.getFieldProps('password')} />
+            </div>
+          )}
+        </FormikAdapter>
+
+    withValidation:
+      description: 带验证的表单
+      code: |
+        <FormikAdapter
+          initialValues={{ email: '', password: '' }}
+          validate={(values) => {
+            const errors = {}
+            if (!values.email) errors.email = 'Required'
+            if (!values.password) errors.password = 'Required'
+            return errors
+          }}
+          onSubmit={(values) => console.log(values)}
+        >
+          {(formik) => (
+            <div className="space-y-4">
+              <Input {...formik.getFieldProps('email')} />
+              <Input type="password" {...formik.getFieldProps('password')} />
+            </div>
+          )}
+        </FormikAdapter>
+
+    usingHooks:
+      description: 使用 Hooks
+      code: |
+        const { field, meta } = useFormikField('email')
+        const form = useFormikForm()
+
+        return (
+          <Input
+            {...field}
+            error={meta.touched && meta.error ? meta.error : undefined}
+          />
+        )
+
+    asyncValidation:
+      description: 异步验证
+      code: |
+        <FormikAdapter
+          initialValues={{ username: '' }}
+          validateField={(name) => {
+            if (name === 'username') {
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                  resolve('Username already exists')
+                }, 1000)
+              })
+            }
+          }}
+        >
+          {(formik) => (
+            <Input {...formik.getFieldProps('username')} />
+          )}
+        </FormikAdapter>
+
+    customVariants:
+      description: 自定义变体
+      code: |
+        <FormikAdapter variant="bordered" size="lg">
+          {(formik) => (
+            <Input {...formik.getFieldProps('email')} />
+          )}
+        </FormikAdapter>
+
+  # 相关组件
+  relatedComponents:
+    - FormProvider: 表单提供者组件
+    - Form: 表单容器组件
+    - FormField: 字段容器组件
+    - FormItem: 表单项容器组件
+    - ValidationMessage: 验证消息组件
+    - ErrorMessage: 错误消息组件
+    - InputGroup: 输入组组件
+    - ButtonGroup: 按钮组组件
+
+  # 设计原则
+  designPrinciples:
+    - 适配器模式：无缝集成 Formik 和 Xorigo UI
+    - 类型安全：完整的 TypeScript 泛型支持
+    - 灵活性：支持多种表单结构和验证策略
+    - 可组合：与现有表单组件无缝集成
+    - 可扩展：通过 hooks 支持高级用例
+    - 一致性：遵循 Xorigo UI 设计规范
+
+  # 架构对齐
+  architecture:
+    ssotVersion: v2025.11.03
+    taxonomyCategory: forms
+    layer: Component Layer
+    dependencyLevel: 4
+    dependencies:
+      - formik
+      - primitives
+      - system
+      - foundations
+    providesTo:
+      - inputs
+      - form-field
+      - validation-message
+      - error-message
+
+  # 性能
+  performance:
+    memoization: 使用 useMemo 优化上下文值
+    reRenderStrategy: 局部状态更新，最小化重渲染
+    lazyInitialization: 支持表单延迟初始化
+
+  # 可访问性
+  accessibility:
+    role: form
+    aria-busy: 支持提交状态 aria-busy
+    aria-invalid: 自动设置错误状态 aria-invalid
+    aria-describedby: 支持错误描述关联
+    keyboardNavigation: 完全支持键盘导航
+    screenReader: 语义化属性完整支持
+
+  # 测试
+  testing:
+    unitTests: formik-adapter.test.tsx
+    integrationTests: 集成测试覆盖
+    e2eTests: 端到端测试
+    coverage: >90%
+    testCases:
+      - 基本功能测试
+      - 状态管理测试
+      - 验证逻辑测试
+      - 表单操作测试
+      - Hook 功能测试
+      - 错误边界测试
+      - 无障碍访问测试
+      - Formik 兼容性测试
+      - 变体和尺寸测试
+      - 禁用和只读状态测试
+
+  # 文档
+  documentation:
+    readme: formik-adapter.md
+    api: formik-adapter.api.md
+    stories: formik-adapter.stories.tsx
+    examples: examples/
+
+  # 版本历史
+  changelog:
+    - version: 1.0.0
+      date: 2025-11-04
+      changes:
+        - 初始版本
+        - 实现 Formik 适配器组件
+        - 支持 3 种视觉变体和 4 种尺寸
+        - 提供 4 个自定义 Hook
+        - 完整的 TypeScript 类型支持
+        - 全面的单元测试覆盖
+        - 完整的可访问性支持
+        - 与 Xorigo UI 设计系统集成
+
+  # 维护信息
+  maintenance:
+    owner: Xorigo UI Team
+    reviewers:
+      - Component Team
+      - Form Team
+    updateFrequency: 根据需要
+    breakingChanges: 遵循语义化版本
+
+  # 许可
+  license: MIT

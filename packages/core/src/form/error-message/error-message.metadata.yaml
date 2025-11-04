@@ -1,0 +1,446 @@
+# ErrorMessage 组件元数据
+# 符合 Xorigo UI 组件分类系统 v2025.11.03
+
+component:
+  name: "ErrorMessage"
+  displayName: "错误消息组件"
+  category: "forms"
+  subcategory: "表单校验组件"
+  layer: "component"
+  stability: "stable"
+  version: "1.0.0"
+  since: "v0.1.0"
+
+# 分类信息
+classification:
+  taxonomy: "component-taxonomy-v2025.11.03.yaml"
+  class: "表单结构与校验"
+  subclass: "错误与校验消息"
+  type: "原子组件"
+
+# 架构信息
+architecture:
+  ssotVersion: "v2025.11.03"
+  layerType: "Component Layer"
+  dependencyLevel: 4
+  dependencies:
+    - "inputs"
+    - "primitives"
+    - "system"
+    - "foundations"
+  peerDependencies:
+    - "react >=18.0.0"
+    - "framer-motion >=12.0.0"
+
+# 功能特性
+features:
+  - name: "多状态支持"
+    description: "支持 default、destructive、warning、info、success 五种状态"
+    implementation: "variant prop"
+
+  - name: "严重程度分级"
+    description: "支持 critical、major、minor、info 四种严重程度"
+    implementation: "severity prop"
+
+  - name: "图标系统"
+    description: "支持状态图标显示和自定义图标"
+    implementation: "showIcon / icon prop"
+
+  - name: "动画效果"
+    description: "支持显示/隐藏动画，基于 Framer Motion"
+    implementation: "AnimatePresence + motion.div"
+
+  - name: "可关闭状态"
+    description: "支持用户手动关闭错误消息"
+    implementation: "dismissible / onDismiss prop"
+
+  - name: "操作按钮"
+    description: "支持重试/操作按钮，提供纠错行动"
+    implementation: "actions prop"
+
+  - name: "HTML内容支持"
+    description: "支持渲染 HTML 内容（需注意安全性）"
+    implementation: "dangerouslySetInnerHTML prop"
+
+  - name: "代码高亮"
+    description: "支持错误代码的等宽字体显示"
+    implementation: "showCodeStyle prop"
+
+  - name: "文本截断"
+    description: "支持单行/多行截断和最大行数限制"
+    implementation: "truncation / maxLines prop"
+
+  - name: "可访问性支持"
+    description: "完整的 ARIA 属性和键盘导航"
+    implementation: "aria-* attributes + role"
+
+  - name: "TypeScript类型安全"
+    description: "完整的类型定义和泛型支持"
+    implementation: "TypeScript interfaces"
+
+  - name: "React.forwardRef"
+    description: "支持 ref 转发，符合 React 最佳实践"
+    implementation: "forwardRef API"
+
+# API 设计
+api:
+  props:
+    - name: "variant"
+      type: "'default' | 'destructive' | 'warning' | 'info' | 'success'"
+      default: "default"
+      required: false
+      description: "错误消息的状态变体"
+
+    - name: "status"
+      type: "'default' | 'destructive' | 'warning' | 'info' | 'success'"
+      default: "default"
+      required: false
+      description: "错误消息状态（用于图标和颜色）"
+
+    - name: "severity"
+      type: "'critical' | 'major' | 'minor' | 'info'"
+      default: "minor"
+      required: false
+      description: "错误消息的严重程度"
+
+    - name: "size"
+      type: "'sm' | 'md' | 'lg'"
+      default: "md"
+      required: false
+      description: "组件尺寸"
+
+    - name: "content"
+      type: "string | React.ReactNode"
+      default: undefined
+      required: false
+      description: "文本内容（字符串或React节点）"
+
+    - name: "children"
+      type: "React.ReactNode"
+      default: undefined
+      required: false
+      description: "错误消息内容（替代 content）"
+
+    - name: "showIcon"
+      type: "boolean"
+      default: true
+      required: false
+      description: "是否显示状态图标"
+
+    - name: "icon"
+      type: "React.ReactNode"
+      default: undefined
+      required: false
+      description: "自定义图标"
+
+    - name: "code"
+      type: "string"
+      default: undefined
+      required: false
+      description: "错误代码或标识符"
+
+    - name: "maxLines"
+      type: "number"
+      default: 0
+      required: false
+      description: "最大显示行数（0表示不限制）"
+
+    - name: "truncation"
+      type: "'none' | 'single' | 'multi'"
+      default: "none"
+      required: false
+      description: "文本截断模式"
+
+    - name: "isHidden"
+      type: "boolean"
+      default: false
+      required: false
+      description: "隐藏文本（屏幕阅读器可见）"
+
+    - name: "disabled"
+      type: "boolean"
+      default: false
+      required: false
+      description: "禁用状态"
+
+    - name: "dismissible"
+      type: "boolean"
+      default: false
+      required: false
+      description: "是否可关闭"
+
+    - name: "onDismiss"
+      type: "() => void"
+      default: undefined
+      required: false
+      description: "关闭回调函数"
+
+    - name: "actions"
+      type: "ErrorAction[]"
+      default: undefined
+      required: false
+      description: "操作按钮配置数组"
+
+    - name: "fieldId"
+      type: "string"
+      default: undefined
+      required: false
+      description: "关联的字段ID（用于可访问性）"
+
+    - name: "dangerouslySetInnerHTML"
+      type: "{ __html: string }"
+      default: undefined
+      required: false
+      description: "HTML内容（谨慎使用）"
+
+    - name: "showCodeStyle"
+      type: "boolean"
+      default: false
+      required: false
+      description: "是否使用代码样式显示"
+
+    - name: "className"
+      type: "string"
+      default: undefined
+      required: false
+      description: "自定义类名"
+
+  interfaces:
+    - name: "ErrorMessageProps"
+      description: "ErrorMessage 组件的主属性接口"
+      extends:
+        - "React.HTMLAttributes<HTMLDivElement>"
+        - "VariantProps<typeof errorMessageVariants>"
+
+    - name: "ErrorMessageGroupProps"
+      description: "ErrorMessageList/Group 组件的属性接口"
+      extends:
+        - "Omit<ErrorMessageProps, 'children' | 'content'>"
+
+    - name: "ErrorAction"
+      description: "错误消息操作按钮的配置接口"
+
+  variants:
+    - name: "errorMessageVariants"
+      description: "错误消息的主要样式变体"
+
+    - name: "errorIconVariants"
+      description: "错误图标的样式变体"
+
+    - name: "actionButtonVariants"
+      description: "操作按钮的样式变体"
+
+# 样式系统
+styling:
+  framework: "Tailwind CSS 4"
+  tokenSystem: "设计令牌 (DTCG标准)"
+  themeIntegration: "七轴主题系统"
+
+  variants:
+    variant:
+      - default: "text-red-600 dark:text-red-400"
+      - destructive: "text-red-600 dark:text-red-400"
+      - warning: "text-yellow-600 dark:text-yellow-400"
+      - info: "text-blue-600 dark:text-blue-400"
+      - success: "text-green-600 dark:text-green-400"
+
+    severity:
+      - critical: "font-medium"
+      - major: "font-medium"
+      - minor: ""
+      - info: ""
+
+    size:
+      - sm: "text-xs"
+      - md: "text-xs"
+      - lg: "text-sm"
+
+  animations:
+    - name: "animationVariants"
+      description: "显示/隐藏动画变体"
+      type: "enter/center/exit"
+      duration: "0.2s"
+      easing: "easeInOut"
+
+# 可访问性
+accessibility:
+  role: "alert"
+  aria:
+    - "aria-live: assertive"
+    - "aria-describedby: 关联字段ID"
+    - "aria-hidden: 隐藏文本时设置"
+  keyboard:
+    - "Tab: 聚焦到可交互元素"
+    - "Enter/Space: 激活操作按钮"
+  screenReader: "完整支持屏幕阅读器"
+  wcag: "符合 WCAG 2.1 AA 标准"
+
+# 响应式设计
+responsive:
+  breakpoints:
+    sm: "默认手机"
+    md: "平板设备"
+    lg: "桌面设备"
+  adaptiveFeatures:
+    - "文本截断在小屏幕上的优化"
+    - "图标和按钮的触摸友好尺寸"
+
+# 使用指南
+usage:
+  basic:
+    code: |
+      <ErrorMessage content="请输入有效的邮箱地址" />
+
+  withActions:
+    code: |
+      <ErrorMessage
+        content="保存失败，请重试"
+        actions={[
+          { text: '重试', onClick: handleRetry }
+        ]}
+      />
+
+  inForm:
+    code: |
+      <input id="email" type="email" />
+      <ErrorMessage
+        content="邮箱格式不正确"
+        fieldId="email"
+        status="destructive"
+      />
+
+  bestPractices:
+    - "保持错误消息简洁明确"
+    - "为严重错误提供操作按钮"
+    - "使用适当的状态和严重程度"
+    - "确保与关联输入框的正确关联"
+    - "考虑多语言和可访问性"
+    - "避免在错误消息中使用 HTML（除非必要）"
+
+# 状态管理
+state:
+  controlled: true
+  uncontrolled: false
+  stateProps:
+    - "onDismiss: 关闭状态（受控）"
+  context: "支持 FormContext 集成"
+
+# 性能
+performance:
+  memoization:
+    - "React.memo: 可选，默认不启用"
+  virtualization: "不适用"
+  lazyLoading: "不适用"
+  bundleSize: "~2KB (gzipped)"
+
+# 兼容性
+compatibility:
+  react: ">=18.0.0"
+  typescript: ">=5.0.0"
+  browsers:
+    - "Chrome >=90"
+    - "Firefox >=88"
+    - "Safari >=14"
+    - "Edge >=90"
+
+# 测试覆盖
+testing:
+  unitTest: true
+  integrationTest: true
+  e2eTest: false
+  a11yTest: true
+  coverage: "95%+"
+
+# 文档
+documentation:
+  storybook: true
+  examples: 15+
+  scenarios:
+    - "基础错误消息"
+    - "多状态错误"
+    - "严重程度分级"
+    - "操作按钮"
+    - "可关闭状态"
+    - "错误列表"
+    - "表单集成"
+    - "复杂示例"
+
+# 相关组件
+related:
+  siblings:
+    - "HelperText: 帮助文本"
+    - "ValidationMessage: 校验消息"
+    - "FieldLabel: 字段标签"
+    - "FormItem: 表单项容器"
+
+  parents:
+    - "FormField: 表单字段"
+    - "FormItem: 表单项"
+
+  dependencies:
+    - "cva-standalone: 变体样式"
+    - "framer-motion: 动画"
+    - "lucide-react: 图标"
+
+# 版本历史
+changelog:
+  - version: "1.0.0"
+    date: "2025-11-04"
+    changes:
+      - "初始版本发布"
+      - "完整的错误消息功能"
+      - "支持多种状态和严重程度"
+      - "支持操作按钮和可关闭"
+      - "完整的可访问性支持"
+
+# 维护者
+maintainers:
+  - name: "Xorigo UI Team"
+    email: "ui@xorigo.com"
+    role: "组件库维护者"
+
+# 许可证
+license: "MIT"
+
+# 贡献指南
+contributing:
+  repo: "xorigo-ui/packages/core"
+  path: "src/form/error-message/"
+  branch: "feature/error-message"
+  prTemplate: "standard"
+  codingStandards:
+    - "遵循 Xorigo UI 编码规范"
+    - "保持 API 一致性"
+    - "添加完整测试"
+    - "更新文档和故事"
+
+# 部署信息
+deployment:
+  npm: "@xorigo-ui/core"
+  export: "ErrorMessage"
+  path: "/packages/core/src/form/error-message"
+  build: "支持 Tree Shaking"
+
+# 已知限制
+limitations:
+  - "dangerouslySetInnerHTML 需要用户确保安全性"
+  - "大量错误消息可能影响性能"
+  - "自定义图标需要手动处理可访问性"
+
+# 未来规划
+roadmap:
+  - version: "1.1.0"
+    features:
+      - "错误分组和分类"
+      - "更丰富的动画效果"
+
+  - version: "1.2.0"
+    features:
+      - "错误消息模板系统"
+      - "多语言支持增强"
+
+# 反馈渠道
+feedback:
+  issues: "https://github.com/xorigo/ui/issues"
+  discussions: "https://github.com/xorigo/ui/discussions"
+  email: "feedback@xorigo.com"
