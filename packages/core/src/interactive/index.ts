@@ -1,9 +1,12 @@
 // Interactive Components - Xorigo UI Component Library
 // This directory contains interactive components that require user interaction and state management
 
-// Export CommandPalette component
+// Export Command components
 export { CommandPalette } from './command-palette'
 export type { CommandPaletteProps, Command, CommandGroup } from './command-palette'
+
+export { Command } from './command'
+export type { CommandProps } from './command'
 
 // Future interactive components will be exported here:
 // export { ContextMenu } from './context-menu'
