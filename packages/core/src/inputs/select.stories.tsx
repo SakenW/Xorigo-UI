@@ -454,7 +454,7 @@ export const AdvancedFeatures: Story = {
 
         {/* 自定义过滤 */}
         <Select
-          label="自定义过滤 (只显示包含\"工程师\"的选项)"
+          label='自定义过滤 (只显示包含"工程师"的选项)'
           options={userOptions}
           searchable
           filterOption={(option, query) =>

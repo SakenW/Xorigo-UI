@@ -154,7 +154,7 @@ export const ContextualMenu = forwardRef<HTMLDivElement, ContextualMenuProps>(
             aria-orientation="vertical"
           >
             {items.map((item) => (
-              <ContextMenuItem key={item.id} item={item} onClose={onClose} />
+              <ContextMenuItemRenderer key={item.id} item={item} onClose={onClose} />
             ))}
           </motion.div>
         )}
@@ -166,15 +166,15 @@ export const ContextualMenu = forwardRef<HTMLDivElement, ContextualMenuProps>(
 ContextualMenu.displayName = 'ContextualMenu'
 
 // ============================================================================
-// ContextMenuItem Component
+// ContextMenuItemRenderer Component
 // ============================================================================
 
-interface ContextMenuItemProps {
+interface ContextMenuItemRendererProps {
   item: ContextMenuItem
   onClose: () => void
 }
 
-const ContextMenuItem: React.FC<ContextMenuItemProps> = ({ item, onClose }) => {
+const ContextMenuItemRenderer: React.FC<ContextMenuItemRendererProps> = ({ item, onClose }) => {
   const [submenuOpen, setSubmenuOpen] = React.useState(false)
   const hasChildren = item.children && item.children.length > 0
 
@@ -218,7 +218,7 @@ const ContextMenuItem: React.FC<ContextMenuItemProps> = ({ item, onClose }) => {
             exit={{ opacity: 0, x: -10 }}
           >
             {item.children?.map((child) => (
-              <ContextMenuItem key={child.id} item={child} onClose={onClose} />
+              <ContextMenuItemRenderer key={child.id} item={child} onClose={onClose} />
             ))}
           </motion.div>
         )}
