@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from '../utils/cva-standalone'
@@ -314,7 +312,6 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
       props.onFocus?.(e)
     }
 
-    
     // 检查是否可以增减
     const canIncrement = max === undefined || numericValue < max
     const canDecrement = min === undefined || numericValue > min

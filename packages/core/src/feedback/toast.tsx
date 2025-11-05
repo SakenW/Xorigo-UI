@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { motion, AnimatePresence } from 'framer-motion'

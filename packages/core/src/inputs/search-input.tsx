@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Input, type InputProps } from './input'

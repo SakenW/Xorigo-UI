@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef, useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '../utils'

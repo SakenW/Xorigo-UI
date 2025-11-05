@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef, createContext, useContext, useMemo } from 'react'
 import { Formik, FormikProps, FormikValues, FormikConfig } from 'formik'
 import { cva, type VariantProps } from '../../utils/cva-standalone'

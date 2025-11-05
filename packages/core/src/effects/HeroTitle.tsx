@@ -1,8 +1,5 @@
-'use client'
-
 import React from 'react'
 import { motion } from 'framer-motion'
-
 
 type Size = 'sm' | 'md' | 'lg' | 'xl'
 type AsTag = 'h1' | 'h2' | 'h3' | 'div'

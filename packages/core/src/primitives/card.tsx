@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef, useState } from 'react'
 import { motion, type MotionProps } from 'framer-motion'
 import { cva, type VariantProps } from '../utils/cva-standalone'

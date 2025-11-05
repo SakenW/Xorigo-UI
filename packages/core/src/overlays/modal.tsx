@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
@@ -321,7 +319,6 @@ export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>((
     }
   }, [open])
 
-  
   const handleMaskClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && maskClosable) {
       onClose()

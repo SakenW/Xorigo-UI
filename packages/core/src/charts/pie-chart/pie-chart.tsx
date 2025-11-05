@@ -4,7 +4,6 @@
  * @version 1.0.0
  */
 
-'use client'
 
 import React, { forwardRef, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'

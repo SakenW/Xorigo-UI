@@ -1,5 +1,3 @@
-'use client'
-
 import React, { forwardRef } from 'react'
 import { cva, type VariantProps } from '../utils/cva-standalone'
 import { useTheme } from '@xorigo-ui/system'

@@ -1,5 +1,3 @@
-'use client'
-
 import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'

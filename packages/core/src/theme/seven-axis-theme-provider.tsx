@@ -5,7 +5,6 @@
  * 支持实时主题切换、动画过渡和上下文管理
  */
 
-'use client'
 
 import React, {
   createContext,

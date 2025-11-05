@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { motion, useReducedMotion, useAnimationFrame, useMotionValue, animate } from 'framer-motion'
 import { cn } from '../utils/cn'
