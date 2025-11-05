@@ -2,7 +2,7 @@
 name: "Xorigo UI 文档生成器"
 description: "自动生成 Xorigo UI 组件的完整技术文档，包括 API 文档、使用示例、最佳实践指南和可访问性说明"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "2025.11.05"
 tags: ["documentation", "api", "examples", "markdown", "storybook"]
 ---
 

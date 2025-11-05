@@ -2,7 +2,7 @@
 name: "Xorigo UI 设计系统验证器"
 description: "验证 Xorigo UI 组件是否符合设计系统规范，检查设计令牌使用、主题兼容性、API 一致性和可访问性标准"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "2025.11.05"
 tags: ["design-system", "validation", "quality", "accessibility", "theme"]
 ---
 

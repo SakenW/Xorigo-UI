@@ -2,7 +2,7 @@
 name: "Xorigo UI 构建发布约束器"
 description: "基于 Xorigo UI v1.5 SSOT 的构建发布约束工具，确保 packages/core 的构建、版本控制和 NPM 发布严格遵循规范要求，支持新的主题系统和组件分类架构"
 author: "Xorigo UI Team"
-version: "1.5.0"
+version: "2025.11.05"
 tags: ["build-constraints", "publish-workflow", "version-control", "package-management", "ci-cd", "v1.5.0"]
 ---
 

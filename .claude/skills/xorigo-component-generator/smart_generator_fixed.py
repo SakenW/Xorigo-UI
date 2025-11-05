@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Xorigo UI 组件生成器 v1.5.2 - 智能增强版
+Xorigo UI 组件生成器 v2025.11.05 - 智能增强版
 集成 zoxide 路径管理和高级智能推断功能
 """
 
@@ -20,180 +20,249 @@ class SmartComponentGenerator:
         if not self._validate_project_structure():
             raise ValueError("❌ 无效的 Xorigo UI 项目路径")
 
-        # v1.5.2 架构 - 13个组件分类 + 智能增强
+        # v2025.11.05 架构 - 17个组件分类 + 智能增强 (基于文档: component-taxonomy-v2025.11.03.yaml)
         self.component_categories = {
-            # 原子组件
+            # 系统层 - Foundations
+            "foundations": {
+                "description": "🔹 Foundations · 设计基础 - 静态设计令牌与基础样式",
+                "examples": ["ColorSystem", "TypographySystem", "SpacingSystem", "RadiusSystem", "ShadowSystem"],
+                "auto_features": ["tokens", "constants", "variables", "export"],
+                "complexity": "system",
+                "dependencies": ["css-variables", "design-tokens"]
+            },
+
+            # 系统层 - System
+            "system": {
+                "description": "🔹 System · 系统能力 - 跨组件机制，支撑所有组件",
+                "examples": ["ThemingEngine", "BreakpointsResponsive", "ColorModes", "AccessibilitySystem"],
+                "auto_features": ["themeIntegration", "provider", "hooks", "utils"],
+                "complexity": "system",
+                "dependencies": ["next-themes", "zustand", "@radix-ui/react-accessibility"]
+            },
+
+            # 原子级组件
             "primitives": {
-                "description": "🔷 原子组件 - 基础UI元素",
-                "examples": ["Button", "Card", "Surface", "ThemeSwitcher", "ColorPicker"],
-                "auto_features": ["variants", "accessibility", "forwardRef", "motion"],
+                "description": "🔷 Primitives · 原子级组件 - 少而精，高复用、跨大量组件的「砖」",
+                "examples": ["Box", "Surface", "Flex", "Stack", "Text", "ButtonBase", "InputBase"],
+                "auto_features": ["variants", "accessibility", "forwardRef", "composition"],
                 "complexity": "basic",
                 "dependencies": ["react", "framer-motion", "class-variance-authority"]
             },
-            # 表单组件
-            "form": {
-                "description": "📝 表单组件 - 输入和选择控件",
-                "examples": ["Input", "Select", "Checkbox", "Switch", "TextField"],
-                "auto_features": ["validation", "errorStates", "labelIntegration", "variants"],
-                "complexity": "medium",
-                "dependencies": ["react-hook-form", "zod"]
-            },
-            # 覆盖层组件
-            "overlays": {
-                "description": "🎭 覆盖层组件 - 模态框和弹出层",
-                "examples": ["Dialog", "Drawer", "Popover", "Sheet", "Modal"],
-                "auto_features": ["portal", "focusTrap", "escapeHandling", "backdrop"],
-                "complexity": "high",
-                "dependencies": ["@radix-ui/react-dialog", "@radix-ui/react-popover"]
-            },
-            # 数据展示组件
-            "data-display": {
-                "description": "📊 数据展示组件 - 表格和列表",
-                "examples": ["Table", "List", "DataTable", "Card", "Grid"],
-                "auto_features": ["pagination", "sorting", "filtering", "selection"],
-                "complexity": "high",
-                "dependencies": ["tanstack-react-table", "@tanstack/react-virtual"]
-            },
-            # 反馈组件
-            "feedback": {
-                "description": "🔔 反馈组件 - 状态和提示",
-                "examples": ["Toast", "Loading", "Badge", "Alert", "Progress"],
-                "auto_features": ["autoDismiss", "variants", "positioning", "stacking"],
-                "complexity": "medium",
-                "dependencies": ["sonner", "@radix-ui/react-toast"]
-            },
-            # 布局组件
+
+            # 组件层 - Layout
             "layout": {
-                "description": "📐 布局组件 - 网格和容器",
-                "examples": ["Grid", "Container", "Stack", "Divider", "Flex"],
+                "description": "📐 Layout · 布局 - 页面级布局和容器组件",
+                "examples": ["Container", "SimpleGrid", "Wrap", "SplitView", "Divider", "AppLayout"],
                 "auto_features": ["responsive", "gap", "alignment", "direction"],
                 "complexity": "medium",
-                "dependencies": ["@radix-ui/react-separator"]
+                "dependencies": ["@radix-ui/react-separator", "react-resizable"]
             },
-            # 导航组件
+
+            # 组件层 - Navigation
             "navigation": {
-                "description": "🧭 导航组件 - 菜单和面包屑",
-                "examples": ["Menu", "Breadcrumb", "Tabs", "Pagination", "Sidebar"],
+                "description": "🧭 Navigation · 导航 - 页面导航和路由相关组件",
+                "examples": ["Navbar", "Sidebar", "Tabs", "Menu", "Breadcrumb", "Pagination"],
                 "auto_features": ["keyboard", "routerIntegration", "activeStates", "dropdown"],
                 "complexity": "high",
                 "dependencies": ["@radix-ui/react-navigation-menu", "react-router-dom"]
             },
-            # 排版组件
-            "typography": {
-                "description": "🎨 排版组件 - 文本和标题",
-                "examples": ["Heading", "Text", "Code", "Link", "Paragraph"],
+
+            # 组件层 - Inputs
+            "inputs": {
+                "description": "🎯 Inputs & Controls · 输入与控制 - 能改变状态或提交数据的可交互控件",
+                "examples": ["Button", "Input", "Select", "Checkbox", "Radio", "Switch", "Slider", "ColorPicker"],
+                "auto_features": ["validation", "errorStates", "labelIntegration", "variants"],
+                "complexity": "medium",
+                "dependencies": ["react-hook-form", "zod", "@radix-ui/react-"]
+            },
+
+            # 组件层 - Forms (注: 实际项目 core/src/ 中使用单数 'form' 目录)
+            "forms": {
+                "description": "📝 Forms · 表单结构与校验 - 表单数据管理、校验逻辑、多步表单",
+                "examples": ["Form", "FormProvider", "FormField", "FieldWrapper", "ValidationSummary"],
+                "auto_features": ["validation", "errorHandling", "stateManagement", "adapters"],
+                "complexity": "high",
+                "dependencies": ["react-hook-form", "zod", "@hookform/resolvers"]
+            },
+
+            # 组件层 - Data Display
+            "data-display": {
+                "description": "📊 Data Display · 数据展示 - 不改变数据，只负责展示",
+                "examples": ["Table", "DataGrid", "List", "Card", "Badge", "Avatar", "StatisticCard"],
+                "auto_features": ["pagination", "sorting", "filtering", "selection"],
+                "complexity": "high",
+                "dependencies": ["tanstack-react-table", "@tanstack/react-virtual"]
+            },
+
+            # 组件层 - Typography & Media
+            "typography-media": {
+                "description": "🎨 Typography & Media · 文本与媒体 - 文本内容和媒体展示组件",
+                "examples": ["Text", "Heading", "Paragraph", "Code", "Image", "VideoPlayer", "AudioPlayer"],
                 "auto_features": ["semantic", "responsive", "truncation", "colorIntegration"],
                 "complexity": "basic",
-                "dependencies": ["@radix-ui/react-typography"]
+                "dependencies": ["@radix-ui/react-typography", "react-player"]
             },
-            # 品牌组件
-            "branding": {
-                "description": "🏢 品牌组件 - Logo和品牌元素",
-                "examples": ["Logo", "Brand", "Icon", "BrandMark"],
-                "auto_features": ["svg", "variants", "themeAdaptation", "sizing"],
-                "complexity": "basic",
-                "dependencies": ["lucide-react"]
-            },
-            # 展示组件
-            "showcase": {
-                "description": "🎪 展示组件 - 代码演示和示例",
-                "examples": ["CodeDemo", "Example", "Preview", "Showcase"],
-                "auto_features": ["syntaxHighlighting", "copyButton", "livePreview", "tabs"],
+
+            # 组件层 - Charts
+            "charts": {
+                "description": "📈 Charts · 图表（可视化）- 数据可视化图表组件（支持简单模式和高级模式）",
+                "examples": ["LineChart", "BarChart", "PieChart", "AreaChart", "RadarChart", "GaugeChart"],
+                "auto_features": ["simpleMode", "advancedMode", "presetThemes", "dataTransformation", "motion", "accessibility"],
                 "complexity": "high",
-                "dependencies": ["react-syntax-highlighter", "react-live"]
+                "dependencies": ["framer-motion", "react", "simple-mode-utils"],
+                "supportsModeSwitching": True
             },
-            # 效果组件
-            "effects": {
-                "description": "✨ 效果组件 - 视觉效果",
-                "examples": ["Skeleton", "Shimmer", "Gradient", "Glow"],
-                "auto_features": ["animation", "variants", "themeIntegration", "performance"],
+
+            # 组件层 - Feedback
+            "feedback": {
+                "description": "🔔 Feedback & Status · 反馈与状态 - 所有Loading都归这里",
+                "examples": ["Toast", "Alert", "Banner", "Spinner", "Progress", "Skeleton", "EmptyState"],
+                "auto_features": ["autoDismiss", "variants", "positioning", "stacking"],
                 "complexity": "medium",
-                "dependencies": ["framer-motion"]
+                "dependencies": ["sonner", "@radix-ui/react-toast"]
             },
-            # 动画组件
-            "motion": {
-                "description": "🎬 动画组件 - Framer Motion集成",
-                "examples": ["Animate", "Transition", "LayoutGroup", "MotionDiv"],
-                "auto_features": ["framerMotion", "variants", "gestures", "physics"],
+
+            # 组件层 - Overlays
+            "overlays": {
+                "description": "🎭 Overlays · 浮层 - 覆盖当前内容、打断或补充当前流程",
+                "examples": ["Modal", "Dialog", "Drawer", "Popover", "Tooltip", "Lightbox"],
+                "auto_features": ["portal", "focusTrap", "escapeHandling", "backdrop"],
                 "complexity": "high",
-                "dependencies": ["framer-motion"]
+                "dependencies": ["@radix-ui/react-dialog", "@radix-ui/react-popover"]
             },
-            # 系统组件
-            "system": {
-                "description": "🔹 系统组件 - 主题和配方管理",
-                "examples": ["ThemeProvider", "RecipeLoader", "ThemeSwitcher", "ConfigProvider"],
-                "auto_features": ["themeIntegration", "recipeSupport", "sevenAxis", "persistence"],
-                "complexity": "system",
-                "dependencies": ["next-themes", "zustand"]
+
+            # 组件层 - Interactive
+            "interactive": {
+                "description": "⚡ Interactive · 高阶交互 - 复杂交互模式，不放简单按钮、开关",
+                "examples": ["DragDrop", "SortableList", "VirtualList", "InfiniteScroll", "Carousel", "CommandPalette"],
+                "auto_features": ["gestures", "keyboard", "drag-drop", "virtualization", "autoPlay"],
+                "complexity": "high",
+                "dependencies": ["@dnd-kit/core", "@dnd-kit/sortable", "@tanstack/react-virtual", "embla-carousel-react"]
+            },
+
+            # 组件层 - Utilities
+            "utilities": {
+                "description": "🛠️ Utilities · 工具性组件 - 辅助其他组件工作，功能上不直接归某一大类",
+                "examples": ["Transition", "Fade", "Scale", "ErrorBoundary", "FocusTrap", "ClickAwayListener"],
+                "auto_features": ["portal", "transition", "hooks", "utils"],
+                "complexity": "medium",
+                "dependencies": ["framer-motion", "react-transition-group"]
+            },
+
+            # 组合层 - Blocks
+            "blocks": {
+                "description": "🎪 Blocks · 组合区块 - 通用场景的拼装块，不写死具体业务/品牌",
+                "examples": ["HeroSection", "FeatureSection", "PricingSection", "KPIOverview", "StatsGrid"],
+                "auto_features": ["composition", "customizable", "slots", "theming"],
+                "complexity": "high",
+                "dependencies": ["react", "framer-motion"]
+            },
+
+            # 组合层 - Templates
+            "templates": {
+                "description": "📄 Templates · 页面模板 - 页面级骨架结构，只在设计文档/示例项目中存在",
+                "examples": ["AuthPageTemplate", "LandingPageTemplate", "DashboardTemplate", "WizardTemplate"],
+                "auto_features": ["layout", "slots", "navigation", "themes"],
+                "complexity": "block",
+                "dependencies": ["react-router-dom", "next-themes"]
+            },
+
+            # 组合层 - Labs
+            "labs": {
+                "description": "🧪 Labs · 实验组件 - 稳定性维度的实验组件，API可能变化",
+                "examples": ["NewDateRangePicker", "GuidedTour", "AIChat", "Carousel3D"],
+                "auto_features": ["experimental", "featureFlags", "beta", "testing"],
+                "complexity": "high",
+                "dependencies": ["react", "framer-motion"]
             }
         }
 
-        # 增强的智能分类映射 - 加权匹配
+        # 增强的智能分类映射 - 加权匹配 (基于17个分类)
         self.category_keywords = {
-            "primitives": {
-                "keywords": ["button", "card", "surface", "input", "badge", "avatar", "icon", "color", "picker"],
-                "weight": 1.0,
-                "priority": 1
+            "foundations": {
+                "keywords": ["color", "typography", "spacing", "radius", "shadow", "motion", "z-index", "icon", "token", "design-token"],
+                "weight": 1.5,
+                "priority": 5
             },
-            "form": {
-                "keywords": ["input", "select", "checkbox", "switch", "radio", "textarea", "field", "form", "textfield"],
+            "system": {
+                "keywords": ["theme", "provider", "recipe", "switcher", "config", "system", "breakpoint", "responsive", "accessibility", "i18n", "direction"],
+                "weight": 1.4,
+                "priority": 5
+            },
+            "primitives": {
+                "keywords": ["box", "surface", "flex", "stack", "grid", "inline", "spacer", "text", "heading", "visually-hidden", "button-base", "input-base", "clickable", "pressable", "overlay-base", "portal", "dismissable-layer", "scroll-area"],
                 "weight": 1.2,
                 "priority": 2
             },
-            "overlays": {
-                "keywords": ["dialog", "drawer", "popover", "sheet", "modal", "tooltip", "dropdown", "overlay"],
+            "layout": {
+                "keywords": ["container", "page-container", "simple-grid", "wrap", "split-view", "resizable-panel", "space", "gap", "divider", "app-layout"],
+                "weight": 1.2,
+                "priority": 3
+            },
+            "navigation": {
+                "keywords": ["navbar", "topbar", "sidebar", "sidenav", "app-shell", "tabs", "segmented-control", "menu", "nav-menu", "contextual-menu", "breadcrumb", "pagination", "stepper", "nav-link", "link", "skip-nav"],
+                "weight": 1.4,
+                "priority": 4
+            },
+            "inputs": {
+                "keywords": ["button", "icon-button", "button-group", "input", "textarea", "number-input", "search-input", "select", "combobox", "autocomplete", "checkbox", "checkbox-group", "radio", "radio-group", "switch", "toggle", "slider", "range-slider", "rating", "color-picker", "date-picker", "time-picker", "datetime-picker", "file-upload", "upload-button", "chip", "toggle-group"],
+                "weight": 1.4,
+                "priority": 4
+            },
+            "forms": {
+                "keywords": ["form", "form-provider", "form-field", "form-item", "field-wrapper", "field-label", "helper-text", "error-message", "fieldset", "legend", "form-layout", "form-group", "validation-summary", "form-error-banner", "rhf-adapter", "formik-adapter", "zod-adapter"],
                 "weight": 1.3,
                 "priority": 3
             },
             "data-display": {
-                "keywords": ["table", "list", "grid", "data", "item", "row", "card", "datatable"],
-                "weight": 1.2,
-                "priority": 2
-            },
-            "feedback": {
-                "keywords": ["toast", "alert", "loading", "spinner", "progress", "badge", "status", "feedback"],
-                "weight": 1.1,
-                "priority": 2
-            },
-            "layout": {
-                "keywords": ["grid", "container", "stack", "flex", "divider", "space", "section", "layout"],
-                "weight": 1.1,
-                "priority": 2
-            },
-            "navigation": {
-                "keywords": ["menu", "nav", "breadcrumb", "tabs", "pagination", "link", "sidebar", "navigation"],
+                "keywords": ["card", "statistic-card", "badge", "tag", "chip-display", "avatar", "avatar-group", "list", "list-item", "table", "data-grid", "description-list", "key-value-list", "timeline", "steps", "accordion", "collapse", "info-tooltip"],
                 "weight": 1.3,
                 "priority": 3
             },
-            "typography": {
-                "keywords": ["heading", "title", "text", "paragraph", "label", "code", "quote", "typography"],
-                "weight": 1.0,
-                "priority": 1
-            },
-            "branding": {
-                "keywords": ["logo", "brand", "icon", "symbol", "mark", "branding"],
+            "typography-media": {
+                "keywords": ["text", "heading", "paragraph", "code", "kbd", "mark", "quote", "highlight", "inline-code", "image", "responsive-image", "aspect-ratio", "video", "video-player", "audio", "audio-player", "icon"],
                 "weight": 1.1,
                 "priority": 2
             },
-            "showcase": {
-                "keywords": ["demo", "example", "preview", "showcase", "code", "playground"],
-                "weight": 1.2,
-                "priority": 2
-            },
-            "effects": {
-                "keywords": ["skeleton", "shimmer", "gradient", "glow", "effect", "visual"],
-                "weight": 1.1,
-                "priority": 2
-            },
-            "motion": {
-                "keywords": ["animate", "transition", "motion", "slide", "fade", "animation"],
-                "weight": 1.2,
-                "priority": 2
-            },
-            "system": {
-                "keywords": ["theme", "provider", "recipe", "switcher", "config", "system"],
+            "charts": {
+                "keywords": ["chart", "line", "bar", "pie", "area", "radar", "gauge", "heatmap", "funnel", "scatter", "bubble", "candlestick", "kpi", "metric", "visualization", "graph", "plot", "sparkline", "mini-chart"],
                 "weight": 1.4,
                 "priority": 4
+            },
+            "feedback": {
+                "keywords": ["alert", "inline-alert", "banner", "announcement", "toast", "snackbar", "notification", "result", "empty-state", "empty", "skeleton", "skeleton-text", "skeleton-avatar", "skeleton-block", "spinner", "loader", "progress", "progress-bar", "circular-progress", "status-dot", "status-badge", "pill", "inline-error", "form-error"],
+                "weight": 1.2,
+                "priority": 3
+            },
+            "overlays": {
+                "keywords": ["modal", "dialog", "confirm-dialog", "drawer", "side-panel", "popover", "hover-card", "tooltip", "context-menu", "lightbox", "image-preview", "fullscreen-overlay"],
+                "weight": 1.3,
+                "priority": 4
+            },
+            "interactive": {
+                "keywords": ["drag-drop", "draggable", "droppable", "sortable-list", "sortable-grid", "virtual-list", "infinite-scroll", "carousel", "slider-carousel", "scroll-area", "command-palette", "spotlight", "quick-search", "hotkeys", "shortcuts", "keymap", "tour", "walkthrough", "coachmark", "resizable", "splitter", "resize-handle", "swipeable", "gesture-based"],
+                "weight": 1.4,
+                "priority": 4
+            },
+            "utilities": {
+                "keywords": ["transition", "collapse-transition", "fade", "scale", "responsive", "media-query", "hide-at", "show-at", "error-boundary", "suspense-boundary", "click-away-listener", "outside-click-handler", "focus-trap"],
+                "weight": 1.2,
+                "priority": 3
+            },
+            "blocks": {
+                "keywords": ["hero-section", "feature-section", "pricing-section", "faq-section", "testimonial-section", "call-to-action-section", "kpi-overview", "stats-grid", "filter-bar", "chart-panel", "activity-feed", "auth-card", "login-section", "register-section", "reset-password-section"],
+                "weight": 1.3,
+                "priority": 3
+            },
+            "templates": {
+                "keywords": ["auth-page-template", "landing-page-template", "dashboard-template", "wizard-template", "template", "page-template"],
+                "weight": 1.2,
+                "priority": 2
+            },
+            "labs": {
+                "keywords": ["labs", "experimental", "beta", "new", "3d", "ai", "guided-tour", "date-range-picker"],
+                "weight": 1.1,
+                "priority": 1
             }
         }
 
@@ -228,15 +297,15 @@ class SmartComponentGenerator:
         return default_path
 
     def _validate_project_structure(self) -> bool:
-        """验证项目结构"""
-        required_dirs = ["primitives", "form", "overlays", "data-display"]
+        """验证项目结构 (基于17个分类)"""
+        required_dirs = ["primitives", "form", "overlays", "data-display", "navigation", "charts", "feedback", "layout"]
 
         for dir_name in required_dirs:
             if not (self.base_path / dir_name).exists():
                 print(f"⚠️ 缺少目录: {dir_name}")
                 return False
 
-        print("✅ 项目结构验证通过")
+        print("✅ 项目结构验证通过 (支持17个分类)")
         return True
 
     def infer_component_category(self, component_name: str) -> Tuple[str, float]:
@@ -339,7 +408,7 @@ class SmartComponentGenerator:
 
     def generate_component(self, component_name: str, custom_features: Optional[List[str]] = None):
         """智能生成组件 - 增强版"""
-        print(f"🚀 开始生成 Xorigo UI v1.5.2 组件: {component_name}")
+        print(f"🚀 开始生成 Xorigo UI v2025.11.05 组件: {component_name}")
 
         # 标准化名称
         name_pascal, name_kebab, name_camel = self.normalize_component_name(component_name)
@@ -414,7 +483,11 @@ class SmartComponentGenerator:
             f.write(content)
 
     def _generate_component_content(self, name_pascal: str, name_kebab: str, category: str, features: List[str]) -> str:
-        """生成主组件内容 - 智能增强版"""
+        """生成主组件内容 - 智能增强版（支持图表组件模式切换）"""
+
+        # 检查是否为图表组件
+        if category == "charts":
+            return self._generate_chart_component_content(name_pascal, name_kebab, features)
 
         # 基础导入
         imports = [
@@ -443,6 +516,373 @@ class SmartComponentGenerator:
         content = "\n".join(imports) + "\n\n" + variants + "\n\n" + props_interface + "\n\n" + component_implementation
 
         return content
+
+    def _generate_chart_component_content(self, name_pascal: str, name_kebab: str, features: List[str]) -> str:
+        """生成图表组件内容 - 支持简单模式和高级模式"""
+
+        # 导入（包含simple-mode工具）
+        imports = """'use client'
+import React, { forwardRef, useMemo } from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '../../utils/cn'
+import {
+  SimpleTheme,
+  transformSimpleData,
+  SIMPLE_PRESETS,
+  validateSimpleModeProps,
+  validateAdvancedModeProps,
+} from '../simple-mode/utils'
+
+// ============================================================================
+// Types
+// ============================================================================
+
+export interface DataPoint {
+  x: string | number
+  y: number
+}
+
+export interface DataSeries {
+  id: string
+  name: string
+  data: DataPoint[]
+  color?: string
+}
+
+// ============================================================================
+// Props Interface (支持简单模式和高级模式)
+// ============================================================================
+
+export interface """ + name_pascal + """Props {
+  /**
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with data)
+   */
+  simpleData?: Array<[string | number, number]> | Array<{ x: string | number, y: number }>
+
+  /**
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: X-axis label
+   */
+  xAxis?: string
+
+  /**
+   * Simple mode: Y-axis label
+   */
+  yAxis?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * === Advanced Mode ===
+   * Data series (mutually exclusive with simpleData)
+   */
+  data?: DataSeries[]
+
+  /**
+   * Advanced mode: Grid configuration
+   */
+  grid?: {
+    enabled: boolean
+    color?: string
+    opacity?: number
+  }
+
+  /**
+   * Advanced mode: Axis configuration
+   */
+  axis?: {
+    x: { enabled: boolean; tickCount?: number; label?: string }
+    y: { enabled: boolean; tickCount?: number; label?: string }
+  }
+
+  /**
+   * Advanced mode: Legend configuration
+   */
+  legend?: { enabled: boolean; position?: 'top' | 'right' | 'bottom' | 'left' }
+
+  /**
+   * Advanced mode: Tooltip configuration
+   */
+  tooltip?: { enabled: boolean; showValue?: boolean }
+
+  /**
+   * === Common Props ===
+   * Chart dimensions
+   */
+  width?: number
+  height?: number
+
+  /**
+   * Animation
+   */
+  animate?: boolean
+  animationDuration?: number
+
+  /**
+   * Colors
+   */
+  colors?: string[]
+
+  /**
+   * Additional CSS class name
+   */
+  className?: string
+
+  /**
+   * Children content
+   */
+  children?: React.ReactNode
+
+  /**
+   * Event handlers
+   */
+  onDataPointClick?: (data: DataPoint & { seriesId: string }) => void
+
+  // Inherited from forwardRef
+  ref?: React.Ref<SVGSVGElement>
+}
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const DEFAULT_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+]
+
+// ============================================================================
+// Component Implementation (模式切换)
+// ============================================================================
+
+const """ + name_pascal + """ = forwardRef<SVGSVGElement, """ + name_pascal + """Props>(
+  (
+    {
+      simpleData,
+      title,
+      xAxis,
+      yAxis,
+      theme = 'business',
+      data,
+      width = 800,
+      height = 400,
+      grid,
+      axis,
+      legend = { enabled: true, position: 'top' },
+      tooltip = { enabled: true, showValue: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onDataPointClick,
+    },
+    ref
+  ) => {
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !data) {
+        validateSimpleModeProps({ simpleData, data })
+        return 'simple'
+      }
+      if (data && !simpleData) {
+        validateAdvancedModeProps({ simpleData, data })
+        return 'advanced'
+      }
+      throw new Error('""" + name_pascal + """: Must provide either "simpleData" (simple mode) or "data" (advanced mode), but not both')
+    }, [simpleData, data])
+
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme]
+      }
+      return null
+    }, [mode, theme])
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null
+
+      // Transform data to series format
+      const transformedSeries = transformSimpleData(
+        simpleData!,
+        title || yAxis || 'Data'
+      )[0]
+
+      return {
+        data: [transformedSeries],
+        width,
+        height,
+        grid: grid || preset?.grid,
+        axis: {
+          ...(axis || preset?.axis),
+          x: {
+            ...(axis?.x || preset?.axis?.x),
+            label: xAxis
+          },
+          y: {
+            ...(axis?.y || preset?.axis?.y),
+            label: yAxis
+          }
+        },
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+        onDataPointClick
+      }
+    }, [
+      mode,
+      simpleData,
+      title,
+      yAxis,
+      xAxis,
+      theme,
+      preset,
+      width,
+      height,
+      grid,
+      axis,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children,
+      onDataPointClick
+    ])
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('""" + name_kebab + """', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <Advanced""" + name_pascal + """ ref={ref} {...advancedModeProps!} />
+        </div>
+      )
+    }
+
+    // Render in advanced mode
+    return (
+      <Advanced""" + name_pascal + """
+        ref={ref}
+        data={data!}
+        width={width}
+        height={height}
+        grid={grid || { enabled: true }}
+        axis={axis || { x: { enabled: true }, y: { enabled: true } }}
+        legend={legend}
+        tooltip={tooltip}
+        animate={animate}
+        animationDuration={animationDuration || 1000}
+        colors={colors}
+        className={className}
+        children={children}
+        onDataPointClick={onDataPointClick}
+      />
+    )
+  }
+)
+
+// Advanced component (core implementation)
+const Advanced""" + name_pascal + """ = forwardRef<SVGSVGMLElement, Omit<""" + name_pascal + """Props, 'simpleData' | 'title' | 'xAxis' | 'yAxis' | 'theme'>>(
+  (
+    {
+      data,
+      width = 800,
+      height = 400,
+      grid = { enabled: true },
+      axis = { x: { enabled: true }, y: { enabled: true } },
+      legend = { enabled: true, position: 'top' },
+      tooltip = { enabled: true, showValue: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onDataPointClick,
+    },
+    ref
+  ) => {
+    // TODO: Implement advanced chart logic here
+    return (
+      <svg
+        ref={ref}
+        width={width}
+        height={height}
+        className={cn('overflow-visible', className)}
+        role="img"
+        aria-label=\"""" + name_pascal + """ visualization\"
+      >
+        <title>""" + name_pascal + """</title>
+        <desc>Advanced """ + name_pascal + """ component</desc>
+        {children}
+      </svg>
+    )
+  }
+)
+
+""" + name_pascal + """.displayName = '""" + name_pascal + """'
+Advanced""" + name_pascal + """.displayName = 'Advanced""" + name_pascal + """'
+
+// ============================================================================
+// Default Props
+// ============================================================================
+
+""" + name_pascal + """.defaultProps = {
+  width: 800,
+  height: 400,
+  theme: 'business',
+  animate: true
+}
+
+Advanced""" + name_pascal + """.defaultProps = {
+  width: 800,
+  height: 400,
+  grid: { enabled: true },
+  axis: { x: { enabled: true }, y: { enabled: true } },
+  legend: { enabled: true, position: 'top' },
+  tooltip: { enabled: true, showValue: true },
+  animate: true,
+  animationDuration: 1000
+}
+
+// ============================================================================
+// Export
+// ============================================================================
+
+export default """ + name_pascal + """
+export { """ + name_pascal + """, Advanced""" + name_pascal + """ }
+
+export type {
+  """ + name_pascal + """Props,
+  DataPoint,
+  DataSeries,
+  SimpleTheme
+}"""
+
+        return imports
 
     def _generate_component_implementation(self, name_pascal: str, name_kebab: str, features: List[str], category: str) -> str:
         """生成组件实现 - 修复语法错误版本"""

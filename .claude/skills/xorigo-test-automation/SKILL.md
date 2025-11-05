@@ -2,7 +2,7 @@
 name: "Xorigo UI 测试自动化器"
 description: "自动化管理 Xorigo UI 项目的测试流程，包括单元测试、集成测试、可访问性测试和视觉回归测试"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "2025.11.05"
 tags: ["testing", "automation", "vitest", "playwright", "accessibility", "visual-regression"]
 ---
 

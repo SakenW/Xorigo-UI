@@ -2,7 +2,7 @@
 name: "Xorigo UI 七轴主题系统开发器"
 description: "基于 Xorigo UI v1.5 SSOT 的七轴主题系统专门开发工具，确保所有组件严格遵循七轴约束逻辑和智能校验系统，集成新的AI辅助功能和性能优化"
 author: "Xorigo UI Team"
-version: "1.5.0"
+version: "2025.11.05"
 tags: ["theme-system", "seven-axis", "design-tokens", "constraints", "ssot", "v1.5.0", "ai-enhanced"]
 ---
 

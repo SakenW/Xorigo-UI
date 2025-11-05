@@ -2,7 +2,7 @@
 name: "Xorigo UI 迁移审查归档器"
 description: "基于 Xorigo UI v1.4 SSOT 的迁移内容审查和归档工具，确保已迁移内容完整无遗漏后进行规范归档"
 author: "Xorigo UI Team"
-version: "1.4.0"
+version: "2025.11.05"
 tags: ["migration-audit", "content-verification", "archive-management", "completeness-check", "ssot-compliance"]
 ---
 

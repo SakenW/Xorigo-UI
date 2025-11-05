@@ -2,7 +2,7 @@
 name: "Xorigo UI 主题配方管理器"
 description: "基于 Xorigo UI v1.5 SSOT 的主题配方专门管理工具，负责 recipe-*.ts 系列文件的管理，包含AI辅助生成、性能优化缓存和动态导入导出功能"
 author: "Xorigo UI Team"
-version: "1.5.0"
+version: "2025.11.05"
 tags: ["theme-recipes", "seven-axis-system", "ai-enhanced", "performance-optimized", "recipe-registry", "v1.5.0"]
 ---
 

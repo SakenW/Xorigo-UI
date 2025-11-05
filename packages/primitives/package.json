@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/primitives",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "Xorigo UI Primitives - Atomic components layer",
   "type": "module",
   "main": "./dist/index.cjs.js",

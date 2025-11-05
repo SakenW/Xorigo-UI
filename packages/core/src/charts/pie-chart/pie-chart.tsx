@@ -1,511 +1,507 @@
 /**
- * @fileoverview PieChart 组件 - 饼图数据可视化组件
- * @author Xorigo UI Team
+ * @fileoverview PieChart component - A flexible, animated pie chart visualization
  * @version 1.0.0
+ * @author Xorigo UI Team
  */
-
 
 import React, { forwardRef, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../../utils/cn'
+import {
+  SimpleTheme,
+  transformSimplePieData,
+  SIMPLE_PRESETS,
+} from '../simple-mode/utils'
 
 // ============================================================================
-// 类型定义
+// Types
 // ============================================================================
 
 export interface PieChartDataItem {
-  /** 数据标签 */
-  label: string
-  /** 数据值 */
+  name: string
   value: number
-  /** 自定义颜色 */
   color?: string
-  /** 是否突出显示 */
   highlighted?: boolean
-  /** 自定义样式类名 */
-  className?: string
+}
+
+export interface LegendConfig {
+  enabled: boolean
+  position?: 'top' | 'right' | 'bottom' | 'left'
+  align?: 'start' | 'center' | 'end'
+}
+
+export interface TooltipConfig {
+  enabled: boolean
+  followCursor?: boolean
+  showValue?: boolean
+  showPercentage?: boolean
+  offset?: number
 }
 
 export interface PieChartProps {
-  /** 数据源 */
-  data: PieChartDataItem[]
-  /** 组件变体 */
-  variant?: 'standard' | 'donut' | 'exploded' | 'nested'
-  /** 尺寸 */
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  /** 饼图半径（像素） */
-  radius?: number
-  /** 饼图内径（环形图专用，像素） */
+  /**
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with data)
+   * Format: [{ name, value }, { name, value }]
+   * @example
+   * [
+   *   { name: 'Desktop', value: 4000 },
+   *   { name: 'Mobile', value: 3000 },
+   *   { name: 'Tablet', value: 2000 }
+   * ]
+   */
+  simpleData?: Array<{ name: string, value: number }>
+
+  /**
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * Simple mode: Show as donut chart
+   * @default false
+   */
+  donut?: boolean
+
+  /**
+   * Simple mode: Inner radius for donut chart
+   * @default 60
+   */
   innerRadius?: number
-  /** 中心文本内容 */
-  centerText?: React.ReactNode
-  /** 是否显示百分比 */
-  showPercentage?: boolean
-  /** 是否显示数据标签 */
-  showLabels?: boolean
-  /** 是否显示图例 */
-  showLegend?: boolean
-  /** 图例位置 */
-  legendPosition?: 'right' | 'bottom' | 'left' | 'top'
-  /** 爆炸式分离距离 */
-  explodeOffset?: number
-  /** 是否显示工具提示 */
-  showTooltip?: boolean
-  /** 动画持续时间 */
+
+  /**
+   * === Advanced Mode ===
+   * Data source (mutually exclusive with simpleData)
+   */
+  data?: PieChartDataItem[]
+
+  /**
+   * Chart size in pixels
+   * @default 400
+   */
+  size?: number
+
+  /**
+   * Pie chart variant type
+   * @default 'standard'
+   */
+  variant?: 'standard' | 'donut' | 'exploded'
+
+  /**
+   * Legend configuration
+   */
+  legend?: LegendConfig
+
+  /**
+   * Tooltip configuration
+   */
+  tooltip?: TooltipConfig
+
+  /**
+   * Animation configuration
+   */
+  animate?: boolean
   animationDuration?: number
-  /** 自定义颜色主题 */
-  colorTheme?: string[]
-  /** 最小扇形角度（小于此角度的扇形将合并为"其他"） */
-  minAngle?: number
-  /** 无数据时显示的文本 */
-  emptyText?: string
-  /** 自定义样式类名 */
+
+  /**
+   * Color palette override
+   */
+  colors?: string[]
+
+  /**
+   * Additional CSS class name
+   */
   className?: string
-  /** 子组件 */
+
+  /**
+   * Children content (custom overlays)
+   */
   children?: React.ReactNode
-  /** 禁用状态 */
-  disabled?: boolean
+
+  /**
+   * Event handlers
+   */
+  onSliceClick?: (data: { name: string, value: number, percentage: number, index: number }) => void
+
+  // Inherited from forwardRef
+  ref?: React.Ref<SVGSVGElement>
 }
 
 // ============================================================================
-// 工具函数
+// Constants & Utils
 // ============================================================================
 
-/**
- * 计算扇形路径
- */
+const DEFAULT_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+]
+
+// Calculate arc path
 const calculateArcPath = (
   cx: number,
   cy: number,
   radius: number,
   innerRadius: number,
   startAngle: number,
-  endAngle: number,
-  explodedOffset: number = 0
+  endAngle: number
 ) => {
-  const startAngleRad = (startAngle - 90) * (Math.PI / 180)
-  const endAngleRad = (endAngle - 90) * (Math.PI / 180)
+  const start = (startAngle - 90) * (Math.PI / 180)
+  const end = (endAngle - 90) * (Math.PI / 180)
+
+  const x1 = cx + radius * Math.cos(start)
+  const y1 = cy + radius * Math.sin(start)
+  const x2 = cx + radius * Math.cos(end)
+  const y2 = cy + radius * Math.sin(end)
 
   const isDonut = innerRadius > 0
-  const offsetX = explodedOffset * Math.cos((startAngleRad + endAngleRad) / 2)
-  const offsetY = explodedOffset * Math.sin((startAngleRad + endAngleRad) / 2)
-
-  const x1 = cx + radius * Math.cos(startAngleRad) + offsetX
-  const y1 = cy + radius * Math.sin(startAngleRad) + offsetY
-  const x2 = cx + radius * Math.cos(endAngleRad) + offsetX
-  const y2 = cy + radius * Math.sin(endAngleRad) + offsetY
-  const x3 = cx + innerRadius * Math.cos(endAngleRad) + offsetX
-  const y3 = cy + innerRadius * Math.sin(endAngleRad) + offsetY
-  const x4 = cx + innerRadius * Math.cos(startAngleRad) + offsetX
-  const y4 = cy + innerRadius * Math.sin(startAngleRad) + offsetY
-
-  const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1
 
   if (isDonut) {
+    const x3 = cx + innerRadius * Math.cos(end)
+    const y3 = cy + innerRadius * Math.sin(end)
+    const x4 = cx + innerRadius * Math.cos(start)
+    const y4 = cy + innerRadius * Math.sin(start)
+
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0
+
     return [
       'M', x1, y1,
-      'A', radius, radius, 0, largeArcFlag, 1, x2, y2,
+      'A', radius, radius, 0, largeArc, 1, x2, y2,
       'L', x3, y3,
-      'A', innerRadius, innerRadius, 0, largeArcFlag, 0, x4, y4,
+      'A', innerRadius, innerRadius, 0, largeArc, 0, x4, y4,
       'Z'
     ].join(' ')
   }
 
+  const largeArc = endAngle - startAngle > 180 ? 1 : 0
+
   return [
-    'M', cx + offsetX, cy + offsetY,
+    'M', cx, cy,
     'L', x1, y1,
-    'A', radius, radius, 0, largeArcFlag, 1, x2, y2,
+    'A', radius, radius, 0, largeArc, 1, x2, y2,
     'Z'
   ].join(' ')
 }
 
-/**
- * 获取百分比显示的小数位数
- */
-const getPercentageDecimals = (value: number): number => {
-  if (value < 0.1) return 1
-  if (value < 1) return 1
-  return 0
-}
-
 // ============================================================================
-// 尺寸配置
+// PieChart Component
 // ============================================================================
 
-const sizeConfig = {
-  sm: { radius: 80, innerRadius: 0, legend: 'sm', fontSize: 'text-xs' },
-  md: { radius: 100, innerRadius: 0, legend: 'sm', fontSize: 'text-sm' },
-  lg: { radius: 120, innerRadius: 0, legend: 'base', fontSize: 'text-base' },
-  xl: { radius: 150, innerRadius: 0, legend: 'lg', fontSize: 'text-lg' }
-}
-
-// ============================================================================
-// 组件实现
-// ============================================================================
-
-const PieChart = forwardRef<SVGSVGElement, PieChartProps>(({
-  data,
-  variant = 'standard',
-  size = 'md',
-  radius: customRadius,
-  innerRadius: customInnerRadius,
-  centerText,
-  showPercentage = true,
-  showLabels = true,
-  showLegend = true,
-  legendPosition = 'right',
-  explodeOffset = 8,
-  showTooltip = true,
-  animationDuration = 0.5,
-  colorTheme,
-  minAngle = 0,
-  emptyText = '暂无数据',
-  className,
-  children,
-  disabled = false,
-  ...props
-}, ref) => {
-  // 计算尺寸配置
-  const config = sizeConfig[size]
-  const radius = customRadius || config.radius
-  const donutInnerRadius = variant === 'donut'
-    ? (customInnerRadius || Math.floor(radius * 0.6))
-    : (customInnerRadius || 0)
-
-  // 状态管理
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [tooltip, setTooltip] = useState<{
-    visible: boolean
-    x: number
-    y: number
-    data?: PieChartDataItem
-  }>({ visible: false, x: 0, y: 0 })
-
-  // 计算数据
-  const { totalValue, processedData, legendItems } = useMemo(() => {
-    if (!data || data.length === 0) {
-      return { totalValue: 0, processedData: [], legendItems: [] }
-    }
-
-    // 计算总值
-    const total = data.reduce((sum, item) => sum + item.value, 0)
-
-    if (total === 0) {
-      return { totalValue: 0, processedData: [], legendItems: [] }
-    }
-
-    // 预处理数据，合并小扇形
-    const validData = data.filter(item => item.value > 0)
-    const processed: typeof processedData = []
-    let otherSum = 0
-
-    validData.forEach((item, index) => {
-      const percentage = (item.value / total) * 100
-      const angle = (item.value / total) * 360
-
-      if (angle < minAngle) {
-        otherSum += item.value
-      } else {
-        processed.push({
-          ...item,
-          percentage,
-          angle,
-          index
-        })
+const PieChart = forwardRef<SVGSVGElement, PieChartProps>(
+  (
+    {
+      simpleData,
+      title,
+      theme = 'business',
+      donut = false,
+      innerRadius: customInnerRadius,
+      data,
+      size = 400,
+      variant = 'standard',
+      legend = { enabled: true, position: 'right', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onSliceClick,
+    },
+    ref
+  ) => {
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !data) {
+        return 'simple'
       }
-    })
+      if (data && !simpleData) {
+        return 'advanced'
+      }
+      throw new Error('PieChart: Must provide either "simpleData" (simple mode) or "data" (advanced mode), but not both')
+    }, [simpleData, data])
 
-    if (otherSum > 0) {
-      processed.push({
-        label: '其他',
-        value: otherSum,
-        percentage: (otherSum / total) * 100,
-        angle: (otherSum / total) * 360,
-        index: processed.length,
-        color: '#94a3b8'
-      })
-    }
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme]
+      }
+      return null
+    }, [mode, theme])
 
-    // 生成图例项
-    const legendItems = processed.map(item => ({
-      label: item.label,
-      value: item.value,
-      percentage: item.percentage,
-      color: item.color
-    }))
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null
 
-    return { totalValue: total, processedData: processed, legendItems }
-  }, [data, minAngle])
+      // Transform data to PieChartDataItem format
+      const transformedData = transformSimplePieData(simpleData!).map((item, index) => ({
+        name: item.name,
+        value: item.value,
+        highlighted: false
+      }))
 
-  // 颜色主题
-  const colors = colorTheme || [
-    'hsl(var(--primary))',
-    'hsl(var(--secondary))',
-    'hsl(var(--accent))',
-    'hsl(var(--muted-foreground))',
-    'hsl(var(--destructive))',
-    'hsl(var(--warning))',
-    'hsl(var(--success))',
-    'hsl(var(--info))'
-  ]
+      // Determine inner radius based on donut mode
+      const finalInnerRadius = donut
+        ? (customInnerRadius !== undefined ? customInnerRadius : 60)
+        : 0
 
-  // 事件处理
-  const handleMouseEnter = (index: number, event: React.MouseEvent) => {
-    if (disabled) return
-    setActiveIndex(index)
+      return {
+        data: transformedData,
+        size,
+        variant: donut ? 'donut' : 'standard',
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+        onSliceClick
+      }
+    }, [
+      mode,
+      simpleData,
+      theme,
+      donut,
+      customInnerRadius,
+      size,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children,
+      onSliceClick,
+      preset
+    ])
 
-    if (showTooltip) {
-      const rect = (event.currentTarget as Element).getBoundingClientRect()
-      setTooltip({
-        visible: true,
-        x: event.clientX,
-        y: event.clientY,
-        data: processedData[index]
-      })
-    }
-  }
-
-  const handleMouseLeave = () => {
-    setActiveIndex(null)
-    setTooltip({ visible: false, x: 0, y: 0 })
-  }
-
-  // 空状态
-  if (totalValue === 0) {
-    return (
-      <div className={cn(
-        'flex items-center justify-center p-8 text-muted-foreground',
-        className
-      )}>
-        <div className="text-center">
-          <div className="text-4xl mb-2">📊</div>
-          <p className="text-sm">{emptyText}</p>
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('pie-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedPieChart ref={ref} {...advancedModeProps!} />
         </div>
-      </div>
+      )
+    }
+
+    // Render in advanced mode
+    return (
+      <AdvancedPieChart
+        ref={ref}
+        data={data!}
+        size={size}
+        variant={variant}
+        legend={legend}
+        tooltip={tooltip}
+        animate={animate}
+        animationDuration={animationDuration}
+        colors={colors}
+        className={className}
+        children={children}
+        onSliceClick={onSliceClick}
+      />
     )
   }
+)
 
-  // 计算角度
-  let currentAngle = 0
-  const cx = radius + 20
-  const cy = radius + 20
-
-  // 动画变体
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const sliceVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: animationDuration,
-        ease: 'easeOut'
-      }
+// Advanced PieChart component (core implementation)
+const AdvancedPieChart = forwardRef<SVGSVGElement, Omit<PieChartProps, 'simpleData' | 'title' | 'theme' | 'donut'>>(
+  (
+    {
+      data,
+      size = 400,
+      variant = 'standard',
+      legend = { enabled: true, position: 'right', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onSliceClick,
     },
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.2 }
-    }
-  }
+    ref
+  ) => {
+    const radius = size / 2
+    const innerRadius = variant === 'donut' ? radius * 0.6 : 0
 
-  return (
-    <div className={cn(
-      'flex gap-6',
-      {
-        'flex-col': legendPosition === 'top' || legendPosition === 'bottom',
-        'flex-row': legendPosition === 'left' || legendPosition === 'right',
-      },
-      className
-    )}>
-      {/* 图表区域 */}
-      <div className="relative flex-shrink-0">
+    // Calculate total and percentages
+    const total = useMemo(() => {
+      return data.reduce((sum, item) => sum + item.value, 0)
+    }, [data])
+
+    // Calculate angles
+    const processedData = useMemo(() => {
+      let currentAngle = 0
+      return data.map((item, index) => {
+        const angle = (item.value / total) * 360
+        const startAngle = currentAngle
+        const endAngle = currentAngle + angle
+        currentAngle += angle
+
+        const percentage = (item.value / total) * 100
+
+        return {
+          ...item,
+          percentage,
+          startAngle,
+          endAngle,
+          color: item.color || colors[index % colors.length]
+        }
+      })
+    }, [data, total, colors])
+
+    const handleSliceClick = (item: any, index: number) => {
+      onSliceClick?.({
+        name: item.name,
+        value: item.value,
+        percentage: item.percentage,
+        index
+      })
+    }
+
+    return (
+      <div className={cn('relative inline-block', className)}>
         <svg
           ref={ref}
-          width={radius * 2 + 40}
-          height={radius * 2 + 40}
+          width={size}
+          height={size}
           className="overflow-visible"
-          {...props}
+          role="img"
+          aria-label="Pie chart visualization"
         >
-          <motion.g
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {processedData.map((item, index) => {
-              const startAngle = currentAngle
-              const endAngle = currentAngle + item.angle
-              currentAngle = endAngle
+          <title>Pie Chart</title>
+          <desc>
+            Pie chart displaying {data.length} categories with total value of {total}
+          </desc>
 
-              const isActive = activeIndex === index
-              const isHighlighted = item.highlighted || isActive
-              const offset = variant === 'exploded' && isHighlighted
-                ? explodeOffset
-                : 0
+          <g transform={`translate(${size / 2}, ${size / 2})`}>
+            <AnimatePresence>
+              {processedData.map((item, index) => {
+                const path = calculateArcPath(
+                  0,
+                  0,
+                  radius,
+                  innerRadius,
+                  item.startAngle,
+                  item.endAngle
+                )
 
-              const path = calculateArcPath(
-                cx,
-                cy,
-                radius,
-                donutInnerRadius,
-                startAngle,
-                endAngle,
-                offset
-              )
-
-              const color = item.color || colors[index % colors.length]
-              const decimals = getPercentageDecimals(item.percentage)
-
-              return (
-                <motion.g key={`slice-${index}`}>
-                  {/* 扇形 */}
+                return (
                   <motion.path
+                    key={`slice-${index}`}
                     d={path}
-                    fill={color}
-                    stroke="hsl(var(--background))"
-                    strokeWidth={2}
-                    variants={sliceVariants}
-                    whileHover="hover"
-                    onMouseEnter={(e) => handleMouseEnter(index, e)}
-                    onMouseLeave={handleMouseLeave}
-                    className={cn(
-                      'cursor-pointer transition-opacity',
-                      disabled && 'cursor-not-allowed opacity-50'
-                    )}
-                    role="img"
-                    aria-label={`${item.label}: ${item.percentage.toFixed(decimals)}%`}
+                    fill={item.color}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={animate ? { opacity: 1, scale: 1 } : {}}
+                    transition={{
+                      duration: (animationDuration / 1000),
+                      delay: index * 0.1
+                    }}
+                    className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                    onClick={() => handleSliceClick(item, index)}
                   />
+                )
+              })}
+            </AnimatePresence>
+          </g>
 
-                  {/* 百分比标签 */}
-                  {showPercentage && item.angle > 15 && (
-                    <motion.text
-                      x={cx + (radius - donutInnerRadius) / 2 * Math.cos((startAngle + endAngle - 180) * Math.PI / 180)}
-                      y={cy + (radius - donutInnerRadius) / 2 * Math.sin((startAngle + endAngle - 180) * Math.PI / 180)}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill="hsl(var(--foreground))"
-                      fontSize={size === 'sm' ? 10 : size === 'md' ? 12 : size === 'lg' ? 14 : 16}
-                      fontWeight="medium"
-                      pointerEvents="none"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: animationDuration + index * 0.05 }}
-                    >
-                      {item.percentage.toFixed(decimals)}%
-                    </motion.text>
-                  )}
-                </motion.g>
-              )
-            })}
-          </motion.g>
-
-          {/* 中心文本 */}
-          {variant === 'donut' && centerText && (
+          {/* Tooltip */}
+          {tooltip.enabled && (
             <foreignObject
-              x={cx - donutInnerRadius / 2}
-              y={cy - donutInnerRadius / 2}
-              width={donutInnerRadius}
-              height={donutInnerRadius}
+              x={0}
+              y={0}
+              width={size}
+              height={size}
               className="pointer-events-none"
             >
-              <div className="flex items-center justify-center h-full text-center">
-                {centerText}
-              </div>
+              {/* Tooltip implementation would go here */}
             </foreignObject>
+          )}
+
+          {/* Custom children overlay */}
+          {children && (
+            <g className="overlay">{children}</g>
           )}
         </svg>
 
-        {/* 工具提示 */}
-        <AnimatePresence>
-          {tooltip.visible && tooltip.data && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className={cn(
-                'absolute z-50 px-3 py-2 rounded-lg bg-popover text-popover-foreground',
-                'shadow-lg border border-border pointer-events-none',
-                'text-sm font-medium whitespace-nowrap'
-              )}
-              style={{
-                left: tooltip.x,
-                top: tooltip.y,
-                transform: 'translate(-50%, -120%)'
-              }}
-              role="tooltip"
-            >
-              <div className="font-semibold">{tooltip.data.label}</div>
-              <div className="text-muted-foreground">
-                数值: {tooltip.data.value.toLocaleString()}
-                ({tooltip.data.percentage.toFixed(1)}%)
+        {/* Legend */}
+        {legend.enabled && (
+          <div
+            className={cn(
+              'flex gap-4 mt-4',
+              legend.position === 'top' && 'justify-center',
+              legend.position === 'left' && 'justify-start',
+              legend.position === 'right' && 'justify-end',
+              legend.position === 'bottom' && 'justify-center'
+            )}
+          >
+            {processedData.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div
+                  className="w-4 h-4 rounded"
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-sm text-foreground">
+                  {item.name} ({item.percentage.toFixed(1)}%)
+                </span>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            ))}
+          </div>
+        )}
       </div>
-
-      {/* 图例 */}
-      {showLegend && legendItems.length > 0 && (
-        <div className={cn(
-          'flex gap-4 flex-wrap',
-          {
-            'flex-col justify-center': legendPosition === 'right' || legendPosition === 'left',
-            'flex-row justify-center': legendPosition === 'top' || legendPosition === 'bottom',
-          }
-        )}>
-          {legendItems.map((item, index) => (
-            <div
-              key={`legend-${index}`}
-              className={cn(
-                'flex items-center gap-2',
-                config.legend === 'sm' ? 'text-xs' :
-                config.legend === 'base' ? 'text-sm' : 'text-base'
-              )}
-            >
-              <span
-                className="inline-block w-3 h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: item.color }}
-                aria-hidden="true"
-              />
-              <span className="text-foreground">
-                {item.label}
-              </span>
-              <span className="text-muted-foreground">
-                ({item.percentage.toFixed(1)}%)
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* 子组件插槽 */}
-      {children && (
-        <div className="flex-shrink-0">
-          {children}
-        </div>
-      )}
-    </div>
-  )
-})
+    )
+  }
+)
 
 PieChart.displayName = 'PieChart'
+AdvancedPieChart.displayName = 'AdvancedPieChart'
+
+// ============================================================================
+// Default Props
+// ============================================================================
+
+PieChart.defaultProps = {
+  size: 400,
+  theme: 'business',
+  donut: false,
+  variant: 'standard',
+  animate: true
+}
+
+AdvancedPieChart.defaultProps = {
+  size: 400,
+  variant: 'standard',
+  legend: { enabled: true, position: 'right', align: 'center' },
+  tooltip: { enabled: true, showValue: true, showPercentage: true },
+  animate: true,
+  animationDuration: 1000
+}
+
+// ============================================================================
+// Export
+// ============================================================================
 
 export default PieChart
-export { PieChart }
-
-// ============================================================================
-// 导出类型
-// ============================================================================
+export { PieChart, AdvancedPieChart }
 
 export type {
+  PieChartProps,
   PieChartDataItem,
-  PieChartProps
+  LegendConfig,
+  TooltipConfig,
+  SimpleTheme
 }

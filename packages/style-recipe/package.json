@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/style-recipe",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "Xorigo UI Style Recipe - Dynamic style recipe system with DTCG support",
   "type": "module",
   "main": "./dist/index.cjs.js",

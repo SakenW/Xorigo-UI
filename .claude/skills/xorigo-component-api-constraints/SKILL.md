@@ -2,7 +2,7 @@
 name: "Xorigo UI 组件 API 设计约束器"
 description: "基于 Xorigo UI v1.4 SSOT 的组件 API 设计约束工具，确保所有 primitives/ 和 components/ 层组件严格遵循统一的 API 设计规范，包含 API 验证、接口生成和一致性检查功能"
 author: "Xorigo UI Team"
-version: "1.4.1"
+version: "2025.11.05"
 tags: ["component-api", "design-constraints", "interface-standards", "react-patterns", "typescript", "api-validation", "consistency-check"]
 ---
 

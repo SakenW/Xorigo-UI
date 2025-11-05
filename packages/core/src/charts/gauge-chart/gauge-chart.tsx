@@ -1,104 +1,242 @@
 /**
- * @fileoverview GaugeChart - 仪表图组件
- * @component Charts/GaugeChart
- * @stable true
+ * @fileoverview GaugeChart component - A flexible, animated gauge chart visualization
  * @version 1.0.0
+ * @author Xorigo UI Team
  */
 
+import React, {
+  forwardRef,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '../../utils/cn';
+import {
+  SimpleTheme,
+  SIMPLE_PRESETS,
+} from '../simple-mode/utils';
 
-import * as React from 'react'
-import { forwardRef, useMemo } from 'react'
-import { motion } from 'framer-motion'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../utils/cn'
-
-// =============================================================================
-// 组件变体定义
-// =============================================================================
-
-const gaugeChartVariants = cva(
-  'relative inline-flex items-center justify-center',
-  {
-    variants: {
-      variant: {
-        solid: 'bg-primary-500',
-        gradient: 'bg-gradient-to-r',
-      },
-      size: {
-        sm: 'h-32 w-32',
-        md: 'h-40 w-40',
-        lg: 'h-48 w-48',
-        xl: 'h-56 w-56',
-      },
-      shape: {
-        'semi': 'rounded-t-full',
-        'full': 'rounded-full',
-      },
-    },
-    defaultVariants: {
-      variant: 'solid',
-      size: 'md',
-      shape: 'semi',
-    },
-  }
-)
-
-// =============================================================================
-// 类型定义
-// =============================================================================
+// ============================================================================
+// Types
+// ============================================================================
 
 export interface GaugeDataPoint {
-  value: number
-  label?: string
-  color?: string
-  threshold?: number
+  value: number;
+  label?: string;
+  color?: string;
+  threshold?: number;
 }
 
 export interface GaugeThresholds {
-  warning: number
-  danger: number
+  warning: number;
+  danger: number;
 }
 
-export interface GaugeChartProps
-  extends Omit<React.SVGProps<SVGSVGElement>, 'ref'>,
-    VariantProps<typeof gaugeChartVariants> {
-  /** 当前数值 */
-  value: number
-  /** 最小值 */
-  min?: number
-  /** 最大值 */
-  max?: number
-  /** 阈值配置 */
-  thresholds?: GaugeThresholds
-  /** 仪表盘标签 */
-  label?: string
-  /** 中心显示单位 */
-  unit?: string
-  /** 小数位数 */
-  decimals?: number
-  /** 是否显示指针 */
-  showPointer?: boolean
-  /** 是否显示阈值线 */
-  showThresholds?: boolean
-  /** 是否显示动画 */
-  animated?: boolean
-  /** 自定义颜色 */
-  color?: string
-  /** 起始角度（度） */
-  startAngle?: number
-  /** 结束角度（度） */
-  endAngle?: number
-  /** 自定义类名 */
-  className?: string
-  /** 子组件 */
-  children?: React.ReactNode
-  /** ref 转发 */
-  ref?: React.Ref<SVGSVGElement>
+export interface DataPoint {
+  x: number | string | Date;
+  y: number;
+  label?: string;
+  metadata?: Record<string, any>;
 }
 
-// =============================================================================
-// 工具函数
-// =============================================================================
+export interface DataSeries {
+  id: string;
+  name: string;
+  data: DataPoint[];
+  color?: string;
+  strokeWidth?: number;
+  strokeDasharray?: string;
+  bar?: {
+    enabled: boolean;
+    width?: number;
+    radius?: number;
+  };
+  points?: {
+    enabled: boolean;
+    radius?: number;
+    hoverRadius?: number;
+  };
+  smooth?: boolean;
+  step?: boolean;
+}
+
+export interface GridConfig {
+  enabled: boolean;
+  x?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  y?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  color?: string;
+  opacity?: number;
+}
+
+export interface AxisConfig {
+  x: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: any) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+  y: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: number) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+}
+
+export interface LegendConfig {
+  enabled: boolean;
+  position?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
+}
+
+export interface TooltipConfig {
+  enabled: boolean;
+  followCursor?: boolean;
+  showValue?: boolean;
+  showSeries?: boolean;
+  offset?: number;
+}
+
+export interface GaugeChartProps {
+  /**
+   * === Simple Mode ===
+   * Simplified gauge value (mutually exclusive with data)
+   * Format: number
+   */
+  value?: number;
+
+  /**
+   * Simple mode: Chart title
+   */
+  title?: string;
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme;
+
+  /**
+   * === Advanced Mode ===
+   * Data series for the gauge (mutually exclusive with value)
+   */
+  data?: DataPoint[];
+
+  /**
+   * Chart size in pixels
+   * @default 400
+   */
+  size?: number;
+
+  /**
+   * Gauge minimum value
+   * @default 0
+   */
+  min?: number;
+
+  /**
+   * Gauge maximum value
+   * @default 100
+   */
+  max?: number;
+
+  /**
+   * Gauge label
+   */
+  label?: string;
+
+  /**
+   * Unit to display
+   * @default '%'
+   */
+  unit?: string;
+
+  /**
+   * Number of decimal places
+   * @default 0
+   */
+  decimals?: number;
+
+  /**
+   * Threshold configuration
+   */
+  thresholds?: GaugeThresholds;
+
+  /**
+   * Whether to show pointer
+   * @default true
+   */
+  showPointer?: boolean;
+
+  /**
+   * Whether to show thresholds
+   * @default true
+   */
+  showThresholds?: boolean;
+
+  /**
+   * Legend configuration
+   */
+  legend?: LegendConfig;
+
+  /**
+   * Tooltip configuration
+   */
+  tooltip?: TooltipConfig;
+
+  /**
+   * Animation configuration
+   */
+  animate?: boolean;
+  animationDuration?: number;
+
+  /**
+   * Color palette override
+   */
+  colors?: string[];
+
+  /**
+   * Additional CSS class name
+   */
+  className?: string;
+
+  /**
+   * Children content (custom overlays)
+   */
+  children?: React.ReactNode;
+
+  // Inherited from forwardRef
+  ref?: React.Ref<SVGSVGElement>;
+}
+
+// Export SimpleDataPoint from utils
+export type SimpleDataPoint = {
+  x: string | number;
+  y: number;
+};
+
+// ============================================================================
+// Constants & Utils
+// ============================================================================
+
+const DEFAULT_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+];
 
 /**
  * 将数值映射到角度
@@ -110,8 +248,8 @@ function mapValueToAngle(
   startAngle: number,
   endAngle: number
 ): number {
-  const normalized = (value - min) / (max - min)
-  return startAngle + normalized * (endAngle - startAngle)
+  const normalized = (value - min) / (max - min);
+  return startAngle + normalized * (endAngle - startAngle);
 }
 
 /**
@@ -123,11 +261,11 @@ function polarToCartesian(
   radius: number,
   angleInDegrees: number
 ): { x: number; y: number } {
-  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0
+  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
   return {
     x: centerX + (radius * Math.cos(angleInRadians)),
     y: centerY + (radius * Math.sin(angleInRadians)),
-  }
+  };
 }
 
 /**
@@ -140,14 +278,14 @@ function describeArc(
   startAngle: number,
   endAngle: number
 ): string {
-  const start = polarToCartesian(x, y, radius, endAngle)
-  const end = polarToCartesian(x, y, radius, startAngle)
-  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1'
+  const start = polarToCartesian(x, y, radius, endAngle);
+  const end = polarToCartesian(x, y, radius, startAngle);
+  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
   return [
     'M', start.x, start.y,
     'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y
-  ].join(' ')
+  ].join(' ');
 }
 
 /**
@@ -158,89 +296,219 @@ function getThresholdColor(
   thresholds: GaugeThresholds | undefined,
   defaultColor: string
 ): string {
-  if (!thresholds) return defaultColor
+  if (!thresholds) return defaultColor;
 
-  if (value >= thresholds.danger) return 'var(--color-danger-500)'
-  if (value >= thresholds.warning) return 'var(--color-warning-500)'
-  return defaultColor
+  if (value >= thresholds.danger) return 'hsl(var(--chart-3))';
+  if (value >= thresholds.warning) return 'hsl(var(--chart-2))';
+  return defaultColor;
 }
 
-// =============================================================================
-// 主组件
-// =============================================================================
+// ============================================================================
+// GaugeChart Component
+// ============================================================================
 
 const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
   (
     {
       value,
+      title,
+      theme = 'business',
+      data,
+      size = 400,
       min = 0,
       max = 100,
-      thresholds,
       label,
       unit = '%',
       decimals = 0,
+      thresholds,
       showPointer = true,
       showThresholds = true,
-      animated = true,
-      color = 'var(--color-primary-500)',
-      startAngle = 180,
-      endAngle = 0,
-      variant,
-      size,
-      shape,
+      legend = { enabled: true, position: 'bottom', align: 'center' },
+      tooltip = { enabled: true, showValue: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
       className,
       children,
-      ...props
     },
     ref
   ) => {
-    // 尺寸配置
-    const sizeMap = {
-      sm: 128,
-      md: 160,
-      lg: 192,
-      xl: 224,
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (value !== undefined && !data) {
+        return 'simple';
+      }
+      if (data && value === undefined) {
+        return 'advanced';
+      }
+      throw new Error('GaugeChart: Must provide either "value" (simple mode) or "data" (advanced mode), but not both');
+    }, [value, data]);
+
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme];
+      }
+      return null;
+    }, [mode, theme]);
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null;
+
+      // For simple mode, use the single value
+      const gaugeValue = value || 0;
+
+      return {
+        data: [{ x: 'value', y: gaugeValue, label: label || 'Value' }],
+        size,
+        min,
+        max,
+        label,
+        unit,
+        decimals,
+        thresholds,
+        showPointer,
+        showThresholds,
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+      };
+    }, [
+      mode,
+      value,
+      theme,
+      preset,
+      size,
+      min,
+      max,
+      label,
+      unit,
+      decimals,
+      thresholds,
+      showPointer,
+      showThresholds,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children
+    ]);
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('gauge-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedGaugeChart ref={ref} {...advancedModeProps!} />
+        </div>
+      );
     }
 
-    const chartSize = sizeMap[size || 'md']
-    const radius = chartSize / 2 - 20
-    const centerX = chartSize / 2
-    const centerY = chartSize / 2
+    // Render in advanced mode
+    return (
+      <AdvancedGaugeChart
+        ref={ref}
+        data={data!}
+        size={size}
+        min={min}
+        max={max}
+        label={label}
+        unit={unit}
+        decimals={decimals}
+        thresholds={thresholds}
+        showPointer={showPointer}
+        showThresholds={showThresholds}
+        legend={legend}
+        tooltip={tooltip}
+        animate={animate}
+        animationDuration={animationDuration}
+        colors={colors}
+        className={className}
+        children={children}
+      />
+    );
+  }
+);
 
-    // 计算当前角度
+// Advanced GaugeChart component (core implementation)
+const AdvancedGaugeChart = forwardRef<SVGSVGElement, Omit<GaugeChartProps, 'value' | 'title' | 'theme'>>(
+  (
+    {
+      data,
+      size = 400,
+      min = 0,
+      max = 100,
+      label,
+      unit = '%',
+      decimals = 0,
+      thresholds,
+      showPointer = true,
+      showThresholds = true,
+      legend = { enabled: true, position: 'bottom', align: 'center' },
+      tooltip = { enabled: true, showValue: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+    },
+    ref
+  ) => {
+    const width = size;
+    const height = size;
+    const radius = width / 2 - 20;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Get the first data point for the gauge value
+    const gaugeValue = data[0]?.y || 0;
+    const displayLabel = data[0]?.label || label || 'Value';
+
+    // Calculate angles
+    const startAngle = 180;
+    const endAngle = 0;
     const currentAngle = useMemo(() => {
-      return mapValueToAngle(value, min, max, startAngle, endAngle)
-    }, [value, min, max, startAngle, endAngle])
+      return mapValueToAngle(gaugeValue, min, max, startAngle, endAngle);
+    }, [gaugeValue, min, max]);
 
-    // 计算进度角度
     const progressAngle = useMemo(() => {
-      return mapValueToAngle(Math.min(value, max), min, max, startAngle, endAngle)
-    }, [value, min, max, startAngle, endAngle])
+      return mapValueToAngle(Math.min(gaugeValue, max), min, max, startAngle, endAngle);
+    }, [gaugeValue, min, max, startAngle, endAngle]);
 
-    // 生成仪表盘背景路径
+    // Generate arc paths
     const backgroundPath = useMemo(() => {
-      return describeArc(centerX, centerY, radius, startAngle, endAngle)
-    }, [centerX, centerY, radius, startAngle, endAngle])
+      return describeArc(centerX, centerY, radius, startAngle, endAngle);
+    }, [centerX, centerY, radius, startAngle, endAngle]);
 
-    // 生成进度路径
     const progressPath = useMemo(() => {
-      if (progressAngle <= startAngle) return ''
-      return describeArc(centerX, centerY, radius, startAngle, progressAngle)
-    }, [centerX, centerY, radius, startAngle, progressAngle])
+      if (progressAngle <= startAngle) return '';
+      return describeArc(centerX, centerY, radius, startAngle, progressAngle);
+    }, [centerX, centerY, radius, startAngle, progressAngle]);
 
-    // 计算指针位置
+    // Calculate pointer position
     const pointerPosition = useMemo(() => {
-      return polarToCartesian(centerX, centerY, radius - 10, currentAngle)
-    }, [centerX, centerY, radius, currentAngle])
+      return polarToCartesian(centerX, centerY, radius - 10, currentAngle);
+    }, [centerX, centerY, radius, currentAngle]);
 
-    // 获取进度颜色
+    // Get progress color
     const progressColor = useMemo(() => {
-      return getThresholdColor(value, thresholds, color)
-    }, [value, thresholds, color])
+      return getThresholdColor(gaugeValue, thresholds, colors[0]);
+    }, [gaugeValue, thresholds, colors]);
 
-    // 计算阈值点
+    // Calculate threshold points
     const thresholdPoints = useMemo(() => {
-      if (!thresholds || !showThresholds) return []
+      if (!thresholds || !showThresholds) return [];
 
       return [
         {
@@ -253,53 +521,47 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
           value: thresholds.danger,
           angle: mapValueToAngle(thresholds.danger, min, max, startAngle, endAngle),
         },
-      ]
-    }, [thresholds, showThresholds, min, max, startAngle, endAngle])
+      ];
+    }, [thresholds, showThresholds, min, max, startAngle, endAngle]);
 
-    // 动画配置
+    // Animation config
     const animationConfig = {
       initial: { rotate: startAngle },
       animate: { rotate: currentAngle },
-      transition: animated ? { duration: 1, ease: 'easeInOut' } : { duration: 0 },
-    }
+      transition: animate ? { duration: animationDuration / 1000, ease: 'easeInOut' } : { duration: 0 },
+    };
 
-    // 格式化数值显示
+    // Format value display
     const formatValue = (val: number): string => {
-      return val.toFixed(decimals)
-    }
-
-    // 文本位置
-    const textY = shape === 'semi' ? centerY + 15 : centerY
+      return val.toFixed(decimals);
+    };
 
     return (
-      <div
-        className={cn(gaugeChartVariants({ variant, size, shape }), className)}
-        style={{ width: chartSize, height: shape === 'semi' ? chartSize / 2 : chartSize }}
-      >
+      <div className={cn('relative inline-block', className)}>
         <svg
           ref={ref}
-          width={chartSize}
-          height={shape === 'semi' ? chartSize / 2 : chartSize}
-          viewBox={`0 0 ${chartSize} ${shape === 'semi' ? chartSize / 2 : chartSize}`}
+          width={width}
+          height={height}
           className="overflow-visible"
           role="img"
-          aria-label={label || `仪表图: ${formatValue(value)}${unit}`}
-          {...props}
+          aria-label="Gauge chart visualization"
         >
-          <title>{label || '仪表图'}</title>
-          <desc>{`当前值: ${formatValue(value)}${unit}，范围: ${min} - ${max}${unit}`}</desc>
+          <title>Gauge Chart</title>
+          <desc>
+            Gauge chart displaying value: {formatValue(gaugeValue)}{unit}, range: {min} - {max}{unit}
+          </desc>
 
-          {/* 背景弧 */}
+          {/* Background arc */}
           <path
             d={backgroundPath}
             fill="none"
-            stroke="var(--color-surface-300)"
+            stroke="hsl(var(--muted))"
             strokeWidth="12"
             strokeLinecap="round"
             className="opacity-20"
           />
 
-          {/* 进度弧 */}
+          {/* Progress arc */}
           {progressPath && (
             <motion.path
               d={progressPath}
@@ -309,13 +571,13 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={animated ? { duration: 1.5, ease: 'easeInOut' } : { duration: 0 }}
+              transition={animate ? { duration: animationDuration / 1000, ease: 'easeInOut' } : { duration: 0 }}
             />
           )}
 
-          {/* 阈值线 */}
+          {/* Threshold lines */}
           {thresholdPoints.map((point) => {
-            const position = polarToCartesian(centerX, centerY, radius, point.angle)
+            const position = polarToCartesian(centerX, centerY, radius, point.angle);
             return (
               <g key={point.name}>
                 <line
@@ -323,7 +585,7 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
                   y1={centerY}
                   x2={position.x}
                   y2={position.y}
-                  stroke={point.name === 'danger' ? 'var(--color-danger-500)' : 'var(--color-warning-500)'}
+                  stroke={point.name === 'danger' ? colors[2] : colors[1]}
                   strokeWidth="2"
                   strokeDasharray="4 4"
                   className="opacity-60"
@@ -332,14 +594,14 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
                   cx={position.x}
                   cy={position.y}
                   r="4"
-                  fill={point.name === 'danger' ? 'var(--color-danger-500)' : 'var(--color-warning-500)'}
+                  fill={point.name === 'danger' ? colors[2] : colors[1]}
                   className="opacity-80"
                 />
               </g>
-            )
+            );
           })}
 
-          {/* 指针 */}
+          {/* Pointer */}
           {showPointer && (
             <motion.g
               transform-origin={`${centerX} ${centerY}`}
@@ -350,7 +612,7 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
                 y1={centerY}
                 x2={pointerPosition.x}
                 y2={pointerPosition.y}
-                stroke="var(--color-surface-50)"
+                stroke="white"
                 strokeWidth="3"
                 strokeLinecap="round"
                 className="drop-shadow-sm"
@@ -359,7 +621,7 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
                 cx={centerX}
                 cy={centerY}
                 r="8"
-                fill="var(--color-surface-50)"
+                fill="white"
                 className="drop-shadow-sm"
               />
               <circle
@@ -371,79 +633,146 @@ const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(
             </motion.g>
           )}
 
-          {/* 数值显示 */}
+          {/* Value display */}
           <text
             x={centerX}
-            y={textY - 10}
+            y={centerY - 10}
             textAnchor="middle"
-            className="text-2xl font-semibold fill-surface-900 dark:fill-surface-50"
-            style={{ fontSize: size === 'sm' ? '1.25rem' : size === 'lg' ? '2rem' : size === 'xl' ? '2.25rem' : '1.5rem' }}
+            className="text-2xl font-semibold fill-foreground"
+            fontSize="24"
           >
-            {formatValue(value)}
+            {formatValue(gaugeValue)}
           </text>
 
-          {/* 单位 */}
+          {/* Unit */}
           <text
             x={centerX}
-            y={textY + 15}
+            y={centerY + 15}
             textAnchor="middle"
-            className="text-sm fill-surface-500"
+            className="text-sm fill-muted-foreground"
           >
             {unit}
           </text>
 
-          {/* 标签 */}
-          {label && (
+          {/* Label */}
+          {displayLabel && (
             <text
               x={centerX}
-              y={textY + 35}
+              y={centerY + 35}
               textAnchor="middle"
-              className="text-xs fill-surface-500"
+              className="text-xs fill-muted-foreground"
             >
-              {label}
+              {displayLabel}
             </text>
           )}
 
-          {/* 最小值标注 */}
+          {/* Min value label */}
           {showThresholds && (
             <text
               x={polarToCartesian(centerX, centerY, radius + 15, startAngle).x}
               y={polarToCartesian(centerX, centerY, radius + 15, startAngle).y}
               textAnchor="middle"
-              className="text-xs fill-surface-500"
+              className="text-xs fill-muted-foreground"
             >
               {min}
             </text>
           )}
 
-          {/* 最大值标注 */}
+          {/* Max value label */}
           {showThresholds && (
             <text
               x={polarToCartesian(centerX, centerY, radius + 15, endAngle).x}
               y={polarToCartesian(centerX, centerY, radius + 15, endAngle).y}
               textAnchor="middle"
-              className="text-xs fill-surface-500"
+              className="text-xs fill-muted-foreground"
             >
               {max}
             </text>
           )}
+
+          {/* Custom children overlay */}
+          {children && (
+            <g className="overlay">{children}</g>
+          )}
         </svg>
 
-        {/* 子组件插槽 */}
-        {children && (
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center">
-            {children}
+        {/* Legend */}
+        {legend.enabled && (
+          <div
+            className={cn(
+              'flex gap-4 mt-4',
+              legend.position === 'top' && 'justify-center',
+              legend.position === 'left' && 'justify-start',
+              legend.position === 'right' && 'justify-end',
+              legend.position === 'bottom' && 'justify-center'
+            )}
+          >
+            <div className="flex items-center gap-2">
+              <div
+                className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: progressColor }}
+              />
+              <span className="text-sm text-foreground">
+                {displayLabel} ({formatValue(gaugeValue)}{unit})
+              </span>
+            </div>
           </div>
         )}
       </div>
-    )
+    );
   }
-)
+);
 
 GaugeChart.displayName = 'GaugeChart'
+AdvancedGaugeChart.displayName = 'AdvancedGaugeChart'
 
-// =============================================================================
-// 导出
-// =============================================================================
+// ============================================================================
+// Default Props
+// ============================================================================
 
-export { GaugeChart, type GaugeChartProps, type GaugeDataPoint, type GaugeThresholds }
+GaugeChart.defaultProps = {
+  size: 400,
+  theme: 'business',
+  min: 0,
+  max: 100,
+  unit: '%',
+  decimals: 0,
+  showPointer: true,
+  showThresholds: true,
+  animate: true
+}
+
+AdvancedGaugeChart.defaultProps = {
+  size: 400,
+  min: 0,
+  max: 100,
+  unit: '%',
+  decimals: 0,
+  showPointer: true,
+  showThresholds: true,
+  legend: { enabled: true, position: 'bottom', align: 'center' },
+  tooltip: { enabled: true, showValue: true },
+  animate: true,
+  animationDuration: 1000,
+}
+
+// ============================================================================
+// Export
+// ============================================================================
+
+export default GaugeChart
+export { GaugeChart, AdvancedGaugeChart }
+
+export type {
+  GaugeChartProps,
+  GaugeDataPoint,
+  GaugeThresholds,
+  DataPoint,
+  DataSeries,
+  GridConfig,
+  AxisConfig,
+  LegendConfig,
+  TooltipConfig,
+  SimpleTheme,
+  SimpleDataPoint
+}

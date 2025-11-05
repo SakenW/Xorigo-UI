@@ -2,7 +2,7 @@
 name: "Xorigo UI 文档结构助手"
 description: "专门负责 Xorigo UI 项目的文档命名规范、目录结构组织和索引管理的辅助技能，与文档生成器配合使用"
 author: "Xorigo UI Team"
-version: "1.1.0"
+version: "2025.11.05"
 tags: ["documentation", "naming", "structure", "organization", "indexing"]
 ---
 

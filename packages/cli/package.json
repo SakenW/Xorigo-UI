@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-cli/commands",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "Xorigo UI CLI - Component scaffolding and quality checks",
   "type": "module",
   "bin": {

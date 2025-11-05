@@ -2,7 +2,7 @@
 name: "Xorigo UI 代码质量守护者"
 description: "基于 Xorigo UI v2025.11.03 架构文档的全方位代码质量检测，包括命名规范、架构规则、API 设计标准和组件分类系统合规性"
 author: "Xorigo UI Team"
-version: "2025.11.03"
+version: "2025.11.05"
 tags: ["code-quality", "naming", "architecture", "api-design", "classification", "standards", "xorigo-ui-v2025.11.03"]
 changelog:
   - "v2025.11.03: 🔄 三层架构重构 - 基于 Xorigo UI 三层架构+17分类系统完全重构，支持 180+ 组件"

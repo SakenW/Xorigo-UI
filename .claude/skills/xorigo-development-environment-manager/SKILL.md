@@ -2,7 +2,7 @@
 name: "Xorigo UI 开发环境管理器"
 description: "基于本地 + Docker 混合开发模式的智能环境管理器，支持多种开发模式协调、进程管理、端口配置和环境健康检查"
 author: "Xorigo UI Team"
-version: "3.0.0"
+version: "2025.11.05"
 tags: ["development", "environment", "local", "docker", "hybrid", "monitoring", "monorepo"]
 ---
 

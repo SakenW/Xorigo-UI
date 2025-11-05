@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/layout",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "Xorigo UI Layout - Layout components layer",
   "type": "module",
   "main": "./dist/index.cjs.js",

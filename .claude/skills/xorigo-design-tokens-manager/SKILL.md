@@ -2,7 +2,7 @@
 name: "Xorigo UI 设计令牌管理器"
 description: "基于 Xorigo UI v1.5.1 架构的设计令牌专门管理工具，确保 foundations/ 层令牌的标准化、一致性和七轴主题系统集成"
 author: "Xorigo UI Team"
-version: "1.5.1"
+version: "2025.11.05"
 tags: ["design-tokens", "foundations", "color-system", "density-system", "motion-system", "surface-system", "seven-axis-theme", "xorigo-ui-v1.5.1"]
 ---
 

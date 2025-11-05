@@ -2,7 +2,7 @@
 name: "Xorigo UI 主题测试器"
 description: "自动化测试 Xorigo UI 组件在全部 10 种主题下的视觉效果和功能表现，生成对比报告和兼容性分析"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "2025.11.05"
 tags: ["theme", "testing", "visual-regression", "accessibility", "automation"]
 ---
 

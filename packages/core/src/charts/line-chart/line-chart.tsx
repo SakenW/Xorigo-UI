@@ -14,6 +14,16 @@ import React, {
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../utils/cn';
+import {
+  SimpleTheme,
+  SimpleDataPoint,
+  transformSimpleLineData,
+  SIMPLE_PRESETS,
+  isSimpleMode,
+  isAdvancedMode,
+  validateSimpleModeProps,
+  validateAdvancedModeProps,
+} from '../simple-mode/utils';
 
 // ============================================================================
 // Types
@@ -100,7 +110,58 @@ export interface ZoomConfig {
 
 export interface LineChartProps {
   /**
-   * Data series for the line chart
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with series)
+   * Format: [[x, y], [x, y]] or [{ x, y }, { x, y }]
+   * @example
+   * [['Jan', 4000], ['Feb', 3000], ['Mar', 5000]]
+   * or
+   * [{ x: 'Jan', y: 4000 }, { x: 'Feb', y: 3000 }]
+   */
+  data?: Array<[string | number, number]> | Array<SimpleDataPoint>
+
+  /**
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: X-axis label
+   */
+  xAxis?: string
+
+  /**
+   * Simple mode: Y-axis label
+   */
+  yAxis?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * Simple mode: Show smooth curves
+   * @default false
+   */
+  smooth?: boolean
+
+  /**
+   * Simple mode: Show area fill under the line
+   * @default false
+   */
+  showArea?: boolean
+
+  /**
+   * Simple mode: Show data points
+   * @default true
+   */
+  showPoints?: boolean
+
+  /**
+   * === Advanced Mode ===
+   * Data series for the line chart (mutually exclusive with data)
    * @example
    * [
    *   {
@@ -116,7 +177,7 @@ export interface LineChartProps {
    *   }
    * ]
    */
-  series: DataSeries[];
+  series?: DataSeries[]
 
   /**
    * Chart dimensions
@@ -328,10 +389,154 @@ const createLinearScale = (
 };
 
 // ============================================================================
-// LineChart Component
+// LineChart Component (with Dual Mode Support)
 // ============================================================================
 
 const LineChart = forwardRef<SVGSVGElement, LineChartProps>(
+  (
+    {
+      simpleData,
+      title,
+      theme = 'business',
+      series,
+      width = 800,
+      height = 400,
+      grid,
+      axis,
+      legend = { enabled: true, position: 'top', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showSeries: true },
+      zoom = { enabled: false, minZoom: 1, maxZoom: 10 },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onDataPointClick,
+      onDataPointHover,
+    },
+    ref
+  ) => {
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !series) {
+        validateSimpleModeProps({ simpleData, series });
+        return 'simple';
+      }
+      if (series && !simpleData) {
+        validateAdvancedModeProps({ simpleData, series });
+        return 'advanced';
+      }
+      throw new Error('LineChart: Must provide either "simpleData" (simple mode) or "series" (advanced mode), but not both');
+    }, [simpleData, series]);
+
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme];
+      }
+      return null;
+    }, [mode, theme]);
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null;
+
+      // Transform data to series format
+      const transformedSeries = transformSimpleLineData(
+        simpleData!,
+        'Series 1',
+        colors[0]
+      );
+
+      return {
+        series: transformedSeries,
+        width,
+        height,
+        grid: grid || preset?.grid,
+        axis: {
+          ...(axis || preset?.axis),
+          x: {
+            ...(axis?.x || preset?.axis?.x),
+          },
+          y: {
+            ...(axis?.y || preset?.axis?.y),
+          }
+        },
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        zoom,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+        onDataPointClick,
+        onDataPointHover
+      };
+    }, [
+      mode,
+      simpleData,
+      theme,
+      preset,
+      width,
+      height,
+      grid,
+      axis,
+      legend,
+      tooltip,
+      zoom,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children,
+      onDataPointClick,
+      onDataPointHover
+    ]);
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('line-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedLineChart ref={ref} {...advancedModeProps!} />
+        </div>
+      );
+    }
+
+    // Render in advanced mode
+    return (
+      <AdvancedLineChart
+        ref={ref}
+        series={series!}
+        width={width}
+        height={height}
+        grid={grid || { enabled: true }}
+        axis={axis || { x: { enabled: true }, y: { enabled: true } }}
+        legend={legend}
+        tooltip={tooltip}
+        zoom={zoom}
+        animate={animate}
+        animationDuration={animationDuration || 1000}
+        colors={colors}
+        className={className}
+        children={children}
+        onDataPointClick={onDataPointClick}
+        onDataPointHover={onDataPointHover}
+      />
+    );
+  }
+);
+
+// ============================================================================
+// Advanced LineChart Component (Core Implementation)
+// ============================================================================
+
+const AdvancedLineChart = forwardRef<SVGSVGElement, Omit<LineChartProps, 'simpleData' | 'title' | 'theme'>>(
   (
     {
       series,
@@ -344,10 +549,8 @@ const LineChart = forwardRef<SVGSVGElement, LineChartProps>(
         y: { enabled: true, tickCount: 5 },
       },
       legend = { enabled: true, position: 'top', align: 'center' },
-      tooltip = { enabled: true, followCursor: false },
-      zoom = { enabled: false },
-      animate = true,
-      animationDuration = 1500,
+      tooltip = { enabled: true, followCursor: false, showValue: true, showSeries: true },
+      zoom = { enabled: false, minZoom: 1, maxZoom: 10 },
       colors = DEFAULT_COLORS,
       className,
       children,
@@ -897,13 +1100,26 @@ const LineChart = forwardRef<SVGSVGElement, LineChartProps>(
   }
 );
 
-LineChart.displayName = 'LineChart';
+LineChart.displayName = 'LineChart'
+
+AdvancedLineChart.displayName = 'AdvancedLineChart'
 
 // ============================================================================
 // Default Props
 // ============================================================================
 
 LineChart.defaultProps = {
+  width: 800,
+  height: 400,
+  theme: 'business',
+  smooth: false,
+  showArea: false,
+  showPoints: true,
+  zoom: { enabled: false },
+  animate: true
+}
+
+AdvancedLineChart.defaultProps = {
   width: 800,
   height: 400,
   margin: { top: 20, right: 30, bottom: 40, left: 50 },
@@ -917,14 +1133,14 @@ LineChart.defaultProps = {
   zoom: { enabled: false },
   animate: true,
   animationDuration: 1500,
-};
+}
 
 // ============================================================================
 // Export
 // ============================================================================
 
 export default LineChart
-export { LineChart };
+export { LineChart, AdvancedLineChart }
 
 export type {
   LineChartProps,
@@ -935,4 +1151,6 @@ export type {
   LegendConfig,
   TooltipConfig,
   ZoomConfig,
-};
+  SimpleTheme,
+  SimpleDataPoint
+}

@@ -2,7 +2,7 @@
 name: "Xorigo UI 迁移架构验证器"
 description: "基于 Xorigo UI v1.4 SSOT 的旧版本到新架构迁移验证工具，协调所有相关 skills 进行强约束迁移审查"
 author: "Xorigo UI Team"
-version: "1.4.0"
+version: "2025.11.05"
 tags: ["migration", "architecture-validation", "ssot-compliance", "skills-coordination", "legacy-refactor"]
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/system",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "主题系统、配置管理、可访问性和弹层管理包",
   "type": "module",
   "sideEffects": false,

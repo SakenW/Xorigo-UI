@@ -2,7 +2,7 @@
 name: "Xorigo UI 性能优化器"
 description: "专门优化 Xorigo UI 组件库的性能，包括代码分析、Bundle 优化、运行时性能监控和渲染优化建议"
 author: "Xorigo UI Team"
-version: "1.0.0"
+version: "2025.11.05"
 tags: ["performance", "optimization", "bundle-analysis", "rendering", "monitoring"]
 ---
 

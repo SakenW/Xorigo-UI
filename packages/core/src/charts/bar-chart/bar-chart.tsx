@@ -14,6 +14,14 @@ import React, {
 } from 'react'
 import { motion, AnimatePresence, MotionProps } from 'framer-motion'
 import { cn } from '../../utils/cn'
+import {
+  SimpleTheme,
+  SimpleDataSeries,
+  transformSimpleBarData,
+  SIMPLE_PRESETS,
+  validateSimpleModeProps,
+  validateAdvancedModeProps,
+} from '../simple-mode/utils'
 
 // ============================================================================
 // Types
@@ -81,7 +89,52 @@ export interface TooltipConfig {
 
 export interface BarChartProps extends Omit<MotionProps, 'children'> {
   /**
-   * Data series for the bar chart
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with data)
+   * Format: [[label, value], [label, value]] or [{ label, value }, { label, value }]
+   * @example
+   * [['Product A', 4000], ['Product B', 3000], ['Product C', 5000]]
+   * or
+   * [{ label: 'Product A', value: 4000 }, { label: 'Product B', value: 3000 }]
+   */
+  simpleData?: Array<[string | number, number]> | Array<SimpleDataSeries>
+
+  /**
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: X-axis label
+   */
+  xAxis?: string
+
+  /**
+   * Simple mode: Y-axis label
+   */
+  yAxis?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * Simple mode: Bar chart orientation (alias for direction)
+   * @default 'vertical'
+   */
+  orientation?: 'vertical' | 'horizontal'
+
+  /**
+   * Simple mode: Show values on bars
+   * @default false
+   */
+  showValues?: boolean
+
+  /**
+   * === Advanced Mode ===
+   * Data series for the bar chart (mutually exclusive with simpleData)
    * @example
    * [
    *   {
@@ -96,13 +149,31 @@ export interface BarChartProps extends Omit<MotionProps, 'children'> {
    *   }
    * ]
    */
-  data: DataSeries[]
+  data?: DataSeries[]
 
   /**
-   * Bar chart direction
+   * Bar chart direction (advanced mode, also available as alias for orientation in simple mode)
    * @default 'vertical'
    */
   direction?: 'vertical' | 'horizontal'
+
+  /**
+   * Bar chart variant type (advanced mode)
+   * @default 'default'
+   */
+  variant?: 'default' | 'grouped' | 'stacked' | 'percentage'
+
+  /**
+   * Gap between bars in a group (advanced mode)
+   * @default 4
+   */
+  barGap?: number
+
+  /**
+   * Gap between bar categories (advanced mode)
+   * @default 20
+   */
+  barCategoryGap?: number
 
   /**
    * Bar chart variant type
@@ -191,6 +262,12 @@ export interface BarChartProps extends Omit<MotionProps, 'children'> {
   onBarClick?: (data: DataPoint & { seriesId: string }) => void
   onBarHover?: (data: DataPoint & { seriesId: string } | null) => void
 
+  // Internal: Keep for backward compatibility but mark as deprecated
+  /**
+   * @deprecated Use 'data' for advanced mode or 'simpleData' for simple mode
+   */
+  series?: DataSeries[]
+
   // Inherited from forwardRef
   ref?: React.Ref<HTMLDivElement>
 }
@@ -248,10 +325,183 @@ const createLinearScale = (
 }
 
 // ============================================================================
-// BarChart Component
+// BarChart Component with Mode Switching
 // ============================================================================
 
 const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
+  (
+    {
+      simpleData,
+      title,
+      xAxis,
+      yAxis,
+      theme = 'business',
+      orientation,
+      showValues = false,
+      data,
+      direction = 'vertical',
+      variant,
+      width = 800,
+      height = 400,
+      margin = { top: 20, right: 30, bottom: 40, left: 50 },
+      grid,
+      axis,
+      legend,
+      tooltip,
+      animate = true,
+      animationDuration,
+      colors = DEFAULT_COLORS,
+      className,
+      barGap = 4,
+      barCategoryGap = 20,
+      children,
+      onBarClick,
+      onBarHover,
+      series,
+      ...motionProps
+    },
+    ref
+  ) => {
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !data) {
+        return 'simple'
+      }
+      if (data && !simpleData) {
+        return 'advanced'
+      }
+      throw new Error('BarChart: Must provide either "simpleData" (simple mode) or "data" (advanced mode), but not both')
+    }, [simpleData, data])
+
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme]
+      }
+      return null
+    }, [mode, theme])
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null
+
+      // Transform data to series format
+      const transformedSeries = transformSimpleBarData(
+        simpleData!,
+        title || yAxis || 'Data'
+      )[0]
+
+      // Use orientation as direction if provided
+      const finalDirection = orientation || 'vertical'
+
+      return {
+        data: [transformedSeries],
+        direction: finalDirection,
+        variant: 'default' as const,
+        width,
+        height,
+        margin,
+        grid: grid || preset?.grid,
+        axis: {
+          ...(axis || preset?.axis),
+          x: {
+            ...(axis?.x || preset?.axis?.x),
+            label: xAxis
+          },
+          y: {
+            ...(axis?.y || preset?.axis?.y),
+            label: yAxis
+          }
+        },
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        showValues,
+        barGap,
+        barCategoryGap,
+        children,
+        onBarClick,
+        onBarHover
+      }
+    }, [
+      mode,
+      simpleData,
+      title,
+      yAxis,
+      orientation,
+      xAxis,
+      theme,
+      preset,
+      width,
+      height,
+      margin,
+      grid,
+      axis,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      showValues,
+      barGap,
+      barCategoryGap,
+      children,
+      onBarClick,
+      onBarHover
+    ])
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('bar-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedBarChart ref={ref} {...advancedModeProps!} />
+        </div>
+      )
+    }
+
+    // Render in advanced mode
+    return (
+      <AdvancedBarChart
+        ref={ref}
+        data={data!}
+        direction={direction}
+        variant={variant || 'default'}
+        width={width}
+        height={height}
+        margin={margin}
+        grid={grid || { enabled: true }}
+        axis={axis || {
+          x: { enabled: true, tickCount: 5 },
+          y: { enabled: true, tickCount: 5 },
+        }}
+        legend={legend || { enabled: true, position: 'top', align: 'center' }}
+        tooltip={tooltip || { enabled: true, followCursor: false }}
+        animate={animate}
+        animationDuration={animationDuration || 1000}
+        colors={colors}
+        className={className}
+        showValues={showValues}
+        barGap={barGap}
+        barCategoryGap={barCategoryGap}
+        children={children}
+        onBarClick={onBarClick}
+        onBarHover={onBarHover}
+      />
+    )
+  }
+)
+
+// Advanced BarChart component (original implementation)
+const AdvancedBarChart = forwardRef<HTMLDivElement, Omit<BarChartProps, 'simpleData' | 'title' | 'xAxis' | 'yAxis' | 'theme' | 'orientation' | 'series'>>(
   (
     {
       data,
@@ -808,12 +1058,25 @@ const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 )
 
 BarChart.displayName = 'BarChart'
+AdvancedBarChart.displayName = 'AdvancedBarChart'
 
 // ============================================================================
 // Default Props
 // ============================================================================
 
 BarChart.defaultProps = {
+  width: 800,
+  height: 400,
+  theme: 'business',
+  orientation: 'vertical',
+  showValues: false,
+  direction: 'vertical',
+  barGap: 4,
+  barCategoryGap: 20,
+  animate: true
+}
+
+AdvancedBarChart.defaultProps = {
   width: 800,
   height: 400,
   margin: { top: 20, right: 30, bottom: 40, left: 50 },
@@ -838,7 +1101,7 @@ BarChart.defaultProps = {
 // ============================================================================
 
 export default BarChart
-export { BarChart }
+export { BarChart, AdvancedBarChart }
 
 export type {
   BarChartProps,
@@ -848,4 +1111,7 @@ export type {
   AxisConfig,
   LegendConfig,
   TooltipConfig,
+  SimpleTheme,
+  SimpleDataSeries
 }
+

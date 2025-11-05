@@ -1,478 +1,546 @@
 /**
- * DonutChart - 环形图组件
- *
- * 为图表提供环形图显示，支持中心文本、多层环形、百分比显示等特性。
- * 这是图表组件库的核心组件，基于 ChartContainer 构建。
+ * @fileoverview DonutChart component - A flexible, animated donut chart visualization
+ * @version 1.0.0
+ * @author Xorigo UI Team
  */
 
-import React, { forwardRef, useId, useMemo } from 'react'
-import { motion, MotionProps } from 'framer-motion'
-import { ChartContainer } from '../chart-container/chart-container'
-import { Legend, type LegendItem } from '../legend/legend'
-import { ChartTooltip, type TooltipData } from '../chart-tooltip/chart-tooltip'
-import { cn } from '../../utils/cn'
+import React, {
+  forwardRef,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '../../utils/cn';
+import {
+  SimpleTheme,
+  transformSimplePieData,
+  SIMPLE_PRESETS,
+  isSimpleMode,
+  isAdvancedMode,
+  validateSimpleModeProps,
+  validateAdvancedModeProps,
+} from '../simple-mode/utils';
 
 // ============================================================================
-// Props Type Definitions
+// Types
 // ============================================================================
 
-export interface DonutDataPoint {
-  /**
-   * 数据点的唯一标识
-   */
-  id: string | number
-
-  /**
-   * 数据点的标签
-   */
-  label: string
-
-  /**
-   * 数据点的值
-   */
-  value: number
-
-  /**
-   * 数据点的颜色
-   */
-  color: string
-
-  /**
-   * 数据点是否可见
-   */
-  visible?: boolean
-
-  /**
-   * 自定义数据
-   */
-  [key: string]: any
+export interface DataPoint {
+  x: number | string | Date;
+  y: number;
+  label?: string;
+  metadata?: Record<string, any>;
 }
 
-export interface DonutChartProps extends Omit<MotionProps, 'children'> {
+export interface DataSeries {
+  id: string;
+  name: string;
+  data: DataPoint[];
+  color?: string;
+  strokeWidth?: number;
+  strokeDasharray?: string;
+  bar?: {
+    enabled: boolean;
+    width?: number;
+    radius?: number;
+  };
+  points?: {
+    enabled: boolean;
+    radius?: number;
+    hoverRadius?: number;
+  };
+  smooth?: boolean;
+  step?: boolean;
+}
+
+export interface GridConfig {
+  enabled: boolean;
+  x?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  y?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  color?: string;
+  opacity?: number;
+}
+
+export interface AxisConfig {
+  x: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: any) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+  y: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: number) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+}
+
+export interface LegendConfig {
+  enabled: boolean;
+  position?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
+}
+
+export interface TooltipConfig {
+  enabled: boolean;
+  followCursor?: boolean;
+  showValue?: boolean;
+  showSeries?: boolean;
+  offset?: number;
+}
+
+export interface DonutChartProps {
   /**
-   * 图表数据
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with data)
+   * Format: [{ name, value }, { name, value }]
+   * @example
+   * [
+   *   { name: 'Desktop', value: 4000 },
+   *   { name: 'Mobile', value: 3000 },
+   *   { name: 'Tablet', value: 2000 }
+   * ]
    */
-  data: DonutDataPoint[]
+  simpleData?: Array<{ name: string, value: number }>
 
   /**
-   * 环形图的内部半径比例（0-1）
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * === Advanced Mode ===
+   * Data source (mutually exclusive with simpleData)
+   */
+  data?: DataPoint[]
+
+  /**
+   * Chart size in pixels
+   * @default 400
+   */
+  size?: number
+
+  /**
+   * Inner radius for donut chart (0-1 ratio)
+   * @default 0.6
    */
   innerRadius?: number
 
   /**
-   * 是否显示中心文本
+   * Legend configuration
    */
-  showCenterText?: boolean
+  legend?: LegendConfig
 
   /**
-   * 中心文本的内容
+   * Tooltip configuration
    */
-  centerText?: string
+  tooltip?: TooltipConfig
 
   /**
-   * 中心文本的副标题
+   * Animation configuration
    */
-  centerSubtitle?: string
+  animate?: boolean;
+  animationDuration?: number;
 
   /**
-   * 是否显示百分比
+   * Color palette override
    */
-  showPercentage?: boolean
+  colors?: string[];
 
   /**
-   * 是否显示图例
+   * Additional CSS class name
    */
-  showLegend?: boolean
+  className?: string;
 
   /**
-   * 是否显示工具提示
+   * Children content (custom overlays)
    */
-  showTooltip?: boolean
+  children?: React.ReactNode;
 
   /**
-   * 工具提示的自定义渲染函数
+   * Event handlers
    */
-  tooltipFormatter?: (data: DonutDataPoint) => React.ReactNode
+  onSliceClick?: (data: { name: string, value: number, percentage: number, index: number }) => void;
 
-  /**
-   * 是否显示连接线
-   */
-  showLabels?: boolean
-
-  /**
-   * 标签的位置
-   */
-  labelPosition?: 'inside' | 'outside'
-
-  /**
-   * 饼图的起始角度（度数）
-   */
-  startAngle?: number
-
-  /**
-   * 环形图的厚度
-   */
-  thickness?: number
-
-  /**
-   * 环形图的样式类名
-   */
-  className?: string
-
-  /**
-   * 自定义样式
-   */
-  style?: React.CSSProperties
-
-  /**
-   * 图表的高度
-   */
-  height?: number | string
-
-  /**
-   * 图表的宽度
-   */
-  width?: number | string
-
-  /**
-   * 是否启用选择模式
-   */
-  interactive?: boolean
-
-  /**
-   * 选中数据点的索引
-   */
-  selectedIndex?: number | null
+  // Inherited from forwardRef
+  ref?: React.Ref<SVGSVGElement>;
 }
 
+// Export SimpleDataPoint from utils
+export type SimpleDataPoint = {
+  x: string | number;
+  y: number;
+};
+
 // ============================================================================
-// Component Implementation
+// Constants & Utils
 // ============================================================================
 
-/**
- * DonutChart 组件
- *
- * 为图表提供环形图显示，包含：
- * - 可配置的内部半径和厚度
-  * - 中心文本和副标题支持
-  * - 百分比显示
-  * - 图例和工具提示支持
-  * - 交互式选择
-  * - 主题系统集成
-  */
-export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
+const DEFAULT_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+];
+
+// Calculate arc path
+const calculateArcPath = (
+  cx: number,
+  cy: number,
+  radius: number,
+  innerRadius: number,
+  startAngle: number,
+  endAngle: number
+) => {
+  const start = (startAngle - 90) * (Math.PI / 180);
+  const end = (endAngle - 90) * (Math.PI / 180);
+
+  const x1 = cx + radius * Math.cos(start);
+  const y1 = cy + radius * Math.sin(start);
+  const x2 = cx + radius * Math.cos(end);
+  const y2 = cy + radius * Math.sin(end);
+
+  const isDonut = innerRadius > 0;
+
+  if (isDonut) {
+    const x3 = cx + innerRadius * Math.cos(end);
+    const y3 = cy + innerRadius * Math.sin(end);
+    const x4 = cx + innerRadius * Math.cos(start);
+    const y4 = cy + innerRadius * Math.sin(start);
+
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+
+    return [
+      'M', x1, y1,
+      'A', radius, radius, 0, largeArc, 1, x2, y2,
+      'L', x3, y3,
+      'A', innerRadius, innerRadius, 0, largeArc, 0, x4, y4,
+      'Z'
+    ].join(' ');
+  }
+
+  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+
+  return [
+    'M', cx, cy,
+    'L', x1, y1,
+    'A', radius, radius, 0, largeArc, 1, x2, y2,
+    'Z'
+  ].join(' ');
+};
+
+// ============================================================================
+// DonutChart Component
+// ============================================================================
+
+const DonutChart = forwardRef<SVGSVGElement, DonutChartProps>(
   (
     {
+      simpleData,
+      title,
+      theme = 'business',
       data,
+      size = 400,
       innerRadius = 0.6,
-      showCenterText = true,
-      centerText,
-      centerSubtitle,
-      showPercentage = true,
-      showLegend = true,
-      showTooltip = true,
-      tooltipFormatter,
-      showLabels = false,
-      labelPosition = 'outside',
-      startAngle = -90,
-      thickness = 20,
+      legend = { enabled: true, position: 'right', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
       className,
-      style,
-      height = 300,
-      width = '100%',
-      interactive = true,
-      selectedIndex = null,
-      ...motionProps
+      children,
+      onSliceClick,
     },
     ref
   ) => {
-    const id = useId()
-
-    // 计算图表的尺寸
-    const chartSize = Math.min(
-      typeof width === 'number' ? width : 500,
-      typeof height === 'number' ? height : 300
-    )
-    const centerX = chartSize / 2
-    const centerY = chartSize / 2
-    const radius = (chartSize / 2) - 40
-    const outerRadius = radius
-    const innerR = radius * innerRadius
-
-    // 计算总值
-    const totalValue = useMemo(() => {
-      return data
-        .filter(item => item.visible !== false)
-        .reduce((sum, item) => sum + item.value, 0)
-    }, [data])
-
-    // 过滤可见数据
-    const visibleData = useMemo(() => {
-      return data.filter(item => item.visible !== false)
-    }, [data])
-
-    // 计算角度
-    const getAngle = (value: number, index: number) => {
-      const percentage = value / totalValue
-      const angle = (percentage * 360)
-      const start = index === 0 ? startAngle : startAngle + visibleData.slice(0, index).reduce((sum, item) => sum + (item.value / totalValue * 360), 0)
-      return { startAngle: start, endAngle: start + angle }
-    }
-
-    // 创建路径
-    const createArcPath = (cx: number, cy: number, r: number, ir: number, startAngle: number, endAngle: number) => {
-      const start = polarToCartesian(cx, cy, r, endAngle)
-      const end = polarToCartesian(cx, cy, r, startAngle)
-      const innerStart = polarToCartesian(cx, cy, ir, endAngle)
-      const innerEnd = polarToCartesian(cx, cy, ir, startAngle)
-
-      const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1'
-
-      const d = [
-        'M', start.x, start.y,
-        'A', r, r, 0, largeArcFlag, 0, end.x, end.y,
-        'L', innerEnd.x, innerEnd.y,
-        'A', ir, ir, 0, largeArcFlag, 1, innerStart.x, innerStart.y,
-        'Z'
-      ].join(' ')
-
-      return d
-    }
-
-    // 极坐标转笛卡尔坐标
-    const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
-      const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0
-      return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !data) {
+        return 'simple';
       }
+      if (data && !simpleData) {
+        return 'advanced';
+      }
+      throw new Error('DonutChart: Must provide either "simpleData" (simple mode) or "data" (advanced mode), but not both');
+    }, [simpleData, data]);
+
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme];
+      }
+      return null;
+    }, [mode, theme]);
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null;
+
+      // Transform data to DataPoint format
+      const transformedData = transformSimplePieData(simpleData!).map((item, index) => ({
+        x: item.name,
+        y: item.value,
+        label: item.name
+      }));
+
+      return {
+        data: transformedData,
+        size,
+        innerRadius,
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+        onSliceClick
+      };
+    }, [
+      mode,
+      simpleData,
+      theme,
+      preset,
+      size,
+      innerRadius,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children,
+      onSliceClick
+    ]);
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('donut-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedDonutChart ref={ref} {...advancedModeProps!} />
+        </div>
+      );
     }
 
-    // 计算百分比
-    const getPercentage = (value: number) => {
-      return ((value / totalValue) * 100).toFixed(1)
-    }
+    // Render in advanced mode
+    return (
+      <AdvancedDonutChart
+        ref={ref}
+        data={data!}
+        size={size}
+        innerRadius={innerRadius}
+        legend={legend}
+        tooltip={tooltip}
+        animate={animate}
+        animationDuration={animationDuration}
+        colors={colors}
+        className={className}
+        children={children}
+        onSliceClick={onSliceClick}
+      />
+    );
+  }
+);
 
-    // 计算标签位置
-    const getLabelPosition = (item: DonutDataPoint, index: number) => {
-      const angle = getAngle(item.value, index)
-      const midAngle = (angle.startAngle + angle.endAngle) / 2
-      const labelRadius = labelPosition === 'inside' ? (outerRadius + innerR) / 2 : outerRadius + 30
-      const pos = polarToCartesian(centerX, centerY, labelRadius, midAngle)
-      return pos
-    }
+// Advanced DonutChart component (core implementation)
+const AdvancedDonutChart = forwardRef<SVGSVGElement, Omit<DonutChartProps, 'simpleData' | 'title' | 'theme'>>(
+  (
+    {
+      data,
+      size = 400,
+      innerRadius = 0.6,
+      legend = { enabled: true, position: 'right', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onSliceClick,
+    },
+    ref
+  ) => {
+    const radius = size / 2;
+    const finalInnerRadius = radius * innerRadius;
 
-    // 计算图例项
-    const legendItems: LegendItem[] = visibleData.map((item, index) => ({
-      id: String(item.id),
-      label: item.label,
-      color: item.color,
-      visible: item.visible !== false
-    }))
+    // Calculate total and percentages
+    const total = useMemo(() => {
+      return data.reduce((sum, item) => sum + item.y, 0);
+    }, [data]);
 
-    // 工具提示处理
-    const [tooltipData, setTooltipData] = React.useState<TooltipData | null>(null)
+    // Calculate angles
+    const processedData = useMemo(() => {
+      let currentAngle = 0;
+      return data.map((item, index) => {
+        const angle = (item.y / total) * 360;
+        const startAngle = currentAngle;
+        const endAngle = currentAngle + angle;
+        currentAngle += angle;
 
-    const handleMouseEnter = (item: DonutDataPoint, index: number, event: React.MouseEvent<SVGElement>) => {
-      if (!showTooltip) return
+        const percentage = (item.y / total) * 100;
 
-      const rect = event.currentTarget.getBoundingClientRect()
-      const x = rect.left + rect.width / 2
-      const y = rect.top
+        return {
+          ...item,
+          percentage,
+          startAngle,
+          endAngle,
+          color: item.metadata?.color || colors[index % colors.length]
+        };
+      });
+    }, [data, total, colors]);
 
-      const tooltipContent = tooltipFormatter
-        ? tooltipFormatter(item)
-        : `${item.label}: ${item.value} (${getPercentage(item.value)}%)`
-
-      setTooltipData({
-        id: String(item.id),
-        title: item.label,
-        content: tooltipContent,
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-        color: item.color,
-        value: item.value
-      })
-    }
-
-    const handleMouseLeave = () => {
-      setTooltipData(null)
-    }
-
-    // 处理点击选择
-    const handleClick = (index: number) => {
-      if (!interactive) return
-      // 这里可以添加选择逻辑
-    }
+    const handleSliceClick = (item: any, index: number) => {
+      onSliceClick?.({
+        name: String(item.x),
+        value: item.y,
+        percentage: item.percentage,
+        index
+      });
+    };
 
     return (
-      <div
-        ref={ref}
-        id={id}
-        className={cn('donut-chart', className)}
-        style={{ width, height: typeof height === 'number' ? `${height}px` : height, ...style }}
-        {...motionProps}
-      >
-        <ChartContainer height={height}>
-          <div className="flex items-center justify-center">
-            <svg
-              width={chartSize}
-              height={chartSize}
-              className="overflow-visible"
-            >
-              {/* 环形段 */}
-              {visibleData.map((item, index) => {
-                const angle = getAngle(item.value, index)
-                const pathData = createArcPath(centerX, centerY, outerRadius, innerR, angle.startAngle, angle.endAngle)
-                const isSelected = selectedIndex === index
+      <div className={cn('relative inline-block', className)}>
+        <svg
+          ref={ref}
+          width={size}
+          height={size}
+          className="overflow-visible"
+          role="img"
+          aria-label="Donut chart visualization"
+        >
+          <title>Donut Chart</title>
+          <desc>
+            Donut chart displaying {data.length} categories with total value of {total}
+          </desc>
+
+          <g transform={`translate(${size / 2}, ${size / 2})`}>
+            <AnimatePresence>
+              {processedData.map((item, index) => {
+                const path = calculateArcPath(
+                  0,
+                  0,
+                  radius,
+                  finalInnerRadius,
+                  item.startAngle,
+                  item.endAngle
+                );
 
                 return (
                   <motion.path
-                    key={item.id}
-                    d={pathData}
+                    key={`slice-${index}`}
+                    d={path}
                     fill={item.color}
-                    stroke="var(--color-surface)"
-                    strokeWidth={2}
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    onMouseEnter={(e) => handleMouseEnter(item, index, e)}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => handleClick(index)}
-                    className={cn(
-                      'cursor-pointer transition-all duration-200',
-                      interactive && 'hover:opacity-80',
-                      isSelected && 'opacity-90'
-                    )}
-                    style={{
-                      transform: isSelected ? 'scale(1.05)' : 'scale(1)',
-                      transformOrigin: `${centerX}px ${centerY}px`
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={animate ? { opacity: 1, scale: 1 } : {}}
+                    transition={{
+                      duration: (animationDuration / 1000),
+                      delay: index * 0.1
                     }}
+                    className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                    onClick={() => handleSliceClick(item, index)}
                   />
-                )
+                );
               })}
+            </AnimatePresence>
+          </g>
 
-              {/* 标签线 */}
-              {showLabels && (
-                <>
-                  {visibleData.map((item, index) => {
-                    const angle = getAngle(item.value, index)
-                    const midAngle = (angle.startAngle + angle.endAngle) / 2
-                    const labelRadius = labelPosition === 'inside' ? (outerRadius + innerR) / 2 : outerRadius + 10
-                    const labelPos = polarToCartesian(centerX, centerY, labelRadius, midAngle)
-                    const lineEnd = polarToCartesian(centerX, centerY, outerRadius + 20, midAngle)
+          {/* Custom children overlay */}
+          {children && (
+            <g className="overlay">{children}</g>
+          )}
+        </svg>
 
-                    return (
-                      <g key={`label-${item.id}`}>
-                        <line
-                          x1={labelPos.x}
-                          y1={labelPos.y}
-                          x2={lineEnd.x}
-                          y2={lineEnd.y}
-                          stroke="var(--color-border)"
-                          strokeWidth={1}
-                          opacity={0.6}
-                        />
-                        <text
-                          x={lineEnd.x + 10}
-                          y={lineEnd.y}
-                          fill="var(--color-text-primary)"
-                          fontSize={12}
-                          dominantBaseline="middle"
-                        >
-                          {item.label}
-                        </text>
-                      </g>
-                    )
-                  })}
-                </>
-              )}
-
-              {/* 中心文本 */}
-              {showCenterText && (
-                <g>
-                  {centerText && (
-                    <text
-                      x={centerX}
-                      y={centerY - 5}
-                      textAnchor="middle"
-                      fill="var(--color-text-primary)"
-                      fontSize={20}
-                      fontWeight="bold"
-                    >
-                      {centerText}
-                    </text>
-                  )}
-                  {centerSubtitle && (
-                    <text
-                      x={centerX}
-                      y={centerY + 15}
-                      textAnchor="middle"
-                      fill="var(--color-text-secondary)"
-                      fontSize={14}
-                    >
-                      {centerSubtitle}
-                    </text>
-                  )}
-                  {showPercentage && !centerText && (
-                    <>
-                      <text
-                        x={centerX}
-                        y={centerY - 5}
-                        textAnchor="middle"
-                        fill="var(--color-text-primary)"
-                        fontSize={20}
-                        fontWeight="bold"
-                      >
-                        {totalValue}
-                      </text>
-                      <text
-                        x={centerX}
-                        y={centerY + 15}
-                        textAnchor="middle"
-                        fill="var(--color-text-secondary)"
-                        fontSize={14}
-                      >
-                        总计
-                      </text>
-                    </>
-                  )}
-                </g>
-              )}
-            </svg>
+        {/* Legend */}
+        {legend.enabled && (
+          <div
+            className={cn(
+              'flex gap-4 mt-4',
+              legend.position === 'top' && 'justify-center',
+              legend.position === 'left' && 'justify-start',
+              legend.position === 'right' && 'justify-end',
+              legend.position === 'bottom' && 'justify-center'
+            )}
+          >
+            {processedData.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div
+                  className="w-4 h-4 rounded"
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-sm text-foreground">
+                  {item.x} ({item.percentage.toFixed(1)}%)
+                </span>
+              </div>
+            ))}
           </div>
-
-          {/* 图例 */}
-          {showLegend && legendItems.length > 0 && (
-            <div className="mt-4">
-              <Legend
-                items={legendItems}
-                orientation="horizontal"
-                align="center"
-                gap={20}
-              />
-            </div>
-          )}
-
-          {/* 工具提示 */}
-          {showTooltip && (
-            <ChartTooltip
-              data={tooltipData || undefined}
-              visible={!!tooltipData}
-              position="top"
-              variant="default"
-            />
-          )}
-        </ChartContainer>
+        )}
       </div>
-    )
+    );
   }
-)
+);
 
 DonutChart.displayName = 'DonutChart'
+AdvancedDonutChart.displayName = 'AdvancedDonutChart'
+
+// ============================================================================
+// Default Props
+// ============================================================================
+
+DonutChart.defaultProps = {
+  size: 400,
+  theme: 'business',
+  innerRadius: 0.6,
+  animate: true
+}
+
+AdvancedDonutChart.defaultProps = {
+  size: 400,
+  innerRadius: 0.6,
+  legend: { enabled: true, position: 'right', align: 'center' },
+  tooltip: { enabled: true, showValue: true, showPercentage: true },
+  animate: true,
+  animationDuration: 1000,
+}
 
 // ============================================================================
 // Export
 // ============================================================================
 
-export type { DonutChartProps, DonutDataPoint }
+export default DonutChart
+export { DonutChart, AdvancedDonutChart }
+
+export type {
+  DonutChartProps,
+  DataPoint,
+  DataSeries,
+  GridConfig,
+  AxisConfig,
+  LegendConfig,
+  TooltipConfig,
+  SimpleTheme,
+  SimpleDataPoint
+}

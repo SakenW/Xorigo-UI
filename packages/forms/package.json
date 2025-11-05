@@ -1,6 +1,6 @@
 {
   "name": "@xorigo-ui/forms",
-  "version": "2025.11.03",
+  "version": "2025.11.05",
   "description": "Xorigo UI Forms - Form components layer",
   "type": "module",
   "main": "./dist/index.cjs.js",

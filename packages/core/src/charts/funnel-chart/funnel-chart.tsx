@@ -1,528 +1,555 @@
 /**
- * FunnelChart - 漏斗图组件
- *
- * 为图表提供漏斗图显示，支持转化漏斗、销售漏斗等多种场景。
- * 基于 ChartContainer 构建，集成七轴主题系统和 Framer Motion 动画。
+ * @fileoverview FunnelChart component - A flexible, animated funnel chart visualization
+ * @version 1.0.0
+ * @author Xorigo UI Team
  */
 
-import React, { forwardRef, useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChartContainer } from '../chart-container/chart-container'
-import { Legend, type LegendItem } from '../legend/legend'
-import { ChartTooltip, type TooltipData } from '../chart-tooltip/chart-tooltip'
-import { cn } from '../../utils/cn'
-import { useSevenAxisTheme } from '../../theme/use-theme'
+import React, {
+  forwardRef,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '../../utils/cn';
+import {
+  SimpleTheme,
+  transformSimplePieData,
+  SIMPLE_PRESETS,
+  isSimpleMode,
+  isAdvancedMode,
+  validateSimpleModeProps,
+  validateAdvancedModeProps,
+} from '../simple-mode/utils';
 
 // ============================================================================
-// Props Type Definitions
+// Types
 // ============================================================================
 
-export interface FunnelDataPoint {
-  /**
-   * 阶段名称
-   */
-  label: string
-
-  /**
-   * 阶段数值
-   */
-  value: number
-
-  /**
-   * 阶段颜色
-   */
-  color?: string
-
-  /**
-   * 阶段描述
-   */
-  description?: string
-
-  /**
-   * 自定义数据
-   */
-  [key: string]: any
+export interface DataPoint {
+  x: number | string | Date;
+  y: number;
+  label?: string;
+  metadata?: Record<string, any>;
 }
 
-export interface FunnelChartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface DataSeries {
+  id: string;
+  name: string;
+  data: DataPoint[];
+  color?: string;
+  strokeWidth?: number;
+  strokeDasharray?: string;
+  bar?: {
+    enabled: boolean;
+    width?: number;
+    radius?: number;
+  };
+  points?: {
+    enabled: boolean;
+    radius?: number;
+    hoverRadius?: number;
+  };
+  smooth?: boolean;
+  step?: boolean;
+}
+
+export interface GridConfig {
+  enabled: boolean;
+  x?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  y?: {
+    enabled: boolean;
+    tickCount?: number;
+  };
+  color?: string;
+  opacity?: number;
+}
+
+export interface AxisConfig {
+  x: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: any) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+  y: {
+    enabled: boolean;
+    tickCount?: number;
+    tickFormat?: (value: number) => string;
+    label?: string;
+    labelOffset?: number;
+  };
+}
+
+export interface LegendConfig {
+  enabled: boolean;
+  position?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
+}
+
+export interface TooltipConfig {
+  enabled: boolean;
+  followCursor?: boolean;
+  showValue?: boolean;
+  showSeries?: boolean;
+  offset?: number;
+}
+
+export interface FunnelChartProps {
   /**
-   * 漏斗图数据
+   * === Simple Mode ===
+   * Simplified data format (mutually exclusive with data)
+   * Format: [{ name, value }, { name, value }]
+   * @example
+   * [
+   *   { name: '访问', value: 10000 },
+   *   { name: '注册', value: 5000 },
+   *   { name: '付费', value: 1000 }
+   * ]
    */
-  data: FunnelDataPoint[]
+  simpleData?: Array<{ name: string, value: number }>
 
   /**
-   * 漏斗图的方向
+   * Simple mode: Chart title
+   */
+  title?: string
+
+  /**
+   * Simple mode: Preset theme
+   * @default 'business'
+   */
+  theme?: SimpleTheme
+
+  /**
+   * === Advanced Mode ===
+   * Data source (mutually exclusive with simpleData)
+   */
+  data?: DataPoint[]
+
+  /**
+   * Chart size in pixels
+   * @default 400
+   */
+  size?: number
+
+  /**
+   * Funnel chart direction
+   * @default 'top-to-bottom'
    */
   direction?: 'top-to-bottom' | 'bottom-to-top'
 
   /**
-   * 是否显示百分比
+   * Whether to show percentage
+   * @default true
    */
   showPercentage?: boolean
 
   /**
-   * 是否显示数值
+   * Whether to show value
+   * @default true
    */
   showValue?: boolean
 
   /**
-   * 是否显示标签
+   * Whether to show label
+   * @default true
    */
   showLabel?: boolean
 
   /**
-   * 是否显示图例
+   * Legend configuration
    */
-  showLegend?: boolean
+  legend?: LegendConfig
 
   /**
-   * 是否显示工具提示
+   * Tooltip configuration
    */
-  showTooltip?: boolean
+  tooltip?: TooltipConfig
 
   /**
-   * 工具提示的自定义渲染函数
+   * Animation configuration
    */
-  tooltipFormatter?: (data: FunnelDataPoint, index: number) => React.ReactNode
+  animate?: boolean;
+  animationDuration?: number;
 
   /**
-   * 阶段点击回调
+   * Color palette override
    */
-  onStageClick?: (data: FunnelDataPoint, index: number) => void
+  colors?: string[];
 
   /**
-   * 阶段高度
+   * Additional CSS class name
    */
-  stageHeight?: number
+  className?: string;
 
   /**
-   * 阶段之间的间距
+   * Children content (custom overlays)
    */
-  stageGap?: number
+  children?: React.ReactNode;
 
   /**
-   * 动画持续时间（秒）
+   * Event handlers
    */
-  animationDuration?: number
+  onStageClick?: (data: { name: string, value: number, percentage: number, index: number }) => void;
 
-  /**
-   * 漏斗图的样式变体
-   */
-  variant?: 'default' | 'gradient' | 'solid'
-
-  /**
-   * 是否显示描边
-   */
-  showStroke?: boolean
-
-  /**
-   * 自定义百分比格式化函数
-   */
-  formatPercentage?: (percentage: number) => string
-
-  /**
-   * 自定义数值格式化函数
-   */
-  formatValue?: (value: number) => string
-
-  /**
-   * 图例位置
-   */
-  legendPosition?: 'top' | 'right' | 'bottom' | 'left'
-
-  /**
-   * 图表的高度
-   */
-  height?: number | string
-
-  /**
-   * 图表的宽度
-   */
-  width?: number | string
-
-  /**
-   * 最大宽度（漏斗图顶部宽度）
-   */
-  maxWidth?: number | string
-
-  /**
-   * 最小宽度（漏斗图底部宽度）
-   */
-  minWidth?: number | string
+  // Inherited from forwardRef
+  ref?: React.Ref<SVGSVGElement>;
 }
 
-// ============================================================================
-// Utility Functions
-// ============================================================================
-
-const generateGradient = (
-  color: string,
-  theme: 'light' | 'dark' = 'light'
-): string => {
-  // 简单的颜色渐变生成
-  const hex = color.replace('#', '')
-  const r = parseInt(hex.substring(0, 2), 16)
-  const g = parseInt(hex.substring(2, 4), 16)
-  const b = parseInt(hex.substring(4, 6), 16)
-
-  const lighten = (c: number, amount: number) =>
-    Math.round(c + (255 - c) * amount)
-
-  const lightened = `rgba(${lighten(r, 0.3)}, ${lighten(g, 0.3)}, ${lighten(b, 0.3)}, 0.8)`
-  const original = `rgba(${r}, ${g}, ${b}, 0.8)`
-
-  return `linear-gradient(180deg, ${original} 0%, ${lightened} 100%)`
-}
+// Export SimpleDataPoint from utils
+export type SimpleDataPoint = {
+  x: string | number;
+  y: number;
+};
 
 // ============================================================================
-// Component Implementation
+// Constants & Utils
 // ============================================================================
 
-/**
- * FunnelChart 组件
- *
- * 为图表提供漏斗图显示，包含：
- * - 支持转化漏斗、销售漏斗等场景
- * - 可配置百分比、数值和标签显示
- * - 支持图例和工具提示
- * - 集成主题系统和动画效果
- */
-export const FunnelChart = forwardRef<HTMLDivElement, FunnelChartProps>(
+const DEFAULT_COLORS = [
+  'hsl(var(--chart-1))',
+  'hsl(var(--chart-2))',
+  'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))',
+  'hsl(var(--chart-5))',
+];
+
+// ============================================================================
+// FunnelChart Component
+// ============================================================================
+
+const FunnelChart = forwardRef<SVGSVGElement, FunnelChartProps>(
   (
     {
+      simpleData,
+      title,
+      theme = 'business',
       data,
+      size = 400,
       direction = 'top-to-bottom',
       showPercentage = true,
       showValue = true,
       showLabel = true,
-      showLegend = true,
-      showTooltip = true,
-      tooltipFormatter,
-      onStageClick,
-      stageHeight = 60,
-      stageGap = 8,
-      animationDuration = 0.8,
-      variant = 'default',
-      showStroke = true,
-      formatPercentage,
-      formatValue,
-      legendPosition = 'bottom',
-      height = 400,
-      width = '100%',
-      maxWidth = '100%',
-      minWidth = 100,
+      legend = { enabled: true, position: 'bottom', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
       className,
-      ...props
+      children,
+      onStageClick,
     },
     ref
   ) => {
-    const { theme } = useSevenAxisTheme()
-    const isDark = theme.mode === 'dark'
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+    // Auto-detect mode
+    const mode = useMemo(() => {
+      if (simpleData && !data) {
+        return 'simple';
+      }
+      if (data && !simpleData) {
+        return 'advanced';
+      }
+      throw new Error('FunnelChart: Must provide either "simpleData" (simple mode) or "data" (advanced mode), but not both');
+    }, [simpleData, data]);
 
-    // 计算百分比和尺寸
+    // Get preset configuration for simple mode
+    const preset = useMemo(() => {
+      if (mode === 'simple') {
+        return SIMPLE_PRESETS[theme];
+      }
+      return null;
+    }, [mode, theme]);
+
+    // Transform simple mode props to advanced mode format
+    const advancedModeProps = useMemo(() => {
+      if (mode !== 'simple') return null;
+
+      // Transform data to DataPoint format
+      const transformedData = transformSimplePieData(simpleData!).map((item, index) => ({
+        x: item.name,
+        y: item.value,
+        label: item.name
+      }));
+
+      return {
+        data: transformedData,
+        size,
+        direction,
+        showPercentage,
+        showValue,
+        showLabel,
+        legend: legend || preset?.legend,
+        tooltip: tooltip || preset?.tooltip,
+        animate: animate !== undefined ? animate : preset?.animate,
+        animationDuration: animationDuration || preset?.animationDuration || 1000,
+        colors,
+        className,
+        children,
+        onStageClick
+      };
+    }, [
+      mode,
+      simpleData,
+      theme,
+      preset,
+      size,
+      direction,
+      showPercentage,
+      showValue,
+      showLabel,
+      legend,
+      tooltip,
+      animate,
+      animationDuration,
+      colors,
+      className,
+      children,
+      onStageClick
+    ]);
+
+    // Render in simple mode
+    if (mode === 'simple') {
+      return (
+        <div className={cn('funnel-chart', className)}>
+          {title && (
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
+              {title}
+            </h3>
+          )}
+          <AdvancedFunnelChart ref={ref} {...advancedModeProps!} />
+        </div>
+      );
+    }
+
+    // Render in advanced mode
+    return (
+      <AdvancedFunnelChart
+        ref={ref}
+        data={data!}
+        size={size}
+        direction={direction}
+        showPercentage={showPercentage}
+        showValue={showValue}
+        showLabel={showLabel}
+        legend={legend}
+        tooltip={tooltip}
+        animate={animate}
+        animationDuration={animationDuration}
+        colors={colors}
+        className={className}
+        children={children}
+        onStageClick={onStageClick}
+      />
+    );
+  }
+);
+
+// Advanced FunutChart component (core implementation)
+const AdvancedFunnelChart = forwardRef<SVGSVGElement, Omit<FunnelChartProps, 'simpleData' | 'title' | 'theme'>>(
+  (
+    {
+      data,
+      size = 400,
+      direction = 'top-to-bottom',
+      showPercentage = true,
+      showValue = true,
+      showLabel = true,
+      legend = { enabled: true, position: 'bottom', align: 'center' },
+      tooltip = { enabled: true, showValue: true, showPercentage: true },
+      animate = true,
+      animationDuration = 1000,
+      colors = DEFAULT_COLORS,
+      className,
+      children,
+      onStageClick,
+    },
+    ref
+  ) => {
+    const width = size;
+    const height = size;
+
+    // Calculate total and percentages
+    const total = useMemo(() => {
+      return data.reduce((sum, item) => sum + item.y, 0);
+    }, [data]);
+
+    // Process data with percentages
     const processedData = useMemo(() => {
-      if (!data || data.length === 0) return []
-
-      const maxValue = Math.max(...data.map(d => d.value))
-      const minValue = Math.min(...data.map(d => d.value))
-
       return data.map((item, index) => {
-        const percentage = (item.value / maxValue) * 100
-        const width = minWidth !== undefined
-          ? typeof minWidth === 'number'
-            ? minWidth + (percentage / 100) * (typeof maxWidth === 'number' ? (maxWidth - minWidth) : 300)
-            : `${percentage}%`
-          : `${percentage}%`
+        const percentage = (item.y / total) * 100;
+        const width = (item.y / total) * 100;
 
         return {
           ...item,
-          index,
           percentage,
           width,
-          originalWidth: percentage / 100
-        }
-      })
-    }, [data, minWidth, maxWidth])
+          color: item.metadata?.color || colors[index % colors.length]
+        };
+      });
+    }, [data, total, colors]);
 
-    // 生成颜色方案
-    const colors = useMemo(() => {
-      if (variant === 'solid') {
-        return data.map(d => d.color || 'var(--color-primary)')
-      }
+    const handleStageClick = (item: any, index: number) => {
+      onStageClick?.({
+        name: String(item.x),
+        value: item.y,
+        percentage: item.percentage,
+        index
+      });
+    };
 
-      return data.map((d, i) => {
-        if (d.color) return d.color
-
-        // 使用主题色生成渐变色
-        const baseColors = [
-          'var(--color-primary)',
-          'var(--color-accent)',
-          '#3b82f6',
-          '#8b5cf6',
-          '#ec4899',
-          '#f59e0b'
-        ]
-
-        return baseColors[i % baseColors.length]
-      })
-    }, [data, variant])
-
-    // 生成图例项
-    const legendItems: LegendItem[] = processedData.map((item, index) => ({
-      id: String(index),
-      label: item.label,
-      color: colors[index],
-      visible: true
-    }))
-
-    // 工具提示处理
-    const [tooltipData, setTooltipData] = useState<TooltipData | null>(null)
-
-    const handleMouseEnter = (event: React.MouseEvent, item: FunnelDataPoint, index: number) => {
-      if (!showTooltip) return
-
-      const rect = event.currentTarget.getBoundingClientRect()
-      const tooltipContent = tooltipFormatter
-        ? tooltipFormatter(item, index)
-        : (
-          <div>
-            <p className="font-medium">{item.label}</p>
-            <p>数值: {formatValue ? formatValue(item.value) : item.value}</p>
-            {showPercentage && (
-              <p>
-                占比: {formatPercentage ? formatPercentage(processedData[index].percentage) : `${processedData[index].percentage.toFixed(1)}%`}
-              </p>
-            )}
-            {item.description && <p>{item.description}</p>}
-          </div>
-        )
-
-      setTooltipData({
-        id: String(index),
-        title: item.label,
-        content: tooltipContent,
-        x: 0,
-        y: 0,
-        color: colors[index]
-      })
-    }
-
-    const handleMouseLeave = () => {
-      setHoveredIndex(null)
-      setTooltipData(null)
-    }
-
-    const handleMouseMove = (event: React.MouseEvent) => {
-      if (!tooltipData) return
-
-      const rect = event.currentTarget.getBoundingClientRect()
-      setTooltipData({
-        ...tooltipData,
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      })
-    }
-
-    // 计算漏斗图的总高度
-    const totalHeight = data.length * stageHeight + (data.length - 1) * stageGap
-
-    // 计算中心点
-    const centerX = typeof width === 'number' ? width / 2 : 500
+    // Calculate funnel dimensions
+    const stageHeight = height / data.length;
+    const maxWidth = width * 0.8;
 
     return (
-      <div
-        ref={ref}
-        className={cn('funnel-chart', className)}
-        style={{ width, height, ...props.style }}
-        {...props}
-      >
-        <ChartContainer height={height}>
-          <div className="relative" style={{ width: '100%', height: '100%' }}>
-            {/* 漏斗图阶段 */}
-            <div
-              className="relative mx-auto"
-              style={{
-                width: typeof maxWidth === 'number' ? maxWidth : '100%',
-                height: totalHeight
-              }}
-              onMouseMove={handleMouseMove}
-            >
-              <AnimatePresence>
-                {processedData.map((item, index) => {
-                  const isHovered = hoveredIndex === index
-                  const nextItem = processedData[index + 1]
-                  const prevItem = processedData[index - 1]
+      <div className={cn('relative inline-block', className)}>
+        <svg
+          ref={ref}
+          width={width}
+          height={height}
+          className="overflow-visible"
+          role="img"
+          aria-label="Funnel chart visualization"
+        >
+          <title>Funnel Chart</title>
+          <desc>
+            Funnel chart displaying {data.length} stages with total value of {total}
+          </desc>
 
-                  // 计算当前阶段的宽度（用于梯形绘制）
-                  const currentWidth = item.originalWidth
-                  const nextWidth = nextItem ? nextItem.originalWidth : currentWidth * 0.8
-                  const prevWidth = prevItem ? prevItem.originalWidth : currentWidth
+          <g transform={`translate(${(width - maxWidth) / 2}, 0)`}>
+            <AnimatePresence>
+              {processedData.map((item, index) => {
+                const currentWidth = (maxWidth * item.width) / 100;
+                const nextItem = processedData[index + 1];
+                const nextWidth = nextItem ? (maxWidth * nextItem.width) / 100 : currentWidth * 0.7;
+                const y = index * stageHeight;
 
-                  // 计算位置
-                  const top = index * (stageHeight + stageGap)
-                  const gradientId = `funnel-gradient-${index}`
+                // Calculate trapezoid points
+                const topLeft = direction === 'top-to-bottom'
+                  ? { x: (maxWidth - currentWidth) / 2, y }
+                  : { x: (maxWidth - currentWidth) / 2, y: height - y - stageHeight };
+                const topRight = direction === 'top-to-bottom'
+                  ? { x: (maxWidth + currentWidth) / 2, y }
+                  : { x: (maxWidth + currentWidth) / 2, y: height - y - stageHeight };
+                const bottomRight = direction === 'top-to-bottom'
+                  ? { x: (maxWidth + nextWidth) / 2, y: y + stageHeight }
+                  : { x: (maxWidth + nextWidth) / 2, y: height - y };
+                const bottomLeft = direction === 'top-to-bottom'
+                  ? { x: (maxWidth - nextWidth) / 2, y: y + stageHeight }
+                  : { x: (maxWidth - nextWidth) / 2, y: height - y };
 
-                  return (
-                    <motion.div
-                      key={index}
-                      className={cn(
-                        'absolute cursor-pointer group transition-all duration-200',
-                        isHovered && 'z-10'
-                      )}
-                      style={{
-                        top,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        height: stageHeight,
-                        width: '100%',
-                        maxWidth: maxWidth
-                      }}
-                      initial={{
-                        opacity: 0,
-                        scale: 0.9,
-                        y: direction === 'top-to-bottom' ? -20 : 20
-                      }}
-                      animate={{
-                        opacity: 1,
-                        scale: isHovered ? 1.02 : 1,
-                        y: 0
-                      }}
-                      transition={{
-                        duration: animationDuration,
-                        delay: index * 0.1,
-                        ease: 'easeOut'
-                      }}
-                      onMouseEnter={(e) => {
-                        setHoveredIndex(index)
-                        handleMouseEnter(e, item, index)
-                      }}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={() => onStageClick?.(item, index)}
-                    >
-                      {/* 梯形阶段 */}
-                      <svg
-                        width="100%"
-                        height="100%"
-                        className="overflow-visible"
-                      >
-                        <defs>
-                          {variant === 'gradient' && (
-                            <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stopColor={colors[index]} stopOpacity={0.9} />
-                              <stop offset="100%" stopColor={colors[index]} stopOpacity={0.6} />
-                            </linearGradient>
-                          )}
-                        </defs>
+                const pathData = `
+                  M ${topLeft.x} ${topLeft.y}
+                  L ${topRight.x} ${topRight.y}
+                  L ${bottomRight.x} ${bottomRight.y}
+                  L ${bottomLeft.x} ${bottomLeft.y}
+                  Z
+                `;
 
-                        {/* 梯形路径 */}
-                        <path
-                          d={`
-                            M ${50 - currentWidth * 50} ${0}
-                            L ${50 + currentWidth * 50} ${0}
-                            L ${50 + nextWidth * 50} ${stageHeight}
-                            L ${50 - nextWidth * 50} ${stageHeight}
-                            Z
-                          `}
-                          fill={
-                            variant === 'gradient'
-                              ? `url(#${gradientId})`
-                              : colors[index]
-                          }
-                          fillOpacity={isHovered ? 0.9 : 0.7}
-                          stroke={showStroke ? 'rgba(255, 255, 255, 0.3)' : 'none'}
-                          strokeWidth={showStroke ? 2 : 0}
-                          className={cn(
-                            'transition-all duration-200',
-                            showStroke && 'group-hover:stroke-white'
-                          )}
-                        />
+                return (
+                  <motion.path
+                    key={`stage-${index}`}
+                    d={pathData}
+                    fill={item.color}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={animate ? { opacity: 1, scale: 1 } : {}}
+                    transition={{
+                      duration: (animationDuration / 1000),
+                      delay: index * 0.1
+                    }}
+                    className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                    onClick={() => handleStageClick(item, index)}
+                  />
+                );
+              })}
+            </AnimatePresence>
+          </g>
 
-                        {/* 阶段内容 */}
-                        <foreignObject
-                          x={50 - currentWidth * 50}
-                          y={0}
-                          width={currentWidth * 100}
-                          height={stageHeight}
-                          className="pointer-events-none"
-                        >
-                          <div
-                            className={cn(
-                              'flex h-full w-full items-center justify-between px-4',
-                              'text-white',
-                              'font-medium'
-                            )}
-                          >
-                            {/* 左侧标签 */}
-                            {showLabel && (
-                              <div className="flex-1 truncate">
-                                <div className="text-sm font-medium truncate">
-                                  {item.label}
-                                </div>
-                              </div>
-                            )}
+          {/* Custom children overlay */}
+          {children && (
+            <g className="overlay">{children}</g>
+          )}
+        </svg>
 
-                            {/* 右侧信息 */}
-                            <div className="flex items-center space-x-2 text-sm">
-                              {showValue && (
-                                <span className="font-semibold">
-                                  {formatValue ? formatValue(item.value) : item.value}
-                                </span>
-                              )}
-                              {showPercentage && (
-                                <span className="opacity-90">
-                                  {formatPercentage
-                                    ? formatPercentage(item.percentage)
-                                    : `${item.percentage.toFixed(1)}%`
-                                  }
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </foreignObject>
-                      </svg>
-                    </motion.div>
-                  )
-                })}
-              </AnimatePresence>
-            </div>
-
-            {/* 图例 */}
-            {showLegend && legendItems.length > 0 && (
-              <div className={cn(
-                'mt-4',
-                legendPosition === 'right' && 'absolute right-0 top-0',
-                legendPosition === 'left' && 'absolute left-0 top-0',
-                legendPosition === 'top' && 'absolute top-0 left-0'
-              )}>
-                <Legend
-                  items={legendItems}
-                  orientation={legendPosition === 'right' || legendPosition === 'left' ? 'vertical' : 'horizontal'}
-                  align="center"
+        {/* Legend */}
+        {legend.enabled && (
+          <div
+            className={cn(
+              'flex gap-4 mt-4',
+              legend.position === 'top' && 'justify-center',
+              legend.position === 'left' && 'justify-start',
+              legend.position === 'right' && 'justify-end',
+              legend.position === 'bottom' && 'justify-center'
+            )}
+          >
+            {processedData.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div
+                  className="w-4 h-4 rounded"
+                  style={{ backgroundColor: item.color }}
                 />
+                <span className="text-sm text-foreground">
+                  {item.x} ({item.percentage.toFixed(1)}%)
+                </span>
               </div>
-            )}
-
-            {/* 工具提示 */}
-            {showTooltip && (
-              <ChartTooltip
-                data={tooltipData || undefined}
-                visible={!!tooltipData}
-                position="top"
-                variant="default"
-              />
-            )}
+            ))}
           </div>
-        </ChartContainer>
+        )}
       </div>
-    )
+    );
   }
-)
+);
 
 FunnelChart.displayName = 'FunnelChart'
+AdvancedFunnelChart.displayName = 'AdvancedFunnelChart'
+
+// ============================================================================
+// Default Props
+// ============================================================================
+
+FunnelChart.defaultProps = {
+  size: 400,
+  theme: 'business',
+  direction: 'top-to-bottom',
+  showPercentage: true,
+  showValue: true,
+  showLabel: true,
+  animate: true
+}
+
+AdvancedFunnelChart.defaultProps = {
+  size: 400,
+  direction: 'top-to-bottom',
+  showPercentage: true,
+  showValue: true,
+  showLabel: true,
+  legend: { enabled: true, position: 'bottom', align: 'center' },
+  tooltip: { enabled: true, showValue: true, showPercentage: true },
+  animate: true,
+  animationDuration: 1000,
+}
 
 // ============================================================================
 // Export
 // ============================================================================
 
-export type { FunnelChartProps, FunnelDataPoint }
+export default FunnelChart
+export { FunnelChart, AdvancedFunnelChart }
+
+export type {
+  FunnelChartProps,
+  DataPoint,
+  DataSeries,
+  GridConfig,
+  AxisConfig,
+  LegendConfig,
+  TooltipConfig,
+  SimpleTheme,
+  SimpleDataPoint
+}

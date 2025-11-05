@@ -2,7 +2,7 @@
 name: "Xorigo UI 组件生成器"
 description: "根据 Xorigo UI 三层结构 + 十一类组件架构自动生成符合规范的 React 组件模板，包含 TypeScript 类型、Tailwind CSS 样式、Framer Motion 动画和主题系统集成"
 author: "Xorigo UI Team"
-version: "1.5.0"
+version: "2025.11.05"
 tags: ["react", "component", "typescript", "tailwind", "design-system", "xorigo-ui-v1.5.0"]
 ---
 
