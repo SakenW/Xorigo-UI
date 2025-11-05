@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/primitives"
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["**/*.stories.tsx", "**/*.test.ts", "**/*.test.tsx"]
+}

@@ -93,12 +93,6 @@
     "@xorigo-ui/tokens": "file:../tokens",
     "@xorigo-ui/system": "file:../system",
     "@xorigo-ui/utils": "file:../utils",
-    "@xorigo-ui/primitives": "file:../primitives",
-    "@xorigo-ui/forms": "file:../forms",
-    "@xorigo-ui/layout": "file:../layout",
-    "@xorigo-ui/navigation": "file:../navigation",
-    "@xorigo-ui/overlays": "file:../overlays",
-    "@xorigo-ui/feedback": "file:../feedback",
     "@xorigo-ui/i18n": "file:../i18n",
     "@xorigo-ui/style-recipe": "file:../style-recipe",
     "@xorigo-ui/hooks": "file:../hooks"

@@ -26,17 +26,17 @@ export * from './ai'
 // Layer 2: 组件层 (Component Layer) - 十一类分类
 // ============================================================================
 
-// 1. Layout · 布局
-export * from './layout'
+// 1. Layout · 布局（内部使用，不对外导出）
+// export * from './layout'
 
-// 2. Navigation · 导航
-export * from './navigation'
+// 2. Navigation · 导航（内部使用，不对外导出）
+// export * from './navigation'
 
 // 3. Inputs & Controls · 输入与控制
 export * from './inputs'
 
 // 4. Forms · 表单结构与校验
-export * from './form'
+export * from './forms'
 
 // 5. Data Display · 数据展示
 export * from './data-display'
@@ -47,14 +47,14 @@ export * from './typography-media'
 // 7. Charts · 图表（可视化）
 export * from './charts'
 
-// 8. Feedback & Status · 反馈与状态
-export * from './feedback'
+// 8. Feedback & Status · 反馈与状态（内部使用，不对外导出）
+// export * from './feedback'
 
-// 9. Overlays · 浮层
-export * from './overlays'
+// 9. Overlays · 浮层（内部使用，不对外导出）
+// export * from './overlays'
 
-// 10. Interactive · 高阶交互
-export * from './interactive'
+// 10. Interactive · 高阶交互（内部使用，不对外导出）
+// export * from './interactive'
 
 // 11. Utilities · 工具性组件
 export * from './utilities'
@@ -64,7 +64,7 @@ export * from './utilities'
 // ============================================================================
 
 // 原子级组件 (Primitives · 原子级组件)
-export * from './primitives'
+// export * from './primitives'
 
 // ============================================================================
 // 特殊功能层 (Special Features)

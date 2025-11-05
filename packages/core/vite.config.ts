@@ -60,12 +60,6 @@ export default defineConfig({
         '@xorigo-ui/tokens',
         '@xorigo-ui/system',
         '@xorigo-ui/utils',
-        '@xorigo-ui/primitives',
-        '@xorigo-ui/forms',
-        '@xorigo-ui/layout',
-        '@xorigo-ui/navigation',
-        '@xorigo-ui/overlays',
-        '@xorigo-ui/feedback',
         '@xorigo-ui/i18n',
         '@xorigo-ui/style-recipe',
         '@xorigo-ui/hooks'

@@ -29,7 +29,8 @@ const meta: Meta<typeof Select> = {
 ## 使用示例
 
 \`\`\`tsx
-import { Select } from '@xorigo-ui/core/form'
+import { Select } from './select'
+import type { SelectProps } from './select'
 
 const options = [
   { value: 'option1', label: '选项 1' },
