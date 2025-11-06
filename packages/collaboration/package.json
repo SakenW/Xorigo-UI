@@ -1,0 +1,76 @@
+{
+  "name": "@xorigo-ui/collaboration",
+  "version": "2025.11.05",
+  "description": "Xorigo UI Collaboration - Real-time collaborative editing system",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./websocket": {
+      "types": "./dist/websocket-manager.d.ts",
+      "import": "./dist/websocket-manager.mjs",
+      "require": "./dist/websocket-manager.cjs.js"
+    },
+    "./cursor-sync": {
+      "types": "./dist/cursor-sync.d.ts",
+      "import": "./dist/cursor-sync.mjs",
+      "require": "./dist/cursor-sync.cjs.js"
+    },
+    "./crdt": {
+      "types": "./dist/crdt-sync.d.ts",
+      "import": "./dist/crdt-sync.mjs",
+      "require": "./dist/crdt-sync.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:strict": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "vite --port 3002 --host",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "collaboration",
+    "real-time",
+    "websocket",
+    "crdt",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.1",
+    "yjs": "^13.6.18",
+    "y-websocket": "^2.0.4",
+    "lib0": "^0.2.93",
+    "@xorigo-ui/utils": "file:../utils"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  }
+}

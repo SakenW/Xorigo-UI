@@ -1,5 +1,9 @@
+'use client'
+
 // Workbench 类型定义
 // 完全遵循组件源规则 - 所有UI组件来自 @xorigo-ui/core
+
+import { useState, useCallback } from 'react'
 
 /**
  * Workbench 视图模式
@@ -169,10 +173,6 @@ export const THEME_CONFIG = {
 // ============================================================================
 // Workbench Hook 实现
 // ============================================================================
-
-'use client'
-
-import { useState, useCallback } from 'react'
 
 /**
  * Workbench 状态接口

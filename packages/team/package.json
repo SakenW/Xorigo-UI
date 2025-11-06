@@ -1,0 +1,74 @@
+{
+  "name": "@xorigo-ui/team",
+  "version": "2025.11.05",
+  "description": "Xorigo UI Team - Team template library and version control",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./template-library": {
+      "types": "./dist/template-library.d.ts",
+      "import": "./dist/template-library.mjs",
+      "require": "./dist/template-library.cjs.js"
+    },
+    "./version-control": {
+      "types": "./dist/version-control.d.ts",
+      "import": "./dist/version-control.mjs",
+      "require": "./dist/version-control.cjs.js"
+    },
+    "./team-permissions": {
+      "types": "./dist/team-permissions.d.ts",
+      "import": "./dist/team-permissions.mjs",
+      "require": "./dist/team-permissions.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:strict": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "vite --port 3004 --host",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "team",
+    "templates",
+    "version-control",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "semver": "^7.7.1",
+    "diff": "^5.2.0",
+    "@xorigo-ui/utils": "file:../utils",
+    "@xorigo-ui/share": "file:../share"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  }
+}

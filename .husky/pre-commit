@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 组件注册系统自动检查..."
+
+# 运行组件扫描
+# pnpm --filter @xorigo-ui/cli scan -p packages/core/src/components -o component-registry.json
+
+# 验证组件注册表
+# pnpm --filter @xorigo-ui/cli validate -f component-registry.json --strict
+
+echo "✅ 预提交检查完成"

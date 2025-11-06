@@ -1,0 +1,81 @@
+{
+  "name": "@xorigo-ui/ai",
+  "version": "2025.11.05",
+  "description": "Xorigo UI AI Code Generator - Generate React components from structured requirements",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./code-generator": {
+      "types": "./dist/core/code-generator.d.ts",
+      "import": "./dist/core/code-generator.mjs",
+      "require": "./dist/core/code-generator.cjs.js"
+    },
+    "./type-generator": {
+      "types": "./dist/type-generator.d.ts",
+      "import": "./dist/type-generator.mjs",
+      "require": "./dist/type-generator.cjs.js"
+    },
+    "./templates": {
+      "types": "./dist/templates/index.d.ts",
+      "import": "./dist/templates/index.mjs",
+      "require": "./dist/templates/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:strict": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "vite --port 3002 --host",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "example": "tsx src/examples/demo.ts",
+    "example:generate": "tsx src/examples/generate-examples.ts"
+  },
+  "keywords": [
+    "react",
+    "ai",
+    "code-generator",
+    "typescript",
+    "ui",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "framer-motion": "^12.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@xorigo-ui/tokens": "file:../tokens",
+    "@xorigo-ui/system": "file:../system",
+    "@xorigo-ui/utils": "file:../utils"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "@vitest/coverage-v8": "^4.0.7",
+    "jsdom": "^25.0.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9",
+    "vitest": "^4.0.7",
+    "tsx": "^4.20.6"
+  },
+  "sideEffects": false
+}

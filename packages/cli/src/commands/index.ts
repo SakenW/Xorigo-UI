@@ -3,6 +3,11 @@
  */
 
 export * from './add'
+export * from './init'
+export * from './theme'
+export * from './build'
+export * from './generate'
+export * from './publish'
 export * from './tokens'
 export * from './i18n'
 export * from './registry'

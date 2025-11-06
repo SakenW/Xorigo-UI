@@ -1,0 +1,181 @@
+{
+  "name": "xorigo-ui-snippets",
+  "displayName": "Xorigo UI Snippets",
+  "description": "Xorigo UI 组件库智能代码补全、悬停提示和主题预览工具",
+  "version": "1.0.0",
+  "publisher": "xorigo-ui-team",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Snippets",
+    "Other",
+    "Extension Packs"
+  ],
+  "keywords": [
+    "xorigo",
+    "ui",
+    "components",
+    "react",
+    "typescript",
+    "snippets",
+    "autocomplete",
+    "theme"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xorigo-ui/vscode-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xorigo-ui/vscode-extension/issues"
+  },
+  "homepage": "https://github.com/xorigo-ui/vscode-extension#readme",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Xorigo UI",
+      "properties": {
+        "xorigoUi.enableSnippets": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用 Xorigo UI 代码片段"
+        },
+        "xorigoUi.enableIntelliSense": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用 Xorigo UI 智能提示"
+        },
+        "xorigoUi.enableThemePreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用主题预览功能"
+        },
+        "xorigoUi.autoImport": {
+          "type": "boolean",
+          "default": true,
+          "description": "自动插入组件导入语句"
+        },
+        "xorigoUi.showThemeInStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "在状态栏显示当前主题"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "typescript",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/snippets.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "xorigoUi.switchTheme",
+        "title": "Xorigo UI: 切换主题",
+        "icon": "$(color-mode)"
+      },
+      {
+        "command": "xorigoUi.insertComponent",
+        "title": "Xorigo UI: 插入组件",
+        "icon": "$(add)"
+      },
+      {
+        "command": "xorigoUi.previewTheme",
+        "title": "Xorigo UI: 预览主题",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "xorigoUi.openDocs",
+        "title": "Xorigo UI: 打开文档",
+        "icon": "$(book)"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "xorigoUiComponents",
+          "name": "Xorigo UI 组件",
+          "when": "xorigoUi:enabled"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xorigoUi",
+          "title": "Xorigo UI",
+          "icon": "$(symbol-class)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "xorigoUi.switchTheme",
+          "when": "view == xorigoUiComponents",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "xorigoUi.insertComponent",
+          "when": "view == xorigoUiComponents",
+          "group": "insert"
+        },
+        {
+          "command": "xorigoUi.openDocs",
+          "when": "view == xorigoUiComponents",
+          "group": "open"
+        }
+      ]
+    }
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onCommand:xorigoUi.*"
+  ],
+  "main": "./out/extension.js",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1E40AF",
+    "theme": "dark"
+  }
+}

@@ -19,11 +19,12 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.50.110'],
 
   // turbopack 配置 (Next.js 16 优化)
-  turbopack: {
-    resolveAlias: {
-      '@': './src',
-    },
-  },
+  // 临时禁用 Turbopack 以解决 @xorigo-ui/core 导入问题
+  // turbopack: {
+  //   resolveAlias: {
+  //     '@': './src',
+  //   },
+  // },
 
   // Webpack 配置以解决 framer-motion 模块解析问题
   webpack: (config, { isServer }) => {

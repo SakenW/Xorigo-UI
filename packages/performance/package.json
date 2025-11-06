@@ -1,0 +1,86 @@
+{
+  "name": "@xorigo-ui/performance",
+  "version": "2025.11.05",
+  "description": "Xorigo UI 性能优化工具包 - 提供全面的组件性能监控、瓶颈检测、自动优化和Bundle分析功能",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./monitor": {
+      "types": "./dist/monitor.d.ts",
+      "import": "./dist/monitor.mjs",
+      "require": "./dist/monitor.cjs.js"
+    },
+    "./bottleneck-detector": {
+      "types": "./dist/bottleneck-detector.d.ts",
+      "import": "./dist/bottleneck-detector.mjs",
+      "require": "./dist/bottleneck-detector.cjs.js"
+    },
+    "./optimizer": {
+      "types": "./dist/optimizer.d.ts",
+      "import": "./dist/optimizer.mjs",
+      "require": "./dist/optimizer.cjs.js"
+    },
+    "./bundle-analyzer": {
+      "types": "./dist/bundle-analyzer.d.ts",
+      "import": "./dist/bundle-analyzer.mjs",
+      "require": "./dist/bundle-analyzer.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:strict": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "vite --port 3002 --host",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "react",
+    "performance",
+    "optimization",
+    "monitoring",
+    "bundle-analyzer",
+    "memory-leak",
+    "component-performance",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "rollup": "^4.52.4",
+    "fs-extra": "^11.2.0",
+    "gzip-size": "^6.0.0",
+    "pretty-bytes": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@types/gzip-size": "^5.1.1",
+    "@types/pretty-bytes": "^5.2.0",
+    "@types/node": "^24.7.2",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^4.0.7"
+  },
+  "sideEffects": false
+}

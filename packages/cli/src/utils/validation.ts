@@ -99,3 +99,27 @@ export function validateVersion(version: string): { valid: boolean; error?: stri
 
   return { valid: true }
 }
+
+/**
+ * 验证项目名称
+ * 规则：小写字母、数字、连字符
+ */
+export function validateProjectName(name: string): void {
+  if (!name) {
+    throw new Error('项目名称不能为空')
+  }
+
+  if (!/^[a-z]/.test(name)) {
+    throw new Error('项目名称必须以小写字母开头')
+  }
+
+  if (!/^[a-z][a-z0-9-]*$/.test(name)) {
+    throw new Error('项目名称只能包含小写字母、数字和连字符')
+  }
+
+  // 检查是否是保留字
+  const reserved = ['node_modules', 'dist', 'build', '.git', '.next', '.git', '.svn', '__pycache__', '*.pyc', '*.log', '.DS_Store', '.idea', '.vscode', '.agent', 'node_modules', 'workspace', 'surface', 'executor']
+  if (reserved.includes(name)) {
+    throw new Error(`"${name}" 是保留字，请使用其他名称`)
+  }
+}

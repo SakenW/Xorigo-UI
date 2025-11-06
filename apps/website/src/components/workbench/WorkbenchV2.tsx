@@ -392,79 +392,177 @@ const ComponentsGallery: React.FC = () => {
 }
 
 // ============================================================================
-// Monaco 编辑器集成（简化版）
+// Monaco 编辑器集成（完整版）
 // ============================================================================
+
+import MonacoEditorWrapper from './editor/monaco-editor-wrapper'
 
 /**
  * 代码编辑器页面
  */
 const CodeEditor: React.FC = () => {
-  const [code, setCode] = useState(`function Welcome() {
+  const [code, setCode] = useState(`// 欢迎使用 Xorigo UI Workbench 2.0
+// 完整的 Monaco 编辑器已就绪！
+
+import { Button, Card, Input } from '@xorigo-ui/core'
+import { useState } from 'react'
+
+export function WelcomeComponent() {
+  const [count, setCount] = useState(0)
+
   return (
-    <div className="p-6 bg-white rounded-lg shadow">
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">
-        欢迎使用 Xorigo UI 2.0
-      </h1>
-      <p className="text-gray-600">
-        开始编写您的组件代码
-      </p>
-    </div>
+    <Card>
+      <h1>欢迎使用 Xorigo UI 2.0</h1>
+      <p>当前计数: {count}</p>
+      <Input
+        label="输入框"
+        placeholder="请输入..."
+        value={count.toString()}
+        onChange={(value) => setCount(parseInt(value) || 0)}
+      />
+      <Button
+        variant="primary"
+        onClick={() => setCount(count + 1)}
+      >
+        点击我 (+1)
+      </Button>
+      <Button
+        variant="secondary"
+        onClick={() => setCount(0)}
+      >
+        重置
+      </Button>
+    </Card>
   )
-}`)
+}
+
+export default WelcomeComponent
+`)
+
+  const handleCodeChange = useCallback((newCode: string) => {
+    setCode(newCode)
+  }, [])
+
+  const handleSave = useCallback((codeToSave: string) => {
+    console.log('代码已保存:', codeToSave.substring(0, 100) + '...')
+  }, [])
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-          ✏️ 代码编辑器
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          实时编辑和预览您的组件代码
-        </p>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* 代码编辑器 */}
-          <div className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
-            <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Editor.tsx</span>
-            </div>
-            <textarea
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full h-96 p-4 font-mono text-sm bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="编写您的组件代码..."
-            />
-          </div>
-
-          {/* 实时预览 */}
-          <div className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
-            <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600 flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Preview</span>
-              <span className="text-xs text-green-600 dark:text-green-400">● Live</span>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-800 min-h-96">
-              <div className="p-6 bg-white rounded-lg shadow">
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                  欢迎使用 Xorigo UI 2.0
-                </h1>
-                <p className="text-gray-600">
-                  Monaco 编辑器集成开发中...
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            ✏️ 代码编辑器
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            完整的 Monaco 编辑器，支持语法高亮、智能补全、错误检测等功能
+          </p>
         </div>
 
-        <div className="mt-4 flex gap-2">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-            运行代码
-          </button>
-          <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            保存
-          </button>
-          <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            重置
-          </button>
+        {/* Monaco 编辑器 */}
+        <div className="h-[700px]">
+          <MonacoEditorWrapper
+            initialCode={code}
+            initialLanguage="tsx"
+            height="100%"
+            showFullInterface={false}
+            onChange={handleCodeChange}
+            onSave={handleSave}
+            enableValidation={true}
+            enableThemeAdapter={true}
+            config={{
+              fontSize: 14,
+              tabSize: 2,
+              minimap: { enabled: true },
+              folding: true,
+              lineNumbers: 'on',
+              wordWrap: 'on',
+              bracketPairColorization: { enabled: true },
+              guides: {
+                bracketPairs: true,
+                bracketPairsHorizontal: true,
+                highlightActiveBracketPair: true,
+                indentation: true
+              },
+              suggest: {
+                enabled: true,
+                showSnippets: true,
+                showFunctions: true,
+                showClasses: true,
+                showVariables: true
+              },
+              quickSuggestions: true,
+              parameterHints: { enabled: true },
+              formatOnPaste: true,
+              formatOnType: true,
+              smoothScrolling: true,
+              mouseWheelZoom: true,
+              cursorSmoothCaretAnimation: 'on'
+            }}
+          />
+        </div>
+
+        {/* 功能说明 */}
+        <div className="p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 语法高亮
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 智能补全
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 错误检测
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 代码格式化
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 主题适配
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 代码折叠
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 小地图
+            </span>
+            <span className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+              ✓ 多语言支持
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 快捷键提示 */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          快捷键提示
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+S</kbd>
+            <span className="text-gray-600 dark:text-gray-400">保存代码</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Shift+F</kbd>
+            <span className="text-gray-600 dark:text-gray-400">格式化代码</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Shift+M</kbd>
+            <span className="text-gray-600 dark:text-gray-400">切换小地图</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">Alt+Z</kbd>
+            <span className="text-gray-600 dark:text-gray-400">切换自动换行</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">F12</kbd>
+            <span className="text-gray-600 dark:text-gray-400">跳转到定义</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+/</kbd>
+            <span className="text-gray-600 dark:text-gray-400">切换注释</span>
+          </div>
         </div>
       </div>
     </div>

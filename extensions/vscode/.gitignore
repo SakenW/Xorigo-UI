@@ -1,0 +1,10 @@
+out
+node_modules
+.vscode-test/
+*.vsix
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+.DS_Store

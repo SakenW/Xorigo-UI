@@ -1,0 +1,73 @@
+{
+  "name": "@xorigo-ui/share",
+  "version": "2025.11.05",
+  "description": "Xorigo UI Share - Link generation and permission management",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./link-generator": {
+      "types": "./dist/link-generator.d.ts",
+      "import": "./dist/link-generator.mjs",
+      "require": "./dist/link-generator.cjs.js"
+    },
+    "./permission-manager": {
+      "types": "./dist/permission-manager.d.ts",
+      "import": "./dist/permission-manager.mjs",
+      "require": "./dist/permission-manager.cjs.js"
+    },
+    "./access-tracker": {
+      "types": "./dist/access-tracker.d.ts",
+      "import": "./dist/access-tracker.mjs",
+      "require": "./dist/access-tracker.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "build:strict": "tsc && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "vite --port 3003 --host",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "sharing",
+    "permissions",
+    "access-control",
+    "xorigo-ui"
+  ],
+  "author": "Xorigo UI Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.9",
+    "zod": "^3.23.8",
+    "@xorigo-ui/utils": "file:../utils"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react-swc": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9"
+  }
+}

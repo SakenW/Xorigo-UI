@@ -12,6 +12,39 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      thresholds: {
+        global: {
+          branches: 85,
+          functions: 85,
+          lines: 90,
+          statements: 90,
+        },
+        // 按目录设置更严格的阈值
+        'src/components/**': {
+          branches: 90,
+          functions: 90,
+          lines: 95,
+          statements: 95,
+        },
+        'src/primitives/**': {
+          branches: 95,
+          functions: 95,
+          lines: 98,
+          statements: 98,
+        },
+        'src/forms/**': {
+          branches: 90,
+          functions: 90,
+          lines: 95,
+          statements: 95,
+        },
+        'src/hoc/**': {
+          branches: 95,
+          functions: 95,
+          lines: 98,
+          statements: 98,
+        },
+      },
       exclude: [
         'node_modules/',
         'dist/',
@@ -20,6 +53,15 @@ export default defineConfig({
         '**/*.config.*',
         '**/test/**',
         '**/tests/**',
+        '**/*.stories.tsx',
+        '**/*.stories.ts',
+        'examples/**',
+        'archive/**',
+        'packages-backup-*/**',
+        'quality-assurance/**',
+      ],
+      include: [
+        'src/**/*.{ts,tsx}',
       ],
     },
   },

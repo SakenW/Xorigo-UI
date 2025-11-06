@@ -16,11 +16,6 @@
     { "path": "../system" },
     { "path": "../utils" },
     { "path": "../primitives" },
-    { "path": "../forms" },
-    { "path": "../layout" },
-    { "path": "../navigation" },
-    { "path": "../overlays" },
-    { "path": "../feedback" },
     { "path": "../i18n" },
     { "path": "../style-recipe" },
     { "path": "../hooks" }

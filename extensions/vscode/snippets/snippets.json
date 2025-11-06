@@ -1,0 +1,864 @@
+{
+  "Xorigo UI Button Component": {
+    "prefix": "xorigo-btn",
+    "body": [
+      "<Button",
+      "  variant=\"${1|primary,secondary,outline,ghost|}\"",
+      "  size=\"${2|sm,md,lg|}\"",
+      "  ${3:loading={$4}}",
+      "  ${5:disabled={$6}}",
+      "  onClick={${7:handleClick}}",
+      ">",
+      "  ${8:Button Text}",
+      "</Button>"
+    ],
+    "description": "插入 Xorigo UI Button 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Input Component": {
+    "prefix": "xorigo-input",
+    "body": [
+      "<Input",
+      "  label=\"${1:Label}\"",
+      "  variant=\"${2|default,filled,outlined,underlined,ghost,neon|}\"",
+      "  size=\"${3|sm,md,lg|}\"",
+      "  status=\"${4|default,error,success,warning|}\"",
+      "  ${5:error=\"${6:Error message}\"}",
+      "  ${7:helperText=\"${8:Helper text}\"}",
+      "  ${9:placeholder=\"${10:Placeholder}\"}",
+      "  value={${11:value}}",
+      "  onChange={${12:handleChange}}",
+      "  ${13:leftIcon={<${14:Icon} />}}",
+      "  ${15:rightIcon={<${16:Icon} />}}",
+      "  ${17:clearable={$18}}",
+      "  ${19:password={$20}}",
+      "  ${21:disabled={$22}}",
+      "  className=\"${23}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Input 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Select Component": {
+    "prefix": "xorigo-select",
+    "body": [
+      "<Select",
+      "  label=\"${1:Label}\"",
+      "  placeholder=\"${2:Select an option}\"",
+      "  ${3:error=\"${4:Error message}\"}",
+      "  value={${5:value}}",
+      "  onValueChange={${6:handleChange}}",
+      "  ${7:disabled={$8}}",
+      "  ${9:multiple={$10}}",
+      "  ${11:searchable={$12}}",
+      "  ${13:clearable={$14}}",
+      "  className=\"${15}\"",
+      ">",
+      "  ${16:<option value=\"option1\">Option 1</option>}",
+      "</Select>"
+    ],
+    "description": "插入 Xorigo UI Select 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Textarea Component": {
+    "prefix": "xorigo-textarea",
+    "body": [
+      "<Textarea",
+      "  label=\"${1:Label}\"",
+      "  variant=\"${2|default,filled,outlined,underlined|}\"",
+      "  size=\"${3|sm,md,lg|}\"",
+      "  ${4:error=\"${5:Error message}\"}",
+      "  ${6:helperText=\"${7:Helper text}\"}",
+      "  ${8:placeholder=\"${9:Placeholder}\"}",
+      "  rows={${10:4}}",
+      "  value={${11:value}}",
+      "  onChange={${12:handleChange}}",
+      "  ${13:resize=\"${14|vertical,horizontal,none|}\"}",
+      "  ${15:disabled={$16}}",
+      "  className=\"${17}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Textarea 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Checkbox Component": {
+    "prefix": "xorigo-checkbox",
+    "body": [
+      "<Checkbox",
+      "  label=\"${1:Label}\"",
+      "  ${2:description=\"${3:Description}\"}",
+      "  checked={${4:checked}}",
+      "  onCheckedChange={${5:handleChange}}",
+      "  ${6:disabled={$7}}",
+      "  ${8:indeterminate={$9}}",
+      "  ${10:error={$11}}",
+      "  className=\"${12}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Checkbox 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Radio Group Component": {
+    "prefix": "xorigo-radio-group",
+    "body": [
+      "<RadioGroup",
+      "  label=\"${1:Label}\"",
+      "  ${2:description=\"${3:Description}\"}",
+      "  value={${4:value}}",
+      "  onValueChange={${5:handleChange}}",
+      "  ${6:disabled={$7}}",
+      "  ${8:orientation=\"${9|horizontal,vertical|}\"}",
+      "  className=\"${10}\"",
+      ">",
+      "  ${11:<RadioGroupItem value=\"option1\" label=\"Option 1\" />}",
+      "  ${12:<RadioGroupItem value=\"option2\" label=\"Option 2\" />}",
+      "  ${13:<RadioGroupItem value=\"option3\" label=\"Option 3\" />}",
+      "</RadioGroup>"
+    ],
+    "description": "插入 Xorigo UI Radio Group 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Switch Component": {
+    "prefix": "xorigo-switch",
+    "body": [
+      "<Switch",
+      "  label=\"${1:Label}\"",
+      "  ${2:description=\"${3:Description}\"}",
+      "  checked={${4:checked}}",
+      "  onCheckedChange={${5:handleChange}}",
+      "  ${6:disabled={$7}}",
+      "  ${8:size=\"${9|sm,md,lg|}\"}",
+      "  className=\"${10}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Switch 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Slider Component": {
+    "prefix": "xorigo-slider",
+    "body": [
+      "<Slider",
+      "  label=\"${1:Label}\"",
+      "  ${2:description=\"${3:Description}\"}",
+      "  value={[${4:value}]}",
+      "  onValueChange={${5:handleChange}}",
+      "  min={${6:0}}",
+      "  max={${7:100}}",
+      "  step={${8:1}}",
+      "  ${9:disabled={$10}}",
+      "  ${11:orientation=\"${12|horizontal,vertical|}\"}",
+      "  className=\"${13}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Slider 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Card Component": {
+    "prefix": "xorigo-card",
+    "body": [
+      "<Card",
+      "  variant=\"${1|default,filled,outlined|}\"",
+      "  ${2:padding=\"${3|none,sm,md,lg|}\"}",
+      "  ${4:hoverable={$5}}",
+      "  ${6:interactive={$7}}",
+      "  ${8:clickable={$9}}",
+      "  onClick={${10:handleClick}}",
+      "  className=\"${11}\"",
+      ">",
+      "  ${12:<CardHeader>}",
+      "    ${13:<CardTitle>${14:Card Title}</CardTitle>}",
+      "    ${15:<CardDescription>${16:Card description text}</CardDescription>}",
+      "  ${17:</CardHeader>}",
+      "  ${18:<CardContent>}",
+      "    ${19:${20:Card content}}",
+      "  ${21:</CardContent>}",
+      "  ${22:<CardFooter>}",
+      "    ${23:${24:Footer content}}",
+      "  ${25:</CardFooter>}",
+      "</Card>"
+    ],
+    "description": "插入 Xorigo UI Card 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Avatar Component": {
+    "prefix": "xorigo-avatar",
+    "body": [
+      "<Avatar",
+      "  src=\"${1:https://example.com/avatar.jpg}\"",
+      "  alt=\"${2:Avatar}\"",
+      "  name=\"${3:User Name}\"",
+      "  size=\"${4|xs,sm,md,lg,xl,2xl|}\"",
+      "  variant=\"${5|circular,rounded,square|}\"",
+      "  ${6:status=\"${7|online,offline,away,busy|}\"}",
+      "  ${7:grouped={$8}}",
+      "  ${9:srcset=\"${10:https://example.com/avatar@2x.jpg}\"}",
+      "  className=\"${11}\"",
+      ">",
+      "  ${12:${13:Fallback Content}}",
+      "</Avatar>"
+    ],
+    "description": "插入 Xorigo UI Avatar 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Badge Component": {
+    "prefix": "xorigo-badge",
+    "body": [
+      "<Badge",
+      "  variant=\"${1|solid,outline,soft,ghost|}\"",
+      "  color=\"${2|primary,secondary,success,warning,error,info|}\"",
+      "  size=\"${3|sm,md,lg|}\"",
+      "  ${4:dot={$5}}",
+      "  ${6:pulse={$7}}",
+      "  ${8:rounded={$9}}",
+      "  className=\"${10}\"",
+      ">",
+      "  ${11:Badge Text}",
+      "</Badge>"
+    ],
+    "description": "插入 Xorigo UI Badge 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Tabs Component": {
+    "prefix": "xorigo-tabs",
+    "body": [
+      "<Tabs",
+      "  defaultValue=\"${1:tab1}\"",
+      "  ${2:value={${3:value}}}",
+      "  onValueChange={${4:handleChange}}",
+      "  ${5:orientation=\"${6|horizontal,vertical|}\"}",
+      "  className=\"${7}\"",
+      ">",
+      "  <TabList>",
+      "    ${8:<Tab value=\"tab1\">${9:Tab 1</Tab>}",
+      "    ${10:<Tab value=\"tab2\">${11:Tab 2</Tab>}",
+      "    ${12:<Tab value=\"tab3\">${13:Tab 3</Tab>}",
+      "  </TabList>",
+      "  ${14:<TabContent value=\"tab1\">",
+      "    ${15:${16:Tab 1 content}}",
+      "  ${17:</TabContent>}",
+      "  ${18:<TabContent value=\"tab2\">",
+      "    ${19:${20:Tab 2 content}}",
+      "  ${21:</TabContent>}",
+      "  ${22:<TabContent value=\"tab3\">",
+      "    ${23:${24:Tab 3 content}}",
+      "  ${25:</TabContent>}",
+      "</Tabs>"
+    ],
+    "description": "插入 Xorigo UI Tabs 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Modal Component": {
+    "prefix": "xorigo-modal",
+    "body": [
+      "<Modal",
+      "  open={${1:open}}",
+      "  onOpenChange={${2:setOpen}}",
+      "  ${3:title=\"${4:Modal Title}\"}",
+      "  ${5:description=\"${6:Modal description}\"}",
+      "  ${7:size=\"${8|sm,md,lg,xl,full|}\"}",
+      "  ${9:closable={$10}}",
+      "  ${11:closeOnOverlayClick={$12}}",
+      "  ${13:closeOnEscape={$14}}",
+      "  ${15:centered={$16}}",
+      "  ${17:trapFocus={$18}}",
+      "  className=\"${19}\"",
+      ">",
+      "  ${20:${21:Modal content}}",
+      "</Modal>"
+    ],
+    "description": "插入 Xorigo UI Modal 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Tooltip Component": {
+    "prefix": "xorigo-tooltip",
+    "body": [
+      "<Tooltip",
+      "  content=\"${1:Tooltip content}\"",
+      "  ${2:side=\"${3|top,bottom,left,right|}\"}",
+      "  ${4:align=\"${5|start,center,end|}\"}",
+      "  ${6:delayDuration={${7:0}}}",
+      "  ${8:arrow={$9}}",
+      "  className=\"${10}\"",
+      ">",
+      "  ${11:${12:<Button>${13:Hover me</Button>}}}",
+      "</Tooltip>"
+    ],
+    "description": "插入 Xorigo UI Tooltip 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Alert Component": {
+    "prefix": "xorigo-alert",
+    "body": [
+      "<Alert",
+      "  variant=\"${1|solid,outline,soft,ghost|}\"",
+      "  color=\"${2|primary,secondary,success,warning,error,info|}\"",
+      "  ${3:title=\"${4:Alert title}\"}",
+      "  ${5:icon={<${6:Icon} />}}",
+      "  ${6:dismissible={$7}}",
+      "  ${8:onDismiss={${9:handleDismiss}}}",
+      "  className=\"${10}\"",
+      ">",
+      "  ${11:${12:Alert content}}",
+      "</Alert>"
+    ],
+    "description": "插入 Xorigo UI Alert 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Skeleton Component": {
+    "prefix": "xorigo-skeleton",
+    "body": [
+      "<Skeleton",
+      "  ${1:width={${2:'100%'}}}",
+      "  ${3:height={${4:'1rem'}}}",
+      "  ${5:variant=\"${6|text,circular,rectangular|}\"}",
+      "  ${7:count={${8:3}}}",
+      "  ${9:rows={${10:2}}}",
+      "  ${11:gap={${12:'0.5rem'}}}",
+      "  ${13:animate={$14}}",
+      "  className=\"${15}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Skeleton 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Spinner Component": {
+    "prefix": "xorigo-spinner",
+    "body": [
+      "<Spinner",
+      "  ${1:size=\"${2|xs,sm,md,lg,xl|}\"}",
+      "  ${3:color=\"${4|primary,secondary,white|}\"}",
+      "  ${5:speed=\"${6|slow,normal,fast|}\"}",
+      "  ${7:thickness={${8:4}}}",
+      "  ${9:label=\"${10:Loading...}\"}",
+      "  className=\"${11}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Spinner 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Divider Component": {
+    "prefix": "xorigo-divider",
+    "body": [
+      "<Divider",
+      "  ${1:orientation=\"${2|horizontal,vertical|}\"}",
+      "  ${3:variant=\"${4|solid,dashed,dotted|}\"}",
+      "  ${5:color=\"${6|default,primary,secondary|}\"}",
+      "  ${7:label=\"${8:Divider label}\"}",
+      "  ${9:labelPosition=\"${10|start,center,end|}\"}",
+      "  ${11:margin=\"${12|sm,md,lg|}\"}",
+      "  className=\"${13}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Divider 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Surface Component": {
+    "prefix": "xorigo-surface",
+    "body": [
+      "<Surface",
+      "  ${1:variant=\"${2|default,filled,outlined,elevated|}\"}",
+      "  ${3:padding=\"${4|none,sm,md,lg,xl|}\"}",
+      "  ${5:rounded=\"${6|none,sm,md,lg,xl|}\"}",
+      "  ${7:interactive={$8}}",
+      "  onClick={${9:handleClick}}",
+      "  className=\"${10}\"",
+      ">",
+      "  ${11:${12:Surface content}}",
+      "</Surface>"
+    ],
+    "description": "插入 Xorigo UI Surface 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Copy Button Component": {
+    "prefix": "xorigo-copy",
+    "body": [
+      "<CopyButton",
+      "  text=\"${1:text to copy}\"",
+      "  ${2:content=\"${3:Copy content}\"}",
+      "  ${4:variant=\"${5|icon,button,inline|}\"}",
+      "  ${6:size=\"${7|sm,md,lg|}\"}",
+      "  ${8:feedback=\"${9:Copied!}\"}",
+      "  ${10:feedbackDuration={${11:2000}}}",
+      "  ${12:onCopy={${13:handleCopy}}}",
+      "  ${14:disabled={$15}}",
+      "  className=\"${16}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI Copy Button 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Toggle Component": {
+    "prefix": "xorigo-toggle",
+    "body": [
+      "<Toggle",
+      "  pressed={${1:pressed}}",
+      "  onPressedChange={${2:setPressed}}",
+      "  ${3:variant=\"${4|default,outline,ghost|}\"}",
+      "  ${5:size=\"${6|sm,md,lg|}\"}",
+      "  ${7:disabled={$8}}",
+      "  className=\"${9}\"",
+      ">",
+      "  ${10:${11:Toggle content}}",
+      "</Toggle>"
+    ],
+    "description": "插入 Xorigo UI Toggle 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Typography Component": {
+    "prefix": "xorigo-typography",
+    "body": [
+      "<Typography",
+      "  ${1:variant=\"${2|h1,h2,h3,h4,h5,h6,subtitle1,subtitle2,body1,body2,caption,overline|}\"}",
+      "  ${3:component=\"${4:h1,h2,h3,h4,h5,h6,p,span,div|}\"}",
+      "  ${5:weight=\"${6|normal,medium,semibold,bold|}\"}",
+      "  ${7:align=\"${8|left,center,right,justify|}\"}",
+      "  ${9:color=\"${10|default,primary,secondary,disabled|}\"}",
+      "  ${11:noWrap={$12}}",
+      "  ${13:truncate={$14}}",
+      "  className=\"${15}\"",
+      ">",
+      "  ${16:${17:Typography content}}",
+      "</Typography>"
+    ],
+    "description": "插入 Xorigo UI Typography 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI KBD Component": {
+    "prefix": "xorigo-kbd",
+    "body": [
+      "<Kbd",
+      "  ${1:variant=\"${2|default,outline,ghost|}\"}",
+      "  ${3:size=\"${4|sm,md,lg|}\"}",
+      "  ${5:rounded={$6}}",
+      "  className=\"${7}\"",
+      ">",
+      "  ${8:⌘K}",
+      "</Kbd>"
+    ],
+    "description": "插入 Xorigo UI Kbd 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Icon Component": {
+    "prefix": "xorigo-icon",
+    "body": [
+      "<Icon",
+      "  ${1:name=\"${2:IconName}\"}",
+      "  ${3:size=\"${4|xs,sm,md,lg,xl|}\"}",
+      "  ${5:color=\"${6|default,primary,secondary,success,warning,error|}\"}",
+      "  ${7:variant=\"${8|outline,filled,duotone|}\"}",
+      "  ${9:strokeWidth={${10:1.5}}}",
+      "  ${11:mirror={$12}}",
+      "  ${13:flip=\"${14|horizontal,vertical|}\"}",
+      "  ${15:rotate={${16:0}}}",
+      "  className=\"${17}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI Icon 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Scroll Area Component": {
+    "prefix": "xorigo-scroll",
+    "body": [
+      "<ScrollArea",
+      "  ${1:orientation=\"${2|vertical,horizontal,both|}\"}",
+      "  ${3:type=\"${4|auto,always,scroll,none|}\"}",
+      "  ${5:scrollHideDelay={${6:600}}}",
+      "  ${7:className=\"${8}\"",
+      ">",
+      "  ${9:${10:Scrollable content}}",
+      "</ScrollArea>"
+    ],
+    "description": "插入 Xorigo UI Scroll Area 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Separator Component": {
+    "prefix": "xorigo-separator",
+    "body": [
+      "<Separator",
+      "  ${1:orientation=\"${2|horizontal,vertical|}\"}",
+      "  ${3:variant=\"${4|solid,dashed,dotted|}\"}",
+      "  ${5:color=\"${6|default,primary,secondary|}\"}",
+      "  ${7:label=\"${8:Separator label}\"}",
+      "  ${9:labelPosition=\"${10|start,center,end|}\"}",
+      "  ${11:margin=\"${12|sm,md,lg|}\"}",
+      "  className=\"${13}\"",
+      "/>"
+    ],
+    "description": "插入 Xorigo UI Separator 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Animated Card Component": {
+    "prefix": "xorigo-animated-card",
+    "body": [
+      "<AnimatedCard",
+      "  variant=\"${1|default,outlined,elevated|}\"",
+      "  ${2:padding=\"${3|none,sm,md,lg|}\"}",
+      "  ${4:hoverable={$5}}",
+      "  ${6:clickable={$7}}",
+      "  onClick={${8:handleClick}}",
+      "  ${9:animation=\"${10|fade,slide,scale,rotate|}\"}",
+      "  ${11:duration={${12:300}}}",
+      "  className=\"${13}\"",
+      ">",
+      "  ${14:${15:Animated card content}}",
+      "</AnimatedCard>"
+    ],
+    "description": "插入 Xorigo UI Animated Card 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Gradient Presets Component": {
+    "prefix": "xorigo-gradient",
+    "body": [
+      "<GradientPresets",
+      "  preset=\"${1|primary,secondary,success,warning,error,info|}\"",
+      "  ${2:type=\"${3|linear,radial,conic|}\"}",
+      "  ${4:direction=\"${5|to-t,to-tr,to-r,to-br,to-b,to-bl,to-l,to-tl|}\"}",
+      "  ${6:opacity={${7:1}}}",
+      "  ${8:className=\"${9}\"",
+      "  style={{${10: background: 'linear-gradient(...)'}}}",
+      ">"
+    ],
+    "description": "插入 Xorigo UI Gradient Presets 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Code Component": {
+    "prefix": "xorigo-code",
+    "body": [
+      "<Code",
+      "  ${1:variant=\"${2|solid,outline,ghost|}\"}",
+      "  ${3:size=\"${4|sm,md,lg|}\"}",
+      "  ${4:color=\"${5|default,primary,secondary,success,warning,error|}\"}",
+      "  ${6:copyable={$7}}",
+      "  ${8:editable={$9}}",
+      "  ${10:highlight={$11}}",
+      "  ${12:wrap={$13}}",
+      "  className=\"${14}\"",
+      ">",
+      "  ${15:${16:code content}}",
+      "</Code>"
+    ],
+    "description": "插入 Xorigo UI Code 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Import Statement": {
+    "prefix": "xorigo-import",
+    "body": [
+      "import { ${1:Component} } from '@xorigo-ui/core'"
+    ],
+    "description": "插入 Xorigo UI 导入语句",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Theme Bridge": {
+    "prefix": "xorigo-theme-bridge",
+    "body": [
+      "import { ThemeBridge } from '@xorigo-ui/core'",
+      "",
+      "export function MyComponent() {",
+      "  return (",
+      "    <ThemeBridge>",
+      "      ${1:${2:// Your components here}}",
+      "    </ThemeBridge>",
+      "  )",
+      "}"
+    ],
+    "description": "插入 Xorigo UI Theme Bridge 包装器",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI useTheme Hook": {
+    "prefix": "xorigo-use-theme",
+    "body": [
+      "import { useSevenAxisTheme } from '@xorigo-ui/core'",
+      "",
+      "export function MyComponent() {",
+      "  const {",
+      "    theme,",
+      "    setTheme,",
+      "    resolvedTheme,",
+      "    toggleTheme",
+      "  } = useSevenAxisTheme()",
+      "",
+      "  return (",
+      "    ${1:// Component JSX}",
+      "  )",
+      "}"
+    ],
+    "description": "插入 useTheme Hook",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Theme Recipe Import": {
+    "prefix": "xorigo-theme-import",
+    "body": [
+      "import { themeRecipes } from '@xorigo-ui/tokens'"
+    ],
+    "description": "导入 Xorigo UI 主题配方",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Complete Form": {
+    "prefix": "xorigo-form",
+    "body": [
+      "<form onSubmit={${1:handleSubmit}}>",
+      "  <div className=\"space-y-4\">",
+      "    <Input",
+      "      label=\"${2:Name}\"",
+      "      value={${3:name}}",
+      "      onChange={${4:setName}}",
+      "      ${5:error={${6:nameError}}}",
+      "      required",
+      "    />",
+      "    <Input",
+      "      type=\"email\"",
+      "      label=\"${7:Email}\"",
+      "      value={${8:email}}",
+      "      onChange={${9:setEmail}}",
+      "      ${10:error={${11:emailError}}}",
+      "      required",
+      "    />",
+      "    <Button",
+      "      type=\"submit\"",
+      "      variant=\"${12:primary}\"",
+      "      disabled={${13:!isValid}}",
+      "    >",
+      "      ${14:Submit}",
+      "    </Button>",
+      "  </div>",
+      "</form>"
+    ],
+    "description": "插入完整的表单示例",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Data Table": {
+    "prefix": "xorigo-table",
+    "body": [
+      "<DataTable",
+      "  data={${1:data}}",
+      "  columns={[",
+      "    {",
+      "      key: '${2:id}',",
+      "      title: '${3:ID}',",
+      "      ${4:width: 80},",
+      "    },",
+      "    {",
+      "      key: '${5:name}',",
+      "      title: '${6:Name}',",
+      "      ${7:sortable: true},",
+      "      ${8:filterable: true},",
+      "    },",
+      "    {",
+      "      key: '${9:status}',",
+      "      title: '${10:Status}',",
+      "      render: (value) => <Badge>{value}</Badge>",
+      "    },",
+      "  ]}",
+      "  ${11:pagination={true}}",
+      "  ${12:searchable={true}}",
+      "  ${13:sortable={true}}",
+      "  ${14:filterable={true}}",
+      "  className=\"${15}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI DataTable 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Chart Component": {
+    "prefix": "xorigo-chart",
+    "body": [
+      "<Chart",
+      "  type=\"${1|line,bar,pie,doughnut,area,scatter|}\"",
+      "  data={{",
+      "    labels: ${2:['Jan', 'Feb', 'Mar', 'Apr']},",
+      "    datasets: [{",
+      "      label: '${3:Dataset}',",
+      "      data: ${4:[12, 19, 3, 5]},",
+      "      borderColor: '${5:rgb(75, 192, 192)}',",
+      "      backgroundColor: '${6:rgba(75, 192, 192, 0.2)}',",
+      "    }]",
+      "  }}",
+      "  options={{",
+      "    ${7:responsive: true},",
+      "    ${8:maintainAspectRatio: false},",
+      "  }}",
+      "  ${9:height={${10:400}}}",
+      "  className=\"${11}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI Chart 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI DateTime Picker": {
+    "prefix": "xorigo-datetime",
+    "body": [
+      "<DateTimePicker",
+      "  label=\"${1:Select date and time}\"",
+      "  ${2:value={${3:value}}}",
+      "  onChange={${4:setValue}}",
+      "  ${5:format=\"${6|YYYY-MM-DD,MM/DD/YYYY,DD/MM/YYYY|}\"}",
+      "  ${7:timeFormat=\"${8|12h,24h|}\"}",
+      "  ${9:showTime={$10}}",
+      "  ${11:showSeconds={$12}}",
+      "  ${13:minDate={${14:new Date()}}}",
+      "  ${15:maxDate={${16:new Date()}}}",
+      "  ${17:disabled={$18}}",
+      "  ${19:readOnly={$20}}",
+      "  ${21:clearable={$22}}",
+      "  ${23:error=\"${24:Error message}\"}",
+      "  className=\"${25}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI DateTimePicker 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Color Picker": {
+    "prefix": "xorigo-color",
+    "body": [
+      "<ColorPicker",
+      "  label=\"${1:Select color}\"",
+      "  value={${2:value}}",
+      "  onChange={${3:setValue}}",
+      "  ${4:format=\"${5|hex,rgb,hsl,cmyk|}\"}",
+      "  ${6:swatches={[${7:'#000000', '#ffffff', '#ff0000'}]}}",
+      "  ${8:alpha={$9}}",
+      "  ${10:gradient={$11}}",
+      "  ${12:presetColors={{${13:primary: '#3b82f6'}}}",
+      "  ${14:disabled={$15}}",
+      "  className=\"${16}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI ColorPicker 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI File Upload": {
+    "prefix": "xorigo-upload",
+    "body": [
+      "<FileUpload",
+      "  ${1:accept=\"${2|image/*,application/pdf|}\"}",
+      "  ${3:multiple={$4}}",
+      "  ${5:maxSize={${6:5242880}}}",
+      "  ${7:maxFiles={${8:5}}}",
+      "  ${9:value={${10:files}}}",
+      "  onChange={${11:setFiles}}",
+      "  ${12:preview={$13}}",
+      "  ${14:draggable={$15}}",
+      "  ${16:uploadUrl=\"${17:/api/upload}\"}",
+      "  ${18:autoUpload={$19}}",
+      "  ${20:disabled={$21}}",
+      "  className=\"${22}\"",
+      ">",
+      "  ${23:<FileUploadTrigger>",
+      "    ${24:<Button>",
+      "      ${25:Choose Files}",
+      "    ${26:</Button>}",
+      "  ${27:</FileUploadTrigger>}",
+      "</FileUpload>"
+    ],
+    "description": "插入 Xorigo UI FileUpload 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Input Number": {
+    "prefix": "xorigo-input-number",
+    "body": [
+      "<InputNumber",
+      "  label=\"${1:Quantity}\"",
+      "  value={${2:value}}",
+      "  onChange={${3:setValue}}",
+      "  min={${4:0}}",
+      "  max={${5:100}}",
+      "  step={${6:1}}",
+      "  ${7:precision={${8:2}}}",
+      "  ${9:formatter={(value) => \\`$\\${value}\\`}}",
+      "  ${10:parser={(value) => value?.replace(/\\$/g, '')}",
+      "  ${11:controls={$12}}",
+      "  ${13:addonBefore=\"$\"}",
+      "  ${14:addonAfter=\"USD\"}",
+      "  ${15:error=\"${16:Error message}\"}",
+      "  ${17:disabled={$18}}",
+      "  className=\"${19}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI InputNumber 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Password Input": {
+    "prefix": "xorigo-password",
+    "body": [
+      "<PasswordInput",
+      "  label=\"${1:Password}\"",
+      "  value={${2:value}}",
+      "  onChange={${3:setValue}}",
+      "  ${4:placeholder=\"${5:Enter your password}\"}",
+      "  ${6:showPassword={$7}}",
+      "  onToggleVisibility={${8:setShowPassword}}",
+      "  ${9:strengthMeter={$10}}",
+      "  ${11:strengthLevels={[${12:'weak', 'medium', 'strong'}]}}",
+      "  ${13:error=\"${14:Error message}\"}",
+      "  ${15:helperText=\"${16:Password must be at least 8 characters}\"}",
+      "  ${17:disabled={$18}}",
+      "  className=\"${19}\"",
+      ">"
+    ],
+    "description": "插入 Xorigo UI PasswordInput 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "Xorigo UI Upload Button": {
+    "prefix": "xorigo-upload-btn",
+    "body": [
+      "<UploadButton",
+      "  variant=\"${1|primary,secondary,outline|}\"",
+      "  size=\"${2|sm,md,lg|}\"",
+      "  ${3:accept=\"${4|image/*}\"}",
+      "  ${5:multiple={$6}}",
+      "  ${7:maxSize={${8:5242880}}}",
+      "  onUpload={${9:handleUpload}}",
+      "  ${10:uploading={$11}}",
+      "  ${12:progress={${13:0}}}",
+      "  ${14:showProgress={$15}}",
+      "  ${16:disabled={$17}}",
+      "  className=\"${18}\"",
+      ">",
+      "  ${19:${20:Upload File}}",
+      "</UploadButton>"
+    ],
+    "description": "插入 Xorigo UI UploadButton 组件",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  }
+}

@@ -312,5 +312,5 @@ const inputsThemeConfig: ComponentThemeConfig = {
 ---
 
 *本文档为共享版本，适用于 UI 架构和 Website 技术架构的共用规范。*
-*最后更新：2025年11月3日*
+*最后更新：2025年11月6日 (Week 15并发执行完成后状态同步)*
 *下次审查：2026年2月3日*

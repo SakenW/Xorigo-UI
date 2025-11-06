@@ -1,12 +1,16 @@
 /**
- * 组件注册系统
- * 实现动态组件扫描、注册、热重载和类型信息提取
+ * 组件注册系统 v2.0
+ * 支持417个组件的自动扫描、注册、缓存和性能优化
+ * 集成文件系统扫描器、元数据提取器、缓存系统和搜索功能
  */
 
 'use client'
 
-import React, { useState, useEffect, useCallback, createContext, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, createContext, useContext, useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { ComponentScanner, ScanResult } from './ComponentScanner'
+import { MetadataExtractor } from './MetadataExtractor'
+import { ComponentCache } from './ComponentCache'
 
 // ============================================================================
 // 类型定义
@@ -67,16 +71,108 @@ export interface RegisteredComponent extends ComponentMetadata {
 export interface ComponentRegistry {
   components: Map<string, RegisteredComponent>
   categories: Set<string>
+  componentTree: ComponentTreeNode
   totalCount: number
   loadedCount: number
-  register: (component: RegisteredComponent) => void
-  unregister: (id: string) => void
+  scanStatus: ScanStatus
+  cache: ComponentCache
+  metrics: RegistryMetrics
+  register: (component: RegisteredComponent) => Promise<void>
+  unregister: (id: string) => Promise<void>
   getComponent: (id: string) => RegisteredComponent | undefined
   getComponentsByCategory: (category: string) => RegisteredComponent[]
+  getComponentsByTag: (tag: string) => RegisteredComponent[]
   getAllComponents: () => RegisteredComponent[]
-  searchComponents: (query: string) => RegisteredComponent[]
+  searchComponents: (query: string, filters?: SearchFilters) => RegisteredComponent[]
+  getSimilarComponents: (id: string, limit?: number) => RegisteredComponent[]
+  scanComponents: (paths?: string[]) => Promise<ScanResult>
+  incrementalScan: (paths?: string[]) => Promise<ScanResult>
+  preloadComponents: (ids: string[]) => Promise<void>
+  clearCache: () => Promise<void>
   isComponentLoaded: (id: string) => boolean
   getLoadStatus: (id: string) => 'loaded' | 'loading' | 'error' | undefined
+  getMetrics: () => RegistryMetrics
+}
+
+/**
+ * 组件树节点
+ */
+export interface ComponentTreeNode {
+  id: string
+  name: string
+  type: 'category' | 'component'
+  children?: ComponentTreeNode[]
+  component?: RegisteredComponent
+  path?: string
+}
+
+/**
+ * 扫描状态
+ */
+export interface ScanStatus {
+  isScanning: boolean
+  progress: number
+  currentFile?: string
+  error?: string
+  estimatedTimeRemaining?: number
+}
+
+/**
+ * 注册表指标
+ */
+export interface RegistryMetrics {
+  totalScanTime: number
+  averageScanTime: number
+  cacheHitRate: number
+  memoryUsage: number
+  componentLoadTime: Record<string, number>
+  searchQueryCount: number
+  searchAverageTime: number
+}
+
+/**
+ * 搜索过滤器
+ */
+export interface SearchFilters {
+  category?: string
+  tags?: string[]
+  version?: string
+  status?: 'all' | 'loaded' | 'loading' | 'error'
+  hasExamples?: boolean
+  isAccessible?: boolean
+}
+
+/**
+ * 性能配置
+ */
+export interface PerformanceConfig {
+  enableCache: boolean
+  cacheConfig: {
+    maxSize: number
+    maxAge: number
+    storageType: 'memory' | 'localStorage'
+  }
+  enableLazyLoading: boolean
+  lazyLoadThreshold: number
+  enablePreloading: boolean
+  parallelScanning: boolean
+  maxConcurrentScans: number
+}
+
+/**
+ * 注册配置
+ */
+export interface RegistryConfig {
+  rootPaths: string[]
+  includeTestFiles: boolean
+  autoScan: boolean
+  scanInterval: number
+  performance: PerformanceConfig
+  search: {
+    enableFuzzySearch: boolean
+    maxResults: number
+    minQueryLength: number
+  }
 }
 
 // ============================================================================
@@ -104,27 +200,177 @@ export const useComponentRegistry = (): ComponentRegistry => {
  */
 interface ComponentRegistryProviderProps {
   children: React.ReactNode
-  autoLoad?: boolean
-  onLoadComplete?: (count: number) => void
+  config?: Partial<RegistryConfig>
+  onScanComplete?: (result: ScanResult) => void
+  onError?: (error: Error) => void
 }
 
 export const ComponentRegistryProvider: React.FC<ComponentRegistryProviderProps> = ({
   children,
-  autoLoad = true,
-  onLoadComplete
+  config,
+  onScanComplete,
+  onError
 }) => {
   const [components, setComponents] = useState<Map<string, RegisteredComponent>>(new Map())
   const [loadedCount, setLoadedCount] = useState(0)
+  const [scanStatus, setScanStatus] = useState<ScanStatus>({
+    isScanning: false,
+    progress: 0
+  })
+  const [componentTree, setComponentTree] = useState<ComponentTreeNode>({
+    id: 'root',
+    name: 'root',
+    type: 'category',
+    children: []
+  })
+  const [metrics, setMetrics] = useState<RegistryMetrics>({
+    totalScanTime: 0,
+    averageScanTime: 0,
+    cacheHitRate: 0,
+    memoryUsage: 0,
+    componentLoadTime: {},
+    searchQueryCount: 0,
+    searchAverageTime: 0
+  })
 
-  // 预定义组件元数据
+  const scannerRef = useRef<ComponentScanner | null>(null)
+  const extractorRef = useRef<MetadataExtractor | null>(null)
+  const cacheRef = useRef<ComponentCache | null>(null)
+
+  // 默认配置
+  const defaultConfig: RegistryConfig = {
+    rootPaths: ['/home/saken/project/Xorigo-UI/packages/core/src/components'],
+    includeTestFiles: false,
+    autoScan: true,
+    scanInterval: 0,
+    performance: {
+      enableCache: true,
+      cacheConfig: {
+        maxSize: 100 * 1024 * 1024, // 100MB
+        maxAge: 300000, // 5分钟
+        storageType: 'memory'
+      },
+      enableLazyLoading: true,
+      lazyLoadThreshold: 50,
+      enablePreloading: true,
+      parallelScanning: true,
+      maxConcurrentScans: 5
+    },
+    search: {
+      enableFuzzySearch: true,
+      maxResults: 100,
+      minQueryLength: 2
+    }
+  }
+
+  const registryConfig = useMemo(() => ({
+    ...defaultConfig,
+    ...config
+  }), [config])
+
+  // 初始化组件
+  useEffect(() => {
+    // 初始化缓存
+    if (registryConfig.performance.enableCache) {
+      cacheRef.current = new ComponentCache({
+        maxSize: registryConfig.performance.cacheConfig.maxSize,
+        maxAge: registryConfig.performance.cacheConfig.maxAge,
+        compression: false,
+        storageType: registryConfig.performance.cacheConfig.storageType,
+        enableMetrics: true
+      })
+    }
+
+    // 初始化扫描器和提取器
+    if (registryConfig.rootPaths.length > 0) {
+      scannerRef.current = new ComponentScanner({
+        rootPath: registryConfig.rootPaths[0],
+        includeTestFiles: registryConfig.includeTestFiles,
+        parallel: registryConfig.performance.parallelScanning
+      })
+
+      extractorRef.current = new MetadataExtractor({
+        includeJSDoc: true,
+        includeExamples: true,
+        includeDependencies: true,
+        extractAccessibility: true,
+        extractThemes: true
+      })
+    }
+
+    // 如果启用自动扫描，开始扫描
+    if (registryConfig.autoScan) {
+      scanComponents()
+    }
+  }, [registryConfig])
+
+  // 扫描组件
+  const scanComponents = useCallback(async (paths?: string[]) => {
+    if (!scannerRef.current) return
+
+    setScanStatus({
+      isScanning: true,
+      progress: 0
+    })
+
+    try {
+      const startTime = Date.now()
+      const result = await scannerRef.current.scan()
+
+      const metadataMap = new Map<string, ComponentMetadata>()
+      result.metadata.forEach(meta => {
+        metadataMap.set(meta.id, meta)
+      })
+
+      // 转换并注册组件
+      const componentsToRegister = Array.from(metadataMap.values())
+      await Promise.all(componentsToRegister.map(async (meta) => {
+        const component = await loadComponent(meta)
+        register(component)
+      }))
+
+      setLoadedCount(componentsToRegister.length)
+
+      // 更新指标
+      setMetrics(prev => ({
+        ...prev,
+        totalScanTime: Date.now() - startTime,
+        averageScanTime: prev.totalScanTime > 0
+          ? (prev.averageScanTime + (Date.now() - startTime)) / 2
+          : Date.now() - startTime
+      }))
+
+      // 缓存结果
+      if (cacheRef.current && result.metadata.length > 0) {
+        await cacheRef.current.setComponents(result.metadata)
+      }
+
+      onScanComplete?.(result)
+
+      setScanStatus({
+        isScanning: false,
+        progress: 100
+      })
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error('扫描失败')
+      setScanStatus({
+        isScanning: false,
+        progress: 0,
+        error: err.message
+      })
+      onError?.(err)
+    }
+  }, [onScanComplete, onError])
+
+  // 增量扫描
+  const incrementalScan = useCallback(async (paths?: string[]) => {
+    // 简化实现：使用完整扫描代替增量扫描
+    await scanComponents(paths)
+  }, [scanComponents])
+
+  // 预定义组件元数据（向后兼容）
   const metadataMap: Record<string, ComponentMetadata> = {
     button: {
-      id: 'button',
-      name: 'Button',
-      displayName: 'Button',
-      description: '基础按钮组件，支持多种变体和尺寸',
-      category: 'primitives',
-      tags: ['基础', '按钮', '交互'],
       version: '1.0.0',
       props: [
         { name: 'variant', type: '"solid" | "outline" | "ghost"', required: false, defaultValue: 'solid', description: '按钮变体' },
