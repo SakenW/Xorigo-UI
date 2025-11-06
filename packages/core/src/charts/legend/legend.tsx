@@ -1,3 +1,5 @@
+'use client'
+import React, { forwardRef, useId } from 'react'
 /**
  * Legend - 图例组件
  *
@@ -5,7 +7,6 @@
  * 这是图表组件库的重要组件，与 ChartContainer 配合使用。
  */
 
-import React, { forwardRef, useId } from 'react'
 import { motion, MotionProps } from 'framer-motion'
 import { cn } from '../../utils/cn'
 

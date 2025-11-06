@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { UNIFIED_THEME_RECIPES, getUnifiedThemeById } from '../system-tools/unified-theme-recipes'
 import type { UnifiedThemeRecipe } from '../system-tools/unified-theme-recipes'

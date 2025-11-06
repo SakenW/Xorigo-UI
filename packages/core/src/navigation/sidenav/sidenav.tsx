@@ -1,3 +1,4 @@
+'use client'
 /**
  * Sidenav - 侧边导航组件
  *

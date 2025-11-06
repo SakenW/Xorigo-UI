@@ -7,14 +7,6 @@ export { default as ComponentCard } from './component-card'
 export { ComponentPreview, ComponentVariants } from './component-preview'
 export { default as SearchFilter } from './search-filter'
 
-// 工具函数导出
-export {
-  generateComponentCode,
-  copyToClipboard,
-  formatCode,
-  CodeFormat
-} from './code-generator'
-
 // 类型导出
 export type {
   ComponentMeta,

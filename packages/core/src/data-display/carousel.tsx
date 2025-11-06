@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { cn } from '../utils/cn'
 import { cva, type VariantProps } from '../utils/cva-standalone'

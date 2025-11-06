@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview GaugeChart component - A flexible, animated gauge chart visualization
  * @version 1.0.0

@@ -1,3 +1,4 @@
+'use client'
 /**
  * InfoTooltip - 信息提示组件
  *

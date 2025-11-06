@@ -1,3 +1,4 @@
+'use client'
 /**
  * Collapse 折叠面板组件 - v2025.11.04
  *

@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview DataGrid 组件 - 高级数据表格组件
  * @description 功能完整的数据表格组件，支持排序、过滤、分页、选择等高级功能

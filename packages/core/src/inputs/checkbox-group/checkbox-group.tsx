@@ -1,3 +1,4 @@
+'use client'
 /**
  * CheckboxGroup - 复选框组组件
  *

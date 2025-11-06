@@ -1,3 +1,4 @@
+'use client'
 /**
  * Button Component Stories - 按钮组件 Storybook 故事
  *

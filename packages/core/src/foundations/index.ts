@@ -42,13 +42,7 @@ export const tokens = {
 export const helpers = {
   cn,
   color: ColorHelper,
-  surface: SurfaceHelper,
-  animation: {
-    createAnimation: require('./motion-curves').AnimationHelper.createAnimation,
-    createKeyframes: require('./motion-curves').AnimationHelper.createKeyframes,
-    getAccessibilityAwareAnimation: require('./motion-curves').AnimationHelper.getAccessibilityAwareAnimation,
-    getAnimationPreset: require('./motion-curves').AnimationHelper.getAnimationPreset
-  }
+  surface: SurfaceHelper
 }
 
 // 验证器集合

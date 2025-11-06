@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview Card 组件 - 数据展示卡片
  * @description 用于数据展示的卡片组件，支持多种变体、状态和交互

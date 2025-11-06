@@ -1,3 +1,4 @@
+'use client'
 /**
  * RangeSlider - 范围滑块组件
  *

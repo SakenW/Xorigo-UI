@@ -1,3 +1,4 @@
+'use client'
 /**
  * NavMenu - 导航菜单组件
  *

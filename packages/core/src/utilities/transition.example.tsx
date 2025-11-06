@@ -1,3 +1,4 @@
+'use client'
 // Transition 组件使用示例
 // 这个文件展示了如何使用 Transition 组件
 

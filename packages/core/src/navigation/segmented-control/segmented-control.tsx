@@ -1,3 +1,4 @@
+'use client'
 /**
  * SegmentedControl - 分段控制器组件
  *

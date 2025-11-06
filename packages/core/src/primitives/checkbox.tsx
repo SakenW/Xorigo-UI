@@ -1,3 +1,4 @@
+'use client'
 /**
  * Checkbox - 复选框组件
  *

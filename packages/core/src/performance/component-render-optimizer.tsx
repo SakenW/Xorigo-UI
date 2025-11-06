@@ -1,3 +1,4 @@
+'use client'
 /**
  * Xorigo UI 组件渲染性能优化系统
  *

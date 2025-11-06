@@ -1,3 +1,4 @@
+'use client'
 import React, { forwardRef, useRef, useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
 import { createPortal } from 'react-dom'

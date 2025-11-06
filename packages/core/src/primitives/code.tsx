@@ -1,3 +1,4 @@
+'use client'
 import React, { forwardRef, useState, useCallback } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from '../utils/cva-standalone'

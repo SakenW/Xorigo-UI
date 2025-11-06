@@ -1,3 +1,5 @@
+'use client'
+import React, { forwardRef, useId, useMemo } from 'react'
 /**
  * ChartArea - 图表区域容器组件
  *
@@ -5,7 +7,6 @@
  * 这是图表组件库的核心容器组件，基于 ChartContainer 构建。
  */
 
-import React, { forwardRef, useId, useMemo } from 'react'
 import { motion, MotionProps } from 'framer-motion'
 import { ChartContainer } from '../chart-container/chart-container'
 import { Axis } from '../axis/axis'

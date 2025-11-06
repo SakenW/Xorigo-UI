@@ -78,7 +78,7 @@
     "release": "changeset publish",
     "release:beta": "changeset publish --tag beta",
     "release:alpha": "changeset publish --tag alpha",
-    "release:dry-run": "changeset publish --dry-run",
+    "release:dry-run": "tsx scripts/release/release.ts --dry-run",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "pnpm build:packages",
     "build:packages": "pnpm -r --if-present build",
@@ -96,7 +96,6 @@
     "build:analyze": "pnpm build:custom --analyze",
     "build:report": "pnpm build:custom --analyze && cat BUILD_REPORT.md",
     "release:custom": "tsx scripts/release/release.ts",
-    "release:dry-run": "tsx scripts/release/release.ts --dry-run",
     "release:validate-all": "pnpm quality:gate && pnpm build:all && pnpm test:integration && pnpm test:e2e",
     "security:audit": "pnpm audit --audit-level=high",
     "security:fix": "pnpm audit fix",
@@ -164,9 +163,13 @@
   "homepage": "https://github.com/your-org/xorigo-ui#readme",
   "dependencies": {
     "ajv": "^8.17.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.6",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1"
   },
   "publishConfig": {
     "access": "public",

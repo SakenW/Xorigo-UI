@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview RadarChart component - A flexible, animated radar chart visualization
  * @version 1.0.0

@@ -1,3 +1,4 @@
+'use client'
 /**
  * ContextualMenu - 上下文菜单组件
  *

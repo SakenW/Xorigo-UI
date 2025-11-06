@@ -4,6 +4,8 @@
  * @author Xorigo UI Team
  */
 
+'use client'
+
 import React, {
   forwardRef,
   useMemo,

@@ -4,6 +4,8 @@
  * @author Xorigo UI Team
  */
 
+'use client'
+
 import React, { forwardRef, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../../utils/cn'

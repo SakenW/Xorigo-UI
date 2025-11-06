@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { type Component } from '@/data/registry.readonly'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Button } from '@xorigo-ui/core'
 import { ExternalLink, Play } from 'lucide-react'
 
 interface ComponentGridProps {

@@ -1,3 +1,4 @@
+'use client'
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from '../utils/cva-standalone'

@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview DonutChart component - A flexible, animated donut chart visualization
  * @version 1.0.0

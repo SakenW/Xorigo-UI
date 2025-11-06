@@ -1,3 +1,4 @@
+'use client'
 /**
  * 📋 Key Value List · 键值列表组件 - v2025.11.04
  *

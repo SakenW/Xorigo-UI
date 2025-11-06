@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useId, useMemo, useRef, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 

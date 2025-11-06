@@ -1,3 +1,4 @@
+'use client'
 /**
  * Autocomplete - 自动完成组件
  *

@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cva, type VariantProps } from '../utils/cva-standalone'

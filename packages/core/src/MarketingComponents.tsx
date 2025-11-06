@@ -3,6 +3,7 @@
  * TODO: 迁移到正确的组件包结构中
  */
 
+'use client'
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'

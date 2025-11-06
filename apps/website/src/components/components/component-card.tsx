@@ -22,13 +22,35 @@ import { Code, Copy, Check, Eye, Info, Download } from 'lucide-react'
 
 import { ComponentMeta, ComponentTag } from './component-registry'
 import { ComponentPreview, ComponentVariants } from './component-preview'
-import {
-  generateComponentCode,
-  copyToClipboard,
-  CodeFormat,
-  formatCode
-} from './code-generator'
 import { componentCategories } from './component-registry'
+
+// 内联工具函数
+enum CodeFormat {
+  TSX = 'tsx',
+  JSX = 'jsx',
+  HTML = 'html',
+  CSS = 'css',
+  JSON = 'json'
+}
+
+const copyToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch (err) {
+    console.error('复制失败:', err)
+    return false
+  }
+}
+
+const formatCode = (code: string): string => {
+  return code.trim()
+}
+
+const generateComponentCode = (component: ComponentMeta): string => {
+  // 简化实现：返回组件名称
+  return `<${component.name} />`
+}
 
 interface ComponentCardProps {
   component: ComponentMeta

@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview Field Wrapper 组件 - 字段包装器
  * @module components/form/field-wrapper

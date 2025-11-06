@@ -1,3 +1,4 @@
+'use client'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Tag, TagGroup } from './tag'
 import { useState } from 'react'

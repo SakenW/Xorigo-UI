@@ -1,3 +1,5 @@
+'use client'
+import React, { forwardRef, useMemo, useState, useRef, useEffect } from 'react'
 /**
  * @file Sparkline 迷你线图组件
  * @description 轻量级数据可视化组件，用于展示小型趋势数据和变化
@@ -6,7 +8,6 @@
  * @category Charts
  */
 
-import React, { forwardRef, useMemo, useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Variant } from 'framer-motion'
 

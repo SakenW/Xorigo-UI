@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * @fileoverview ThemeBridge 主题桥接组件
  * @description 纯UI组件，负责主题切换时的桥接逻辑和状态管理
@@ -19,7 +21,7 @@
  */
 
 import React, { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+
 import {
   mapRecipeToSystem,
   mapSystemToRecipe,
@@ -29,7 +31,7 @@ import {
   type RecipeId,
   type SystemThemeId,
   type ThemeRecipe
-} from '../../theme/theme-mapping'
+} from '../../theme'
 
 // ============================================================================
 // 类型定义
@@ -361,9 +363,10 @@ export function ThemeSelector({
   [key: string]: any
 }): ReactNode {
   const { setRecipe, recipeId } = useThemeBridge()
-  const { getAvailableRecipes } = require('../../theme/theme-mapping')
 
-  const availableRecipes = recipes || getAvailableRecipes()
+  // Note: getAvailableRecipes is not available in bundled version
+  // Users should pass recipes prop directly
+  const availableRecipes = recipes || []
 
   return (
     <select

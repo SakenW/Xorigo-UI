@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Button } from '@xorigo-ui/core'
 import { ArrowRight, Sparkles, Zap } from '@/components/ui/lucide-icons'
 import { HeroClient } from './hero-client'
 

@@ -1,3 +1,4 @@
+'use client'
 /**
  * Collapse 组件 Storybook 故事文件
  * @version 2025.11.04

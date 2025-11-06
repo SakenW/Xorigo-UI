@@ -1,3 +1,4 @@
+'use client'
 /**
  * @fileoverview Description List Component - 描述列表组件
  * @description 支持术语和定义展示的灵活列表组件，提供多种布局和交互模式

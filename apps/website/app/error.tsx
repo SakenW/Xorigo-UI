@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@xorigo-ui/core'
 
 export default function Error({
   error,
@@ -67,20 +66,19 @@ export default function Error({
         )}
 
         <div className="space-y-3">
-          <Button
+          <button
             onClick={reset}
-            className="w-full"
-            variant="outline"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             重试
-          </Button>
+          </button>
 
-          <Button
+          <button
             onClick={() => router.push('/')}
-            className="w-full"
+            className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             返回首页
-          </Button>
+          </button>
         </div>
 
         <p className="text-xs text-gray-500 mt-6">
