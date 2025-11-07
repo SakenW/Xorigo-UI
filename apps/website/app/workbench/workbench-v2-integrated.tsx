@@ -484,6 +484,10 @@ export default function WorkbenchV2Integrated() {
   const [selectedScenario, setSelectedScenario] = useState<BusinessScenario | null>(null)
   const [selectedComponent, setSelectedComponent] = useState<ComponentExample | null>(null)
   const [selectedRecipe, setSelectedRecipe] = useState<ThemeRecipe>(themeRecipes[0])
+
+  // 组件预览状态管理
+  const [previewProps, setPreviewProps] = useState<Record<string, any>>({})
+  const [isInteractiveMode, setIsInteractiveMode] = useState<boolean>(false)
   const [filteredScenarios, setFilteredScenarios] = useState<BusinessScenario[]>(mockScenarios)
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [selectedDifficultyFilter, setSelectedDifficultyFilter] = useState<string>('all')
@@ -593,6 +597,236 @@ export default function WorkbenchV2Integrated() {
     return category.subcategories.find(sub => sub.id === selectedSubcategory)
   }
 
+  // 获取属性默认值
+  const getPropDefault = (prop: string): string => {
+    const defaultMap: Record<string, string> = {
+      'placeholder': '""',
+      'value': 'undefined',
+      'onChange': 'undefined',
+      'disabled': 'false',
+      'showPassword': 'false',
+      'strength': 'true',
+      'min': 'undefined',
+      'max': 'undefined',
+      'step': '1',
+      'precision': 'undefined',
+      'validation': 'undefined',
+      'domains': '[]',
+      'countryCode': '"+86"',
+      'format': 'international',
+      'options': '[]',
+      'multiple': 'false',
+      'searchable': 'false',
+      'checked': 'false',
+      'indeterminate': 'false',
+      'selected': 'undefined',
+      'size': '"md"',
+      'columns': '12',
+      'gap': '"md"',
+      'responsive': '{}',
+      'gutter': '"md"',
+      'align': '"start"',
+      'justify': '"start"',
+      'span': 'undefined',
+      'offset': '0'
+    }
+    return defaultMap[prop] || 'undefined'
+  }
+
+  // 组件预览相关函数
+  const initializePreviewProps = (component: ComponentExample) => {
+    const props: Record<string, any> = {}
+    if (component.props) {
+      component.props.forEach(prop => {
+        props[prop] = getPropDefault(prop) === 'undefined' ? undefined :
+                      getPropDefault(prop) === 'false' ? false :
+                      getPropDefault(prop) === 'true' ? true :
+                      getPropDefault(prop).startsWith('"') ? getPropDefault(prop).slice(1, -1) :
+                      getPropDefault(prop)
+      })
+    }
+    setPreviewProps(props)
+  }
+
+  const updatePreviewProp = (prop: string, value: any) => {
+    setPreviewProps(prev => ({
+      ...prev,
+      [prop]: value
+    }))
+  }
+
+  const resetPreviewProps = () => {
+    if (selectedComponent) {
+      initializePreviewProps(selectedComponent)
+    }
+  }
+
+  // 当选中组件变化时，初始化预览属性
+  useEffect(() => {
+    if (selectedComponent) {
+      initializePreviewProps(selectedComponent)
+      setIsInteractiveMode(false)
+    }
+  }, [selectedComponent])
+
+  // 模拟组件渲染函数
+  const renderComponentPreview = (component: ComponentExample) => {
+    const { name } = component
+    const props = previewProps
+
+    switch (name) {
+      case 'TextInput':
+        return (
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder={props.placeholder || '请输入文本...'}
+              value={props.value || ''}
+              onChange={(e) => updatePreviewProp('value', e.target.value)}
+              disabled={props.disabled || false}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+        )
+
+      case 'PasswordInput':
+        return (
+          <div className="w-full">
+            <input
+              type="password"
+              placeholder={props.placeholder || '请输入密码...'}
+              value={props.value || ''}
+              onChange={(e) => updatePreviewProp('value', e.target.value)}
+              disabled={props.disabled || false}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            />
+            {props.strength && (
+              <div className="mt-2">
+                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 transition-all duration-300"
+                    style={{ width: `${(props.value || '').length * 10}%` }}
+                  />
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  密码强度: {(props.value || '').length < 6 ? '弱' : (props.value || '').length < 10 ? '中' : '强'}
+                </p>
+              </div>
+            )}
+          </div>
+        )
+
+      case 'NumberInput':
+        return (
+          <div className="w-full">
+            <input
+              type="number"
+              placeholder={props.placeholder || '请输入数字...'}
+              value={props.value || ''}
+              onChange={(e) => updatePreviewProp('value', parseFloat(e.target.value) || undefined)}
+              min={props.min}
+              max={props.max}
+              step={props.step || 1}
+              disabled={props.disabled || false}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+        )
+
+      case 'Select':
+        return (
+          <div className="w-full">
+            <select
+              value={props.value || ''}
+              onChange={(e) => updatePreviewProp('value', e.target.value)}
+              disabled={props.disabled || false}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            >
+              <option value="">请选择...</option>
+              {props.options?.map((option: string, index: number) => (
+                <option key={index} value={option}>{option}</option>
+              )) || <option value="选项1">选项1</option>}
+            </select>
+          </div>
+        )
+
+      case 'Checkbox':
+        return (
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={props.checked || false}
+              onChange={(e) => updatePreviewProp('checked', e.target.checked)}
+              disabled={props.disabled || false}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <span className="text-sm text-gray-700 dark:text-gray-300">同意条款</span>
+          </div>
+        )
+
+      case 'Radio':
+        return (
+          <div className="space-y-2">
+            {props.options?.map((option: string, index: number) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="radio-group"
+                  value={option}
+                  checked={props.selected === option}
+                  onChange={() => updatePreviewProp('selected', option)}
+                  disabled={props.disabled || false}
+                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700 dark:text-gray-300">{option}</span>
+              </div>
+            )) || ['选项1', '选项2', '选项3'].map((option, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="radio-group"
+                  value={option}
+                  checked={props.selected === option}
+                  onChange={() => updatePreviewProp('selected', option)}
+                  disabled={props.disabled || false}
+                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700 dark:text-gray-300">{option}</span>
+              </div>
+            ))}
+          </div>
+        )
+
+      case 'Switch':
+        return (
+          <button
+            onClick={() => updatePreviewProp('checked', !props.checked)}
+            disabled={props.disabled || false}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              props.checked ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+            } ${props.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                props.checked ? 'translate-x-6' : 'translate-x-1'
+              }`}
+            />
+          </button>
+        )
+
+      default:
+        return (
+          <div className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center">
+            <div className="text-gray-500 dark:text-gray-400">
+              <div className="text-2xl mb-2">🧩</div>
+              <div className="font-medium">{name}</div>
+              <div className="text-sm mt-1">交互预览开发中...</div>
+            </div>
+          </div>
+        )
+    }
+  }
+
   // Props 相关辅助函数
   const getPropType = (prop: string): string => {
     const typeMap: Record<string, string> = {
@@ -627,41 +861,6 @@ export default function WorkbenchV2Integrated() {
       'offset': 'number'
     }
     return typeMap[prop] || 'any'
-  }
-
-  const getPropDefault = (prop: string): string => {
-    const defaultMap: Record<string, string> = {
-      'placeholder': '""',
-      'value': 'undefined',
-      'onChange': 'undefined',
-      'disabled': 'false',
-      'showPassword': 'false',
-      'strength': 'true',
-      'min': 'undefined',
-      'max': 'undefined',
-      'step': '1',
-      'precision': 'undefined',
-      'validation': 'undefined',
-      'domains': '[]',
-      'countryCode': '"+86"',
-      'format': 'international',
-      'options': '[]',
-      'multiple': 'false',
-      'searchable': 'false',
-      'checked': 'false',
-      'indeterminate': 'false',
-      'selected': 'undefined',
-      'size': '"md"',
-      'columns': '12',
-      'gap': '"md"',
-      'responsive': '{}',
-      'gutter': '"md"',
-      'align': '"start"',
-      'justify': '"start"',
-      'span': 'undefined',
-      'offset': '0'
-    }
-    return defaultMap[prop] || 'undefined'
   }
 
   const getPropDescription = (prop: string): string => {
@@ -1126,26 +1325,139 @@ export default function WorkbenchV2Integrated() {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                               {/* 左侧：预览区域 */}
                               <div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">组件预览</h3>
-                                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700 min-h-[200px] flex items-center justify-center">
-                                  <div className="text-center">
-                                    <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
-                                      <span className="text-3xl">⚡</span>
+                                <div className="flex items-center justify-between mb-4">
+                                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">组件预览</h3>
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      onClick={() => setIsInteractiveMode(!isInteractiveMode)}
+                                      className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                                        isInteractiveMode
+                                          ? 'bg-blue-500 text-white hover:bg-blue-600'
+                                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                                      }`}
+                                    >
+                                      {isInteractiveMode ? '📝 编辑模式' : '👁️ 预览模式'}
+                                    </button>
+                                    <button
+                                      onClick={resetPreviewProps}
+                                      className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                                    >
+                                      🔄 重置
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* 预览模式切换 */}
+                                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                  {/* 预览标题栏 */}
+                                  <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                      <span className="text-xs text-gray-600 dark:text-gray-400 ml-2">
+                                        {selectedComponent.name} - {isInteractiveMode ? '交互式' : '静态'}预览
+                                      </span>
                                     </div>
-                                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                                      {selectedComponent.name}
-                                    </h4>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                      {selectedComponent.description}
-                                    </p>
-                                    <div className="flex gap-2 justify-center">
-                                      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
-                                        交互预览
-                                      </button>
-                                      <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm">
-                                        全屏预览
-                                      </button>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      Live Preview
                                     </div>
+                                  </div>
+
+                                  {/* 预览内容区域 */}
+                                  <div className="p-6 min-h-[300px]">
+                                    {isInteractiveMode ? (
+                                      <div className="space-y-6">
+                                        {/* 组件实时预览 */}
+                                        <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                          <div className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            实时组件预览:
+                                          </div>
+                                          {renderComponentPreview(selectedComponent)}
+                                        </div>
+
+                                        {/* Props 控制器 */}
+                                        {selectedComponent.props && selectedComponent.props.length > 0 && (
+                                          <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <div className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                              属性控制器:
+                                            </div>
+                                            <div className="space-y-3">
+                                              {selectedComponent.props.map((prop, index) => (
+                                                <div key={index} className="flex items-center justify-between">
+                                                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    {prop}
+                                                  </label>
+                                                  <div className="flex items-center space-x-2">
+                                                    {getPropType(prop) === 'boolean' ? (
+                                                      <button
+                                                        onClick={() => updatePreviewProp(prop, !previewProps[prop])}
+                                                        className={`w-12 h-6 rounded-full transition-colors ${
+                                                          previewProps[prop] ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                                                        }`}
+                                                      >
+                                                        <div
+                                                          className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                                                            previewProps[prop] ? 'translate-x-6' : 'translate-x-0.5'
+                                                          }`}
+                                                        />
+                                                      </button>
+                                                    ) : getPropType(prop) === 'string' ? (
+                                                      <input
+                                                        type="text"
+                                                        value={previewProps[prop] || ''}
+                                                        onChange={(e) => updatePreviewProp(prop, e.target.value)}
+                                                        placeholder="输入值..."
+                                                        className="px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white"
+                                                      />
+                                                    ) : getPropType(prop) === 'number' ? (
+                                                      <input
+                                                        type="number"
+                                                        value={previewProps[prop] || ''}
+                                                        onChange={(e) => updatePreviewProp(prop, parseFloat(e.target.value) || undefined)}
+                                                        className="w-20 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white"
+                                                      />
+                                                    ) : (
+                                                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                        {getPropType(prop)}
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+                                        )}
+
+                                        {/* 当前值显示 */}
+                                        <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                                          <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            当前Props值:
+                                          </div>
+                                          <pre className="text-xs text-gray-600 dark:text-gray-400 overflow-x-auto">
+{JSON.stringify(previewProps, null, 2)}
+                                          </pre>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="text-center">
+                                        <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                          <span className="text-3xl">⚡</span>
+                                        </div>
+                                        <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                                          {selectedComponent.name}
+                                        </h4>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                          {selectedComponent.description}
+                                        </p>
+                                        <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                          {renderComponentPreview(selectedComponent)}
+                                        </div>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
+                                          点击"编辑模式"可以进行交互式预览
+                                        </p>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </div>
