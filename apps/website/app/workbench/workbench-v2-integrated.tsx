@@ -55,7 +55,10 @@ interface ComponentExample {
   name: string
   description: string
   category: string
+  subcategory: string
   count: number
+  props?: string[]
+  usage?: string
 }
 
 interface ThemeRecipe {
@@ -373,12 +376,93 @@ const componentCategories: ComponentCategory[] = [
   }
 ]
 
+// 完整的组件数据 - 按分类和子分类组织
 const components: ComponentExample[] = [
-  { id: '1', name: 'Button', description: '按钮组件', category: 'ui', count: 24 },
-  { id: '2', name: 'Input', description: '输入框组件', category: 'ui', count: 18 },
-  { id: '3', name: 'Card', description: '卡片组件', category: 'ui', count: 12 },
-  { id: '4', name: 'Modal', description: '模态框组件', category: 'ui', count: 8 },
-  { id: '5', name: 'Table', description: '表格组件', category: 'ui', count: 15 }
+  // 表单组件 - 输入组件
+  { id: '1', name: 'TextInput', description: '文本输入框', category: 'forms', subcategory: 'input', count: 8, props: ['placeholder', 'value', 'onChange', 'disabled'], usage: '基础文本输入，支持验证和格式化' },
+  { id: '2', name: 'PasswordInput', description: '密码输入框', category: 'forms', subcategory: 'input', count: 4, props: ['placeholder', 'showPassword', 'strength'], usage: '密码输入，支持强度检测和显示切换' },
+  { id: '3', name: 'NumberInput', description: '数字输入框', category: 'forms', subcategory: 'input', count: 5, props: ['min', 'max', 'step', 'precision'], usage: '数字输入，支持范围限制和精度控制' },
+  { id: '4', name: 'EmailInput', description: '邮箱输入框', category: 'forms', subcategory: 'input', count: 3, props: ['validation', 'domains'], usage: '邮箱输入，自动验证格式' },
+  { id: '5', name: 'PhoneInput', description: '手机号输入框', category: 'forms', subcategory: 'input', count: 3, props: ['countryCode', 'format'], usage: '手机号输入，支持国际格式' },
+
+  // 表单组件 - 选择组件
+  { id: '6', name: 'Select', description: '下拉选择器', category: 'forms', subcategory: 'select', count: 6, props: ['options', 'multiple', 'searchable'], usage: '单选/多选下拉框' },
+  { id: '7', name: 'Checkbox', description: '复选框', category: 'forms', subcategory: 'select', count: 4, props: ['checked', 'indeterminate', 'disabled'], usage: '多选框组件' },
+  { id: '8', name: 'Radio', description: '单选框', category: 'forms', subcategory: 'select', count: 4, props: ['options', 'selected', 'disabled'], usage: '单选按钮组' },
+  { id: '9', name: 'Switch', description: '开关切换', category: 'forms', subcategory: 'select', count: 3, props: ['checked', 'disabled', 'size'], usage: '开关式切换控件' },
+
+  // 表单组件 - 验证器
+  { id: '10', name: 'FormValidator', description: '表单验证器', category: 'forms', subcategory: 'validation', count: 5, props: ['rules', 'errors', 'validate'], usage: '表单验证和错误提示' },
+  { id: '11', name: 'FieldError', description: '字段错误提示', category: 'forms', subcategory: 'validation', count: 3, props: ['message', 'type'], usage: '表单字段错误显示' },
+
+  // 布局组件 - 栅格系统
+  { id: '12', name: 'Grid', description: '栅格布局', category: 'layout', subcategory: 'grid', count: 6, props: ['columns', 'gap', 'responsive'], usage: '响应式栅格布局系统' },
+  { id: '13', name: 'Row', description: '行容器', category: 'layout', subcategory: 'grid', count: 4, props: ['gutter', 'align', 'justify'], usage: '栅格行容器' },
+  { id: '14', name: 'Col', description: '列容器', category: 'layout', subcategory: 'grid', count: 4, props: ['span', 'offset', 'responsive'], usage: '栅格列容器' },
+
+  // 布局组件 - 容器组件
+  { id: '15', name: 'Container', description: '容器组件', category: 'layout', subcategory: 'container', count: 5, props: ['fluid', 'maxWidth', 'padding'], usage: '响应式内容容器' },
+  { id: '16', name: 'Section', description: '区块容器', category: 'layout', subcategory: 'container', count: 3, props: ['spacing', 'divider'], usage: '页面区块容器' },
+
+  // 布局组件 - 弹性布局
+  { id: '17', name: 'Flex', description: '弹性布局', category: 'layout', subcategory: 'flex', count: 6, props: ['direction', 'align', 'justify', 'wrap'], usage: 'Flexbox布局容器' },
+  { id: '18', name: 'Spacer', description: '间距组件', category: 'layout', subcategory: 'flex', count: 3, props: ['size', 'flex'], usage: '弹性间距占位符' },
+
+  // 反馈组件 - 提示框
+  { id: '19', name: 'Alert', description: '警告提示', category: 'feedback', subcategory: 'alert', count: 5, props: ['type', 'message', 'closable'], usage: '信息提示和警告显示' },
+  { id: '20', name: 'Notification', description: '通知提醒', category: 'feedback', subcategory: 'alert', count: 4, props: ['type', 'placement', 'duration'], usage: '全局通知提醒' },
+
+  // 反馈组件 - 通知
+  { id: '21', name: 'Toast', description: '轻量提示', category: 'feedback', subcategory: 'toast', count: 3, props: ['message', 'type', 'position'], usage: '轻量级消息提示' },
+
+  // 反馈组件 - 加载状态
+  { id: '22', name: 'Spinner', description: '加载动画', category: 'feedback', subcategory: 'loading', count: 4, props: ['size', 'color', 'type'], usage: '加载状态动画' },
+  { id: '23', name: 'Skeleton', description: '骨架屏', category: 'feedback', subcategory: 'loading', count: 3, props: ['lines', 'animated'], usage: '内容加载占位符' },
+
+  // 反馈组件 - 进度条
+  { id: '24', name: 'ProgressBar', description: '进度条', category: 'feedback', subcategory: 'progress', count: 4, props: ['value', 'max', 'color', 'size'], usage: '线性进度条' },
+  { id: '25', name: 'ProgressCircle', description: '环形进度', category: 'feedback', subcategory: 'progress', count: 3, props: ['value', 'size', 'stroke'], usage: '圆形进度指示器' },
+
+  // 覆盖层组件 - 模态框
+  { id: '26', name: 'Modal', description: '模态对话框', category: 'overlays', subcategory: 'modal', count: 6, props: ['visible', 'title', 'footer', 'size'], usage: '模态对话框容器' },
+  { id: '27', name: 'Dialog', description: '确认对话框', category: 'overlays', subcategory: 'modal', count: 3, props: ['title', 'content', 'onConfirm'], usage: '确认操作对话框' },
+
+  // 覆盖层组件 - 抽屉
+  { id: '28', name: 'Drawer', description: '抽屉面板', category: 'overlays', subcategory: 'drawer', count: 4, props: ['position', 'visible', 'title'], usage: '侧边抽屉面板' },
+
+  // 覆盖层组件 - 提示框
+  { id: '29', name: 'Tooltip', description: '悬浮提示', category: 'overlays', subcategory: 'tooltip', count: 5, props: ['content', 'position', 'trigger'], usage: '鼠标悬浮提示' },
+  { id: '30', name: 'Popover', description: '弹出卡片', category: 'overlays', subcategory: 'popover', count: 4, props: ['content', 'trigger', 'placement'], usage: '复杂内容弹出层' },
+
+  // 图表组件 - 基础图表
+  { id: '31', name: 'BarChart', description: '柱状图', category: 'charts', subcategory: 'basic-charts', count: 4, props: ['data', 'xAxis', 'yAxis', 'colors'], usage: '柱状数据可视化' },
+  { id: '32', name: 'LineChart', description: '折线图', category: 'charts', subcategory: 'basic-charts', count: 4, props: ['data', 'xAxis', 'yAxis', 'smooth'], usage: '趋势数据可视化' },
+  { id: '33', name: 'PieChart', description: '饼图', category: 'charts', subcategory: 'basic-charts', count: 3, props: ['data', 'colors', 'labels'], usage: '占比数据可视化' },
+
+  // 图表组件 - 仪表盘
+  { id: '34', name: 'Dashboard', description: '数据仪表盘', category: 'charts', subcategory: 'dashboard', count: 3, props: ['widgets', 'layout', 'refresh'], usage: '数据仪表盘容器' },
+  { id: '35', name: 'Widget', description: '仪表盘组件', category: 'charts', subcategory: 'dashboard', count: 5, props: ['type', 'data', 'title'], usage: '仪表盘小部件' },
+
+  // 编辑器组件
+  { id: '36', name: 'CodeEditor', description: '代码编辑器', category: 'editor', subcategory: 'monaco', count: 4, props: ['language', 'theme', 'value', 'onChange'], usage: 'Monaco代码编辑器' },
+  { id: '37', name: 'AIAssistant', description: 'AI编程助手', category: 'editor', subcategory: 'ai-assistant', count: 3, props: ['prompt', 'response', 'onGenerate'], usage: '智能代码生成助手' },
+
+  // 导航组件
+  { id: '38', name: 'Breadcrumb', description: '面包屑导航', category: 'navigation', subcategory: 'breadcrumb', count: 3, props: ['items', 'separator', 'onClick'], usage: '页面路径导航' },
+  { id: '39', name: 'Pagination', description: '分页器', category: 'navigation', subcategory: 'pagination', count: 4, props: ['current', 'total', 'onChange'], usage: '数据分页导航' },
+  { id: '40', name: 'Tabs', description: '标签页', category: 'navigation', subcategory: 'tabs', count: 5, props: ['tabs', 'active', 'onChange'], usage: '标签页切换' },
+  { id: '41', name: 'Menu', description: '导航菜单', category: 'navigation', subcategory: 'menu', count: 4, props: ['items', 'onClick', 'horizontal'], usage: '导航菜单组件' },
+
+  // 媒体组件
+  { id: '42', name: 'Image', description: '图片组件', category: 'media', subcategory: 'image', count: 4, props: ['src', 'alt', 'lazy', 'fallback'], usage: '响应式图片显示' },
+  { id: '43', name: 'VideoPlayer', description: '视频播放器', category: 'media', subcategory: 'video', count: 2, props: ['src', 'controls', 'autoplay'], usage: '视频播放组件' },
+  { id: '44', name: 'Icon', description: '图标组件', category: 'media', subcategory: 'icon', count: 8, props: ['name', 'size', 'color'], usage: '图标库组件' },
+  { id: '45', name: 'Avatar', description: '头像组件', category: 'media', subcategory: 'avatar', count: 3, props: ['src', 'name', 'size'], usage: '用户头像显示' },
+
+  // 核心组件
+  { id: '46', name: 'WorkbenchV2', description: '工作台核心', category: 'core', subcategory: 'workbench', count: 1, props: ['mode', 'config'], usage: '工作台核心架构' },
+  { id: '47', name: 'SmartBreadcrumb', description: '智能导航', category: 'core', subcategory: 'breadcrumb', count: 1, props: ['routes', 'auto'], usage: '智能面包屑导航' },
+  { id: '48', name: 'ComponentRegistry', description: '组件注册器', category: 'components', subcategory: 'registry', count: 2, props: ['components', 'register'], usage: '组件注册管理' }
 ]
 
 const themeRecipes: ThemeRecipe[] = [
@@ -481,6 +565,32 @@ export default function WorkbenchV2Integrated() {
   const handleSubcategorySelect = (categoryId: string, subcategoryId: string) => {
     setSelectedCategory(categoryId)
     setSelectedSubcategory(subcategoryId)
+  }
+
+  // 根据分类和子分类过滤组件
+  const getFilteredComponents = () => {
+    if (!selectedCategory) return []
+
+    return components.filter(component => {
+      // 如果有选中的子分类，则按子分类过滤
+      if (selectedSubcategory) {
+        return component.category === selectedCategory && component.subcategory === selectedSubcategory
+      }
+      // 否则只按主分类过滤
+      return component.category === selectedCategory
+    })
+  }
+
+  // 获取当前选中分类的信息
+  const getCurrentCategoryInfo = () => {
+    return componentCategories.find(cat => cat.id === selectedCategory)
+  }
+
+  // 获取当前选中子分类的信息
+  const getCurrentSubcategoryInfo = () => {
+    const category = getCurrentCategoryInfo()
+    if (!category || !category.subcategories) return null
+    return category.subcategories.find(sub => sub.id === selectedSubcategory)
   }
 
   
@@ -745,77 +855,163 @@ export default function WorkbenchV2Integrated() {
                 >
                   {/* 当前选中分类的详细信息 */}
                   {(() => {
-                    const currentCategory = componentCategories.find(cat => cat.id === selectedCategory)
+                    const currentCategory = getCurrentCategoryInfo()
+                    const currentSubcategory = getCurrentSubcategoryInfo()
+                    const filteredComponents = getFilteredComponents()
+
                     return (
-                      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                        <div className="flex items-center space-x-4 mb-6">
-                          <span className="text-4xl">{currentCategory?.icon}</span>
-                          <div className="flex-1">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                              {currentCategory?.name}
-                            </h2>
-                            <p className="text-gray-600 dark:text-gray-400">
-                              {currentCategory?.description}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                              {currentCategory?.count}
+                      <div className="space-y-6">
+                        {/* 分类标题区域 */}
+                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                          <div className="flex items-center space-x-4 mb-4">
+                            <span className="text-4xl">{currentCategory?.icon}</span>
+                            <div className="flex-1">
+                              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                {currentCategory?.name}
+                                {currentSubcategory && (
+                                  <span className="text-lg font-normal text-gray-600 dark:text-gray-400 ml-2">
+                                    / {currentSubcategory.name}
+                                  </span>
+                                )}
+                              </h2>
+                              <p className="text-gray-600 dark:text-gray-400">
+                                {currentSubcategory ? currentSubcategory.description : currentCategory?.description}
+                              </p>
                             </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">个组件</div>
+                            <div className="text-right">
+                              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                                {filteredComponents.length}
+                              </div>
+                              <div className="text-sm text-gray-500 dark:text-gray-400">
+                                {currentSubcategory ? '个子组件' : '个组件'}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 面包屑导航 */}
+                          <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span>组件库</span>
+                            <span>/</span>
+                            <span>{currentCategory?.name}</span>
+                            {currentSubcategory && (
+                              <>
+                                <span>/</span>
+                                <span>{currentSubcategory.name}</span>
+                              </>
+                            )}
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {components.map((component) => (
+                        {/* 组件网格 */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                          {filteredComponents.map((component) => (
                             <motion.div
                               key={component.id}
-                              whileHover={{ scale: 1.02 }}
-                              className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                              whileHover={{ scale: 1.02, y: -2 }}
+                              whileTap={{ scale: 0.98 }}
+                              className={`p-5 border-2 rounded-xl cursor-pointer transition-all shadow-sm hover:shadow-lg ${
                                 selectedComponent?.id === component.id
-                                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                                  : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
+                                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-blue-200 dark:shadow-blue-800/20'
+                                  : 'border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
                               }`}
                               onClick={() => setSelectedComponent(component)}
                             >
-                              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                                {component.name}
-                              </h3>
-                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                              <div className="flex items-start justify-between mb-3">
+                                <div className="flex-1">
+                                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                                    {component.name}
+                                  </h3>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                    {component.subcategory}
+                                  </p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full">
+                                    {component.count}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                                 {component.description}
                               </p>
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
-                                  {component.category}
-                                </span>
-                                <span className="text-xs text-blue-600 font-medium">
-                                  {component.count} 变体
-                                </span>
+
+                              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-1">
+                                {component.usage}
+                              </p>
+
+                              {/* 属性标签 */}
+                              {component.props && (
+                                <div className="flex flex-wrap gap-1">
+                                  {component.props.slice(0, 3).map((prop, index) => (
+                                    <span
+                                      key={index}
+                                      className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"
+                                    >
+                                      {prop}
+                                    </span>
+                                  ))}
+                                  {component.props.length > 3 && (
+                                    <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+                                      +{component.props.length - 3}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* 操作按钮 */}
+                              <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                <button
+                                  className="flex-1 px-3 py-1.5 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    console.log('预览组件:', component.name)
+                                  }}
+                                >
+                                  预览
+                                </button>
+                                <button
+                                  className="flex-1 px-3 py-1.5 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    console.log('查看文档:', component.name)
+                                  }}
+                                >
+                                  文档
+                                </button>
                               </div>
                             </motion.div>
                           ))}
                         </div>
 
                         {/* 详细信息面板 */}
-                        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg border border-blue-200 dark:border-blue-700">
-                            <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">当前分类</h4>
-                            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                              {currentCategory?.count}
-                            </p>
-                            <p className="text-sm text-blue-600 dark:text-blue-400">个组件</p>
-                          </div>
-                          <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg border border-purple-200 dark:border-purple-700">
-                            <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2">文件位置</h4>
-                            <p className="text-sm text-purple-600 dark:text-purple-400 font-mono">
-                              /src/components/workbench/{selectedCategory}/
-                            </p>
-                          </div>
-                          <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg border border-green-200 dark:border-green-700">
-                            <h4 className="font-medium text-green-900 dark:text-green-100 mb-2">主要用途</h4>
-                            <p className="text-sm text-green-600 dark:text-green-400">
-                              {currentCategory?.description}
-                            </p>
+                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            分类信息
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                              <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">组件总数</h4>
+                              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                                {filteredComponents.length}
+                              </p>
+                              <p className="text-sm text-blue-600 dark:text-blue-400">
+                                {currentSubcategory ? '个子组件' : '个组件'}
+                              </p>
+                            </div>
+                            <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg border border-purple-200 dark:border-purple-700">
+                              <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2">文件位置</h4>
+                              <p className="text-sm text-purple-600 dark:text-purple-400 font-mono">
+                                /src/components/{currentCategory?.id}/
+                                {currentSubcategory && `/${currentSubcategory.id}`}
+                              </p>
+                            </div>
+                            <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg border border-green-200 dark:border-green-700">
+                              <h4 className="font-medium text-green-900 dark:text-green-100 mb-2">功能描述</h4>
+                              <p className="text-sm text-green-600 dark:text-green-400">
+                                {currentSubcategory ? currentSubcategory.description : currentCategory?.description}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>

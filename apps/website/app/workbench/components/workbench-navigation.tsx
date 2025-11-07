@@ -144,7 +144,10 @@ export default function WorkbenchNavigation({
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">工作模式</div>
           <div className="flex gap-2">
             <button
-              onClick={() => onWorkModeChange('workbench')}
+              onClick={() => {
+                  onWorkModeChange('workbench')
+                  onActiveModeChange('solution')
+                }}
               className={`flex-1 px-3 py-2 text-sm rounded-lg transition-all ${
                 workMode === 'workbench'
                   ? 'bg-blue-500 text-white'
@@ -154,7 +157,10 @@ export default function WorkbenchNavigation({
               🎯 工作台
             </button>
             <button
-              onClick={() => onWorkModeChange('component-library')}
+              onClick={() => {
+                  onWorkModeChange('component-library')
+                  onActiveModeChange('components')
+                }}
               className={`flex-1 px-3 py-2 text-sm rounded-lg transition-all ${
                 workMode === 'component-library'
                   ? 'bg-blue-500 text-white'
@@ -212,7 +218,10 @@ export default function WorkbenchNavigation({
               <motion.button
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                onClick={() => onActiveModeChange('components')}
+                onClick={() => {
+                  onWorkModeChange('component-library')
+                  onActiveModeChange('components')
+                }}
                 className={`w-full text-left p-3 rounded-lg transition-all ${
                   activeMode === 'components'
                     ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-l-4 border-blue-500'
