@@ -6,7 +6,7 @@
 
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // 导入现有组件
@@ -25,6 +25,9 @@ interface BusinessScenario {
   difficulty: string
   features: string[]
   technologies: string[]
+  isRecommended?: boolean
+  isPopular?: boolean
+  isNew?: boolean
 }
 
 interface ComponentCategory {
@@ -63,7 +66,9 @@ const mockScenarios: BusinessScenario[] = [
     difficulty: '中级',
     description: '实时数据监控、KPI展示、智能分析',
     features: ['实时数据同步', '多维度数据展示', '智能预警系统', '自定义报表'],
-    technologies: ['React 19', 'TypeScript', 'D3.js', 'WebSocket']
+    technologies: ['React 19', 'TypeScript', 'D3.js', 'WebSocket'],
+    isRecommended: true,
+    isPopular: true
   },
   {
     id: 'ecommerce',
@@ -73,7 +78,8 @@ const mockScenarios: BusinessScenario[] = [
     difficulty: '高级',
     description: '商品管理、订单处理、支付集成',
     features: ['商品管理', '购物车系统', '支付集成', '订单管理'],
-    technologies: ['React 19', 'Node.js', 'Stripe API', 'PostgreSQL']
+    technologies: ['React 19', 'Node.js', 'Stripe API', 'PostgreSQL'],
+    isPopular: true
   },
   {
     id: 'crm',
@@ -83,7 +89,8 @@ const mockScenarios: BusinessScenario[] = [
     difficulty: '高级',
     description: '客户信息、销售管道、营销自动化',
     features: ['客户管理', '销售管道', '营销自动化', '数据分析'],
-    technologies: ['React 19', 'TypeScript', 'HubSpot API', 'MongoDB']
+    technologies: ['React 19', 'TypeScript', 'HubSpot API', 'MongoDB'],
+    isRecommended: true
   },
   {
     id: 'healthcare',
@@ -93,7 +100,8 @@ const mockScenarios: BusinessScenario[] = [
     difficulty: '专家级',
     description: '病历管理、预约系统、健康监测',
     features: ['电子病历', '预约管理', '健康监测', '报告生成'],
-    technologies: ['React 19', 'HIPAA合规', 'HL7/FHIR', '云存储']
+    technologies: ['React 19', 'HIPAA合规', 'HL7/FHIR', '云存储'],
+    isNew: true
   },
   {
     id: 'education',
@@ -103,7 +111,8 @@ const mockScenarios: BusinessScenario[] = [
     difficulty: '中级',
     description: '课程管理、学生信息、在线考试',
     features: ['课程管理', '学生信息系统', '在线考试', '成绩分析'],
-    technologies: ['React 19', 'LTI集成', 'WebRTC', 'AWS']
+    technologies: ['React 19', 'LTI集成', 'WebRTC', 'AWS'],
+    isRecommended: true
   },
   {
     id: 'finance',
@@ -313,121 +322,237 @@ export default function WorkbenchV2Integrated() {
   const [selectedComponent, setSelectedComponent] = useState<ComponentExample | null>(null)
   const [selectedRecipe, setSelectedRecipe] = useState<ThemeRecipe>(themeRecipes[0])
   const [filteredScenarios, setFilteredScenarios] = useState<BusinessScenario[]>(mockScenarios)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [selectedDifficultyFilter, setSelectedDifficultyFilter] = useState<string>('all')
 
-  const modes = [
-    { id: 'solution', label: '解决方案', icon: '🎯' },
-    { id: 'components', label: '组件库', icon: '🧩' },
-    { id: 'editor', label: '编辑器', icon: '✏️' },
-    { id: 'theme', label: '主题配方', icon: '🎨' },
-    { id: 'devtools', label: '开发工具', icon: '🔧' }
-  ] as const
+  // Monaco编辑器配置
+  useEffect(() => {
+    // 配置Monaco编辑器环境
+    if (typeof window !== 'undefined') {
+      (window as any).MonacoEnvironment = {
+        getWorkerUrl: (moduleId: string, label: string) => {
+          if (label === 'json') {
+            return '/_next/static/chunks/monaco-editor/esm/vs/language/json/json.worker.js'
+          }
+          if (label === 'css' || label === 'scss' || label === 'less') {
+            return '/_next/static/chunks/monaco-editor/esm/vs/language/css/css.worker.js'
+          }
+          if (label === 'html' || label === 'handlebars' || label === 'razor') {
+            return '/_next/static/chunks/monaco-editor/esm/vs/language/html/html.worker.js'
+          }
+          if (label === 'typescript' || label === 'javascript') {
+            return '/_next/static/chunks/monaco-editor/esm/vs/language/typescript/ts.worker.js'
+          }
+          return '/_next/static/chunks/monaco-editor/esm/vs/editor/editor.worker.js'
+        }
+      }
+    }
+  }, [])
 
+  // 计算总组件数
   const totalComponentCount = componentCategories.reduce((sum, cat) => sum + cat.count, 0)
 
-  // 过滤解决方案
-  const filterScenarios = (difficulty: string) => {
-    if (difficulty === 'all') {
-      setFilteredScenarios(mockScenarios)
-    } else {
-      setFilteredScenarios(mockScenarios.filter(s => s.difficulty === difficulty))
+  // 搜索和筛选功能
+  const filterScenarios = (search: string, difficulty: string) => {
+    let filtered = mockScenarios
+
+    // 按搜索词筛选
+    if (search.trim()) {
+      filtered = filtered.filter(scenario =>
+        scenario.name.toLowerCase().includes(search.toLowerCase()) ||
+        scenario.description.toLowerCase().includes(search.toLowerCase()) ||
+        scenario.features.some(feature => feature.toLowerCase().includes(search.toLowerCase()))
+      )
     }
+
+    // 按难度筛选
+    if (difficulty !== 'all') {
+      filtered = filtered.filter(scenario => scenario.difficulty === difficulty)
+    }
+
+    setFilteredScenarios(filtered)
   }
+
+  // 查看解决方案详情
+  const handleViewScenarioDetails = (scenario: BusinessScenario) => {
+    setSelectedScenario(scenario)
+    // 可以在这里添加显示详情的逻辑，比如打开模态框或跳转到详情页
+    console.log('查看详情:', scenario.name)
+  }
+
+  // 使用模板
+  const handleUseTemplate = (scenario: BusinessScenario) => {
+    // 可以在这里添加使用模板的逻辑，比如创建新项目或下载模板
+    console.log('使用模板:', scenario.name)
+    alert(`正在准备 "${scenario.name}" 模板，即将开始下载...`)
+  }
+
+  // 统一的导航数据结构
+  const navigationItems = [
+    {
+      id: 'solution',
+      label: '解决方案',
+      icon: '🎯',
+      description: '15个企业级业务场景',
+      count: mockScenarios.length,
+      type: 'main'
+    },
+    {
+      id: 'components',
+      label: '组件库',
+      icon: '🧩',
+      description: '96个组件分类浏览',
+      count: totalComponentCount,
+      type: 'main',
+      children: componentCategories
+    },
+    {
+      id: 'editor',
+      label: '代码编辑器',
+      icon: '✏️',
+      description: 'Monaco编辑器集成',
+      type: 'main'
+    },
+    {
+      id: 'theme',
+      label: '主题配方',
+      icon: '🎨',
+      description: '七轴主题系统',
+      count: themeRecipes.length,
+      type: 'main'
+    },
+    {
+      id: 'devtools',
+      label: '开发工具',
+      icon: '🔧',
+      description: '调试和性能工具',
+      type: 'main'
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10">
-      {/* 顶部导航 */}
-      <header className="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="px-6">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                Xorigo UI Workbench V2
-              </h1>
-              <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full">
-                {totalComponentCount}个组件
-              </span>
+      {/* 主要内容区域 - 左侧导航布局 */}
+      <main className="flex h-[calc(100vh-4rem)]">
+        {/* 左侧统一导航栏 */}
+        <aside className="w-80 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+          <div className="p-6">
+            {/* Logo和标题 */}
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">X</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Xorigo UI Workbench
+                </h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">V2.0</p>
+              </div>
             </div>
 
-            {/* 模式切换 */}
-            <nav className="flex items-center space-x-1">
-              {modes.map((mode) => (
-                <button
-                  key={mode.id}
-                  onClick={() => setActiveMode(mode.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    activeMode === mode.id
-                      ? 'bg-blue-500 text-white shadow-md'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`}
-                >
-                  <span className="mr-2">{mode.icon}</span>
-                  {mode.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </header>
+            {/* 统计信息 */}
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">总组件数</span>
+                <span className="text-lg font-bold text-blue-600 dark:text-blue-400">{totalComponentCount}</span>
+              </div>
+            </div>
 
-      {/* 主要内容区域 - 混合布局 */}
-      <main className="flex h-[calc(100vh-4rem)]">
-        {/* 左侧导航栏 - 仅在组件库模式时显示 */}
-        {activeMode === 'components' && (
-          <aside className="w-80 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
-            <div className="p-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                组件分类导航
-              </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                共{totalComponentCount}个组件，分为10个主要类别
-              </p>
-
-              {/* 分类列表 */}
-              <div className="space-y-2">
-                {componentCategories.map((category) => (
-                  <motion.div
-                    key={category.id}
+            {/* 主导航列表 */}
+            <nav className="space-y-1">
+              {navigationItems.map((item) => (
+                <div key={item.id}>
+                  <motion.button
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
-                    className={`p-4 rounded-lg cursor-pointer transition-all ${
-                      selectedCategory === category.id
-                        ? `bg-${category.color}-100 dark:bg-${category.color}-900/30 border-2 border-${category.color}-500`
-                        : 'bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                    onClick={() => {
+                      setActiveMode(item.id as WorkbenchMode)
+                      if (item.id === 'components' && !selectedCategory) {
+                        setSelectedCategory('core')
+                      }
+                    }}
+                    className={`w-full p-4 rounded-lg text-left transition-all ${
+                      activeMode === item.id
+                        ? 'bg-blue-500 text-white shadow-md'
+                        : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
-                    onClick={() => setSelectedCategory(category.id)}
                   >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-2xl">{category.icon}</span>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="font-medium text-gray-900 dark:text-white">
-                            {category.name}
-                          </h3>
-                          <span className={`px-2 py-1 text-xs font-medium bg-${category.color}-500 text-white rounded-full`}>
-                            {category.count}
-                          </span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-xl">{item.icon}</span>
+                        <div>
+                          <h3 className="font-medium">{item.label}</h3>
+                          <p className={`text-xs ${
+                            activeMode === item.id ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'
+                          }`}>
+                            {item.description}
+                          </p>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                          {category.description}
-                        </p>
                       </div>
+                      {item.count && (
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          activeMode === item.id
+                            ? 'bg-white/20 text-white'
+                            : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
+                        }`}>
+                          {item.count}
+                        </span>
+                      )}
                     </div>
-                  </motion.div>
-                ))}
-              </div>
+                  </motion.button>
 
-              {/* 统计信息 */}
-              <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-                <h3 className="font-medium text-gray-900 dark:text-white mb-2">统计信息</h3>
-                <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                  <p>总组件数: {totalComponentCount}</p>
-                  <p>分类数: {componentCategories.length}</p>
-                  <p>最大分类: 表单组件 (18个)</p>
+                  {/* 组件库子菜单 */}
+                  {item.id === 'components' && activeMode === 'components' && item.children && (
+                    <div className="ml-4 mt-2 space-y-1">
+                      {item.children.map((category) => (
+                        <motion.button
+                          key={category.id}
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.99 }}
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`w-full p-3 rounded-lg text-left transition-all ${
+                            selectedCategory === category.id
+                              ? 'bg-blue-100 dark:bg-blue-900/30 border-2 border-blue-500'
+                              : 'bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-lg">{category.icon}</span>
+                              <div>
+                                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
+                                  {category.name}
+                                </h4>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                  {category.description}
+                                </p>
+                              </div>
+                            </div>
+                            <span className={`px-2 py-0.5 text-xs rounded-full ${
+                              selectedCategory === category.id
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
+                            }`}>
+                              {category.count}
+                            </span>
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
+                  )}
                 </div>
+              ))}
+            </nav>
+
+            {/* 底部信息 */}
+            <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                <p>服务器状态: <span className="text-green-600 font-medium">在线</span></p>
+                <p className="mt-1">最后更新: 刚刚</p>
               </div>
             </div>
-          </aside>
-        )}
+          </div>
+        </aside>
 
         {/* 右侧内容区域 */}
         <div className="flex-1 overflow-y-auto">
@@ -489,36 +614,66 @@ export default function WorkbenchV2Integrated() {
                           {/* 快速过滤 */}
                           <div className="flex flex-wrap gap-2">
                             <button
-                              onClick={() => filterScenarios('all')}
+                              onClick={() => filterScenarios(searchTerm, 'all')}
                               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
                             >
                               全部 ({stats.total})
                             </button>
                             <button
-                              onClick={() => filterScenarios('初级')}
+                              onClick={() => filterScenarios(searchTerm, '初级')}
                               className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
                             >
                               初级 ({stats.beginner})
                             </button>
                             <button
-                              onClick={() => filterScenarios('中级')}
+                              onClick={() => filterScenarios(searchTerm, '中级')}
                               className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
                             >
                               中级 ({stats.intermediate})
                             </button>
                             <button
-                              onClick={() => filterScenarios('高级')}
+                              onClick={() => filterScenarios(searchTerm, '高级')}
                               className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
                             >
                               高级 ({stats.advanced})
                             </button>
                             <button
-                              onClick={() => filterScenarios('专家级')}
+                              onClick={() => filterScenarios(searchTerm, '专家级')}
                               className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
                             >
                               专家级 ({stats.expert})
                             </button>
                           </div>
+                        </div>
+
+                        {/* 搜索和筛选栏 */}
+                        <div className="mb-6 flex flex-col sm:flex-row gap-4">
+                          <div className="flex-1">
+                            <input
+                              type="text"
+                              placeholder="搜索解决方案..."
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                              value={searchTerm}
+                              onChange={(e) => {
+                                setSearchTerm(e.target.value)
+                                filterScenarios(e.target.value, selectedDifficultyFilter)
+                              }}
+                            />
+                          </div>
+                          <select
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                            value={selectedDifficultyFilter}
+                            onChange={(e) => {
+                              setSelectedDifficultyFilter(e.target.value)
+                              filterScenarios(searchTerm, e.target.value)
+                            }}
+                          >
+                            <option value="all">所有难度</option>
+                            <option value="初级">初级</option>
+                            <option value="中级">中级</option>
+                            <option value="高级">高级</option>
+                            <option value="专家">专家</option>
+                          </select>
                         </div>
 
                         {/* 解决方案网格 */}
@@ -530,23 +685,58 @@ export default function WorkbenchV2Integrated() {
                               className={`p-6 border-2 rounded-lg cursor-pointer transition-all ${
                                 selectedScenario?.id === scenario.id
                                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                  : scenario.isRecommended
+                                  ? 'border-red-300 dark:border-red-700 hover:border-red-500 shadow-red-100 dark:shadow-red-900/20'
+                                  : scenario.isPopular
+                                  ? 'border-orange-300 dark:border-orange-700 hover:border-orange-500 shadow-orange-100 dark:shadow-orange-900/20'
                                   : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
-                              }`}
+                              } ${scenario.isRecommended || scenario.isPopular ? 'shadow-lg' : 'shadow-md'}`}
                               onClick={() => setSelectedScenario(scenario)}
                             >
+                              {/* 头部：图标和名称 */}
                               <div className="flex items-center space-x-3 mb-3">
                                 <span className="text-3xl">{scenario.icon}</span>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                  {scenario.name}
-                                </h3>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                      {scenario.name}
+                                    </h3>
+                                    {/* 推荐和热门标识 */}
+                                    {scenario.isRecommended && (
+                                      <span className="px-2 py-1 text-xs bg-red-500 text-white rounded-full flex items-center gap-1">
+                                        ⭐ 推荐
+                                      </span>
+                                    )}
+                                    {scenario.isPopular && (
+                                      <span className="px-2 py-1 text-xs bg-orange-500 text-white rounded-full flex items-center gap-1">
+                                        🔥 热门
+                                      </span>
+                                    )}
+                                    {scenario.isNew && (
+                                      <span className="px-2 py-1 text-xs bg-green-500 text-white rounded-full flex items-center gap-1">
+                                        ✨ 新品
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
+                                    scenario.difficulty === '初级' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                    scenario.difficulty === '中级' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                                    scenario.difficulty === '高级' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+                                    'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                  }`}>
+                                    {scenario.difficulty}
+                                  </span>
+                                </div>
                               </div>
-                              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+
+                              {/* 简化描述 */}
+                              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
                                 {scenario.description}
                               </p>
 
-                              {/* 特性标签 */}
+                              {/* 主要特性（仅显示前2个） */}
                               <div className="flex flex-wrap gap-1 mb-4">
-                                {scenario.features.slice(0, 3).map((feature, index) => (
+                                {scenario.features.slice(0, 2).map((feature, index) => (
                                   <span
                                     key={index}
                                     className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"
@@ -554,42 +744,33 @@ export default function WorkbenchV2Integrated() {
                                     {feature}
                                   </span>
                                 ))}
-                                {scenario.features.length > 3 && (
+                                {scenario.features.length > 2 && (
                                   <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
-                                    +{scenario.features.length - 3}
+                                    +{scenario.features.length - 2}
                                   </span>
                                 )}
                               </div>
 
-                              {/* 技术栈 */}
-                              <div className="flex flex-wrap gap-1 mb-4">
-                                {scenario.technologies.slice(0, 3).map((tech, index) => (
-                                  <span
-                                    key={index}
-                                    className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded"
-                                  >
-                                    {tech}
-                                  </span>
-                                ))}
-                              </div>
-
-                              <div className="flex items-center justify-between">
-                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                  scenario.difficulty === '初级' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                                  scenario.difficulty === '中级' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                  scenario.difficulty === '高级' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
-                                  'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                                }`}>
-                                  {scenario.difficulty}
-                                </span>
-                                <div className="flex gap-2">
-                                  <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-                                    查看详情
-                                  </button>
-                                  <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    使用模板
-                                  </button>
-                                </div>
+                              {/* 交互按钮 */}
+                              <div className="flex gap-2">
+                                <button
+                                  className="flex-1 px-3 py-2 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleViewScenarioDetails(scenario)
+                                  }}
+                                >
+                                  查看详情
+                                </button>
+                                <button
+                                  className="flex-1 px-3 py-2 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleUseTemplate(scenario)
+                                  }}
+                                >
+                                  使用模板
+                                </button>
                               </div>
                             </motion.div>
                           ))}
@@ -616,13 +797,19 @@ export default function WorkbenchV2Integrated() {
                       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                         <div className="flex items-center space-x-4 mb-6">
                           <span className="text-4xl">{currentCategory?.icon}</span>
-                          <div>
+                          <div className="flex-1">
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                               {currentCategory?.name}
                             </h2>
                             <p className="text-gray-600 dark:text-gray-400">
                               {currentCategory?.description}
                             </p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                              {currentCategory?.count}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">个组件</div>
                           </div>
                         </div>
 
@@ -656,24 +843,26 @@ export default function WorkbenchV2Integrated() {
                           ))}
                         </div>
 
-                        {/* 分类详情说明 */}
-                        <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                            {currentCategory?.name} 详细信息
-                          </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-                            <div>
-                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">组件数量</h4>
-                              <p className="text-gray-600 dark:text-gray-400">{currentCategory?.count} 个组件</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">主要用途</h4>
-                              <p className="text-gray-600 dark:text-gray-400">{currentCategory?.description}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">文件位置</h4>
-                              <p className="text-gray-600 dark:text-gray-400">/src/components/workbench/{currentCategory?.id}/</p>
-                            </div>
+                        {/* 详细信息面板 */}
+                        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                            <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">当前分类</h4>
+                            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                              {currentCategory?.count}
+                            </p>
+                            <p className="text-sm text-blue-600 dark:text-blue-400">个组件</p>
+                          </div>
+                          <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg border border-purple-200 dark:border-purple-700">
+                            <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2">文件位置</h4>
+                            <p className="text-sm text-purple-600 dark:text-purple-400 font-mono">
+                              /src/components/workbench/{selectedCategory}/
+                            </p>
+                          </div>
+                          <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg border border-green-200 dark:border-green-700">
+                            <h4 className="font-medium text-green-900 dark:text-green-100 mb-2">主要用途</h4>
+                            <p className="text-sm text-green-600 dark:text-green-400">
+                              {currentCategory?.description}
+                            </p>
                           </div>
                         </div>
                       </div>
