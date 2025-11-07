@@ -593,7 +593,113 @@ export default function WorkbenchV2Integrated() {
     return category.subcategories.find(sub => sub.id === selectedSubcategory)
   }
 
-  
+  // Props 相关辅助函数
+  const getPropType = (prop: string): string => {
+    const typeMap: Record<string, string> = {
+      'placeholder': 'string',
+      'value': 'string | number',
+      'onChange': 'function',
+      'disabled': 'boolean',
+      'showPassword': 'boolean',
+      'strength': 'boolean',
+      'min': 'number',
+      'max': 'number',
+      'step': 'number',
+      'precision': 'number',
+      'validation': 'function',
+      'domains': 'string[]',
+      'countryCode': 'string',
+      'format': 'string',
+      'options': 'array',
+      'multiple': 'boolean',
+      'searchable': 'boolean',
+      'checked': 'boolean',
+      'indeterminate': 'boolean',
+      'selected': 'any',
+      'size': 'string',
+      'columns': 'number',
+      'gap': 'string',
+      'responsive': 'object',
+      'gutter': 'number | string',
+      'align': 'string',
+      'justify': 'string',
+      'span': 'number',
+      'offset': 'number'
+    }
+    return typeMap[prop] || 'any'
+  }
+
+  const getPropDefault = (prop: string): string => {
+    const defaultMap: Record<string, string> = {
+      'placeholder': '""',
+      'value': 'undefined',
+      'onChange': 'undefined',
+      'disabled': 'false',
+      'showPassword': 'false',
+      'strength': 'true',
+      'min': 'undefined',
+      'max': 'undefined',
+      'step': '1',
+      'precision': 'undefined',
+      'validation': 'undefined',
+      'domains': '[]',
+      'countryCode': '"+86"',
+      'format': 'international',
+      'options': '[]',
+      'multiple': 'false',
+      'searchable': 'false',
+      'checked': 'false',
+      'indeterminate': 'false',
+      'selected': 'undefined',
+      'size': '"md"',
+      'columns': '12',
+      'gap': '"md"',
+      'responsive': '{}',
+      'gutter': '"md"',
+      'align': '"start"',
+      'justify': '"start"',
+      'span': 'undefined',
+      'offset': '0'
+    }
+    return defaultMap[prop] || 'undefined'
+  }
+
+  const getPropDescription = (prop: string): string => {
+    const descMap: Record<string, string> = {
+      'placeholder': '输入框占位符文本',
+      'value': '输入框的值',
+      'onChange': '值变化时的回调函数',
+      'disabled': '是否禁用输入框',
+      'showPassword': '是否显示密码',
+      'strength': '是否启用密码强度检测',
+      'min': '最小值限制',
+      'max': '最大值限制',
+      'step': '步长值',
+      'precision': '小数精度',
+      'validation': '验证函数',
+      'domains': '允许的邮箱域名列表',
+      'countryCode': '默认国家代码',
+      'format': '号码格式类型',
+      'options': '选项数据数组',
+      'multiple': '是否支持多选',
+      'searchable': '是否支持搜索',
+      'checked': '是否选中',
+      'indeterminate': '是否为不确定状态',
+      'selected': '选中的值',
+      'size': '组件尺寸',
+      'columns': '栅格列数',
+      'gap': '栅格间距',
+      'responsive': '响应式断点配置',
+      'gutter': '栅格间隔',
+      'align': '垂直对齐方式',
+      'justify': '水平对齐方式',
+      'span': '栅格占据列数',
+      'offset': '栅格偏移列数'
+    }
+    return descMap[prop] || '属性描述'
+  }
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10">
       {/* 主要内容区域 - 左侧导航布局 */}
@@ -984,7 +1090,148 @@ export default function WorkbenchV2Integrated() {
                           ))}
                         </div>
 
-                        {/* 详细信息面板 */}
+                        {/* 组件详情页面 */}
+                        {selectedComponent && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-blue-200 dark:border-blue-700"
+                          >
+                            {/* 详情页头部 */}
+                            <div className="flex items-center justify-between mb-6">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                  <span className="text-2xl">🧩</span>
+                                </div>
+                                <div>
+                                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                    {selectedComponent.name}
+                                  </h2>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                    {selectedComponent.subcategory} • {selectedComponent.category}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => setSelectedComponent(null)}
+                                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                              >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                              </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                              {/* 左侧：预览区域 */}
+                              <div>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">组件预览</h3>
+                                <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700 min-h-[200px] flex items-center justify-center">
+                                  <div className="text-center">
+                                    <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                      <span className="text-3xl">⚡</span>
+                                    </div>
+                                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                                      {selectedComponent.name}
+                                    </h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                      {selectedComponent.description}
+                                    </p>
+                                    <div className="flex gap-2 justify-center">
+                                      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                        交互预览
+                                      </button>
+                                      <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm">
+                                        全屏预览
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* 右侧：API文档 */}
+                              <div>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">API 文档</h3>
+
+                                {/* Props 表格 */}
+                                {selectedComponent.props && selectedComponent.props.length > 0 && (
+                                  <div className="mb-6">
+                                    <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">Props</h4>
+                                    <div className="overflow-x-auto">
+                                      <table className="w-full text-sm">
+                                        <thead>
+                                          <tr className="border-b border-gray-200 dark:border-gray-700">
+                                            <th className="text-left py-2 px-3 font-medium text-gray-900 dark:text-white">属性</th>
+                                            <th className="text-left py-2 px-3 font-medium text-gray-900 dark:text-white">类型</th>
+                                            <th className="text-left py-2 px-3 font-medium text-gray-900 dark:text-white">默认值</th>
+                                            <th className="text-left py-2 px-3 font-medium text-gray-900 dark:text-white">描述</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {selectedComponent.props.map((prop, index) => (
+                                            <tr key={index} className="border-b border-gray-100 dark:border-gray-800">
+                                              <td className="py-2 px-3">
+                                                <code className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded text-xs">
+                                                  {prop}
+                                                </code>
+                                              </td>
+                                              <td className="py-2 px-3 text-gray-600 dark:text-gray-400">
+                                                {getPropType(prop)}
+                                              </td>
+                                              <td className="py-2 px-3 text-gray-600 dark:text-gray-400">
+                                                {getPropDefault(prop)}
+                                              </td>
+                                              <td className="py-2 px-3 text-gray-600 dark:text-gray-400">
+                                                {getPropDescription(prop)}
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* 使用说明 */}
+                                <div className="mb-6">
+                                  <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">使用说明</h4>
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                    {selectedComponent.usage}
+                                  </p>
+                                </div>
+
+                                {/* 代码示例 */}
+                                <div>
+                                  <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">代码示例</h4>
+                                  <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+                                    <pre className="text-green-400">
+{`<${selectedComponent.name}
+  ${selectedComponent.props?.map(prop => `${prop}="..."`).join('\n  ') || ''}
+/>`}
+                                    </pre>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 底部操作区 */}
+                            <div className="flex gap-3 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                              <button className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                📋 复制代码
+                              </button>
+                              <button className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                📖 查看文档
+                              </button>
+                              <button className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                💡 使用技巧
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* 详细信息面板 - 当没有选中组件时显示 */}
+                        {!selectedComponent && (
                         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             分类信息
@@ -1014,6 +1261,7 @@ export default function WorkbenchV2Integrated() {
                             </div>
                           </div>
                         </div>
+                        )}
                       </div>
                     )
                   })()}
