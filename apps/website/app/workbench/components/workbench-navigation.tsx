@@ -32,7 +32,12 @@ interface WorkbenchNavigationProps {
   themeRecipeCount: number
   componentCategories: any[]
   selectedCategory?: string
+  selectedSubcategory?: string
+  expandedCategories?: Set<string>
   onCategoryChange?: (category: string) => void
+  onSubcategoryChange?: (subcategory: string) => void
+  onToggleCategoryExpansion?: (categoryId: string) => void
+  onSubcategorySelect?: (categoryId: string, subcategoryId: string) => void
 }
 
 export default function WorkbenchNavigation({
@@ -45,7 +50,12 @@ export default function WorkbenchNavigation({
   themeRecipeCount,
   componentCategories,
   selectedCategory,
-  onCategoryChange
+  selectedSubcategory,
+  expandedCategories,
+  onCategoryChange,
+  onSubcategoryChange,
+  onToggleCategoryExpansion,
+  onSubcategorySelect
 }: WorkbenchNavigationProps) {
 
   // 主工作台导航 - 核心工作流程
@@ -258,33 +268,95 @@ export default function WorkbenchNavigation({
           </div>
         )}
 
-        {/* 组件库模式下的分类导航 */}
+        {/* 组件库模式下的分类导航 - 支持多级分类 */}
         {workMode === 'component-library' && activeMode === 'components' && (
           <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
             <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">组件分类</div>
             <div className="space-y-1">
               {componentCategories.map((category: any) => (
-                <motion.button
-                  key={category.id}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  onClick={() => onCategoryChange?.(category.id)}
-                  className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
-                    selectedCategory === category.id
-                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-l-2 border-blue-500'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm">{category.icon}</span>
-                      <span>{category.name}</span>
+                <div key={category.id} className="space-y-1">
+                  {/* 主分类 */}
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => {
+                      onCategoryChange?.(category.id)
+                      if (category.subcategories && category.subcategories.length > 0) {
+                        onToggleCategoryExpansion?.(category.id)
+                      }
+                    }}
+                    className={`w-full text-left p-3 rounded-lg transition-all ${
+                      selectedCategory === category.id
+                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-l-4 border-blue-500'
+                        : 'hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-lg">{category.icon}</span>
+                        <div>
+                          <div className="font-medium">{category.name}</div>
+                          <div className="text-xs text-gray-500">{category.description}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400 rounded-full">
+                          {category.count}
+                        </span>
+                        {category.subcategories && (
+                          <motion.span
+                            animate={{ rotate: expandedCategories?.has(category.id) ? 90 : 0 }}
+                            className="text-gray-400"
+                          >
+                            ▶
+                          </motion.span>
+                        )}
+                      </div>
                     </div>
-                    <span className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400 rounded-full">
-                      {category.count}
-                    </span>
-                  </div>
-                </motion.button>
+                  </motion.button>
+
+                  {/* 子分类 */}
+                  {category.subcategories && expandedCategories?.has(category.id) && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="ml-4 pl-4 border-l-2 border-gray-200 dark:border-gray-700 space-y-1"
+                    >
+                      {category.subcategories.map((subcategory: any) => (
+                        <motion.button
+                          key={subcategory.id}
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.99 }}
+                          onClick={() => onSubcategorySelect?.(category.id, subcategory.id)}
+                          className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
+                            selectedCategory === category.id && selectedSubcategory === subcategory.id
+                              ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-l-2 border-blue-400'
+                              : 'hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs w-4 h-4 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded">
+                                {subcategory.icon || '📄'}
+                              </span>
+                              <div className="text-left">
+                                <div className="text-xs font-medium">{subcategory.name}</div>
+                                <div className="text-xs text-gray-500 truncate max-w-[120px]">
+                                  {subcategory.description}
+                                </div>
+                              </div>
+                            </div>
+                            <span className="px-1.5 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">
+                              {subcategory.count}
+                            </span>
+                          </div>
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
