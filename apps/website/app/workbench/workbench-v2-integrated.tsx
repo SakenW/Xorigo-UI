@@ -1,0 +1,858 @@
+/**
+ * Workbench V2 集成版本 - 混合布局设计
+ * 顶部模式导航 + 左侧分类导航（仅在组件库时显示）
+ * 保留增强的解决方案平台内容（15个业务场景）
+ */
+
+'use client'
+
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+// 导入现有组件
+import { FloatingAIButton } from '../../src/components/workbench/ai-assistant/floating-ai-button'
+import { WorkbenchMonacoEditor } from '../../src/components/workbench/editor/workbench-monaco-editor'
+
+// 类型定义
+type WorkbenchMode = 'solution' | 'components' | 'editor' | 'theme' | 'devtools'
+
+interface BusinessScenario {
+  id: string
+  name: string
+  description: string
+  icon: string
+  category: string
+  difficulty: string
+  features: string[]
+  technologies: string[]
+}
+
+interface ComponentCategory {
+  id: string
+  name: string
+  icon: string
+  description: string
+  count: number
+  color: string
+}
+
+interface ComponentExample {
+  id: string
+  name: string
+  description: string
+  category: string
+  count: number
+}
+
+interface ThemeRecipe {
+  id: string
+  name: string
+  description: string
+  mode: string
+  hue: string
+  preview: string
+}
+
+// 增强的业务场景数据 - 15个企业级解决方案
+const mockScenarios: BusinessScenario[] = [
+  {
+    id: 'dashboard',
+    name: '智能仪表盘',
+    icon: '📈',
+    category: 'analytics',
+    difficulty: '中级',
+    description: '实时数据监控、KPI展示、智能分析',
+    features: ['实时数据同步', '多维度数据展示', '智能预警系统', '自定义报表'],
+    technologies: ['React 19', 'TypeScript', 'D3.js', 'WebSocket']
+  },
+  {
+    id: 'ecommerce',
+    name: '电商管理平台',
+    icon: '🛒',
+    category: 'commerce',
+    difficulty: '高级',
+    description: '商品管理、订单处理、支付集成',
+    features: ['商品管理', '购物车系统', '支付集成', '订单管理'],
+    technologies: ['React 19', 'Node.js', 'Stripe API', 'PostgreSQL']
+  },
+  {
+    id: 'crm',
+    name: 'CRM客户关系管理',
+    icon: '👥',
+    category: 'business',
+    difficulty: '高级',
+    description: '客户信息、销售管道、营销自动化',
+    features: ['客户管理', '销售管道', '营销自动化', '数据分析'],
+    technologies: ['React 19', 'TypeScript', 'HubSpot API', 'MongoDB']
+  },
+  {
+    id: 'healthcare',
+    name: '医疗健康管理',
+    icon: '🏥',
+    category: 'health',
+    difficulty: '专家级',
+    description: '病历管理、预约系统、健康监测',
+    features: ['电子病历', '预约管理', '健康监测', '报告生成'],
+    technologies: ['React 19', 'HIPAA合规', 'HL7/FHIR', '云存储']
+  },
+  {
+    id: 'education',
+    name: '教育管理平台',
+    icon: '📚',
+    category: 'education',
+    difficulty: '中级',
+    description: '课程管理、学生信息、在线考试',
+    features: ['课程管理', '学生信息系统', '在线考试', '成绩分析'],
+    technologies: ['React 19', 'LTI集成', 'WebRTC', 'AWS']
+  },
+  {
+    id: 'finance',
+    name: '财务管理系统',
+    icon: '💰',
+    category: 'finance',
+    difficulty: '专家级',
+    description: '账务处理、报表生成、预算管理',
+    features: ['账务处理', '财务报表', '预算管理', '审计追踪'],
+    technologies: ['React 19', 'QuickBooks API', 'Plaid', '加密存储']
+  },
+  {
+    id: 'data-analytics',
+    name: '数据分析平台',
+    icon: '📊',
+    category: 'analytics',
+    difficulty: '专家级',
+    description: '数据挖掘、可视化、预测分析',
+    features: ['数据挖掘', '可视化图表', '预测分析', '机器学习'],
+    technologies: ['React 19', 'Python', 'TensorFlow.js', 'Apache Spark']
+  },
+  {
+    id: 'project-management',
+    name: '项目管理工具',
+    icon: '🎯',
+    category: 'business',
+    difficulty: '中级',
+    description: '任务分配、进度跟踪、团队协作',
+    features: ['任务管理', '甘特图', '团队协作', '时间跟踪'],
+    technologies: ['React 19', 'TypeScript', 'WebSockets', 'PostgreSQL']
+  },
+  {
+    id: 'social-media',
+    name: '社交媒体管理',
+    icon: '📱',
+    category: 'social',
+    difficulty: '中级',
+    description: '内容发布、用户互动、数据分析',
+    features: ['内容管理', '多平台发布', '社交互动', '效果分析'],
+    technologies: ['React 19', '社交API', '内容审核', 'Redis缓存']
+  },
+  {
+    id: 'inventory',
+    name: '库存管理系统',
+    icon: '🏪',
+    category: 'commerce',
+    difficulty: '中级',
+    description: '库存跟踪、采购管理、供应商协作',
+    features: ['库存管理', '采购系统', '供应商管理', '条码扫描'],
+    technologies: ['React 19', '条码API', 'ERP集成', '云数据库']
+  },
+  {
+    id: 'email-marketing',
+    name: '邮件营销平台',
+    icon: '📧',
+    category: 'marketing',
+    difficulty: '中级',
+    description: '邮件模板、营销活动、效果分析',
+    features: ['邮件模板', '自动化营销', 'A/B测试', '效果分析'],
+    technologies: ['React 19', 'SendGrid API', 'Mailchimp', '分析工具']
+  },
+  {
+    id: 'cms',
+    name: '内容管理系统',
+    icon: '🎨',
+    category: 'content',
+    difficulty: '中级',
+    description: '文章编辑、媒体管理、发布控制',
+    features: ['内容编辑', '媒体管理', '版本控制', 'SEO优化'],
+    technologies: ['React 19', '富文本编辑器', 'CDN', '搜索引擎优化']
+  },
+  {
+    id: 'security',
+    name: '网络安全监控',
+    icon: '🛡️',
+    category: 'security',
+    difficulty: '专家级',
+    description: '威胁检测、漏洞扫描、安全报告',
+    features: ['威胁检测', '漏洞扫描', '安全报告', '实时监控'],
+    technologies: ['React 19', '安全API', 'SIEM集成', '加密通信']
+  },
+  {
+    id: 'cross-border',
+    name: '跨境电商平台',
+    icon: '🌐',
+    category: 'commerce',
+    difficulty: '专家级',
+    description: '多语言支持、国际支付、物流管理',
+    features: ['多语言支持', '国际支付', '物流管理', '关税计算'],
+    technologies: ['React 19', 'i18n', '国际支付网关', '物流API']
+  },
+  {
+    id: 'ai-customer-service',
+    name: 'AI智能客服',
+    icon: '🤖',
+    category: 'ai',
+    difficulty: '专家级',
+    description: '自然语言处理、智能问答、情感分析',
+    features: ['智能问答', '情感分析', '多语言支持', '学习优化'],
+    technologies: ['React 19', 'OpenAI API', 'NLP', '机器学习']
+  }
+]
+
+// 基于96个真实组件的分类数据
+const componentCategories: ComponentCategory[] = [
+  {
+    id: 'core',
+    name: '核心组件',
+    icon: '⚡',
+    description: 'WorkbenchV2、智能面包屑等核心功能组件',
+    count: 3,
+    color: 'blue'
+  },
+  {
+    id: 'components',
+    name: '组件管理',
+    icon: '📦',
+    description: 'ComponentRegistry、ComponentScanner等组件管理工具',
+    count: 12,
+    color: 'green'
+  },
+  {
+    id: 'editor',
+    name: '编辑器',
+    icon: '✏️',
+    description: 'Monaco编辑器系列、AI助手、代码生成器',
+    count: 8,
+    color: 'purple'
+  },
+  {
+    id: 'layout',
+    name: '布局组件',
+    icon: '📐',
+    description: '智能布局、响应式栅格、容器组件等',
+    count: 15,
+    color: 'emerald'
+  },
+  {
+    id: 'forms',
+    name: '表单组件',
+    icon: '📋',
+    description: '智能表单、输入组件、验证器、字段管理',
+    count: 18,
+    color: 'cyan'
+  },
+  {
+    id: 'feedback',
+    name: '反馈组件',
+    icon: '💬',
+    description: '提示、通知、加载状态、进度指示器',
+    count: 10,
+    color: 'pink'
+  },
+  {
+    id: 'navigation',
+    name: '导航组件',
+    icon: '🧭',
+    description: '智能面包屑、分页、标签页、菜单组件',
+    count: 7,
+    color: 'indigo'
+  },
+  {
+    id: 'overlays',
+    name: '覆盖层组件',
+    icon: '🎭',
+    description: '模态框、抽屉、悬浮层、弹出组件',
+    count: 9,
+    color: 'teal'
+  },
+  {
+    id: 'media',
+    name: '媒体组件',
+    icon: '🖼️',
+    description: '图片、视频、图标、媒体展示组件',
+    count: 6,
+    color: 'orange'
+  },
+  {
+    id: 'charts',
+    name: '图表组件',
+    icon: '📊',
+    description: '数据可视化、图表、仪表盘组件',
+    count: 8,
+    color: 'violet'
+  }
+]
+
+const components: ComponentExample[] = [
+  { id: '1', name: 'Button', description: '按钮组件', category: 'ui', count: 24 },
+  { id: '2', name: 'Input', description: '输入框组件', category: 'ui', count: 18 },
+  { id: '3', name: 'Card', description: '卡片组件', category: 'ui', count: 12 },
+  { id: '4', name: 'Modal', description: '模态框组件', category: 'ui', count: 8 },
+  { id: '5', name: 'Table', description: '表格组件', category: 'ui', count: 15 }
+]
+
+const themeRecipes: ThemeRecipe[] = [
+  { id: '1', name: '现代简约', description: '简洁清爽的现代风格', mode: 'light', hue: 'blue', preview: 'modern' },
+  { id: '2', name: '暗夜模式', description: '适合夜间使用的深色主题', mode: 'dark', hue: 'purple', preview: 'dark' },
+  { id: '3', name: '企业蓝', description: '专业的企业级配色', mode: 'light', hue: 'indigo', preview: 'corporate' },
+  { id: '4', name: '自然绿', description: '清新的自然绿色调', mode: 'light', hue: 'green', preview: 'nature' }
+]
+
+export default function WorkbenchV2Integrated() {
+  const [activeMode, setActiveMode] = useState<WorkbenchMode>('solution')
+  const [selectedCategory, setSelectedCategory] = useState<string>('core')
+  const [selectedScenario, setSelectedScenario] = useState<BusinessScenario | null>(null)
+  const [selectedComponent, setSelectedComponent] = useState<ComponentExample | null>(null)
+  const [selectedRecipe, setSelectedRecipe] = useState<ThemeRecipe>(themeRecipes[0])
+  const [filteredScenarios, setFilteredScenarios] = useState<BusinessScenario[]>(mockScenarios)
+
+  const modes = [
+    { id: 'solution', label: '解决方案', icon: '🎯' },
+    { id: 'components', label: '组件库', icon: '🧩' },
+    { id: 'editor', label: '编辑器', icon: '✏️' },
+    { id: 'theme', label: '主题配方', icon: '🎨' },
+    { id: 'devtools', label: '开发工具', icon: '🔧' }
+  ] as const
+
+  const totalComponentCount = componentCategories.reduce((sum, cat) => sum + cat.count, 0)
+
+  // 过滤解决方案
+  const filterScenarios = (difficulty: string) => {
+    if (difficulty === 'all') {
+      setFilteredScenarios(mockScenarios)
+    } else {
+      setFilteredScenarios(mockScenarios.filter(s => s.difficulty === difficulty))
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10">
+      {/* 顶部导航 */}
+      <header className="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="px-6">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Xorigo UI Workbench V2
+              </h1>
+              <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full">
+                {totalComponentCount}个组件
+              </span>
+            </div>
+
+            {/* 模式切换 */}
+            <nav className="flex items-center space-x-1">
+              {modes.map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={() => setActiveMode(mode.id)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    activeMode === mode.id
+                      ? 'bg-blue-500 text-white shadow-md'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  <span className="mr-2">{mode.icon}</span>
+                  {mode.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* 主要内容区域 - 混合布局 */}
+      <main className="flex h-[calc(100vh-4rem)]">
+        {/* 左侧导航栏 - 仅在组件库模式时显示 */}
+        {activeMode === 'components' && (
+          <aside className="w-80 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+            <div className="p-6">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                组件分类导航
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                共{totalComponentCount}个组件，分为10个主要类别
+              </p>
+
+              {/* 分类列表 */}
+              <div className="space-y-2">
+                {componentCategories.map((category) => (
+                  <motion.div
+                    key={category.id}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    className={`p-4 rounded-lg cursor-pointer transition-all ${
+                      selectedCategory === category.id
+                        ? `bg-${category.color}-100 dark:bg-${category.color}-900/30 border-2 border-${category.color}-500`
+                        : 'bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                    onClick={() => setSelectedCategory(category.id)}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <span className="text-2xl">{category.icon}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-medium text-gray-900 dark:text-white">
+                            {category.name}
+                          </h3>
+                          <span className={`px-2 py-1 text-xs font-medium bg-${category.color}-500 text-white rounded-full`}>
+                            {category.count}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                          {category.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* 统计信息 */}
+              <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-2">统计信息</h3>
+                <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                  <p>总组件数: {totalComponentCount}</p>
+                  <p>分类数: {componentCategories.length}</p>
+                  <p>最大分类: 表单组件 (18个)</p>
+                </div>
+              </div>
+            </div>
+          </aside>
+        )}
+
+        {/* 右侧内容区域 */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
+            <AnimatePresence mode="wait">
+              {activeMode === 'solution' && (
+                <motion.div
+                  key="solution"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  {(() => {
+                    const stats = {
+                      total: mockScenarios.length,
+                      beginner: mockScenarios.filter(s => s.difficulty === '初级').length,
+                      intermediate: mockScenarios.filter(s => s.difficulty === '中级').length,
+                      advanced: mockScenarios.filter(s => s.difficulty === '高级').length,
+                      expert: mockScenarios.filter(s => s.difficulty === '专家级').length
+                    }
+
+                    return (
+                      <div className="space-y-6">
+                        {/* 标题和统计 */}
+                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                            🚀 解决方案平台 ({mockScenarios.length}个业务场景)
+                          </h2>
+                          <p className="text-gray-600 dark:text-gray-400 mb-6">
+                            企业级业务场景解决方案模板，覆盖各行各业，基于现代技术栈构建
+                          </p>
+
+                          {/* 统计卡片 */}
+                          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-700">
+                              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total}</div>
+                              <div className="text-sm text-blue-600 dark:text-blue-400">总方案数</div>
+                            </div>
+                            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700">
+                              <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.beginner}</div>
+                              <div className="text-sm text-green-600 dark:text-green-400">初级</div>
+                            </div>
+                            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-700">
+                              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.intermediate}</div>
+                              <div className="text-sm text-yellow-600 dark:text-yellow-400">中级</div>
+                            </div>
+                            <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-700">
+                              <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">{stats.advanced}</div>
+                              <div className="text-sm text-orange-600 dark:text-orange-400">高级</div>
+                            </div>
+                            <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-700">
+                              <div className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.expert}</div>
+                              <div className="text-sm text-red-600 dark:text-red-400">专家级</div>
+                            </div>
+                          </div>
+
+                          {/* 快速过滤 */}
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              onClick={() => filterScenarios('all')}
+                              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
+                            >
+                              全部 ({stats.total})
+                            </button>
+                            <button
+                              onClick={() => filterScenarios('初级')}
+                              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
+                            >
+                              初级 ({stats.beginner})
+                            </button>
+                            <button
+                              onClick={() => filterScenarios('中级')}
+                              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
+                            >
+                              中级 ({stats.intermediate})
+                            </button>
+                            <button
+                              onClick={() => filterScenarios('高级')}
+                              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
+                            >
+                              高级 ({stats.advanced})
+                            </button>
+                            <button
+                              onClick={() => filterScenarios('专家级')}
+                              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm"
+                            >
+                              专家级 ({stats.expert})
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* 解决方案网格 */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {filteredScenarios.map((scenario) => (
+                            <motion.div
+                              key={scenario.id}
+                              whileHover={{ scale: 1.02 }}
+                              className={`p-6 border-2 rounded-lg cursor-pointer transition-all ${
+                                selectedScenario?.id === scenario.id
+                                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                  : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
+                              }`}
+                              onClick={() => setSelectedScenario(scenario)}
+                            >
+                              <div className="flex items-center space-x-3 mb-3">
+                                <span className="text-3xl">{scenario.icon}</span>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                  {scenario.name}
+                                </h3>
+                              </div>
+                              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                                {scenario.description}
+                              </p>
+
+                              {/* 特性标签 */}
+                              <div className="flex flex-wrap gap-1 mb-4">
+                                {scenario.features.slice(0, 3).map((feature, index) => (
+                                  <span
+                                    key={index}
+                                    className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"
+                                  >
+                                    {feature}
+                                  </span>
+                                ))}
+                                {scenario.features.length > 3 && (
+                                  <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+                                    +{scenario.features.length - 3}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* 技术栈 */}
+                              <div className="flex flex-wrap gap-1 mb-4">
+                                {scenario.technologies.slice(0, 3).map((tech, index) => (
+                                  <span
+                                    key={index}
+                                    className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded"
+                                  >
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+
+                              <div className="flex items-center justify-between">
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                  scenario.difficulty === '初级' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                  scenario.difficulty === '中级' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                                  scenario.difficulty === '高级' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+                                  'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                }`}>
+                                  {scenario.difficulty}
+                                </span>
+                                <div className="flex gap-2">
+                                  <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                                    查看详情
+                                  </button>
+                                  <button className="px-3 py-1 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                    使用模板
+                                  </button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })()}
+                </motion.div>
+              )}
+
+              {activeMode === 'components' && (
+                <motion.div
+                  key="components"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  {/* 当前选中分类的详细信息 */}
+                  {(() => {
+                    const currentCategory = componentCategories.find(cat => cat.id === selectedCategory)
+                    return (
+                      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                        <div className="flex items-center space-x-4 mb-6">
+                          <span className="text-4xl">{currentCategory?.icon}</span>
+                          <div>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {currentCategory?.name}
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-400">
+                              {currentCategory?.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {components.map((component) => (
+                            <motion.div
+                              key={component.id}
+                              whileHover={{ scale: 1.02 }}
+                              className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                                selectedComponent?.id === component.id
+                                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                  : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
+                              }`}
+                              onClick={() => setSelectedComponent(component)}
+                            >
+                              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                {component.name}
+                              </h3>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                {component.description}
+                              </p>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                                  {component.category}
+                                </span>
+                                <span className="text-xs text-blue-600 font-medium">
+                                  {component.count} 变体
+                                </span>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        {/* 分类详情说明 */}
+                        <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                            {currentCategory?.name} 详细信息
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                            <div>
+                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">组件数量</h4>
+                              <p className="text-gray-600 dark:text-gray-400">{currentCategory?.count} 个组件</p>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">主要用途</h4>
+                              <p className="text-gray-600 dark:text-gray-400">{currentCategory?.description}</p>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">文件位置</h4>
+                              <p className="text-gray-600 dark:text-gray-400">/src/components/workbench/{currentCategory?.id}/</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })()}
+                </motion.div>
+              )}
+
+              {activeMode === 'editor' && (
+                <motion.div
+                  key="editor"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      代码编辑器
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      Monaco编辑器集成 - 支持 TypeScript、智能提示、错误检查
+                    </p>
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                      <WorkbenchMonacoEditor
+                        language="typescript"
+                        theme="vs-dark"
+                        minHeight="400px"
+                        value={`import { Button } from '@xorigo-ui/core'
+
+export default function MyComponent() {
+  return (
+    <div>
+      <Button variant="primary" size="lg">
+        Hello Xorigo UI Workbench V2
+      </Button>
+    </div>
+  )
+}`}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeMode === 'theme' && (
+                <motion.div
+                  key="theme"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      七轴主题配方
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      实时预览和配置主题配方，支持 26 个参数调节
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {themeRecipes.map((recipe) => (
+                        <motion.div
+                          key={recipe.id}
+                          whileHover={{ scale: 1.02 }}
+                          className={`p-6 border-2 rounded-lg cursor-pointer transition-all ${
+                            selectedRecipe?.id === recipe.id
+                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                              : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
+                          }`}
+                          onClick={() => setSelectedRecipe(recipe)}
+                        >
+                          <div className="flex items-center space-x-3 mb-3">
+                            <div className={`w-4 h-4 rounded-full ${
+                              recipe.mode === 'dark' ? 'bg-gray-800' : 'bg-white border border-gray-300'
+                            }`} />
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                              {recipe.name}
+                            </h3>
+                          </div>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                            {recipe.description}
+                          </p>
+                          <div className="flex items-center space-x-2">
+                            <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded">
+                              {recipe.mode}
+                            </span>
+                            <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded">
+                              {recipe.hue}
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeMode === 'devtools' && (
+                <motion.div
+                  key="devtools"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      开发工具
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      性能监控、调试工具、依赖分析等开发辅助工具
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                          性能监控器
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          实时监控组件渲染性能和内存使用
+                        </p>
+                      </div>
+                      <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                          依赖分析器
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          可视化组件依赖关系和包大小分析
+                        </p>
+                      </div>
+                      <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                          错误边界检测
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          自动检测和处理组件中的错误
+                        </p>
+                      </div>
+                      <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                          代码质量分析
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          代码规范检查和最佳实践建议
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </main>
+
+      {/* 底部状态栏 */}
+      <footer className="border-t border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm mt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-12 text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex items-center space-x-4">
+              <span>状态: <span className="text-green-600 font-medium">运行中</span></span>
+              <span>组件: <span className="font-mono">{totalComponentCount} 已注册</span></span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span>服务器: <span className="text-green-600 font-medium">在线</span></span>
+              <span>版本: <span className="font-mono">v2.0.0</span></span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* AI 助手浮动按钮 */}
+      <FloatingAIButton
+        position="bottom-right"
+        variant="default"
+      />
+    </div>
+  )
+}
