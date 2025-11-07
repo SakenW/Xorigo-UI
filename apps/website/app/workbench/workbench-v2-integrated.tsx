@@ -12,9 +12,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 // 导入现有组件
 import { FloatingAIButton } from '../../src/components/workbench/ai-assistant/floating-ai-button'
 import { WorkbenchMonacoEditor } from '../../src/components/workbench/editor/workbench-monaco-editor'
+import WorkbenchNavigation from './components/workbench-navigation'
 
-// 类型定义
-type WorkbenchMode = 'solution' | 'components' | 'editor' | 'theme' | 'devtools'
+// 类型定义 - 匹配新的导航架构
+type WorkMode = 'workbench' | 'component-library'
+type ActiveMode = 'solution' | 'devtools' | 'components' | 'editor' | 'theme' | 'ai-assistant'
 
 interface BusinessScenario {
   id: string
@@ -316,8 +318,12 @@ const themeRecipes: ThemeRecipe[] = [
 ]
 
 export default function WorkbenchV2Integrated() {
-  const [activeMode, setActiveMode] = useState<WorkbenchMode>('solution')
+  // 新的导航架构状态
+  const [workMode, setWorkMode] = useState<WorkMode>('workbench')
+  const [activeMode, setActiveMode] = useState<ActiveMode>('solution')
   const [selectedCategory, setSelectedCategory] = useState<string>('core')
+
+  // 内容状态
   const [selectedScenario, setSelectedScenario] = useState<BusinessScenario | null>(null)
   const [selectedComponent, setSelectedComponent] = useState<ComponentExample | null>(null)
   const [selectedRecipe, setSelectedRecipe] = useState<ThemeRecipe>(themeRecipes[0])
@@ -387,172 +393,24 @@ export default function WorkbenchV2Integrated() {
     alert(`正在准备 "${scenario.name}" 模板，即将开始下载...`)
   }
 
-  // 统一的导航数据结构
-  const navigationItems = [
-    {
-      id: 'solution',
-      label: '解决方案',
-      icon: '🎯',
-      description: '15个企业级业务场景',
-      count: mockScenarios.length,
-      type: 'main'
-    },
-    {
-      id: 'components',
-      label: '组件库',
-      icon: '🧩',
-      description: '96个组件分类浏览',
-      count: totalComponentCount,
-      type: 'main',
-      children: componentCategories
-    },
-    {
-      id: 'editor',
-      label: '代码编辑器',
-      icon: '✏️',
-      description: 'Monaco编辑器集成',
-      type: 'main'
-    },
-    {
-      id: 'theme',
-      label: '主题配方',
-      icon: '🎨',
-      description: '七轴主题系统',
-      count: themeRecipes.length,
-      type: 'main'
-    },
-    {
-      id: 'devtools',
-      label: '开发工具',
-      icon: '🔧',
-      description: '调试和性能工具',
-      type: 'main'
-    }
-  ]
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10">
       {/* 主要内容区域 - 左侧导航布局 */}
       <main className="flex h-[calc(100vh-4rem)]">
-        {/* 左侧统一导航栏 */}
-        <aside className="w-80 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
-          <div className="p-6">
-            {/* Logo和标题 */}
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">X</span>
-              </div>
-              <div>
-                <h1 className="text-lg font-bold text-gray-900 dark:text-white">
-                  Xorigo UI Workbench
-                </h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400">V2.0</p>
-              </div>
-            </div>
-
-            {/* 统计信息 */}
-            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">总组件数</span>
-                <span className="text-lg font-bold text-blue-600 dark:text-blue-400">{totalComponentCount}</span>
-              </div>
-            </div>
-
-            {/* 主导航列表 */}
-            <nav className="space-y-1">
-              {navigationItems.map((item) => (
-                <div key={item.id}>
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={() => {
-                      setActiveMode(item.id as WorkbenchMode)
-                      if (item.id === 'components' && !selectedCategory) {
-                        setSelectedCategory('core')
-                      }
-                    }}
-                    className={`w-full p-4 rounded-lg text-left transition-all ${
-                      activeMode === item.id
-                        ? 'bg-blue-500 text-white shadow-md'
-                        : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-xl">{item.icon}</span>
-                        <div>
-                          <h3 className="font-medium">{item.label}</h3>
-                          <p className={`text-xs ${
-                            activeMode === item.id ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'
-                          }`}>
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                      {item.count && (
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          activeMode === item.id
-                            ? 'bg-white/20 text-white'
-                            : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {item.count}
-                        </span>
-                      )}
-                    </div>
-                  </motion.button>
-
-                  {/* 组件库子菜单 */}
-                  {item.id === 'components' && activeMode === 'components' && item.children && (
-                    <div className="ml-4 mt-2 space-y-1">
-                      {item.children.map((category) => (
-                        <motion.button
-                          key={category.id}
-                          whileHover={{ scale: 1.01 }}
-                          whileTap={{ scale: 0.99 }}
-                          onClick={() => setSelectedCategory(category.id)}
-                          className={`w-full p-3 rounded-lg text-left transition-all ${
-                            selectedCategory === category.id
-                              ? 'bg-blue-100 dark:bg-blue-900/30 border-2 border-blue-500'
-                              : 'bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">{category.icon}</span>
-                              <div>
-                                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                                  {category.name}
-                                </h4>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                  {category.description}
-                                </p>
-                              </div>
-                            </div>
-                            <span className={`px-2 py-0.5 text-xs rounded-full ${
-                              selectedCategory === category.id
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
-                            }`}>
-                              {category.count}
-                            </span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            {/* 底部信息 */}
-            <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                <p>服务器状态: <span className="text-green-600 font-medium">在线</span></p>
-                <p className="mt-1">最后更新: 刚刚</p>
-              </div>
-            </div>
-          </div>
-        </aside>
+        {/* 左侧导航栏 - 使用新的导航组件 */}
+        <WorkbenchNavigation
+          workMode={workMode}
+          activeMode={activeMode}
+          onWorkModeChange={setWorkMode}
+          onActiveModeChange={setActiveMode}
+          totalComponentCount={totalComponentCount}
+          solutionCount={mockScenarios.length}
+          themeRecipeCount={themeRecipes.length}
+          componentCategories={componentCategories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
 
         {/* 右侧内容区域 */}
         <div className="flex-1 overflow-y-auto">
@@ -974,7 +832,7 @@ export default function MyComponent() {
                 >
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                      开发工具
+                      开发工具套件
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-6">
                       性能监控、调试工具、依赖分析等开发辅助工具
@@ -1011,6 +869,96 @@ export default function MyComponent() {
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                           代码规范检查和最佳实践建议
                         </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeMode === 'ai-assistant' && (
+                <motion.div
+                  key="ai-assistant"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                      AI 智能助手
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      您的智能开发伙伴，提供代码生成、问题解答、最佳实践建议等服务
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="text-3xl mb-4">🤖</div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                          智能对话
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          自然语言交互，理解您的开发需求，提供精准的技术支持
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 rounded">
+                            自然语言处理
+                          </span>
+                          <span className="px-2 py-1 text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 rounded">
+                            上下文理解
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="text-3xl mb-4">💡</div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                          代码生成
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          基于描述自动生成组件代码，支持多种技术栈和设计模式
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-2 py-1 text-xs bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 rounded">
+                            React 组件
+                          </span>
+                          <span className="px-2 py-1 text-xs bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 rounded">
+                            TypeScript
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="text-3xl mb-4">🔍</div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                          问题诊断
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          智能分析代码问题，提供优化建议和最佳实践指导
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-2 py-1 text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 rounded">
+                            错误检测
+                          </span>
+                          <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300 rounded">
+                            性能优化
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="text-3xl mb-4">📚</div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                          知识库
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          丰富的开发知识库，包含文档、教程、示例代码
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-2 py-1 text-xs bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 rounded">
+                            API 文档
+                          </span>
+                          <span className="px-2 py-1 text-xs bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300 rounded">
+                            最佳实践
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
