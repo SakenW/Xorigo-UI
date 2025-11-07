@@ -227,47 +227,21 @@ const mockScenarios: BusinessScenario[] = [
   }
 ]
 
-// 基于96个真实组件的分类数据 - 包含子分类
+// 基于96个真实组件的分类数据 - 按使用重度排序（最常用的在前）
 const componentCategories: ComponentCategory[] = [
   {
-    id: 'core',
-    name: '核心组件',
-    icon: '⚡',
-    description: 'WorkbenchV2、智能面包屑等核心功能组件',
-    count: 3,
-    color: 'blue',
+    id: 'forms',
+    name: '表单组件',
+    icon: '📋',
+    description: '智能表单、输入组件、验证器、字段管理',
+    count: 18,
+    color: 'cyan',
     subcategories: [
-      { id: 'workbench', name: '工作台引擎', description: 'Workbench核心架构', count: 1 },
-      { id: 'breadcrumb', name: '智能导航', description: '面包屑和导航系统', count: 1 },
-      { id: 'core-utilities', name: '核心工具', description: '基础工具类组件', count: 1 }
-    ]
-  },
-  {
-    id: 'components',
-    name: '组件管理',
-    icon: '📦',
-    description: 'ComponentRegistry、ComponentScanner等组件管理工具',
-    count: 12,
-    color: 'green',
-    subcategories: [
-      { id: 'registry', name: '注册系统', description: '组件注册和管理', count: 4 },
-      { id: 'scanner', name: '扫描器', description: '组件发现和扫描', count: 3 },
-      { id: 'loader', name: '加载器', description: '动态加载组件', count: 3 },
-      { id: 'cache', name: '缓存系统', description: '组件缓存管理', count: 2 }
-    ]
-  },
-  {
-    id: 'editor',
-    name: '编辑器',
-    icon: '✏️',
-    description: 'Monaco编辑器系列、AI助手、代码生成器',
-    count: 8,
-    color: 'purple',
-    subcategories: [
-      { id: 'monaco', name: 'Monaco编辑器', description: 'VS Code编辑器集成', count: 3 },
-      { id: 'ai-assistant', name: 'AI助手', description: '智能编程助手', count: 2 },
-      { id: 'code-generator', name: '代码生成器', description: '自动代码生成', count: 2 },
-      { id: 'syntax-highlighter', name: '语法高亮', description: '代码着色器', count: 1 }
+      { id: 'input', name: '输入组件', description: '文本、密码、数字输入', count: 5 },
+      { id: 'select', name: '选择组件', description: '下拉选择、多选、单选', count: 4 },
+      { id: 'validation', name: '验证器', description: '表单验证和错误处理', count: 3 },
+      { id: 'form-container', name: '表单容器', description: '表单布局和管理', count: 3 },
+      { id: 'date-time', name: '日期时间', description: '日期选择器、时间选择器', count: 3 }
     ]
   },
   {
@@ -286,18 +260,17 @@ const componentCategories: ComponentCategory[] = [
     ]
   },
   {
-    id: 'forms',
-    name: '表单组件',
-    icon: '📋',
-    description: '智能表单、输入组件、验证器、字段管理',
-    count: 18,
-    color: 'cyan',
+    id: 'components',
+    name: '组件管理',
+    icon: '📦',
+    description: 'ComponentRegistry、ComponentScanner等组件管理工具',
+    count: 12,
+    color: 'green',
     subcategories: [
-      { id: 'input', name: '输入组件', description: '文本、密码、数字输入', count: 5 },
-      { id: 'select', name: '选择组件', description: '下拉选择、多选、单选', count: 4 },
-      { id: 'validation', name: '验证器', description: '表单验证和错误处理', count: 3 },
-      { id: 'form-container', name: '表单容器', description: '表单布局和管理', count: 3 },
-      { id: 'date-time', name: '日期时间', description: '日期选择器、时间选择器', count: 3 }
+      { id: 'registry', name: '注册系统', description: '组件注册和管理', count: 4 },
+      { id: 'scanner', name: '扫描器', description: '组件发现和扫描', count: 3 },
+      { id: 'loader', name: '加载器', description: '动态加载组件', count: 3 },
+      { id: 'cache', name: '缓存系统', description: '组件缓存管理', count: 2 }
     ]
   },
   {
@@ -316,20 +289,6 @@ const componentCategories: ComponentCategory[] = [
     ]
   },
   {
-    id: 'navigation',
-    name: '导航组件',
-    icon: '🧭',
-    description: '智能面包屑、分页、标签页、菜单组件',
-    count: 7,
-    color: 'indigo',
-    subcategories: [
-      { id: 'breadcrumb', name: '面包屑', description: '路径导航面包屑', count: 1 },
-      { id: 'pagination', name: '分页器', description: '数据分页导航', count: 2 },
-      { id: 'tabs', name: '标签页', description: '标签页切换', count: 2 },
-      { id: 'menu', name: '菜单', description: '下拉菜单和导航菜单', count: 2 }
-    ]
-  },
-  {
     id: 'overlays',
     name: '覆盖层组件',
     icon: '🎭',
@@ -341,6 +300,48 @@ const componentCategories: ComponentCategory[] = [
       { id: 'drawer', name: '抽屉', description: '侧边抽屉面板', count: 2 },
       { id: 'tooltip', name: '提示框', description: '悬浮提示信息', count: 2 },
       { id: 'popover', name: '弹出层', description: '复杂弹出内容', count: 2 }
+    ]
+  },
+  {
+    id: 'charts',
+    name: '图表组件',
+    icon: '📊',
+    description: '数据可视化、图表、仪表盘组件',
+    count: 8,
+    color: 'violet',
+    subcategories: [
+      { id: 'basic-charts', name: '基础图表', description: '柱状图、折线图、饼图', count: 3 },
+      { id: 'advanced-charts', name: '高级图表', description: '散点图、热力图、雷达图', count: 2 },
+      { id: 'dashboard', name: '仪表盘', description: '数据仪表盘组件', count: 2 },
+      { id: 'data-grid', name: '数据表格', description: '高级数据表格', count: 1 }
+    ]
+  },
+  {
+    id: 'editor',
+    name: '编辑器',
+    icon: '✏️',
+    description: 'Monaco编辑器系列、AI助手、代码生成器',
+    count: 8,
+    color: 'purple',
+    subcategories: [
+      { id: 'monaco', name: 'Monaco编辑器', description: 'VS Code编辑器集成', count: 3 },
+      { id: 'ai-assistant', name: 'AI助手', description: '智能编程助手', count: 2 },
+      { id: 'code-generator', name: '代码生成器', description: '自动代码生成', count: 2 },
+      { id: 'syntax-highlighter', name: '语法高亮', description: '代码着色器', count: 1 }
+    ]
+  },
+  {
+    id: 'navigation',
+    name: '导航组件',
+    icon: '🧭',
+    description: '智能面包屑、分页、标签页、菜单组件',
+    count: 7,
+    color: 'indigo',
+    subcategories: [
+      { id: 'breadcrumb', name: '面包屑', description: '路径导航面包屑', count: 1 },
+      { id: 'pagination', name: '分页器', description: '数据分页导航', count: 2 },
+      { id: 'tabs', name: '标签页', description: '标签页切换', count: 2 },
+      { id: 'menu', name: '菜单', description: '下拉菜单和导航菜单', count: 2 }
     ]
   },
   {
@@ -358,17 +359,16 @@ const componentCategories: ComponentCategory[] = [
     ]
   },
   {
-    id: 'charts',
-    name: '图表组件',
-    icon: '📊',
-    description: '数据可视化、图表、仪表盘组件',
-    count: 8,
-    color: 'violet',
+    id: 'core',
+    name: '核心组件',
+    icon: '⚡',
+    description: 'WorkbenchV2、智能面包屑等核心功能组件',
+    count: 3,
+    color: 'blue',
     subcategories: [
-      { id: 'basic-charts', name: '基础图表', description: '柱状图、折线图、饼图', count: 3 },
-      { id: 'advanced-charts', name: '高级图表', description: '散点图、热力图、雷达图', count: 2 },
-      { id: 'dashboard', name: '仪表盘', description: '数据仪表盘组件', count: 2 },
-      { id: 'data-grid', name: '数据表格', description: '高级数据表格', count: 1 }
+      { id: 'workbench', name: '工作台引擎', description: 'Workbench核心架构', count: 1 },
+      { id: 'breadcrumb', name: '智能导航', description: '面包屑和导航系统', count: 1 },
+      { id: 'core-utilities', name: '核心工具', description: '基础工具类组件', count: 1 }
     ]
   }
 ]
@@ -392,9 +392,9 @@ export default function WorkbenchV2Integrated() {
   // 新的导航架构状态
   const [workMode, setWorkMode] = useState<WorkMode>('workbench')
   const [activeMode, setActiveMode] = useState<ActiveMode>('solution')
-  const [selectedCategory, setSelectedCategory] = useState<string>('core')
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('workbench')
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['core']))
+  const [selectedCategory, setSelectedCategory] = useState<string>('forms')
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('input')
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['forms']))
 
   // 内容状态
   const [selectedScenario, setSelectedScenario] = useState<BusinessScenario | null>(null)
