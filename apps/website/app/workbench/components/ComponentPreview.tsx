@@ -13,11 +13,75 @@ interface ComponentPreviewProps {
   resetPreviewProps: () => void
 }
 
+// 专用渲染器映射表
+const DEDICATED_RENDERERS: Record<string, string> = {
+  // 表单组件
+  'TextInput': 'TextInput',
+  'PasswordInput': 'PasswordInput',
+  'NumberInput': 'NumberInput',
+  'EmailInput': 'EmailInput',
+  'PhoneInput': 'PhoneInput',
+  'Button': 'Button',
+  'Select': 'Select',
+  'Checkbox': 'Checkbox',
+  'Radio': 'Radio',
+  'Switch': 'Switch',
+
+  // 展示组件
+  'Heading': 'Heading',
+  'Text': 'Text',
+  'Label': 'Label',
+  'Badge': 'Badge',
+  'Tag': 'Tag',
+  'Divider': 'Divider',
+
+  // 反馈组件
+  'Alert': 'Alert',
+  'Progress': 'Progress',
+  'Spinner': 'Spinner',
+  'Message': 'Message',
+
+  // 导航组件
+  'Menu': 'Navigation',
+  'Breadcrumb': 'Breadcrumb',
+  'Pagination': 'Pagination',
+  'Steps': 'Steps',
+  'Anchor': 'Navigation',
+  'BackTop': 'Navigation',
+
+  // 布局组件
+  'Row': 'Layout',
+  'Col': 'Layout',
+  'Card': 'Card',
+  'Collapse': 'Card',
+
+  // 数据展示组件
+  'Table': 'Table',
+  'List': 'Display',
+  'Tree': 'Tree',
+  'Timeline': 'Display',
+  'Empty': 'Display',
+
+  // 增强输入组件
+  'DatePicker': 'DatePicker',
+  'ColorPicker': 'ColorPicker',
+  'Upload': 'Upload',
+  'Editor': 'Editor'
+}
+
 // 动态导入组件预览渲染器
 const getComponentRenderer = async (componentName: string) => {
   try {
-    const renderer = await import(`./renderers/${componentName}Renderer`)
-    return renderer.default
+    // 检查是否有专用渲染器
+    const rendererName = DEDICATED_RENDERERS[componentName]
+    if (rendererName) {
+      const renderer = await import(`./renderers/${rendererName}Renderer`)
+      return renderer.default
+    }
+
+    // 如果没有专用渲染器，尝试加载通用渲染器
+    const { UniversalRenderer } = await import('./renderers/UniversalRenderer')
+    return (props: any) => <UniversalRenderer componentName={componentName} {...props} />
   } catch (error) {
     console.warn(`Renderer for ${componentName} not found, using fallback`)
     return null

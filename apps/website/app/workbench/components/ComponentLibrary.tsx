@@ -1,11 +1,53 @@
 'use client'
 
-import React from 'react'
+import React, { memo } from 'react'
 import { motion } from 'framer-motion'
 import { useComponentLibrary } from '../hooks/useComponentLibrary'
 import ComponentDetails from './ComponentDetails'
 
-export default function ComponentLibrary() {
+// 分类按钮组件 - 使用 memo 优化
+const CategoryButton = memo(({
+  category,
+  isSelected,
+  onSelect
+}: {
+  category: any
+  isSelected: boolean
+  onSelect: (id: string) => void
+}) => (
+  <button
+    onClick={() => onSelect(category.id)}
+    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
+      isSelected
+        ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
+        : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
+    }`}
+  >
+    <div className="flex items-center space-x-3">
+      <span className="text-xl">{category.icon}</span>
+      <div className="text-left">
+        <div className="font-medium text-gray-900 dark:text-white">
+          {category.name}
+        </div>
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          {category.description}
+        </div>
+      </div>
+    </div>
+    <div className="flex items-center space-x-2">
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+        {category.componentCount}
+      </span>
+      <span className="text-gray-400">
+        {isSelected ? '▼' : '▶'}
+      </span>
+    </div>
+  </button>
+))
+
+CategoryButton.displayName = 'CategoryButton'
+
+const ComponentLibrary = memo(function ComponentLibrary() {
   const {
     componentCategories,
     currentCategory,
@@ -98,34 +140,11 @@ export default function ComponentLibrary() {
             <div className="space-y-2">
               {componentCategories.map((category) => (
                 <div key={category.id}>
-                  <button
-                    onClick={() => handleCategorySelect(category.id)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCategory === category.id
-                        ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-xl">{category.icon}</span>
-                      <div className="text-left">
-                        <div className="font-medium text-gray-900 dark:text-white">
-                          {category.name}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                          {category.description}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                        {category.componentCount}
-                      </span>
-                      <span className="text-gray-400">
-                        {selectedCategory === category.id ? '▼' : '▶'}
-                      </span>
-                    </div>
-                  </button>
+                  <CategoryButton
+                    category={category}
+                    isSelected={selectedCategory === category.id}
+                    onSelect={handleCategorySelect}
+                  />
 
                   {/* 子分类 */}
                   {selectedCategory === category.id && (
@@ -277,4 +296,8 @@ export default function ComponentLibrary() {
       )}
     </div>
   )
-}
+})
+
+ComponentLibrary.displayName = 'ComponentLibrary'
+
+export default ComponentLibrary

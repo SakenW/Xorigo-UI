@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { ComponentExample, ComponentCategory } from '@/types/workbench'
 
 // 组件数据配置
@@ -10,7 +10,7 @@ const componentCategories: ComponentCategory[] = [
     name: '表单组件',
     description: '智能表单、输入组件、验证器、字段管理',
     icon: '📋',
-    componentCount: 18,
+    componentCount: 19,
     subcategories: [
       {
         id: 'input',
@@ -76,6 +76,18 @@ const componentCategories: ComponentCategory[] = [
             props: ['countryCode', 'format', 'placeholder', 'value', 'onChange'],
             usage: 3,
             difficulty: 'advanced'
+          },
+          {
+            id: 'button',
+            name: 'Button',
+            description: '按钮组件，支持多种样式和交互状态',
+            element: 'button',
+            category: 'forms',
+            subcategory: 'input',
+            tags: ['button', 'form', 'action', 'click'],
+            props: ['variant', 'size', 'disabled', 'loading', 'onClick'],
+            usage: 12,
+            difficulty: 'beginner'
           }
         ]
       },
@@ -680,10 +692,11 @@ export function useComponentLibrary() {
 
     // 应用搜索过滤
     if (searchTerm) {
+      const lowerSearchTerm = searchTerm.toLowerCase()
       components = components.filter(comp =>
-        comp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comp.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comp.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+        comp.name.toLowerCase().includes(lowerSearchTerm) ||
+        comp.description.toLowerCase().includes(lowerSearchTerm) ||
+        comp.tags.some(tag => tag.toLowerCase().includes(lowerSearchTerm))
       )
     }
 
@@ -700,23 +713,23 @@ export function useComponentLibrary() {
   }, [])
 
   // 组件操作函数
-  const handleComponentClick = (component: ComponentExample) => {
+  const handleComponentClick = useCallback((component: ComponentExample) => {
     setSelectedComponent(component)
-  }
+  }, [])
 
-  const handleCloseDetails = () => {
+  const handleCloseDetails = useCallback(() => {
     setSelectedComponent(null)
-  }
+  }, [])
 
-  const handleCategorySelect = (categoryId: string) => {
+  const handleCategorySelect = useCallback((categoryId: string) => {
     setSelectedCategory(categoryId)
     setSelectedSubcategory('')
-  }
+  }, [])
 
-  const handleSubcategorySelect = (categoryId: string, subcategoryId: string) => {
+  const handleSubcategorySelect = useCallback((categoryId: string, subcategoryId: string) => {
     setSelectedCategory(categoryId)
     setSelectedSubcategory(subcategoryId)
-  }
+  }, [])
 
   return {
     // 数据
