@@ -3,6 +3,7 @@
 import React, { memo } from 'react'
 import { motion } from 'framer-motion'
 import { useComponentLibrary } from '../hooks/useComponentLibrary'
+import { ComponentPreviewThumbnail } from './ComponentPreviewThumbnail'
 import ComponentDetails from './ComponentDetails'
 
 // 分类按钮组件 - 使用 memo 优化
@@ -221,60 +222,87 @@ const ComponentLibrary = memo(function ComponentLibrary() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleComponentClick(component)}
-                className="p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:shadow-lg transition-all duration-200"
+                className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:shadow-lg transition-all duration-200 overflow-hidden"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {component.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {component.element}
-                    </p>
-                  </div>
-                  <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                    {component.usage}
+                {/* 顶部：组件视觉预览区域 */}
+                <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center justify-center h-24">
+                    {/* 渲染组件的缩略预览 */}
+                    <ComponentPreviewThumbnail componentName={component.name} />
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                  {component.description}
-                </p>
+                {/* 中部：组件信息 */}
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                        {component.name}
+                      </h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {component.element}
+                      </p>
+                    </div>
+                    <div className="text-xs font-medium text-blue-600 dark:text-blue-400">
+                      {component.usage}
+                    </div>
+                  </div>
 
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {component.props?.slice(0, 3).map((prop, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
-                    >
-                      {prop}
-                    </span>
-                  ))}
-                  {component.props && component.props.length > 3 && (
-                    <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded">
-                      +{component.props.length - 3}
-                    </span>
-                  )}
-                </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-3 text-xs line-clamp-2">
+                    {component.description}
+                  </p>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1">
-                    {component.tags?.slice(0, 2).map((tag, index) => (
+                  {/* Props 标签 */}
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {component.props?.slice(0, 2).map((prop, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded"
+                        className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
                       >
-                        {tag}
+                        {prop}
                       </span>
                     ))}
+                    {component.props && component.props.length > 2 && (
+                      <span className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded">
+                        +{component.props.length - 2}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-                      预览
-                    </button>
-                    <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                      文档
-                    </button>
+                </div>
+
+                {/* 底部：标签和操作按钮 */}
+                <div className="px-4 pb-4 border-t border-gray-100 dark:border-gray-800">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1">
+                      {component.tags?.slice(0, 2).map((tag, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-0.5 text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleComponentClick(component);
+                        }}
+                        className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                      >
+                        预览
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // 这里可以添加查看文档的逻辑
+                        }}
+                        className="px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        文档
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

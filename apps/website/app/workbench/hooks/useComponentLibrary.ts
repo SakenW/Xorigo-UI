@@ -20,7 +20,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'text-input',
             name: 'TextInput',
-            description: '文本输入框',
+            description: '基础文本输入框，用于输入用户名、标题、搜索词等单行文本内容',
             element: 'input',
             category: 'forms',
             subcategory: 'input',
@@ -32,7 +32,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'password-input',
             name: 'PasswordInput',
-            description: '密码输入框，支持强度检测和显示切换',
+            description: '安全密码输入框，支持密码强度检测、显示/隐藏切换，适用于登录、注册等场景',
             element: 'input',
             category: 'forms',
             subcategory: 'input',
@@ -44,7 +44,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'number-input',
             name: 'NumberInput',
-            description: '数字输入框，支持范围限制和精度控制',
+            description: '数字输入框，支持增减按钮、范围限制和小数精度，适用于年龄、数量、金额等数字输入',
             element: 'input',
             category: 'forms',
             subcategory: 'input',
@@ -56,7 +56,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'email-input',
             name: 'EmailInput',
-            description: '邮箱输入框，自动验证格式',
+            description: '邮箱地址输入框，支持格式自动验证、域名限制，适用于用户注册、邮箱登录等场景',
             element: 'input',
             category: 'forms',
             subcategory: 'input',
@@ -68,7 +68,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'phone-input',
             name: 'PhoneInput',
-            description: '手机号输入框，支持国际格式',
+            description: '手机号码输入框，支持国际区号选择、格式化显示，适用于用户注册、联系方式收集',
             element: 'input',
             category: 'forms',
             subcategory: 'input',
@@ -80,7 +80,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'button',
             name: 'Button',
-            description: '按钮组件，支持多种样式和交互状态',
+            description: '交互按钮组件，支持多种样式、尺寸和状态，用于表单提交、页面导航、操作触发等场景',
             element: 'button',
             category: 'forms',
             subcategory: 'input',
@@ -99,7 +99,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'select',
             name: 'Select',
-            description: '下拉选择框',
+            description: '下拉选择框，支持单选、多选、搜索过滤，适用于选择城市、分类、选项等场景',
             element: 'select',
             category: 'forms',
             subcategory: 'select',
@@ -111,7 +111,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'checkbox',
             name: 'Checkbox',
-            description: '复选框',
+            description: '复选框组件，支持多选、全选、半选状态，适用于协议同意、标签选择等场景',
             element: 'input',
             category: 'forms',
             subcategory: 'select',
@@ -123,7 +123,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'radio',
             name: 'Radio',
-            description: '单选框',
+            description: '单选框组件，用于互斥选项选择，适用于性别选择、支付方式等排他性选择场景',
             element: 'input',
             category: 'forms',
             subcategory: 'select',
@@ -135,7 +135,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'switch',
             name: 'Switch',
-            description: '开关组件',
+            description: '开关切换组件，用于启用/禁用功能，适用于通知设置、功能开关等二选一场景',
             element: 'button',
             category: 'forms',
             subcategory: 'select',
@@ -163,7 +163,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'heading',
             name: 'Heading',
-            description: '标题组件',
+            description: '页面标题组件，支持不同级别和样式，用于页面标题、区块标题、卡片标题等层级展示',
             element: 'h1',
             category: 'display',
             subcategory: 'typography',
@@ -175,7 +175,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'text',
             name: 'Text',
-            description: '文本组件',
+            description: '正文文本组件，支持多种字体大小和颜色，用于段落、描述、提示等文本内容展示',
             element: 'p',
             category: 'display',
             subcategory: 'typography',
@@ -187,7 +187,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'label',
             name: 'Label',
-            description: '标签组件',
+            description: '表单标签组件，用于描述输入框用途，支持必填标识，适用于各种表单场景',
             element: 'label',
             category: 'display',
             subcategory: 'typography',
@@ -265,7 +265,7 @@ const componentCategories: ComponentCategory[] = [
           {
             id: 'alert',
             name: 'Alert',
-            description: '警告提示组件',
+            description: '页面内警告提示组件，用于显示成功、错误、警告、信息等重要提示信息',
             element: 'div',
             category: 'feedback',
             subcategory: 'alert',
