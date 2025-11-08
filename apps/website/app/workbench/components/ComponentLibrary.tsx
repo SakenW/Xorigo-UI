@@ -2,7 +2,7 @@
 
 import React, { memo } from 'react'
 import { motion } from 'framer-motion'
-import { useComponentLibrary } from '../hooks/useComponentLibrary'
+import { useComponentLibraryV2 } from '../hooks/useComponentLibraryV2'
 import { ComponentPreviewThumbnail } from './ComponentPreviewThumbnail'
 import ComponentDetails from './ComponentDetails'
 
@@ -64,7 +64,7 @@ const ComponentLibrary = memo(function ComponentLibrary() {
     handleCloseDetails,
     handleCategorySelect,
     handleSubcategorySelect
-  } = useComponentLibrary()
+  } = useComponentLibraryV2()
 
   const containerVariants = {
     hidden: { opacity: 0 },

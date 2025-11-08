@@ -97,7 +97,7 @@ export function FormPreviews({ componentName }: { componentName: string }) {
             选项一
           </label>
           <label className="flex items-center text-sm">
-            <input type="checkbox" className="mr-2" checked disabled />
+            <input type="checkbox" className="mr-2" defaultChecked disabled />
             选项二
           </label>
         </div>
@@ -107,11 +107,11 @@ export function FormPreviews({ componentName }: { componentName: string }) {
       return (
         <div className="space-y-2">
           <label className="flex items-center text-sm">
-            <input type="radio" name="radio-thumb" className="mr-2" />
+            <input type="radio" name="radio-thumb" className="mr-2" defaultChecked />
             选项一
           </label>
           <label className="flex items-center text-sm">
-            <input type="radio" name="radio-thumb" className="mr-2" checked />
+            <input type="radio" name="radio-thumb" className="mr-2" />
             选项二
           </label>
         </div>

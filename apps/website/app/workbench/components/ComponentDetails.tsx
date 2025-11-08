@@ -13,6 +13,24 @@ interface ComponentDetailsProps {
 export default function ComponentDetails({ component, onClose }: ComponentDetailsProps) {
   const [previewProps, setPreviewProps] = React.useState<Record<string, any>>({})
   const [isInteractiveMode, setIsInteractiveMode] = React.useState(false)
+  const [scrollY, setScrollY] = React.useState(0)
+
+  // 监听滚动位置
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+
+    // 初始设置滚动位置
+    setScrollY(window.scrollY)
+
+    // 监听滚动事件
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   // 初始化组件属性
   React.useEffect(() => {
@@ -93,7 +111,10 @@ export default function ComponentDetails({ component, onClose }: ComponentDetail
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="min-h-screen px-4 text-center">
+      <div
+        className="min-h-screen px-4 text-center"
+        style={{ paddingTop: `${Math.max(scrollY, 32)}px` }}
+      >
         {/* 背景遮罩 */}
         <div
           className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
