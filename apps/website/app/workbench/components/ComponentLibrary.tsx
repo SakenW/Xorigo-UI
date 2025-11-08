@@ -204,15 +204,20 @@ const ComponentLibrary = memo(function ComponentLibrary() {
 
           {/* 组件网格 */}
           <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filteredComponents.map((component) => (
               <motion.div
                 key={component.id}
-                variants={itemVariants}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: Math.random() * 0.1 // 随机延迟创造自然的加载效果
+                }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleComponentClick(component)}

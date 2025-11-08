@@ -1,0 +1,14 @@
+# 私有NPM配置文件
+# 将此文件重命名为 .npmrc 并配置相应的认证
+
+# 选项1: GitHub Packages (推荐)
+# @xorigo-ui:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+
+# 选项2: 私有NPM仓库
+# @xorigo-ui:registry=https://your-private-registry.com
+# //your-private-registry.com/:_authToken=${NPM_TOKEN}
+
+# 选项3: 本地Verdaccio仓库
+# @xorigo-ui:registry=http://localhost:4873
+# //localhost:4873/:_authToken="abc123"

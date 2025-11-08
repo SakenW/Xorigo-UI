@@ -1,0 +1,11 @@
+{
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/xorigo-ui.git"
+  },
+  "publishConfig_comment": "使用此配置替换原package.json中的publishConfig以发布为私有包"
+}
