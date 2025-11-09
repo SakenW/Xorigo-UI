@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Sidebar, type SidebarItem, Badge } from '@xorigo-ui/core'
 import { cn } from '@/utils'
 import { componentCategories } from '../../data/component-classification'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 
 interface WorkbenchLayoutProps {
   children: React.ReactNode
@@ -1076,6 +1077,9 @@ export function WorkbenchLayout({
             </div>
 
             <div className="flex items-center space-x-4">
+              {/* 主题切换器 */}
+              <ThemeSwitcher />
+
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 React 19 • TypeScript 5.9 • Tailwind CSS 4
               </div>

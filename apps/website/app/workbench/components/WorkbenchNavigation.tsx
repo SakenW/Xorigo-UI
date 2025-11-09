@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 
 interface WorkbenchNavigationProps {
   activeMode: 'workbench' | 'component-library'
@@ -56,7 +57,7 @@ export default function WorkbenchNavigation({
             </button>
           </div>
 
-          {/* 右侧统计 */}
+          {/* 右侧统计和工具 */}
           <div className="flex items-center space-x-6">
             <div className="text-center">
               <div className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -71,6 +72,8 @@ export default function WorkbenchNavigation({
             <div className="text-sm text-gray-600 dark:text-gray-400">
               当前模式: {activeMode === 'workbench' ? '工作台' : '组件库'}
             </div>
+            {/* 主题切换器 */}
+            <ThemeSwitcher />
           </div>
         </div>
       </div>

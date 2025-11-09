@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useTheme } from '@xorigo-ui/system'
 
 interface ButtonRendererProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'text' | 'link' | 'danger' | 'ghost'
@@ -23,6 +24,7 @@ export default function ButtonRenderer({
 }: ButtonRendererProps) {
   const [clickCount, setClickCount] = useState(0)
   const [isPressed, setIsPressed] = useState(false)
+  const { themeConfig } = useTheme()
 
   const handleClick = () => {
     if (!disabled && !loading) {
@@ -33,15 +35,50 @@ export default function ButtonRenderer({
     }
   }
 
-  const getVariantClasses = () => {
+  const getVariantStyles = () => {
+    const primaryColor = themeConfig.colors[500]
+    const primaryHover = themeConfig.colors[600] || themeConfig.colors[500]
+    const primaryLight = themeConfig.colors[100] || themeConfig.colors[200]
+
     const variants = {
-      primary: 'bg-blue-500 hover:bg-blue-600 text-white border-blue-500',
-      secondary: 'bg-gray-500 hover:bg-gray-600 text-white border-gray-500',
-      outline: 'border-blue-500 text-blue-500 hover:bg-blue-50 bg-white',
-      text: 'text-blue-500 hover:bg-blue-50 hover:text-blue-600',
-      link: 'text-blue-500 hover:text-blue-600 hover:underline p-0',
-      danger: 'bg-red-500 hover:bg-red-600 text-white border-red-500',
-      ghost: 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300'
+      primary: {
+        background: `linear-gradient(135deg, ${primaryColor}, ${primaryHover})`,
+        color: '#ffffff',
+        border: primaryColor,
+        boxShadow: `0 0 15px ${themeConfig.glow}`
+      },
+      secondary: {
+        background: themeConfig.mode === 'dark' ? '#4b5563' : '#6b7280',
+        color: '#ffffff',
+        border: themeConfig.mode === 'dark' ? '#4b5563' : '#6b7280'
+      },
+      outline: {
+        background: 'transparent',
+        color: primaryColor,
+        border: primaryColor,
+        boxShadow: `0 0 10px ${themeConfig.glow}30`
+      },
+      text: {
+        background: 'transparent',
+        color: primaryColor,
+        border: 'transparent'
+      },
+      link: {
+        background: 'transparent',
+        color: primaryColor,
+        border: 'transparent',
+        textDecoration: 'underline'
+      },
+      danger: {
+        background: `linear-gradient(135deg, #ef4444, #dc2626)`,
+        color: '#ffffff',
+        border: '#ef4444'
+      },
+      ghost: {
+        background: themeConfig.mode === 'dark' ? '#374151' : '#f3f4f6',
+        color: themeConfig.mode === 'dark' ? '#d1d5db' : '#374151',
+        border: themeConfig.mode === 'dark' ? '#4b5563' : '#d1d5db'
+      }
     }
     return variants[variant]
   }
@@ -58,20 +95,26 @@ export default function ButtonRenderer({
   return (
     <div className="w-full">
       {/* 按钮展示区 */}
-      <div className="flex items-center justify-center p-8 bg-gray-50 dark:bg-gray-800 rounded-lg">
+      <div
+        className="flex items-center justify-center p-8 rounded-lg transition-all duration-300"
+        style={{
+          backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#f9fafb',
+          boxShadow: `0 0 20px ${themeConfig.glow}10`
+        }}
+      >
         <button
           onClick={handleClick}
           disabled={disabled || loading}
           className={`
             relative inline-flex items-center justify-center
             font-medium rounded-lg border transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+            focus:outline-none focus:ring-2 focus:ring-offset-2
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${getVariantClasses()}
             ${getSizeClasses()}
             ${isPressed ? 'scale-95' : 'scale-100'}
             ${loading ? 'cursor-wait' : 'cursor-pointer'}
           `}
+          style={getVariantStyles()}
         >
           {/* 加载状态 */}
           {loading && (

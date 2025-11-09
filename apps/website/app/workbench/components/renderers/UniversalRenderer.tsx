@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useTheme } from '@xorigo-ui/system'
 
 // 通用渲染器，用于快速创建组件预览
 export function UniversalRenderer({ componentName, ...props }: any) {
   const [localProps, setLocalProps] = useState(props)
+  const { themeConfig } = useTheme()
 
   const renderComponent = () => {
     switch (componentName) {
@@ -382,16 +384,61 @@ export function UniversalRenderer({ componentName, ...props }: any) {
       case 'BarChart':
         return (
           <div className="w-full">
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <div
+              className="border rounded-lg p-6 transition-all duration-300"
+              style={{
+                backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#ffffff',
+                borderColor: themeConfig.mode === 'dark' ? '#374151' : '#e5e7eb',
+                boxShadow: `0 0 20px ${themeConfig.glow}20`
+              }}
+            >
               <div className="space-y-4">
                 <div className="flex items-end space-x-2 h-32">
-                  <div className="flex-1 bg-blue-500 rounded-t" style={{height: '80%'}}></div>
-                  <div className="flex-1 bg-blue-500 rounded-t" style={{height: '60%'}}></div>
-                  <div className="flex-1 bg-blue-500 rounded-t" style={{height: '90%'}}></div>
-                  <div className="flex-1 bg-blue-500 rounded-t" style={{height: '40%'}}></div>
-                  <div className="flex-1 bg-blue-500 rounded-t" style={{height: '70%'}}></div>
+                  <div
+                    className="flex-1 rounded-t transition-all duration-300 hover:opacity-80"
+                    style={{
+                      height: '80%',
+                      background: `linear-gradient(to top, ${themeConfig.colors[500]}, ${themeConfig.colors[400]})`,
+                      boxShadow: `0 0 10px ${themeConfig.glow}`
+                    }}
+                  ></div>
+                  <div
+                    className="flex-1 rounded-t transition-all duration-300 hover:opacity-80"
+                    style={{
+                      height: '60%',
+                      background: `linear-gradient(to top, ${themeConfig.colors[500]}, ${themeConfig.colors[400]})`,
+                      boxShadow: `0 0 10px ${themeConfig.glow}`
+                    }}
+                  ></div>
+                  <div
+                    className="flex-1 rounded-t transition-all duration-300 hover:opacity-80"
+                    style={{
+                      height: '90%',
+                      background: `linear-gradient(to top, ${themeConfig.colors[500]}, ${themeConfig.colors[400]})`,
+                      boxShadow: `0 0 10px ${themeConfig.glow}`
+                    }}
+                  ></div>
+                  <div
+                    className="flex-1 rounded-t transition-all duration-300 hover:opacity-80"
+                    style={{
+                      height: '40%',
+                      background: `linear-gradient(to top, ${themeConfig.colors[500]}, ${themeConfig.colors[400]})`,
+                      boxShadow: `0 0 10px ${themeConfig.glow}`
+                    }}
+                  ></div>
+                  <div
+                    className="flex-1 rounded-t transition-all duration-300 hover:opacity-80"
+                    style={{
+                      height: '70%',
+                      background: `linear-gradient(to top, ${themeConfig.colors[500]}, ${themeConfig.colors[400]})`,
+                      boxShadow: `0 0 10px ${themeConfig.glow}`
+                    }}
+                  ></div>
                 </div>
-                <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
+                <div
+                  className="flex justify-between text-xs transition-colors duration-300"
+                  style={{ color: themeConfig.mode === 'dark' ? '#9ca3af' : '#6b7280' }}
+                >
                   <span>Q1</span>
                   <span>Q2</span>
                   <span>Q3</span>
@@ -400,7 +447,12 @@ export function UniversalRenderer({ componentName, ...props }: any) {
                 </div>
               </div>
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">柱状图组件</div>
+            <div
+              className="text-xs mt-2 text-center transition-colors duration-300"
+              style={{ color: themeConfig.mode === 'dark' ? '#6b7280' : '#9ca3af' }}
+            >
+              柱状图组件
+            </div>
           </div>
         )
 

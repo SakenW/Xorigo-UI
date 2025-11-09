@@ -2,12 +2,24 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '@xorigo-ui/system'
 
 export default function HomePage() {
+  const { themeConfig } = useTheme()
+
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+    <div
+      className="min-h-screen flex flex-col items-center justify-center transition-all duration-500"
+      style={{
+        backgroundColor: themeConfig.mode === 'dark' ? '#000000' : '#ffffff',
+        color: themeConfig.mode === 'dark' ? '#ffffff' : '#000000'
+      }}
+    >
       <motion.h1
-        className="text-6xl md:text-8xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+        className="text-6xl md:text-8xl font-bold text-center mb-8 bg-clip-text text-transparent"
+        style={{
+          backgroundImage: themeConfig.gradient
+        }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -16,7 +28,8 @@ export default function HomePage() {
       </motion.h1>
 
       <motion.p
-        className="text-2xl text-gray-300 mb-12 text-center max-w-3xl px-4"
+        className="text-2xl mb-12 text-center max-w-3xl px-4 transition-colors duration-500"
+        style={{ color: themeConfig.mode === 'dark' ? '#d1d5db' : '#4b5563' }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3 }}
@@ -32,7 +45,11 @@ export default function HomePage() {
       >
         <a
           href="/docs"
-          className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all transform hover:scale-105"
+          className="px-8 py-4 text-white rounded-lg font-semibold transition-all transform hover:scale-105"
+          style={{
+            background: themeConfig.gradient,
+            boxShadow: `0 0 20px ${themeConfig.glow}`
+          }}
         >
           查看文档
         </a>
@@ -40,13 +57,23 @@ export default function HomePage() {
           href="https://github.com/Xorigo/xorigo-ui"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold border border-purple-600/30 transition-all transform hover:scale-105"
+          className="px-8 py-4 text-white rounded-lg font-semibold transition-all transform hover:scale-105"
+          style={{
+            background: themeConfig.mode === 'dark' ? '#374151' : '#6b7280',
+            border: `2px solid ${themeConfig.colors[500]}`,
+            boxShadow: `0 0 15px ${themeConfig.glow}`
+          }}
         >
           GitHub
         </a>
         <a
           href="/recipes"
-          className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold border border-purple-600/30 transition-all transform hover:scale-105"
+          className="px-8 py-4 text-white rounded-lg font-semibold transition-all transform hover:scale-105"
+          style={{
+            background: themeConfig.mode === 'dark' ? '#374151' : '#6b7280',
+            border: `2px solid ${themeConfig.colors[500]}`,
+            boxShadow: `0 0 15px ${themeConfig.glow}`
+          }}
         >
           主题配方
         </a>
@@ -58,26 +85,92 @@ export default function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.9 }}
       >
-        <div className="bg-gray-900 p-6 rounded-lg border border-purple-600/20">
-          <div className="text-3xl font-bold text-purple-400">100+</div>
-          <div className="text-sm text-gray-400 mt-2">组件</div>
+        <div
+          className="p-6 rounded-lg transition-all duration-300 hover:scale-105"
+          style={{
+            backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#f9fafb',
+            border: `2px solid ${themeConfig.colors[500]}30`,
+            boxShadow: `0 0 15px ${themeConfig.glow}20`
+          }}
+        >
+          <div
+            className="text-3xl font-bold transition-colors duration-300"
+            style={{ color: themeConfig.colors[400] }}
+          >
+            100+
+          </div>
+          <div
+            className="text-sm mt-2 transition-colors duration-300"
+            style={{ color: themeConfig.mode === 'dark' ? '#9ca3af' : '#6b7280' }}
+          >
+            组件
+          </div>
         </div>
-        <div className="bg-gray-900 p-6 rounded-lg border border-purple-600/20">
-          <div className="text-3xl font-bold text-pink-400">10+</div>
-          <div className="text-sm text-gray-400 mt-2">主题配方</div>
+        <div
+          className="p-6 rounded-lg transition-all duration-300 hover:scale-105"
+          style={{
+            backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#f9fafb',
+            border: `2px solid ${themeConfig.colors[300]}30`,
+            boxShadow: `0 0 15px ${themeConfig.glow}20`
+          }}
+        >
+          <div
+            className="text-3xl font-bold transition-colors duration-300"
+            style={{ color: themeConfig.colors[300] }}
+          >
+            12+
+          </div>
+          <div
+            className="text-sm mt-2 transition-colors duration-300"
+            style={{ color: themeConfig.mode === 'dark' ? '#9ca3af' : '#6b7280' }}
+          >
+            主题配方
+          </div>
         </div>
-        <div className="bg-gray-900 p-6 rounded-lg border border-purple-600/20">
-          <div className="text-3xl font-bold text-blue-400">7</div>
-          <div className="text-sm text-gray-400 mt-2">七轴系统</div>
+        <div
+          className="p-6 rounded-lg transition-all duration-300 hover:scale-105"
+          style={{
+            backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#f9fafb',
+            border: `2px solid ${themeConfig.colors[200]}30`,
+            boxShadow: `0 0 15px ${themeConfig.glow}20`
+          }}
+        >
+          <div
+            className="text-3xl font-bold transition-colors duration-300"
+            style={{ color: themeConfig.colors[200] }}
+          >
+            7
+          </div>
+          <div
+            className="text-sm mt-2 transition-colors duration-300"
+            style={{ color: themeConfig.mode === 'dark' ? '#9ca3af' : '#6b7280' }}
+          >
+            七轴系统
+          </div>
         </div>
-        <div className="bg-gray-900 p-6 rounded-lg border border-purple-600/20">
-          <div className="text-3xl font-bold text-green-400">100%</div>
-          <div className="text-sm text-gray-400 mt-2">TypeScript</div>
+        <div
+          className="p-6 rounded-lg transition-all duration-300 hover:scale-105"
+          style={{
+            backgroundColor: themeConfig.mode === 'dark' ? '#1f2937' : '#f9fafb',
+            border: `2px solid #10b98130`,
+            boxShadow: `0 0 15px rgba(16, 185, 129, 0.2)`
+          }}
+        >
+          <div className="text-3xl font-bold text-green-400 transition-colors duration-300">
+            100%
+          </div>
+          <div
+            className="text-sm mt-2 transition-colors duration-300"
+            style={{ color: themeConfig.mode === 'dark' ? '#9ca3af' : '#6b7280' }}
+          >
+            TypeScript
+          </div>
         </div>
       </motion.div>
 
       <motion.p
-        className="mt-16 text-gray-500 text-center max-w-2xl px-4"
+        className="mt-16 text-center max-w-2xl px-4 transition-colors duration-500"
+        style={{ color: themeConfig.mode === 'dark' ? '#6b7280' : '#9ca3af' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
