@@ -38,7 +38,7 @@ export default function NavigationRenderer({
           <div className="flex items-center space-x-1 p-2">
             {items.map((item, index) => (
               <button
-                key={index}
+                key={`nav-menu-${item.title}-${item.href}-${index}`}
                 onClick={() => setActiveItem(index)}
                 className={`
                   flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors
@@ -87,7 +87,7 @@ export default function NavigationRenderer({
           <div className="space-y-2">
             {items.map((item, index) => (
               <a
-                key={index}
+                key={`nav-anchor-${item.title}-${item.href}-${index}`}
                 href={item.href}
                 className={`
                   flex items-center space-x-2 px-3 py-2 rounded-md text-sm transition-colors block

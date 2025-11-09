@@ -22,6 +22,9 @@ export default function DatePickerRenderer({
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
 
+  // 为每个DatePicker实例生成唯一ID
+  const instanceId = React.useRef(`datepicker-${Math.random().toString(36).substr(2, 9)}`)
+
   const getDaysInMonth = (month: number, year: number) => {
     return new Date(year, month + 1, 0).getDate()
   }
@@ -80,7 +83,7 @@ export default function DatePickerRenderer({
 
     // 空白天数
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="p-2"></div>)
+      days.push(<div key={`${instanceId.current}-empty-${currentMonth}-${currentYear}-${i}`} className="p-2"></div>)
     }
 
     // 月份天数

@@ -92,12 +92,12 @@ export default function PaginationRenderer({
           <div className="flex items-center space-x-1">
             {generatePages().map((page, index) =>
               page === '...' ? (
-                <span key={index} className="px-2 text-gray-400">
+                <span key={`pagination-item-${index}`} className="px-2 text-gray-400">
                   ...
                 </span>
               ) : (
                 <button
-                  key={index}
+                  key={`pagination-item-${index}`}
                   onClick={() => handlePageChange(page as number)}
                   className={`px-3 py-1 text-sm border rounded transition-colors ${
                     currentPage === page

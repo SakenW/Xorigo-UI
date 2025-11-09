@@ -208,7 +208,7 @@ export default function SolutionPlatform({
                     <div className="flex items-center space-x-2 mt-1">
                       {scenario.tags?.map((tag, index) => (
                         <span
-                          key={index}
+                          key={`${scenario.id}-tag-${tag}`}
                           className={`px-2 py-1 text-xs rounded ${
                             tag === '推荐' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' :
                             tag === '热门' ? 'bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400' :
@@ -244,7 +244,7 @@ export default function SolutionPlatform({
                 <div className="flex flex-wrap gap-1 mb-2">
                   {scenario.features?.map((feature, index) => (
                     <span
-                      key={index}
+                      key={`${scenario.id}-feature-${feature}-${index}`}
                       className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
                     >
                       {feature}
@@ -263,7 +263,7 @@ export default function SolutionPlatform({
                 <div className="flex flex-wrap gap-1">
                   {scenario.techStack.slice(0, 3).map((tech, index) => (
                     <span
-                      key={index}
+                      key={`${scenario.id}-tech-${tech}-${index}`}
                       className="px-2 py-1 text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded"
                     >
                       {tech}

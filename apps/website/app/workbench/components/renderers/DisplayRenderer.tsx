@@ -28,7 +28,7 @@ export default function DisplayRenderer({
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {listData.map((item, index) => (
-              <div key={index} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <div key={`list-item-${item.title}-${index}`} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -91,7 +91,7 @@ export default function DisplayRenderer({
           <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
           <div className="space-y-6">
             {timelineData.map((item, index) => (
-              <div key={index} className="relative flex items-start space-x-4">
+              <div key={`timeline-${item.title}-${index}`} className="relative flex items-start space-x-4">
                 <div className={`relative z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center ${
                   item.status === 'completed' ? 'bg-green-500 border-green-500' :
                   item.status === 'current' ? 'bg-blue-500 border-blue-500' :

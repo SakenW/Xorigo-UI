@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ComponentLibrary from './components/ComponentLibrary'
 import SolutionPlatform from './components/SolutionPlatform'
@@ -167,11 +167,39 @@ const businessScenarios = [
 
 export default function WorkbenchV2Integrated() {
   const [activeMode, setActiveMode] = useState<'workbench' | 'component-library'>('workbench')
+  const [totalComponentCount, setTotalComponentCount] = useState(135) // 使用实际的135个组件
 
   // 解决方案平台状态
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedDifficulty, setSelectedDifficulty] = useState('')
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null)
+
+  // 处理URL参数，支持直接访问组件库
+  useEffect(() => {
+    // 确保在客户端环境下执行
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      const tab = urlParams.get('tab')
+
+      if (tab === 'components') {
+        setActiveMode('component-library')
+      }
+    }
+  }, [])
+
+  // 当模式改变时，更新URL
+  useEffect(() => {
+    // 确保在客户端环境下执行
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href)
+      if (activeMode === 'component-library') {
+        url.searchParams.set('tab', 'components')
+      } else {
+        url.searchParams.delete('tab')
+      }
+      window.history.replaceState({}, '', url.toString())
+    }
+  }, [activeMode])
 
   // 过滤场景
   const filteredScenarios = businessScenarios.filter(scenario => {
@@ -208,7 +236,7 @@ export default function WorkbenchV2Integrated() {
       <WorkbenchNavigation
         activeMode={activeMode}
         onModeChange={setActiveMode}
-        totalComponentCount={96} // 这里可以从组件库hook获取
+        totalComponentCount={totalComponentCount} // 使用动态的组件数量
       />
 
       {/* 主内容区域 */}
@@ -255,7 +283,7 @@ export default function WorkbenchV2Integrated() {
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span>状态: 运行中</span>
             </span>
-            <span>组件: 96 已注册</span>
+            <span>组件: {totalComponentCount} 已注册</span>
           </div>
           <div className="flex items-center space-x-4">
             <span>服务器: 在线</span>

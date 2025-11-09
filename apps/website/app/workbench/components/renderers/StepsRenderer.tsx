@@ -98,7 +98,7 @@ export default function StepsRenderer({
 
           return (
             <div
-              key={index}
+              key={`step-${item.title}-${index}`}
               className={`
                 ${direction === 'horizontal' ? 'flex-1' : 'flex items-start space-x-4'}
                 ${isActive ? '' : ''}

@@ -28,7 +28,7 @@ export default function BreadcrumbRenderer({
       {/* 面包屑导航 */}
       <nav className="flex items-center space-x-2 text-sm">
         {items.map((item, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={`breadcrumb-${item.title}-${item.href}-${index}`}>
             {index > 0 && (
               <span className="text-gray-400 dark:text-gray-600">
                 {separator}

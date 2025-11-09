@@ -101,7 +101,7 @@ export default function ColorPickerRenderer({
         <div className="flex items-center gap-1">
           {presetColors.slice(0, 8).map((color, index) => (
             <button
-              key={index}
+              key={`preset-color-${color}-${index}`}
               onClick={() => handleColorSelect(color)}
               className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform"
               style={{ backgroundColor: color }}
@@ -151,7 +151,7 @@ export default function ColorPickerRenderer({
             <div className="grid grid-cols-10 gap-2">
               {presetColors.map((color, index) => (
                 <button
-                  key={index}
+                  key={`color-${color}-${index}`}
                   onClick={() => handleColorSelect(color)}
                   className={`
                     w-full aspect-square rounded border-2 transition-all

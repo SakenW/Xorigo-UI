@@ -84,6 +84,11 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
+# NPM 配置文件（可能包含敏感信息）
+.npmrc
+!.npmrc.example
+!.npmrc.template
+
 # 数据库文件
 *.db
 *.sqlite

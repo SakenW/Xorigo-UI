@@ -28,7 +28,7 @@ export default function ComponentBrowserWrapper() {
           { name: 'Form', category: '表单组件', description: '表单组件', count: 20 }
         ].map((component, index) => (
           <div
-            key={index}
+            key={`component-browser-${component.name}-${index}`}
             className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 transition-colors"
           >
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">

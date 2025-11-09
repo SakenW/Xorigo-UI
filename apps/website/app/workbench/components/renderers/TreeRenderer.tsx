@@ -158,7 +158,7 @@ export default function TreeRenderer({
     const parts = text.split(new RegExp(`(${search})`, 'gi'))
     return parts.map((part, index) =>
       part.toLowerCase() === search.toLowerCase() ? (
-        <span key={index} className="bg-yellow-300 dark:bg-yellow-600 text-black dark:text-white px-1 rounded">
+        <span key={`tree-node-${index}`} className="bg-yellow-300 dark:bg-yellow-600 text-black dark:text-white px-1 rounded">
           {part}
         </span>
       ) : (

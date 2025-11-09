@@ -256,7 +256,7 @@ const ComponentLibrary = memo(function ComponentLibrary() {
                   <div className="flex flex-wrap gap-1 mb-3">
                     {component.props?.slice(0, 2).map((prop, index) => (
                       <span
-                        key={index}
+                        key={`${component.id}-prop-${prop}-${index}`}
                         className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
                       >
                         {prop}
@@ -276,7 +276,7 @@ const ComponentLibrary = memo(function ComponentLibrary() {
                     <div className="flex flex-wrap gap-1">
                       {component.tags?.slice(0, 2).map((tag, index) => (
                         <span
-                          key={index}
+                          key={`${component.id}-tag-${tag}`}
                           className="px-2 py-0.5 text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded"
                         >
                           {tag}

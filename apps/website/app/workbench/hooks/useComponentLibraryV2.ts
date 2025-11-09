@@ -271,7 +271,7 @@ const componentCategories: ComponentCategory[] = [
         description: '标签和徽章展示',
         components: [
           { id: 'chip-display', name: 'ChipDisplay', description: '芯片标签，紧凑展示', usage: 6 },
-          { id: 'tag', name: 'Tag', description: '标签，分类标记', usage: 8 }
+          { id: 'tag-display', name: 'Tag', description: '标签，分类标记', usage: 8 }
         ]
       },
       {
@@ -299,8 +299,8 @@ const componentCategories: ComponentCategory[] = [
         description: '交互式展示组件',
         components: [
           { id: 'info-tooltip', name: 'InfoTooltip', description: '信息提示框', usage: 6 },
-          { id: 'steps', name: 'Steps', description: '步骤条，流程展示', usage: 4 },
-          { id: 'timeline', name: 'Timeline', description: '时间轴，历史记录', usage: 5 }
+          { id: 'steps-display', name: 'Steps', description: '步骤条，流程展示', usage: 4 },
+          { id: 'timeline-display', name: 'Timeline', description: '时间轴，历史记录', usage: 5 }
         ]
       }
     ]
@@ -382,7 +382,7 @@ const componentCategories: ComponentCategory[] = [
         name: '空状态',
         description: '空数据和缺省状态',
         components: [
-          { id: 'empty', name: 'Empty', description: '空状态，无数据展示', usage: 6 },
+          { id: 'empty-display', name: 'Empty', description: '空状态，无数据展示', usage: 6 },
           { id: 'empty-state', name: 'EmptyState', description: '空状态组件，引导用户', usage: 5 },
           { id: 'result', name: 'Result', description: '结果状态，操作结果展示', usage: 4 }
         ]
@@ -955,7 +955,7 @@ const componentCategories: ComponentCategory[] = [
             difficulty: 'beginner'
           },
           {
-            id: 'empty',
+            id: 'empty-component',
             name: 'Empty',
             description: '空状态组件',
             element: 'div',

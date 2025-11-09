@@ -99,7 +99,7 @@ export default function SelectRenderer({
             <div className="flex flex-wrap gap-1">
               {getSelectedLabels().map((label, index) => (
                 <span
-                  key={index}
+                  key={`select-option-${index}`}
                   className="inline-flex items-center px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded"
                 >
                   {label}

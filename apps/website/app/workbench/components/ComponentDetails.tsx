@@ -174,7 +174,7 @@ export default function ComponentDetails({ component, onClose }: ComponentDetail
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Props</h3>
                 <div className="space-y-2">
                   {component.props?.map((prop, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700 last:border-0">
+                    <div key={`${component.id}-prop-${prop}-${index}`} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700 last:border-0">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {prop}
                       </span>

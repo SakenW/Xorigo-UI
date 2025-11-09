@@ -16,7 +16,7 @@ export function UniversalRenderer({ componentName, ...props }: any) {
               <div className="space-y-1">
                 {['首页', '产品', '关于我们', '联系方式'].map((item, index) => (
                   <button
-                    key={index}
+                    key={`menu-item-${item}-${index}`}
                     className="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     {item}
@@ -68,7 +68,7 @@ export function UniversalRenderer({ componentName, ...props }: any) {
           <div className="w-full">
             <div className="flex items-center justify-between">
               {['步骤1', '步骤2', '步骤3', '步骤4'].map((step, index) => (
-                <React.Fragment key={index}>
+                <React.Fragment key={`step-${step}-${index}`}>
                   <div className="flex flex-col items-center">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                       index <= 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'
