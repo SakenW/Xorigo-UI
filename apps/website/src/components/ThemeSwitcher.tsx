@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '@xorigo-ui/system'
+import { useTheme, themeConfigs } from '@xorigo-ui/system'
 
 interface ThemeSwitcherProps {
   className?: string
@@ -27,8 +27,7 @@ export function ThemeSwitcher({ className = '', variant = 'dropdown' }: ThemeSwi
 
   // 获取主题配置的辅助函数
   const getThemeConfig = (theme: string) => {
-    // 这里需要访问主题配置，我们稍后优化
-    return null
+    return themeConfigs[theme] || null
   }
 
   // 过滤主题
