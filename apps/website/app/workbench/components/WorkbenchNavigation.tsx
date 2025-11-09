@@ -21,7 +21,7 @@ export default function WorkbenchNavigation({
           {/* 左侧Logo和标题 */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <button className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <button className="p-2 theme-btn text-white rounded-lg transition-colors">
                 X
               </button>
               <div>
@@ -39,7 +39,7 @@ export default function WorkbenchNavigation({
               onClick={() => onModeChange('workbench')}
               className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeMode === 'workbench'
-                  ? 'bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                  ? 'bg-white dark:bg-gray-900 theme-text-primary shadow-sm'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -49,7 +49,7 @@ export default function WorkbenchNavigation({
               onClick={() => onModeChange('component-library')}
               className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeMode === 'component-library'
-                  ? 'bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 shadow-sm'
+                  ? 'bg-white dark:bg-gray-900 theme-text-primary shadow-sm'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >

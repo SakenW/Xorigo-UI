@@ -129,6 +129,13 @@
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
+
+  /* 主题变量 (由 ThemeProvider 动态设置) */
+  --theme-primary: #3b82f6;
+  --theme-secondary: #2563eb;
+  --theme-accent: #60a5fa;
+  --theme-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --theme-glow: rgba(14, 165, 233, 0.3);
 }
 
 /* 深色主题变量 */
@@ -238,4 +245,92 @@
   --color-background-primary: #fff7ed;
   --color-background-secondary: #fed7aa;
   --color-surface-primary: #ffffff;
+}
+
+/* 主题感知样式类 - 使用 ThemeProvider 变量 */
+.theme-primary {
+  background-color: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+  color: var(--theme-primary) !important;
+}
+
+.theme-secondary {
+  background-color: var(--theme-secondary) !important;
+  border-color: var(--theme-secondary) !important;
+  color: var(--theme-secondary) !important;
+}
+
+.theme-accent {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
+  color: var(--theme-accent) !important;
+}
+
+.theme-gradient {
+  background: var(--theme-gradient) !important;
+}
+
+.theme-glow {
+  box-shadow: 0 0 20px var(--theme-glow) !important;
+}
+
+.theme-text-primary {
+  color: var(--theme-primary) !important;
+}
+
+.theme-text-secondary {
+  color: var(--theme-secondary) !important;
+}
+
+.theme-text-accent {
+  color: var(--theme-accent) !important;
+}
+
+.theme-border {
+  border-color: var(--theme-primary) !important;
+}
+
+.theme-border-accent {
+  border-color: var(--theme-accent) !important;
+}
+
+/* 主题感知的按钮样式 */
+.theme-btn {
+  background: var(--theme-gradient);
+  border: 1px solid var(--theme-primary);
+  color: white;
+  transition: all var(--transition-base);
+  box-shadow: 0 0 15px var(--theme-glow);
+}
+
+.theme-btn:hover {
+  box-shadow: 0 0 25px var(--theme-glow);
+  transform: translateY(-1px);
+}
+
+/* 主题感知的背景 */
+.theme-bg-primary {
+  background-color: var(--theme-primary);
+}
+
+.theme-bg-secondary {
+  background-color: var(--theme-secondary);
+}
+
+.theme-bg-accent {
+  background-color: var(--theme-accent);
+}
+
+/* 主题感知的悬停效果 */
+.theme-hover:hover {
+  background-color: var(--theme-accent);
+  border-color: var(--theme-secondary);
+  box-shadow: 0 0 20px var(--theme-glow);
+}
+
+/* 主题感知的焦点效果 */
+.theme-focus:focus {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--theme-glow);
 }

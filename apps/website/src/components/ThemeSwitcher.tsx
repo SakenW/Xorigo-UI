@@ -154,8 +154,8 @@ export function ThemeSwitcher({ className = '', variant = 'dropdown' }: ThemeSwi
                         <div
                           className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
                           style={{
-                            background: getThemeGradient(theme),
-                            boxShadow: `0 0 20px ${getThemeGlow(theme)}`
+                            background: `linear-gradient(135deg, ${themeConfigs[theme]?.colors[400] || '#60a5fa'} 0%, ${themeConfigs[theme]?.colors[600] || '#2563eb'} 100%)`,
+                            boxShadow: `0 0 20px ${themeConfigs[theme]?.glow || 'rgba(14, 165, 233, 0.3)'}`
                           }}
                         />
                         <div className="flex-1">
@@ -195,8 +195,8 @@ export function ThemeSwitcher({ className = '', variant = 'dropdown' }: ThemeSwi
         <div
           className="w-4 h-4 rounded-full"
           style={{
-            background: getThemeGradient(currentTheme),
-            boxShadow: `0 0 10px ${getThemeGlow(currentTheme)}`
+            background: `linear-gradient(135deg, ${themeConfig.colors[400]} 0%, ${themeConfig.colors[600]} 100%)`,
+            boxShadow: `0 0 10px ${themeConfig.glow}`
           }}
         />
         <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -255,8 +255,8 @@ export function ThemeSwitcher({ className = '', variant = 'dropdown' }: ThemeSwi
                   <div
                     className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
                     style={{
-                      background: getThemeGradient(theme),
-                      boxShadow: `0 0 15px ${getThemeGlow(theme)}`
+                      background: `linear-gradient(135deg, ${themeConfigs[theme]?.colors[400] || '#60a5fa'} 0%, ${themeConfigs[theme]?.colors[600] || '#2563eb'} 100%)`,
+                      boxShadow: `0 0 15px ${themeConfigs[theme]?.glow || 'rgba(14, 165, 233, 0.3)'}`
                     }}
                   />
                   <div className="flex-1 text-left">
