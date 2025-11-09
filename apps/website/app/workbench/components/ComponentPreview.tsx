@@ -66,7 +66,84 @@ const DEDICATED_RENDERERS: Record<string, string> = {
   'DatePicker': 'DatePicker',
   'ColorPicker': 'ColorPicker',
   'Upload': 'Upload',
-  'Editor': 'Editor'
+  'Editor': 'Editor',
+
+  // 高频图表组件 - 仅保留有专门渲染器的
+  'LineChart': 'LineChart',
+  'ChartTooltip': 'ChartTooltip',
+  'HeroSection': 'HeroSection',
+  'IconButton': 'IconButton',
+
+  // 高频数据展示组件
+  'Avatar': 'Avatar',
+  'AvatarGroup': 'Avatar',
+  'ChipDisplay': 'Tag',
+  'ListItem': 'List',
+  'DescriptionList': 'Display',
+  'KeyValueList': 'Display',
+  'InfoTooltip': 'Display',
+  'StepsDisplay': 'Steps',
+  'TimelineDisplay': 'Timeline',
+
+  // 高频输入组件
+  'Autocomplete': 'Select',
+  'ButtonGroup': 'Button',
+  'CheckboxGroup': 'Checkbox',
+  'RadioGroup': 'Radio',
+  'Chip': 'Tag',
+  'RangeSlider': 'InputEnhanced',
+  'Rating': 'InputEnhanced',
+  'Toggle': 'Switch',
+  'DateTimePicker': 'DatePicker',
+  'TimePicker': 'DatePicker',
+  'FileUpload': 'Upload',
+  'UploadButton': 'Button',
+
+  // 高频反馈组件
+  'Announcement': 'Alert',
+  'Banner': 'Alert',
+  'Snackbar': 'Message',
+  'Empty': 'Display',
+  'EmptyState': 'Display',
+  'Result': 'Alert',
+  'Loader': 'Spinner',
+  'SkeletonAvatar': 'Skeleton',
+  'SkeletonBlock': 'Skeleton',
+  'SkeletonText': 'Skeleton',
+  'InlineAlert': 'Alert',
+
+  // 高频业务区块组件
+  'FeatureSection': 'Card',
+  'CallToActionSection': 'Card',
+  'TestimonialSection': 'Card',
+  'FAQSection': 'Card',
+  'LoginSection': 'Card',
+  'RegisterSection': 'Card',
+  'AuthCard': 'Card',
+  'PricingSection': 'Card',
+  'ChartPanel': 'Card',
+  'KPOverview': 'Card',
+  'StatsGrid': 'Layout',
+  'FilterBar': 'Navigation',
+  'ActivityFeed': 'List',
+
+  // 高频导航组件
+  'AppShell': 'Layout',
+  'ContextualMenu': 'Navigation',
+  'NavLink': 'Navigation',
+  'NavMenu': 'Navigation',
+  'SegmentedControl': 'Navigation',
+  'Sidenav': 'Navigation',
+  'SkipNav': 'Navigation',
+  'Stepper': 'Steps',
+  'Topbar': 'Navigation',
+
+  // 高频布局组件
+  'AppLayout': 'Layout',
+  'Gap': 'Layout',
+  'PageContainer': 'Layout',
+  'Space': 'Layout',
+  'Wrap': 'Layout'
 }
 
 // 动态导入组件预览渲染器
