@@ -231,7 +231,7 @@ export default function WorkbenchV2Integrated() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen theme-bg-primary">
       {/* 导航栏 */}
       <WorkbenchNavigation
         activeMode={activeMode}
@@ -276,7 +276,7 @@ export default function WorkbenchV2Integrated() {
       </main>
 
       {/* 底部状态栏 */}
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-4">
+      <footer className="bg-white dark:bg-gray-900 border-t theme-border px-6 py-4">
         <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
           <div className="flex items-center space-x-4">
             <span className="flex items-center space-x-2">

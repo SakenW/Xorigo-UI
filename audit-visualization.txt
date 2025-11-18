@@ -1,0 +1,56 @@
+
+网站审查结果可视化报告
+========================
+
+生成时间: 2025-11-10T15:25:02.311Z
+
+function generateASCIICharts() {
+  console.log(`
+╔══════════════════════════════════════════════════════════════╗
+║                    洛阳鼎基电力技术有限公司网站审查结果             ║
+╚══════════════════════════════════════════════════════════════╝
+
+📊 性能指标
+═══════════════════════════════════════════════════════════════
+页面加载时间: ${auditData.performance.loadTime}ms ${auditData.performance.loadTime < 1000 ? '✅ 良好' : '⚠️ 需优化'}
+页面大小: ${(auditData.performance.totalSize / 1024).toFixed(2)} KB
+资源数量: ${auditData.performance.resourceCount}个
+
+${generateBarChart('资源分布', [
+  { name: 'CSS', value: auditData.resources.filter(r => r.type === 'css').length, color: '🔵' },
+  { name: 'JavaScript', value: auditData.resources.filter(r => r.type === 'javascript').length, color: '🟡' },
+  { name: '图片', value: auditData.resources.filter(r => r.type === 'image').length, color: '🟢' }
+])}
+
+🏗️ 页面结构分析
+═══════════════════════════════════════════════════════════════
+${generateStructureChart(auditData.structure)}
+
+🔍 SEO评分
+═══════════════════════════════════════════════════════════════
+${generateSEOChart(auditData.seo)}
+
+🔒 安全性检查
+═══════════════════════════════════════════════════════════════
+HTTPS启用: ${auditData.security.https ? '✅ 是' : '❌ 否'}
+混合内容: ${auditData.security.mixedContent ? '❌ 存在' : '✅ 无'}
+表单安全: ${auditData.security.formsSecure ? '✅ 安全' : '⚠️ 需改进'}
+
+📱 响应式设计
+═══════════════════════════════════════════════════════════════
+视口配置: ${auditData.basicInfo.viewport ? '✅ 已配置' : '❌ 未配置'}
+移动端适配: ${auditData.basicInfo.viewport ? '✅ 支持' : '❌ 不支持'}
+
+💡 改进建议优先级
+═══════════════════════════════════════════════════════════════
+${generateRecommendationsChart(auditData.recommendations)}
+
+🌐 技术栈信息
+═══════════════════════════════════════════════════════════════
+CMS: ${auditData.basicInfo.technology.cms}
+框架: ${auditData.basicInfo.technology.framework.join(', ') || '无'}
+库: ${auditData.basicInfo.technology.libraries.join(', ') || '无'}
+服务器: ${auditData.basicInfo.server}
+字符编码: ${auditData.basicInfo.charset}
+`);
+}

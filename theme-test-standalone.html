@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立主题切换测试</title>
+    <style>
+        :root {
+            --theme-primary: #3b82f6;
+            --theme-secondary: #2563eb;
+            --theme-accent: #60a5fa;
+            --theme-background: #ffffff;
+            --theme-surface: #f8fafc;
+            --theme-text: #0f172a;
+            --theme-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            --theme-glow: rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--theme-background);
+            color: var(--theme-text);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--theme-gradient);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px var(--theme-glow);
+            text-align: center;
+        }
+
+        .theme-controls {
+            background: var(--theme-surface);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .theme-button {
+            padding: 1rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--theme-surface);
+            color: var(--theme-text);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-button:hover {
+            border-color: var(--theme-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--theme-glow);
+        }
+
+        .theme-button.active {
+            border-color: var(--theme-primary);
+            background: var(--theme-gradient);
+            color: white;
+        }
+
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--theme-surface);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card h3 {
+            color: var(--theme-primary);
+            margin: 0 0 1rem 0;
+        }
+
+        .button {
+            background: var(--theme-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px var(--theme-glow);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--theme-glow);
+        }
+
+        .status {
+            background: var(--theme-accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .css-variables {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 独立主题切换测试</h1>
+            <p>测试完整的24个主题配方系统</p>
+            <div class="status" id="status">当前主题: corporate-blue</div>
+        </div>
+
+        <div class="theme-controls">
+            <h3>选择主题</h3>
+            <div class="theme-grid" id="theme-grid">
+                <!-- 主题按钮将通过JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <div class="demo-cards">
+            <div class="card">
+                <h3>主题预览</h3>
+                <p>这里显示主题的颜色效果。主题切换会立即生效，包括背景色、文字色、按钮色和渐变效果。</p>
+                <button class="button">示例按钮</button>
+            </div>
+
+            <div class="card">
+                <h3>CSS 变量状态</h3>
+                <div class="css-variables" id="css-vars">正在检测CSS变量...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 完整的24个主题配方数据
+        const themeRecipes = {
+            'corporate-blue': {
+                name: '企业蓝',
+                colors: {
+                    primary: '#3b82f6',
+                    secondary: '#2563eb',
+                    accent: '#60a5fa',
+                    background: '#ffffff',
+                    surface: '#f8fafc',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                    glow: 'rgba(59, 130, 246, 0.3)'
+                }
+            },
+            'corporate-navy-dark': {
+                name: '企业深蓝',
+                colors: {
+                    primary: '#1e3a8a',
+                    secondary: '#1e40af',
+                    accent: '#3b82f6',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)',
+                    glow: 'rgba(30, 58, 138, 0.4)'
+                }
+            },
+            'minimal-white': {
+                name: '极简白',
+                colors: {
+                    primary: '#64748b',
+                    secondary: '#475569',
+                    accent: '#94a3b8',
+                    background: '#ffffff',
+                    surface: '#f8fafc',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                    glow: 'rgba(148, 163, 184, 0.2)'
+                }
+            },
+            'minimal-graphite-dark': {
+                name: '极简石墨黑',
+                colors: {
+                    primary: '#374151',
+                    secondary: '#4b5563',
+                    accent: '#6b7280',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #374151 0%, #4b5563 100%)',
+                    glow: 'rgba(55, 65, 81, 0.3)'
+                }
+            },
+            'tech-cyan': {
+                name: '科技青',
+                colors: {
+                    primary: '#06b6d4',
+                    secondary: '#0891b2',
+                    accent: '#67e8f9',
+                    background: '#ffffff',
+                    surface: '#f0fdfa',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+                    glow: 'rgba(6, 182, 212, 0.3)'
+                }
+            },
+            'tech-neon-dark': {
+                name: '科技霓虹黑',
+                colors: {
+                    primary: '#10b981',
+                    secondary: '#059669',
+                    accent: '#34d399',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
+                    glow: 'rgba(16, 185, 129, 0.4)'
+                }
+            },
+            'creative-purple': {
+                name: '创意紫',
+                colors: {
+                    primary: '#a855f7',
+                    secondary: '#9333ea',
+                    accent: '#c084fc',
+                    background: '#ffffff',
+                    surface: '#faf5ff',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+                    glow: 'rgba(168, 85, 247, 0.3)'
+                }
+            },
+            'creative-aurora-dark': {
+                name: '创意极光黑',
+                colors: {
+                    primary: '#a855f7',
+                    secondary: '#ec4899',
+                    accent: '#f472b6',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #06b6d4 100%)',
+                    glow: 'rgba(168, 85, 247, 0.4)'
+                }
+            },
+            'classic-neutral': {
+                name: '经典中性',
+                colors: {
+                    primary: '#6b7280',
+                    secondary: '#4b5563',
+                    accent: '#9ca3af',
+                    background: '#ffffff',
+                    surface: '#f9fafb',
+                    text: '#111827',
+                    gradient: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                    glow: 'rgba(107, 114, 128, 0.2)'
+                }
+            },
+            'high-contrast-pro': {
+                name: '高对比专业',
+                colors: {
+                    primary: '#000000',
+                    secondary: '#374151',
+                    accent: '#ffffff',
+                    background: '#ffffff',
+                    surface: '#f3f4f6',
+                    text: '#000000',
+                    gradient: 'linear-gradient(135deg, #000000 0%, #374151 100%)',
+                    glow: 'rgba(0, 0, 0, 0.3)'
+                }
+            },
+            'nature-green': {
+                name: '自然绿',
+                colors: {
+                    primary: '#22c55e',
+                    secondary: '#16a34a',
+                    accent: '#86efac',
+                    background: '#ffffff',
+                    surface: '#f0fdf4',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #22c55e 0%, #84cc16 100%)',
+                    glow: 'rgba(34, 197, 94, 0.3)'
+                }
+            },
+            'nature-forest-dark': {
+                name: '森林深绿',
+                colors: {
+                    primary: '#14532d',
+                    secondary: '#166534',
+                    accent: '#22c55e',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #14532d 0%, #166534 100%)',
+                    glow: 'rgba(20, 83, 45, 0.4)'
+                }
+            },
+            'warm-sunset': {
+                name: '温暖日落',
+                colors: {
+                    primary: '#f97316',
+                    secondary: '#ea580c',
+                    accent: '#fb923c',
+                    background: '#ffffff',
+                    surface: '#fff7ed',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #f97316 0%, #ef4444 100%)',
+                    glow: 'rgba(249, 115, 22, 0.3)'
+                }
+            },
+            'warm-fire-dark': {
+                name: '温暖火焰黑',
+                colors: {
+                    primary: '#dc2626',
+                    secondary: '#b91c1c',
+                    accent: '#f87171',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #dc2626 0%, #f97316 100%)',
+                    glow: 'rgba(220, 38, 38, 0.4)'
+                }
+            },
+            'ocean-blue': {
+                name: '海洋蓝',
+                colors: {
+                    primary: '#0ea5e9',
+                    secondary: '#0284c7',
+                    accent: '#38bdf8',
+                    background: '#ffffff',
+                    surface: '#f0f9ff',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
+                    glow: 'rgba(14, 165, 233, 0.3)'
+                }
+            },
+            'ocean-deep-dark': {
+                name: '深海蓝黑',
+                colors: {
+                    primary: '#075985',
+                    secondary: '#0c4a6e',
+                    accent: '#0ea5e9',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #075985 0%, #0c4a6e 100%)',
+                    glow: 'rgba(7, 89, 133, 0.4)'
+                }
+            },
+            'garden-floral': {
+                name: '花园花卉',
+                colors: {
+                    primary: '#ec4899',
+                    secondary: '#db2777',
+                    accent: '#f9a8d4',
+                    background: '#ffffff',
+                    surface: '#fdf2f8',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #ec4899 0%, #a855f7 100%)',
+                    glow: 'rgba(236, 72, 153, 0.3)'
+                }
+            },
+            'garden-midnight': {
+                name: '午夜花园',
+                colors: {
+                    primary: '#be185d',
+                    secondary: '#9f1239',
+                    accent: '#ec4899',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #be185d 0%, #a855f7 100%)',
+                    glow: 'rgba(190, 24, 93, 0.4)'
+                }
+            },
+            'urban-modern': {
+                name: '都市现代',
+                colors: {
+                    primary: '#6b7280',
+                    secondary: '#4b5563',
+                    accent: '#9ca3af',
+                    background: '#ffffff',
+                    surface: '#f9fafb',
+                    text: '#111827',
+                    gradient: 'linear-gradient(135deg, #6b7280 0%, #eab308 100%)',
+                    glow: 'rgba(107, 114, 128, 0.3)'
+                }
+            },
+            'urban-night-dark': {
+                name: '都市夜景黑',
+                colors: {
+                    primary: '#374151',
+                    secondary: '#4b5563',
+                    accent: '#6b7280',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #374151 0%, #6b7280 100%)',
+                    glow: 'rgba(55, 65, 81, 0.4)'
+                }
+            },
+            'art-vibrant': {
+                name: '艺术活力',
+                colors: {
+                    primary: '#ef4444',
+                    secondary: '#dc2626',
+                    accent: '#f87171',
+                    background: '#ffffff',
+                    surface: '#fef2f2',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #ef4444 0%, #eab308 50%, #3b82f6 100%)',
+                    glow: 'rgba(239, 68, 68, 0.3)'
+                }
+            },
+            'art-gallery-dark': {
+                name: '艺术画廊黑',
+                colors: {
+                    primary: '#7f1d1d',
+                    secondary: '#991b1b',
+                    accent: '#ef4444',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #7f1d1d 0%, #a855f7 100%)',
+                    glow: 'rgba(127, 29, 29, 0.4)'
+                }
+            },
+            'future-chrome': {
+                name: '未来铬金',
+                colors: {
+                    primary: '#94a3b8',
+                    secondary: '#64748b',
+                    accent: '#cbd5e1',
+                    background: '#ffffff',
+                    surface: '#f8fafc',
+                    text: '#0f172a',
+                    gradient: 'linear-gradient(135deg, #94a3b8 0%, #3b82f6 100%)',
+                    glow: 'rgba(192, 192, 192, 0.4)'
+                }
+            },
+            'future-cyber-dark': {
+                name: '未来赛博黑',
+                colors: {
+                    primary: '#06b6d4',
+                    secondary: '#0891b2',
+                    accent: '#67e8f9',
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    text: '#f8fafc',
+                    gradient: 'linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #ef4444 100%)',
+                    glow: 'rgba(6, 182, 212, 0.5)'
+                }
+            }
+        };
+
+        let currentTheme = 'corporate-blue';
+
+        // 应用主题
+        function applyTheme(themeId) {
+            const theme = themeRecipes[themeId];
+            if (!theme) return;
+
+            const root = document.documentElement;
+
+            // 应用所有CSS变量
+            Object.entries(theme.colors).forEach(([key, value]) => {
+                const cssVar = `--theme-${key}`;
+                root.style.setProperty(cssVar, value);
+            });
+
+            // 设置data-theme属性
+            root.setAttribute('data-theme', themeId);
+
+            // 保存到localStorage
+            localStorage.setItem('selected-theme', themeId);
+
+            // 更新当前主题
+            currentTheme = themeId;
+
+            // 更新UI
+            updateUI(themeId, theme);
+
+            console.log(`✅ 主题 ${theme.name} (${themeId}) 应用成功`);
+        }
+
+        // 更新UI
+        function updateUI(themeId, theme) {
+            // 更新状态显示
+            document.getElementById('status').textContent = `当前主题: ${theme.name}`;
+
+            // 更新按钮状态
+            const buttons = document.querySelectorAll('.theme-button');
+            buttons.forEach(button => {
+                if (button.dataset.theme === themeId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            // 更新CSS变量显示
+            updateCSSVariablesDisplay();
+        }
+
+        // 更新CSS变量显示
+        function updateCSSVariablesDisplay() {
+            const variables = [
+                '--theme-primary',
+                '--theme-secondary',
+                '--theme-accent',
+                '--theme-background',
+                '--theme-surface',
+                '--theme-text',
+                '--theme-gradient',
+                '--theme-glow'
+            ];
+
+            const cssVars = variables.map(varName => {
+                const value = getComputedStyle(document.documentElement)
+                    .getPropertyValue(varName).trim();
+                return `${varName}: ${value || '未设置'}`;
+            }).join('\n');
+
+            document.getElementById('css-vars').textContent = cssVars;
+        }
+
+        // 创建主题按钮
+        function createThemeButtons() {
+            const themeGrid = document.getElementById('theme-grid');
+
+            Object.entries(themeRecipes).forEach(([themeId, theme]) => {
+                const button = document.createElement('button');
+                button.className = 'theme-button';
+                button.dataset.theme = themeId;
+
+                // 创建颜色预览
+                const colorPreview = document.createElement('div');
+                colorPreview.className = 'color-preview';
+                colorPreview.style.background = theme.colors.gradient;
+                colorPreview.style.boxShadow = `0 0 15px ${theme.colors.glow}`;
+
+                // 创建文本
+                const text = document.createElement('span');
+                text.textContent = theme.name;
+
+                button.appendChild(colorPreview);
+                button.appendChild(text);
+
+                button.addEventListener('click', () => applyTheme(themeId));
+
+                themeGrid.appendChild(button);
+            });
+        }
+
+        // 从localStorage恢复主题
+        function restoreTheme() {
+            const saved = localStorage.getItem('selected-theme');
+            if (saved && themeRecipes[saved]) {
+                applyTheme(saved);
+            } else {
+                applyTheme('corporate-blue');
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            createThemeButtons();
+            restoreTheme();
+        });
+    </script>
+</body>
+</html>

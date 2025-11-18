@@ -1,0 +1,343 @@
+{
+  "url": "http://www.dingjipower.com/",
+  "timestamp": "2025-11-10T15:23:39.330Z",
+  "basicInfo": {
+    "title": "Oil immersed transformer,Compact substation,HV MV LV Switchgear-Luoyang Dingji Electric Power Technology Co., Ltd.",
+    "description": "Luoyang Dingji Electric Power Technology Co., Ltd. is a high-tech enterprise that integrates research and development, design, manufacturing, power engineering construction, and installation and debug",
+    "keywords": "Oil immersed transformer,Compact substation,HV MV LV Switchgear",
+    "charset": "utf-8",
+    "viewport": "width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no",
+    "server": "nginx",
+    "technology": {
+      "cms": "WordPress",
+      "framework": [],
+      "libraries": [
+        "jQuery",
+        "WOW.js"
+      ]
+    }
+  },
+  "performance": {
+    "loadTime": 1185,
+    "resourceCount": 40,
+    "totalSize": 26354
+  },
+  "structure": {
+    "doctype": "HTML5",
+    "html5Semantic": {
+      "header": 1,
+      "nav": 1,
+      "main": 0,
+      "section": 0,
+      "article": 0,
+      "aside": 0,
+      "footer": 1
+    },
+    "images": {
+      "total": 22,
+      "withAlt": 20,
+      "withoutAlt": 2
+    },
+    "links": {
+      "total": 57,
+      "internal": 9,
+      "external": 48
+    },
+    "headings": {
+      "h1": 0,
+      "h2": 4,
+      "h3": 10,
+      "h4": 2,
+      "h5": 0,
+      "h6": 0
+    },
+    "forms": 2,
+    "scripts": 10,
+    "stylesheets": 3
+  },
+  "security": {
+    "https": false,
+    "headers": {
+      "X-Frame-Options": "SAMEORIGIN",
+      "X-XSS-Protection": "1; mode=block",
+      "X-Content-Type-Options": "nosniff",
+      "Strict-Transport-Security": "max-age=31536000",
+      "Content-Security-Policy": "Not Set"
+    },
+    "mixedContent": false,
+    "formsSecure": false,
+    "hasCSRF": false
+  },
+  "seo": {
+    "title": {
+      "present": true,
+      "length": 114,
+      "optimized": false
+    },
+    "metaDescription": {
+      "present": true,
+      "length": 200,
+      "optimized": false
+    },
+    "headings": {
+      "hasH1": false,
+      "h1Count": 0
+    },
+    "images": {
+      "total": 22,
+      "withAlt": 20
+    },
+    "language": "en",
+    "canonical": true,
+    "openGraph": {
+      "title": false,
+      "description": false,
+      "image": false
+    },
+    "twitterCard": {
+      "card": false,
+      "title": false,
+      "description": false,
+      "image": false
+    },
+    "structuredData": false
+  },
+  "resources": [
+    {
+      "type": "css",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/style.css",
+      "inline": false
+    },
+    {
+      "type": "css",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/style/animate.css",
+      "inline": false
+    },
+    {
+      "type": "css",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/style/baguetteBox.css",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/js/jquery.min.js",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "url": "/wp-content/plugins/gtranslate/js/popup.js?ver=6.5.2",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/js/jquery.countup.min.js",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/js/index_slick.js",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/js/wow.min.js",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/logo-1.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/banner_01.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/banner_02.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/banner_03.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/banner_04.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/Oil-Type-Distribution-Transformer.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/Dry-type-Transformer.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/Compact-Substation.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/High-Low-Voltage-Switchgear.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/oil-immersed-transformer-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2025/11/Compact-Substation-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2025/11/High-Low-Voltage-Switchgear-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/about-1-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/themes/ysn045/images/iablo.png",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project-3.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project_副本-3.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project_副本3.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project_副本2-2.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project-2.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/New-Project-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "http://www.dingjipower.com/wp-content/uploads/2023/08/News-1.jpg",
+      "inline": false
+    },
+    {
+      "type": "image",
+      "url": "/wp-content/uploads/2025/11/logo-3.png",
+      "inline": false
+    },
+    {
+      "type": "javascript",
+      "content": "<script type='text/javascript' src='http://www.dingjipower.com/wp-content/themes/ysn045/js/jquery.min.js'></script>",
+      "inline": true,
+      "size": 115
+    },
+    {
+      "type": "javascript",
+      "content": "<script type=\"text/javascript\" id=\"gt_widget_script_22693572-js-before\">\n    /* <![CDATA[ */\n    window.gtranslateSettings = /* document.write */ window.gtranslateSettings || {};\n    window.gtranslateSettings['22693572'] = {\n        \"default_language\": \"en\",// //指定网站默认的语言代码\n        \"languages\": [\"en\",\"es\",\"it\",\"pt\",\"de\",\"fr\",\"ru\",\"nl\",\"ar\",\"zh-CN\"],//定义一个包含所有支持的语言代码的数组\n        \"url_structure\": \"none\",\n        \"native_language_names\": 1,//设置为 1 表示使用语言的本地名称而不是英语名称。\n        \"detect_browser_language\": 0,//，设置为 1 时，插件会自动检测访问者的浏览器语言设置，并提供相应的语言选项。设置为 0 时，禁用此功能。\n        \"flag_style\": \"2d\",//指定旗帜的样式。\"2d\" 表示使用 2D 风格的旗帜。\n        \"flag_size\": 24,//设置旗帜的大小，单位为像素。\n        \"wrapper_selector\": \"#gt-wrapper-22693572\",\n        \"alt_flags\": [],\n        \"horizontal_position\": \"inline\",\n        \"flags_location\": \"/wp-content/plugins/gtranslate/flags/\"\n    };\n    /* ]]> */\n</script>",
+      "inline": true,
+      "size": 873
+    },
+    {
+      "type": "javascript",
+      "content": "<script src=\"/wp-content/plugins/gtranslate/js/popup.js?ver=6.5.2\" data-no-optimize=\"1\"\n        data-no-minify=\"1\" data-gt-orig-url=\"/\" data-gt-orig-domain=\"/\"\n        data-gt-widget-id=\"22693572\" defer=\"\"></script>",
+      "inline": true,
+      "size": 215
+    },
+    {
+      "type": "javascript",
+      "content": "<script type=\"text/javascript\" src=\"http://www.dingjipower.com/wp-content/themes/ysn045/js/jquery.countup.min.js\"></script>",
+      "inline": true,
+      "size": 123
+    },
+    {
+      "type": "javascript",
+      "content": "<script type=\"text/javascript\">\n        w = document.documentElement.clientWidth + 15;\n        if(w>1440){\n            var options = {\n                useEasing : true,\n                useGrouping : true,\n                separator : ',',\n                decimal : '',\n                prefix : '',\n                suffix : ''\n            };\n            var demo = new CountUp(\"myTargetElement\", 0, $('#myTargetElement').text(), 0, 2.5, options);\n            var demo2 = new CountUp(\"myTargetElement2\", 0, $('#myTargetElement2').text(), 0, 2.5, options);\n            var demo3 = new CountUp(\"myTargetElement3\", 0, $('#myTargetElement3').text(), 0, 2.5, options);\n\n            $(window).scroll(function(){\n                if($(window).scrollTop()>=1200){\n                    demo.start();\n                    demo2.start();\n                    demo3.start();\n                }\n            })\n        }\n    </script>",
+      "inline": true,
+      "size": 912
+    },
+    {
+      "type": "javascript",
+      "content": "<script type=\"text/javascript\" src=\"http://www.dingjipower.com/wp-content/themes/ysn045/js/index_slick.js\"></script>",
+      "inline": true,
+      "size": 116
+    },
+    {
+      "type": "javascript",
+      "content": "<script src=\"http://www.dingjipower.com/wp-content/themes/ysn045/js/wow.min.js\"></script>",
+      "inline": true,
+      "size": 89
+    },
+    {
+      "type": "javascript",
+      "content": "<script>\n        if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))){\n            new WOW().init();\n        };\n    </script>",
+      "inline": true,
+      "size": 124
+    },
+    {
+      "type": "javascript",
+      "content": "<script>var time = 0;function dj(obj) {if(time>0){jQuery(obj).attr({\"disabled\":\"disabled\"});}else{time++;}}</script>",
+      "inline": true,
+      "size": 116
+    },
+    {
+      "type": "javascript",
+      "content": "<script type=\"text/javascript\">\r\n    $(document).ready(function () {\r\n        $('.wpcf7-not-valid-tip').parents('.wpcf7-form-control-wrap').find('.wpcf7-validates-as-required').each(function() {\r\n            $(this).attr('placeholder',$(this).attr('placeholder')+ $(this).siblings('.wpcf7-not-valid-tip').text())\r\n            $(this).val('');\r\n        });\r\n        $('.wpcf7-not-valid-tip').parents('.wpcf7-form-control-wrap').find('.wpcf7-validates-as-required').addClass('areatextClass');\r\n    })\r\n</script>",
+      "inline": true,
+      "size": 509
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "SEO",
+      "priority": "Medium",
+      "issue": "Page has 0 H1 tags (should be exactly 1)",
+      "recommendation": "Use exactly one H1 tag per page for better SEO"
+    },
+    {
+      "category": "Accessibility",
+      "priority": "High",
+      "issue": "2 images without alt attributes",
+      "recommendation": "Add descriptive alt attributes to all images for accessibility"
+    },
+    {
+      "category": "Security",
+      "priority": "High",
+      "issue": "Website does not use HTTPS",
+      "recommendation": "Implement SSL/TLS to secure the website"
+    },
+    {
+      "category": "Technology",
+      "priority": "Low",
+      "issue": "Using WordPress CMS",
+      "recommendation": "Keep WordPress, themes, and plugins updated for security"
+    }
+  ]
+}

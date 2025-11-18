@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { ThemeSwitcher } from '@/components/ThemeSwitcher'
+import { RecipeThemeSwitcher } from '@/components/RecipeThemeSwitcher'
+import TestImport from '@/components/TestImport'
 
 interface WorkbenchNavigationProps {
   activeMode: 'workbench' | 'component-library'
@@ -73,7 +74,9 @@ export default function WorkbenchNavigation({
               当前模式: {activeMode === 'workbench' ? '工作台' : '组件库'}
             </div>
             {/* 主题切换器 */}
-            <ThemeSwitcher />
+            <RecipeThemeSwitcher />
+            {/* 模块导入测试 */}
+            <TestImport />
           </div>
         </div>
       </div>
