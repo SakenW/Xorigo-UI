@@ -730,23 +730,146 @@ class SimpleThemeManager {
     }
 
     try {
-      // 设置CSS变量来应用主题
       const root = document.documentElement
       const theme = themeRecipes[themeId]
       const colors = this.getThemePreviewColors(themeId)
+      const isDark = theme.axes.mode === 'dark'
 
-      // 应用CSS变量
+      // 提前计算RGB值以避免初始化错误
+      const primaryRgb = this.hexToRgb(colors.primary)
+      const secondaryRgb = this.hexToRgb(colors.secondary)
+      const accentRgb = this.hexToRgb(colors.accent)
+
+      // 提前计算背景色HSL值以避免作用域问题
+      const bgRgb = this.hexToRgb(colors.background)
+      let bgHsl = { h: 0, s: 0, l: 100 } // 默认白色
+      if (bgRgb) {
+        bgHsl = this.rgbToHsl(bgRgb.r, bgRgb.g, bgRgb.b)
+      }
+
+      // 1. 设置/移除 dark 类
+      if (isDark) {
+        root.classList.add('dark')
+      } else {
+        root.classList.remove('dark')
+      }
+
+      // 2. 设置完整的设计令牌CSS变量
       root.style.setProperty('--theme-primary', colors.primary)
       root.style.setProperty('--theme-secondary', colors.secondary)
       root.style.setProperty('--theme-accent', colors.accent)
       root.style.setProperty('--theme-background', colors.background)
-      root.style.setProperty('--theme-text', theme.axes.mode === 'dark' ? '#ffffff' : '#000000')
+      root.style.setProperty('--theme-text', isDark ? '#ffffff' : '#000000')
 
-      // 保存到localStorage
+      // 3. 更新主要的设计令牌颜色以影响Tailwind类
+      if (bgRgb) {
+
+        if (isDark) {
+          // 深色主题令牌 - 使用主题背景色
+          root.style.setProperty('--background', `${bgHsl.h} ${bgHsl.s}% ${bgHsl.l}%`)
+          root.style.setProperty('--foreground', '0 0% 98%')
+          root.style.setProperty('--card', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 5, 95)}%`)
+          root.style.setProperty('--card-foreground', '0 0% 98%')
+          root.style.setProperty('--popover', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 5, 95)}%`)
+          root.style.setProperty('--popover-foreground', '0 0% 98%')
+          root.style.setProperty('--primary', '0 0% 98%')
+          root.style.setProperty('--primary-foreground', `${bgHsl.h} ${bgHsl.s}% ${bgHsl.l}%`)
+          root.style.setProperty('--secondary', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 10, 90)}%`)
+          root.style.setProperty('--secondary-foreground', '0 0% 98%')
+          root.style.setProperty('--muted', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 15, 85)}%`)
+          root.style.setProperty('--muted-foreground', '240 5% 64.9%')
+          root.style.setProperty('--accent', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 20, 80)}%`)
+          root.style.setProperty('--accent-foreground', '0 0% 98%')
+          root.style.setProperty('--destructive', '0 62.8% 30.6%')
+          root.style.setProperty('--destructive-foreground', '0 0% 98%')
+          root.style.setProperty('--border', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 25, 75)}%`)
+          root.style.setProperty('--input', `${bgHsl.h} ${bgHsl.s}% ${Math.min(bgHsl.l + 25, 75)}%`)
+          root.style.setProperty('--ring', `${primaryRgb?.r || 59} ${primaryRgb?.g || 130} ${primaryRgb?.b || 246}`)
+        } else {
+          // 浅色主题令牌 - 使用主题背景色
+          root.style.setProperty('--background', `${bgHsl.h} ${bgHsl.s}% ${bgHsl.l}%`)
+          root.style.setProperty('--foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 10)}% ${Math.max(bgHsl.l - 40, 10)}%`)
+          root.style.setProperty('--card', `${bgHsl.h} ${Math.max(bgHsl.s - 5, 0)}% ${Math.min(bgHsl.l + 2, 98)}%`)
+          root.style.setProperty('--card-foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 10)}% ${Math.max(bgHsl.l - 40, 10)}%`)
+          root.style.setProperty('--popover', `${bgHsl.h} ${Math.max(bgHsl.s - 5, 0)}% ${Math.min(bgHsl.l + 2, 98)}%`)
+          root.style.setProperty('--popover-foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 10)}% ${Math.max(bgHsl.l - 40, 10)}%`)
+          root.style.setProperty('--primary', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 10)}% ${Math.max(bgHsl.l - 40, 10)}%`)
+          root.style.setProperty('--primary-foreground', `${bgHsl.h} ${Math.min(bgHsl.s + 20, 90)}% ${Math.min(bgHsl.l + 40, 90)}%`)
+          root.style.setProperty('--secondary', `${bgHsl.h} ${Math.max(bgHsl.s - 10, 0)}% ${Math.min(bgHsl.l + 5, 95)}%`)
+          root.style.setProperty('--secondary-foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 10)}% ${Math.max(bgHsl.l - 40, 10)}%`)
+          root.style.setProperty('--muted', `${bgHsl.h} ${Math.max(bgHsl.s - 15, 0)}% ${Math.min(bgHsl.l + 10, 95)}%`)
+          root.style.setProperty('--muted-foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 25, 0)}% ${Math.max(bgHsl.l - 20, 20)}%`)
+          root.style.setProperty('--accent', `${bgHsl.h} ${Math.max(bgHsl.s - 20, 0)}% ${Math.min(bgHsl.l + 15, 90)}%`)
+          root.style.setProperty('--accent-foreground', `${bgHsl.h} ${Math.max(bgHsl.s - 30, 0)}% ${Math.max(bgHsl.l - 30, 30)}%`)
+          root.style.setProperty('--destructive', '0 84.2% 60.2%')
+          root.style.setProperty('--destructive-foreground', '0 0% 98%')
+          root.style.setProperty('--border', `${bgHsl.h} ${Math.max(bgHsl.s - 25, 0)}% ${Math.min(bgHsl.l + 20, 80)}%`)
+          root.style.setProperty('--input', `${bgHsl.h} ${Math.max(bgHsl.s - 25, 0)}% ${Math.min(bgHsl.l + 20, 80)}%`)
+          root.style.setProperty('--ring', `${primaryRgb?.r || 59} ${primaryRgb?.g || 130} ${primaryRgb?.b || 246}`)
+        }
+      }
+
+      // 4. 设置主题特定的渐变和光晕效果
+      const gradient = this.generateGradient(colors.primary, colors.secondary, colors.accent)
+      const glow = this.hexToRgba(colors.primary, 0.3)
+
+      root.style.setProperty('--theme-gradient', gradient)
+      root.style.setProperty('--theme-glow', glow)
+
+      // 5. 更新设计令牌系统中的完整主题颜色
+      root.style.setProperty('--color-primary-500', colors.primary)
+      root.style.setProperty('--color-primary-600', colors.secondary)
+      root.style.setProperty('--color-accent-500', colors.accent)
+      root.style.setProperty('--color-background-primary', colors.background)
+      root.style.setProperty('--color-surface-primary', colors.background)
+
+      // 更新更多设计令牌以获得更全面的主题效果
+      root.style.setProperty('--color-background-secondary', colors.background)
+      root.style.setProperty('--color-background-tertiary', colors.background)
+      root.style.setProperty('--color-surface-secondary', colors.background)
+      root.style.setProperty('--color-surface-tertiary', colors.background)
+
+      // 更新文本颜色
+      const textColor = isDark ? '#f8fafc' : '#1a202c'
+      const textSecondary = isDark ? '#cbd5e1' : '#64748b'
+      root.style.setProperty('--color-text-primary', textColor)
+      root.style.setProperty('--color-text-secondary', textSecondary)
+      root.style.setProperty('--color-text-tertiary', isDark ? '#94a3b8' : '#94a3b8')
+
+      // 更新边框颜色
+      const borderColor = isDark ? '#334155' : '#e2e8f0'
+      root.style.setProperty('--color-border-default', borderColor)
+      root.style.setProperty('--color-border-hover', isDark ? '#475569' : '#cbd5e1')
+      root.style.setProperty('--color-border-focus', colors.primary)
+
+      // 更新全局Tailwind变量 - 使用主题背景色
+      root.style.setProperty('--background', `${bgHsl.h} ${bgHsl.s}% ${bgHsl.l}%`)
+      root.style.setProperty('--foreground', isDark ? '0 0% 98%' : '240 10% 3.9%')
+
+      // 更新主要色彩系统以反映主题
+
+      if (primaryRgb) {
+        const primaryHsl = this.rgbToHsl(primaryRgb.r, primaryRgb.g, primaryRgb.b)
+        root.style.setProperty('--primary', `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`)
+        root.style.setProperty('--ring', `${primaryHsl.h} ${primaryHsl.s}% ${primaryHsl.l}%`)
+      }
+      if (secondaryRgb) {
+        const secondaryHsl = this.rgbToHsl(secondaryRgb.r, secondaryRgb.g, secondaryRgb.b)
+        root.style.setProperty('--muted', `${secondaryHsl.h} ${secondaryHsl.s}% ${secondaryHsl.l}%`)
+        root.style.setProperty('--border', `${secondaryHsl.h} ${secondaryHsl.s}% ${secondaryHsl.l}%`)
+      }
+      if (accentRgb) {
+        const accentHsl = this.rgbToHsl(accentRgb.r, accentRgb.g, accentRgb.b)
+        root.style.setProperty('--accent', `${accentHsl.h} ${accentHsl.s}% ${accentHsl.l}%`)
+      }
+
+      // 6. 保存到localStorage
       localStorage.setItem('xorigo-theme', themeId)
       this.currentTheme = themeId
 
-      console.log(`✅ Applied theme: ${theme.name} (${themeId})`)
+      console.log(`✅ Applied theme: ${theme.name} (${themeId}) | Mode: ${isDark ? 'dark' : 'light'}`)
+      console.log(`🎨 Colors: Primary=${colors.primary}, Secondary=${colors.secondary}, Accent=${colors.accent}`)
+
       return true
     } catch (error) {
       console.error(`❌ Failed to apply theme ${themeId}:`, error)
@@ -783,7 +906,7 @@ class SimpleThemeManager {
     return 'corporate-blue'
   }
 
-  // 获取主题的预览颜色（基于配方生成简单的预览）
+  // 获取主题的预览颜色（基于七轴配方系统生成准确的预览）
   getThemePreviewColors(themeId: string): { primary: string; secondary: string; accent: string; background: string } {
     const theme = themeRecipes[themeId]
     if (!theme) {
@@ -795,35 +918,220 @@ class SimpleThemeManager {
       }
     }
 
-    // 基于配方轴生成简单的预览颜色
-    const { mode, accent: accentAxis } = theme.axes
-
-    // 根据主题模式生成基础颜色
+    // 解析七轴配方
+    const { mode, base, accent: accentAxis, tone, density, motion, surface } = theme.axes
     const isDark = mode === 'dark'
-    const background = isDark ? '#0f172a' : '#ffffff'
 
-    // 根据强调色轴生成主色调
-    const primaryHue = accentAxis?.hues?.[0] || 'blue'
-    const hueMap: Record<string, string> = {
-      blue: '#3b82f6',
-      purple: '#a855f7',
-      green: '#10b981',
-      red: '#ef4444',
-      orange: '#f97316',
-      yellow: '#eab308',
-      cyan: '#06b6d4',
-      pink: '#ec4899',
-      lime: '#84cc16',
-      teal: '#14b8a6',
-      magenta: '#d946ef',
-      neon: '#00ff00'
+    // 1. 基于模式生成背景色
+    let background: string
+    if (isDark) {
+      background = this.getDarkBackground(base.neutral, base.contrast)
+    } else {
+      background = this.getLightBackground(base.neutral, base.contrast)
     }
 
-    const primary = hueMap[primaryHue] || '#3b82f6'
-    const secondary = this.adjustColor(primary, -20)
-    const accent = this.adjustColor(primary, 20)
+    // 2. 基于强调色轴生成主色调
+    const primaryHue = accentAxis?.hues?.[0] || 'blue'
+    const primary = this.generateColorFromHue(primaryHue, tone, isDark)
+
+    // 3. 基于策略生成次要色和强调色
+    const strategy = accentAxis?.strategy || 'monochromatic'
+    const hues = accentAxis?.hues || [primaryHue]
+
+    let secondary: string
+    let accent: string
+
+    switch (strategy) {
+      case 'complementary':
+        secondary = this.generateColorFromHue(this.getComplementaryHue(primaryHue), tone, isDark)
+        accent = this.generateColorFromHue(primaryHue, tone, isDark, 1.2)
+        break
+      case 'analogous':
+        secondary = this.generateColorFromHue(this.getAnalogousHue(primaryHue, 1), tone, isDark)
+        accent = this.generateColorFromHue(this.getAnalogousHue(primaryHue, -1), tone, isDark)
+        break
+      case 'triadic':
+        secondary = this.generateColorFromHue(this.getTriadicHue(primaryHue, 1), tone, isDark)
+        accent = this.generateColorFromHue(this.getTriadicHue(primaryHue, 2), tone, isDark)
+        break
+      case 'tetradic':
+        secondary = this.generateColorFromHue(this.getTetradicHue(primaryHue, 1), tone, isDark)
+        accent = this.generateColorFromHue(this.getTetradicHue(primaryHue, 2), tone, isDark)
+        break
+      case 'rainbow':
+        secondary = this.generateColorFromHue(hues[1] || 'green', tone, isDark)
+        accent = this.generateColorFromHue(hues[2] || 'purple', tone, isDark)
+        break
+      default: // monochromatic
+        secondary = this.adjustColor(primary, isDark ? 20 : -20)
+        accent = this.adjustColor(primary, isDark ? 40 : -40)
+    }
 
     return { primary, secondary, accent, background }
+  }
+
+  // 基于色调和调性生成颜色
+  private generateColorFromHue(hue: string, tone: string, isDark: boolean, brightnessMultiplier: number = 1): string {
+    const hueMap: Record<string, [number, number, number]> = {
+      blue: [59, 130, 246],    // #3b82f6
+      purple: [168, 85, 247],  // #a855f7
+      green: [16, 185, 129],   // #10b981
+      red: [239, 68, 68],      // #ef4444
+      orange: [249, 115, 22],  // #f97316
+      yellow: [234, 179, 8],   // #eab308
+      cyan: [6, 182, 212],     // #06b6d4
+      pink: [236, 72, 153],    // #ec4899
+      lime: [132, 204, 22],    // #84cc16
+      teal: [20, 184, 166],    // #14b8a6
+      magenta: [217, 70, 239], // #d946ef
+      neon: [0, 255, 0],       // #00ff00
+      burgundy: [128, 0, 32],  // #800020
+      navy: [0, 0, 128],       // #000080
+      gray: [128, 128, 128],   // #808080
+      white: [255, 255, 255],  // #ffffff
+      black: [0, 0, 0]         // #000000
+    }
+
+    let [r, g, b] = hueMap[hue] || hueMap.blue
+
+    // 根据调性调整颜色
+    switch (tone) {
+      case 'professional':
+        r = Math.floor(r * 0.9)
+        g = Math.floor(g * 0.9)
+        b = Math.floor(b * 0.9)
+        break
+      case 'creative':
+        r = Math.min(255, Math.floor(r * 1.2))
+        g = Math.min(255, Math.floor(g * 1.1))
+        b = Math.min(255, Math.floor(b * 1.15))
+        break
+      case 'minimal':
+        const gray = Math.floor((r + g + b) / 3)
+        r = g = b = Math.floor(gray * 0.8)
+        break
+      case 'energetic':
+        r = Math.min(255, Math.floor(r * 1.3))
+        break
+      case 'serene':
+        g = Math.min(255, Math.floor(g * 1.2))
+        b = Math.min(255, Math.floor(b * 1.3))
+        break
+      case 'mysterious':
+        r = Math.floor(r * 0.7)
+        b = Math.min(255, Math.floor(b * 1.2))
+        break
+      case 'warm':
+        r = Math.min(255, Math.floor(r * 1.1))
+        g = Math.min(255, Math.floor(g * 1.05))
+        break
+      case 'cool':
+        b = Math.min(255, Math.floor(b * 1.1))
+        break
+    }
+
+    // 应用亮度调整
+    if (brightnessMultiplier !== 1) {
+      r = Math.min(255, Math.floor(r * brightnessMultiplier))
+      g = Math.min(255, Math.floor(g * brightnessMultiplier))
+      b = Math.min(255, Math.floor(b * brightnessMultiplier))
+    }
+
+    // 深色模式下的颜色调整
+    if (isDark) {
+      r = Math.min(255, Math.floor(r * 1.2))
+      g = Math.min(255, Math.floor(g * 1.2))
+      b = Math.min(255, Math.floor(b * 1.2))
+    }
+
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+  }
+
+  // 获取深色模式背景
+  private getDarkBackground(neutral: string, contrast: string): string {
+    const backgrounds: Record<string, Record<string, string>> = {
+      standard: { medium: '#1e293b', high: '#0f172a', maximum: '#020617' },
+      deep: { medium: '#1a202c', high: '#0f172a', maximum: '#020617' },
+      warm: { medium: '#2d1b1b', high: '#1a0e0e', maximum: '#0d0606' },
+      cool: { medium: '#1b2d2d', high: '#0e1a1a', maximum: '#060d0d' },
+      muted: { medium: '#2d2d2d', high: '#1a1a1a', maximum: '#0d0d0d' },
+      vivid: { medium: '#2d1b69', high: '#1a0e40', maximum: '#0d0620' },
+      organic: { medium: '#1a2d1a', high: '#0f1a0f', maximum: '#060d06' },
+      metallic: { medium: '#2d2d3a', high: '#1a1a29', maximum: '#0d0d15' }
+    }
+
+    return backgrounds[neutral]?.[contrast] || backgrounds.standard.medium
+  }
+
+  // 获取浅色模式背景
+  private getLightBackground(neutral: string, contrast: string): string {
+    const backgrounds: Record<string, Record<string, string>> = {
+      standard: { medium: '#ffffff', high: '#f8fafc', soft: '#f1f5f9' },
+      warm: { medium: '#fefce8', high: '#fef3c7', soft: '#fde68a' },
+      cool: { medium: '#f0f9ff', high: '#e0f2fe', soft: '#bae6fd' },
+      pure: { medium: '#ffffff', high: '#ffffff', soft: '#f9fafb' },
+      vintage: { medium: '#faf7f0', high: '#f3e8d0', soft: '#e6d7c3' },
+      organic: { medium: '#f0fdf4', high: '#dcfce7', soft: '#bbf7d0' },
+      metallic: { medium: '#f8fafc', high: '#e2e8f0', soft: '#cbd5e1' },
+      fresh: { medium: '#f0fdfa', high: '#ccfbf1', soft: '#99f6e4' }
+    }
+
+    return backgrounds[neutral]?.[contrast] || backgrounds.standard.medium
+  }
+
+  // 获取互补色调
+  private getComplementaryHue(hue: string): string {
+    const complementaryMap: Record<string, string> = {
+      blue: 'orange',
+      orange: 'blue',
+      red: 'cyan',
+      cyan: 'red',
+      green: 'magenta',
+      magenta: 'green',
+      purple: 'yellow',
+      yellow: 'purple'
+    }
+    return complementaryMap[hue] || hue
+  }
+
+  // 获取类似色调
+  private getAnalogousHue(hue: string, direction: number): string {
+    const analogousGroups: Record<string, string[]> = {
+      blue: ['cyan', 'purple'],
+      green: ['lime', 'teal'],
+      red: ['orange', 'pink'],
+      yellow: ['lime', 'orange'],
+      purple: ['pink', 'blue'],
+      orange: ['red', 'yellow'],
+      cyan: ['blue', 'teal'],
+      pink: ['purple', 'red']
+    }
+    const group = analogousGroups[hue] || ['blue']
+    return direction > 0 ? group[1] || hue : group[0] || hue
+  }
+
+  // 获取三色调
+  private getTriadicHue(hue: string, position: number): string {
+    const triadicMap: Record<string, string[]> = {
+      blue: ['red', 'yellow'],
+      red: ['yellow', 'blue'],
+      yellow: ['blue', 'red'],
+      green: ['orange', 'purple'],
+      orange: ['purple', 'green'],
+      purple: ['green', 'orange']
+    }
+    return (triadicMap[hue]?.[position - 1]) || hue
+  }
+
+  // 获取四色调
+  private getTetradicHue(hue: string, position: number): string {
+    const tetradicMap: Record<string, string[]> = {
+      blue: ['red', 'green', 'orange'],
+      red: ['green', 'blue', 'yellow'],
+      green: ['blue', 'orange', 'purple'],
+      yellow: ['purple', 'blue', 'green']
+    }
+    return (tetradicMap[hue]?.[position - 1]) || hue
   }
 
   private adjustColor(color: string, amount: number): string {
@@ -834,6 +1142,71 @@ class SimpleThemeManager {
     const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount))
     const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount))
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`
+  }
+
+  private hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+    // 将十六进制颜色转换为RGB对象
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    if (!result) return null
+
+    return {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    }
+  }
+
+  private rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+    // 将RGB转换为HSL
+    r /= 255
+    g /= 255
+    b /= 255
+
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    let h = 0
+    let s = 0
+    const l = (max + min) / 2
+
+    if (max !== min) {
+      const d = max - min
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+
+      switch (max) {
+        case r:
+          h = ((g - b) / d + (g < b ? 6 : 0)) / 6
+          break
+        case g:
+          h = ((b - r) / d + 2) / 6
+          break
+        case b:
+          h = ((r - g) / d + 4) / 6
+          break
+      }
+    }
+
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      l: Math.round(l * 100)
+    }
+  }
+
+  private hexToRgba(hex: string, alpha: number): string {
+    // 将十六进制颜色转换为RGBA
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    if (!result) return `rgba(0, 0, 0, ${alpha})`
+
+    const r = parseInt(result[1], 16)
+    const g = parseInt(result[2], 16)
+    const b = parseInt(result[3], 16)
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+
+  private generateGradient(primary: string, secondary: string, accent: string): string {
+    // 生成基于主题颜色的渐变
+    return `linear-gradient(135deg, ${primary} 0%, ${secondary} 50%, ${accent} 100%)`
   }
 }
 
@@ -847,16 +1220,35 @@ export function RecipeThemeSwitcher({ className = '' }: RecipeThemeSwitcherProps
 
   // 初始化主题
   useEffect(() => {
-    // 从存储恢复或使用默认主题
-    const savedTheme = themeManager.restoreFromStorage()
-    setCurrentTheme(savedTheme)
+    // 确保在客户端环境下执行
+    if (typeof window !== 'undefined' && document.readyState === 'complete') {
+      console.log('🎨 ThemeSwitcher: 初始化主题系统')
+      // 从存储恢复或使用默认主题
+      const savedTheme = themeManager.restoreFromStorage()
+      setCurrentTheme(savedTheme)
+      console.log(`🎨 ThemeSwitcher: 恢复主题 ${savedTheme}`)
+    } else if (typeof window !== 'undefined') {
+      // 如果页面还在加载，等待加载完成
+      const handleLoad = () => {
+        console.log('🎨 ThemeSwitcher: 页面加载完成，初始化主题系统')
+        const savedTheme = themeManager.restoreFromStorage()
+        setCurrentTheme(savedTheme)
+        console.log(`🎨 ThemeSwitcher: 恢复主题 ${savedTheme}`)
+      }
+      window.addEventListener('load', handleLoad)
+      return () => window.removeEventListener('load', handleLoad)
+    }
   }, [])
 
   // 应用主题
   const applyTheme = (themeId: string) => {
+    console.log(`🎨 ThemeSwitcher: 尝试应用主题 ${themeId}`)
     if (themeManager.applyTheme(themeId)) {
       setCurrentTheme(themeId)
       setIsOpen(false)
+      console.log(`🎨 ThemeSwitcher: 成功应用主题 ${themeId}`)
+    } else {
+      console.error(`🎨 ThemeSwitcher: 应用主题 ${themeId} 失败`)
     }
   }
 

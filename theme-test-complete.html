@@ -328,6 +328,27 @@
             box-shadow: 0 0 0 4px var(--theme-glow);
         }
 
+        .theme-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .theme-card:hover .color-preview {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--theme-glow);
+        }
+
         .theme-preview {
             width: 100%;
             height: 80px;
@@ -1443,8 +1464,11 @@
 
                 return `
                     <div class="theme-card" data-theme="${themeId}" onclick="applyTheme('${themeId}')">
+                        <div class="theme-header">
+                            <div class="color-preview" style="background: ${theme.colors.gradient}; box-shadow: 0 0 15px ${theme.colors.glow}"></div>
+                            <div class="theme-name">${theme.name}</div>
+                        </div>
                         <div class="theme-preview" style="background: ${theme.colors.gradient}; box-shadow: 0 4px 16px ${theme.colors.glow}"></div>
-                        <div class="theme-name">${theme.name}</div>
                         <div class="theme-category">${getCategoryName(theme.category)}</div>
                         <div class="theme-description">${theme.description}</div>
                     </div>
